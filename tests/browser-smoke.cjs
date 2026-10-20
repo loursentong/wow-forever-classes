@@ -37,6 +37,10 @@ async function check(){
   // Aucun classement par défaut et aucun conflit avec les 14 critères historiques.
   assert.equal(await page.locator('#rank').count(),1);
   assert.equal(await page.locator('td.cell[data-k]').count(),126);
+  assert.equal(await page.locator('#legacy-advanced').evaluate(el=>el.open),false);
+  await page.locator('#legacy-advanced > summary').click();
+  assert.equal(await page.locator('#legacy-advanced').evaluate(el=>el.open),true);
+  await page.locator('#legacy-advanced > summary').click();
 
   // Choix + certitude 0/5 : ce n'est pas une exclusion automatique.
   await page.locator('[data-multi="roles"][data-key="dps"]').click();
