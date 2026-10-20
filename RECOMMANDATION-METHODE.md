@@ -78,3 +78,36 @@ Ces coefficients sont des conventions auditées et non une calibration auprès d
 - Tests unitaires de domaine et de données, avec cas rôles uniquement, polyvalence facultative, technicité facultative, scores finis, neuf classes distinctes et maintien des quinze profils.
 - Test Chromium des deux parcours et de leurs interactions : 6 étapes, 0–5 de certitude, 14 critères, 15 profils, classement de neuf classes, maîtrise synchronisée, préférences rechargées.
 - Captures mobiles et bureau générées automatiquement sur la pull request ; la revue visuelle et l'expérience utilisateur restent des activités de validation.
+
+
+## Correctif de neutralité du 21 octobre 2026 : adéquation au rôle
+
+### Incident identifié
+
+L'ancienne formule \`priorityRanking\` accordait une valeur brute égale à **1** à toute spécialisation portant le rôle demandé (et 0 aux autres). Or **les neuf classes possèdent au moins une spécialisation DPS**. Avec le seul axe DPS PvE actif, la meilleure spécialisation DPS de chaque classe affichait donc **100/100**. Le rôle était traité comme une propriété booléenne plutôt qu'une évaluation comparative. Les tests d'origine vérifiaient les bornes et l'unicité, mais pas le caractère discriminant d'un axe isolé.
+
+### Nouveau référentiel
+
+Le calcul reste exploratoire, sans données de combat mesurées au niveau 60. Il combine une notation éditoriale historique du rôle, **déjà présente dans la matrice des 126 notes**, avec la notation éditoriale PvE de **la spécialisation précise** sélectionnée :
+
+\`adéquation_rôle(spécialisation) = 0,55 × (note_rôle_classe - 1)/4 + 0,45 × (note_raid_spé_corrigée_maîtrise - 1)/4\`
+
+- Si la spécialisation ne tient pas ce rôle, sa contribution est **0**.
+- Les rôles DPS, Tank et Soin restent un **seul domaine** de préférence, dont les axes sélectionnés sont moyennés au sein du domaine ; aucune prime universelle à la polyvalence.
+- La spécialisation choisie pour chaque classe maximise le score **sur une seule configuration cohérente** : une classe hybride ne combine jamais artificiellement trois spécialisations dans le même résultat.
+- La partie « note historique » correspond exactement aux valeurs de rôle de \`index.html\`, vérifiées automatiquement pour les neuf classes et trois rôles.
+- La partie « raid » est une hypothèse éditoriale **par spécialisation**, distincte d'une mesure de DPS, menace, guérison ou victoire PvP. Un joueur peut jouer une spécialisation Tank/Soin avec une valeur PvE distincte, sans conclure à sa puissance réelle au niveau 60.
+
+**Précision numérique :** si un seul axe est actif, le score est directement \`100 × adéquation_de_cet_axe\`. Cela évite qu'une division flottante pondérée introduise une différence de 0,01 point entre les poids 1, 2 et 3. Avec un seul critère, ces poids restent équivalents **par normalisation** ; ils ne deviennent discriminants en importance relative que lorsque plusieurs critères sont actifs.
+
+### Moteur guidé
+
+Lorsqu'un seul rôle est déclaré, le guide utilise le même \`adéquation_rôle\` plutôt que d'accorder automatiquement une note maximale aux neuf classes DPS. Une préférence de rôle à faible certitude demeure **souple** ; seuls les booléens d'exigence absolue éliminent des spécialisations. Le niveau de maîtrise est évalué par configuration et activité, et non comme un bonus de difficulté arbitraire.
+
+### Contrôles de non-régression
+
+Le protocole automatisé vérifie les 14 axes sur les quatre niveaux de maîtrise et les trois poids (168 situations isolées), les quinze profils historiques, les valeurs éditoriales sources, les scores finis et bornés, le classement des neuf classes, l'absence du « 100 % universel » et la reproductibilité des calculs sur **24 000 profils pondérés synthétiques**. Le moteur guidé conserve également sa suite de **12 000 profils** et ses tests de contraintes contradictoires.
+
+Les tests Chromium valident les interactions des deux parcours, l'enregistrement puis la restauration d'une pondération personnelle, le passage entre les modes, la persistance après rechargement, et les mises en page mobile/ordinateur sur plusieurs largeurs.
+
+Ces simulations et tests de comportement ne constituent **pas une validation scientifique du modèle**. La qualité de la recommandation dépend des évaluations éditoriales ; il faudra les confronter à des données réelles, détaillées par spécialisation, équipement, contexte et niveau de maîtrise.
