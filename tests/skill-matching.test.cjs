@@ -38,7 +38,7 @@ function elem(dataset = {}) {
   };
 }
 function boot(initial = {}, storageDisabled = false) {
-  const ids = ['mdesc','mlabel','rank','rank-status','curves','curves-values','theme','mine'];
+  const ids = ['mdesc','mlabel','rank','rank-status','curves','curves-values','theme','mine','reset-w'];
   const elements = Object.fromEntries(ids.map(id => [id, elem()]));
   const groups = {
     '.mbtn': config.levels.map((_, i) => elem({m: String(i)})),
@@ -380,5 +380,35 @@ test('« Mes critères » reprend une pondération personnelle déjà enregistr�
   assert.equal(bad.elements.mine.hidden,true);
   const none=boot({},true);
   assert.equal(none.elements.mine.hidden,true);
+});
+
+test('« Tout remettre à 0 » vide les quatorze poids sans toucher à la maîtrise ni à « Mes critères »',()=>{
+  const h=boot();
+  const reset=h.elements['reset-w'], mine=h.elements.mine;
+  const weight=(ax,v)=>h.groups['.seg button[data-ax]'].find(b=>b.dataset.ax===ax&&b.dataset.v===String(v)).trigger();
+  assert.match(html,/<div class="wrow wtools">[\s\S]*?id="reset-w"[\s\S]*?Tout remettre à 0<\/button><\/div>\s*<div class="wrow"><span class="wlab">Polyvalence/);
+  assert.equal(reset.disabled,false);
+  h.groups['.mbtn'][3].trigger();
+  weight('tank',3);
+  const custom=JSON.stringify(h.api.S.c);
+  reset.trigger();
+  assert.ok(config.axes.every(k=>h.api.S.w[k]===0));
+  assert.equal(h.api.S.m,3,'le niveau de maîtrise ne change pas');
+  assert.equal(reset.disabled,true);
+  assert.match(h.elements['rank-status'].textContent,/aucun ne départage/);
+  assert.deepEqual(ranking(h.elements.rank.innerHTML).map(x=>x[1]),Array(9).fill(0));
+  assert.ok(h.groups['.presets button[data-preset]'].every(b=>b.attrs['aria-pressed']==='false'));
+  assert.equal(JSON.stringify(h.api.S.c),custom,'la remise à 0 ne remplace pas « Mes critères »');
+  assert.equal(mine.attrs['aria-pressed'],'false');
+  // Repartir de zéro : le premier réglage devient la nouvelle pondération personnelle.
+  weight('soin',3);
+  assert.equal(reset.disabled,false);
+  assert.equal(h.api.S.w.soin,3);
+  assert.equal(h.api.S.w.tank,0);
+  assert.equal(JSON.stringify(h.api.S.c),JSON.stringify(h.api.S.w));
+  // Un clic sur un profil réactive le bouton.
+  reset.trigger();
+  h.groups['.presets button[data-preset]'].find(b=>b.dataset.preset==='egal').trigger();
+  assert.equal(reset.disabled,false);
 });
 
