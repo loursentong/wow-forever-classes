@@ -83,3 +83,9 @@ Besoin : après avoir réglé ses propres poids puis essayé des profils pour co
 Fonctionnement : chaque modification manuelle d'un poids enregistre la pondération obtenue sous « Mes critères », sauf si elle correspond exactement à un profil. Le bouton apparaît en tête de la liste des profils et réaffiche cette pondération en un clic ; il est sélectionné tant qu'elle est affichée. Le niveau de maîtrise n'est pas touché, comme pour les profils. La pondération est gardée sur l'appareil avec les autres préférences ; une pondération personnelle enregistrée avant cette version devient « Mes critères » au chargement.
 
 Tests : 21 réussis, dont deux nouveaux (enregistrement, retour en un clic, conservation au rechargement, sauvegarde invalide ignorée). Navigateur : parcours complet (poids personnels, deux profils, retour, rechargement) en sombre à 1 440 pixels et en clair à 390 pixels, sans débordement ni erreur JavaScript.
+
+## « Tout remettre à 0 » (Claude, 20 octobre 2026)
+
+Un bouton en tête de la liste des critères met les quatorze poids à 0, pour repartir d'une pondération vierge plutôt que de « Tout à égalité ». Il ne change ni le niveau de maîtrise ni « Mes critères » : une remise à 0 accidentelle reste réparable en un clic, et c'est le réglage manuel suivant qui devient la nouvelle pondération personnelle. Le bouton est désactivé quand tous les poids sont déjà à 0, et le message du classement invite alors à donner de l'importance aux critères qui comptent.
+
+Tests : 22 réussis, dont un nouveau. Navigateur : remise à 0, nouveau réglage et retour à « Mes critères » vérifiés en sombre à 1 440 pixels et en clair à 390 pixels, sans débordement ni erreur JavaScript.
