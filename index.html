@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Ce que chaque classe de WoW Forever peut faire, où elle excelle et où elle est faible au niveau 60 : tableau sur douze critères, classement pondérable et fiches détaillées.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Les classes de WoW Forever">
+<meta property="og:description" content="Ce que chaque classe de WoW Forever peut faire, où elle excelle et où elle est faible au niveau 60 : tableau sur douze critères, classement pondérable et fiches détaillées.">
+<meta name="theme-color" content="#94660C">
+<style>html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Les classes de WoW Forever</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout : en-tête d'état → tableau des 12 critères → pondération et classement → 9 fiches « peut faire / excelle / faible » → règles communes → sources. Même système visuel que le comparatif niveau 30. */
+:root{
+  --bg:#F1F3F6; --surface:#FFFFFF; --surface-2:#E8EBF0; --fg:#18202C; --muted:#586374; --line:#D5DBE3;
+  --accent:#94660C; --accent-soft:#F6ECD6;
+  --q5:#A85400; --q5-bg:#FBE6D0; --q4:#7A2DB5; --q4-bg:#EEE2F9; --q3:#0D5DAE; --q3-bg:#DCE9F8;
+  --q2:#2F7A22; --q2-bg:#E0F1DB; --q1:#6A7382; --q1-bg:#E9ECF0;
+  --good:#2F7A22; --bad:#B3261E; --can:#0D5DAE;
+  --font-display:"Cinzel","Trajan Pro",Georgia,serif;
+  --font-body:"Source Sans 3","Segoe UI",system-ui,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#10141B; --surface:#171D26; --surface-2:#202835; --fg:#E5E8EE; --muted:#98A3B3; --line:#2A3341;
+    --accent:#E3B04B; --accent-soft:#2E2614;
+    --q5:#FF9A3D; --q5-bg:#3A2510; --q4:#C68CF6; --q4-bg:#2B1D3C; --q3:#62AEFF; --q3-bg:#132A44;
+    --q2:#72DC5F; --q2-bg:#17311A; --q1:#98A3B3; --q1-bg:#222A36;
+    --good:#72DC5F; --bad:#FF7A70; --can:#62AEFF; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10141B; --surface:#171D26; --surface-2:#202835; --fg:#E5E8EE; --muted:#98A3B3; --line:#2A3341;
+  --accent:#E3B04B; --accent-soft:#2E2614;
+  --q5:#FF9A3D; --q5-bg:#3A2510; --q4:#C68CF6; --q4-bg:#2B1D3C; --q3:#62AEFF; --q3-bg:#132A44;
+  --q2:#72DC5F; --q2-bg:#17311A; --q1:#98A3B3; --q1-bg:#222A36;
+  --good:#72DC5F; --bad:#FF7A70; --can:#62AEFF; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:15.5px;line-height:1.5}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 64px;display:flex;flex-direction:column;gap:44px}
+h1,h2,h3{font-family:var(--font-display);font-weight:700;letter-spacing:.02em;text-wrap:balance;margin:0}
+h1{font-size:clamp(1.7rem,3.8vw,2.6rem);line-height:1.15}
+h2{font-size:1.35rem}
+h3{font-size:1.25rem}
+h4{margin:0 0 6px;font-size:.78rem;text-transform:uppercase;letter-spacing:.1em}
+p{margin:0}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.eyebrow{font-size:.74rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:600}
+.mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+.nowrap{white-space:nowrap}
+.sec{display:flex;flex-direction:column;gap:14px}
+.sec-head{display:flex;flex-direction:column;gap:6px;max-width:76ch}
+.sec-head p{color:var(--muted)}
+
+header.top{display:flex;flex-direction:column;gap:14px}
+.lede{max-width:74ch;color:var(--muted);font-size:1.03rem}
+.status{display:flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:6px;background:var(--surface);overflow:hidden}
+.status div{flex:1 1 150px;padding:10px 14px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:2px}
+.status div:last-child{border-right:0}
+.status b{font-family:var(--font-mono);font-weight:500;font-size:.92rem}
+.status span{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.jump{display:flex;flex-wrap:wrap;gap:6px}
+.jump a{display:inline-flex;align-items:center;gap:7px;padding:5px 11px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--fg);text-decoration:none;font-size:.9rem}
+.jump a:hover{border-color:var(--fg)}
+.sw{width:.72em;height:.72em;border-radius:50%;background:var(--cc);box-shadow:0 0 0 1px var(--line);display:inline-block;flex:none}
+
+.rel{display:inline-flex;gap:3px;vertical-align:middle}
+.rel i{width:7px;height:7px;border-radius:50%;border:1.5px solid var(--accent);display:block}
+.rel i.on{background:var(--accent)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:.86rem;color:var(--muted);align-items:center}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+.chip{font-style:normal}
+.chip b{display:inline-flex;align-items:center;justify-content:center;width:1.8em;height:1.8em;border-radius:4px;font-family:var(--font-mono);font-weight:500;font-size:.82rem}
+
+.table-box{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+table{border-collapse:separate;border-spacing:0;width:100%}
+.matrix{min-width:900px;font-size:.88rem}
+.matrix th,.matrix td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:center}
+.matrix tbody tr:last-child th,.matrix tbody tr:last-child td{border-bottom:0}
+.matrix .grp{font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:600;border-left:1px solid var(--line);padding-top:10px}
+.matrix .ax{font-weight:600;font-size:.8rem;vertical-align:bottom;cursor:help;line-height:1.2}
+.matrix .ax .axl{display:block;margin-bottom:5px}
+.matrix .sticky{position:sticky;left:0;background:var(--surface);text-align:left;z-index:1;border-right:1px solid var(--line);white-space:nowrap}
+.matrix .corner{vertical-align:bottom;font-size:.8rem;color:var(--muted)}
+.matrix th.sticky a{color:var(--fg);text-decoration:none;display:inline-flex;align-items:center;gap:8px;font-weight:600;padding-right:6px}
+.matrix th.sticky a:hover{text-decoration:underline}
+.cell b{display:inline-flex;align-items:center;justify-content:center;width:2em;height:2em;border-radius:4px;font-family:var(--font-mono);font-weight:500}
+.cell sup{font-size:.72rem;margin-left:1px;color:var(--fg);font-weight:700}
+.q5 b{color:var(--q5);background:var(--q5-bg);box-shadow:inset 0 0 0 1px var(--q5)}
+.q4 b{color:var(--q4);background:var(--q4-bg);box-shadow:inset 0 0 0 1px var(--q4)}
+.q3 b{color:var(--q3);background:var(--q3-bg)}
+.q2 b{color:var(--q2);background:var(--q2-bg)}
+.q1 b{color:var(--q1);background:var(--q1-bg)}
+.tech b{color:var(--fg);background:var(--surface-2)}
+.note{font-size:.86rem;color:var(--muted);max-width:90ch}
+
+.tool{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:18px;align-items:start}
+@media (max-width:820px){.tool{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.presets{display:flex;flex-wrap:wrap;gap:6px}
+.presets button,.seg button{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--fg)}
+.presets button{font-size:.86rem;padding:5px 12px;border-radius:999px}
+.presets button[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.wrows{display:flex;flex-direction:column;gap:6px}
+.wrow{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.wlab{font-size:.92rem}
+.seg{display:inline-flex}
+.seg button{width:34px;height:30px;font-family:var(--font-mono);font-size:.82rem;margin-left:-1px}
+.seg button:first-child{border-radius:5px 0 0 5px;margin-left:0}
+.seg button:last-child{border-radius:0 5px 5px 0}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--bg);border-color:var(--accent);position:relative;z-index:1}
+.rank{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+.rank li{display:grid;grid-template-columns:7.5em minmax(0,1fr) 2.4em;align-items:center;gap:10px}
+.bname{display:inline-flex;align-items:center;gap:8px;font-weight:600}
+.btrack{height:12px;background:var(--surface-2);border-radius:3px;overflow:hidden}
+.bfill{display:block;height:100%;background:var(--accent);border-radius:3px;transition:width .25s}
+.rank li:first-child .bfill{background:var(--q5)}
+.bval{text-align:right;font-size:.9rem}
+@media (prefers-reduced-motion:reduce){.bfill{transition:none}}
+
+.cards{display:flex;flex-direction:column;gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px 18px;display:flex;flex-direction:column;gap:12px;scroll-margin-top:16px}
+.card-head{display:flex;flex-direction:column;gap:6px}
+.ttl{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px}
+.crest{width:16px;height:16px;transform:rotate(45deg);background:var(--cc);box-shadow:0 0 0 1px var(--line);border-radius:2px;flex:none;margin-right:2px}
+.kit{font-size:.86rem;color:var(--muted)}
+.specs{display:flex;flex-wrap:wrap;gap:6px}
+.spec{font-size:.84rem;padding:3px 9px;border-radius:4px;background:var(--surface-2);color:var(--muted)}
+.spec b{color:var(--fg);font-weight:600}
+.races{font-size:.84rem;color:var(--muted)}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 18px;margin:0;padding:10px 12px;background:var(--surface-2);border-radius:6px}
+.facts div{min-width:0}
+.facts dt{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
+.facts dd{margin:0;font-size:.88rem}
+.facts a,.refs a{font-family:var(--font-mono);font-size:.74rem;text-decoration:none}
+.cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+@media (max-width:820px){.cols{grid-template-columns:minmax(0,1fr)}}
+.col ul{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:5px;font-size:.92rem}
+.k-can h4{color:var(--can)}
+.k-best h4{color:var(--good)}
+.k-weak h4{color:var(--bad)}
+.k-can li::marker{color:var(--can)}
+.k-best li::marker{color:var(--good)}
+.k-weak li::marker{color:var(--bad)}
+.refs{white-space:nowrap}
+.foot{display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--line);padding-top:10px;font-size:.92rem}
+.tag{display:inline-block;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;padding:1px 7px;border-radius:3px;margin-right:8px;vertical-align:1px}
+.tag.watch{background:var(--surface-2);color:var(--muted)}
+.tag.you{background:var(--accent-soft);color:var(--accent)}
+
+.rules{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (max-width:900px){.rules{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.rules{grid-template-columns:minmax(0,1fr)}}
+.rule{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:.92rem;min-width:0}
+.rule b{display:block;margin-bottom:3px}
+
+.src{font-size:.88rem}
+.src th,.src td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.src tr:last-child td{border-bottom:0}
+.src th{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.src-box table{min-width:760px}
+footer.end{font-size:.9rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header class="top">
+  <span class="eyebrow">World of Warcraft: Forever · niveau 60 projeté</span>
+  <h1>Les neuf classes de WoW Forever</h1>
+  <p class="lede">Ce que chaque classe peut faire, où elle excelle et où elle est faible, projeté au niveau 60 à partir de l'état de la bêta au 20 octobre 2026. Les notes de 1 à 5 sont mon estimation à partir des sources citées ; chaque critère indique sa fiabilité.</p>
+  <div class="status">
+    <div><span>Dernier patch</span><b>15-16 oct.</b></div>
+    <div><span>Simulations</span><b>MythicSim, 20 oct.</b></div>
+    <div><span>Tournoi de duel</span><b>18 oct. (niv. 30)</b></div>
+    <div><span>Fin de la bêta</span><b>22 oct.</b></div>
+    <div><span>Lancement</span><b>4 nov.</b></div>
+  </div>
+  <nav class="jump" aria-label="Aller à une classe"><a href="#c-guerrier"><span class="sw" style="--cc:#C69B6D"></span>Guerrier</a><a href="#c-paladin"><span class="sw" style="--cc:#F48CBA"></span>Paladin</a><a href="#c-chasseur"><span class="sw" style="--cc:#AAD372"></span>Chasseur</a><a href="#c-voleur"><span class="sw" style="--cc:#FFF468"></span>Voleur</a><a href="#c-pretre"><span class="sw" style="--cc:#FFFFFF"></span>Prêtre</a><a href="#c-chaman"><span class="sw" style="--cc:#0070DD"></span>Chaman</a><a href="#c-mage"><span class="sw" style="--cc:#3FC7EB"></span>Mage</a><a href="#c-demoniste"><span class="sw" style="--cc:#8788EE"></span>Démoniste</a><a href="#c-druide"><span class="sw" style="--cc:#FF7C0A"></span>Druide</a></nav>
+</header>
+
+<section class="sec" aria-labelledby="h-matrix">
+  <div class="sec-head">
+    <span class="eyebrow">En un coup d'œil</span>
+    <h2 id="h-matrix">Les neuf classes sur douze critères</h2>
+    <p>Chaque classe est notée sur sa meilleure spé pour chaque critère, puisque la double spécialisation permet d'en garder deux. Survole un critère pour sa définition ; clique sur une classe pour sa fiche.</p>
+  </div>
+  <div class="legend">
+    <span><i class="chip q5"><b>5</b></i> excellent</span>
+    <span><i class="chip q4"><b>4</b></i> fort</span>
+    <span><i class="chip q3"><b>3</b></i> correct</span>
+    <span><i class="chip q2"><b>2</b></i> faible</span>
+    <span><i class="chip q1"><b>1</b></i> absent ou très faible</span>
+    <span>Fiabilité du critère <span class="rel" title="Fiabilité : haute"><i class="on"></i><i class="on"></i><i class="on"></i></span> haute <span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span> moyenne <span class="rel" title="Fiabilité : faible"><i class="on"></i><i class=""></i><i class=""></i></span> faible</span>
+  </div>
+  <div class="table-box"><table class="matrix"><thead><tr><th class="sticky corner" rowspan="2" scope="col">Classe</th><th class="grp" colspan="4" scope="colgroup">Rôles</th><th class="grp" colspan="2" scope="colgroup">PvP</th><th class="grp" colspan="4" scope="colgroup">Qualités</th><th class="grp" colspan="2" scope="colgroup">Jeu</th></tr><tr><th scope="col" class="ax" title="Rôles tenables et variété des spés."><span class="axl">Polyvalence</span><span class="rel" title="Fiabilité : haute"><i class="on"></i><i class="on"></i><i class="on"></i></span></th><th scope="col" class="ax" title="Meilleure spé de tank de la classe au 60."><span class="axl">Tank</span><span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span></th><th scope="col" class="ax" title="Meilleure spé de soin de la classe au 60."><span class="axl">Soin</span><span class="rel" title="Fiabilité : faible"><i class="on"></i><i class=""></i><i class=""></i></span></th><th scope="col" class="ax" title="Meilleure spé DPS en raid au 60 (simulations MythicSim)."><span class="axl">DPS PvE</span><span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span></th><th scope="col" class="ax" title="Impact en champ de bataille, PvP de masse."><span class="axl">Champ de bataille</span><span class="rel" title="Fiabilité : faible"><i class="on"></i><i class=""></i><i class=""></i></span></th><th scope="col" class="ax" title="Petit comité, de 1 à 3 joueurs."><span class="axl">Sauvage et duel</span><span class="rel" title="Fiabilité : faible"><i class="on"></i><i class=""></i><i class=""></i></span></th><th scope="col" class="ax" title="Étourdissements, peurs, métamorphoses, interruptions."><span class="axl">Contrôle</span><span class="rel" title="Fiabilité : haute"><i class="on"></i><i class="on"></i><i class="on"></i></span></th><th scope="col" class="ax" title="Capacité à encaisser et à se maintenir en vie."><span class="axl">Survie</span><span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span></th><th scope="col" class="ax" title="Se rapprocher, fuir, se déplacer."><span class="axl">Mobilité</span><span class="rel" title="Fiabilité : haute"><i class="on"></i><i class="on"></i><i class="on"></i></span></th><th scope="col" class="ax" title="Buffs, rez, dissipations, ressources pour le groupe."><span class="axl">Utilité</span><span class="rel" title="Fiabilité : haute"><i class="on"></i><i class="on"></i><i class="on"></i></span></th><th scope="col" class="ax" title="Leveling, farm, se débrouiller seul."><span class="axl">Solo et farm</span><span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span></th><th scope="col" class="ax" title="Exigence de jeu : 5 = très exigeant (ni bien ni mal)."><span class="axl">Technicité</span><span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span></th></tr></thead><tbody><tr><th scope="row" class="sticky"><a href="#c-guerrier"><span class="sw" style="--cc:#C69B6D"></span>Guerrier</a></th><td class="cell q3"><b>3</b></td><td class="cell q5"><b>5</b></td><td class="cell q1"><b>1</b></td><td class="cell q5"><b>5</b></td><td class="cell q4"><b>4</b></td><td class="cell q2"><b>2</b></td><td class="cell q3"><b>3</b></td><td class="cell q3"><b>3</b></td><td class="cell q4"><b>4</b></td><td class="cell q3"><b>3</b></td><td class="cell q3"><b>3</b></td><td class="cell tech"><b>4</b></td></tr><tr><th scope="row" class="sticky"><a href="#c-paladin"><span class="sw" style="--cc:#F48CBA"></span>Paladin</a></th><td class="cell q4"><b>4</b></td><td class="cell q4"><b>4</b></td><td class="cell q4"><b>4</b></td><td class="cell q4"><b>4</b></td><td class="cell q5"><b>5</b></td><td class="cell q4"><b>4</b></td><td class="cell q2"><b>2</b></td><td class="cell q5"><b>5</b></td><td class="cell q2"><b>2</b></td><td class="cell q5"><b>5</b></td><td class="cell q5"><b>5</b></td><td class="cell tech"><b>2</b></td></tr><tr><th scope="row" class="sticky"><a href="#c-chasseur"><span class="sw" style="--cc:#AAD372"></span>Chasseur</a></th><td class="cell q2"><b>2</b></td><td class="cell q1"><b>1</b></td><td class="cell q1"><b>1</b></td><td class="cell q5"><b>5</b></td><td class="cell q5"><b>5</b></td><td class="cell q4"><b>4</b></td><td class="cell q3"><b>3</b></td><td class="cell q3"><b>3</b></td><td class="cell q3"><b>3</b></td><td class="cell q3"><b>3</b></td><td class="cell q5"><b>5</b></td><td class="cell tech"><b>2</b></td></tr><tr><th scope="row" class="sticky"><a href="#c-voleur"><span class="sw" style="--cc:#FFF468"></span>Voleur</a></th><td class="cell q1"><b>1</b></td><td class="cell q1"><b>1</b></td><td class="cell q1"><b>1</b></td><td class="cell q3"><b>3</b><sup title="Blizzard veut le monter">↑</sup></td><td class="cell q3"><b>3</b></td><td class="cell q5"><b>5</b></td><td class="cell q5"><b>5</b></td><td class="cell q2"><b>2</b></td><td class="cell q4"><b>4</b></td><td class="cell q2"><b>2</b></td><td class="cell q3"><b>3</b></td><td class="cell tech"><b>5</b></td></tr><tr><th scope="row" class="sticky"><a href="#c-pretre"><span class="sw" style="--cc:#FFFFFF"></span>Prêtre</a></th><td class="cell q3"><b>3</b></td><td class="cell q1"><b>1</b></td><td class="cell q5"><b>5</b></td><td class="cell q3"><b>3</b></td><td class="cell q5"><b>5</b></td><td class="cell q4"><b>4</b></td><td class="cell q4"><b>4</b></td><td class="cell q3"><b>3</b></td><td class="cell q2"><b>2</b></td><td class="cell q4"><b>4</b></td><td class="cell q3"><b>3</b></td><td class="cell tech"><b>3</b></td></tr><tr><th scope="row" class="sticky"><a href="#c-chaman"><span class="sw" style="--cc:#0070DD"></span>Chaman</a></th><td class="cell q4"><b>4</b></td><td class="cell q2"><b>2</b></td><td class="cell q4"><b>4</b></td><td class="cell q3"><b>3</b></td><td class="cell q4"><b>4</b></td><td class="cell q4"><b>4</b></td><td class="cell q2"><b>2</b></td><td class="cell q3"><b>3</b></td><td class="cell q5"><b>5</b></td><td class="cell q5"><b>5</b></td><td class="cell q3"><b>3</b></td><td class="cell tech"><b>3</b></td></tr><tr><th scope="row" class="sticky"><a href="#c-mage"><span class="sw" style="--cc:#3FC7EB"></span>Mage</a></th><td class="cell q1"><b>1</b></td><td class="cell q1"><b>1</b></td><td class="cell q1"><b>1</b></td><td class="cell q4"><b>4</b></td><td class="cell q4"><b>4</b></td><td class="cell q3"><b>3</b></td><td class="cell q5"><b>5</b></td><td class="cell q2"><b>2</b></td><td class="cell q3"><b>3</b></td><td class="cell q3"><b>3</b></td><td class="cell q3"><b>3</b></td><td class="cell tech"><b>4</b></td></tr><tr><th scope="row" class="sticky"><a href="#c-demoniste"><span class="sw" style="--cc:#8788EE"></span>Démoniste</a></th><td class="cell q1"><b>1</b></td><td class="cell q1"><b>1</b></td><td class="cell q1"><b>1</b></td><td class="cell q4"><b>4</b></td><td class="cell q5"><b>5</b></td><td class="cell q5"><b>5</b></td><td class="cell q5"><b>5</b></td><td class="cell q4"><b>4</b></td><td class="cell q2"><b>2</b></td><td class="cell q3"><b>3</b></td><td class="cell q4"><b>4</b></td><td class="cell tech"><b>4</b></td></tr><tr><th scope="row" class="sticky"><a href="#c-druide"><span class="sw" style="--cc:#FF7C0A"></span>Druide</a></th><td class="cell q5"><b>5</b></td><td class="cell q4"><b>4</b><sup title="Non vérifié en jeu">?</sup></td><td class="cell q5"><b>5</b></td><td class="cell q3"><b>3</b></td><td class="cell q4"><b>4</b></td><td class="cell q4"><b>4</b></td><td class="cell q2"><b>2</b></td><td class="cell q4"><b>4</b></td><td class="cell q5"><b>5</b></td><td class="cell q5"><b>5</b></td><td class="cell q3"><b>3</b></td><td class="cell tech"><b>5</b></td></tr></tbody></table></div>
+  <p class="note">↑ Blizzard veut faire du Voleur le meilleur DPS monocible, les simulations ne le montrent pas encore. ? La menace de l'ours vient d'une hypothèse de simulation, pas encore vérifiée en jeu. La technicité décrit l'exigence de la classe, pas sa qualité. Rien n'est mesuré au niveau 60 pour le soin et le PvP : ces colonnes reposent sur des avis et sur le niveau 30.</p>
+</section>
+
+<section class="sec" aria-labelledby="h-tool">
+  <div class="sec-head">
+    <span class="eyebrow">Classer selon tes priorités</span>
+    <h2 id="h-tool">Quelle classe coche le plus de cases</h2>
+    <p>Le score est la moyenne des notes du tableau, pondérée par l'importance que tu donnes à chaque critère (0 = sans importance, 3 = essentiel). « Ton profil » reprend ce que tu m'as dit : rouage modulable, PvP sous toutes ses formes, contrôle, résistance, tank avant le soin, goût de la technicité.</p>
+  </div>
+  <div class="tool">
+    <div class="panel">
+      <div class="presets" role="group" aria-label="Préréglages"><button type="button" data-preset="profil" aria-pressed="true">Ton profil</button><button type="button" data-preset="egal" aria-pressed="false">Tout à égalité</button><button type="button" data-preset="pvp" aria-pressed="false">PvP d'abord</button><button type="button" data-preset="pve" aria-pressed="false">PvE d'abord</button></div>
+      <div class="wrows"><div class="wrow"><span class="wlab">Polyvalence</span><div class="seg" role="group" aria-label="Importance de Polyvalence"><button type="button" data-ax="poly" data-v="0" aria-pressed="false" aria-label="Polyvalence : importance 0">0</button><button type="button" data-ax="poly" data-v="1" aria-pressed="false" aria-label="Polyvalence : importance 1">1</button><button type="button" data-ax="poly" data-v="2" aria-pressed="false" aria-label="Polyvalence : importance 2">2</button><button type="button" data-ax="poly" data-v="3" aria-pressed="true" aria-label="Polyvalence : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Tank</span><div class="seg" role="group" aria-label="Importance de Tank"><button type="button" data-ax="tank" data-v="0" aria-pressed="false" aria-label="Tank : importance 0">0</button><button type="button" data-ax="tank" data-v="1" aria-pressed="false" aria-label="Tank : importance 1">1</button><button type="button" data-ax="tank" data-v="2" aria-pressed="true" aria-label="Tank : importance 2">2</button><button type="button" data-ax="tank" data-v="3" aria-pressed="false" aria-label="Tank : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Soin</span><div class="seg" role="group" aria-label="Importance de Soin"><button type="button" data-ax="soin" data-v="0" aria-pressed="false" aria-label="Soin : importance 0">0</button><button type="button" data-ax="soin" data-v="1" aria-pressed="true" aria-label="Soin : importance 1">1</button><button type="button" data-ax="soin" data-v="2" aria-pressed="false" aria-label="Soin : importance 2">2</button><button type="button" data-ax="soin" data-v="3" aria-pressed="false" aria-label="Soin : importance 3">3</button></div></div><div class="wrow"><span class="wlab">DPS PvE</span><div class="seg" role="group" aria-label="Importance de DPS PvE"><button type="button" data-ax="dps" data-v="0" aria-pressed="false" aria-label="DPS PvE : importance 0">0</button><button type="button" data-ax="dps" data-v="1" aria-pressed="false" aria-label="DPS PvE : importance 1">1</button><button type="button" data-ax="dps" data-v="2" aria-pressed="true" aria-label="DPS PvE : importance 2">2</button><button type="button" data-ax="dps" data-v="3" aria-pressed="false" aria-label="DPS PvE : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Champ de bataille</span><div class="seg" role="group" aria-label="Importance de Champ de bataille"><button type="button" data-ax="bg" data-v="0" aria-pressed="false" aria-label="Champ de bataille : importance 0">0</button><button type="button" data-ax="bg" data-v="1" aria-pressed="false" aria-label="Champ de bataille : importance 1">1</button><button type="button" data-ax="bg" data-v="2" aria-pressed="false" aria-label="Champ de bataille : importance 2">2</button><button type="button" data-ax="bg" data-v="3" aria-pressed="true" aria-label="Champ de bataille : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Sauvage et duel</span><div class="seg" role="group" aria-label="Importance de Sauvage et duel"><button type="button" data-ax="sauv" data-v="0" aria-pressed="false" aria-label="Sauvage et duel : importance 0">0</button><button type="button" data-ax="sauv" data-v="1" aria-pressed="false" aria-label="Sauvage et duel : importance 1">1</button><button type="button" data-ax="sauv" data-v="2" aria-pressed="false" aria-label="Sauvage et duel : importance 2">2</button><button type="button" data-ax="sauv" data-v="3" aria-pressed="true" aria-label="Sauvage et duel : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Contrôle</span><div class="seg" role="group" aria-label="Importance de Contrôle"><button type="button" data-ax="ctrl" data-v="0" aria-pressed="false" aria-label="Contrôle : importance 0">0</button><button type="button" data-ax="ctrl" data-v="1" aria-pressed="false" aria-label="Contrôle : importance 1">1</button><button type="button" data-ax="ctrl" data-v="2" aria-pressed="false" aria-label="Contrôle : importance 2">2</button><button type="button" data-ax="ctrl" data-v="3" aria-pressed="true" aria-label="Contrôle : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Survie</span><div class="seg" role="group" aria-label="Importance de Survie"><button type="button" data-ax="surv" data-v="0" aria-pressed="false" aria-label="Survie : importance 0">0</button><button type="button" data-ax="surv" data-v="1" aria-pressed="false" aria-label="Survie : importance 1">1</button><button type="button" data-ax="surv" data-v="2" aria-pressed="false" aria-label="Survie : importance 2">2</button><button type="button" data-ax="surv" data-v="3" aria-pressed="true" aria-label="Survie : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Mobilité</span><div class="seg" role="group" aria-label="Importance de Mobilité"><button type="button" data-ax="mob" data-v="0" aria-pressed="false" aria-label="Mobilité : importance 0">0</button><button type="button" data-ax="mob" data-v="1" aria-pressed="true" aria-label="Mobilité : importance 1">1</button><button type="button" data-ax="mob" data-v="2" aria-pressed="false" aria-label="Mobilité : importance 2">2</button><button type="button" data-ax="mob" data-v="3" aria-pressed="false" aria-label="Mobilité : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Utilité</span><div class="seg" role="group" aria-label="Importance de Utilité"><button type="button" data-ax="util" data-v="0" aria-pressed="false" aria-label="Utilité : importance 0">0</button><button type="button" data-ax="util" data-v="1" aria-pressed="false" aria-label="Utilité : importance 1">1</button><button type="button" data-ax="util" data-v="2" aria-pressed="true" aria-label="Utilité : importance 2">2</button><button type="button" data-ax="util" data-v="3" aria-pressed="false" aria-label="Utilité : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Solo et farm</span><div class="seg" role="group" aria-label="Importance de Solo et farm"><button type="button" data-ax="solo" data-v="0" aria-pressed="false" aria-label="Solo et farm : importance 0">0</button><button type="button" data-ax="solo" data-v="1" aria-pressed="true" aria-label="Solo et farm : importance 1">1</button><button type="button" data-ax="solo" data-v="2" aria-pressed="false" aria-label="Solo et farm : importance 2">2</button><button type="button" data-ax="solo" data-v="3" aria-pressed="false" aria-label="Solo et farm : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Technicité</span><div class="seg" role="group" aria-label="Importance de Technicité"><button type="button" data-ax="tech" data-v="0" aria-pressed="false" aria-label="Technicité : importance 0">0</button><button type="button" data-ax="tech" data-v="1" aria-pressed="false" aria-label="Technicité : importance 1">1</button><button type="button" data-ax="tech" data-v="2" aria-pressed="true" aria-label="Technicité : importance 2">2</button><button type="button" data-ax="tech" data-v="3" aria-pressed="false" aria-label="Technicité : importance 3">3</button></div></div></div>
+    </div>
+    <div class="panel">
+      <ol class="rank" id="rank" aria-live="polite"><li><span class="bname"><span class="sw" style="--cc:#FF7C0A"></span>Druide</span><span class="btrack"><span class="bfill" style="width:80%"></span></span><span class="bval mono">80</span></li><li><span class="bname"><span class="sw" style="--cc:#F48CBA"></span>Paladin</span><span class="btrack"><span class="bfill" style="width:78%"></span></span><span class="bval mono">78</span></li><li><span class="bname"><span class="sw" style="--cc:#8788EE"></span>Démoniste</span><span class="btrack"><span class="bfill" style="width:70%"></span></span><span class="bval mono">70</span></li><li><span class="bname"><span class="sw" style="--cc:#FFFFFF"></span>Prêtre</span><span class="btrack"><span class="bfill" style="width:68%"></span></span><span class="bval mono">68</span></li><li><span class="bname"><span class="sw" style="--cc:#0070DD"></span>Chaman</span><span class="btrack"><span class="bfill" style="width:68%"></span></span><span class="bval mono">68</span></li><li><span class="bname"><span class="sw" style="--cc:#C69B6D"></span>Guerrier</span><span class="btrack"><span class="bfill" style="width:67%"></span></span><span class="bval mono">67</span></li><li><span class="bname"><span class="sw" style="--cc:#AAD372"></span>Chasseur</span><span class="btrack"><span class="bfill" style="width:63%"></span></span><span class="bval mono">63</span></li><li><span class="bname"><span class="sw" style="--cc:#FFF468"></span>Voleur</span><span class="btrack"><span class="bfill" style="width:60%"></span></span><span class="bval mono">60</span></li><li><span class="bname"><span class="sw" style="--cc:#3FC7EB"></span>Mage</span><span class="btrack"><span class="bfill" style="width:58%"></span></span><span class="bval mono">58</span></li></ol>
+      <p class="note">Un outil pour explorer, pas un verdict : les notes sont des estimations, et deux points d'écart ne veulent rien dire.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec" aria-labelledby="h-cards">
+  <div class="sec-head">
+    <span class="eyebrow">Classe par classe</span>
+    <h2 id="h-cards">Peut faire, excelle, faible</h2>
+    <p>Les pourcentages de simulation sont exprimés par rapport à la meilleure spé du jeu (Chasseur Survie). Les numéros entre crochets renvoient aux sources en bas de page.</p>
+  </div>
+  <div class="cards"><article class="card" id="c-guerrier">
+  <header class="card-head">
+    <div class="ttl"><span class="crest" style="--cc:#C69B6D"></span><h3>Guerrier</h3><span class="kit">Plaques · Rage</span></div>
+    <div class="specs"><span class="spec"><b>Armes</b> DPS mêlée</span><span class="spec"><b>Fureur</b> DPS mêlée</span><span class="spec"><b>Protection</b> Tank</span></div>
+    <p class="races">Alliance : Humain, Nain, Elfe de la nuit, Gnome, Skyborne · Horde : Orc, Mort-vivant, Tauren, Troll, Skyborne</p>
+  </header>
+  <dl class="facts"><div><dt>Simulation PvE au 60</dt><dd>Fureur 86 % (A), Armes 74 % (A) · tank : Protection 2e en menace (A) <a href="#src-2">[2]</a></dd></div><div><dt>Tournoi niv. 30</dt><dd>Meilleur guerrier éliminé au top 24 <a href="#src-4">[4]</a></dd></div><div><dt>Joué au niv. 30</dt><dd>12,3 % des personnages <a href="#src-7">[7]</a></dd></div></dl>
+  <div class="cols"><div class="col k-can"><h4>Peut faire</h4><ul><li>Tanker donjons et raids en Protection <span class="refs"><a href="#src-6">[6]</a></span></li><li>DPS mêlée en raid, en Fureur ou en Armes <span class="refs"><a href="#src-2">[2]</a></span></li><li>Farmer des packs en Protection grâce aux soins passifs de l'héritage <span class="refs"><a href="#src-1">[1]</a></span></li><li>Finir les cibles en champ de bataille, idéalement avec un soigneur derrière <span class="refs"><a href="#src-1">[1]</a></span></li></ul></div><div class="col k-best"><h4>Excelle</h4><ul><li>Tank : Mur protecteur jusqu'à 4 min de recharge avec talents, 60 % de réduction pendant 12 s ; Coup de tonnerre réduit de 20 % la vitesse d'attaque <span class="refs"><a href="#src-1">[1]</a></span></li><li>Dégâts multicibles : la référence du cleave voulue par Blizzard ; Fureur 2e DPS des simulations <span class="refs"><a href="#src-2">[2]</a> <a href="#src-5">[5]</a></span></li><li>Frappe mortelle : −50 % de soins reçus sur la cible, l'arme anti-soigneur en PvP <span class="refs"><a href="#src-1">[1]</a></span></li><li>Mobilité en Fureur : Rage berserker purge les ralentissements, Interception revient 10 s plus vite <span class="refs"><a href="#src-1">[1]</a></span></li></ul></div><div class="col k-weak"><h4>Faible</h4><ul><li>Dépend de l'équipement et d'un soigneur : seul, il se fait kiter <span class="refs"><a href="#src-1">[1]</a> <a href="#src-8">[8]</a></span></li><li>Peu d'outils pour encaisser un gros burst, de l'aveu de Blizzard <span class="refs"><a href="#src-6">[6]</a></span></li><li>Dernier en duel au niveau 30, éliminé dès le top 24 du tournoi <span class="refs"><a href="#src-4">[4]</a> <a href="#src-8">[8]</a></span></li><li>Leveling lent, aucun soin <span class="refs"><a href="#src-8">[8]</a></span></li></ul></div></div>
+  <div class="foot">
+    <p><span class="tag watch">À surveiller</span>Le niveau 30 le sous-estime : Kami le voit devenir une « machine de guerre » une fois équipé <span class="refs"><a href="#src-1">[1]</a></span>.</p>
+    <p><span class="tag you">Pour toi</span>Tank n°1 et force de groupe en PvP, mais deux rôles seulement, et ton PvP sauvage dépendrait de ton partenaire.</p>
+  </div>
+</article><article class="card" id="c-paladin">
+  <header class="card-head">
+    <div class="ttl"><span class="crest" style="--cc:#F48CBA"></span><h3>Paladin</h3><span class="kit">Plaques · Mana</span></div>
+    <div class="specs"><span class="spec"><b>Sacré</b> Soin</span><span class="spec"><b>Protection</b> Tank</span><span class="spec"><b>Vindicte</b> DPS mêlée</span></div>
+    <p class="races">Alliance : Humain, Nain · Horde : Mort-vivant (nouveau)</p>
+  </header>
+  <dl class="facts"><div><dt>Simulation PvE au 60</dt><dd>Shockadin 84 % (A, hybride), Vindicte 78 % (A) · tank : Protection 4e en menace (B) <a href="#src-2">[2]</a></dd></div><div><dt>Tournoi niv. 30</dt><dd>4 paladins qualifiés sur 4 à 6-0, 2 dans le top 8 <a href="#src-4">[4]</a></dd></div><div><dt>Joué au niv. 30</dt><dd>11,1 % des personnages <a href="#src-7">[7]</a></dd></div></dl>
+  <div class="cols"><div class="col k-can"><h4>Peut faire</h4><ul><li>Tanker, soigner ou frapper, et mélanger Sacré et Vindicte en Shockadin <span class="refs"><a href="#src-1">[1]</a></span></li><li>Buffer tout le raid : bénédictions d'1 h, et Salut désormais à part des bénédictions <span class="refs"><a href="#src-3">[3]</a> <a href="#src-6">[6]</a></span></li><li>Farmer en zone en Protection et leveler sans difficulté <span class="refs"><a href="#src-1">[1]</a></span></li></ul></div><div class="col k-best"><h4>Excelle</h4><ul><li>Survie : plaques, Bouclier divin, Imposition des mains toutes les 20 min, soins personnels <span class="refs"><a href="#src-6">[6]</a></span></li><li>Champ de bataille : soigne en monocible comme personne, Bénédiction de liberté, porte une équipe <span class="refs"><a href="#src-1">[1]</a></span></li><li>Burst en Vindicte et en Shockadin ; meilleur taux de victoire en duel au tournoi selon Kami <span class="refs"><a href="#src-1">[1]</a> <a href="#src-4">[4]</a></span></li><li>Facile à prendre en main <span class="refs"><a href="#src-1">[1]</a></span></li></ul></div><div class="col k-weak"><h4>Faible</h4><ul><li>Mobilité : rien pour se rapprocher ni pour fuir, hormis la Bénédiction de liberté</li><li>Contrôle limité : surtout le Marteau de la justice, pas d'interruption</li><li>Soin de zone en retrait, malgré de nouveaux sorts <span class="refs"><a href="#src-1">[1]</a></span></li><li>Taxe hybride d'environ 5 % sur ses DPS <span class="refs"><a href="#src-5">[5]</a></span></li></ul></div></div>
+  <div class="foot">
+    <p><span class="tag watch">À surveiller</span>En baisse au dernier patch : Consécration et Champion of the Light divisés par deux, correctif du Sceau de piété. Shockadin −9 % et Vindicte −6 % en simulation, retombés de S à A. La menace de Fureur vertueuse remonte à 90 % <span class="refs"><a href="#src-2">[2]</a> <a href="#src-3">[3]</a></span>.</p>
+    <p><span class="tag you">Pour toi</span>Coche survie, polyvalence, champ de bataille et ton coup de cœur esthétique ; manque le contrôle et la mobilité que tu cherches en PvP sauvage.</p>
+  </div>
+</article><article class="card" id="c-chasseur">
+  <header class="card-head">
+    <div class="ttl"><span class="crest" style="--cc:#AAD372"></span><h3>Chasseur</h3><span class="kit">Mailles · Mana</span></div>
+    <div class="specs"><span class="spec"><b>Maîtrise des bêtes</b> DPS distance</span><span class="spec"><b>Précision</b> DPS distance</span><span class="spec"><b>Survie</b> DPS mêlée</span></div>
+    <p class="races">Alliance : Humain (nouveau), Nain, Elfe de la nuit, Skyborne · Horde : Orc, Tauren, Troll, Skyborne</p>
+  </header>
+  <dl class="facts"><div><dt>Simulation PvE au 60</dt><dd>Survie 100 % (S), Précision 85 % (A), Maîtrise 77 % (A) <a href="#src-2">[2]</a></dd></div><div><dt>Tournoi niv. 30</dt><dd>Meilleur chasseur éliminé au top 16 <a href="#src-4">[4]</a></dd></div><div><dt>Joué au niv. 30</dt><dd>16,0 % des personnages <a href="#src-7">[7]</a></dd></div></dl>
+  <div class="cols"><div class="col k-can"><h4>Peut faire</h4><ul><li>DPS à distance (Maîtrise, Précision) ou au corps à corps (Survie, inspirée de Season of Discovery) <span class="refs"><a href="#src-1">[1]</a></span></li><li>Jouer seul avec un familier qui tanke et progresse avec ton équipement <span class="refs"><a href="#src-6">[6]</a></span></li><li>Contrôler avec des pièges posables en combat, un de feu et un de glace à la fois <span class="refs"><a href="#src-3">[3]</a></span></li></ul></div><div class="col k-best"><h4>Excelle</h4><ul><li>DPS PvE : Survie 1er des simulations, Précision et Maîtrise en A <span class="refs"><a href="#src-2">[2]</a></span></li><li>PvP de masse : Précision à 45 m de base, 51 m avec talent, et +10 m sur les trois coups suivants <span class="refs"><a href="#src-1">[1]</a></span></li><li>Leveling et solo : en tête de toutes les listes, la classe la plus simple <span class="refs"><a href="#src-1">[1]</a> <a href="#src-8">[8]</a></span></li></ul></div><div class="col k-weak"><h4>Faible</h4><ul><li>Pas d'étourdissement ni d'interruption de base, zone morte de 8 m <span class="refs"><a href="#src-6">[6]</a></span></li><li>Nerfé le 15 octobre : Tir automatique après 0,5 s immobile, capacités de familiers réduites <span class="refs"><a href="#src-3">[3]</a></span></li><li>La plus jouée : 16 % des personnages de niveau 30 <span class="refs"><a href="#src-7">[7]</a></span></li><li>Un seul rôle : le DPS</li></ul></div></div>
+  <div class="foot">
+    <p><span class="tag watch">À surveiller</span>D'autres nerfs probables : Kami juge sa domination actuelle anormale <span class="refs"><a href="#src-1">[1]</a></span>.</p>
+    <p><span class="tag you">Pour toi</span>Fort partout avec un contrôle correct, mais tu le trouves trop joué et trop simple, et le familier fait une bonne part du travail.</p>
+  </div>
+</article><article class="card" id="c-voleur">
+  <header class="card-head">
+    <div class="ttl"><span class="crest" style="--cc:#FFF468"></span><h3>Voleur</h3><span class="kit">Cuir · Énergie</span></div>
+    <div class="specs"><span class="spec"><b>Assassinat</b> DPS mêlée</span><span class="spec"><b>Combat</b> DPS mêlée</span><span class="spec"><b>Finesse</b> DPS mêlée</span></div>
+    <p class="races">Alliance : Humain, Nain, Elfe de la nuit, Gnome, Skyborne · Horde : Orc, Mort-vivant, Troll, Skyborne</p>
+  </header>
+  <dl class="facts"><div><dt>Simulation PvE au 60</dt><dd>Combat 65 % (B), Finesse 63 % (B), Assassinat 57 % (C) <a href="#src-2">[2]</a></dd></div><div><dt>Tournoi niv. 30</dt><dd>Meilleur voleur éliminé au top 16 <a href="#src-4">[4]</a></dd></div><div><dt>Joué au niv. 30</dt><dd>11,0 % des personnages <a href="#src-7">[7]</a></dd></div></dl>
+  <div class="cols"><div class="col k-can"><h4>Peut faire</h4><ul><li>DPS mêlée en trois styles : poisons (Assassinat), armes lentes dont haches et masses (Combat), dagues et contrôle (Finesse) <span class="refs"><a href="#src-1">[1]</a></span></li><li>Choisir ses combats grâce au camouflage et ouvrir sur une cible isolée</li><li>Contrôler en donjon (Assommer) et interrompre les incantations</li></ul></div><div class="col k-best"><h4>Excelle</h4><ul><li>Contrôle : Assommer, Suriner, Cécité, Coup bas, Aiguillon perfide, Coup de pied</li><li>PvP sauvage : de quoi gagner ou fuir la plupart des combats, surtout en Finesse <span class="refs"><a href="#src-1">[1]</a></span></li><li>Monocible : Blizzard veut en faire le meilleur DPS sur combat statique <span class="refs"><a href="#src-5">[5]</a></span></li></ul></div><div class="col k-weak"><h4>Faible</h4><ul><li>Survie limitée une fois découvert, surtout en Combat <span class="refs"><a href="#src-1">[1]</a></span></li><li>Simulations encore basses : Combat 65 %, Assassinat 57 % <span class="refs"><a href="#src-2">[2]</a></span></li><li>Faible en duel au niveau 30, éliminé au top 16 du tournoi <span class="refs"><a href="#src-4">[4]</a> <a href="#src-8">[8]</a></span></li><li>Un seul rôle et peu d'utilité de groupe</li></ul></div></div>
+  <div class="foot">
+    <p><span class="tag watch">À surveiller</span>Blizzard vise la tête du monocible ; Kami s'attend à des buffs tant que ce n'est pas le cas <span class="refs"><a href="#src-1">[1]</a> <a href="#src-5">[5]</a></span>.</p>
+    <p><span class="tag you">Pour toi</span>Le maître du contrôle et du PvP sauvage, mais un seul rôle et peu de résistance.</p>
+  </div>
+</article><article class="card" id="c-pretre">
+  <header class="card-head">
+    <div class="ttl"><span class="crest" style="--cc:#FFFFFF"></span><h3>Prêtre</h3><span class="kit">Tissu · Mana</span></div>
+    <div class="specs"><span class="spec"><b>Discipline</b> Soin</span><span class="spec"><b>Sacré</b> Soin</span><span class="spec"><b>Ombre</b> DPS distance</span></div>
+    <p class="races">Alliance : Humain, Nain, Elfe de la nuit, Gnome (nouveau) · Horde : Mort-vivant, Troll</p>
+  </header>
+  <dl class="facts"><div><dt>Simulation PvE au 60</dt><dd>Ombre 71 % (B), Châtiment 56 % (C, hybride) · soin non simulé <a href="#src-2">[2]</a></dd></div><div><dt>Tournoi niv. 30</dt><dd>Meilleur prêtre éliminé au top 12 <a href="#src-4">[4]</a></dd></div><div><dt>Joué au niv. 30</dt><dd>9,4 % des personnages <a href="#src-7">[7]</a></dd></div></dl>
+  <div class="cols"><div class="col k-can"><h4>Peut faire</h4><ul><li>Soigner en zone (Sacré) ou en monocible avec boucliers (Discipline), ou faire des dégâts (Ombre) <span class="refs"><a href="#src-1">[1]</a></span></li><li>Recharger le groupe en Ombre : Dark Inspiration donne jusqu'à 15 % d'esprit à tout le groupe <span class="refs"><a href="#src-3">[3]</a></span></li><li>Contrôler : Cri psychique, Silence, Contrôle mental ; Gardien de peur pour toutes les races <span class="refs"><a href="#src-6">[6]</a></span></li></ul></div><div class="col k-best"><h4>Excelle</h4><ul><li>Soin : parmi les meilleurs en PvE comme en PvP ; Sacré domine le soin de zone <span class="refs"><a href="#src-1">[1]</a></span></li><li>Champ de bataille : soigne beaucoup de monde à la fois, très redouté <span class="refs"><a href="#src-1">[1]</a></span></li><li>Raciaux : Humain (critique, double bijou PvP) et Gnome (aveuglement de zone, bouclier d'urgence) très forts <span class="refs"><a href="#src-1">[1]</a></span></li></ul></div><div class="col k-weak"><h4>Faible</h4><ul><li>Tissu, peu mobile, peu d'échappatoires <span class="refs"><a href="#src-6">[6]</a></span></li><li>Ombre seulement en B malgré les gros buffs du 15 octobre <span class="refs"><a href="#src-2">[2]</a> <a href="#src-3">[3]</a></span></li><li>Raciaux plus forts côté Alliance, 4 races contre 2 <span class="refs"><a href="#src-1">[1]</a></span></li><li>Pas de tank</li></ul></div></div>
+  <div class="foot">
+    <p><span class="tag watch">À surveiller</span>L'Ombre au niveau 60 : Kami l'attend très forte en monocible avec le Fouet mental amélioré <span class="refs"><a href="#src-1">[1]</a> <a href="#src-3">[3]</a></span>.</p>
+    <p><span class="tag you">Pour toi</span>Contrôle et PvP solides, mais surtout une classe de soin, alors que tu veux soigner en appoint ; pas de tank.</p>
+  </div>
+</article><article class="card" id="c-chaman">
+  <header class="card-head">
+    <div class="ttl"><span class="crest" style="--cc:#0070DD"></span><h3>Chaman</h3><span class="kit">Mailles, bouclier · Mana</span></div>
+    <div class="specs"><span class="spec"><b>Élémentaire</b> DPS distance</span><span class="spec"><b>Amélioration</b> DPS mêlée</span><span class="spec"><b>Restauration</b> Soin</span></div>
+    <p class="races">Alliance : Nain (nouveau) · Horde : Orc, Tauren, Troll, Skyborne</p>
+  </header>
+  <dl class="facts"><div><dt>Simulation PvE au 60</dt><dd>Amélioration 68 % (B), Élémentaire 49 % (C) · soin non simulé <a href="#src-2">[2]</a></dd></div><div><dt>Tournoi niv. 30</dt><dd>3e et 4e du tournoi <a href="#src-4">[4]</a></dd></div><div><dt>Joué au niv. 30</dt><dd>12,5 % des personnages <a href="#src-7">[7]</a></dd></div></dl>
+  <div class="cols"><div class="col k-can"><h4>Peut faire</h4><ul><li>Soigner, DPS mêlée ou distance ; tank d'appoint en petit groupe, sans vraie provocation <span class="refs"><a href="#src-6">[6]</a> <a href="#src-8">[8]</a></span></li><li>Porter le raid : Furie-des-vents, Grâce aérienne, Force de la terre et Langue de feu touchent désormais tout le raid <span class="refs"><a href="#src-3">[3]</a></span></li><li>Voyager en Loup fantôme instantané dès le niveau 20 <span class="refs"><a href="#src-1">[1]</a></span></li></ul></div><div class="col k-best"><h4>Excelle</h4><ul><li>Mobilité : la meilleure du jeu selon Kami <span class="refs"><a href="#src-1">[1]</a></span></li><li>Utilité et soin : Restauration indispensable, Purge offensive, Totem de glèbe <span class="refs"><a href="#src-1">[1]</a></span></li><li>Burst : Explosion de lave, procs de Furie-des-vents, gros one-shots attendus au 60 <span class="refs"><a href="#src-1">[1]</a></span></li><li>Petit comité : 3e et 4e du tournoi niveau 30 <span class="refs"><a href="#src-4">[4]</a></span></li></ul></div><div class="col k-weak"><h4>Faible</h4><ul><li>Contrôle : « pas de contrôle efficace », de l'aveu de Blizzard <span class="refs"><a href="#src-6">[6]</a></span></li><li>Élémentaire encore très bas en simulation malgré le retour de Maîtrise élémentaire <span class="refs"><a href="#src-2">[2]</a> <a href="#src-3">[3]</a></span></li><li>Pas de vrai tank <span class="refs"><a href="#src-8">[8]</a></span></li><li>Ton expérience au niveau 50 : un manque de résistance</li></ul></div></div>
+  <div class="foot">
+    <p><span class="tag watch">À surveiller</span>Talents de l'Élémentaire remaniés d'une semaine à l'autre <span class="refs"><a href="#src-1">[1]</a> <a href="#src-3">[3]</a></span>.</p>
+    <p><span class="tag you">Pour toi</span>Tu l'as écarté pour son manque de contrôle et de résistance ; Forever corrige surtout sa mobilité.</p>
+  </div>
+</article><article class="card" id="c-mage">
+  <header class="card-head">
+    <div class="ttl"><span class="crest" style="--cc:#3FC7EB"></span><h3>Mage</h3><span class="kit">Tissu · Mana</span></div>
+    <div class="specs"><span class="spec"><b>Arcanes</b> DPS distance</span><span class="spec"><b>Feu</b> DPS distance</span><span class="spec"><b>Givre</b> DPS distance</span></div>
+    <p class="races">Alliance : Humain, Gnome, Skyborne · Horde : Orc (nouveau), Mort-vivant, Troll</p>
+  </header>
+  <dl class="facts"><div><dt>Simulation PvE au 60</dt><dd>Feu 79 % (A), Arcanes 74 % (A), Givre 62 % (B) <a href="#src-2">[2]</a></dd></div><div><dt>Tournoi niv. 30</dt><dd>Les quatre meilleurs mages éliminés au top 32 <a href="#src-4">[4]</a></dd></div><div><dt>Joué au niv. 30</dt><dd>8,2 % des personnages <a href="#src-7">[7]</a></dd></div></dl>
+  <div class="cols"><div class="col k-can"><h4>Peut faire</h4><ul><li>DPS distance en monocible et en zone</li><li>Contrôler : Métamorphose, Nova de givre, Contresort, ralentissements dont le nouveau Frost Blast <span class="refs"><a href="#src-3">[3]</a></span></li><li>Nourrir le groupe, ouvrir des portails, retirer les malédictions</li></ul></div><div class="col k-best"><h4>Excelle</h4><ul><li>Contrôle et burst en Givre : Javelot de glace sur cible gelée, Cône de froid renforcé <span class="refs"><a href="#src-1">[1]</a> <a href="#src-3">[3]</a></span></li><li>DPS PvE : Feu A (+21 % à la dernière mise à jour des simulations), Arcanes A avec le nouvel Arcane Wrath <span class="refs"><a href="#src-2">[2]</a> <a href="#src-3">[3]</a></span></li></ul></div><div class="col k-weak"><h4>Faible</h4><ul><li>Fragile : tissu, « extrêmement fragile au corps à corps » selon Blizzard, pas de Bloc de glace hors de l'arbre Givre <span class="refs"><a href="#src-6">[6]</a> <a href="#src-5">[5]</a> <a href="#src-1">[1]</a></span></li><li>Farm de zone volontairement réduit, pour gêner les bots <span class="refs"><a href="#src-5">[5]</a></span></li><li>Tournoi niveau 30 : les quatre meilleurs mages éliminés au top 32 <span class="refs"><a href="#src-4">[4]</a></span></li><li>Plus technique qu'avant face à des classes plus mobiles, sans résilience annoncée <span class="refs"><a href="#src-1">[1]</a></span></li></ul></div></div>
+  <div class="foot">
+    <p><span class="tag watch">À surveiller</span>Arcane Wrath pourrait être nerfé <span class="refs"><a href="#src-1">[1]</a></span>.</p>
+    <p><span class="tag you">Pour toi</span>Contrôle et technicité au sommet, mais la classe la plus fragile : l'opposé de ton critère de résistance.</p>
+  </div>
+</article><article class="card" id="c-demoniste">
+  <header class="card-head">
+    <div class="ttl"><span class="crest" style="--cc:#8788EE"></span><h3>Démoniste</h3><span class="kit">Tissu · Mana, éclats d'âme</span></div>
+    <div class="specs"><span class="spec"><b>Affliction</b> DPS distance</span><span class="spec"><b>Démonologie</b> DPS distance</span><span class="spec"><b>Destruction</b> DPS distance</span></div>
+    <p class="races">Alliance : Humain, Gnome · Horde : Orc, Mort-vivant, Troll (nouveau)</p>
+  </header>
+  <dl class="facts"><div><dt>Simulation PvE au 60</dt><dd>Démonologie 82 % (A), Affliction 73 % (A), Destruction 68 % (B) <a href="#src-2">[2]</a></dd></div><div><dt>Tournoi niv. 30</dt><dd>Vainqueur et finaliste <a href="#src-4">[4]</a></dd></div><div><dt>Joué au niv. 30</dt><dd>8,1 % des personnages <a href="#src-7">[7]</a></dd></div></dl>
+  <div class="cols"><div class="col k-can"><h4>Peut faire</h4><ul><li>DPS distance, dégâts sur la durée sur plusieurs cibles</li><li>Contrôler : Peur, Hurlement de terreur, Voile mortel, Séduction, Verrou magique, Bannir</li><li>Invoquer les joueurs, poser une pierre d'âme, distribuer des pierres de soins</li></ul></div><div class="col k-best"><h4>Excelle</h4><ul><li>PvP : vainqueur et finaliste du tournoi niveau 30 ; « intuable » en champ de bataille selon Kami <span class="refs"><a href="#src-1">[1]</a> <a href="#src-4">[4]</a></span></li><li>Survie : Lien spirituel (30 %), drains de vie ; le Sacrifice démoniaque garde désormais le familier <span class="refs"><a href="#src-1">[1]</a></span></li><li>Burst en Destruction ; ses dégâts sur la durée peuvent critiquer <span class="refs"><a href="#src-1">[1]</a></span></li><li>DPS PvE : Démonologie et Affliction en A <span class="refs"><a href="#src-2">[2]</a></span></li></ul></div><div class="col k-weak"><h4>Faible</h4><ul><li>Fragile face aux Druides farouches et aux Voleurs <span class="refs"><a href="#src-1">[1]</a></span></li><li>Peu mobile</li><li>Dépend de ses démons <span class="refs"><a href="#src-6">[6]</a></span></li><li>Un seul rôle ; la classe la moins jouée <span class="refs"><a href="#src-7">[7]</a></span></li></ul></div></div>
+  <div class="foot">
+    <p><span class="tag watch">À surveiller</span>Grand gagnant du niveau 30 : à surveiller d'ici le lancement.</p>
+    <p><span class="tag you">Pour toi</span>Contrôle, résistance et PvP au sommet, mais un seul rôle et un jeu centré sur le familier, proche du Spiritualiste d'Aion que tu n'aimais pas.</p>
+  </div>
+</article><article class="card" id="c-druide">
+  <header class="card-head">
+    <div class="ttl"><span class="crest" style="--cc:#FF7C0A"></span><h3>Druide</h3><span class="kit">Cuir · Mana, énergie, rage</span></div>
+    <div class="specs"><span class="spec"><b>Équilibre</b> DPS distance</span><span class="spec"><b>Farouche</b> Tank, DPS mêlée</span><span class="spec"><b>Restauration</b> Soin</span></div>
+    <p class="races">Alliance : Elfe de la nuit, Skyborne · Horde : Tauren, Skyborne</p>
+  </header>
+  <dl class="facts"><div><dt>Simulation PvE au 60</dt><dd>Farouche 73 % (B), Équilibre 62 % (C) · tank : Ours 1er en menace (S, non vérifié) · soin non simulé <a href="#src-2">[2]</a></dd></div><div><dt>Tournoi niv. 30</dt><dd>Meilleur druide éliminé au top 6 <a href="#src-4">[4]</a></dd></div><div><dt>Joué au niv. 30</dt><dd>11,5 % des personnages <a href="#src-7">[7]</a></dd></div></dl>
+  <div class="cols"><div class="col k-can"><h4>Peut faire</h4><ul><li>Les quatre rôles : tank ours, DPS félin, DPS distance, soin <span class="refs"><a href="#src-6">[6]</a></span></li><li>Changer de rôle grâce à la double spécialisation, sans reroll <span class="refs"><a href="#src-1">[1]</a></span></li><li>Rez de combat, Innervation, auras de critique pour tout le raid (Chef de la meute, Sélénien) <span class="refs"><a href="#src-1">[1]</a> <a href="#src-3">[3]</a></span></li></ul></div><div class="col k-best"><h4>Excelle</h4><ul><li>Polyvalence : la seule classe à quatre rôles</li><li>Mobilité et survie : formes, très difficile à tuer ; Berserk immunise contre la peur <span class="refs"><a href="#src-1">[1]</a></span></li><li>Soin : Restauration exceptionnelle en monocible comme en zone, avec Croissance sauvage <span class="refs"><a href="#src-1">[1]</a> <a href="#src-8">[8]</a></span></li><li>Farouche : dégâts indexés sur l'arme, enchantements et huiles actifs en forme (huile de givre pour ralentir) <span class="refs"><a href="#src-1">[1]</a> <a href="#src-6">[6]</a></span></li></ul></div><div class="col k-weak"><h4>Faible</h4><ul><li>Contrôle : Sarments et Sonner en ours, mais ni interruption ni ralentissement en félin <span class="refs"><a href="#src-6">[6]</a> <a href="#src-1">[1]</a></span></li><li>DPS PvE moyen : Farouche B, Équilibre C, plus la taxe hybride <span class="refs"><a href="#src-2">[2]</a> <a href="#src-5">[5]</a></span></li><li>Exigeant : les changements de forme sont contre-intuitifs <span class="refs"><a href="#src-1">[1]</a></span></li><li>Leveling lent au début <span class="refs"><a href="#src-8">[8]</a></span></li></ul></div></div>
+  <div class="foot">
+    <p><span class="tag watch">À surveiller</span>L'ours est 1er en menace dans les simulations, mais ce chiffre reste à vérifier en jeu <span class="refs"><a href="#src-2">[2]</a></span>.</p>
+    <p><span class="tag you">Pour toi</span>Le rouage modulable par excellence, avec survie et mobilité ; mais contrôle faible et DPS PvE moyen.</p>
+  </div>
+</article></div>
+</section>
+
+<section class="sec" aria-labelledby="h-rules">
+  <div class="sec-head">
+    <span class="eyebrow">Pour toutes les classes</span>
+    <h2 id="h-rules">Ce qui change la donne au niveau 60</h2>
+  </div>
+  <div class="rules">
+    <div class="rule"><b>Double spécialisation</b>Dès le niveau 40, on garde deux spés et on passe de l'une à l'autre. Une respécialisation complète coûte cher <span class="refs"><a href="#src-1">[1]</a></span>.</div>
+    <div class="rule"><b>Taxe hybride</b>Environ 5 % de dégâts en moins pour les spés DPS des classes hybrides : Guerrier, Paladin, Druide, Chaman, Prêtre. Chasseur, Mage, Voleur et Démoniste y échappent <span class="refs"><a href="#src-5">[5]</a></span>.</div>
+    <div class="rule"><b>Intentions de Blizzard</b>Voleur meilleur DPS monocible, Guerrier roi des dégâts multicibles. Le duel n'est pas un format que Blizzard équilibre <span class="refs"><a href="#src-5">[5]</a></span>.</div>
+    <div class="rule"><b>Combats PvP courts</b>Les dégâts et soins sur la durée peuvent critiquer, et aucune résilience n'est annoncée : le burst compte beaucoup <span class="refs"><a href="#src-1">[1]</a></span>.</div>
+    <div class="rule"><b>Équilibrage permanent</b>Un patch par semaine pendant la bêta, qui se termine le 22 octobre ; tout est remis à zéro au lancement du 4 novembre <span class="refs"><a href="#src-3">[3]</a></span>.</div>
+    <div class="rule"><b>Premiers raids</b>Annoncés par Blizzard pour le 9 décembre : Barrow Deeps (10 joueurs), Sommet d'Hyjal (20) et Onyxia (40).</div>
+  </div>
+</section>
+
+<section class="sec" aria-labelledby="h-src">
+  <div class="sec-head">
+    <span class="eyebrow">Traçabilité</span>
+    <h2 id="h-src">Sources et fiabilité</h2>
+    <p>Les notes du tableau sont ma synthèse : aucune source ne note les classes sur ces douze critères. Le niveau 60 n'est pas encore jouable ; tout ce qui le concerne est une projection.</p>
+  </div>
+  <div class="table-box src-box"><table class="src">
+    <thead><tr><th>N°</th><th>Source</th><th>Date</th><th>Fiabilité</th><th>Pourquoi</th></tr></thead>
+    <tbody><tr id="src-1"><td class="mono">[1]</td><td><a href="https://www.youtube.com/watch?v=W-FjneQX5uw">Kami Labs, « Guide des classes WoW Forever : forces, faiblesses et mon choix »</a></td><td class="mono nowrap">20 oct.</td><td><span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span></td><td>Vidéo de 41 min lue en entier dans sa langue d'origine (sous-titres automatiques français). Créateur français expérimenté, avis argumentés ; partenaire RestedXP, et il annonce jouer Farouche et Chasseur.</td></tr><tr id="src-2"><td class="mono">[2]</td><td><a href="https://mythicsim.com/wow-forever/tier-list">MythicSim, tier list WoW Forever</a></td><td class="mono nowrap">20 oct.</td><td><span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span></td><td>Simulation au niveau 60 théorique, 10 000 itérations, équipement fixe, boss unique statique. À jour du patch du 16 octobre. Ne classe ni les soigneurs ni la survie des tanks.</td></tr><tr id="src-3"><td class="mono">[3]</td><td><a href="https://us.forums.blizzard.com/en/wow/t/wow-forever-beta-development-notes-%E2%80%93-updated-october-15/2360696">Blizzard, notes de développement de la bêta du 15 octobre</a></td><td class="mono nowrap">15-16 oct.</td><td><span class="rel" title="Fiabilité : haute"><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td>Notes officielles, recoupées avec le résumé d'Icy Veins.</td></tr><tr id="src-4"><td class="mono">[4]</td><td><a href="https://endgametools.com/en/wow-forever/news/wow-forever-open-results">The Forever Open, tournoi de duel</a></td><td class="mono nowrap">18 oct.</td><td><span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span></td><td>Résultats factuels, recoupés avec Warcraft Tavern. Mais niveau 30, personnages Horde uniquement, et un format que Blizzard dit ne pas équilibrer.</td></tr><tr id="src-5"><td class="mono">[5]</td><td><a href="https://www.youtube.com/watch?v=uDRcv_w85j8">Blizzard, podcast WoW Forever, épisode 2</a></td><td class="mono nowrap">1er oct.</td><td><span class="rel" title="Fiabilité : haute"><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td>Intentions des développeurs : taxe hybride d'environ 5 %, Voleur meilleur DPS monocible, Guerrier roi du cleave, pas d'équilibrage pour le duel. Des intentions, pas des chiffres.</td></tr><tr id="src-6"><td class="mono">[6]</td><td><a href="https://worldofwarcraft.blizzard.com/en-us/news/24301515">Blizzard, Class Deep Dives et Class Highlights</a></td><td class="mono nowrap">30 sept.–7 oct.</td><td><span class="rel" title="Fiabilité : haute"><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td>Kit officiel de chaque classe et limites assumées par Blizzard (zone morte du Chasseur, contrôle faible du Druide, fragilité du Mage…).</td></tr><tr id="src-7"><td class="mono">[7]</td><td><a href="https://classicplus.io/">ClassicPlus.io, recensement de la bêta</a></td><td class="mono nowrap">13 oct.</td><td><span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span></td><td>68 280 personnages de niveau 30 à 39. Compte des personnages, pas des joueurs ; méthode non publiée.</td></tr><tr id="src-8"><td class="mono">[8]</td><td><a href="https://claude.ai/artifact/DodyZaprhTn325eAf8D7pg">Classements au niveau 30 : Mobalytics (Crix, PhaseShifter), Supatease, LFCarry, Shjelde et Wider</a></td><td class="mono nowrap">6-12 oct.</td><td><span class="rel" title="Fiabilité : faible"><i class="on"></i><i class=""></i><i class=""></i></span></td><td>Utiles pour le niveau 30, beaucoup moins pour le 60. Détail et fiabilité de chacun dans le comparatif complet.</td></tr></tbody>
+  </table></div>
+</section>
+
+<footer class="end">Le détail niveau 30 (classements de créateurs, vidéos, retouches de bêta) reste dans le <a href="https://claude.ai/artifact/DodyZaprhTn325eAf8D7pg">comparatif complet du 13 octobre</a>.</footer>
+</main>
+
+<script>
+(function(){
+  var D={"axes": ["poly", "tank", "soin", "dps", "bg", "sauv", "ctrl", "surv", "mob", "util", "solo", "tech"], "presets": {"profil": {"poly": 3, "tank": 2, "soin": 1, "dps": 2, "bg": 3, "sauv": 3, "ctrl": 3, "surv": 3, "mob": 1, "util": 2, "solo": 1, "tech": 2}, "egal": {"poly": 1, "tank": 1, "soin": 1, "dps": 1, "bg": 1, "sauv": 1, "ctrl": 1, "surv": 1, "mob": 1, "util": 1, "solo": 1, "tech": 1}, "pvp": {"poly": 1, "tank": 0, "soin": 0, "dps": 0, "bg": 3, "sauv": 3, "ctrl": 3, "surv": 3, "mob": 2, "util": 1, "solo": 1, "tech": 1}, "pve": {"poly": 2, "tank": 3, "soin": 2, "dps": 3, "bg": 0, "sauv": 0, "ctrl": 1, "surv": 1, "mob": 0, "util": 3, "solo": 1, "tech": 1}}, "classes": [{"name": "Guerrier", "color": "#C69B6D", "r": {"poly": 3, "tank": 5, "soin": 1, "dps": 5, "bg": 4, "sauv": 2, "ctrl": 3, "surv": 3, "mob": 4, "util": 3, "solo": 3, "tech": 4}}, {"name": "Paladin", "color": "#F48CBA", "r": {"poly": 4, "tank": 4, "soin": 4, "dps": 4, "bg": 5, "sauv": 4, "ctrl": 2, "surv": 5, "mob": 2, "util": 5, "solo": 5, "tech": 2}}, {"name": "Chasseur", "color": "#AAD372", "r": {"poly": 2, "tank": 1, "soin": 1, "dps": 5, "bg": 5, "sauv": 4, "ctrl": 3, "surv": 3, "mob": 3, "util": 3, "solo": 5, "tech": 2}}, {"name": "Voleur", "color": "#FFF468", "r": {"poly": 1, "tank": 1, "soin": 1, "dps": 3, "bg": 3, "sauv": 5, "ctrl": 5, "surv": 2, "mob": 4, "util": 2, "solo": 3, "tech": 5}}, {"name": "Prêtre", "color": "#FFFFFF", "r": {"poly": 3, "tank": 1, "soin": 5, "dps": 3, "bg": 5, "sauv": 4, "ctrl": 4, "surv": 3, "mob": 2, "util": 4, "solo": 3, "tech": 3}}, {"name": "Chaman", "color": "#0070DD", "r": {"poly": 4, "tank": 2, "soin": 4, "dps": 3, "bg": 4, "sauv": 4, "ctrl": 2, "surv": 3, "mob": 5, "util": 5, "solo": 3, "tech": 3}}, {"name": "Mage", "color": "#3FC7EB", "r": {"poly": 1, "tank": 1, "soin": 1, "dps": 4, "bg": 4, "sauv": 3, "ctrl": 5, "surv": 2, "mob": 3, "util": 3, "solo": 3, "tech": 4}}, {"name": "Démoniste", "color": "#8788EE", "r": {"poly": 1, "tank": 1, "soin": 1, "dps": 4, "bg": 5, "sauv": 5, "ctrl": 5, "surv": 4, "mob": 2, "util": 3, "solo": 4, "tech": 4}}, {"name": "Druide", "color": "#FF7C0A", "r": {"poly": 5, "tank": 4, "soin": 5, "dps": 3, "bg": 4, "sauv": 4, "ctrl": 2, "surv": 4, "mob": 5, "util": 5, "solo": 3, "tech": 5}}]};
+  var w=Object.assign({},D.presets.profil);
+  var KEY='wf-overview-weights';
+  try{var s=JSON.parse(localStorage.getItem(KEY)||'null'); if(s&&typeof s==='object'){D.axes.forEach(function(k){if(typeof s[k]==='number')w[k]=s[k];});}}catch(e){}
+  var rank=document.getElementById('rank');
+  function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function score(r){var tw=0,s=0;D.axes.forEach(function(k){tw+=w[k];s+=w[k]*r[k];});return tw?Math.round(100*s/(5*tw)):0;}
+  function render(){
+    var list=D.classes.map(function(c){return {c:c,s:score(c.r)};}).sort(function(a,b){return b.s-a.s;});
+    rank.innerHTML=list.map(function(x){return '<li><span class="bname"><span class="sw" style="--cc:'+x.c.color+'"></span>'+esc(x.c.name)+'</span><span class="btrack"><span class="bfill" style="width:'+x.s+'%"></span></span><span class="bval mono">'+x.s+'</span></li>';}).join('');
+    document.querySelectorAll('.seg button').forEach(function(b){b.setAttribute('aria-pressed',String(w[b.dataset.ax]===Number(b.dataset.v)));});
+    var match=null;Object.keys(D.presets).forEach(function(p){if(D.axes.every(function(k){return D.presets[p][k]===w[k];}))match=p;});
+    document.querySelectorAll('.presets button').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.preset===match));});
+    try{localStorage.setItem(KEY,JSON.stringify(w));}catch(e){}
+  }
+  document.querySelectorAll('.seg button').forEach(function(b){b.addEventListener('click',function(){w[b.dataset.ax]=Number(b.dataset.v);render();});});
+  document.querySelectorAll('.presets button').forEach(function(b){b.addEventListener('click',function(){w=Object.assign({},D.presets[b.dataset.preset]);render();});});
+  render();
+})();
+</script>
+</body>
+</html>
