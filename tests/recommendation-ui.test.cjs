@@ -9,7 +9,7 @@ const ui=fs.readFileSync(path.join(__dirname,'..','questionnaire.js'),'utf8');
 
 function createHarness(initial={}){
  const store={...initial},listeners={};
- const results={innerHTML:''},form={innerHTML:'',listeners:{},
+ const results={innerHTML:'',listeners:{},addEventListener(k,fn){this.listeners[k]=fn;}},form={innerHTML:'',listeners:{},
   addEventListener(k,fn){this.listeners[k]=fn;},
   contains(){return true;},
   querySelector(){return null;}};
@@ -34,6 +34,8 @@ function createHarness(initial={}){
   certainty(group,key,n){form.listeners.input({target:{dataset:{certgroup:group,certkey:key},value:String(n),setAttribute(){}}});},
   strict(field,checked){const target={dataset:{},checked,hasAttribute(k){return k==='data-roles-strict'&&field==='roles';}};
     if(field!=='roles')target.dataset.strict=field;form.listeners.change({target});},
+  reveal(){results.listeners.click({target:button({},['data-reco-reveal'])});},
+  hide(){results.listeners.click({target:button({},['data-reco-hide'])});},
   profile(){return JSON.parse(store['wf-recommend-v1']);}
  };
 }
@@ -42,7 +44,7 @@ test('Accueil épuré : une question, six étapes et aucune recommandation arbit
  assert.match(h.form.innerHTML,/Quel rôle voudrais-tu jouer/);
  assert.match(h.form.innerHTML,/data-step="5"/);
  assert.equal((h.form.innerHTML.match(/class="reco-question"/g)||[]).length,1);
- assert.match(h.results.innerHTML,/Aucune classe ne part gagnante/);
+ assert.match(h.results.innerHTML,/Tout commence par tes envies/);
  assert.equal(h.profile().mastery,2);
 });
 test('Six étapes accessibles directement, parcours suivant/précédent, repères de progression',()=>{
@@ -60,12 +62,12 @@ test('Certitude 0 à 5 visible uniquement pour les réponses actives',()=>{
  assert.match(h.form.innerHTML,/Certitude pour « Contrôle »/);
  h.certainty('styles','ctrl',0);
  assert.equal(h.profile().styles.ctrl,0);
- assert.match(h.results.innerHTML,/Les meilleures pistes pour toi/);
+ assert.match(h.results.innerHTML,/Encore un peu de contexte/);
  h.certainty('styles','ctrl',5);
  assert.equal(h.profile().styles.ctrl,5);
  h.press('multi','styles','ctrl');
  assert.ok(!Object.hasOwn(h.profile().styles,'ctrl'));
- assert.match(h.results.innerHTML,/Aucune classe ne part gagnante/);
+ assert.match(h.results.innerHTML,/Tout commence par tes envies/);
 });
 test('Jusqu’à trois styles, y compris après navigation entre questions',()=>{
  const h=createHarness();h.step(3);
@@ -85,9 +87,11 @@ test('Rôle, portée et familiaux stricts sont explicites',()=>{
  h.step(2);h.single('range','distance');
  assert.match(h.form.innerHTML,/C’est une exigence absolue/);
  h.strict('range',true);
- assert.match(h.results.innerHTML,/Aucune spécialisation ne remplit/);
+ assert.match(h.results.innerHTML,/Voir un aperçu/);
+ h.reveal();
+ assert.match(h.results.innerHTML,/Ces exigences ne vont pas ensemble/);
  h.strict('range',false);
- assert.match(h.results.innerHTML,/Les meilleures pistes pour toi/);
+ assert.match(h.results.innerHTML,/Tes meilleures pistes/);
 });
 test('Niveau actuel et complexité souhaitée sont indépendants et persistants',()=>{
  const h=createHarness();h.mastery(0);
@@ -102,20 +106,39 @@ test('Niveau actuel et complexité souhaitée sont indépendants et persistants'
 });
 test('Réinitialisation, navigation et localStorage corrompu',()=>{
  const h=createHarness({'wf-recommend-v1':'INVALID JSON'});
- assert.match(h.results.innerHTML,/Aucune classe ne part gagnante/);
+ assert.match(h.results.innerHTML,/Tout commence par tes envies/);
  h.step(1);h.press('multi','activities','bg');
  h.reset.click();
  assert.deepEqual(Object.keys(h.profile().activities),[]);
  assert.equal(h.profile().range.value,'any');
  assert.match(h.form.innerHTML,/Étape 1 sur 6/);
- assert.match(h.results.innerHTML,/Aucune classe ne part gagnante/);
+ assert.match(h.results.innerHTML,/Tout commence par tes envies/);
 });
 test('Les poids historiques ne changent pas le guide et l’API de synchronisation existe',()=>{
  const h=createHarness({'wf-overview-v3':JSON.stringify({w:{tank:3,bg:3}})});
  h.step(4);h.single('pet','avoid');h.strict('pet',true);
- assert.match(h.results.innerHTML,/Les meilleures pistes pour toi/);
+ assert.match(h.results.innerHTML,/Encore un peu de contexte/);
  assert.deepEqual(Object.keys(h.profile().roles),[]);
  assert.equal(h.profile().pet.strict,true);
  h.window.WFGuide.setMastery(3);
  assert.equal(h.profile().mastery,3);
+});
+
+test('Les résultats attendent deux dimensions et un geste explicite avant d’apparaître',()=>{
+ const h=createHarness();
+ h.press('multi','roles','dps');
+ assert.match(h.results.innerHTML,/Encore un peu de contexte/);
+ assert.doesNotMatch(h.results.innerHTML,/reco-result-card/);
+ h.step(1);
+ h.press('multi','activities','solo');
+ assert.match(h.results.innerHTML,/Voir un aperçu/);
+ assert.doesNotMatch(h.results.innerHTML,/reco-result-card/);
+ h.reveal();
+ assert.match(h.results.innerHTML,/reco-result-card/);
+ h.step(3);h.press('multi','styles','ctrl');
+ assert.match(h.results.innerHTML,/reco-result-card/);
+ h.hide();
+ assert.match(h.results.innerHTML,/Voir un aperçu/);
+ h.reset.click();
+ assert.match(h.results.innerHTML,/Tout commence par tes envies/);
 });
