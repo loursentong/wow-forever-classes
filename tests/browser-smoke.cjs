@@ -35,6 +35,14 @@ async function check(){
   assert.equal(await page.locator('[data-step]').count(),6);
   assert.equal(await page.locator('.reco-step-rail .reco-step').count(),6);
   assert.equal(await page.locator('.reco-summary-row').count(),6);
+  const geometry=await page.evaluate(()=>{
+   const rect=x=>{const b=document.querySelector(x).getBoundingClientRect();return {left:b.left,right:b.right,width:b.width};};
+   return {rail:rect('#reco-rail'),form:rect('#reco-guided .reco-workspace'),sidebar:rect('.reco-sidebar')};
+  });
+  assert.ok(geometry.rail.right<=geometry.form.left&&geometry.form.right<=geometry.sidebar.left,
+    'Trois colonnes sans recouvrement : '+JSON.stringify(geometry));
+  assert.ok(geometry.form.width>350&&geometry.sidebar.width>=240);
+
   await page.locator('[data-summary-step="2"]').click();
   assert.match(await page.locator('#reco-form').textContent(),/Comment aimes-tu combattre/);
   await page.locator('[data-summary-step="0"]').click();
@@ -154,6 +162,14 @@ async function check(){
   assert.ok(measurements.document<=measurements.viewport+2,'Débordement horizontal '+JSON.stringify(measurements));
   assert.equal(await page.locator('#reco-priority-results .reco-priority-class').count(),9);
   await page.locator('[data-reco-mode="guided"]').click();
+  const vertical=await page.evaluate(()=>{
+   const a=document.querySelector('#reco-rail').getBoundingClientRect();
+   const b=document.querySelector('#reco-guided .reco-workspace').getBoundingClientRect();
+   const c=document.querySelector('.reco-sidebar').getBoundingClientRect();
+   return {railBottom:a.bottom,formTop:b.top,formBottom:b.bottom,sidebarTop:c.top};
+  });
+  assert.ok(vertical.railBottom<=vertical.formTop+2&&vertical.formBottom<=vertical.sidebarTop+2,
+    'Empilement mobile : '+JSON.stringify(vertical));
   await page.locator('[data-step="2"]').click();
   await page.locator('[data-single="range"][data-key="melee"]').focus();
   assert.equal(await page.evaluate(()=>document.activeElement.dataset.key),'melee');
@@ -176,6 +192,14 @@ async function check(){
   await page.locator('[data-reco-mode="guided"]').click();
   await page.locator('[data-step="0"]').click();
   await page.screenshot({path:path.join(__dirname,'screenshots','questionnaire-desktop.png'),fullPage:false});
+  await page.locator('[data-multi="roles"][data-key="dps"]').click();
+  await page.locator('[data-step="1"]').click();
+  await page.locator('[data-multi="activities"][data-key="raid"]').click();
+  await page.locator('[data-step="2"]').click();
+  await page.locator('[data-single="range"][data-key="distance"]').click();
+  await page.waitForTimeout(300);
+  await page.screenshot({path:path.join(__dirname,'screenshots','guide-immersion-interaction-desktop.png'),fullPage:false});
+
   // Contrôles des ressources graphiques et de l’accessibilité des animations.
   const assets=await page.evaluate(async()=>Promise.all(['ux-polish.css','warcraft-visual-pack.css','wow-ui-rework.css','assets/hero-landscape.svg'].map(async p=>{
     const r=await fetch(p);return {url:p,status:r.status,ok:r.ok};
