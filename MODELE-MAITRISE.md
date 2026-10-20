@@ -37,12 +37,14 @@ Pour un Chasseur débutant, note DPS 5 avec plancher PvE 2 donne 4,6, mais sa no
 ## Neutralité et accès universel
 
 - Valeur par défaut : profil « Tout à égalité » et niveau Confirmé.
-- Profils : Tout à égalité, Polyvalence, PvP d'abord, PvE d'abord.
+- Profils : Tout à égalité, Polyvalence, PvP d'abord, PvE d'abord, Solo et leveling, Tank en groupe, Soin en groupe, DPS en raid, Champ de bataille, PvP sauvage, Soutien polyvalent. Un préréglage change uniquement les douze poids et conserve le niveau de maîtrise choisi.
 - Les neuf encarts « Pour toi » ont été remplacés par des indications génériques de style de jeu.
 - Les visiteurs conservent leurs propres préférences localement ; les anciennes sauvegardes sont migrées lorsqu'elles sont valides.
-- La matrice peut afficher les notes ajustées avec ▲ et ▼, sans modifier les 108 notes de référence.
+- La maîtrise se règle dans la même liste que les pondérations, sans treizième axe ni poids supplémentaire. Elle adapte uniquement le classement et les courbes ; la matrice conserve toujours les 108 notes de référence, sans flèches ni notes ajustées.
 - Les neuf courbes sont tracées, les utilisateurs choisissent lesquelles mettre en avant. Le tableau repliable restitue les 36 valeurs numériques.
-- Le duel compare deux classes et décompose leur écart en contributions signées et pondérées. Les écarts bruts peuvent différer des différences entre nombres arrondis.
+- Le tableau PvE/PvP plancher/plafond est conservé. Chaque raison est abrégée et renvoie à la bibliographie entre crochets ; les sources décrivent les mécanismes, pas la valeur chiffrée des coefficients, qui reste éditoriale.
+- Le bloc de duel de classes a été retiré. Le critère « Sauvage et duel », qui décrit une activité de jeu, est conservé.
+- Le thème sombre reprend la palette Claude et devient le défaut, indépendamment du thème de l'appareil. Le visiteur peut choisir clair, sombre ou système ; ce choix est enregistré séparément des pondérations.
 
 ## Comparaison MythicSim
 

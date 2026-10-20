@@ -5,7 +5,8 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 
-const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8').replace(/\r\n/g, '\n');
+const referenceNotes = require('./reference-notes.json');
 const match = html.match(/window\.__WF = (\{.*?\});\s*\(function\(\)/s);
 const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>/);
 assert.ok(match && scriptMatch, 'modèle et script présents');
@@ -31,29 +32,34 @@ function elem(dataset = {}) {
     querySelector(selector) { return selector === 'b' ? baseNode : null; },
     addEventListener(name, fn) { (listeners[name] ||= []).push(fn); },
     setAttribute(name, value) { this.attrs[name] = value; },
+    getAttribute(name) { return this.attrs[name]; },
     trigger(name = 'click') { for (const fn of (listeners[name] || [])) fn(); },
     b: baseNode
   };
 }
-function boot(initial = {}) {
-  const ids = ['mdesc','mlabel','rank','curves','curves-values','duel','duelSum','duelA','duelB'];
+function boot(initial = {}, storageDisabled = false) {
+  const ids = ['mdesc','mlabel','rank','rank-status','curves','curves-values','theme'];
   const elements = Object.fromEntries(ids.map(id => [id, elem()]));
   const groups = {
     '.mbtn': config.levels.map((_, i) => elem({m: String(i)})),
     '.seg button[data-ax]': config.axes.flatMap(ax => [0,1,2,3].map(v => elem({ax, v: String(v)}))),
     '.presets button': Object.keys(config.presets).map(preset => elem({preset})),
-    '.hl-chips button': config.classes.map(c => elem({id: c.id})),
-    'td.cell[data-k]': config.classes.flatMap((c,i) => config.axes.map(k => elem({c: String(i),k,v: String(c.r[k])})))
+    '.hl-chips button': config.classes.map(c => elem({id: c.id}))
   };
   const document = {
-    getElementById(id) { return elements[id]; },
-    querySelectorAll(selector) { return groups[selector] || []; },
+    documentElement: elem(),
+    getElementById(id) { assert.ok(elements[id], 'élément absent : '+id); return elements[id]; },
+    querySelectorAll(selector) {
+      assert.ok(groups[selector], 'sélecteur inattendu : '+selector);
+      return groups[selector];
+    },
     createElement() { return {className: '', title: '', textContent: ''}; }
   };
+  document.documentElement.setAttribute('data-theme', 'dark');
   const storage = {...initial};
   const localStorage = {
-    getItem(k) { return Object.hasOwn(storage,k) ? storage[k] : null; },
-    setItem(k,v) { storage[k]=v; }
+    getItem(k) { if(storageDisabled) throw Error('storage disabled'); return Object.hasOwn(storage,k) ? storage[k] : null; },
+    setItem(k,v) { if(storageDisabled) throw Error('storage disabled'); storage[k]=v; }
   };
   const window = {addEventListener() {}};
   const needle = '  renderAll();\n})();';
@@ -62,21 +68,86 @@ function boot(initial = {}) {
     '  __test.api = {S:S,D:D,eff:eff,score:score,tw:tw,renderAll:renderAll};\n' + needle);
   const holder = {};
   const context = {window,document,localStorage,__test:holder,console};
+  vm.runInNewContext(html.match(/<script data-theme-init>([\s\S]*?)<\/script>/)[1], context);
   vm.runInNewContext(augmented, context, {timeout:3000});
-  return {config:holder.api.D, api:holder.api, elements, groups, storage};
+  return {config:holder.api.D, api:holder.api, elements, groups, storage, document};
 }
 const ranking = html => [...html.matchAll(/class="bname">[\s\S]*?<\/span>([^<]+)<\/span>[\s\S]*?class="bval mono">(\d+)<\/span>/g)]
   .map(m=>[m[1],Number(m[2])]);
 
-test('Le comparatif conserve neuf classes, douze axes, quatre profils et quatre niveaux',()=>{
+test('Le comparatif conserve neuf classes, douze axes et quatre niveaux avec onze profils',()=>{
   assert.equal(config.classes.length,9);
   assert.equal(config.axes.length,12);
-  assert.deepEqual(Object.keys(config.presets),['egal','polyvalence','pvp','pve']);
+  assert.deepEqual(Object.keys(config.presets),['egal','polyvalence','pvp','pve','solo','tank','soin','dps','bg','sauvage','soutien']);
   assert.equal(config.levels.length,4);
   assert.ok(html.includes('id="curves-values"'));
   assert.equal((html.match(/<span class="tag you">Pour toi<\/span>/g)||[]).length,0);
   assert.equal((html.match(/<span class="tag you">Style de jeu<\/span>/g)||[]).length,9);
-  assert.ok(!/Ton profil|Spiritualiste d'Aion|tu l'as écarté/i.test(html));
+  assert.ok(!/Ton profil|Spiritualiste d'Aion|tu l'as écarté|Tu te décris/i.test(html));
+});
+
+test('Les 108 notes source et les 108 cases restent identiques à la référence',()=>{
+  assert.deepEqual(Object.fromEntries(config.classes.map(c=>[c.id,c.r])),referenceNotes);
+  const cells=[...html.matchAll(/<td class="cell [^"]+" data-c="(\d+)" data-k="([^"]+)" data-v="(\d)"><b>(\d)<\/b>/g)];
+  assert.equal(cells.length,108);
+  const seen=new Set();
+  for(const [,c,k,v,display] of cells){
+    const id=config.classes[Number(c)].id;
+    assert.equal(Number(v),referenceNotes[id][k]);
+    assert.equal(v,display);
+    seen.add(id+'/'+k);
+  }
+  assert.equal(seen.size,108);
+});
+
+test('La maîtrise est dans le panneau des pondérations ; le tableau et le duel ne sont plus pilotés',()=>{
+  const tool=html.match(/<section class="sec" aria-labelledby="h-tool">([\s\S]*?)<\/section>/)[1];
+  assert.match(tool,/<div class="wrows">\s*<div class="wrow mastery-row">/);
+  assert.equal((tool.match(/class="mbtn"/g)||[]).length,4);
+  assert.equal((tool.match(/data-ax=/g)||[]).length,48);
+  assert.ok(!/Réglage global|Duel de classes|id="duel|renderDuel|renderMatrix|\.delta/.test(html));
+  const matrix=html.match(/aria-labelledby="h-matrix">([\s\S]*?)<\/section>/)[1];
+  assert.ok(!/mlabel|data-m=|Notes au niveau/.test(matrix));
+  // An attempt to update the matrix also fails through the strict mock selectors in boot().
+  const h=boot();
+  const before=h.elements.rank.innerHTML;
+  h.groups['.mbtn'][0].trigger();
+  assert.notEqual(h.elements.rank.innerHTML,before);
+  assert.equal(h.api.tw(),12);
+  assert.deepEqual(Object.keys(h.api.S.w),config.axes);
+});
+
+test('Chaque préréglage définit les douze poids, sans écraser la maîtrise',()=>{
+  const h=boot();
+  h.groups['.mbtn'][0].trigger();
+  const signatures=new Set();
+  for(const [id,weights] of Object.entries(config.presets)){
+    assert.deepEqual(Object.keys(weights),config.axes);
+    assert.ok(Object.values(weights).every(v=>Number.isInteger(v)&&v>=0&&v<=3));
+    assert.ok(Object.values(weights).some(v=>v>0));
+    signatures.add(JSON.stringify(weights));
+    const button=h.groups['.presets button'].find(b=>b.dataset.preset===id);
+    button.trigger();
+    assert.equal(JSON.stringify(h.api.S.w),JSON.stringify(weights));
+    assert.equal(h.api.S.m,0);
+    assert.equal(button.attrs['aria-pressed'],'true');
+    assert.equal(h.groups['.presets button'].filter(b=>b.attrs['aria-pressed']==='true').length,1);
+  }
+  assert.equal(signatures.size,Object.keys(config.presets).length);
+  h.groups['.seg button[data-ax]'].find(b=>b.dataset.ax==='solo'&&b.dataset.v==='3').trigger();
+  assert.equal(h.api.S.w.solo,3);
+  assert.ok(h.groups['.presets button'].every(b=>b.attrs['aria-pressed']==='false'));
+});
+
+test('Les neuf raisons du modèle sont concises et renvoient à la bibliographie',()=>{
+  const reasons=[...html.matchAll(/<td class="why">([\s\S]*?)<\/td>/g)];
+  assert.equal(reasons.length,9);
+  for(const [,reason] of reasons){
+    assert.ok(reason.replace(/<[^>]+>/g,'').length<150);
+    const refs=[...reason.matchAll(/href="#src-(\d+)">\[\1\]<\/a>/g)];
+    assert.ok(refs.length>0);
+    for(const [,id] of refs) assert.ok(html.includes('id="src-'+id+'"'));
+  }
 });
 
 test('La référence Confirmé conserve les 108 notes et les scores initiaux des profils historiques',()=>{
@@ -134,30 +205,10 @@ test('Les graphiques contiennent les neuf classes et la lecture chiffrée access
   assert.equal((h.elements['curves-values'].innerHTML.match(/<tr>/g)||[]).length,9);
 });
 
-test('Le duel suit les sélections et l’écart est égal à la somme des contributions',()=>{
-  const h=boot();
-  h.elements.duelA.value='chasseur';
-  h.elements.duelA.trigger('change');
-  h.elements.duelB.value='druide';
-  h.elements.duelB.trigger('change');
-  assert.match(h.elements.duel.innerHTML,/dbar/);
-  assert.match(h.elements.duelSum.innerHTML,/Chasseur/);
-  const a=config.classes.find(c=>c.id==='chasseur');
-  const b=config.classes.find(c=>c.id==='druide');
-  for(let m=0;m<4;m++){
-    const total=h.api.tw();
-    const contributions=config.axes.reduce((sum,k)=>sum+100*h.api.S.w[k]*
-      (h.api.eff(a,k,m)-h.api.eff(b,k,m))/(5*total),0);
-    assert.ok(Math.abs(contributions-(h.api.score(a,m)-h.api.score(b,m)))<1e-10);
-  }
-  h.elements.duelB.value='chasseur';h.elements.duelB.trigger('change');
-  assert.match(h.elements.duel.innerHTML,/deux classes différentes/);
-});
-
 test('Tous les poids nuls sont gérés et expliqués',()=>{
   const h=boot({'wf-overview-v3':JSON.stringify({w:Object.fromEntries(config.axes.map(k=>[k,0]))})});
   assert.deepEqual(ranking(h.elements.rank.innerHTML).map(x=>x[1]),Array(9).fill(0));
-  assert.match(h.elements.duel.innerHTML,/aucun ne départage/);
+  assert.match(h.elements['rank-status'].textContent,/aucun ne départage/);
   assert.equal((h.elements['curves-values'].innerHTML.match(/<tr>/g)||[]).length,9);
 });
 
@@ -179,4 +230,43 @@ test('Persistance et migration des anciennes préférences',()=>{
   assert.equal(broken.api.S.w.ctrl,1);
   assert.equal(broken.api.S.w.soin,1);
   assert.equal(broken.api.S.w.mob,1);
+  const v2=boot({'wf-overview-v2':JSON.stringify({m:1,w:{tank:3},hl:['mage','mage','invalid'],a:'druide',b:'paladin'})});
+  assert.equal(v2.api.S.m,1);
+  assert.equal(v2.api.S.w.tank,3);
+  assert.equal(JSON.stringify(v2.api.S.hl),'["mage"]');
+  assert.ok(!Object.hasOwn(v2.api.S,'a')&&!Object.hasOwn(v2.api.S,'b'));
+});
+
+test('La mise en avant des courbes se modifie et persiste',()=>{
+  const h=boot();
+  const mage=h.groups['.hl-chips button'].find(b=>b.dataset.id==='mage');
+  mage.trigger();
+  assert.equal(mage.attrs['aria-pressed'],'true');
+  assert.ok(boot(h.storage).api.S.hl.includes('mage'));
+  mage.trigger();
+  assert.equal(mage.attrs['aria-pressed'],'false');
+});
+
+test('Sombre par défaut, choix clair/sombre/système conservé indépendamment du classement',()=>{
+  const h=boot();
+  assert.equal(h.elements.theme.value,'dark');
+  const before=h.elements.rank.innerHTML;
+  for(const theme of ['light','dark','system']){
+    h.elements.theme.value=theme;
+    h.elements.theme.trigger('change');
+    assert.equal(h.document.documentElement.getAttribute('data-theme'),theme);
+    assert.equal(boot(h.storage).elements.theme.value,theme);
+    assert.equal(h.elements.rank.innerHTML,before);
+  }
+  assert.equal(boot({'wf-overview-theme':'invalid'}).elements.theme.value,'dark');
+});
+
+test('La page reste utilisable sans stockage local et avec une sauvegarde invalide',()=>{
+  const h=boot({},true);
+  h.groups['.mbtn'][0].trigger();
+  h.groups['.presets button'].find(b=>b.dataset.preset==='solo').trigger();
+  assert.equal(h.api.S.m,0);
+  assert.equal(h.api.S.w.solo,3);
+  assert.equal(ranking(h.elements.rank.innerHTML).length,9);
+  assert.equal(boot({'wf-overview-v3':'{broken'}).api.S.m,2);
 });
