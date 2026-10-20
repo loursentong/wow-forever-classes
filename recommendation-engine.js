@@ -72,7 +72,7 @@ function sanitize(x){
   if(!x||typeof x!=='object'||Array.isArray(x))return p;
   for(var k of ROLE)if(validCert(x.roles&&x.roles[k]))p.roles[k]=x.roles[k];
   for(var k of acts)if(validCert(x.activities&&x.activities[k]))p.activities[k]=x.activities[k];
-  for(var k of styles)if(validCert(x.styles&&x.styles[k]))p.styles[k]=x.styles[k];
+  for(var k of styles)if(validCert(x.styles&&x.styles[k])&&selected(p.styles).length<3)p.styles[k]=x.styles[k];
   for(var field of ['range','pet','difficulty']){
     var v=x[field];if(!v||typeof v!=='object')continue;
     var allowed=field==='range'?['any','distance','melee','mixte']:field==='pet'?['any','like','avoid']:['any','simple','complex'];
