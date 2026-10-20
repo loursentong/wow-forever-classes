@@ -4,9 +4,9 @@ Comparatif interactif des neuf classes de World of Warcraft: Forever, projeté a
 
 ## Fonctionnalités
 
-- Neuf classes, douze critères notés avec leurs sources et leur fiabilité.
-- Pondération personnalisable de 0 à 3 par critère, avec onze profils : Tout à égalité (valeur par défaut), Polyvalence, PvP d'abord, PvE d'abord, Solo et leveling, Tank en groupe, Soin en groupe, DPS en raid, Champ de bataille, PvP sauvage et Soutien polyvalent.
-- Maîtrise dans le même panneau que les pondérations : Débutant, Intermédiaire, Confirmé, Expert. Ce réglage adapte le classement et les courbes sans ajouter d'axe pondéré ; les 108 notes du tableau d'ensemble restent fixes.
+- Neuf classes, quatorze critères notés avec leurs sources et leur fiabilité. Burst et Dégâts de zone, ajoutés le 20 octobre, sont justifiés classe par classe sous le tableau.
+- Pondération personnalisable de 0 à 3 par critère, avec quinze profils : Tout à égalité (valeur par défaut), Polyvalence, PvE d'abord, PvP d'abord, Tank en groupe, Soin en groupe, DPS en raid, Dégâts de zone, Soutien et mobilité, Champ de bataille, Soin en champ de bataille, PvP sauvage, Burst et mobilité, Contrôle et Solo et leveling. Chaque profil porte le nom de son critère dominant (au moins la moitié des poids), sans Technicité ni Polyvalence ajoutées, et chaque classe mène ou partage la tête d'au moins un profil.
+- Maîtrise dans le même panneau que les pondérations : Débutant, Intermédiaire, Confirmé, Expert. Ce réglage adapte le classement et les courbes sans ajouter d'axe pondéré ; les 126 notes du tableau d'ensemble restent fixes.
 - Plancher et plafond distincts en PvE et PvP, avec des raisons succinctes et des références bibliographiques. Confirmé conserve les scores de référence.
 - Courbes pour les neuf classes avec mise en avant au choix et tableau de chiffres repliable.
 - Palette Claude sombre par défaut ; choix clair, sombre ou système enregistré sur l'appareil.
@@ -23,6 +23,6 @@ Comparatif interactif des neuf classes de World of Warcraft: Forever, projeté a
 
 Commande : node --test tests/skill-matching.test.cjs
 
-Une GitHub Action vérifie chaque pull request. La suite protège les 108 notes (instantané de `main` au commit `74a0e6f`), les scores historiques, les onze profils, la maîtrise, les courbes, les préférences et la migration des anciennes sauvegardes. Elle accepte les fins de ligne Windows et Unix.
+Une GitHub Action vérifie chaque pull request. La suite protège les 126 notes (les 108 de `main` au commit `74a0e6f` et les 18 notes Burst et Dégâts de zone du 20 octobre), les scores de « Tout à égalité », les quinze profils et leur homogénéité, la maîtrise, les courbes, les préférences et la migration des anciennes sauvegardes. Elle accepte les fins de ligne Windows et Unix.
 
 L'inspection visuelle reste nécessaire avant publication ; le détail des contrôles de cette révision est dans [VERIFICATION-INTERFACE.md](VERIFICATION-INTERFACE.md).
