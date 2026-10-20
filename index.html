@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Ce que chaque classe de WoW Forever peut faire, où elle excelle et où elle est faible au niveau 60 : tableau sur douze critères, classement pondérable et fiches détaillées.">
+<meta name="description" content="Ce que chaque classe de WoW Forever peut faire, où elle excelle et où elle est faible au niveau 60 : tableau sur douze critères, niveau de maîtrise, classement pondérable, courbes et duel de classes.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Les classes de WoW Forever">
-<meta property="og:description" content="Ce que chaque classe de WoW Forever peut faire, où elle excelle et où elle est faible au niveau 60 : tableau sur douze critères, classement pondérable et fiches détaillées.">
+<meta property="og:description" content="Ce que chaque classe de WoW Forever peut faire, où elle excelle et où elle est faible au niveau 60 : tableau sur douze critères, niveau de maîtrise, classement pondérable, courbes et duel de classes.">
 <meta name="theme-color" content="#94660C">
 <style>html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>Les classes de WoW Forever</title>
@@ -21,6 +21,8 @@
   --q5:#A85400; --q5-bg:#FBE6D0; --q4:#7A2DB5; --q4-bg:#EEE2F9; --q3:#0D5DAE; --q3-bg:#DCE9F8;
   --q2:#2F7A22; --q2-bg:#E0F1DB; --q1:#6A7382; --q1-bg:#E9ECF0;
   --good:#2F7A22; --bad:#B3261E; --can:#0D5DAE;
+  --k-guerrier:#9C7448; --k-paladin:#C9478A; --k-chasseur:#5E8F2A; --k-voleur:#9C8600; --k-pretre:#77808E;
+  --k-chaman:#0062C4; --k-mage:#178FB5; --k-demoniste:#5F60D0; --k-druide:#D45F00;
   --font-display:"Cinzel","Trajan Pro",Georgia,serif;
   --font-body:"Source Sans 3","Segoe UI",system-ui,sans-serif;
   --font-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
@@ -31,7 +33,9 @@
     --accent:#E3B04B; --accent-soft:#2E2614;
     --q5:#FF9A3D; --q5-bg:#3A2510; --q4:#C68CF6; --q4-bg:#2B1D3C; --q3:#62AEFF; --q3-bg:#132A44;
     --q2:#72DC5F; --q2-bg:#17311A; --q1:#98A3B3; --q1-bg:#222A36;
-    --good:#72DC5F; --bad:#FF7A70; --can:#62AEFF; color-scheme:dark;
+    --good:#72DC5F; --bad:#FF7A70; --can:#62AEFF;
+    --k-guerrier:#C69B6D; --k-paladin:#F48CBA; --k-chasseur:#AAD372; --k-voleur:#FFF468; --k-pretre:#E9EDF2;
+    --k-chaman:#4C9BEA; --k-mage:#3FC7EB; --k-demoniste:#9A9BF2; --k-druide:#FF8A24; color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
@@ -39,7 +43,9 @@
   --accent:#E3B04B; --accent-soft:#2E2614;
   --q5:#FF9A3D; --q5-bg:#3A2510; --q4:#C68CF6; --q4-bg:#2B1D3C; --q3:#62AEFF; --q3-bg:#132A44;
   --q2:#72DC5F; --q2-bg:#17311A; --q1:#98A3B3; --q1-bg:#222A36;
-  --good:#72DC5F; --bad:#FF7A70; --can:#62AEFF; color-scheme:dark;
+  --good:#72DC5F; --bad:#FF7A70; --can:#62AEFF;
+    --k-guerrier:#C69B6D; --k-paladin:#F48CBA; --k-chasseur:#AAD372; --k-voleur:#FFF468; --k-pretre:#E9EDF2;
+    --k-chaman:#4C9BEA; --k-mage:#3FC7EB; --k-demoniste:#9A9BF2; --k-druide:#FF8A24; color-scheme:dark;
 }
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:15.5px;line-height:1.5}
@@ -168,41 +174,50 @@ table{border-collapse:separate;border-spacing:0;width:100%}
 .src th{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
 .src-box table{min-width:760px}
 footer.end{font-size:.9rem;color:var(--muted)}
+.chart-values{font-size:.86rem;color:var(--fg)}
+.chart-values summary{cursor:pointer;padding:7px 0;font-weight:600}
+.chart-values table{width:100%;border-collapse:collapse;font-size:.82rem;min-width:460px}
+.chart-values th,.chart-values td{text-align:right;padding:7px 9px;border-bottom:1px solid var(--line)}
+.chart-values th:first-child{text-align:left}
+.chart-values tr:last-child th,.chart-values tr:last-child td{border-bottom:0}
 
-/* Compléments ciblés : sélecteur de maîtrise et visualisations, sans modifier les styles existants. */
-.skill-box{border:1px solid var(--line);border-radius:6px;margin:0;padding:10px 12px;min-width:0}
-.skill-box legend{font-size:.88rem;font-weight:700;padding:0 5px}
-.skill-choices{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
-.skill-choices button{font:inherit;font-size:.8rem;padding:7px 4px;cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:5px;min-width:0}
-.skill-choices button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--bg);font-weight:700}
-.skill-description{min-height:2.5em;font-size:.83rem;color:var(--muted)}
-.insights{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
-.insights .panel{gap:12px}
-.insight-svg{display:block;width:100%;height:auto;max-height:285px;overflow:visible}
-.insight-legend{display:flex;gap:7px 14px;flex-wrap:wrap;font-size:.79rem}
-.insight-legend span{display:inline-flex;gap:6px;align-items:center}
-.insight-legend i{width:10px;height:10px;border-radius:50%;background:var(--series);border:1px solid var(--line)}
-.insight-selectors{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-.insight-selectors label{display:flex;flex-direction:column;gap:3px;font-size:.78rem;color:var(--muted)}
-.insight-selectors select{width:100%;min-width:0;font:inherit;font-size:.86rem;background:var(--surface);color:var(--fg);border:1px solid var(--line);border-radius:5px;padding:7px}
-.insight-summary{font-size:.82rem;font-weight:600}
-.driver-list{display:flex;flex-direction:column;gap:6px}
-.driver-row{display:grid;grid-template-columns:minmax(86px,1.12fr) minmax(75px,1fr) 3.6em;gap:9px;align-items:center;font-size:.78rem}
-.driver-row .name{overflow-wrap:anywhere}
-.driver-track{height:13px;background:var(--surface-2);position:relative;border-radius:2px;overflow:hidden}
-.driver-track:after{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--fg);opacity:.65}
-.driver-fill{position:absolute;top:2px;height:9px;min-width:1px;border-radius:2px}
-.driver-fill.positive{left:50%;background:var(--class-a)}
-.driver-fill.negative{right:50%;background:var(--class-b)}
-.driver-value{text-align:right;font-family:var(--font-mono);font-variant-numeric:tabular-nums}
-.insight-data{font-size:.8rem;color:var(--muted)}
-.insight-data summary{cursor:pointer}
-.insight-data table{border-collapse:collapse;font-size:.79rem;width:100%;margin-top:8px}
-.insight-data th,.insight-data td{padding:5px;border-bottom:1px solid var(--line);text-align:right}
-.insight-data th:first-child{text-align:left}
-@media(max-width:950px){.insights{grid-template-columns:minmax(0,1fr)}}
-@media(max-width:520px){.skill-choices{grid-template-columns:repeat(2,minmax(0,1fr))}.driver-row{grid-template-columns:minmax(72px,1fr) minmax(70px,1fr) 3em;gap:5px}}
-@media(prefers-reduced-motion:reduce){.insights *{transition:none!important}}
+.mastery{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px 18px;gap:10px}
+.mbar{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between}
+.mtxt{display:flex;flex-direction:column;gap:4px}
+.mseg{flex-wrap:wrap}
+.mseg button{width:auto;height:36px;padding:0 14px;font-family:var(--font-body);font-size:.92rem}
+.mdesc{font-size:1rem;max-width:82ch}
+.cell .delta{font-size:.68rem;margin-left:2px;vertical-align:1px}
+.cell .delta.up{color:var(--good)}
+.cell .delta.down{color:var(--bad)}
+.viz{display:flex;flex-direction:column;gap:16px}
+.ptitle{font-size:1.12rem}
+.hl-chips{display:flex;flex-wrap:wrap;gap:6px}
+.hl-chips button{font:inherit;font-size:.86rem;display:inline-flex;align-items:center;gap:7px;padding:4px 11px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--muted);cursor:pointer}
+.hl-chips button[aria-pressed="true"]{border-color:var(--fg);color:var(--fg);background:var(--surface-2);font-weight:600}
+.chart{width:100%;min-height:240px}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.duel-pick{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;font-size:.9rem}
+.duel-pick label{color:var(--muted)}
+.duel-pick select{font:inherit;padding:5px 8px;border:1px solid var(--line);border-radius:5px;background:var(--surface);color:var(--fg)}
+.duel{display:flex;flex-direction:column;gap:7px;margin-top:4px}
+.dhead,.drow{display:grid;grid-template-columns:9.5em minmax(0,1fr) 3.4em;align-items:center;gap:10px}
+.dhead{font-size:.8rem;color:var(--muted)}
+.dhead .dsides{display:flex;justify-content:space-between;gap:8px;font-weight:600}
+.dlab{font-size:.9rem}
+.dbar{position:relative;height:14px;background:var(--surface-2);border-radius:3px}
+.dbar::after{content:"";position:absolute;left:50%;top:-3px;bottom:-3px;width:1px;background:var(--muted)}
+.dfill{position:absolute;top:0;bottom:0;border-radius:3px}
+.dval{font-family:var(--font-mono);font-size:.82rem;text-align:right;font-variant-numeric:tabular-nums}
+.duelsum{font-size:.95rem;border-top:1px solid var(--line);padding-top:10px}
+.model-rules{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:6px;max-width:90ch;font-size:.95rem}
+.model th{white-space:nowrap}
+.model tbody th{text-align:left;font-weight:600;font-size:.9rem;text-transform:none;letter-spacing:0;color:var(--fg)}
+.model .why{font-size:.86rem;min-width:280px}
+.pd{display:inline-flex;gap:3px}
+.pd i{width:8px;height:8px;border-radius:2px;border:1.5px solid var(--accent);display:block}
+.pd i.on{background:var(--accent)}
+@media (max-width:560px){.dhead,.drow{grid-template-columns:7.2em minmax(0,1fr) 3em}.dlab{font-size:.84rem}}
 </style>
 </head>
 <body>
@@ -210,22 +225,31 @@ footer.end{font-size:.9rem;color:var(--muted)}
 <header class="top">
   <span class="eyebrow">World of Warcraft: Forever · niveau 60 projeté</span>
   <h1>Les neuf classes de WoW Forever</h1>
-  <p class="lede">Ce que chaque classe peut faire, où elle excelle et où elle est faible, projeté au niveau 60 à partir de l'état de la bêta au 20 octobre 2026. Les notes de 1 à 5 sont une estimation à partir des sources citées ; chaque critère indique sa fiabilité.</p>
+  <p class="lede">Ce que chaque classe peut faire, où elle excelle et où elle est faible, projeté au niveau 60 à partir de l'état de la bêta au 20 octobre 2026. Les notes de 1 à 5 sont une synthèse éditoriale des sources citées ; chaque critère indique sa fiabilité.</p>
   <div class="status">
     <div><span>Dernier patch</span><b>15-16 oct.</b></div>
     <div><span>Simulations</span><b>MythicSim, 20 oct.</b></div>
     <div><span>Tournoi de duel</span><b>18 oct. (niv. 30)</b></div>
     <div><span>Fin de la bêta</span><b>21 oct.</b></div>
-    <div><span>Lancement</span><b>4 nov.</b></div>
+    <div><span>Lancement</span><b>nuit du 4 au 5 nov.</b></div>
   </div>
   <nav class="jump" aria-label="Aller à une classe"><a href="#c-guerrier"><span class="sw" style="--cc:#C69B6D"></span>Guerrier</a><a href="#c-paladin"><span class="sw" style="--cc:#F48CBA"></span>Paladin</a><a href="#c-chasseur"><span class="sw" style="--cc:#AAD372"></span>Chasseur</a><a href="#c-voleur"><span class="sw" style="--cc:#FFF468"></span>Voleur</a><a href="#c-pretre"><span class="sw" style="--cc:#FFFFFF"></span>Prêtre</a><a href="#c-chaman"><span class="sw" style="--cc:#0070DD"></span>Chaman</a><a href="#c-mage"><span class="sw" style="--cc:#3FC7EB"></span>Mage</a><a href="#c-demoniste"><span class="sw" style="--cc:#8788EE"></span>Démoniste</a><a href="#c-druide"><span class="sw" style="--cc:#FF7C0A"></span>Druide</a></nav>
 </header>
+
+<section class="sec mastery" aria-labelledby="h-mastery">
+  <div class="mbar">
+    <div class="mtxt"><span class="eyebrow">Réglage global</span><h2 id="h-mastery">Ta maîtrise au niveau 60</h2></div>
+    <div class="seg mseg" role="group" aria-label="Niveau de maîtrise"><button type="button" class="mbtn" data-m="0" aria-pressed="false">Débutant</button><button type="button" class="mbtn" data-m="1" aria-pressed="false">Intermédiaire</button><button type="button" class="mbtn" data-m="2" aria-pressed="true">Confirmé</button><button type="button" class="mbtn" data-m="3" aria-pressed="false">Expert</button></div>
+  </div>
+  <p class="mdesc" id="mdesc">Tu gères ressources, déplacements, contrôles et rotation avec régularité. C'est la référence : les notes du tableau s'y appliquent telles quelles.</p>
+  <p class="note">Le tableau, le classement et les graphiques s'adaptent. Tu te décris comme bon joueur mais peu expérimenté sur WoW : compare Intermédiaire et Confirmé, en gardant en tête que le leveling jusqu'au 60 t'entraînera sur ta classe. <a href="#h-model">Comment c'est calculé</a></p>
+</section>
 
 <section class="sec" aria-labelledby="h-matrix">
   <div class="sec-head">
     <span class="eyebrow">En un coup d'œil</span>
     <h2 id="h-matrix">Les neuf classes sur douze critères</h2>
-    <p>Chaque classe est notée sur sa meilleure spé pour chaque critère, puisque la double spécialisation permet d'en garder deux. Survole un critère pour sa définition ; clique sur une classe pour sa fiche. Les notes de ce tableau restent la référence « Confirmé » : le niveau de maîtrise ajuste le classement ci-dessous, pas les notes sources.</p>
+    <p>Chaque classe est notée sur sa meilleure spé pour chaque critère, puisque la double spécialisation permet d'en garder deux. Survole un critère pour sa définition ; clique sur une classe pour sa fiche.</p>
   </div>
   <div class="legend">
     <span><i class="chip q5"><b>5</b></i> excellent</span>
@@ -233,9 +257,10 @@ footer.end{font-size:.9rem;color:var(--muted)}
     <span><i class="chip q3"><b>3</b></i> correct</span>
     <span><i class="chip q2"><b>2</b></i> faible</span>
     <span><i class="chip q1"><b>1</b></i> absent ou très faible</span>
+    <span>Notes au niveau <b id="mlabel">Confirmé (référence)</b></span>
     <span>Fiabilité du critère <span class="rel" title="Fiabilité : haute"><i class="on"></i><i class="on"></i><i class="on"></i></span> haute <span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span> moyenne <span class="rel" title="Fiabilité : faible"><i class="on"></i><i class=""></i><i class=""></i></span> faible</span>
   </div>
-  <div class="table-box"><table class="matrix"><thead><tr><th class="sticky corner" rowspan="2" scope="col">Classe</th><th class="grp" colspan="4" scope="colgroup">Rôles</th><th class="grp" colspan="2" scope="colgroup">PvP</th><th class="grp" colspan="4" scope="colgroup">Qualités</th><th class="grp" colspan="2" scope="colgroup">Jeu</th></tr><tr><th scope="col" class="ax" title="Rôles tenables et variété des spés."><span class="axl">Polyvalence</span><span class="rel" title="Fiabilité : haute"><i class="on"></i><i class="on"></i><i class="on"></i></span></th><th scope="col" class="ax" title="Meilleure spé de tank de la classe au 60."><span class="axl">Tank</span><span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span></th><th scope="col" class="ax" title="Meilleure spé de soin de la classe au 60."><span class="axl">Soin</span><span class="rel" title="Fiabilité : faible"><i class="on"></i><i class=""></i><i class=""></i></span></th><th scope="col" class="ax" title="Meilleure spé DPS en raid au 60 (simulations MythicSim)."><span class="axl">DPS PvE</span><span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span></th><th scope="col" class="ax" title="Impact en champ de bataille, PvP de masse."><span class="axl">Champ de bataille</span><span class="rel" title="Fiabilité : faible"><i class="on"></i><i class=""></i><i class=""></i></span></th><th scope="col" class="ax" title="Petit comité, de 1 à 3 joueurs."><span class="axl">Sauvage et duel</span><span class="rel" title="Fiabilité : faible"><i class="on"></i><i class=""></i><i class=""></i></span></th><th scope="col" class="ax" title="Étourdissements, peurs, métamorphoses, interruptions."><span class="axl">Contrôle</span><span class="rel" title="Fiabilité : haute"><i class="on"></i><i class="on"></i><i class="on"></i></span></th><th scope="col" class="ax" title="Capacité à encaisser et à se maintenir en vie."><span class="axl">Survie</span><span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span></th><th scope="col" class="ax" title="Se rapprocher, fuir, se déplacer."><span class="axl">Mobilité</span><span class="rel" title="Fiabilité : haute"><i class="on"></i><i class="on"></i><i class="on"></i></span></th><th scope="col" class="ax" title="Buffs, rez, dissipations, ressources pour le groupe."><span class="axl">Utilité</span><span class="rel" title="Fiabilité : haute"><i class="on"></i><i class="on"></i><i class="on"></i></span></th><th scope="col" class="ax" title="Leveling, farm, se débrouiller seul."><span class="axl">Solo et farm</span><span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span></th><th scope="col" class="ax" title="Exigence de jeu : 5 = très exigeant (ni bien ni mal)."><span class="axl">Technicité</span><span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span></th></tr></thead><tbody><tr><th scope="row" class="sticky"><a href="#c-guerrier"><span class="sw" style="--cc:#C69B6D"></span>Guerrier</a></th><td class="cell q3"><b>3</b></td><td class="cell q5"><b>5</b></td><td class="cell q1"><b>1</b></td><td class="cell q5"><b>5</b></td><td class="cell q4"><b>4</b></td><td class="cell q2"><b>2</b></td><td class="cell q3"><b>3</b></td><td class="cell q3"><b>3</b></td><td class="cell q4"><b>4</b></td><td class="cell q3"><b>3</b></td><td class="cell q3"><b>3</b></td><td class="cell tech"><b>4</b></td></tr><tr><th scope="row" class="sticky"><a href="#c-paladin"><span class="sw" style="--cc:#F48CBA"></span>Paladin</a></th><td class="cell q4"><b>4</b></td><td class="cell q4"><b>4</b></td><td class="cell q4"><b>4</b></td><td class="cell q4"><b>4</b></td><td class="cell q5"><b>5</b></td><td class="cell q4"><b>4</b></td><td class="cell q2"><b>2</b></td><td class="cell q5"><b>5</b></td><td class="cell q2"><b>2</b></td><td class="cell q5"><b>5</b></td><td class="cell q5"><b>5</b></td><td class="cell tech"><b>2</b></td></tr><tr><th scope="row" class="sticky"><a href="#c-chasseur"><span class="sw" style="--cc:#AAD372"></span>Chasseur</a></th><td class="cell q2"><b>2</b></td><td class="cell q1"><b>1</b></td><td class="cell q1"><b>1</b></td><td class="cell q5"><b>5</b></td><td class="cell q5"><b>5</b></td><td class="cell q4"><b>4</b></td><td class="cell q3"><b>3</b></td><td class="cell q3"><b>3</b></td><td class="cell q3"><b>3</b></td><td class="cell q3"><b>3</b></td><td class="cell q5"><b>5</b></td><td class="cell tech"><b>2</b></td></tr><tr><th scope="row" class="sticky"><a href="#c-voleur"><span class="sw" style="--cc:#FFF468"></span>Voleur</a></th><td class="cell q1"><b>1</b></td><td class="cell q1"><b>1</b></td><td class="cell q1"><b>1</b></td><td class="cell q3"><b>3</b><sup title="Blizzard veut le monter">↑</sup></td><td class="cell q3"><b>3</b></td><td class="cell q5"><b>5</b></td><td class="cell q5"><b>5</b></td><td class="cell q2"><b>2</b></td><td class="cell q4"><b>4</b></td><td class="cell q2"><b>2</b></td><td class="cell q3"><b>3</b></td><td class="cell tech"><b>5</b></td></tr><tr><th scope="row" class="sticky"><a href="#c-pretre"><span class="sw" style="--cc:#FFFFFF"></span>Prêtre</a></th><td class="cell q3"><b>3</b></td><td class="cell q1"><b>1</b></td><td class="cell q5"><b>5</b></td><td class="cell q3"><b>3</b></td><td class="cell q5"><b>5</b></td><td class="cell q4"><b>4</b></td><td class="cell q4"><b>4</b></td><td class="cell q3"><b>3</b></td><td class="cell q2"><b>2</b></td><td class="cell q4"><b>4</b></td><td class="cell q3"><b>3</b></td><td class="cell tech"><b>3</b></td></tr><tr><th scope="row" class="sticky"><a href="#c-chaman"><span class="sw" style="--cc:#0070DD"></span>Chaman</a></th><td class="cell q4"><b>4</b></td><td class="cell q2"><b>2</b></td><td class="cell q4"><b>4</b></td><td class="cell q3"><b>3</b></td><td class="cell q4"><b>4</b></td><td class="cell q4"><b>4</b></td><td class="cell q2"><b>2</b></td><td class="cell q3"><b>3</b></td><td class="cell q5"><b>5</b></td><td class="cell q5"><b>5</b></td><td class="cell q3"><b>3</b></td><td class="cell tech"><b>3</b></td></tr><tr><th scope="row" class="sticky"><a href="#c-mage"><span class="sw" style="--cc:#3FC7EB"></span>Mage</a></th><td class="cell q1"><b>1</b></td><td class="cell q1"><b>1</b></td><td class="cell q1"><b>1</b></td><td class="cell q4"><b>4</b></td><td class="cell q4"><b>4</b></td><td class="cell q3"><b>3</b></td><td class="cell q5"><b>5</b></td><td class="cell q2"><b>2</b></td><td class="cell q3"><b>3</b></td><td class="cell q3"><b>3</b></td><td class="cell q3"><b>3</b></td><td class="cell tech"><b>4</b></td></tr><tr><th scope="row" class="sticky"><a href="#c-demoniste"><span class="sw" style="--cc:#8788EE"></span>Démoniste</a></th><td class="cell q1"><b>1</b></td><td class="cell q1"><b>1</b></td><td class="cell q1"><b>1</b></td><td class="cell q4"><b>4</b></td><td class="cell q5"><b>5</b></td><td class="cell q5"><b>5</b></td><td class="cell q5"><b>5</b></td><td class="cell q4"><b>4</b></td><td class="cell q2"><b>2</b></td><td class="cell q3"><b>3</b></td><td class="cell q4"><b>4</b></td><td class="cell tech"><b>4</b></td></tr><tr><th scope="row" class="sticky"><a href="#c-druide"><span class="sw" style="--cc:#FF7C0A"></span>Druide</a></th><td class="cell q5"><b>5</b></td><td class="cell q4"><b>4</b><sup title="Non vérifié en jeu">?</sup></td><td class="cell q5"><b>5</b></td><td class="cell q3"><b>3</b></td><td class="cell q4"><b>4</b></td><td class="cell q4"><b>4</b></td><td class="cell q2"><b>2</b></td><td class="cell q4"><b>4</b></td><td class="cell q5"><b>5</b></td><td class="cell q5"><b>5</b></td><td class="cell q3"><b>3</b></td><td class="cell tech"><b>5</b></td></tr></tbody></table></div>
+  <div class="table-box"><table class="matrix"><thead><tr><th class="sticky corner" rowspan="2" scope="col">Classe</th><th class="grp" colspan="4" scope="colgroup">Rôles</th><th class="grp" colspan="2" scope="colgroup">PvP</th><th class="grp" colspan="4" scope="colgroup">Qualités</th><th class="grp" colspan="2" scope="colgroup">Jeu</th></tr><tr><th scope="col" class="ax" title="Rôles tenables et variété des spés."><span class="axl">Polyvalence</span><span class="rel" title="Fiabilité : haute"><i class="on"></i><i class="on"></i><i class="on"></i></span></th><th scope="col" class="ax" title="Meilleure spé de tank de la classe au 60."><span class="axl">Tank</span><span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span></th><th scope="col" class="ax" title="Meilleure spé de soin de la classe au 60."><span class="axl">Soin</span><span class="rel" title="Fiabilité : faible"><i class="on"></i><i class=""></i><i class=""></i></span></th><th scope="col" class="ax" title="Meilleure spé DPS en raid au 60 (simulations MythicSim)."><span class="axl">DPS PvE</span><span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span></th><th scope="col" class="ax" title="Impact en champ de bataille, PvP de masse."><span class="axl">Champ de bataille</span><span class="rel" title="Fiabilité : faible"><i class="on"></i><i class=""></i><i class=""></i></span></th><th scope="col" class="ax" title="Petit comité, de 1 à 3 joueurs."><span class="axl">Sauvage et duel</span><span class="rel" title="Fiabilité : faible"><i class="on"></i><i class=""></i><i class=""></i></span></th><th scope="col" class="ax" title="Étourdissements, peurs, métamorphoses, interruptions."><span class="axl">Contrôle</span><span class="rel" title="Fiabilité : haute"><i class="on"></i><i class="on"></i><i class="on"></i></span></th><th scope="col" class="ax" title="Capacité à encaisser et à se maintenir en vie."><span class="axl">Survie</span><span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span></th><th scope="col" class="ax" title="Se rapprocher, fuir, se déplacer."><span class="axl">Mobilité</span><span class="rel" title="Fiabilité : haute"><i class="on"></i><i class="on"></i><i class="on"></i></span></th><th scope="col" class="ax" title="Buffs, rez, dissipations, ressources pour le groupe."><span class="axl">Utilité</span><span class="rel" title="Fiabilité : haute"><i class="on"></i><i class="on"></i><i class="on"></i></span></th><th scope="col" class="ax" title="Leveling, farm, se débrouiller seul."><span class="axl">Solo et farm</span><span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span></th><th scope="col" class="ax" title="Exigence de jeu : 5 = très exigeant (ni bien ni mal)."><span class="axl">Technicité</span><span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span></th></tr></thead><tbody><tr><th scope="row" class="sticky"><a href="#c-guerrier"><span class="sw" style="--cc:#C69B6D"></span>Guerrier</a></th><td class="cell q3" data-c="0" data-k="poly" data-v="3"><b>3</b></td><td class="cell q5" data-c="0" data-k="tank" data-v="5"><b>5</b></td><td class="cell q1" data-c="0" data-k="soin" data-v="1"><b>1</b></td><td class="cell q5" data-c="0" data-k="dps" data-v="5"><b>5</b></td><td class="cell q4" data-c="0" data-k="bg" data-v="4"><b>4</b></td><td class="cell q2" data-c="0" data-k="sauv" data-v="2"><b>2</b></td><td class="cell q3" data-c="0" data-k="ctrl" data-v="3"><b>3</b></td><td class="cell q3" data-c="0" data-k="surv" data-v="3"><b>3</b></td><td class="cell q4" data-c="0" data-k="mob" data-v="4"><b>4</b></td><td class="cell q3" data-c="0" data-k="util" data-v="3"><b>3</b></td><td class="cell q3" data-c="0" data-k="solo" data-v="3"><b>3</b></td><td class="cell tech" data-c="0" data-k="tech" data-v="4"><b>4</b></td></tr><tr><th scope="row" class="sticky"><a href="#c-paladin"><span class="sw" style="--cc:#F48CBA"></span>Paladin</a></th><td class="cell q4" data-c="1" data-k="poly" data-v="4"><b>4</b></td><td class="cell q4" data-c="1" data-k="tank" data-v="4"><b>4</b></td><td class="cell q4" data-c="1" data-k="soin" data-v="4"><b>4</b></td><td class="cell q4" data-c="1" data-k="dps" data-v="4"><b>4</b></td><td class="cell q5" data-c="1" data-k="bg" data-v="5"><b>5</b></td><td class="cell q4" data-c="1" data-k="sauv" data-v="4"><b>4</b></td><td class="cell q2" data-c="1" data-k="ctrl" data-v="2"><b>2</b></td><td class="cell q5" data-c="1" data-k="surv" data-v="5"><b>5</b></td><td class="cell q2" data-c="1" data-k="mob" data-v="2"><b>2</b></td><td class="cell q5" data-c="1" data-k="util" data-v="5"><b>5</b></td><td class="cell q5" data-c="1" data-k="solo" data-v="5"><b>5</b></td><td class="cell tech" data-c="1" data-k="tech" data-v="2"><b>2</b></td></tr><tr><th scope="row" class="sticky"><a href="#c-chasseur"><span class="sw" style="--cc:#AAD372"></span>Chasseur</a></th><td class="cell q2" data-c="2" data-k="poly" data-v="2"><b>2</b></td><td class="cell q1" data-c="2" data-k="tank" data-v="1"><b>1</b></td><td class="cell q1" data-c="2" data-k="soin" data-v="1"><b>1</b></td><td class="cell q5" data-c="2" data-k="dps" data-v="5"><b>5</b></td><td class="cell q5" data-c="2" data-k="bg" data-v="5"><b>5</b></td><td class="cell q4" data-c="2" data-k="sauv" data-v="4"><b>4</b></td><td class="cell q3" data-c="2" data-k="ctrl" data-v="3"><b>3</b></td><td class="cell q3" data-c="2" data-k="surv" data-v="3"><b>3</b></td><td class="cell q3" data-c="2" data-k="mob" data-v="3"><b>3</b></td><td class="cell q3" data-c="2" data-k="util" data-v="3"><b>3</b></td><td class="cell q5" data-c="2" data-k="solo" data-v="5"><b>5</b></td><td class="cell tech" data-c="2" data-k="tech" data-v="2"><b>2</b></td></tr><tr><th scope="row" class="sticky"><a href="#c-voleur"><span class="sw" style="--cc:#FFF468"></span>Voleur</a></th><td class="cell q1" data-c="3" data-k="poly" data-v="1"><b>1</b></td><td class="cell q1" data-c="3" data-k="tank" data-v="1"><b>1</b></td><td class="cell q1" data-c="3" data-k="soin" data-v="1"><b>1</b></td><td class="cell q3" data-c="3" data-k="dps" data-v="3"><b>3</b><sup title="Blizzard veut le monter">↑</sup></td><td class="cell q3" data-c="3" data-k="bg" data-v="3"><b>3</b></td><td class="cell q5" data-c="3" data-k="sauv" data-v="5"><b>5</b></td><td class="cell q5" data-c="3" data-k="ctrl" data-v="5"><b>5</b></td><td class="cell q2" data-c="3" data-k="surv" data-v="2"><b>2</b></td><td class="cell q4" data-c="3" data-k="mob" data-v="4"><b>4</b></td><td class="cell q2" data-c="3" data-k="util" data-v="2"><b>2</b></td><td class="cell q3" data-c="3" data-k="solo" data-v="3"><b>3</b></td><td class="cell tech" data-c="3" data-k="tech" data-v="5"><b>5</b></td></tr><tr><th scope="row" class="sticky"><a href="#c-pretre"><span class="sw" style="--cc:#FFFFFF"></span>Prêtre</a></th><td class="cell q3" data-c="4" data-k="poly" data-v="3"><b>3</b></td><td class="cell q1" data-c="4" data-k="tank" data-v="1"><b>1</b></td><td class="cell q5" data-c="4" data-k="soin" data-v="5"><b>5</b></td><td class="cell q3" data-c="4" data-k="dps" data-v="3"><b>3</b></td><td class="cell q5" data-c="4" data-k="bg" data-v="5"><b>5</b></td><td class="cell q4" data-c="4" data-k="sauv" data-v="4"><b>4</b></td><td class="cell q4" data-c="4" data-k="ctrl" data-v="4"><b>4</b></td><td class="cell q3" data-c="4" data-k="surv" data-v="3"><b>3</b></td><td class="cell q2" data-c="4" data-k="mob" data-v="2"><b>2</b></td><td class="cell q4" data-c="4" data-k="util" data-v="4"><b>4</b></td><td class="cell q3" data-c="4" data-k="solo" data-v="3"><b>3</b></td><td class="cell tech" data-c="4" data-k="tech" data-v="3"><b>3</b></td></tr><tr><th scope="row" class="sticky"><a href="#c-chaman"><span class="sw" style="--cc:#0070DD"></span>Chaman</a></th><td class="cell q4" data-c="5" data-k="poly" data-v="4"><b>4</b></td><td class="cell q2" data-c="5" data-k="tank" data-v="2"><b>2</b></td><td class="cell q4" data-c="5" data-k="soin" data-v="4"><b>4</b></td><td class="cell q3" data-c="5" data-k="dps" data-v="3"><b>3</b></td><td class="cell q4" data-c="5" data-k="bg" data-v="4"><b>4</b></td><td class="cell q4" data-c="5" data-k="sauv" data-v="4"><b>4</b></td><td class="cell q2" data-c="5" data-k="ctrl" data-v="2"><b>2</b></td><td class="cell q3" data-c="5" data-k="surv" data-v="3"><b>3</b></td><td class="cell q5" data-c="5" data-k="mob" data-v="5"><b>5</b></td><td class="cell q5" data-c="5" data-k="util" data-v="5"><b>5</b></td><td class="cell q3" data-c="5" data-k="solo" data-v="3"><b>3</b></td><td class="cell tech" data-c="5" data-k="tech" data-v="3"><b>3</b></td></tr><tr><th scope="row" class="sticky"><a href="#c-mage"><span class="sw" style="--cc:#3FC7EB"></span>Mage</a></th><td class="cell q1" data-c="6" data-k="poly" data-v="1"><b>1</b></td><td class="cell q1" data-c="6" data-k="tank" data-v="1"><b>1</b></td><td class="cell q1" data-c="6" data-k="soin" data-v="1"><b>1</b></td><td class="cell q4" data-c="6" data-k="dps" data-v="4"><b>4</b></td><td class="cell q4" data-c="6" data-k="bg" data-v="4"><b>4</b></td><td class="cell q3" data-c="6" data-k="sauv" data-v="3"><b>3</b></td><td class="cell q5" data-c="6" data-k="ctrl" data-v="5"><b>5</b></td><td class="cell q2" data-c="6" data-k="surv" data-v="2"><b>2</b></td><td class="cell q3" data-c="6" data-k="mob" data-v="3"><b>3</b></td><td class="cell q3" data-c="6" data-k="util" data-v="3"><b>3</b></td><td class="cell q3" data-c="6" data-k="solo" data-v="3"><b>3</b></td><td class="cell tech" data-c="6" data-k="tech" data-v="4"><b>4</b></td></tr><tr><th scope="row" class="sticky"><a href="#c-demoniste"><span class="sw" style="--cc:#8788EE"></span>Démoniste</a></th><td class="cell q1" data-c="7" data-k="poly" data-v="1"><b>1</b></td><td class="cell q1" data-c="7" data-k="tank" data-v="1"><b>1</b></td><td class="cell q1" data-c="7" data-k="soin" data-v="1"><b>1</b></td><td class="cell q4" data-c="7" data-k="dps" data-v="4"><b>4</b></td><td class="cell q5" data-c="7" data-k="bg" data-v="5"><b>5</b></td><td class="cell q5" data-c="7" data-k="sauv" data-v="5"><b>5</b></td><td class="cell q5" data-c="7" data-k="ctrl" data-v="5"><b>5</b></td><td class="cell q4" data-c="7" data-k="surv" data-v="4"><b>4</b></td><td class="cell q2" data-c="7" data-k="mob" data-v="2"><b>2</b></td><td class="cell q3" data-c="7" data-k="util" data-v="3"><b>3</b></td><td class="cell q4" data-c="7" data-k="solo" data-v="4"><b>4</b></td><td class="cell tech" data-c="7" data-k="tech" data-v="4"><b>4</b></td></tr><tr><th scope="row" class="sticky"><a href="#c-druide"><span class="sw" style="--cc:#FF7C0A"></span>Druide</a></th><td class="cell q5" data-c="8" data-k="poly" data-v="5"><b>5</b></td><td class="cell q4" data-c="8" data-k="tank" data-v="4"><b>4</b><sup title="Non vérifié en jeu">?</sup></td><td class="cell q5" data-c="8" data-k="soin" data-v="5"><b>5</b></td><td class="cell q3" data-c="8" data-k="dps" data-v="3"><b>3</b></td><td class="cell q4" data-c="8" data-k="bg" data-v="4"><b>4</b></td><td class="cell q4" data-c="8" data-k="sauv" data-v="4"><b>4</b></td><td class="cell q2" data-c="8" data-k="ctrl" data-v="2"><b>2</b></td><td class="cell q4" data-c="8" data-k="surv" data-v="4"><b>4</b></td><td class="cell q5" data-c="8" data-k="mob" data-v="5"><b>5</b></td><td class="cell q5" data-c="8" data-k="util" data-v="5"><b>5</b></td><td class="cell q3" data-c="8" data-k="solo" data-v="3"><b>3</b></td><td class="cell tech" data-c="8" data-k="tech" data-v="5"><b>5</b></td></tr></tbody></table></div>
   <p class="note">↑ Blizzard veut faire du Voleur le meilleur DPS monocible, les simulations ne le montrent pas encore. ? La menace de l'ours vient d'une hypothèse de simulation, pas encore vérifiée en jeu. La technicité décrit l'exigence de la classe, pas sa qualité. Rien n'est mesuré au niveau 60 pour le soin et le PvP : ces colonnes reposent sur des avis et sur le niveau 30.</p>
 </section>
 
@@ -243,46 +268,72 @@ footer.end{font-size:.9rem;color:var(--muted)}
   <div class="sec-head">
     <span class="eyebrow">Classer selon tes priorités</span>
     <h2 id="h-tool">Quelle classe coche le plus de cases</h2>
-    <p>Le score est la moyenne des notes du tableau, pondérée par l'importance que tu donnes à chaque critère (0 = sans importance, 3 = essentiel). « Polyvalent » met en avant la polyvalence, le PvP, le contrôle et la survie, avec le tank avant le soin.</p>
+    <p>Le score est la moyenne des notes du tableau, pondérée par l'importance que tu donnes à chaque critère (0 = sans importance, 3 = essentiel), au niveau de maîtrise choisi plus haut. Le réglage initial est neutre (« Tout à égalité ») : chacun peut ensuite choisir ses propres priorités et son niveau de maîtrise.</p>
   </div>
   <div class="tool">
     <div class="panel">
-      <div class="presets" role="group" aria-label="Préréglages"><button type="button" data-preset="profil" aria-pressed="true">Polyvalent</button><button type="button" data-preset="egal" aria-pressed="false">Tout à égalité</button><button type="button" data-preset="pvp" aria-pressed="false">PvP d'abord</button><button type="button" data-preset="pve" aria-pressed="false">PvE d'abord</button></div>
-      <fieldset class="skill-box">
-        <legend>Niveau de maîtrise du joueur</legend>
-        <div class="skill-choices" role="group" aria-label="Niveau de maîtrise">
-          <button type="button" data-skill="debutant" aria-pressed="false">Débutant</button>
-          <button type="button" data-skill="intermediaire" aria-pressed="false">Intermédiaire</button>
-          <button type="button" data-skill="confirme" aria-pressed="true">Confirmé</button>
-          <button type="button" data-skill="expert" aria-pressed="false">Expert</button>
-        </div>
-        <p class="skill-description" id="skill-description">Confirmé : maîtrises régulièrement tes rotations, tes défensifs et tes déplacements. Les notes de départ sont conservées.</p>
-        <p class="note">Ce sélecteur modélise l'exécution probable d'une classe, pas son nombre de rôles. Hypothèse exploratoire, sans données mesurées au niveau 60. La « Technicité » pondérable reste ton goût pour la complexité.</p>
-      </fieldset>
-      <div class="wrows"><div class="wrow"><span class="wlab">Polyvalence</span><div class="seg" role="group" aria-label="Importance de Polyvalence"><button type="button" data-ax="poly" data-v="0" aria-pressed="false" aria-label="Polyvalence : importance 0">0</button><button type="button" data-ax="poly" data-v="1" aria-pressed="false" aria-label="Polyvalence : importance 1">1</button><button type="button" data-ax="poly" data-v="2" aria-pressed="false" aria-label="Polyvalence : importance 2">2</button><button type="button" data-ax="poly" data-v="3" aria-pressed="true" aria-label="Polyvalence : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Tank</span><div class="seg" role="group" aria-label="Importance de Tank"><button type="button" data-ax="tank" data-v="0" aria-pressed="false" aria-label="Tank : importance 0">0</button><button type="button" data-ax="tank" data-v="1" aria-pressed="false" aria-label="Tank : importance 1">1</button><button type="button" data-ax="tank" data-v="2" aria-pressed="true" aria-label="Tank : importance 2">2</button><button type="button" data-ax="tank" data-v="3" aria-pressed="false" aria-label="Tank : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Soin</span><div class="seg" role="group" aria-label="Importance de Soin"><button type="button" data-ax="soin" data-v="0" aria-pressed="false" aria-label="Soin : importance 0">0</button><button type="button" data-ax="soin" data-v="1" aria-pressed="true" aria-label="Soin : importance 1">1</button><button type="button" data-ax="soin" data-v="2" aria-pressed="false" aria-label="Soin : importance 2">2</button><button type="button" data-ax="soin" data-v="3" aria-pressed="false" aria-label="Soin : importance 3">3</button></div></div><div class="wrow"><span class="wlab">DPS PvE</span><div class="seg" role="group" aria-label="Importance de DPS PvE"><button type="button" data-ax="dps" data-v="0" aria-pressed="false" aria-label="DPS PvE : importance 0">0</button><button type="button" data-ax="dps" data-v="1" aria-pressed="false" aria-label="DPS PvE : importance 1">1</button><button type="button" data-ax="dps" data-v="2" aria-pressed="true" aria-label="DPS PvE : importance 2">2</button><button type="button" data-ax="dps" data-v="3" aria-pressed="false" aria-label="DPS PvE : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Champ de bataille</span><div class="seg" role="group" aria-label="Importance de Champ de bataille"><button type="button" data-ax="bg" data-v="0" aria-pressed="false" aria-label="Champ de bataille : importance 0">0</button><button type="button" data-ax="bg" data-v="1" aria-pressed="false" aria-label="Champ de bataille : importance 1">1</button><button type="button" data-ax="bg" data-v="2" aria-pressed="false" aria-label="Champ de bataille : importance 2">2</button><button type="button" data-ax="bg" data-v="3" aria-pressed="true" aria-label="Champ de bataille : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Sauvage et duel</span><div class="seg" role="group" aria-label="Importance de Sauvage et duel"><button type="button" data-ax="sauv" data-v="0" aria-pressed="false" aria-label="Sauvage et duel : importance 0">0</button><button type="button" data-ax="sauv" data-v="1" aria-pressed="false" aria-label="Sauvage et duel : importance 1">1</button><button type="button" data-ax="sauv" data-v="2" aria-pressed="false" aria-label="Sauvage et duel : importance 2">2</button><button type="button" data-ax="sauv" data-v="3" aria-pressed="true" aria-label="Sauvage et duel : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Contrôle</span><div class="seg" role="group" aria-label="Importance de Contrôle"><button type="button" data-ax="ctrl" data-v="0" aria-pressed="false" aria-label="Contrôle : importance 0">0</button><button type="button" data-ax="ctrl" data-v="1" aria-pressed="false" aria-label="Contrôle : importance 1">1</button><button type="button" data-ax="ctrl" data-v="2" aria-pressed="false" aria-label="Contrôle : importance 2">2</button><button type="button" data-ax="ctrl" data-v="3" aria-pressed="true" aria-label="Contrôle : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Survie</span><div class="seg" role="group" aria-label="Importance de Survie"><button type="button" data-ax="surv" data-v="0" aria-pressed="false" aria-label="Survie : importance 0">0</button><button type="button" data-ax="surv" data-v="1" aria-pressed="false" aria-label="Survie : importance 1">1</button><button type="button" data-ax="surv" data-v="2" aria-pressed="false" aria-label="Survie : importance 2">2</button><button type="button" data-ax="surv" data-v="3" aria-pressed="true" aria-label="Survie : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Mobilité</span><div class="seg" role="group" aria-label="Importance de Mobilité"><button type="button" data-ax="mob" data-v="0" aria-pressed="false" aria-label="Mobilité : importance 0">0</button><button type="button" data-ax="mob" data-v="1" aria-pressed="true" aria-label="Mobilité : importance 1">1</button><button type="button" data-ax="mob" data-v="2" aria-pressed="false" aria-label="Mobilité : importance 2">2</button><button type="button" data-ax="mob" data-v="3" aria-pressed="false" aria-label="Mobilité : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Utilité</span><div class="seg" role="group" aria-label="Importance de Utilité"><button type="button" data-ax="util" data-v="0" aria-pressed="false" aria-label="Utilité : importance 0">0</button><button type="button" data-ax="util" data-v="1" aria-pressed="false" aria-label="Utilité : importance 1">1</button><button type="button" data-ax="util" data-v="2" aria-pressed="true" aria-label="Utilité : importance 2">2</button><button type="button" data-ax="util" data-v="3" aria-pressed="false" aria-label="Utilité : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Solo et farm</span><div class="seg" role="group" aria-label="Importance de Solo et farm"><button type="button" data-ax="solo" data-v="0" aria-pressed="false" aria-label="Solo et farm : importance 0">0</button><button type="button" data-ax="solo" data-v="1" aria-pressed="true" aria-label="Solo et farm : importance 1">1</button><button type="button" data-ax="solo" data-v="2" aria-pressed="false" aria-label="Solo et farm : importance 2">2</button><button type="button" data-ax="solo" data-v="3" aria-pressed="false" aria-label="Solo et farm : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Technicité</span><div class="seg" role="group" aria-label="Importance de Technicité"><button type="button" data-ax="tech" data-v="0" aria-pressed="false" aria-label="Technicité : importance 0">0</button><button type="button" data-ax="tech" data-v="1" aria-pressed="false" aria-label="Technicité : importance 1">1</button><button type="button" data-ax="tech" data-v="2" aria-pressed="true" aria-label="Technicité : importance 2">2</button><button type="button" data-ax="tech" data-v="3" aria-pressed="false" aria-label="Technicité : importance 3">3</button></div></div></div>
+      <div class="presets" role="group" aria-label="Préréglages"><button type="button" data-preset="egal" aria-pressed="true">Tout à égalité</button><button type="button" data-preset="polyvalence" aria-pressed="false">Polyvalence</button><button type="button" data-preset="pvp" aria-pressed="false">PvP d'abord</button><button type="button" data-preset="pve" aria-pressed="false">PvE d'abord</button></div>
+      <div class="wrows"><div class="wrow"><span class="wlab">Polyvalence</span><div class="seg" role="group" aria-label="Importance de Polyvalence"><button type="button" data-ax="poly" data-v="0" aria-pressed="false" aria-label="Polyvalence : importance 0">0</button><button type="button" data-ax="poly" data-v="1" aria-pressed="true" aria-label="Polyvalence : importance 1">1</button><button type="button" data-ax="poly" data-v="2" aria-pressed="false" aria-label="Polyvalence : importance 2">2</button><button type="button" data-ax="poly" data-v="3" aria-pressed="false" aria-label="Polyvalence : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Tank</span><div class="seg" role="group" aria-label="Importance de Tank"><button type="button" data-ax="tank" data-v="0" aria-pressed="false" aria-label="Tank : importance 0">0</button><button type="button" data-ax="tank" data-v="1" aria-pressed="true" aria-label="Tank : importance 1">1</button><button type="button" data-ax="tank" data-v="2" aria-pressed="false" aria-label="Tank : importance 2">2</button><button type="button" data-ax="tank" data-v="3" aria-pressed="false" aria-label="Tank : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Soin</span><div class="seg" role="group" aria-label="Importance de Soin"><button type="button" data-ax="soin" data-v="0" aria-pressed="false" aria-label="Soin : importance 0">0</button><button type="button" data-ax="soin" data-v="1" aria-pressed="true" aria-label="Soin : importance 1">1</button><button type="button" data-ax="soin" data-v="2" aria-pressed="false" aria-label="Soin : importance 2">2</button><button type="button" data-ax="soin" data-v="3" aria-pressed="false" aria-label="Soin : importance 3">3</button></div></div><div class="wrow"><span class="wlab">DPS PvE</span><div class="seg" role="group" aria-label="Importance de DPS PvE"><button type="button" data-ax="dps" data-v="0" aria-pressed="false" aria-label="DPS PvE : importance 0">0</button><button type="button" data-ax="dps" data-v="1" aria-pressed="true" aria-label="DPS PvE : importance 1">1</button><button type="button" data-ax="dps" data-v="2" aria-pressed="false" aria-label="DPS PvE : importance 2">2</button><button type="button" data-ax="dps" data-v="3" aria-pressed="false" aria-label="DPS PvE : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Champ de bataille</span><div class="seg" role="group" aria-label="Importance de Champ de bataille"><button type="button" data-ax="bg" data-v="0" aria-pressed="false" aria-label="Champ de bataille : importance 0">0</button><button type="button" data-ax="bg" data-v="1" aria-pressed="true" aria-label="Champ de bataille : importance 1">1</button><button type="button" data-ax="bg" data-v="2" aria-pressed="false" aria-label="Champ de bataille : importance 2">2</button><button type="button" data-ax="bg" data-v="3" aria-pressed="false" aria-label="Champ de bataille : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Sauvage et duel</span><div class="seg" role="group" aria-label="Importance de Sauvage et duel"><button type="button" data-ax="sauv" data-v="0" aria-pressed="false" aria-label="Sauvage et duel : importance 0">0</button><button type="button" data-ax="sauv" data-v="1" aria-pressed="true" aria-label="Sauvage et duel : importance 1">1</button><button type="button" data-ax="sauv" data-v="2" aria-pressed="false" aria-label="Sauvage et duel : importance 2">2</button><button type="button" data-ax="sauv" data-v="3" aria-pressed="false" aria-label="Sauvage et duel : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Contrôle</span><div class="seg" role="group" aria-label="Importance de Contrôle"><button type="button" data-ax="ctrl" data-v="0" aria-pressed="false" aria-label="Contrôle : importance 0">0</button><button type="button" data-ax="ctrl" data-v="1" aria-pressed="true" aria-label="Contrôle : importance 1">1</button><button type="button" data-ax="ctrl" data-v="2" aria-pressed="false" aria-label="Contrôle : importance 2">2</button><button type="button" data-ax="ctrl" data-v="3" aria-pressed="false" aria-label="Contrôle : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Survie</span><div class="seg" role="group" aria-label="Importance de Survie"><button type="button" data-ax="surv" data-v="0" aria-pressed="false" aria-label="Survie : importance 0">0</button><button type="button" data-ax="surv" data-v="1" aria-pressed="true" aria-label="Survie : importance 1">1</button><button type="button" data-ax="surv" data-v="2" aria-pressed="false" aria-label="Survie : importance 2">2</button><button type="button" data-ax="surv" data-v="3" aria-pressed="false" aria-label="Survie : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Mobilité</span><div class="seg" role="group" aria-label="Importance de Mobilité"><button type="button" data-ax="mob" data-v="0" aria-pressed="false" aria-label="Mobilité : importance 0">0</button><button type="button" data-ax="mob" data-v="1" aria-pressed="true" aria-label="Mobilité : importance 1">1</button><button type="button" data-ax="mob" data-v="2" aria-pressed="false" aria-label="Mobilité : importance 2">2</button><button type="button" data-ax="mob" data-v="3" aria-pressed="false" aria-label="Mobilité : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Utilité</span><div class="seg" role="group" aria-label="Importance de Utilité"><button type="button" data-ax="util" data-v="0" aria-pressed="false" aria-label="Utilité : importance 0">0</button><button type="button" data-ax="util" data-v="1" aria-pressed="true" aria-label="Utilité : importance 1">1</button><button type="button" data-ax="util" data-v="2" aria-pressed="false" aria-label="Utilité : importance 2">2</button><button type="button" data-ax="util" data-v="3" aria-pressed="false" aria-label="Utilité : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Solo et farm</span><div class="seg" role="group" aria-label="Importance de Solo et farm"><button type="button" data-ax="solo" data-v="0" aria-pressed="false" aria-label="Solo et farm : importance 0">0</button><button type="button" data-ax="solo" data-v="1" aria-pressed="true" aria-label="Solo et farm : importance 1">1</button><button type="button" data-ax="solo" data-v="2" aria-pressed="false" aria-label="Solo et farm : importance 2">2</button><button type="button" data-ax="solo" data-v="3" aria-pressed="false" aria-label="Solo et farm : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Technicité</span><div class="seg" role="group" aria-label="Importance de Technicité"><button type="button" data-ax="tech" data-v="0" aria-pressed="false" aria-label="Technicité : importance 0">0</button><button type="button" data-ax="tech" data-v="1" aria-pressed="true" aria-label="Technicité : importance 1">1</button><button type="button" data-ax="tech" data-v="2" aria-pressed="false" aria-label="Technicité : importance 2">2</button><button type="button" data-ax="tech" data-v="3" aria-pressed="false" aria-label="Technicité : importance 3">3</button></div></div></div>
     </div>
     <div class="panel">
-      <ol class="rank" id="rank" aria-live="polite"><li><span class="bname"><span class="sw" style="--cc:#FF7C0A"></span>Druide</span><span class="btrack"><span class="bfill" style="width:80%"></span></span><span class="bval mono">80</span></li><li><span class="bname"><span class="sw" style="--cc:#F48CBA"></span>Paladin</span><span class="btrack"><span class="bfill" style="width:78%"></span></span><span class="bval mono">78</span></li><li><span class="bname"><span class="sw" style="--cc:#8788EE"></span>Démoniste</span><span class="btrack"><span class="bfill" style="width:70%"></span></span><span class="bval mono">70</span></li><li><span class="bname"><span class="sw" style="--cc:#FFFFFF"></span>Prêtre</span><span class="btrack"><span class="bfill" style="width:68%"></span></span><span class="bval mono">68</span></li><li><span class="bname"><span class="sw" style="--cc:#0070DD"></span>Chaman</span><span class="btrack"><span class="bfill" style="width:68%"></span></span><span class="bval mono">68</span></li><li><span class="bname"><span class="sw" style="--cc:#C69B6D"></span>Guerrier</span><span class="btrack"><span class="bfill" style="width:67%"></span></span><span class="bval mono">67</span></li><li><span class="bname"><span class="sw" style="--cc:#AAD372"></span>Chasseur</span><span class="btrack"><span class="bfill" style="width:63%"></span></span><span class="bval mono">63</span></li><li><span class="bname"><span class="sw" style="--cc:#FFF468"></span>Voleur</span><span class="btrack"><span class="bfill" style="width:60%"></span></span><span class="bval mono">60</span></li><li><span class="bname"><span class="sw" style="--cc:#3FC7EB"></span>Mage</span><span class="btrack"><span class="bfill" style="width:58%"></span></span><span class="bval mono">58</span></li></ol>
-      <p class="note">Un outil pour explorer, pas un verdict : les scores sont des indices d'adéquation, pas des probabilités. Les ajustements de maîtrise sont des hypothèses ; quelques points d'écart ne prouvent pas une supériorité réelle.</p>
+      <ol class="rank" id="rank" aria-live="polite"><li><span class="bname"><span class="sw" style="--cc:#FF7C0A"></span>Druide</span><span class="btrack"><span class="bfill" style="width:82%"></span></span><span class="bval mono">82</span></li><li><span class="bname"><span class="sw" style="--cc:#F48CBA"></span>Paladin</span><span class="btrack"><span class="bfill" style="width:77%"></span></span><span class="bval mono">77</span></li><li><span class="bname"><span class="sw" style="--cc:#0070DD"></span>Chaman</span><span class="btrack"><span class="bfill" style="width:70%"></span></span><span class="bval mono">70</span></li><li><span class="bname"><span class="sw" style="--cc:#C69B6D"></span>Guerrier</span><span class="btrack"><span class="bfill" style="width:67%"></span></span><span class="bval mono">67</span></li><li><span class="bname"><span class="sw" style="--cc:#FFFFFF"></span>Prêtre</span><span class="btrack"><span class="bfill" style="width:67%"></span></span><span class="bval mono">67</span></li><li><span class="bname"><span class="sw" style="--cc:#8788EE"></span>Démoniste</span><span class="btrack"><span class="bfill" style="width:65%"></span></span><span class="bval mono">65</span></li><li><span class="bname"><span class="sw" style="--cc:#AAD372"></span>Chasseur</span><span class="btrack"><span class="bfill" style="width:62%"></span></span><span class="bval mono">62</span></li><li><span class="bname"><span class="sw" style="--cc:#FFF468"></span>Voleur</span><span class="btrack"><span class="bfill" style="width:58%"></span></span><span class="bval mono">58</span></li><li><span class="bname"><span class="sw" style="--cc:#3FC7EB"></span>Mage</span><span class="btrack"><span class="bfill" style="width:57%"></span></span><span class="bval mono">57</span></li></ol>
+      <p class="note">Un outil pour explorer, pas un verdict : les notes sont des estimations, et deux points d'écart ne veulent rien dire.</p>
     </div>
   </div>
-  <div class="insights" aria-label="Exploration graphique du classement">
+</section>
+
+<section class="sec" aria-labelledby="h-viz">
+  <div class="sec-head">
+    <span class="eyebrow">Visualiser</span>
+    <h2 id="h-viz">Ce que les chiffres racontent</h2>
+    <p>Les deux graphiques suivent tes priorités et ton niveau de maîtrise.</p>
+  </div>
+  <div class="viz">
     <div class="panel">
-      <h3>Progression selon la maîtrise</h3>
-      <p class="note">Évolution de l'indice d'adéquation des trois premières classes du classement actuel. Ce ne sont ni des DPS ni des probabilités.</p>
-      <div id="progress-chart" aria-live="off"><p class="note">Les courbes nécessitent JavaScript.</p></div>
-      <p class="note">Les niveaux correspondent à des hypothèses de réalisation des performances, et non à des courbes observées en jeu.</p>
+      <h3 class="ptitle">Courbes de maîtrise</h3>
+      <p class="note">Le score de chaque classe selon les pondérations choisies, du niveau Débutant au niveau Expert. Une courbe plate pardonne les erreurs ; une courbe qui monte récompense la maîtrise. Clique sur une classe pour la mettre en avant.</p>
+      <div class="hl-chips" role="group" aria-label="Classes mises en avant"><button type="button" data-id="guerrier" aria-pressed="false"><span class="sw" style="--cc:#C69B6D"></span>Guerrier</button><button type="button" data-id="paladin" aria-pressed="true"><span class="sw" style="--cc:#F48CBA"></span>Paladin</button><button type="button" data-id="chasseur" aria-pressed="false"><span class="sw" style="--cc:#AAD372"></span>Chasseur</button><button type="button" data-id="voleur" aria-pressed="false"><span class="sw" style="--cc:#FFF468"></span>Voleur</button><button type="button" data-id="pretre" aria-pressed="false"><span class="sw" style="--cc:#FFFFFF"></span>Prêtre</button><button type="button" data-id="chaman" aria-pressed="false"><span class="sw" style="--cc:#0070DD"></span>Chaman</button><button type="button" data-id="mage" aria-pressed="false"><span class="sw" style="--cc:#3FC7EB"></span>Mage</button><button type="button" data-id="demoniste" aria-pressed="false"><span class="sw" style="--cc:#8788EE"></span>Démoniste</button><button type="button" data-id="druide" aria-pressed="true"><span class="sw" style="--cc:#FF7C0A"></span>Druide</button></div>
+      <div id="curves" class="chart" role="img" aria-label="Score de chaque classe selon le niveau de maîtrise"></div>
+      <details class="chart-values">
+        <summary>Consulter les scores de toutes les classes par niveau</summary>
+        <div class="table-box"><table aria-label="Indices d’adéquation des neuf classes selon le niveau de maîtrise">
+          <thead><tr><th scope="col">Classe</th><th scope="col">Débutant</th><th scope="col">Intermédiaire</th><th scope="col">Confirmé</th><th scope="col">Expert</th></tr></thead>
+          <tbody id="curves-values"><tr><td colspan="5">Les valeurs sont calculées selon vos préférences.</td></tr></tbody>
+        </table></div>
+      </details>
     </div>
     <div class="panel">
-      <h3>Pourquoi une classe devance l'autre</h3>
-      <p class="note">Chaque barre donne la contribution du critère à l'écart de score entre les deux classes sélectionnées. Les poids nuls sont exclus.</p>
-      <div class="insight-selectors">
-        <label for="compare-a">Classe A<select id="compare-a"></select></label>
-        <label for="compare-b">Classe B<select id="compare-b"></select></label>
+      <h3 class="ptitle">Duel de classes</h3>
+      <p class="note">Ce qui sépare deux classes, critère par critère, en points de score. Les critères du haut pèsent le plus dans l'écart.</p>
+      <div class="duel-pick">
+        <label for="duelA">Classe A</label><select id="duelA"><option value="guerrier">Guerrier</option><option value="paladin">Paladin</option><option value="chasseur">Chasseur</option><option value="voleur">Voleur</option><option value="pretre">Prêtre</option><option value="chaman">Chaman</option><option value="mage">Mage</option><option value="demoniste">Démoniste</option><option value="druide" selected>Druide</option></select>
+        <span class="muted">contre</span>
+        <label for="duelB">Classe B</label><select id="duelB"><option value="guerrier">Guerrier</option><option value="paladin" selected>Paladin</option><option value="chasseur">Chasseur</option><option value="voleur">Voleur</option><option value="pretre">Prêtre</option><option value="chaman">Chaman</option><option value="mage">Mage</option><option value="demoniste">Démoniste</option><option value="druide">Druide</option></select>
       </div>
-      <div id="drivers-chart" aria-live="polite"><p class="note">La comparaison nécessite JavaScript.</p></div>
+      <div id="duel" class="duel" aria-live="polite"></div>
+      <p id="duelSum" class="duelsum"></p>
     </div>
   </div>
+</section>
+
+<section class="sec" aria-labelledby="h-model">
+  <div class="sec-head">
+    <span class="eyebrow">Méthode</span>
+    <h2 id="h-model">Comment la maîtrise est modélisée</h2>
+    <p>Au niveau Confirmé, les notes du tableau s'appliquent telles quelles : c'est une convention, pas un étalonnage. Chaque classe reçoit, pour le PvE et pour le PvP, deux paramètres : un plancher, qui dit à quel point elle est dure à bien jouer, et un plafond, qui dit ce qu'un expert peut en tirer en plus.</p>
+  </div>
+  <ul class="model-rules">
+    <li><b>Débutant :</b> chaque note de performance baisse de 0,4 point par point de plancher au-dessus de 1, soit jusqu'à −1,6 pour une classe au plancher de 5.</li>
+    <li><b>Intermédiaire :</b> moitié moins, jusqu'à −0,8.</li>
+    <li><b>Expert :</b> +0,25 point par point de plafond, soit +0,5 au plus. L'écart est volontairement asymétrique : on sait qu'une classe facile est efficace tout de suite, on ne sait pas encore jusqu'où les meilleurs joueurs pousseront chaque classe au 60.</li>
+    <li><b>Critères touchés :</b> Tank, Soin, DPS PvE et Solo suivent le paramètre PvE ; Champ de bataille, Sauvage et duel, Contrôle et Survie suivent le paramètre PvP. Polyvalence, Mobilité et Utilité décrivent le kit et ne bougent pas. Un rôle absent (note 1) le reste, et aucune note ne dépasse 5.</li>
+    <li><b>Technicité :</b> elle reste un critère à part. Elle mesure ton goût pour les classes exigeantes, la maîtrise mesure ta capacité actuelle.</li>
+  </ul>
+  <div class="table-box"><table class="src model">
+    <thead><tr><th>Classe</th><th>PvE plancher</th><th>PvE plafond</th><th>PvP plancher</th><th>PvP plafond</th><th>Pourquoi</th></tr></thead>
+    <tbody><tr><th scope="row"><span class="sw" style="--cc:#C69B6D"></span> Guerrier</th><td><span class="pd" title="3 sur 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i></span></td><td><span class="pd" title="1 sur 2"><i class="on"></i><i class=""></i></span></td><td><span class="pd" title="5 sur 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="pd" title="2 sur 2"><i class="on"></i><i class="on"></i></span></td><td class="why">PvE : rage et postures à gérer, Fureur assez directe. PvP : se fait kiter sans placement ni soigneur ; Kami le dit très difficile en PvP au départ <span class="refs"><a href="#src-1">[1]</a></span></td></tr><tr><th scope="row"><span class="sw" style="--cc:#F48CBA"></span> Paladin</th><td><span class="pd" title="2 sur 5"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></span></td><td><span class="pd" title="1 sur 2"><i class="on"></i><i class=""></i></span></td><td><span class="pd" title="2 sur 5"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></span></td><td><span class="pd" title="1 sur 2"><i class="on"></i><i class=""></i></span></td><td class="why">Facile à prendre en main selon Kami, rotation Vindicte centrée sur l'auto-attaque voulue par Blizzard ; sa survie pardonne les erreurs. Le Shockadin demande un peu plus <span class="refs"><a href="#src-1">[1]</a> <a href="#src-5">[5]</a></span></td></tr><tr><th scope="row"><span class="sw" style="--cc:#AAD372"></span> Chasseur</th><td><span class="pd" title="2 sur 5"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></span></td><td><span class="pd" title="2 sur 2"><i class="on"></i><i class="on"></i></span></td><td><span class="pd" title="3 sur 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i></span></td><td><span class="pd" title="1 sur 2"><i class="on"></i><i class=""></i></span></td><td class="why">Facile en PvE comme en PvP selon Kami, mais la 1re place de Survie en simulation suppose le melee weaving, dur à reproduire en raid. PvP : kiting, pièges, Tir automatique après 0,5 s immobile <span class="refs"><a href="#src-1">[1]</a> <a href="#src-2">[2]</a> <a href="#src-3">[3]</a></span></td></tr><tr><th scope="row"><span class="sw" style="--cc:#FFF468"></span> Voleur</th><td><span class="pd" title="2 sur 5"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></span></td><td><span class="pd" title="1 sur 2"><i class="on"></i><i class=""></i></span></td><td><span class="pd" title="5 sur 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="pd" title="2 sur 2"><i class="on"></i><i class="on"></i></span></td><td class="why">Combat simple en PvE. PvP : ouvertures en camouflage et enchaînements de contrôles, l'un des PvP les plus exigeants</td></tr><tr><th scope="row"><span class="sw" style="--cc:#FFFFFF"></span> Prêtre</th><td><span class="pd" title="3 sur 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i></span></td><td><span class="pd" title="1 sur 2"><i class="on"></i><i class=""></i></span></td><td><span class="pd" title="4 sur 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i></span></td><td><span class="pd" title="2 sur 2"><i class="on"></i><i class="on"></i></span></td><td class="why">PvE : triage des soins et gestion du mana. PvP : en tissu, le placement et l'anticipation décident ; fort plafond en Discipline et en Ombre</td></tr><tr><th scope="row"><span class="sw" style="--cc:#0070DD"></span> Chaman</th><td><span class="pd" title="3 sur 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i></span></td><td><span class="pd" title="1 sur 2"><i class="on"></i><i class=""></i></span></td><td><span class="pd" title="4 sur 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i></span></td><td><span class="pd" title="1 sur 2"><i class="on"></i><i class=""></i></span></td><td class="why">PvE : totems à poser et à gérer. PvP : timing du Totem de glèbe, de la Purge et des interruptions</td></tr><tr><th scope="row"><span class="sw" style="--cc:#3FC7EB"></span> Mage</th><td><span class="pd" title="3 sur 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i></span></td><td><span class="pd" title="1 sur 2"><i class="on"></i><i class=""></i></span></td><td><span class="pd" title="5 sur 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="pd" title="2 sur 2"><i class="on"></i><i class="on"></i></span></td><td class="why">PvE : surveiller les critiques en Feu. PvP : kiting, combos de Givre, Contresort ; plus technique qu'avant selon Kami <span class="refs"><a href="#src-1">[1]</a></span></td></tr><tr><th scope="row"><span class="sw" style="--cc:#8788EE"></span> Démoniste</th><td><span class="pd" title="3 sur 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i></span></td><td><span class="pd" title="1 sur 2"><i class="on"></i><i class=""></i></span></td><td><span class="pd" title="4 sur 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i></span></td><td><span class="pd" title="2 sur 2"><i class="on"></i><i class="on"></i></span></td><td class="why">DoT, familier et éclats d'âme à gérer. PvP : timing des Peurs et du familier ; les deux finalistes du tournoi sont démonistes <span class="refs"><a href="#src-4">[4]</a></span></td></tr><tr><th scope="row"><span class="sw" style="--cc:#FF7C0A"></span> Druide</th><td><span class="pd" title="4 sur 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i></span></td><td><span class="pd" title="1 sur 2"><i class="on"></i><i class=""></i></span></td><td><span class="pd" title="5 sur 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="pd" title="2 sur 2"><i class="on"></i><i class="on"></i></span></td><td class="why">Énergie, formes et Shifting Power en Farouche. PvP : changements de forme contre-intuitifs selon Kami, fort plafond <span class="refs"><a href="#src-1">[1]</a></span></td></tr></tbody>
+  </table></div>
+  <p class="note">Ces paramètres sont des estimations argumentées, pas des mesures : aucune courbe de maîtrise n'existe encore au niveau 60. Les journaux de combat publiés après le lancement permettront de les vérifier.</p>
 </section>
 
 <section class="sec" aria-labelledby="h-cards">
@@ -301,7 +352,7 @@ footer.end{font-size:.9rem;color:var(--muted)}
   <div class="cols"><div class="col k-can"><h4>Peut faire</h4><ul><li>Tanker donjons et raids en Protection <span class="refs"><a href="#src-6">[6]</a></span></li><li>DPS mêlée en raid, en Fureur ou en Armes <span class="refs"><a href="#src-2">[2]</a></span></li><li>Farmer des packs en Protection grâce aux soins passifs de l'héritage <span class="refs"><a href="#src-1">[1]</a></span></li><li>Finir les cibles en champ de bataille, idéalement avec un soigneur derrière <span class="refs"><a href="#src-1">[1]</a></span></li></ul></div><div class="col k-best"><h4>Excelle</h4><ul><li>Tank : Mur protecteur jusqu'à 4 min de recharge avec talents, 60 % de réduction pendant 12 s ; Coup de tonnerre réduit de 20 % la vitesse d'attaque <span class="refs"><a href="#src-1">[1]</a></span></li><li>Dégâts multicibles : la référence du cleave voulue par Blizzard ; Fureur 2e DPS des simulations <span class="refs"><a href="#src-2">[2]</a> <a href="#src-5">[5]</a></span></li><li>Frappe mortelle : −50 % de soins reçus sur la cible, l'arme anti-soigneur en PvP <span class="refs"><a href="#src-1">[1]</a></span></li><li>Mobilité en Fureur : Rage berserker purge les ralentissements, Interception revient 10 s plus vite <span class="refs"><a href="#src-1">[1]</a></span></li></ul></div><div class="col k-weak"><h4>Faible</h4><ul><li>Dépend de l'équipement et d'un soigneur : seul, il se fait kiter <span class="refs"><a href="#src-1">[1]</a> <a href="#src-8">[8]</a></span></li><li>Peu d'outils pour encaisser un gros burst, de l'aveu de Blizzard <span class="refs"><a href="#src-6">[6]</a></span></li><li>Dernier en duel au niveau 30, éliminé dès le top 24 du tournoi <span class="refs"><a href="#src-4">[4]</a> <a href="#src-8">[8]</a></span></li><li>Leveling lent, aucun soin <span class="refs"><a href="#src-8">[8]</a></span></li></ul></div></div>
   <div class="foot">
     <p><span class="tag watch">À surveiller</span>Le niveau 30 le sous-estime : Kami le voit devenir une « machine de guerre » une fois équipé <span class="refs"><a href="#src-1">[1]</a></span>.</p>
-    <p><span class="tag you">Pour qui</span>Pour qui veut tanker en raid ou frapper fort en groupe, et accepte un départ lent et un PvP qui dépend d'un soigneur.</p>
+    <p><span class="tag you">Style de jeu</span>Idéal pour un jeu de mêlée et le rôle de tank ; son efficacité en solo et en duel dépend beaucoup du contexte et de l'équipement.</p>
   </div>
 </article><article class="card" id="c-paladin">
   <header class="card-head">
@@ -313,7 +364,7 @@ footer.end{font-size:.9rem;color:var(--muted)}
   <div class="cols"><div class="col k-can"><h4>Peut faire</h4><ul><li>Tanker, soigner ou frapper, et mélanger Sacré et Vindicte en Shockadin <span class="refs"><a href="#src-1">[1]</a></span></li><li>Buffer tout le raid : bénédictions d'1 h, et Salut désormais à part des bénédictions <span class="refs"><a href="#src-3">[3]</a> <a href="#src-6">[6]</a></span></li><li>Farmer en zone en Protection et leveler sans difficulté <span class="refs"><a href="#src-1">[1]</a></span></li></ul></div><div class="col k-best"><h4>Excelle</h4><ul><li>Survie : plaques, Bouclier divin, Imposition des mains toutes les 20 min, soins personnels <span class="refs"><a href="#src-6">[6]</a></span></li><li>Champ de bataille : soigne en monocible comme personne, Bénédiction de liberté, porte une équipe <span class="refs"><a href="#src-1">[1]</a></span></li><li>Burst en Vindicte et en Shockadin ; meilleur taux de victoire en duel au tournoi selon Kami <span class="refs"><a href="#src-1">[1]</a> <a href="#src-4">[4]</a></span></li><li>Facile à prendre en main <span class="refs"><a href="#src-1">[1]</a></span></li></ul></div><div class="col k-weak"><h4>Faible</h4><ul><li>Mobilité : rien pour se rapprocher ni pour fuir, hormis la Bénédiction de liberté</li><li>Contrôle limité : surtout le Marteau de la justice, pas d'interruption</li><li>Soin de zone en retrait, malgré de nouveaux sorts <span class="refs"><a href="#src-1">[1]</a></span></li><li>Taxe hybride d'environ 5 % sur ses DPS <span class="refs"><a href="#src-5">[5]</a></span></li></ul></div></div>
   <div class="foot">
     <p><span class="tag watch">À surveiller</span>En baisse au dernier patch : Consécration et Champion of the Light divisés par deux, correctif du Sceau de piété. Shockadin −9 % et Vindicte −6 % en simulation, retombés de S à A. La menace de Fureur vertueuse remonte à 90 % <span class="refs"><a href="#src-2">[2]</a> <a href="#src-3">[3]</a></span>.</p>
-    <p><span class="tag you">Pour qui</span>Pour qui veut une classe solide qui pardonne les erreurs, utile partout et forte en PvP de groupe ; moins pour qui aime contrôler ou kiter.</p>
+    <p><span class="tag you">Style de jeu</span>Approche défensive et polyvalente mêlant tank, soin et DPS ; mobilité et outils de contrôle plus limités.</p>
   </div>
 </article><article class="card" id="c-chasseur">
   <header class="card-head">
@@ -325,7 +376,7 @@ footer.end{font-size:.9rem;color:var(--muted)}
   <div class="cols"><div class="col k-can"><h4>Peut faire</h4><ul><li>DPS à distance (Maîtrise, Précision) ou au corps à corps (Survie, inspirée de Season of Discovery) <span class="refs"><a href="#src-1">[1]</a></span></li><li>Jouer seul avec un familier qui tanke et progresse avec ton équipement <span class="refs"><a href="#src-6">[6]</a></span></li><li>Contrôler avec des pièges posables en combat, un de feu et un de glace à la fois <span class="refs"><a href="#src-3">[3]</a></span></li></ul></div><div class="col k-best"><h4>Excelle</h4><ul><li>DPS PvE : Survie 1er des simulations, Précision et Maîtrise en A <span class="refs"><a href="#src-2">[2]</a></span></li><li>PvP de masse : Précision à 45 m de base, 51 m avec talent, et +10 m sur les trois coups suivants <span class="refs"><a href="#src-1">[1]</a></span></li><li>Leveling et solo : en tête de toutes les listes, la classe la plus simple <span class="refs"><a href="#src-1">[1]</a> <a href="#src-8">[8]</a></span></li></ul></div><div class="col k-weak"><h4>Faible</h4><ul><li>Pas d'étourdissement ni d'interruption de base, zone morte de 8 m <span class="refs"><a href="#src-6">[6]</a></span></li><li>Nerfé le 15 octobre : Tir automatique après 0,5 s immobile, capacités de familiers réduites <span class="refs"><a href="#src-3">[3]</a></span></li><li>La plus jouée : 16 % des personnages de niveau 30 <span class="refs"><a href="#src-7">[7]</a></span></li><li>Un seul rôle : le DPS</li></ul></div></div>
   <div class="foot">
     <p><span class="tag watch">À surveiller</span>D'autres nerfs probables : Kami juge sa domination actuelle anormale <span class="refs"><a href="#src-1">[1]</a></span>.</p>
-    <p><span class="tag you">Pour qui</span>Pour qui veut être efficace tout de suite, en PvE comme en PvP ; moins pour qui cherche une classe peu jouée ou très technique.</p>
+    <p><span class="tag you">Style de jeu</span>Progression solo accessible et solide potentiel à distance ; les rotations DPS optimisées peuvent être exigeantes.</p>
   </div>
 </article><article class="card" id="c-voleur">
   <header class="card-head">
@@ -337,7 +388,7 @@ footer.end{font-size:.9rem;color:var(--muted)}
   <div class="cols"><div class="col k-can"><h4>Peut faire</h4><ul><li>DPS mêlée en trois styles : poisons (Assassinat), armes lentes dont haches et masses (Combat), dagues et contrôle (Finesse) <span class="refs"><a href="#src-1">[1]</a></span></li><li>Choisir ses combats grâce au camouflage et ouvrir sur une cible isolée</li><li>Contrôler en donjon (Assommer) et interrompre les incantations</li></ul></div><div class="col k-best"><h4>Excelle</h4><ul><li>Contrôle : Assommer, Suriner, Cécité, Coup bas, Aiguillon perfide, Coup de pied</li><li>PvP sauvage : de quoi gagner ou fuir la plupart des combats, surtout en Finesse <span class="refs"><a href="#src-1">[1]</a></span></li><li>Monocible : Blizzard veut en faire le meilleur DPS sur combat statique <span class="refs"><a href="#src-5">[5]</a></span></li></ul></div><div class="col k-weak"><h4>Faible</h4><ul><li>Survie limitée une fois découvert, surtout en Combat <span class="refs"><a href="#src-1">[1]</a></span></li><li>Simulations encore basses : Combat 65 %, Assassinat 57 % <span class="refs"><a href="#src-2">[2]</a></span></li><li>Faible en duel au niveau 30, éliminé au top 16 du tournoi <span class="refs"><a href="#src-4">[4]</a> <a href="#src-8">[8]</a></span></li><li>Un seul rôle et peu d'utilité de groupe</li></ul></div></div>
   <div class="foot">
     <p><span class="tag watch">À surveiller</span>Blizzard vise la tête du monocible ; Kami s'attend à des buffs tant que ce n'est pas le cas <span class="refs"><a href="#src-1">[1]</a> <a href="#src-5">[5]</a></span>.</p>
-    <p><span class="tag you">Pour qui</span>Pour les amateurs de PvP sauvage, de contrôle et de jeu exigeant ; pas pour qui veut tanker ou soigner.</p>
+    <p><span class="tag you">Style de jeu</span>Privilégie le contrôle ciblé, la furtivité et le duel ; pas de rôle de soin ou de tank.</p>
   </div>
 </article><article class="card" id="c-pretre">
   <header class="card-head">
@@ -349,7 +400,7 @@ footer.end{font-size:.9rem;color:var(--muted)}
   <div class="cols"><div class="col k-can"><h4>Peut faire</h4><ul><li>Soigner en zone (Sacré) ou en monocible avec boucliers (Discipline), ou faire des dégâts (Ombre) <span class="refs"><a href="#src-1">[1]</a></span></li><li>Recharger le groupe en Ombre : Dark Inspiration donne jusqu'à 15 % d'esprit à tout le groupe <span class="refs"><a href="#src-3">[3]</a></span></li><li>Contrôler : Cri psychique, Silence, Contrôle mental ; Gardien de peur pour toutes les races <span class="refs"><a href="#src-6">[6]</a></span></li></ul></div><div class="col k-best"><h4>Excelle</h4><ul><li>Soin : parmi les meilleurs en PvE comme en PvP ; Sacré domine le soin de zone <span class="refs"><a href="#src-1">[1]</a></span></li><li>Champ de bataille : soigne beaucoup de monde à la fois, très redouté <span class="refs"><a href="#src-1">[1]</a></span></li><li>Raciaux : Humain (critique, double bijou PvP) et Gnome (aveuglement de zone, bouclier d'urgence) très forts <span class="refs"><a href="#src-1">[1]</a></span></li></ul></div><div class="col k-weak"><h4>Faible</h4><ul><li>Tissu, peu mobile, peu d'échappatoires <span class="refs"><a href="#src-6">[6]</a></span></li><li>Ombre seulement en B malgré les gros buffs du 15 octobre <span class="refs"><a href="#src-2">[2]</a> <a href="#src-3">[3]</a></span></li><li>Raciaux plus forts côté Alliance, 4 races contre 2 <span class="refs"><a href="#src-1">[1]</a></span></li><li>Pas de tank</li></ul></div></div>
   <div class="foot">
     <p><span class="tag watch">À surveiller</span>L'Ombre au niveau 60 : Kami l'attend très forte en monocible avec le Fouet mental amélioré <span class="refs"><a href="#src-1">[1]</a> <a href="#src-3">[3]</a></span>.</p>
-    <p><span class="tag you">Pour qui</span>Pour qui aime soigner, en PvE comme en PvP, avec l'Ombre en seconde spé ; pas pour qui veut tanker.</p>
+    <p><span class="tag you">Style de jeu</span>Orienté soin, soutien et contrôle, avec une alternative DPS Ombre ; mobilité et absence de tank à prendre en compte.</p>
   </div>
 </article><article class="card" id="c-chaman">
   <header class="card-head">
@@ -358,10 +409,10 @@ footer.end{font-size:.9rem;color:var(--muted)}
     <p class="races">Alliance : Nain (nouveau) · Horde : Orc, Tauren, Troll, Skyborne</p>
   </header>
   <dl class="facts"><div><dt>Simulation PvE au 60</dt><dd>Amélioration 68 % (B), Élémentaire 49 % (C) · soin non simulé <a href="#src-2">[2]</a></dd></div><div><dt>Tournoi niv. 30</dt><dd>3e et 4e du tournoi <a href="#src-4">[4]</a></dd></div><div><dt>Joué au niv. 30</dt><dd>12,5 % des personnages <a href="#src-7">[7]</a></dd></div></dl>
-  <div class="cols"><div class="col k-can"><h4>Peut faire</h4><ul><li>Soigner, DPS mêlée ou distance ; tank d'appoint en petit groupe, sans vraie provocation <span class="refs"><a href="#src-6">[6]</a> <a href="#src-8">[8]</a></span></li><li>Porter le raid : Furie-des-vents, Grâce aérienne, Force de la terre et Langue de feu touchent désormais tout le raid <span class="refs"><a href="#src-3">[3]</a></span></li><li>Voyager en Loup fantôme instantané dès le niveau 20 <span class="refs"><a href="#src-1">[1]</a></span></li></ul></div><div class="col k-best"><h4>Excelle</h4><ul><li>Mobilité : la meilleure du jeu selon Kami <span class="refs"><a href="#src-1">[1]</a></span></li><li>Utilité et soin : Restauration indispensable, Purge offensive, Totem de glèbe <span class="refs"><a href="#src-1">[1]</a></span></li><li>Burst : Explosion de lave, procs de Furie-des-vents, gros one-shots attendus au 60 <span class="refs"><a href="#src-1">[1]</a></span></li><li>Petit comité : 3e et 4e du tournoi niveau 30 <span class="refs"><a href="#src-4">[4]</a></span></li></ul></div><div class="col k-weak"><h4>Faible</h4><ul><li>Contrôle : « pas de contrôle efficace », de l'aveu de Blizzard <span class="refs"><a href="#src-6">[6]</a></span></li><li>Élémentaire encore très bas en simulation malgré le retour de Maîtrise élémentaire <span class="refs"><a href="#src-2">[2]</a> <a href="#src-3">[3]</a></span></li><li>Pas de vrai tank <span class="refs"><a href="#src-8">[8]</a></span></li><li>Survie correcte, sans gros sort défensif</li></ul></div></div>
+  <div class="cols"><div class="col k-can"><h4>Peut faire</h4><ul><li>Soigner, DPS mêlée ou distance ; tank d'appoint en petit groupe, sans vraie provocation <span class="refs"><a href="#src-6">[6]</a> <a href="#src-8">[8]</a></span></li><li>Porter le raid : Furie-des-vents, Grâce aérienne, Force de la terre et Langue de feu touchent désormais tout le raid <span class="refs"><a href="#src-3">[3]</a></span></li><li>Voyager en Loup fantôme instantané dès le niveau 20 <span class="refs"><a href="#src-1">[1]</a></span></li></ul></div><div class="col k-best"><h4>Excelle</h4><ul><li>Mobilité : la meilleure du jeu selon Kami <span class="refs"><a href="#src-1">[1]</a></span></li><li>Utilité et soin : Restauration indispensable, Purge offensive, Totem de glèbe <span class="refs"><a href="#src-1">[1]</a></span></li><li>Burst : Explosion de lave, procs de Furie-des-vents, gros one-shots attendus au 60 <span class="refs"><a href="#src-1">[1]</a></span></li><li>Petit comité : 3e et 4e du tournoi niveau 30 <span class="refs"><a href="#src-4">[4]</a></span></li></ul></div><div class="col k-weak"><h4>Faible</h4><ul><li>Contrôle : « pas de contrôle efficace », de l'aveu de Blizzard <span class="refs"><a href="#src-6">[6]</a></span></li><li>Élémentaire encore très bas en simulation malgré le retour de Maîtrise élémentaire <span class="refs"><a href="#src-2">[2]</a> <a href="#src-3">[3]</a></span></li><li>Pas de vrai tank <span class="refs"><a href="#src-8">[8]</a></span></li><li>Ton expérience au niveau 50 : un manque de résistance</li></ul></div></div>
   <div class="foot">
     <p><span class="tag watch">À surveiller</span>Talents de l'Élémentaire remaniés d'une semaine à l'autre <span class="refs"><a href="#src-1">[1]</a> <a href="#src-3">[3]</a></span>.</p>
-    <p><span class="tag you">Pour qui</span>Pour qui aime soutenir un groupe, soigner ou frapper fort et se déplacer vite ; moins pour qui cherche du contrôle.</p>
+    <p><span class="tag you">Style de jeu</span>Soutien de groupe polyvalent et bonne mobilité ; performances sensibles à la composition et aux situations.</p>
   </div>
 </article><article class="card" id="c-mage">
   <header class="card-head">
@@ -373,7 +424,7 @@ footer.end{font-size:.9rem;color:var(--muted)}
   <div class="cols"><div class="col k-can"><h4>Peut faire</h4><ul><li>DPS distance en monocible et en zone</li><li>Contrôler : Métamorphose, Nova de givre, Contresort, ralentissements dont le nouveau Frost Blast <span class="refs"><a href="#src-3">[3]</a></span></li><li>Nourrir le groupe, ouvrir des portails, retirer les malédictions</li></ul></div><div class="col k-best"><h4>Excelle</h4><ul><li>Contrôle et burst en Givre : Javelot de glace sur cible gelée, Cône de froid renforcé <span class="refs"><a href="#src-1">[1]</a> <a href="#src-3">[3]</a></span></li><li>DPS PvE : Feu A (+21 % à la dernière mise à jour des simulations), Arcanes A avec le nouvel Arcane Wrath <span class="refs"><a href="#src-2">[2]</a> <a href="#src-3">[3]</a></span></li></ul></div><div class="col k-weak"><h4>Faible</h4><ul><li>Fragile : tissu, « extrêmement fragile au corps à corps » selon Blizzard, pas de Bloc de glace hors de l'arbre Givre <span class="refs"><a href="#src-6">[6]</a> <a href="#src-5">[5]</a> <a href="#src-1">[1]</a></span></li><li>Farm de zone volontairement réduit, pour gêner les bots <span class="refs"><a href="#src-5">[5]</a></span></li><li>Tournoi niveau 30 : les quatre meilleurs mages éliminés au top 32 <span class="refs"><a href="#src-4">[4]</a></span></li><li>Plus technique qu'avant face à des classes plus mobiles, sans résilience annoncée <span class="refs"><a href="#src-1">[1]</a></span></li></ul></div></div>
   <div class="foot">
     <p><span class="tag watch">À surveiller</span>Arcane Wrath pourrait être nerfé <span class="refs"><a href="#src-1">[1]</a></span>.</p>
-    <p><span class="tag you">Pour qui</span>Pour qui aime le contrôle et le burst à distance, et accepte une classe fragile qui demande de la technique.</p>
+    <p><span class="tag you">Style de jeu</span>Contrôle et dégâts à distance pour un jeu technique ; forte vulnérabilité lorsque l'ennemi arrive au contact.</p>
   </div>
 </article><article class="card" id="c-demoniste">
   <header class="card-head">
@@ -385,7 +436,7 @@ footer.end{font-size:.9rem;color:var(--muted)}
   <div class="cols"><div class="col k-can"><h4>Peut faire</h4><ul><li>DPS distance, dégâts sur la durée sur plusieurs cibles</li><li>Contrôler : Peur, Hurlement de terreur, Voile mortel, Séduction, Verrou magique, Bannir</li><li>Invoquer les joueurs, poser une pierre d'âme, distribuer des pierres de soins</li></ul></div><div class="col k-best"><h4>Excelle</h4><ul><li>PvP : vainqueur et finaliste du tournoi niveau 30 ; « intuable » en champ de bataille selon Kami <span class="refs"><a href="#src-1">[1]</a> <a href="#src-4">[4]</a></span></li><li>Survie : Lien spirituel (30 %), drains de vie ; le Sacrifice démoniaque garde désormais le familier <span class="refs"><a href="#src-1">[1]</a></span></li><li>Burst en Destruction ; ses dégâts sur la durée peuvent critiquer <span class="refs"><a href="#src-1">[1]</a></span></li><li>DPS PvE : Démonologie et Affliction en A <span class="refs"><a href="#src-2">[2]</a></span></li></ul></div><div class="col k-weak"><h4>Faible</h4><ul><li>Fragile face aux Druides farouches et aux Voleurs <span class="refs"><a href="#src-1">[1]</a></span></li><li>Peu mobile</li><li>Dépend de ses démons <span class="refs"><a href="#src-6">[6]</a></span></li><li>Un seul rôle ; la classe la moins jouée <span class="refs"><a href="#src-7">[7]</a></span></li></ul></div></div>
   <div class="foot">
     <p><span class="tag watch">À surveiller</span>Grand gagnant du niveau 30 : à surveiller d'ici le lancement.</p>
-    <p><span class="tag you">Pour qui</span>Pour qui aime le contrôle, les dégâts sur la durée et une grande résistance, avec un familier au centre du jeu ; un seul rôle.</p>
+    <p><span class="tag you">Style de jeu</span>Contrôle, pression sur la durée et survivabilité ; dépendance aux démons et mobilité plus limitée.</p>
   </div>
 </article><article class="card" id="c-druide">
   <header class="card-head">
@@ -397,7 +448,7 @@ footer.end{font-size:.9rem;color:var(--muted)}
   <div class="cols"><div class="col k-can"><h4>Peut faire</h4><ul><li>Les quatre rôles : tank ours, DPS félin, DPS distance, soin <span class="refs"><a href="#src-6">[6]</a></span></li><li>Changer de rôle grâce à la double spécialisation, sans reroll <span class="refs"><a href="#src-1">[1]</a></span></li><li>Rez de combat, Innervation, auras de critique pour tout le raid (Chef de la meute, Sélénien) <span class="refs"><a href="#src-1">[1]</a> <a href="#src-3">[3]</a></span></li></ul></div><div class="col k-best"><h4>Excelle</h4><ul><li>Polyvalence : la seule classe à quatre rôles</li><li>Mobilité et survie : formes, très difficile à tuer ; Berserk immunise contre la peur <span class="refs"><a href="#src-1">[1]</a></span></li><li>Soin : Restauration exceptionnelle en monocible comme en zone, avec Croissance sauvage <span class="refs"><a href="#src-1">[1]</a> <a href="#src-8">[8]</a></span></li><li>Farouche : dégâts indexés sur l'arme, enchantements et huiles actifs en forme (huile de givre pour ralentir) <span class="refs"><a href="#src-1">[1]</a> <a href="#src-6">[6]</a></span></li></ul></div><div class="col k-weak"><h4>Faible</h4><ul><li>Contrôle : Sarments et Sonner en ours, mais ni interruption ni ralentissement en félin <span class="refs"><a href="#src-6">[6]</a> <a href="#src-1">[1]</a></span></li><li>DPS PvE moyen : Farouche B, Équilibre C, plus la taxe hybride <span class="refs"><a href="#src-2">[2]</a> <a href="#src-5">[5]</a></span></li><li>Exigeant : les changements de forme sont contre-intuitifs <span class="refs"><a href="#src-1">[1]</a></span></li><li>Leveling lent au début <span class="refs"><a href="#src-8">[8]</a></span></li></ul></div></div>
   <div class="foot">
     <p><span class="tag watch">À surveiller</span>L'ours est 1er en menace dans les simulations, mais ce chiffre reste à vérifier en jeu <span class="refs"><a href="#src-2">[2]</a></span>.</p>
-    <p><span class="tag you">Pour qui</span>Pour qui veut tout faire avec un seul personnage et aime les classes exigeantes ; moins pour qui veut du contrôle ou le meilleur DPS.</p>
+    <p><span class="tag you">Style de jeu</span>Polyvalence des rôles et mobilité élevées ; changements de forme exigeants et contrôle ciblé limité.</p>
   </div>
 </article></div>
 </section>
@@ -412,7 +463,7 @@ footer.end{font-size:.9rem;color:var(--muted)}
     <div class="rule"><b>Taxe hybride</b>Environ 5 % de dégâts en moins pour les spés DPS des classes hybrides : Guerrier, Paladin, Druide, Chaman, Prêtre. Chasseur, Mage, Voleur et Démoniste y échappent <span class="refs"><a href="#src-5">[5]</a></span>.</div>
     <div class="rule"><b>Intentions de Blizzard</b>Voleur meilleur DPS monocible, Guerrier roi des dégâts multicibles. Le duel n'est pas un format que Blizzard équilibre <span class="refs"><a href="#src-5">[5]</a></span>.</div>
     <div class="rule"><b>Combats PvP courts</b>Les dégâts et soins sur la durée peuvent critiquer, et aucune résilience n'est annoncée : le burst compte beaucoup <span class="refs"><a href="#src-1">[1]</a></span>.</div>
-    <div class="rule"><b>Équilibrage permanent</b>Un patch par semaine pendant la bêta, dont le dernier jour officiel est le 21 octobre (heure du Pacifique) ; tout est remis à zéro au lancement du 4 novembre <span class="refs"><a href="#src-3">[9]</a></span>.</div>
+    <div class="rule"><b>Équilibrage permanent</b>Un patch par semaine pendant la bêta, dont le 21 octobre est le dernier jour complet. Tout est remis à zéro au lancement, le 4 novembre à 15 h, heure du Pacifique, soit minuit à Paris <span class="refs"><a href="#src-3">[3]</a> <a href="#src-9">[9]</a></span>.</div>
     <div class="rule"><b>Premiers raids</b>Annoncés par Blizzard pour le 9 décembre : Barrow Deeps (10 joueurs), Sommet d'Hyjal (20) et Onyxia (40).</div>
   </div>
 </section>
@@ -421,162 +472,164 @@ footer.end{font-size:.9rem;color:var(--muted)}
   <div class="sec-head">
     <span class="eyebrow">Traçabilité</span>
     <h2 id="h-src">Sources et fiabilité</h2>
-    <p>Les notes du tableau sont une synthèse : aucune source ne note les classes sur ces douze critères. Le niveau 60 n'est pas encore jouable ; tout ce qui le concerne est une projection.</p>
+    <p>Les notes du tableau sont une synthèse éditoriale : aucune source ne note les classes sur ces douze critères. Le niveau 60 n'est pas encore jouable ; tout ce qui le concerne est une projection.</p>
   </div>
   <div class="table-box src-box"><table class="src">
     <thead><tr><th>N°</th><th>Source</th><th>Date</th><th>Fiabilité</th><th>Pourquoi</th></tr></thead>
-    <tbody><tr id="src-1"><td class="mono">[1]</td><td><a href="https://www.youtube.com/watch?v=W-FjneQX5uw">Kami Labs, « Guide des classes WoW Forever : forces, faiblesses et mon choix »</a></td><td class="mono nowrap">20 oct.</td><td><span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span></td><td>Vidéo de 41 min lue en entier dans sa langue d'origine (sous-titres automatiques français). Créateur français expérimenté, avis argumentés ; partenaire RestedXP, et il annonce jouer Farouche et Chasseur.</td></tr><tr id="src-2"><td class="mono">[2]</td><td><a href="https://mythicsim.com/wow-forever/tier-list">MythicSim, tier list WoW Forever</a></td><td class="mono nowrap">20 oct.</td><td><span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span></td><td>Simulation au niveau 60 théorique, 10 000 itérations, équipement fixe, boss unique statique. À jour du patch du 16 octobre. Ne classe ni les soigneurs ni la survie des tanks.</td></tr><tr id="src-3"><td class="mono">[3]</td><td><a href="https://us.forums.blizzard.com/en/wow/t/wow-forever-beta-development-notes-%E2%80%93-updated-october-15/2360696">Blizzard, notes de développement de la bêta du 15 octobre</a></td><td class="mono nowrap">15-16 oct.</td><td><span class="rel" title="Fiabilité : haute"><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td>Notes officielles, recoupées avec le résumé d'Icy Veins.</td></tr><tr id="src-4"><td class="mono">[4]</td><td><a href="https://endgametools.com/en/wow-forever/news/wow-forever-open-results">The Forever Open, tournoi de duel</a></td><td class="mono nowrap">18 oct.</td><td><span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span></td><td>Résultats factuels, recoupés avec Warcraft Tavern. Mais niveau 30, personnages Horde uniquement, et un format que Blizzard dit ne pas équilibrer.</td></tr><tr id="src-5"><td class="mono">[5]</td><td><a href="https://www.youtube.com/watch?v=uDRcv_w85j8">Blizzard, podcast WoW Forever, épisode 2</a></td><td class="mono nowrap">1er oct.</td><td><span class="rel" title="Fiabilité : haute"><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td>Intentions des développeurs : taxe hybride d'environ 5 %, Voleur meilleur DPS monocible, Guerrier roi du cleave, pas d'équilibrage pour le duel. Des intentions, pas des chiffres.</td></tr><tr id="src-6"><td class="mono">[6]</td><td><a href="https://worldofwarcraft.blizzard.com/en-us/news/24301515">Blizzard, Class Deep Dives et Class Highlights</a></td><td class="mono nowrap">30 sept.–7 oct.</td><td><span class="rel" title="Fiabilité : haute"><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td>Kit officiel de chaque classe et limites assumées par Blizzard (zone morte du Chasseur, contrôle faible du Druide, fragilité du Mage…).</td></tr><tr id="src-7"><td class="mono">[7]</td><td><a href="https://classicplus.io/">ClassicPlus.io, recensement de la bêta</a></td><td class="mono nowrap">13 oct.</td><td><span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span></td><td>68 280 personnages de niveau 30 à 39. Compte des personnages, pas des joueurs ; méthode non publiée.</td></tr><tr id="src-8"><td class="mono">[8]</td><td><a href="https://mobalytics.gg/wow-forever/tier-lists/dps">Classements au niveau 30 : Mobalytics (Crix, PhaseShifter), Supatease, LFCarry, Shjelde et Wider</a></td><td class="mono nowrap">6-12 oct.</td><td><span class="rel" title="Fiabilité : faible"><i class="on"></i><i class=""></i><i class=""></i></span></td><td>Classements de créateurs établis au niveau 30 : utiles pour le niveau 30, beaucoup moins pour le 60.</td></tr><tr id="src-9"><td class="mono">[9]</td><td><a href="https://worldofwarcraft.blizzard.com/en-us/news/24304160/the-world-of-warcraft-forever-beta-now-live">Blizzard, calendrier officiel de la bêta WoW Forever</a></td><td class="mono nowrap">17 sept.</td><td><span class="rel" title="Fiabilité : haute"><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td>Annonce officielle : le 21 octobre est le dernier jour complet de test, selon le calendrier américain.</td></tr></tbody>
+    <tbody><tr id="src-1"><td class="mono">[1]</td><td><a href="https://www.youtube.com/watch?v=W-FjneQX5uw">Kami Labs, « Guide des classes WoW Forever : forces, faiblesses et mon choix »</a></td><td class="mono nowrap">20 oct.</td><td><span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span></td><td>Vidéo de 41 min lue en entier dans sa langue d'origine (sous-titres automatiques français). Créateur français expérimenté, avis argumentés ; partenaire RestedXP, et il annonce jouer Farouche et Chasseur.</td></tr><tr id="src-2"><td class="mono">[2]</td><td><a href="https://mythicsim.com/wow-forever/tier-list">MythicSim, tier list WoW Forever</a></td><td class="mono nowrap">20 oct.</td><td><span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span></td><td>Simulation au niveau 60 théorique, 10 000 itérations, équipement fixe, boss unique statique. À jour du patch du 16 octobre. Ne classe ni les soigneurs ni la survie des tanks.</td></tr><tr id="src-3"><td class="mono">[3]</td><td><a href="https://us.forums.blizzard.com/en/wow/t/wow-forever-beta-development-notes-%E2%80%93-updated-october-15/2360696">Blizzard, notes de développement de la bêta du 15 octobre</a></td><td class="mono nowrap">15-16 oct.</td><td><span class="rel" title="Fiabilité : haute"><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td>Notes officielles, recoupées avec le résumé d'Icy Veins.</td></tr><tr id="src-4"><td class="mono">[4]</td><td><a href="https://endgametools.com/en/wow-forever/news/wow-forever-open-results">The Forever Open, tournoi de duel</a></td><td class="mono nowrap">18 oct.</td><td><span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span></td><td>Résultats factuels, recoupés avec Warcraft Tavern. Mais niveau 30, personnages Horde uniquement, et un format que Blizzard dit ne pas équilibrer.</td></tr><tr id="src-5"><td class="mono">[5]</td><td><a href="https://www.youtube.com/watch?v=uDRcv_w85j8">Blizzard, podcast WoW Forever, épisode 2</a></td><td class="mono nowrap">1er oct.</td><td><span class="rel" title="Fiabilité : haute"><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td>Intentions des développeurs : taxe hybride d'environ 5 %, Voleur meilleur DPS monocible, Guerrier roi du cleave, pas d'équilibrage pour le duel. Des intentions, pas des chiffres.</td></tr><tr id="src-6"><td class="mono">[6]</td><td><a href="https://worldofwarcraft.blizzard.com/en-us/news/24301515">Blizzard, Class Deep Dives et Class Highlights</a></td><td class="mono nowrap">30 sept.–7 oct.</td><td><span class="rel" title="Fiabilité : haute"><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td>Kit officiel de chaque classe et limites assumées par Blizzard (zone morte du Chasseur, contrôle faible du Druide, fragilité du Mage…).</td></tr><tr id="src-7"><td class="mono">[7]</td><td><a href="https://classicplus.io/">ClassicPlus.io, recensement de la bêta</a></td><td class="mono nowrap">13 oct.</td><td><span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span></td><td>68 280 personnages de niveau 30 à 39. Compte des personnages, pas des joueurs ; méthode non publiée.</td></tr><tr id="src-9"><td class="mono">[9]</td><td><a href="https://worldofwarcraft.blizzard.com/en-us/news/24304160/the-world-of-warcraft-forever-beta-now-live">Blizzard, annonce de la bêta de WoW Forever</a></td><td class="mono nowrap">17 sept.</td><td><span class="rel" title="Fiabilité : haute"><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td>Bêta disponible jusqu'au 21 octobre, dernier jour complet ; lancement le 4 novembre à 15 h, heure du Pacifique.</td></tr><tr id="src-8"><td class="mono">[8]</td><td><a href="https://mobalytics.gg/wow-forever/tier-lists/dps">Classement DPS de Crix au niveau 30 (Mobalytics) et autres analyses de créateurs</a></td><td class="mono nowrap">6-12 oct.</td><td><span class="rel" title="Fiabilité : faible"><i class="on"></i><i class=""></i><i class=""></i></span></td><td>Crix : classement DPS publié le 12 octobre à partir de donjons et de retours de bêta ; autres avis secondaires. Le niveau 30 ne permet pas de prédire directement le 60.</td></tr></tbody>
   </table></div>
 </section>
 
-<footer class="end">Page indépendante, non affiliée à Blizzard. État de la bêta au 20 octobre 2026 ; les sources et leur fiabilité sont listées plus haut.</footer>
+<footer class="end">Page indépendante, non affiliée à Blizzard. Les classements niveau 30 sont des indices exploratoires et non des mesures de performance au 60 (voir [8]).</footer>
 </main>
 
 <script>
+window.__WF = {"axes":["poly","tank","soin","dps","bg","sauv","ctrl","surv","mob","util","solo","tech"],"axLabels":{"poly":"Polyvalence","tank":"Tank","soin":"Soin","dps":"DPS PvE","bg":"Champ de bataille","sauv":"Sauvage et duel","ctrl":"Contrôle","surv":"Survie","mob":"Mobilité","util":"Utilité","solo":"Solo et farm","tech":"Technicité"},"presets":{"egal":{"poly":1,"tank":1,"soin":1,"dps":1,"bg":1,"sauv":1,"ctrl":1,"surv":1,"mob":1,"util":1,"solo":1,"tech":1},"polyvalence":{"poly":3,"tank":2,"soin":2,"dps":1,"bg":1,"sauv":1,"ctrl":1,"surv":2,"mob":2,"util":2,"solo":2,"tech":1},"pvp":{"poly":1,"tank":0,"soin":0,"dps":0,"bg":3,"sauv":3,"ctrl":3,"surv":3,"mob":2,"util":1,"solo":1,"tech":1},"pve":{"poly":2,"tank":3,"soin":2,"dps":3,"bg":0,"sauv":0,"ctrl":1,"surv":1,"mob":0,"util":3,"solo":1,"tech":1}},"classes":[{"id":"guerrier","name":"Guerrier","r":{"poly":3,"tank":5,"soin":1,"dps":5,"bg":4,"sauv":2,"ctrl":3,"surv":3,"mob":4,"util":3,"solo":3,"tech":4}},{"id":"paladin","name":"Paladin","r":{"poly":4,"tank":4,"soin":4,"dps":4,"bg":5,"sauv":4,"ctrl":2,"surv":5,"mob":2,"util":5,"solo":5,"tech":2}},{"id":"chasseur","name":"Chasseur","r":{"poly":2,"tank":1,"soin":1,"dps":5,"bg":5,"sauv":4,"ctrl":3,"surv":3,"mob":3,"util":3,"solo":5,"tech":2}},{"id":"voleur","name":"Voleur","r":{"poly":1,"tank":1,"soin":1,"dps":3,"bg":3,"sauv":5,"ctrl":5,"surv":2,"mob":4,"util":2,"solo":3,"tech":5}},{"id":"pretre","name":"Prêtre","r":{"poly":3,"tank":1,"soin":5,"dps":3,"bg":5,"sauv":4,"ctrl":4,"surv":3,"mob":2,"util":4,"solo":3,"tech":3}},{"id":"chaman","name":"Chaman","r":{"poly":4,"tank":2,"soin":4,"dps":3,"bg":4,"sauv":4,"ctrl":2,"surv":3,"mob":5,"util":5,"solo":3,"tech":3}},{"id":"mage","name":"Mage","r":{"poly":1,"tank":1,"soin":1,"dps":4,"bg":4,"sauv":3,"ctrl":5,"surv":2,"mob":3,"util":3,"solo":3,"tech":4}},{"id":"demoniste","name":"Démoniste","r":{"poly":1,"tank":1,"soin":1,"dps":4,"bg":5,"sauv":5,"ctrl":5,"surv":4,"mob":2,"util":3,"solo":4,"tech":4}},{"id":"druide","name":"Druide","r":{"poly":5,"tank":4,"soin":5,"dps":3,"bg":4,"sauv":4,"ctrl":2,"surv":4,"mob":5,"util":5,"solo":3,"tech":5}}],"mastery":{"guerrier":{"pve":[3,1],"pvp":[5,2]},"paladin":{"pve":[2,1],"pvp":[2,1]},"chasseur":{"pve":[2,2],"pvp":[3,1]},"voleur":{"pve":[2,1],"pvp":[5,2]},"pretre":{"pve":[3,1],"pvp":[4,2]},"chaman":{"pve":[3,1],"pvp":[4,1]},"mage":{"pve":[3,1],"pvp":[5,2]},"demoniste":{"pve":[3,1],"pvp":[4,2]},"druide":{"pve":[4,1],"pvp":[5,2]}},"levels":[{"id":"deb","label":"Débutant","desc":"Tu découvres WoW ou la classe : rotation, ressources et contrôles encore hésitants."},{"id":"int","label":"Intermédiaire","desc":"Tu connais tes sorts et ta rotation, mais ressources, recharges et placement ne sont pas encore automatiques."},{"id":"conf","label":"Confirmé","desc":"Tu gères ressources, déplacements, contrôles et rotation avec régularité. C'est la référence : les notes du tableau s'y appliquent telles quelles."},{"id":"exp","label":"Expert","desc":"Tu exploites les détails de la classe : enchaînements de contrôles, rotation optimisée, anticipation. Change surtout la donne pour les classes à fort plafond."}],"penalty":[-0.4,-0.2,0,0],"bonus":[0,0,0,0.25],"pveAx":["tank","soin","dps","solo"],"pvpAx":["bg","sauv","ctrl","surv"],"masteryOverrides":{"chasseur":{"solo":[1,0]}}};
 (function(){
-  var D={"axes": ["poly", "tank", "soin", "dps", "bg", "sauv", "ctrl", "surv", "mob", "util", "solo", "tech"], "presets": {"profil": {"poly": 3, "tank": 2, "soin": 1, "dps": 2, "bg": 3, "sauv": 3, "ctrl": 3, "surv": 3, "mob": 1, "util": 2, "solo": 1, "tech": 2}, "egal": {"poly": 1, "tank": 1, "soin": 1, "dps": 1, "bg": 1, "sauv": 1, "ctrl": 1, "surv": 1, "mob": 1, "util": 1, "solo": 1, "tech": 1}, "pvp": {"poly": 1, "tank": 0, "soin": 0, "dps": 0, "bg": 3, "sauv": 3, "ctrl": 3, "surv": 3, "mob": 2, "util": 1, "solo": 1, "tech": 1}, "pve": {"poly": 2, "tank": 3, "soin": 2, "dps": 3, "bg": 0, "sauv": 0, "ctrl": 1, "surv": 1, "mob": 0, "util": 3, "solo": 1, "tech": 1}}, "classes": [{"name": "Guerrier", "color": "#C69B6D", "r": {"poly": 3, "tank": 5, "soin": 1, "dps": 5, "bg": 4, "sauv": 2, "ctrl": 3, "surv": 3, "mob": 4, "util": 3, "solo": 3, "tech": 4}}, {"name": "Paladin", "color": "#F48CBA", "r": {"poly": 4, "tank": 4, "soin": 4, "dps": 4, "bg": 5, "sauv": 4, "ctrl": 2, "surv": 5, "mob": 2, "util": 5, "solo": 5, "tech": 2}}, {"name": "Chasseur", "color": "#AAD372", "r": {"poly": 2, "tank": 1, "soin": 1, "dps": 5, "bg": 5, "sauv": 4, "ctrl": 3, "surv": 3, "mob": 3, "util": 3, "solo": 5, "tech": 2}}, {"name": "Voleur", "color": "#FFF468", "r": {"poly": 1, "tank": 1, "soin": 1, "dps": 3, "bg": 3, "sauv": 5, "ctrl": 5, "surv": 2, "mob": 4, "util": 2, "solo": 3, "tech": 5}}, {"name": "Prêtre", "color": "#FFFFFF", "r": {"poly": 3, "tank": 1, "soin": 5, "dps": 3, "bg": 5, "sauv": 4, "ctrl": 4, "surv": 3, "mob": 2, "util": 4, "solo": 3, "tech": 3}}, {"name": "Chaman", "color": "#0070DD", "r": {"poly": 4, "tank": 2, "soin": 4, "dps": 3, "bg": 4, "sauv": 4, "ctrl": 2, "surv": 3, "mob": 5, "util": 5, "solo": 3, "tech": 3}}, {"name": "Mage", "color": "#3FC7EB", "r": {"poly": 1, "tank": 1, "soin": 1, "dps": 4, "bg": 4, "sauv": 3, "ctrl": 5, "surv": 2, "mob": 3, "util": 3, "solo": 3, "tech": 4}}, {"name": "Démoniste", "color": "#8788EE", "r": {"poly": 1, "tank": 1, "soin": 1, "dps": 4, "bg": 5, "sauv": 5, "ctrl": 5, "surv": 4, "mob": 2, "util": 3, "solo": 4, "tech": 4}}, {"name": "Druide", "color": "#FF7C0A", "r": {"poly": 5, "tank": 4, "soin": 5, "dps": 3, "bg": 4, "sauv": 4, "ctrl": 2, "surv": 4, "mob": 5, "util": 5, "solo": 3, "tech": 5}}]};
-  /* Modelé séparé des notes de source : 0..3 = sensibilité supposée de l'exécution.
-     La référence « Confirmé » restitue exactement le classement original.
-     Pas de bonus sur la polyvalence, les sorts d'utilité, la mobilité intrinsèque ou
-     la technicité : aimer une classe complexe ne signifie pas savoir la jouer. */
-  var SKILL_LEVELS=['debutant','intermediaire','confirme','expert'];
-  var SKILL_LABELS=['Débutant','Intermédiaire','Confirmé','Expert'];
-  var SKILL_TEXT=[
-    'Débutant : rotations de base, contrôles et défensifs irréguliers ; priorité à la prise en main.',
-    'Intermédiaire : bases acquises, mais l’exécution avancée reste inconstante.',
-    'Confirmé : rotations, contrôles et déplacements réguliers. Les notes initiales sont conservées.',
-    'Expert : optimisation des fenêtres, rotations et adaptations. Gains modestes et hypothétiques.'
-  ];
-  var SKILL_SHIFT=[-0.40,-0.18,0,0.12];
-  var LOAD={
-    'Guerrier': {tank:2,dps:2,bg:2,sauv:3,ctrl:2,surv:2,solo:2},
-    'Paladin': {tank:1,soin:2,dps:2,bg:1,sauv:2,ctrl:1,surv:1,solo:1},
-    'Chasseur': {dps:3,bg:2,sauv:2,ctrl:2,surv:2,solo:0},
-    'Voleur': {dps:3,bg:2,sauv:3,ctrl:3,surv:3,solo:2},
-    'Prêtre': {soin:2,dps:2,bg:2,sauv:2,ctrl:2,surv:2,solo:2},
-    'Chaman': {tank:1,soin:2,dps:3,bg:2,sauv:3,ctrl:1,surv:2,solo:2},
-    'Mage': {dps:2,bg:2,sauv:3,ctrl:3,surv:3,solo:2},
-    'Démoniste': {dps:2,bg:2,sauv:3,ctrl:3,surv:2,solo:2},
-    'Druide': {tank:3,soin:3,dps:3,bg:3,sauv:3,ctrl:3,surv:3,solo:3}
-  };
-  var LABELS={poly:'Polyvalence',tank:'Tank',soin:'Soin',dps:'DPS PvE',
-    bg:'Champ de bataille',sauv:'Sauvage et duel',ctrl:'Contrôle',
-    surv:'Survie',mob:'Mobilité',util:'Utilité',solo:'Solo et farm',tech:'Technicité'};
-  var w=Object.assign({},D.presets.profil);
-  var KEY='wf-overview-weights', SKILL_KEY='wf-overview-skill';
-  try{
-    var saved=JSON.parse(localStorage.getItem(KEY)||'null');
-    if(saved&&typeof saved==='object')D.axes.forEach(function(k){
-      if(Number.isInteger(saved[k])&&saved[k]>=0&&saved[k]<=3)w[k]=saved[k];
-    });
-  }catch(e){}
-  var skill='confirme';
-  try{
-    var stored=localStorage.getItem(SKILL_KEY);
-    if(SKILL_LEVELS.indexOf(stored)!==-1)skill=stored;
-  }catch(e){}
-  var rank=document.getElementById('rank');
-  var compareA=document.getElementById('compare-a'),compareB=document.getElementById('compare-b');
-  var compareManual=false;
-  function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
-  function levelIndex(s){var i=SKILL_LEVELS.indexOf(s);return i<0?2:i;}
-  function effective(c,k,s){
-    var r=c.r[k],load=(LOAD[c.name]||{})[k]||0;
-    if(r<=1||!load)return r;
-    return Math.max(1,Math.min(5,r+SKILL_SHIFT[levelIndex(s)]*load));
-  }
-  function totalWeight(){return D.axes.reduce(function(n,k){return n+w[k];},0);}
-  function score(c,s){
-    var tw=totalWeight();
-    if(!tw)return 0;
-    var weighted=D.axes.reduce(function(n,k){return n+w[k]*effective(c,k,s);},0);
-    return Math.round(100*weighted/(5*tw));
-  }
-  function rawScore(c,s){
-    var tw=totalWeight();
-    return tw?100*D.axes.reduce(function(n,k){return n+w[k]*effective(c,k,s);},0)/(5*tw):0;
-  }
-  function chartColor(c){return c.name==='Prêtre'?'#777F8D':c.color;}
-  function renderProgress(list){
-    var top=list.slice(0,3).map(function(x){return x.c;});
-    var levels=SKILL_LABELS;
-    var x=[65,220,375,530],minY=52,maxY=224;
-    function y(v){return maxY-(maxY-minY)*v/100;}
-    var out=['<svg class="insight-svg" viewBox="0 0 610 270" role="img" aria-label="Courbes de score selon quatre niveaux de maîtrise pour '+esc(top.map(function(c){return c.name;}).join(', '))+'">'];
-    [20,40,60,80,100].forEach(function(t){
-      out.push('<line x1="47" y1="'+y(t)+'" x2="555" y2="'+y(t)+'" stroke="var(--line)" stroke-width="1"/>');
-      out.push('<text x="37" y="'+(y(t)+4)+'" text-anchor="end" fill="var(--muted)" font-size="12">'+t+'</text>');
-    });
-    var si=levelIndex(skill);
-    out.push('<line x1="'+x[si]+'" y1="'+minY+'" x2="'+x[si]+'" y2="'+maxY+'" stroke="var(--fg)" stroke-width="1.5" stroke-dasharray="4,4"/>');
-    top.forEach(function(c){
-      var color=chartColor(c);
-      var vals=SKILL_LEVELS.map(function(l){return score(c,l);});
-      out.push('<polyline points="'+vals.map(function(v,i){return x[i]+','+y(v);}).join(' ')+'" fill="none" stroke="'+color+'" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>');
-      vals.forEach(function(v,i){out.push('<circle cx="'+x[i]+'" cy="'+y(v)+'" r="'+(i===si?5:3.5)+'" fill="'+color+'" stroke="var(--surface)" stroke-width="1.7"><title>'+esc(c.name)+', '+levels[i]+' : '+v+'/100</title></circle>');});
-    });
-    levels.forEach(function(l,i){out.push('<text x="'+x[i]+'" y="247" text-anchor="middle" fill="var(--fg)" font-size="12">'+l+'</text>');});
-    out.push('</svg>');
-    out.push('<div class="insight-legend">'+top.map(function(c){return '<span><i style="--series:'+chartColor(c)+'"></i>'+esc(c.name)+'</span>';}).join('')+'</div>');
-    out.push('<details class="insight-data"><summary>Lire les valeurs du graphique</summary><table><thead><tr><th>Classe</th>'+levels.map(function(l){return '<th>'+l+'</th>';}).join('')+'</tr></thead><tbody>');
-    top.forEach(function(c){out.push('<tr><th>'+esc(c.name)+'</th>'+SKILL_LEVELS.map(function(l){return '<td>'+score(c,l)+'</td>';}).join('')+'</tr>');});
-    out.push('</tbody></table></details>');
-    document.getElementById('progress-chart').innerHTML=out.join('');
-  }
-  function renderDrivers(list){
-    if(!compareManual){
-      compareA.value=list[0].c.name;
-      compareB.value=list[1].c.name;
+  var D = window.__WF;
+  var byId = {}; D.classes.forEach(function(c){ byId[c.id] = c; });
+  var KEY = 'wf-overview-v3';
+  var S = { w: Object.assign({}, D.presets.egal), m: 2, hl: ['paladin','druide'], a: 'druide', b: 'paladin' };
+  try {
+    var saved = localStorage.getItem(KEY) || localStorage.getItem('wf-overview-v2');
+    var stored = saved ? JSON.parse(saved) : null;
+    if (stored && typeof stored === 'object' && !Array.isArray(stored)) {
+      if (stored.w && typeof stored.w === 'object')
+        D.axes.forEach(function(k){ if (Number.isInteger(stored.w[k]) && stored.w[k] >= 0 && stored.w[k] <= 3) S.w[k] = stored.w[k]; });
+      if (Number.isInteger(stored.m) && stored.m >= 0 && stored.m <= 3) S.m = stored.m;
+      if (Array.isArray(stored.hl)) S.hl = Array.from(new Set(stored.hl.filter(function(id){ return Object.prototype.hasOwnProperty.call(byId,id); })));
+      if (typeof stored.a === 'string' && Object.prototype.hasOwnProperty.call(byId,stored.a)) S.a = stored.a;
+      if (typeof stored.b === 'string' && Object.prototype.hasOwnProperty.call(byId,stored.b)) S.b = stored.b;
+    } else if (!saved) {
+      var legacy = JSON.parse(localStorage.getItem('wf-overview-weights') || 'null');
+      if (legacy && typeof legacy === 'object')
+        D.axes.forEach(function(k){ if (Number.isInteger(legacy[k]) && legacy[k] >= 0 && legacy[k] <= 3) S.w[k] = legacy[k]; });
+      var legacyLevel = ['debutant','intermediaire','confirme','expert'].indexOf(localStorage.getItem('wf-overview-skill'));
+      if (legacyLevel >= 0) S.m = legacyLevel;
     }
-    var a=D.classes.find(function(c){return c.name===compareA.value;});
-    var b=D.classes.find(function(c){return c.name===compareB.value;});
-    var node=document.getElementById('drivers-chart');
-    if(!a||!b||a===b){node.innerHTML='<p class="note">Sélectionne deux classes différentes pour examiner les écarts.</p>';return;}
-    var total=totalWeight();
-    if(!total){node.innerHTML='<p class="note">Donne un poids positif à au moins un critère pour obtenir une comparaison.</p>';return;}
-    var rows=D.axes.filter(function(k){return w[k]>0;}).map(function(k){
-      return {k:k,v:100*w[k]*(effective(a,k,skill)-effective(b,k,skill))/(5*total)};
-    }).filter(function(r){return Math.abs(r.v)>0.005;}).sort(function(x,y){return Math.abs(y.v)-Math.abs(x.v);});
-    var maxi=rows.reduce(function(n,r){return Math.max(n,Math.abs(r.v));},0);
-    var out=['<p class="insight-summary">'+esc(a.name)+' : '+score(a,skill)+' / '+esc(b.name)+' : '+score(b,skill)+
-      ' — écart non arrondi : '+(rawScore(a,skill)-rawScore(b,skill)).toLocaleString('fr-FR',{maximumFractionDigits:1})+' points</p>'];
-    if(!rows.length){out.push('<p class="note">Aucun critère pondéré ne départage ces classes.</p>');}
-    else{
-      out.push('<div class="insight-legend"><span><i style="--series:'+chartColor(a)+'"></i>Avantage '+esc(a.name)+'</span><span><i style="--series:'+chartColor(b)+'"></i>Avantage '+esc(b.name)+'</span></div>');
-      out.push('<div class="driver-list" style="--class-a:'+chartColor(a)+';--class-b:'+chartColor(b)+'">');
-      rows.forEach(function(r){
-        var v=r.v,lab=LABELS[r.k],width=(50*Math.abs(v)/maxi).toFixed(2),n=(v>0?'+':'')+v.toLocaleString('fr-FR',{maximumFractionDigits:1});
-        out.push('<div class="driver-row" title="'+esc(lab)+': '+n+' points" aria-label="'+esc(lab)+': '+n+' points pour '+esc(a.name)+' par rapport à '+esc(b.name)+'"><span class="name">'+esc(lab)+'</span><span class="driver-track"><span class="driver-fill '+(v>=0?'positive':'negative')+'" style="width:'+width+'%"></span></span><span class="driver-value">'+n+'</span></div>');
-      });
-      out.push('</div>');
+  } catch (e) {}
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+  function esc(t){ return String(t).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function fmt(x, d){ var p = Math.pow(10, d || 0); return (Math.round(x * p) / p).toFixed(d || 0).replace('.', ','); }
+  function dom(k){ return D.pveAx.indexOf(k) >= 0 ? 'pve' : (D.pvpAx.indexOf(k) >= 0 ? 'pvp' : null); }
+  function eff(c, k, m){
+    var v = c.r[k]; if (v <= 1) return v;
+    var d = dom(k); if (!d) return v;
+    var overrides = D.masteryOverrides && D.masteryOverrides[c.id];
+    var pc = overrides && overrides[k] ? overrides[k] : D.mastery[c.id][d];
+    return Math.max(1, Math.min(5, v + D.penalty[m] * (pc[0] - 1) + D.bonus[m] * pc[1]));
+  }
+  function tw(){ var t = 0; D.axes.forEach(function(k){ t += S.w[k]; }); return t; }
+  function score(c, m){ var t = tw(), s = 0; if (!t) return 0; D.axes.forEach(function(k){ s += S.w[k] * eff(c, k, m); }); return 100 * s / (5 * t); }
+
+  // ---- maîtrise
+  var mdesc = document.getElementById('mdesc'), mlabel = document.getElementById('mlabel');
+  function renderMastery(){
+    document.querySelectorAll('.mbtn').forEach(function(b){ b.setAttribute('aria-pressed', String(Number(b.dataset.m) === S.m)); });
+    mdesc.textContent = D.levels[S.m].desc;
+    mlabel.textContent = D.levels[S.m].label + (S.m === 2 ? ' (référence)' : '');
+  }
+  // ---- tableau
+  function renderMatrix(){
+    document.querySelectorAll('td.cell[data-k]').forEach(function(td){
+      var k = td.dataset.k; if (k === 'tech') return;
+      var c = D.classes[Number(td.dataset.c)], base = Number(td.dataset.v), e = eff(c, k, S.m);
+      var b = td.querySelector('b'), old = td.querySelector('.delta'); if (old) old.remove();
+      td.classList.remove('q1','q2','q3','q4','q5');
+      if (S.m === 2 || Math.abs(e - base) < 0.05) { b.textContent = base; td.classList.add('q' + base); return; }
+      b.textContent = fmt(e, 1); td.classList.add('q' + Math.max(1, Math.min(5, Math.round(e))));
+      var sp = document.createElement('span'); sp.className = 'delta ' + (e > base ? 'up' : 'down'); sp.textContent = e > base ? '▲' : '▼';
+      sp.title = (e > base ? '+' : '') + fmt(e - base, 1) + ' par rapport au niveau Confirmé'; b.after(sp);
+    });
+  }
+  // ---- classement
+  var rank = document.getElementById('rank');
+  function renderRank(){
+    var list = D.classes.map(function(c){ return { c: c, s: Math.round(score(c, S.m)) }; }).sort(function(a, b){ return b.s - a.s; });
+    rank.innerHTML = list.map(function(x){ return '<li><span class="bname"><span class="sw" style="--cc:var(--k-' + x.c.id + ')"></span>' + esc(x.c.name) + '</span><span class="btrack"><span class="bfill" style="width:' + x.s + '%"></span></span><span class="bval mono">' + x.s + '</span></li>'; }).join('');
+    document.querySelectorAll('.seg button[data-ax]').forEach(function(b){ b.setAttribute('aria-pressed', String(S.w[b.dataset.ax] === Number(b.dataset.v))); });
+    var match = null; Object.keys(D.presets).forEach(function(p){ if (D.axes.every(function(k){ return D.presets[p][k] === S.w[k]; })) match = p; });
+    document.querySelectorAll('.presets button').forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.preset === match)); });
+  }
+  // ---- courbes de maîtrise (SVG à l'échelle 1:1 du conteneur)
+  var curves = document.getElementById('curves');
+  function renderCurves(){
+    var W = Math.max(300, Math.round(curves.clientWidth || 640)), small = W < 480;
+    var H = small ? 270 : 320, ml = 34, mr = small ? 92 : 130, mt = 14, mb = 34;
+    var series = D.classes.map(function(c){ return { c: c, v: [0,1,2,3].map(function(m){ return score(c, m); }) }; });
+    var all = []; series.forEach(function(s){ all = all.concat(s.v); });
+    var lo = Math.floor(Math.min.apply(null, all) / 10) * 10, hi = Math.ceil(Math.max.apply(null, all) / 10) * 10;
+    if (hi - lo < 20) { hi = Math.min(100, lo + 20); lo = hi - 20; }
+    if (hi === lo) hi = lo + 10;
+    function X(i){ return ml + i * (W - ml - mr) / 3; }
+    function Y(v){ return mt + (hi - v) * (H - mt - mb) / (hi - lo); }
+    var short = ['Débutant','Interm.','Confirmé','Expert'];
+    var o = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '" xmlns="http://www.w3.org/2000/svg">';
+    o += '<rect x="' + (X(S.m) - 14) + '" y="' + mt + '" width="28" height="' + (H - mt - mb) + '" rx="4" fill="var(--accent-soft)"></rect>';
+    for (var g = lo; g <= hi; g += 10) {
+      o += '<line x1="' + ml + '" x2="' + (W - mr) + '" y1="' + Y(g) + '" y2="' + Y(g) + '" stroke="var(--line)" stroke-width="1"></line>';
+      o += '<text x="' + (ml - 8) + '" y="' + (Y(g) + 4) + '" text-anchor="end" fill="var(--muted)" font-size="11" font-family="var(--font-mono)">' + g + '</text>';
     }
-    out.push('<p class="note">Écart = poids × différence de notes ajustées / somme des poids. En points d’indice, avant arrondi.</p>');
-    node.innerHTML=out.join('');
+    [0,1,2,3].forEach(function(i){
+      o += '<text x="' + X(i) + '" y="' + (H - 10) + '" text-anchor="middle" fill="' + (i === S.m ? 'var(--fg)' : 'var(--muted)') + '" font-size="12" font-weight="' + (i === S.m ? 700 : 400) + '">' + esc(small ? short[i] : D.levels[i].label) + '</text>';
+    });
+    var hl = series.filter(function(s){ return S.hl.indexOf(s.c.id) >= 0; }), rest = series.filter(function(s){ return S.hl.indexOf(s.c.id) < 0; });
+    function path(s){ return s.v.map(function(v, i){ return (i ? 'L' : 'M') + X(i).toFixed(1) + ' ' + Y(v).toFixed(1); }).join(' '); }
+    rest.forEach(function(s){ o += '<path d="' + path(s) + '" fill="none" stroke="var(--muted)" stroke-opacity=".35" stroke-width="1.5"><title>' + esc(s.c.name) + '</title></path>'; });
+    hl.forEach(function(s){
+      o += '<path d="' + path(s) + '" fill="none" stroke="var(--k-' + s.c.id + ')" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"></path>';
+      s.v.forEach(function(v, i){ o += '<circle cx="' + X(i) + '" cy="' + Y(v) + '" r="' + (i === S.m ? 5 : 3.5) + '" fill="var(--k-' + s.c.id + ')" stroke="var(--surface)" stroke-width="1.5"><title>' + esc(s.c.name + ' · ' + D.levels[i].label + ' : ' + fmt(v, 0)) + '</title></circle>'; });
+    });
+    var labs = hl.map(function(s){ return { s: s, y: Y(s.v[3]) }; }).sort(function(a, b){ return a.y - b.y; });
+    for (var i = 1; i < labs.length; i++) if (labs[i].y - labs[i-1].y < 15) labs[i].y = labs[i-1].y + 15;
+    labs.forEach(function(l){ o += '<text x="' + (X(3) + 10) + '" y="' + (l.y + 4) + '" fill="var(--k-' + l.s.c.id + ')" stroke="var(--surface)" stroke-width="4" paint-order="stroke" font-size="12.5" font-weight="700">' + esc(l.s.c.name) + '</text>'; });
+    var vals = hl.map(function(s){ return { s: s, y: Y(s.v[S.m]) }; }).sort(function(a, b){ return a.y - b.y; });
+    for (var j = 1; j < vals.length; j++) if (vals[j].y - vals[j-1].y < 14) vals[j].y = vals[j-1].y + 14;
+    vals.forEach(function(l){ o += '<text x="' + (X(S.m) - 18) + '" y="' + (l.y + 4) + '" text-anchor="end" fill="var(--k-' + l.s.c.id + ')" stroke="var(--surface)" stroke-width="4" paint-order="stroke" font-size="12" font-weight="700" font-family="var(--font-mono)">' + fmt(l.s.v[S.m], 0) + '</text>'; });
+    o += '</svg>';
+    curves.innerHTML = o;
+    var rows = series.slice().sort(function(a,b){return b.v[S.m]-a.v[S.m];});
+    document.getElementById('curves-values').innerHTML = rows.map(function(row){
+      return '<tr><th scope="row">'+esc(row.c.name)+'</th>'+row.v.map(function(v){
+        return '<td>'+fmt(v,0)+'</td>';
+      }).join('')+'</tr>';
+    }).join('');
+    document.querySelectorAll('.hl-chips button').forEach(function(b){ b.setAttribute('aria-pressed', String(S.hl.indexOf(b.dataset.id) >= 0)); });
   }
-  function render(){
-    var list=D.classes.map(function(c){return {c:c,s:score(c,skill)};}).sort(function(a,b){return b.s-a.s;});
-    rank.innerHTML=list.map(function(x){return '<li><span class="bname"><span class="sw" style="--cc:'+x.c.color+'"></span>'+esc(x.c.name)+'</span><span class="btrack"><span class="bfill" style="width:'+x.s+'%"></span></span><span class="bval mono">'+x.s+'</span></li>';}).join('');
-    document.querySelectorAll('.seg button').forEach(function(b){b.setAttribute('aria-pressed',String(w[b.dataset.ax]===Number(b.dataset.v)));});
-    var match=null;
-    Object.keys(D.presets).forEach(function(p){if(D.axes.every(function(k){return D.presets[p][k]===w[k];}))match=p;});
-    document.querySelectorAll('.presets button').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.preset===match));});
-    document.querySelectorAll('.skill-choices button').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.skill===skill));});
-    document.getElementById('skill-description').textContent=SKILL_TEXT[levelIndex(skill)];
-    renderProgress(list);
-    renderDrivers(list);
-    try{
-      localStorage.setItem(KEY,JSON.stringify(w));
-      localStorage.setItem(SKILL_KEY,skill);
-    }catch(e){}
+  // ---- duel de classes
+  var duel = document.getElementById('duel'), duelSum = document.getElementById('duelSum');
+  var selA = document.getElementById('duelA'), selB = document.getElementById('duelB');
+  function renderDuel(){
+    selA.value = S.a; selB.value = S.b;
+    var A = byId[S.a], B = byId[S.b], t = tw();
+    if (A === B) { duel.innerHTML = '<p class="note">Choisis deux classes différentes.</p>'; duelSum.textContent = ''; return; }
+    if (!t) { duel.innerHTML = '<p class="note">Tous les critères sont à 0 : aucun ne départage les classes.</p>'; duelSum.textContent = ''; return; }
+    var rows = D.axes.filter(function(k){ return S.w[k] > 0; }).map(function(k){ return { k: k, d: 100 * S.w[k] * (eff(A, k, S.m) - eff(B, k, S.m)) / (5 * t) }; });
+    rows.sort(function(a, b){ return Math.abs(b.d) - Math.abs(a.d); });
+    var mx = Math.max(0.5, Math.max.apply(null, rows.map(function(r){ return Math.abs(r.d); })));
+    var h = '<div class="dhead"><span></span><span class="dsides"><span style="color:var(--k-' + A.id + ')">◀ ' + esc(A.name) + '</span><span style="color:var(--k-' + B.id + ')">' + esc(B.name) + ' ▶</span></span><span></span></div>';
+    rows.forEach(function(r){
+      var w = (Math.abs(r.d) / mx * 50).toFixed(1), fill = '';
+      if (Math.abs(r.d) >= 0.05) fill = '<span class="dfill" style="' + (r.d > 0 ? 'right:50%;' : 'left:50%;') + 'width:' + w + '%;background:var(--k-' + (r.d > 0 ? A.id : B.id) + ')"></span>';
+      var val = Math.abs(r.d) < 0.05 ? '<span class="muted">=</span>' : '<span style="color:var(--k-' + (r.d > 0 ? A.id : B.id) + ')">' + fmt(Math.abs(r.d), 1) + '</span>';
+      h += '<div class="drow"><span class="dlab">' + esc(D.axLabels[r.k]) + '</span><span class="dbar">' + fill + '</span><span class="dval">' + val + '</span></div>';
+    });
+    duel.innerHTML = h;
+    var sa = score(A, S.m), sb = score(B, S.m), diff = Math.round(sa) - Math.round(sb);
+    var lead = diff === 0 ? 'Égalité.' : 'Écart de ' + Math.abs(diff) + ' point' + (Math.abs(diff) > 1 ? 's' : '') + ' en faveur du ' + esc(diff > 0 ? A.name : B.name) + '.';
+    duelSum.innerHTML = 'Niveau ' + esc(D.levels[S.m].label) + ', selon les critères sélectionnés : <b>' + esc(A.name) + ' ' + Math.round(sa) + '</b>, <b>' + esc(B.name) + ' ' + Math.round(sb) + '</b>. ' + lead;
   }
-  var classOptions=D.classes.map(function(c){return '<option value="'+esc(c.name)+'">'+esc(c.name)+'</option>';}).join('');
-  compareA.innerHTML=classOptions;
-  compareB.innerHTML=classOptions;
-  [compareA,compareB].forEach(function(el){el.addEventListener('change',function(){compareManual=true;render();});});
-  document.querySelectorAll('.skill-choices button').forEach(function(b){b.addEventListener('click',function(){skill=b.dataset.skill;render();});});
-  document.querySelectorAll('.seg button').forEach(function(b){b.addEventListener('click',function(){w[b.dataset.ax]=Number(b.dataset.v);render();});});
-  document.querySelectorAll('.presets button').forEach(function(b){b.addEventListener('click',function(){w=Object.assign({},D.presets[b.dataset.preset]);render();});});
-  render();
+  function renderAll(){ renderMastery(); renderMatrix(); renderRank(); renderCurves(); renderDuel(); save(); }
+
+  document.querySelectorAll('.mbtn').forEach(function(b){ b.addEventListener('click', function(){ S.m = Number(b.dataset.m); renderAll(); }); });
+  document.querySelectorAll('.seg button[data-ax]').forEach(function(b){ b.addEventListener('click', function(){ S.w[b.dataset.ax] = Number(b.dataset.v); renderAll(); }); });
+  document.querySelectorAll('.presets button').forEach(function(b){ b.addEventListener('click', function(){ S.w = Object.assign({}, D.presets[b.dataset.preset]); renderAll(); }); });
+  document.querySelectorAll('.hl-chips button').forEach(function(b){ b.addEventListener('click', function(){
+    var id = b.dataset.id, i = S.hl.indexOf(id); if (i >= 0) S.hl.splice(i, 1); else S.hl.push(id); renderCurves(); save(); }); });
+  selA.addEventListener('change', function(){ S.a = selA.value; renderDuel(); save(); });
+  selB.addEventListener('change', function(){ S.b = selB.value; renderDuel(); save(); });
+  var rt; window.addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(renderCurves, 150); });
+  renderAll();
 })();
 </script>
 </body>
