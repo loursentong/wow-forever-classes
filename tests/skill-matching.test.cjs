@@ -6,182 +6,177 @@ const path = require('node:path');
 const vm = require('node:vm');
 
 const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
-const dataText = html.match(/var D=(\{.*?\});\s*\/\* Modelé/s);
-const scriptText = html.match(/<script>([\s\S]*?)<\/script>/);
-assert.ok(dataText && scriptText, 'La matrice JSON et le script du site doivent être présents');
-const data = JSON.parse(dataText[1]);
-const script = scriptText[1];
+const match = html.match(/window\.__WF = (\{.*?\});\s*\(function\(\)/s);
+const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>/);
+assert.ok(match && scriptMatch, 'modèle et script présents');
+const config = JSON.parse(match[1]);
+const script = scriptMatch[1];
 
-function mockElement(dataset = {}) {
+function elem(dataset = {}) {
+  const listeners = {};
+  const baseNode = { textContent: '', after(_node) {} };
+  const classes = new Set(['cell']);
   return {
     dataset,
     attrs: {},
-    listeners: {},
-    value: '',
+    listeners,
     innerHTML: '',
     textContent: '',
-    addEventListener(event, fn) {
-      (this.listeners[event] ||= []).push(fn);
+    value: '',
+    clientWidth: 640,
+    classList: {
+      add(x) { classes.add(x); },
+      remove(...names) { for (const name of names) classes.delete(name); }
     },
-    setAttribute(key, value) { this.attrs[key] = value; },
-    trigger(event = 'click') {
-      for (const fn of (this.listeners[event] || [])) fn();
-    }
+    querySelector(selector) { return selector === 'b' ? baseNode : null; },
+    addEventListener(name, fn) { (listeners[name] ||= []).push(fn); },
+    setAttribute(name, value) { this.attrs[name] = value; },
+    trigger(name = 'click') { for (const fn of (listeners[name] || [])) fn(); },
+    b: baseNode
   };
 }
 function boot(initial = {}) {
-  const storage = { ...initial }, elements = {};
-  const ids = ['rank', 'compare-a', 'compare-b', 'progress-chart', 'drivers-chart', 'skill-description'];
-  for (const id of ids) elements[id] = mockElement();
+  const ids = ['mdesc','mlabel','rank','curves','curves-values','duel','duelSum','duelA','duelB'];
+  const elements = Object.fromEntries(ids.map(id => [id, elem()]));
   const groups = {
-    '.seg button': data.axes.flatMap(ax => [0, 1, 2, 3].map(v => mockElement({ ax, v: String(v) }))),
-    '.presets button': Object.keys(data.presets).map(preset => mockElement({ preset })),
-    '.skill-choices button': ['debutant', 'intermediaire', 'confirme', 'expert'].map(skill => mockElement({ skill }))
+    '.mbtn': config.levels.map((_, i) => elem({m: String(i)})),
+    '.seg button[data-ax]': config.axes.flatMap(ax => [0,1,2,3].map(v => elem({ax, v: String(v)}))),
+    '.presets button': Object.keys(config.presets).map(preset => elem({preset})),
+    '.hl-chips button': config.classes.map(c => elem({id: c.id})),
+    'td.cell[data-k]': config.classes.flatMap((c,i) => config.axes.map(k => elem({c: String(i),k,v: String(c.r[k])})))
   };
   const document = {
     getElementById(id) { return elements[id]; },
-    querySelectorAll(query) { return groups[query] || []; }
+    querySelectorAll(selector) { return groups[selector] || []; },
+    createElement() { return {className: '', title: '', textContent: ''}; }
   };
+  const storage = {...initial};
   const localStorage = {
-    getItem(key) { return Object.hasOwn(storage, key) ? storage[key] : null; },
-    setItem(key, value) { storage[key] = value; }
+    getItem(k) { return Object.hasOwn(storage,k) ? storage[k] : null; },
+    setItem(k,v) { storage[k]=v; }
   };
-  // Instrumentation confinée au test : aucune API de test n'est exposée sur le site réel.
-  const marker = '  render();\n})();';
-  assert.ok(script.includes(marker), 'Point d’instrumentation introuvable');
-  const instrumented = script.replace(marker,
-    '  __test.api={score:score,rawScore:rawScore,effective:effective,w:w,classes:D.classes};\n' + marker);
+  const window = {addEventListener() {}};
+  const needle = '  renderAll();\n})();';
+  assert.ok(script.includes(needle), 'insertion API de test impossible');
+  const augmented = script.replace(needle,
+    '  __test.api = {S:S,D:D,eff:eff,score:score,tw:tw,renderAll:renderAll};\n' + needle);
   const holder = {};
-  vm.runInNewContext('(function(document,localStorage,__test){' + instrumented + '})', {}, { timeout: 3000 })(
-    document, localStorage, holder
-  );
-  return { storage, elements, groups, api: holder.api };
+  const context = {window,document,localStorage,__test:holder,console};
+  vm.runInNewContext(augmented, context, {timeout:3000});
+  return {config:holder.api.D, api:holder.api, elements, groups, storage};
 }
-function ranking(htmlString) {
-  const list = [];
-  for (const match of htmlString.matchAll(/class="bname">[\s\S]*?<\/span>([^<]+)<\/span>[\s\S]*?class="bval mono">(\d+)<\/span>/g)) {
-    list.push([match[1], Number(match[2])]);
-  }
-  return list;
-}
+const ranking = html => [...html.matchAll(/class="bname">[\s\S]*?<\/span>([^<]+)<\/span>[\s\S]*?class="bval mono">(\d+)<\/span>/g)]
+  .map(m=>[m[1],Number(m[2])]);
 
-test('Contrat structurel 9 classes × 12 critères et quatre niveaux', () => {
-  assert.equal(data.classes.length, 9);
-  assert.equal(data.axes.length, 12);
-  assert.equal(new Set(data.classes.map(c => c.name)).size, 9);
-  assert.equal((html.match(/data-skill="/g) || []).length, 4);
-  assert.ok(html.includes('id="progress-chart"'));
-  assert.ok(html.includes('id="drivers-chart"'));
-  assert.ok(html.includes('aria-live="polite"'));
+test('Le comparatif conserve neuf classes, douze axes, quatre profils et quatre niveaux',()=>{
+  assert.equal(config.classes.length,9);
+  assert.equal(config.axes.length,12);
+  assert.deepEqual(Object.keys(config.presets),['egal','polyvalence','pvp','pve']);
+  assert.equal(config.levels.length,4);
+  assert.ok(html.includes('id="curves-values"'));
+  assert.equal((html.match(/<span class="tag you">Pour toi<\/span>/g)||[]).length,0);
+  assert.equal((html.match(/<span class="tag you">Style de jeu<\/span>/g)||[]).length,9);
+  assert.ok(!/Ton profil|Spiritualiste d'Aion|tu l'as écarté/i.test(html));
 });
 
-test('Score Confirmé inchangé pour les quatre préréglages', () => {
-  const expected = {
-    profil: [80,78,70,68,68,67,63,60,58],
+test('La référence Confirmé conserve les 108 notes et les scores initiaux des profils historiques',()=>{
+  const historical = {
     egal: [82,77,70,67,67,65,62,58,57],
     pvp: [81,78,76,72,71,71,70,66,63],
     pve: [82,81,71,67,62,54,53,49,44]
   };
-  const h = boot();
-  for (const [preset, vals] of Object.entries(expected)) {
-    const button = h.groups['.presets button'].find(b => b.dataset.preset === preset);
-    button.trigger();
-    assert.deepEqual(ranking(h.elements.rank.innerHTML).map(x => x[1]), vals, preset);
-    assert.equal(button.attrs['aria-pressed'], 'true');
+  const h=boot();
+  for(const [preset,scores] of Object.entries(historical)){
+    h.groups['.presets button'].find(x=>x.dataset.preset===preset).trigger();
+    assert.deepEqual(ranking(h.elements.rank.innerHTML).map(x=>x[1]),scores,preset);
   }
+  for(const c of config.classes) for(const k of config.axes) assert.equal(h.api.eff(c,k,2),c.r[k]);
 });
 
-test('Débutant < Intermédiaire < Confirmé < Expert pour chaque classe et preset', () => {
-  const h = boot(), levels = ['debutant', 'intermediaire', 'confirme', 'expert'];
-  for (const preset of Object.keys(data.presets)) {
-    h.groups['.presets button'].find(b => b.dataset.preset === preset).trigger();
-    for (const c of data.classes) {
-      const scores = levels.map(s => h.api.score(c, s));
-      assert.ok(scores.every((v, i) => i === 0 || scores[i - 1] <= v),
-        c.name + '/' + preset + ': ' + scores);
-      assert.ok(scores.every(v => v >= 0 && v <= 100));
+test('Débutant → Intermédiaire → Confirmé → Expert est monotone, 0 à 100',()=>{
+  const h=boot();
+  for(const preset of Object.keys(config.presets)){
+    h.groups['.presets button'].find(x=>x.dataset.preset===preset).trigger();
+    for(const c of config.classes){
+      const v=[0,1,2,3].map(m=>h.api.score(c,m));
+      assert.ok(v.every((x,i)=>x>=0 && x<=100 && (!i||x>=v[i-1])),c.name+'/'+preset+'/'+v);
     }
   }
 });
 
-test('Les rôles absents, la polyvalence, la mobilité, les utilitaires et la technicité restent invariants', () => {
-  const h = boot();
-  for (const c of data.classes) {
-    for (const axis of ['poly', 'mob', 'util', 'tech']) {
-      assert.equal(h.api.effective(c, axis, 'debutant'), c.r[axis]);
-      assert.equal(h.api.effective(c, axis, 'expert'), c.r[axis]);
+test('Les rôles absents, la mobilité, la technicité, la polyvalence et l’utilité restent intacts',()=>{
+  const h=boot();
+  for(const c of config.classes){
+    for(const k of ['poly','mob','util','tech']){
+      assert.equal(h.api.eff(c,k,0),c.r[k]);
+      assert.equal(h.api.eff(c,k,3),c.r[k]);
     }
-    for (const axis of data.axes.filter(a => c.r[a] === 1)) {
-      assert.equal(h.api.effective(c, axis, 'expert'), 1);
-    }
+    for(const k of config.axes) if(c.r[k]===1) assert.equal(h.api.eff(c,k,3),1);
   }
 });
 
-test('Chasseur : DPS dépend de la maîtrise, pas son farming solo', () => {
-  const h = boot(), hunter = data.classes.find(c => c.name === 'Chasseur');
-  assert.ok(h.api.effective(hunter, 'dps', 'debutant') < hunter.r.dps);
-  assert.equal(h.api.effective(hunter, 'solo', 'debutant'), hunter.r.solo);
+test('Le Chasseur reste accessible en solo, mais son DPS optimise des rotations plus exigeantes',()=>{
+  const h=boot(),c=config.classes.find(x=>x.id==='chasseur');
+  assert.equal(h.api.eff(c,'solo',0),c.r.solo);
+  assert.ok(h.api.eff(c,'dps',0)<c.r.dps);
+  assert.equal(h.api.eff(c,'dps',3),5);
 });
 
-test('Le sélecteur met à jour le classement, les courbes et le stockage', () => {
-  const h = boot(), original = h.elements.rank.innerHTML;
-  h.groups['.skill-choices button'][0].trigger();
-  assert.notEqual(h.elements.rank.innerHTML, original);
-  assert.equal(h.storage['wf-overview-skill'], 'debutant');
-  assert.equal(h.groups['.skill-choices button'][0].attrs['aria-pressed'], 'true');
-  assert.match(h.elements['progress-chart'].innerHTML, /<svg/);
-  assert.match(h.elements['progress-chart'].innerHTML, /Lire les valeurs du graphique/);
-  assert.match(h.elements['drivers-chart'].innerHTML, /driver-row/);
-  assert.match(h.elements['skill-description'].textContent, /Débutant/);
+test('Les graphiques contiennent les neuf classes et la lecture chiffrée accessible',()=>{
+  const h=boot();
+  assert.ok(h.elements.curves.innerHTML.includes('<svg'));
+  assert.equal((h.elements['curves-values'].innerHTML.match(/<tr>/g)||[]).length,9);
+  assert.ok(h.elements['curves-values'].innerHTML.includes('Chasseur'));
+  h.groups['.mbtn'][0].trigger();
+  assert.equal(h.api.S.m,0);
+  assert.equal(h.groups['.mbtn'][0].attrs['aria-pressed'],'true');
+  assert.match(h.elements.curves.innerHTML,/<svg/);
+  assert.equal((h.elements['curves-values'].innerHTML.match(/<tr>/g)||[]).length,9);
 });
 
-test('Comparer manuellement deux classes et gérer une sélection identique', () => {
-  const h = boot();
-  h.elements['compare-a'].value = 'Mage';
-  h.elements['compare-a'].trigger('change');
-  h.elements['compare-b'].value = 'Voleur';
-  h.elements['compare-b'].trigger('change');
-  assert.match(h.elements['drivers-chart'].innerHTML, /Mage/);
-  assert.match(h.elements['drivers-chart'].innerHTML, /Voleur/);
-  h.elements['compare-b'].value = 'Mage';
-  h.elements['compare-b'].trigger('change');
-  assert.match(h.elements['drivers-chart'].innerHTML, /deux classes différentes/);
-});
-
-test('Persistance des choix et tolérance aux valeurs malformées', () => {
-  const h = boot();
-  h.groups['.skill-choices button'][0].trigger();
-  h.groups['.presets button'][2].trigger();
-  const back = boot(h.storage);
-  assert.equal(back.storage['wf-overview-skill'], 'debutant');
-  assert.equal(back.groups['.presets button'][2].attrs['aria-pressed'], 'true');
-
-  const wrong = boot({
-    'wf-overview-skill': 'godtiers',
-    'wf-overview-weights': JSON.stringify({ soin: 100, dps: -1, bg: 1.5, ctrl: 2 })
-  });
-  assert.equal(wrong.storage['wf-overview-skill'], 'confirme');
-  assert.equal(wrong.api.w.soin, data.presets.profil.soin);
-  assert.equal(wrong.api.w.dps, data.presets.profil.dps);
-  assert.equal(wrong.api.w.bg, data.presets.profil.bg);
-  assert.equal(wrong.api.w.ctrl, 2);
-});
-
-test('Tout à zéro : classement nul et explication dans le graphique', () => {
-  const zero = Object.fromEntries(data.axes.map(a => [a, 0]));
-  const h = boot({ 'wf-overview-weights': JSON.stringify(zero) });
-  assert.deepEqual(ranking(h.elements.rank.innerHTML).map(x => x[1]), Array(9).fill(0));
-  assert.match(h.elements['drivers-chart'].innerHTML, /poids positif/);
-});
-
-test('Somme des contributions = écart brut des indices', () => {
-  const h = boot();
-  const a = data.classes.find(c => c.name === 'Druide');
-  const b = data.classes.find(c => c.name === 'Paladin');
-  for (const level of ['debutant', 'intermediaire', 'confirme', 'expert']) {
-    const total = data.axes.reduce((n, ax) => n + h.api.w[ax], 0);
-    const sum = data.axes.reduce((n, ax) =>
-      n + 100 * h.api.w[ax] * (h.api.effective(a, ax, level) - h.api.effective(b, ax, level)) / (5 * total), 0);
-    assert.ok(Math.abs(sum - (h.api.rawScore(a, level) - h.api.rawScore(b, level))) < 1e-10, level);
+test('Le duel suit les sélections et l’écart est égal à la somme des contributions',()=>{
+  const h=boot();
+  h.elements.duelA.value='chasseur';
+  h.elements.duelA.trigger('change');
+  h.elements.duelB.value='druide';
+  h.elements.duelB.trigger('change');
+  assert.match(h.elements.duel.innerHTML,/dbar/);
+  assert.match(h.elements.duelSum.innerHTML,/Chasseur/);
+  const a=config.classes.find(c=>c.id==='chasseur');
+  const b=config.classes.find(c=>c.id==='druide');
+  for(let m=0;m<4;m++){
+    const total=h.api.tw();
+    const contributions=config.axes.reduce((sum,k)=>sum+100*h.api.S.w[k]*
+      (h.api.eff(a,k,m)-h.api.eff(b,k,m))/(5*total),0);
+    assert.ok(Math.abs(contributions-(h.api.score(a,m)-h.api.score(b,m)))<1e-10);
   }
+  h.elements.duelB.value='chasseur';h.elements.duelB.trigger('change');
+  assert.match(h.elements.duel.innerHTML,/deux classes différentes/);
+});
+
+test('Tous les poids nuls sont gérés et expliqués',()=>{
+  const h=boot({'wf-overview-v3':JSON.stringify({w:Object.fromEntries(config.axes.map(k=>[k,0]))})});
+  assert.deepEqual(ranking(h.elements.rank.innerHTML).map(x=>x[1]),Array(9).fill(0));
+  assert.match(h.elements.duel.innerHTML,/aucun ne départage/);
+  assert.equal((h.elements['curves-values'].innerHTML.match(/<tr>/g)||[]).length,9);
+});
+
+test('Persistance et migration des anciennes préférences',()=>{
+  const h=boot();
+  h.groups['.mbtn'][0].trigger();
+  h.groups['.presets button'].find(x=>x.dataset.preset==='pvp').trigger();
+  const saved=boot(h.storage);
+  assert.equal(saved.api.S.m,0);
+  assert.equal(saved.api.S.w.bg,3);
+  assert.equal(saved.api.S.w.soin,0);
+  const legacy=boot({'wf-overview-weights':JSON.stringify({ctrl:3,poly:0}),
+    'wf-overview-skill':'debutant'});
+  assert.equal(legacy.api.S.m,0);
+  assert.equal(legacy.api.S.w.ctrl,3);
+  assert.equal(legacy.api.S.w.poly,0);
+  const broken=boot({'wf-overview-v3':JSON.stringify({m:7,w:{ctrl:55,soin:-1,mob:2.5}})});
+  assert.equal(broken.api.S.m,2);
+  assert.equal(broken.api.S.w.ctrl,1);
+  assert.equal(broken.api.S.w.soin,1);
+  assert.equal(broken.api.S.w.mob,1);
 });
