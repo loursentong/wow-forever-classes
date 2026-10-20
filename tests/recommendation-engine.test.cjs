@@ -150,6 +150,8 @@ test('Extraits HTML : formulaire accessible, charte existante conservée, JS val
  assert.match(html,/src="questionnaire\.js"/);
  assert.match(html,/id="h-matrix"/);
  assert.match(html,/id="rank"/);
+ assert.match(html,/<details class="legacy-advanced" id="legacy-advanced">/);
+ assert.match(html,/Affiner avec les 14 critères/);
  assert.match(ui,/aria-pressed/);
  assert.match(ui,/type="range" min="0" max="5"/);
  assert.match(ui,/type="checkbox"/);
