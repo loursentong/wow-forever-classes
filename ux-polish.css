@@ -16,8 +16,7 @@ header.top .lede{max-width:67ch;font-size:clamp(1rem,1.25vw,1.09rem);line-height
  border-color:var(--line);
  box-shadow:0 10px 34px rgba(0,0,0,.045)
 }
-:root[data-theme="dark"] .reco-hero,
-:root:not([data-theme="light"]) .reco-hero{
+:root[data-theme="dark"] .reco-hero{
  background-image:
  linear-gradient(90deg,#171d26 0%,#171d26 26%,rgba(23,29,38,.94) 45%,rgba(23,29,38,.5) 72%,rgba(23,29,38,.12) 100%),
  url("assets/hero-landscape.svg")
@@ -141,3 +140,5 @@ header.top .lede{max-width:67ch;font-size:clamp(1rem,1.25vw,1.09rem);line-height
  .reco-reveal-button,.reco-hero,.reco-summary summary:after,.reco-cert-list,.reco-strict,
  .reco-priority-class{animation:none!important;transition:none!important;transform:none!important}
 }
+
+@media(prefers-color-scheme:dark){:root[data-theme="system"] .reco-hero{background-image:linear-gradient(90deg,#171d26 0%,#171d26 26%,rgba(23,29,38,.94) 45%,rgba(23,29,38,.5) 72%,rgba(23,29,38,.12) 100%),url("assets/hero-landscape.svg")}}
