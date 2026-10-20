@@ -10,102 +10,112 @@ const ui=fs.readFileSync(path.join(__dirname,'..','questionnaire.js'),'utf8');
 function createHarness(initial={}){
  const store={...initial},listeners={};
  const results={innerHTML:''},form={innerHTML:'',listeners:{},
-   addEventListener(k,fn){this.listeners[k]=fn;},
-   contains(){return true;},
-   querySelector(){return null;}};
+  addEventListener(k,fn){this.listeners[k]=fn;},
+  contains(){return true;},
+  querySelector(){return null;}};
  const reset={addEventListener(k,fn){listeners[k]=fn;},click(){listeners.click();}};
- const root={querySelector(sel){return {'#reco-form':form,'#reco-results':results,'#reco-reset':reset}[sel];}};
+ const root={querySelector(s){return {'#reco-form':form,'#reco-results':results,'#reco-reset':reset}[s]||null;}};
  const document={getElementById(id){return id==='reco-app'?root:null;}};
  const localStorage={getItem(k){return Object.hasOwn(store,k)?store[k]:null;},setItem(k,v){store[k]=v;}};
- vm.runInNewContext(ui,{window:{WFRecommend:engine},document,localStorage},{timeout:2000});
- return {form,results,reset,store,
-   press(kind,group,key){
-     const target={dataset:{[kind]:group,key},closest(){return this;}};
-     form.listeners.click({target});
-   },
-   mastery(n){
-     const target={dataset:{mastery:String(n)},closest(){return this;}};
-     form.listeners.click({target});
-   },
-   certainty(group,key,n){
-     form.listeners.input({target:{dataset:{certgroup:group,certkey:key},value:String(n)}});
-   },
-   strict(field,checked){
-     const target={dataset:{},checked,hasAttribute(k){return k==='data-roles-strict'&&field==='roles';}};
-     if(field!=='roles')target.dataset.strict=field;
-     form.listeners.change({target});
-   },
-   profile(){return JSON.parse(store['wf-recommend-v1']);}
+ const window={WFRecommend:engine};
+ vm.runInNewContext(ui,{window,document,localStorage},{timeout:2000});
+ function button(dataset,attrs=[]){
+  return {dataset,hasAttribute(k){return attrs.includes(k);},closest(){return this;}};
+ }
+ function press(dataset,attrs=[]){form.listeners.click({target:button(dataset,attrs)});}
+ return {form,results,reset,store,window,
+  step(n){press({step:String(n)});},
+  next(){press({},['data-next']);},
+  back(){press({},['data-prev']);},
+  choose(group,key){this.step({roles:0,activities:1,range:2,styles:3,pet:4,difficulty:5}[group]);press({multi:group,key});},
+  press(kind,group,key){press({[kind]:group,key});},
+  single(group,key){press({single:group,key});},
+  mastery(n){this.step(5);press({mastery:String(n)});},
+  certainty(group,key,n){form.listeners.input({target:{dataset:{certgroup:group,certkey:key},value:String(n),setAttribute(){}}});},
+  strict(field,checked){const target={dataset:{},checked,hasAttribute(k){return k==='data-roles-strict'&&field==='roles';}};
+    if(field!=='roles')target.dataset.strict=field;form.listeners.change({target});},
+  profile(){return JSON.parse(store['wf-recommend-v1']);}
  };
 }
-test('Le formulaire est visible et la liste reste vide avant réponse',()=>{
+test('Accueil épuré : une question, six étapes et aucune recommandation arbitraire',()=>{
  const h=createHarness();
- assert.match(h.form.innerHTML,/Quels rôles souhaites-tu jouer/);
- assert.match(h.form.innerHTML,/Ton niveau actuel/);
- assert.match(ui,/Certitude pour/);
- assert.match(h.results.innerHTML,/Aucune classe n’est favorisée/);
+ assert.match(h.form.innerHTML,/Quels rôles/);
+ assert.match(h.form.innerHTML,/data-step="5"/);
+ assert.equal((h.form.innerHTML.match(/class="reco-question"/g)||[]).length,1);
+ assert.match(h.results.innerHTML,/Aucune classe ne part gagnante/);
  assert.equal(h.profile().mastery,2);
 });
-test('Cliquer une réponse sélectionne une certitude modifiable de zéro à cinq',()=>{
+test('Six étapes accessibles directement, parcours suivant/précédent, repères de progression',()=>{
  const h=createHarness();
- h.press('multi','styles','ctrl');
+ h.step(3);assert.match(h.form.innerHTML,/Quel style te ressemble/);
+ assert.match(h.form.innerHTML,/Étape 4 sur 6/);
+ h.next();assert.match(h.form.innerHTML,/Quelle place pour les familiers/);
+ h.back();assert.match(h.form.innerHTML,/Quel style te ressemble/);
+ h.step(5);assert.match(h.form.innerHTML,/Ton expérience actuelle/);
+ h.step(0);assert.match(h.form.innerHTML,/Quel rôle voudrais-tu jouer/);
+});
+test('Certitude 0 à 5 visible uniquement pour les réponses actives',()=>{
+ const h=createHarness();
+ h.step(3);h.press('multi','styles','ctrl');
  assert.match(h.form.innerHTML,/Certitude pour « Contrôle »/);
  h.certainty('styles','ctrl',0);
  assert.equal(h.profile().styles.ctrl,0);
- assert.match(h.results.innerHTML,/Les classes qui correspondent/);
+ assert.match(h.results.innerHTML,/Les meilleures pistes pour toi/);
  h.certainty('styles','ctrl',5);
  assert.equal(h.profile().styles.ctrl,5);
  h.press('multi','styles','ctrl');
  assert.ok(!Object.hasOwn(h.profile().styles,'ctrl'));
- assert.match(h.results.innerHTML,/Aucune classe n’est favorisée/);
+ assert.match(h.results.innerHTML,/Aucune classe ne part gagnante/);
 });
-test('Au maximum trois styles, avec suppression et réattribution',()=>{
- const h=createHarness();
- for(const v of ['ctrl','burst','zone'])h.press('multi','styles',v);
+test('Jusqu’à trois styles, y compris après navigation entre questions',()=>{
+ const h=createHarness();h.step(3);
+ for(const k of ['ctrl','burst','zone'])h.press('multi','styles',k);
  h.press('multi','styles','surv');
  assert.deepEqual(Object.keys(h.profile().styles),['ctrl','burst','zone']);
- h.press('multi','styles','burst');
- h.press('multi','styles','surv');
+ h.step(4);h.step(3);
+ h.press('multi','styles','burst');h.press('multi','styles','surv');
  assert.deepEqual(Object.keys(h.profile().styles),['ctrl','zone','surv']);
+ assert.match(h.form.innerHTML,/3 sur 3 styles possibles/);
 });
-test('Le veto sur un rôle unique est proposé et appliqué explicitement',()=>{
+test('Rôle, portée et familiaux stricts sont explicites',()=>{
  const h=createHarness();
  h.press('multi','roles','tank');
- assert.match(h.form.innerHTML,/Ce rôle est indispensable pour moi/);
+ assert.match(h.form.innerHTML,/Ce rôle est indispensable/);
  h.strict('roles',true);
- h.press('single','range','distance');
+ h.step(2);h.single('range','distance');
+ assert.match(h.form.innerHTML,/C’est une exigence absolue/);
  h.strict('range',true);
- assert.match(h.results.innerHTML,/Aucune spécialisation ne respecte/);
+ assert.match(h.results.innerHTML,/Aucune spécialisation ne remplit/);
  h.strict('range',false);
- assert.match(h.results.innerHTML,/Les classes qui correspondent/);
+ assert.match(h.results.innerHTML,/Les meilleures pistes pour toi/);
 });
-test('La maîtrise et la complexité peuvent diverger et persistent',()=>{
- const h=createHarness();
- h.mastery(0);
- h.press('single','difficulty','complex');
- h.certainty('difficulty','complex',4);
+test('Niveau actuel et complexité souhaitée sont indépendants et persistants',()=>{
+ const h=createHarness();h.mastery(0);
+ h.single('difficulty','complex');h.certainty('difficulty','complex',4);
  assert.equal(h.profile().mastery,0);
  assert.equal(h.profile().difficulty.value,'complex');
  assert.equal(h.profile().difficulty.certainty,4);
- const loaded=createHarness(h.store);
- assert.equal(loaded.profile().mastery,0);
- assert.match(loaded.form.innerHTML,/aria-pressed="true">Débutant/);
- assert.match(loaded.form.innerHTML,/data-single="difficulty" data-key="complex" aria-pressed="true"/);
+ const saved=createHarness(h.store);saved.step(5);
+ assert.match(saved.form.innerHTML,/data-mastery="0" aria-pressed="true"/);
+ assert.match(saved.form.innerHTML,/data-single="difficulty" data-key="complex" aria-pressed="true"/);
+ assert.equal(saved.window.WFGuide.getMastery(),0);
 });
-test('Réinitialisation et stockage local invalide ne provoquent aucune erreur',()=>{
- const h=createHarness({'wf-recommend-v1':'ceci nest pas du JSON'});
- assert.match(h.results.innerHTML,/Aucune classe n’est favorisée/);
- h.press('multi','activities','bg');
+test('Réinitialisation, navigation et localStorage corrompu',()=>{
+ const h=createHarness({'wf-recommend-v1':'INVALID JSON'});
+ assert.match(h.results.innerHTML,/Aucune classe ne part gagnante/);
+ h.step(1);h.press('multi','activities','bg');
  h.reset.click();
  assert.deepEqual(Object.keys(h.profile().activities),[]);
  assert.equal(h.profile().range.value,'any');
- assert.match(h.results.innerHTML,/Aucune classe n’est favorisée/);
+ assert.match(h.form.innerHTML,/Étape 1 sur 6/);
+ assert.match(h.results.innerHTML,/Aucune classe ne part gagnante/);
 });
-test('Cas limite : déclencheur sans valeurs de poids historique ne crée aucun couplage',()=>{
+test('Les poids historiques ne changent pas le guide et l’API de synchronisation existe',()=>{
  const h=createHarness({'wf-overview-v3':JSON.stringify({w:{tank:3,bg:3}})});
- h.press('single','pet','avoid');
- h.strict('pet',true);
- assert.match(h.results.innerHTML,/Les classes qui correspondent/);
+ h.step(4);h.single('pet','avoid');h.strict('pet',true);
+ assert.match(h.results.innerHTML,/Les meilleures pistes pour toi/);
  assert.deepEqual(Object.keys(h.profile().roles),[]);
  assert.equal(h.profile().pet.strict,true);
+ h.window.WFGuide.setMastery(3);
+ assert.equal(h.profile().mastery,3);
 });
