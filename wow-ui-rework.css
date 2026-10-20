@@ -296,3 +296,13 @@ html[data-theme="dark"] body{background:radial-gradient(ellipse 65% 36% at 50% 2
  opacity:1!important;mix-blend-mode:normal!important;pointer-events:none;
 }
 .reco-hero .wow-hero-logo,.reco-hero .reco-hero-copy{position:relative;z-index:2}
+
+/* L'accueil est la vitrine : la commande d'apparence ne doit pas pousser
+ * l'illustration de 50 px vers le bas sur ordinateur. */
+@media(min-width:621px){
+ .wrap{position:relative;padding-top:10px}
+ .top{position:absolute;z-index:20;top:17px;right:clamp(16px,2vw,32px);height:auto;min-height:0}
+ .top .theme-choice{background:rgba(9,20,32,.83);border:1px solid rgba(230,177,78,.35);
+  border-radius:5px;padding:3px 5px;color:#c9dbe6}
+ .top .theme-choice select{background:#101e2b;color:#ebeff6}
+}
