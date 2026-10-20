@@ -187,7 +187,7 @@ form.addEventListener('click',function(ev){
   state[group].value=key;state[group].strict=false;state[group].certainty=3;
   renderForm();renderResults();return;
  }
- if(b.dataset.mastery!==undefined){state.mastery=Number(b.dataset.mastery);renderForm();renderResults();}
+ if(b.dataset.mastery!==undefined){state.mastery=Number(b.dataset.mastery);renderForm();renderResults();var old=document.querySelector&&document.querySelector('.mbtn[data-m="'+state.mastery+'"]');if(old)old.click();}
 });
 form.addEventListener('input',function(ev){
  var el=ev.target,group=el.dataset.certgroup,key=el.dataset.certkey;
@@ -213,5 +213,6 @@ var advanced=document.getElementById('legacy-advanced');
 if(advanced)advanced.addEventListener('toggle',function(){
  if(advanced.open)window.dispatchEvent(new Event('resize'));
 });
+window.WFGuide={getMastery:function(){return state.mastery;},setMastery:function(v){if(Number.isInteger(v)&&v>=0&&v<=3){state.mastery=v;renderForm();renderResults();}}};
 renderForm();renderResults();
 })();
