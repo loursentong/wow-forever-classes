@@ -4,7 +4,7 @@
 var E=window.WFRecommend;
 var root=document.getElementById('reco-app');
 if(!E||!root)return;
-var KEY='wf-recommend-v1',state=E.sanitize(null),step=0;
+var KEY='wf-recommend-v1',state=E.sanitize(null),step=0,revealed=false;
 try{state=E.sanitize(JSON.parse(localStorage.getItem(KEY)||'null'));}catch(e){state=E.sanitize(null);}
 var names={
  roles:{dps:'DPS',tank:'Tank',soin:'Soin'},
@@ -112,8 +112,27 @@ function renderForm(){
   '<span class="reco-form-help">Tu peux passer une question.</span>'+
   (step===5?'<button type="button" class="reco-next" data-show-results>Voir mes résultats ↓</button>':'<button type="button" class="reco-next" data-next>Question suivante →</button>')+'</div>';
  var tags=summaryText();
- html+='<div class="reco-summary"><strong>Mes choix</strong><div class="reco-summary-tags">'+(tags.length?tags.map(function(t){return '<span>'+esc(t)+'</span>';}).join(''):'<span class="reco-summary-empty">Tu peux commencer par n’importe quelle question.</span>')+'</div></div>';
- root.querySelector('#reco-form').innerHTML=html;
+ var form=root.querySelector('#reco-form'),prevSummary=form.querySelector&&form.querySelector('.reco-summary');
+ var summaryOpen=!!(prevSummary&&prevSummary.open);
+ html+='<details class="reco-summary" '+(summaryOpen?'open':'')+'><summary>Mes choix <span class="reco-summary-count">'+tags.length+' sélection'+(tags.length>1?'s':'')+'</span></summary><div class="reco-summary-tags">'+(tags.length?tags.map(function(t){return '<span>'+esc(t)+'</span>';}).join(''):'<span class="reco-summary-empty">Tu peux commencer par n’importe quelle question.</span>')+'</div></details>';
+ var canAnimate=!!(form.getBoundingClientRect&&window.matchMedia&&window.requestAnimationFrame&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+ var oldHeight=canAnimate?form.getBoundingClientRect().height:0;
+ form.style&&(form.style.transition='none');
+ form.style&&(form.style.height='');
+ form.innerHTML=html;
+ if(canAnimate&&oldHeight>0){
+  var newHeight=form.getBoundingClientRect().height;
+  if(Math.abs(newHeight-oldHeight)>4){
+   form.style.height=oldHeight+'px';form.style.overflow='hidden';
+   void form.offsetHeight;
+   window.requestAnimationFrame(function(){
+    form.style.transition='height 210ms cubic-bezier(.2,.75,.25,1)';
+    form.style.height=newHeight+'px';
+   });
+   if(form.__recoMotion)window.clearTimeout(form.__recoMotion);
+   form.__recoMotion=window.setTimeout(function(){form.style.height='';form.style.overflow='';form.style.transition='';},260);
+  }
+ }
 }
 function pointsName(k){return labels[k]||k;}
 function fitLabel(v){
@@ -140,39 +159,58 @@ function resultCard(r,i){
   '<a href="'+esc(r.spec.source)+'" target="_blank" rel="noopener noreferrer">Source officielle de la classe ↗</a></details></article>';
 }
 function renderResults(){
- var report=E.recommend(state),out=root.querySelector('#reco-results');
+ var report=E.recommend(state),out=root.querySelector('#reco-results'),h='';
  if(report.status==='unanswered'){
-  out.innerHTML='<div class="reco-empty"><div class="reco-empty-art" aria-hidden="true"><span>?</span><span>✦</span><span>✧</span></div>'+
-   '<span class="reco-kicker">Ton prochain personnage</span><h3>Les meilleures pistes restent à découvrir</h3>'+
-   '<p>Aucune classe ne part gagnante. Choisis une ou deux envies à gauche : tes premières recommandations apparaîtront ici.</p>'+
-   '<div class="reco-empty-benefits"><span>✓ 28 configurations étudiées</span><span>✓ Tes hésitations sont prises en compte</span><span>✓ Aucun choix obligatoire</span></div></div>';
+  h='<div class="reco-empty"><span class="reco-kicker">Ta prochaine aventure</span><h3>Tout commence par tes envies.</h3>'+
+   '<p>Choisis ce qui t’attire : nous construirons ta sélection étape par étape, sans favoriser de classe au départ.</p></div>';
+ }else if(!revealed){
+  if(report.used.length<2&&report.status==='ok'){
+   h='<div class="reco-empty reco-awaiting"><span class="reco-kicker">Une première piste</span><h3>Encore un peu de contexte…</h3>'+
+    '<p>Un seul choix ne définit pas ton style. Continue à ton rythme : une autre préférence rendra l’aperçu plus pertinent.</p>'+
+    '<div class="reco-discovery-progress"><span></span><span></span><span></span></div></div>';
+  }else{
+   h='<div class="reco-empty reco-ready"><span class="reco-kicker">Une sélection prend forme</span><h3>Prêt à découvrir tes pistes ?</h3>'+
+    '<p>Tes réponses permettent de commencer une comparaison. Tu peux continuer les questions ou demander un aperçu dès maintenant.</p>'+
+    '<button type="button" class="reco-reveal-button" data-reco-reveal>Voir un aperçu <span aria-hidden="true">→</span></button></div>';
+  }
  }else if(report.status==='no-match'){
-  out.innerHTML='<div class="reco-empty reco-no-match"><span class="reco-kicker">Aucune correspondance stricte</span><h3>Ces exigences ne vont pas ensemble</h3>'+
-   '<p>Aucune spécialisation ne remplit toutes tes contraintes. Rends éventuellement un rôle, la portée ou le familier non obligatoire, puis réessaie.</p></div>';
+  h='<div class="reco-empty reco-no-match"><span class="reco-kicker">Aucune correspondance stricte</span><h3>Ces exigences ne vont pas ensemble</h3>'+
+   '<p>Aucune configuration ne remplit toutes tes contraintes. Tu peux rendre un rôle, la portée ou le familier non obligatoire.</p>'+
+   '<button type="button" class="reco-hide-results" data-reco-hide>Revenir à mes réponses</button></div>';
  }else{
-  var h='<div class="reco-results-head"><div><span class="reco-kicker">Résultats en direct</span><h3>Les meilleures pistes pour toi</h3></div>'+
-   '<p>'+report.compatible+' configurations compatibles · '+report.used.length+' dimensions exprimées</p></div>';
+  h='<div class="reco-results-head"><div><span class="reco-kicker">Sélection personnalisée</span><h3>Tes meilleures pistes</h3></div>'+
+   '<button type="button" class="reco-hide-results" data-reco-hide>Masquer les résultats</button></div>';
+  h+='<p class="reco-results-meta">'+report.compatible+' configurations compatibles · '+report.used.length+' dimensions prises en compte</p>';
   h+='<div class="reco-cards">'+report.top.map(resultCard).join('')+'</div>';
-  if(report.uncertain.length)h+='<p class="reco-note">Analyse de sensibilité : '+report.uncertain.length+' préférence(s) hésitante(s) testée(s) séparément. Il ne s’agit pas d’une probabilité de satisfaction.</p>';
-  else h+='<p class="reco-note">Ajoute tes préférences et leur certitude pour affiner les pistes ; ces scores restent des estimations.</p>';
+  if(report.uncertain.length)h+='<p class="reco-note">Sensibilité : '+report.uncertain.length+' préférence(s) hésitante(s) explorée(s). Ces scénarios ne sont pas des probabilités.</p>';
+  else h+='<p class="reco-note">Ces scores sont des estimations de correspondance, pas des probabilités de satisfaction.</p>';
+ }
+ if(out.innerHTML!==h){
   out.innerHTML=h;
+  if(out.classList)out.classList.toggle('is-revealed',!!revealed&&report.status==='ok');
  }
  try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}
+}
+function showResults(){
+ var report=E.recommend(state);
+ if(report.status==='unanswered')return;
+ revealed=true;renderResults();
+ var r=root.querySelector('#reco-results');
+ if(r&&r.scrollIntoView)r.scrollIntoView({behavior:window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'nearest'});
 }
 function navigate(next){
  step=Math.max(0,Math.min(5,next));renderForm();
  var legend=root.querySelector('#reco-form .reco-question legend');
  if(legend&&typeof legend.focus==='function')legend.focus({preventScroll:true});
 }
-var form=root.querySelector('#reco-form');
+var form=root.querySelector('#reco-form'),resultsArea=root.querySelector('#reco-results');
+resultsArea.addEventListener('click',function(ev){var b=ev.target.closest('button');if(!b)return;if(b.hasAttribute('data-reco-reveal'))showResults();else if(b.hasAttribute('data-reco-hide')){revealed=false;renderResults();}});
 form.addEventListener('click',function(ev){
  var b=ev.target.closest('button');if(!b||!form.contains(b))return;
  if(b.dataset.step!==undefined){navigate(Number(b.dataset.step));return;}
  if(b.hasAttribute('data-prev')){navigate(step-1);return;}
  if(b.hasAttribute('data-next')){navigate(step+1);return;}
- if(b.hasAttribute('data-show-results')){
-  var r=root.querySelector('#reco-results');if(r&&r.scrollIntoView)r.scrollIntoView({behavior:'smooth',block:'start'});return;
- }
+ if(b.hasAttribute('data-show-results')){showResults();return;}
  var group=b.dataset.multi,key=b.dataset.key;
  if(group){
   if(Object.prototype.hasOwnProperty.call(state[group],key))delete state[group][key];
@@ -207,7 +245,7 @@ form.addEventListener('change',function(ev){
  renderResults();
 });
 root.querySelector('#reco-reset').addEventListener('click',function(){
- state=E.sanitize(null);step=0;renderForm();renderResults();
+ state=E.sanitize(null);step=0;revealed=false;renderForm();renderResults();
 });
 var advanced=document.getElementById('legacy-advanced');
 if(advanced)advanced.addEventListener('toggle',function(){
