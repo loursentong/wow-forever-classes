@@ -29,6 +29,9 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: Test live questionnaire interactions and mobile layout
         run: node tests/browser-smoke.cjs
+      - name: Diagnose current GitHub Pages production assets
+        run: node tests/pages-live-check.cjs
+        continue-on-error: true
       - name: Upload screenshots for visual review
         if: always()
         uses: actions/upload-artifact@v4
