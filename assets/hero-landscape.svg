@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 360" role="img" aria-label="Paysage fantastique stylisé">
+<defs>
+ <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#1a293c"/><stop offset=".58" stop-color="#213047"/><stop offset="1" stop-color="#182533"/></linearGradient>
+ <radialGradient id="sun"><stop stop-color="#f1c276" stop-opacity=".57"/><stop offset=".38" stop-color="#d29b44" stop-opacity=".25"/><stop offset="1" stop-color="#c18732" stop-opacity="0"/></radialGradient>
+ <linearGradient id="mount" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#304153"/><stop offset="1" stop-color="#101b27"/></linearGradient>
+ <linearGradient id="river" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#a48756" stop-opacity=".42"/><stop offset="1" stop-color="#354958" stop-opacity=".05"/></linearGradient>
+</defs>
+<rect width="980" height="360" fill="url(#sky)"/>
+<circle cx="753" cy="117" r="190" fill="url(#sun)"/>
+<circle cx="753" cy="117" r="45" fill="#e9bd79" opacity=".19"/>
+<g fill="#d6b582" opacity=".52"><circle cx="84" cy="65" r="1.3"/><circle cx="157" cy="140" r="1"/><circle cx="317" cy="46" r="1.1"/><circle cx="544" cy="65" r="1.4"/><circle cx="887" cy="57" r="1.1"/><circle cx="932" cy="182" r="1"/></g>
+<path d="M0 235 115 164 183 212 304 105 406 233 511 129 649 236 750 179 837 231 930 144 980 183V360H0Z" fill="#334357" opacity=".52"/>
+<path d="M0 277 89 216 178 274 318 151 406 244 516 174 599 251 753 187 890 282 980 224V360H0Z" fill="url(#mount)" opacity=".92"/>
+<path d="m318 151-19 30 20-7 16 15-3-20 26 21-40-39ZM516 174l-20 23 21-9 15 14 19 7-35-35Z" fill="#89939a" opacity=".32"/>
+<g fill="#121d28" stroke="#ae8b55" stroke-width=".9" stroke-opacity=".58"><path d="M706 258v-91l24-8v-38l12-11 12 11v28l17-8v-50l11-10 11 10v58l23 12v-49l13-9 13 9v58l20 8v95Z"/><path d="M732 158v-35h19v36m21-15V91h22v57m22 13v-46h23v48" fill="none"/></g>
+<g fill="#cfa862" opacity=".65"><rect x="738" y="180" width="4" height="9"/><rect x="754" y="199" width="4" height="9"/><rect x="782" y="167" width="5" height="10"/><rect x="814" y="181" width="5" height="10"/></g>
+<path d="M0 300q150-43 267-5t246-12 255-3 212-4v84H0Z" fill="#0e1924" opacity=".88"/>
+<path d="M590 360c50-38 99-45 132-55s104-15 149-10q-104 23-179 65Z" fill="url(#river)"/>
+<path d="M26 338c130-24 221-16 323 16m111 0c98-42 180-39 240-30" fill="none" stroke="#bc9a63" stroke-opacity=".19" stroke-width="1.5"/>
+</svg>
