@@ -1,115 +1,59 @@
-# Modèle de maîtrise et visualisations — bêta du 20 octobre 2026
+# WoW Forever — modèle de maîtrise consolidé (20 octobre 2026)
 
-## Objectif et périmètre
+## Principes
 
-Le comparatif conserve **neuf classes, douze axes, les notes source sur 1–5, les quatre profils de pondération et le thème graphique initial**. Le nouveau sélecteur Débutant / Intermédiaire / Confirmé / Expert agit sur la **réalisation hypothétique** de certaines performances en jeu. Il n'ajoute pas un treizième axe aux 12 pondérations.
+Cette version combine le plancher et le plafond distincts introduits dans la branche Claude et les contrôles de non-régression du modèle précédent. Elle conserve les neuf classes, douze axes et 108 notes source. **Les coefficients de maîtrise sont des hypothèses éditoriales, non des observations au niveau 60.** Le score 0–100 est un indice d'adéquation et non une probabilité de satisfaction, de victoire ou de performance.
 
-La différence conceptuelle est essentielle :
+Le **plancher** représente la difficulté d'accès aux performances, le **plafond** le potentiel de progrès supplémentaire. Deux paires sont définies par classe : une pour PvE (tank, soin, DPS, solo) et une pour PvP (BG, duel/sauvage, contrôle, survie). Les axes polyvalence, mobilité, utilité et technicité restent invariants. Les notes 1 ne peuvent jamais acquérir de rôle absent.
 
-- **Technicité** (critère pondéré existant) = intérêt du joueur pour les classes exigeantes. Un joueur débutant peut parfaitement souhaiter apprendre une classe difficile.
-- **Niveau de maîtrise** (nouveau réglage global) = aptitude courante à exécuter des mécaniques exigeantes. Il peut évoluer au fil du temps.
-- **Score 0–100** = indice d'adéquation du profil ; il **n'est pas une probabilité de satisfaction, de victoire ou de performance**.
-- **Notes de la matrice** = observations/projections éditoriales inchangées, servant de référence au niveau Confirmé. Elles ne sont pas un bilan objectif à tous les niveaux de maîtrise.
+| Classe | Plancher PvE | Plafond PvE | Plancher PvP | Plafond PvP |
+| --- | ---: | ---: | ---: | ---: |
+| Guerrier | 3 | 1 | 5 | 2 |
+| Paladin | 2 | 1 | 2 | 1 |
+| Chasseur | 2 | 2 | 3 | 1 |
+| Voleur | 2 | 1 | 5 | 2 |
+| Prêtre | 3 | 1 | 4 | 2 |
+| Chaman | 3 | 1 | 4 | 1 |
+| Mage | 3 | 1 | 5 | 2 |
+| Démoniste | 3 | 1 | 4 | 2 |
+| Druide | 4 | 1 | 5 | 2 |
 
-## Données et règles (hypothèses déclarées)
+### Exception contrôlée
 
-Les sources documentées dans [AUDIT-2026-10-20.md](AUDIT-2026-10-20.md), notamment les [descriptions officielles des classes de Blizzard](https://worldofwarcraft.blizzard.com/en-us/news/24301515) et les [limites des rotations optimisées par MythicSim](https://mythicsim.com/wow-forever/tier-list), éclairent **quels** aspects demandent de la maîtrise. En revanche, **aucune donnée disponible ne quantifie leurs pentes par niveau de joueur**. Les coefficients ci-dessous sont des conventions éditoriales et non des résultats d'étude.
+**Chasseur solo/farm : plancher 1, plafond 0.** Le leveling avec familier reste accessible à un débutant, même si le DPS optimisé en raid repose sur une rotation exigeante de melee weaving. Un unique plancher PvE ne doit pas pénaliser automatiquement son leveling. Les autres activités restent régies par la paire PvE/PvP ; une évolution par spécialisation et activité demanderait des observations en jeu.
 
-Pour chaque classe et critère, nous déclarons une **sensibilité d'exécution** entière entre 0 (très peu sensible) et 3 (très sensible).
+## Formule
 
-| Classe | Tank | Soin | DPS | BG | Duel/sauvage | Contrôle | Survie | Solo |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Guerrier | 2 | 0 | 2 | 2 | 3 | 2 | 2 | 2 |
-| Paladin | 1 | 2 | 2 | 1 | 2 | 1 | 1 | 1 |
-| Chasseur | 0 | 0 | 3 | 2 | 2 | 2 | 2 | 0 |
-| Voleur | 0 | 0 | 3 | 2 | 3 | 3 | 3 | 2 |
-| Prêtre | 0 | 2 | 2 | 2 | 2 | 2 | 2 | 2 |
-| Chaman | 1 | 2 | 3 | 2 | 3 | 1 | 2 | 2 |
-| Mage | 0 | 0 | 2 | 2 | 3 | 3 | 3 | 2 |
-| Démoniste | 0 | 0 | 2 | 2 | 3 | 3 | 2 | 2 |
-| Druide | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 |
+Niveau de maîtrise, du débutant à expert :
+- Pénalité : -0,40 / -0,20 / 0 / 0.
+- Bonus : 0 / 0 / 0 / +0,25.
 
-Les catégories **Polyvalence, Mobilité, Utilité, Technicité** restent inchangées à tout niveau : nous ne modifions pas artificiellement l'accès aux rôles, les sorts existants, la mobilité structurelle ni l'envie de difficulté.
+Pour un axe ajustable dont la note est supérieure à 1, la note réalisée est la note source + pénalité × (plancher - 1) + bonus × plafond, bornée entre 1 et 5. Pour les autres axes, la note réalisée égale la note source.
 
-Le cas du Chasseur illustre le découplage : le leveling solo assisté par familier est accessible, tandis que les rotations DPS utilisant le `melee weaving` sont exigeantes et leur faisabilité en raid n'est pas encore confirmée. Le Druide combine plusieurs modes de jeu et demandes d'exécution. Ces appréciations qualitatives sont plausibles ; **leur codage numérique n'est pas encore validé par télémétrie**.
+Score = 100 × somme(poids × note réalisée) / [5 × somme des poids], arrondi uniquement pour l'affichage. Si les poids sont tous nuls, le score vaut zéro. Au niveau **Confirmé**, pénalité et bonus sont nuls : les résultats historiques de Claude et de GPT-6 sont préservés.
 
-### Fonction mathématique exacte
+Pour un Chasseur débutant, note DPS 5 avec plancher PvE 2 donne 4,6, mais sa note solo/farm demeure 5 ; au niveau expert, le DPS reste borné à 5. Les plafonds des classes ne sont pas nécessairement supérieurs quand les planchers sont plus élevés.
 
-Soit `r(c,a)` la note de référence (1–5), `L(c,a)` la sensibilité (0–3) et `d(s)` l'ajustement du niveau choisi :
+## Neutralité et accès universel
 
-| Niveau | Ajustement d(s) |
-| --- | ---: |
-| Débutant | -0,40 |
-| Intermédiaire | -0,18 |
-| Confirmé | 0,00 |
-| Expert | +0,12 |
+- Valeur par défaut : profil « Tout à égalité » et niveau Confirmé.
+- Profils : Tout à égalité, Polyvalence, PvP d'abord, PvE d'abord.
+- Les neuf encarts « Pour toi » ont été remplacés par des indications génériques de style de jeu.
+- Les visiteurs conservent leurs propres préférences localement ; les anciennes sauvegardes sont migrées lorsqu'elles sont valides.
+- La matrice peut afficher les notes ajustées avec ▲ et ▼, sans modifier les 108 notes de référence.
+- Les neuf courbes sont tracées, les utilisateurs choisissent lesquelles mettre en avant. Le tableau repliable restitue les 36 valeurs numériques.
+- Le duel compare deux classes et décompose leur écart en contributions signées et pondérées. Les écarts bruts peuvent différer des différences entre nombres arrondis.
 
-`note_réalisée(c,a,s) = r(c,a)` quand la note vaut 1 ou quand la sensibilité est nulle.
+## Comparaison MythicSim
 
-Sinon : `note_réalisée(c,a,s) = min(5, max(1, r(c,a) + d(s) × L(c,a)))`.
+Source : https://mythicsim.com/wow-forever/tier-list , snapshot daté du 20 octobre 2026. Le classement actuel **en menace/s (TPS), avec bijoux**, est : Druide Ours 1 579 TPS, 1er A ; Guerrier Protection 1 349, 2e A ; Guerrier Fureur/Protection expérimental 1 152, 3e B ; Paladin Sacré/Protection expérimental 1 063, 4e C ; Paladin Protection 1 052, 5e C ; Paladin Vindicte/Protection expérimental 993, 6e C.
 
-`indice(c,s) = arrondi[100 × somme_a(poids(a) × note_réalisée(c,a,s)) / (5 × somme_a poids(a))]`.
+Claude avait observé d'autres valeurs, non reproduites par cette consultation. Ne jamais fusionner mesures avec/sans bijoux ou classement TPS et DPS sans tracer l'état exact de la page. **Le TPS mesure la menace, pas la résistance du tank.**
 
-Cas particulier : somme des poids nulle ⇒ indice 0 pour toutes les classes. Les notes ne peuvent jamais dépasser 5, et les classes ne reçoivent jamais de rôle absent de leur kit.
+## Fiabilité, tests et limites
 
-**Par construction**, le niveau Confirmé donne exactement les scores de l'ancienne version. Un niveau supérieur n'inverse jamais la performance d'une classe donnée (monotonie), mais peut changer son ordre par rapport aux autres.
-
-L'augmentation du score pour un Expert n'est **pas** un bonus de dégâts mesuré ni une récompense mécanique liée au niveau de difficulté ; elle représente seulement l'incertitude sur l'accès au potentiel des axes sensibles. Le choix d'un ajustement positif plus petit que les malus s'appuie sur l'idée que les notes de départ décrivaient déjà un potentiel relativement élevé. Ce calibrage est révisable.
-
-### Exemple sur le preset Polyvalent
-
-| Niveau | 1re classe | 2e classe | Classement complet calculé sur les neuf classes |
-| --- | --- | --- | --- |
-| Débutant | Paladin 70 | Druide 64 | Paladin 70, Druide 64, Prêtre 59, Démoniste 59, Chaman 57, Guerrier 56, Chasseur 54, Voleur 48, Mage 47 |
-| Intermédiaire | Paladin 74 | Druide 73 | Paladin 74, Druide 73, Démoniste 65, Prêtre 64, Chaman 63, Guerrier 62, Chasseur 59, Voleur 54, Mage 53 |
-| Confirmé | Druide 80 | Paladin 78 | Druide 80, Paladin 78, Démoniste 70, Prêtre 68, Chaman 68, Guerrier 67, Chasseur 63, Voleur 60, Mage 58 |
-| Expert | Druide 85 | Paladin 79 | Druide 85, Paladin 79, Chaman 72, Prêtre 71, Démoniste 71, Guerrier 70, Chasseur 65, Voleur 62, Mage 61 |
-
-Ces classements sont des **simulations illustratives de maîtrise**, pas des probabilités ni des prédictions validées. Des écarts de 1 à 3 points ne sont pas forcément discriminants.
-
-## Visualisations implémentées
-
-### 1. Progression selon la maîtrise
-
-- Courbes des trois meilleures classes pour les **pondérations et le niveau actuellement sélectionnés**.
-- Abscisses : les quatre niveaux ; ordonnées : indice d'adéquation sur 100 (jamais DPS).
-- Trait vertical : position de maîtrise sélectionnée ; légende avec noms et couleurs des classes.
-- Valeurs numériques disponibles dans un tableau HTML repliable sous le graphique.
-- SVG natif : aucune bibliothèque ni ressource graphique externe.
-
-### 2. Pourquoi une classe devance l'autre
-
-- Comparaison initiale des deux premières classes du classement ; les utilisateurs peuvent sélectionner manuellement n'importe quelle paire.
-- Chaque barre est un écart **en points d'indice** non arrondis sur un axe pondéré : `100 × poids(a) × [note_réalisée(A,a)-note_réalisée(B,a)] / (5 × somme_poids)`.
-- Une barre positive avantage la classe A, une barre négative la classe B ; les contributions sont triées par valeur absolue.
-- La somme des contributions égale l'écart de score **avant arrondi**. Les écarts après arrondi peuvent différer de 1 point.
-- Les axes de poids nul ne figurent pas ; lorsque tous les poids sont nuls, le graphique affiche une explication.
-- Ces contributions ne sont **pas des causes de victoire** : elles expliquent le fonctionnement d'un modèle de préférences.
-
-## Persistance et compatibilité
-
-- Clef existante `wf-overview-weights` conservée. Lecture validée : poids entiers 0 à 3 ; entrées corrompues ignorées.
-- Nouvelle clef `wf-overview-skill` validée contre les quatre noms de niveau ; valeur absente ou invalide ⇒ Confirmé.
-- Aucune dépendance réseau ou framework ajoutée à la page ; calcul entièrement local et immédiat.
-- Les boutons sont utilisables au clavier et portent un état `aria-pressed` ; les courbes disposent de descriptions SVG et d'un tableau numérique alternatif.
-- CSS additionnel encapsulé sous les nouveaux sélecteurs de classe ; les styles initiaux n'ont pas été modifiés.
-
-## Limites connues et futures étapes de calibration
-
-1. Le niveau de maîtrise est **global**, non propre à chaque classe, spécialisation ou mode PvE/PvP.
-2. La sensibilité par axe est estimée **au niveau classe** ; des spécialisations d'une même classe peuvent avoir des planchers et plafonds très différents.
-3. Les ajustements constants par niveau n'ont pas été calibrés à partir de journaux de raid ou d'échantillons de joueurs.
-4. Les situations réelles (fights longs, adds, move, ennemis mobiles, latence, équipe, équipements et compositions) peuvent inverser les résultats.
-5. Après le lancement, mesurer séparément niveau moyen, dispersion et potentiel haut niveau pour chaque **spécialisation × mode de jeu**, définir des indicateurs observables, puis remplacer les sensibilités éditoriales par des estimations avec intervalle d'incertitude.
-6. Garder la valeur Confirmé stable ou expliquer toute rupture d'échelle lors de la migration des données ; versionner tout recalibrage.
-7. Vérifier contraste, lisibilité mobile, clavier et lecteurs d'écran dans de vrais navigateurs avant fusion.
-
-## Reproduction et tests
-
-La suite `tests/skill-matching.test.cjs` utilise seulement les modules standards de Node. Exécution : `node --test tests/skill-matching.test.cjs`.
-
-Le test couvre la conservation des scores initiaux, les quatre presets, la monotonie, les axes invariants, les classes sans rôle, l'état vide, les valeurs locales corrompues, les interactions, les choix persistés et les représentations de données. La vérification programmatique ne remplace pas une inspection visuelle multi-navigateurs.
-
-## Décision éditoriale
-
-Publication sous pull request de révision, sans modification de la branche `main` avant contrôle. Les visuels doivent aider à comprendre et comparer, pas conférer aux hypothèses le statut de vérité statistique.
+- Audit des sources : AUDIT-2026-10-20.md.
+- Tests sans dépendance : commande node --test tests/skill-matching.test.cjs ; intégrés à GitHub Actions.
+- La validation en vrai navigateur (responsive, contraste, accessibilité clavier, mode sombre/clair) doit compléter les tests JS simulés.
+- Après lancement : remplacer les paramètres éditoriaux par mesures réelles par spécialisation, activité, composition et niveau de joueur, avec échantillons et intervalles d'incertitude.
+- Les résultats de tournoi niveau 30 et les simulations statiques à 60 ne suffisent pas pour mesurer les performances réelles de toutes les activités.
