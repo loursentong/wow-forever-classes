@@ -53,9 +53,23 @@ function certaintyControl(group,key,n){
    '<input id="rc-'+group+'-'+key+'" type="range" min="0" max="5" step="1" value="'+n+'" data-certgroup="'+group+'" data-certkey="'+key+'" aria-label="Certitude pour '+esc(name)+' (0 intuition, 5 certain)" aria-valuetext="'+esc(certWords[n])+'"/>'+
    '<div class="reco-cert-scale"><span>0 · Intuition</span><span>5 · Certain</span></div></div>';
 }
+/* Icônes de compétences issues du CDN officiel World of Warcraft (Blizzard). */
+var WOW_ICON_BASE='https://render.worldofwarcraft.com/us/icons/56/';
+var wowChoiceIcons={
+ roles:{dps:'inv_sword_04',tank:'inv_shield_05',soin:'spell_holy_greaterheal'},
+ activities:{raid:'inv_misc_map_01',bg:'ability_warrior_battleshout',world:'spell_nature_lightning',solo:'ability_hunter_beastcall'},
+ range:{distance:'spell_fire_fireball02',melee:'inv_sword_04',mixte:'ability_rogue_sprint'},
+ styles:{burst:'spell_fire_fireball02',zone:'spell_nature_lightning',ctrl:'spell_frost_frostnova',surv:'spell_holy_devotionaura',mob:'ability_rogue_sprint',support:'spell_holy_powerwordshield'},
+ pet:{like:'ability_hunter_beastcall',avoid:'inv_misc_book_09'},
+ difficulty:{simple:'spell_holy_devotionaura',complex:'inv_misc_book_09'}
+};
+var wowClassIcons={guerrier:'warrior',paladin:'paladin',chasseur:'hunter',voleur:'rogue',pretre:'priest',chaman:'shaman',mage:'mage',demoniste:'warlock',druide:'druid'};
+function wowClassIcon(id){return WOW_ICON_BASE+'classicon_'+(wowClassIcons[id]||'warrior')+'.jpg';}
 function choice(group,k,on,type){
  var mark='<span class="reco-option-mark" aria-hidden="true"></span>';
- return '<button type="button" class="reco-option" data-'+type+'="'+group+'" data-key="'+k+'" aria-pressed="'+on+'">'+mark+
+ var icon=(wowChoiceIcons[group]||{})[k];
+ return '<button type="button" class="reco-option" data-'+type+'="'+group+'" data-key="'+k+'" aria-pressed="'+on+'">'+
+   (icon?'<span class="reco-option-art" aria-hidden="true"><img src="'+WOW_ICON_BASE+icon+'.jpg" alt="" loading="lazy" width="40" height="40"></span>':'')+
    '<span class="reco-option-text"><strong>'+esc((names[group]||{})[k])+'</strong>'+
    ((descriptions[group]||{})[k]?'<small>'+esc(descriptions[group][k])+'</small>':'')+
    '</span></button>';
@@ -147,7 +161,7 @@ function resultCard(r,i){
  var stability=r.scenarioCount<=1?'Pas assez de réponses hésitantes pour comparer plusieurs scénarios':
   'Présente dans '+r.scenarioAppearances+' des '+r.scenarioCount+' variantes de tes réponses hésitantes';
  return '<article class="reco-result-card '+(i===0?'reco-featured':'')+'" style="--reco-class:var(--k-'+esc(cls)+')">'+
-  '<div class="reco-result-top"><span class="reco-emblem" aria-hidden="true">'+esc(r.className.charAt(0))+'</span>'+
+  '<div class="reco-result-top"><span class="reco-emblem" aria-hidden="true"><img src="'+wowClassIcon(cls)+'" alt="" width="42" height="42" loading="lazy" decoding="async"></span>'+
   '<div class="reco-result-main"><span class="reco-result-label">'+(i===0?'PISTE PRINCIPALE':'ALTERNATIVE '+i)+'</span><h4>'+esc(r.className)+'</h4>'+
   '<p>'+esc(r.spec.label)+' · '+esc(roleNames[r.spec.role])+' · '+(r.spec.range==='distance'?'Distance':'Mêlée')+'</p></div>'+
   '<div class="reco-score"><strong>'+Math.round(r.score)+'</strong><small>/100</small></div></div>'+

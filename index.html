@@ -436,6 +436,7 @@ footer.end{font-size:.9rem;color:var(--muted)}
 @media(prefers-reduced-motion:reduce){.reco-progress-track span{transition:none}}
 </style>
 <link rel="stylesheet" href="ux-polish.css">
+<link rel="stylesheet" href="warcraft-visual-pack.css">
 </head>
 <body>
 <main class="wrap">
@@ -457,6 +458,7 @@ footer.end{font-size:.9rem;color:var(--muted)}
 
 <section class="sec reco-section" aria-labelledby="h-reco">
   <div class="reco-hero">
+    <img class="wow-hero-logo" src="https://bnetcmsus-a.akamaihd.net/cms/gallery/j3/J3RLTCKOODJ51789169243964.png" alt="World of Warcraft: Forever — logo officiel" decoding="async" fetchpriority="low">
     <div class="reco-hero-copy">
       <span class="eyebrow">TON PROCHAIN PERSONNAGE · WORLD OF WARCRAFT: FOREVER</span>
       <h2 id="h-reco">Choisis ton aventure, à ta façon.</h2>
@@ -468,8 +470,8 @@ footer.end{font-size:.9rem;color:var(--muted)}
     <div class="reco-mode-intro">
       <div><span class="reco-kicker">Choisis ton approche</span><p>Deux façons de trouver ta classe. Tu peux passer de l'une à l'autre à tout moment.</p></div>
       <div class="reco-modes" role="tablist" aria-label="Mode de recommandation">
-        <button id="reco-tab-guided" type="button" role="tab" aria-controls="reco-guided" aria-selected="true" data-reco-mode="guided"><span class="reco-mode-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m15.7 8.3-2.5 4.9-4.9 2.5 2.5-4.9z"/></svg></span><span class="reco-mode-title"><strong>Être guidé</strong><small>Je découvre mon style</small></span></button>
-        <button id="reco-tab-priorities" type="button" role="tab" aria-controls="reco-priorities" aria-selected="false" data-reco-mode="priorities"><span class="reco-mode-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/><circle cx="9" cy="6" r="2" fill="var(--surface)"/><circle cx="16" cy="12" r="2" fill="var(--surface)"/><circle cx="11" cy="18" r="2" fill="var(--surface)"/></svg></span><span class="reco-mode-title"><strong>Régler mes priorités</strong><small>Je sais ce qui compte</small></span></button>
+        <button id="reco-tab-guided" type="button" role="tab" aria-controls="reco-guided" aria-selected="true" data-reco-mode="guided"><span class="reco-mode-symbol" aria-hidden="true"><img src="https://render.worldofwarcraft.com/us/icons/56/inv_misc_map_01.jpg" width="40" height="40" loading="eager" alt=""></span><span class="reco-mode-title"><strong>Être guidé</strong><small>Je découvre mon style</small></span></button>
+        <button id="reco-tab-priorities" type="button" role="tab" aria-controls="reco-priorities" aria-selected="false" data-reco-mode="priorities"><span class="reco-mode-symbol" aria-hidden="true"><img src="https://render.worldofwarcraft.com/us/icons/56/inv_misc_book_09.jpg" width="40" height="40" loading="eager" alt=""></span><span class="reco-mode-title"><strong>Régler mes priorités</strong><small>Je sais ce qui compte</small></span></button>
       </div>
     </div>
     <div id="reco-guided" role="tabpanel" aria-labelledby="reco-tab-guided">
@@ -490,6 +492,18 @@ footer.end{font-size:.9rem;color:var(--muted)}
     <p class="reco-note reco-disclaimer">Les notes de gameplay sont des estimations non calibrées au niveau 60. Les scores sont des indices d'adéquation, pas des probabilités. <a href="RECOMMANDATION-METHODE.md">Comprendre les calculs</a>. Le comparatif documentaire complet reste accessible plus bas.</p>
   </div>
 </section>
+
+<nav class="wow-class-index" aria-label="Accès aux fiches des neuf classes">
+  <a href="#c-guerrier" aria-label="Voir la fiche Guerrier"><img src="https://render.worldofwarcraft.com/us/icons/56/classicon_warrior.jpg" alt="" width="41" height="41" loading="lazy" decoding="async"><span>Guerrier</span></a>
+  <a href="#c-paladin" aria-label="Voir la fiche Paladin"><img src="https://render.worldofwarcraft.com/us/icons/56/classicon_paladin.jpg" alt="" width="41" height="41" loading="lazy" decoding="async"><span>Paladin</span></a>
+  <a href="#c-chasseur" aria-label="Voir la fiche Chasseur"><img src="https://render.worldofwarcraft.com/us/icons/56/classicon_hunter.jpg" alt="" width="41" height="41" loading="lazy" decoding="async"><span>Chasseur</span></a>
+  <a href="#c-voleur" aria-label="Voir la fiche Voleur"><img src="https://render.worldofwarcraft.com/us/icons/56/classicon_rogue.jpg" alt="" width="41" height="41" loading="lazy" decoding="async"><span>Voleur</span></a>
+  <a href="#c-pretre" aria-label="Voir la fiche Prêtre"><img src="https://render.worldofwarcraft.com/us/icons/56/classicon_priest.jpg" alt="" width="41" height="41" loading="lazy" decoding="async"><span>Prêtre</span></a>
+  <a href="#c-chaman" aria-label="Voir la fiche Chaman"><img src="https://render.worldofwarcraft.com/us/icons/56/classicon_shaman.jpg" alt="" width="41" height="41" loading="lazy" decoding="async"><span>Chaman</span></a>
+  <a href="#c-mage" aria-label="Voir la fiche Mage"><img src="https://render.worldofwarcraft.com/us/icons/56/classicon_mage.jpg" alt="" width="41" height="41" loading="lazy" decoding="async"><span>Mage</span></a>
+  <a href="#c-demoniste" aria-label="Voir la fiche Démoniste"><img src="https://render.worldofwarcraft.com/us/icons/56/classicon_warlock.jpg" alt="" width="41" height="41" loading="lazy" decoding="async"><span>Démoniste</span></a>
+  <a href="#c-druide" aria-label="Voir la fiche Druide"><img src="https://render.worldofwarcraft.com/us/icons/56/classicon_druid.jpg" alt="" width="41" height="41" loading="lazy" decoding="async"><span>Druide</span></a>
+</nav>
 
 <section class="sec" aria-labelledby="h-matrix">
   <div class="sec-head">
@@ -596,7 +610,7 @@ footer.end{font-size:.9rem;color:var(--muted)}
   </div>
   <div class="cards"><article class="card" id="c-guerrier">
   <header class="card-head">
-    <div class="ttl"><span class="crest" style="--cc:#C69B6D"></span><h3>Guerrier</h3><span class="kit">Plaques · Rage</span></div>
+    <div class="ttl"><img class="wow-card-class-icon" src="https://render.worldofwarcraft.com/us/icons/56/classicon_warrior.jpg" alt="" width="42" height="42" loading="lazy" decoding="async"><h3>Guerrier</h3><span class="kit">Plaques · Rage</span></div>
     <div class="specs"><span class="spec"><b>Armes</b> DPS mêlée</span><span class="spec"><b>Fureur</b> DPS mêlée</span><span class="spec"><b>Protection</b> Tank</span></div>
     <p class="races">Alliance : Humain, Nain, Elfe de la nuit, Gnome, Skyborne · Horde : Orc, Mort-vivant, Tauren, Troll, Skyborne</p>
   </header>
@@ -608,7 +622,7 @@ footer.end{font-size:.9rem;color:var(--muted)}
   </div>
 </article><article class="card" id="c-paladin">
   <header class="card-head">
-    <div class="ttl"><span class="crest" style="--cc:#F48CBA"></span><h3>Paladin</h3><span class="kit">Plaques · Mana</span></div>
+    <div class="ttl"><img class="wow-card-class-icon" src="https://render.worldofwarcraft.com/us/icons/56/classicon_paladin.jpg" alt="" width="42" height="42" loading="lazy" decoding="async"><h3>Paladin</h3><span class="kit">Plaques · Mana</span></div>
     <div class="specs"><span class="spec"><b>Sacré</b> Soin</span><span class="spec"><b>Protection</b> Tank</span><span class="spec"><b>Vindicte</b> DPS mêlée</span></div>
     <p class="races">Alliance : Humain, Nain · Horde : Mort-vivant (nouveau)</p>
   </header>
@@ -620,7 +634,7 @@ footer.end{font-size:.9rem;color:var(--muted)}
   </div>
 </article><article class="card" id="c-chasseur">
   <header class="card-head">
-    <div class="ttl"><span class="crest" style="--cc:#AAD372"></span><h3>Chasseur</h3><span class="kit">Mailles · Mana</span></div>
+    <div class="ttl"><img class="wow-card-class-icon" src="https://render.worldofwarcraft.com/us/icons/56/classicon_hunter.jpg" alt="" width="42" height="42" loading="lazy" decoding="async"><h3>Chasseur</h3><span class="kit">Mailles · Mana</span></div>
     <div class="specs"><span class="spec"><b>Maîtrise des bêtes</b> DPS distance</span><span class="spec"><b>Précision</b> DPS distance</span><span class="spec"><b>Survie</b> DPS mêlée</span></div>
     <p class="races">Alliance : Humain (nouveau), Nain, Elfe de la nuit, Skyborne · Horde : Orc, Tauren, Troll, Skyborne</p>
   </header>
@@ -632,7 +646,7 @@ footer.end{font-size:.9rem;color:var(--muted)}
   </div>
 </article><article class="card" id="c-voleur">
   <header class="card-head">
-    <div class="ttl"><span class="crest" style="--cc:#FFF468"></span><h3>Voleur</h3><span class="kit">Cuir · Énergie</span></div>
+    <div class="ttl"><img class="wow-card-class-icon" src="https://render.worldofwarcraft.com/us/icons/56/classicon_rogue.jpg" alt="" width="42" height="42" loading="lazy" decoding="async"><h3>Voleur</h3><span class="kit">Cuir · Énergie</span></div>
     <div class="specs"><span class="spec"><b>Assassinat</b> DPS mêlée</span><span class="spec"><b>Combat</b> DPS mêlée</span><span class="spec"><b>Finesse</b> DPS mêlée</span></div>
     <p class="races">Alliance : Humain, Nain, Elfe de la nuit, Gnome, Skyborne · Horde : Orc, Mort-vivant, Troll, Skyborne</p>
   </header>
@@ -644,7 +658,7 @@ footer.end{font-size:.9rem;color:var(--muted)}
   </div>
 </article><article class="card" id="c-pretre">
   <header class="card-head">
-    <div class="ttl"><span class="crest" style="--cc:#FFFFFF"></span><h3>Prêtre</h3><span class="kit">Tissu · Mana</span></div>
+    <div class="ttl"><img class="wow-card-class-icon" src="https://render.worldofwarcraft.com/us/icons/56/classicon_priest.jpg" alt="" width="42" height="42" loading="lazy" decoding="async"><h3>Prêtre</h3><span class="kit">Tissu · Mana</span></div>
     <div class="specs"><span class="spec"><b>Discipline</b> Soin</span><span class="spec"><b>Sacré</b> Soin</span><span class="spec"><b>Ombre</b> DPS distance</span></div>
     <p class="races">Alliance : Humain, Nain, Elfe de la nuit, Gnome (nouveau) · Horde : Mort-vivant, Troll</p>
   </header>
@@ -656,7 +670,7 @@ footer.end{font-size:.9rem;color:var(--muted)}
   </div>
 </article><article class="card" id="c-chaman">
   <header class="card-head">
-    <div class="ttl"><span class="crest" style="--cc:#0070DD"></span><h3>Chaman</h3><span class="kit">Mailles, bouclier · Mana</span></div>
+    <div class="ttl"><img class="wow-card-class-icon" src="https://render.worldofwarcraft.com/us/icons/56/classicon_shaman.jpg" alt="" width="42" height="42" loading="lazy" decoding="async"><h3>Chaman</h3><span class="kit">Mailles, bouclier · Mana</span></div>
     <div class="specs"><span class="spec"><b>Élémentaire</b> DPS distance</span><span class="spec"><b>Amélioration</b> DPS mêlée</span><span class="spec"><b>Restauration</b> Soin</span></div>
     <p class="races">Alliance : Nain (nouveau) · Horde : Orc, Tauren, Troll, Skyborne</p>
   </header>
@@ -668,7 +682,7 @@ footer.end{font-size:.9rem;color:var(--muted)}
   </div>
 </article><article class="card" id="c-mage">
   <header class="card-head">
-    <div class="ttl"><span class="crest" style="--cc:#3FC7EB"></span><h3>Mage</h3><span class="kit">Tissu · Mana</span></div>
+    <div class="ttl"><img class="wow-card-class-icon" src="https://render.worldofwarcraft.com/us/icons/56/classicon_mage.jpg" alt="" width="42" height="42" loading="lazy" decoding="async"><h3>Mage</h3><span class="kit">Tissu · Mana</span></div>
     <div class="specs"><span class="spec"><b>Arcanes</b> DPS distance</span><span class="spec"><b>Feu</b> DPS distance</span><span class="spec"><b>Givre</b> DPS distance</span></div>
     <p class="races">Alliance : Humain, Gnome, Skyborne · Horde : Orc (nouveau), Mort-vivant, Troll</p>
   </header>
@@ -680,7 +694,7 @@ footer.end{font-size:.9rem;color:var(--muted)}
   </div>
 </article><article class="card" id="c-demoniste">
   <header class="card-head">
-    <div class="ttl"><span class="crest" style="--cc:#8788EE"></span><h3>Démoniste</h3><span class="kit">Tissu · Mana, éclats d'âme</span></div>
+    <div class="ttl"><img class="wow-card-class-icon" src="https://render.worldofwarcraft.com/us/icons/56/classicon_warlock.jpg" alt="" width="42" height="42" loading="lazy" decoding="async"><h3>Démoniste</h3><span class="kit">Tissu · Mana, éclats d'âme</span></div>
     <div class="specs"><span class="spec"><b>Affliction</b> DPS distance</span><span class="spec"><b>Démonologie</b> DPS distance</span><span class="spec"><b>Destruction</b> DPS distance</span></div>
     <p class="races">Alliance : Humain, Gnome · Horde : Orc, Mort-vivant, Troll (nouveau)</p>
   </header>
@@ -692,7 +706,7 @@ footer.end{font-size:.9rem;color:var(--muted)}
   </div>
 </article><article class="card" id="c-druide">
   <header class="card-head">
-    <div class="ttl"><span class="crest" style="--cc:#FF7C0A"></span><h3>Druide</h3><span class="kit">Cuir · Mana, énergie, rage</span></div>
+    <div class="ttl"><img class="wow-card-class-icon" src="https://render.worldofwarcraft.com/us/icons/56/classicon_druid.jpg" alt="" width="42" height="42" loading="lazy" decoding="async"><h3>Druide</h3><span class="kit">Cuir · Mana, énergie, rage</span></div>
     <div class="specs"><span class="spec"><b>Équilibre</b> DPS distance</span><span class="spec"><b>Farouche</b> Tank, DPS mêlée</span><span class="spec"><b>Restauration</b> Soin</span></div>
     <p class="races">Alliance : Elfe de la nuit, Skyborne · Horde : Tauren, Skyborne</p>
   </header>
@@ -732,7 +746,7 @@ footer.end{font-size:.9rem;color:var(--muted)}
   </table></div>
 </section>
 
-<footer class="end">Page indépendante, non affiliée à Blizzard. Les classements niveau 30 sont des indices exploratoires et non des mesures de performance au 60 (voir [8]).</footer>
+<footer class="end">Guide communautaire indépendant, non officiel et non affilié à Blizzard Entertainment. World of Warcraft, Warcraft, Forever, les logos, illustrations et icônes du jeu sont des marques ou éléments protégés de Blizzard Entertainment © 2026. Les éléments visuels officiels proviennent de <a href="https://blizzard.gamespress.com/fr/wowforeverreveal" target="_blank" rel="noopener noreferrer">son kit de presse</a> et du serveur d’icônes World of Warcraft. La présence d’éléments Blizzard n’implique ni approbation ni partenariat. Les classements niveau 30 sont des indices exploratoires, non des mesures au 60 (voir [8]).</footer>
 </main>
 
 <script>

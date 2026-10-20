@@ -10,7 +10,7 @@ const http=require('node:http');
 const {chromium}=require('playwright');
 
 const base=path.resolve(__dirname,'..');
-const allowed={'/':'index.html','/index.html':'index.html','/questionnaire.js':'questionnaire.js','/recommendation-engine.js':'recommendation-engine.js','/priorities-ui.js':'priorities-ui.js','/ux-polish.css':'ux-polish.css','/assets/hero-landscape.svg':'assets/hero-landscape.svg'};
+const allowed={'/':'index.html','/index.html':'index.html','/questionnaire.js':'questionnaire.js','/recommendation-engine.js':'recommendation-engine.js','/priorities-ui.js':'priorities-ui.js','/ux-polish.css':'ux-polish.css','/warcraft-visual-pack.css':'warcraft-visual-pack.css','/assets/hero-landscape.svg':'assets/hero-landscape.svg'};
 const server=http.createServer((req,res)=>{
   const pathname=new URL(req.url,'http://localhost').pathname;
   if(!Object.hasOwn(allowed,pathname)){res.writeHead(404);res.end();return;}
@@ -40,6 +40,12 @@ async function check(){
   // Le comparatif historique reste intact sous ses réglages avancés.
   assert.equal(await page.locator('#rank').count(),1);
   assert.equal(await page.locator('td.cell[data-k]').count(),126);
+  assert.equal(await page.locator('.wow-class-index img').count(),9,'Les neuf icônes de classe doivent figurer dans la navigation');
+  assert.equal(await page.locator('.wow-card-class-icon').count(),9,'Les neuf fiches doivent utiliser l’iconographie officielle');
+  assert.equal(await page.locator('.wow-hero-logo').count(),1);
+  assert.match(await page.locator('.wow-hero-logo').getAttribute('src'),/bnetcmsus-a\.akamaihd\.net/);
+  assert.match(await page.locator('footer.end').textContent(),/non affilié à Blizzard Entertainment/);
+
   assert.equal(await page.locator('#legacy-advanced').evaluate(el=>el.open),false);
   await page.locator('#legacy-advanced > summary').click();
   assert.equal(await page.locator('#legacy-advanced').evaluate(el=>el.open),true);
@@ -52,6 +58,8 @@ async function check(){
     await page.locator('[data-multi="styles"][data-key="'+k+'"]').click();
   }
   assert.equal(await page.locator('#reco-form .reco-cert').count(),3);
+  assert.ok(await page.locator('#reco-form .reco-option-art img').count()>=3,'Les vrais pictogrammes de compétences sont présents');
+
   const slider=page.locator('#rc-styles-ctrl');
   await slider.evaluate(el=>{el.value='0';el.dispatchEvent(new Event('input',{bubbles:true}));});
   assert.equal(await slider.inputValue(),'0');
@@ -147,13 +155,15 @@ async function check(){
   await page.locator('[data-step="0"]').click();
   await page.screenshot({path:path.join(__dirname,'screenshots','questionnaire-desktop.png'),fullPage:false});
   // Contrôles des ressources graphiques et de l’accessibilité des animations.
-  const assets=await page.evaluate(async()=>Promise.all(['ux-polish.css','assets/hero-landscape.svg'].map(async p=>{
+  const assets=await page.evaluate(async()=>Promise.all(['ux-polish.css','warcraft-visual-pack.css','assets/hero-landscape.svg'].map(async p=>{
     const r=await fetch(p);return {url:p,status:r.status,ok:r.ok};
   })));
   assert.ok(assets.every(x=>x.ok),'CSS et illustration manquants : '+JSON.stringify(assets));
   await page.emulateMedia({reducedMotion:'reduce'});
   const motion=await page.locator('.reco-modes button').first().evaluate(el=>getComputedStyle(el).transitionDuration);
   assert.match(motion,/^0s(, 0s)*$/,'Les transitions doivent être désactivées avec reduced-motion');
+  const reducedHover=await page.locator('.wow-class-index a').first().evaluate(el=>getComputedStyle(el).transitionDuration);
+  assert.match(reducedHover,/^0s(, 0s)*$/,'Les hover doivent respecter reduced-motion');
   await page.emulateMedia({reducedMotion:'no-preference'});
   assert.deepEqual(errors,[],'Erreurs JavaScript navigateur');
   process.stdout.write('Chromium : deux parcours, 14 poids, 15 presets, neuf rangs, maîtrise partagée, mobile et clavier — OK\n');

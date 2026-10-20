@@ -18,6 +18,8 @@ var axes=[
 var presetNames={egal:'Tous les critères',polyvalence:'Polyvalence',pve:'PvE',pvp:'PvP',tank:'Tank en groupe',soin:'Soin en groupe',dps:'DPS en raid',zone:'Dégâts de zone',soutien:'Soutien',bg:'Champ de bataille',soinbg:'Soin en BG',sauvage:'PvP sauvage',burst:'Burst et mobilité',controle:'Contrôle',solo:'Solo et leveling'};
 var popular=['pve','pvp','tank','soin','dps','solo'];
 var mastery=['Débutant','Intermédiaire','Confirmé','Expert'];
+var WOW_ICON_BASE='https://render.worldofwarcraft.com/us/icons/56/classicon_';
+var wowClassIcons={guerrier:'warrior',paladin:'paladin',chasseur:'hunter',voleur:'rogue',pretre:'priest',chaman:'shaman',mage:'mage',demoniste:'warlock',druide:'druid'};
 function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 function find(k,v){return document.querySelector('.seg button[data-ax="'+k+'"][data-v="'+v+'"]');}
 function weights(){
@@ -83,7 +85,7 @@ function results(){
     var rounded=Math.round(x.score),close=i>0&&Math.abs(x.score-r.results[i-1].score)<2.01;
     h+='<li class="reco-priority-class" style="--reco-class:var(--k-'+esc(x.classId)+')">'+
      '<span class="reco-priority-place">'+(i+1)+'</span>'+
-     '<span class="reco-priority-class-icon" aria-hidden="true">'+esc(x.className[0])+'</span>'+
+     '<span class="reco-priority-class-icon" aria-hidden="true"><img src="'+WOW_ICON_BASE+wowClassIcons[x.classId]+'.jpg" width="30" height="30" alt="" loading="lazy" decoding="async"></span>'+
      '<span class="reco-priority-class-info"><b>'+esc(x.className)+'</b><small>'+
      esc(x.spec.label)+' · '+(x.spec.range==='distance'?'Distance':'Mêlée')+(close?' · résultat proche':'')+'</small></span>'+
      '<span class="reco-priority-score">'+rounded+'<small>/100</small></span>'+

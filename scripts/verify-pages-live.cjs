@@ -9,6 +9,7 @@ const expected={
  'questionnaire.js':'WFGuide',
  'priorities-ui.js':'priorityRanking',
  'ux-polish.css':'reco-reveal-button',
+ 'warcraft-visual-pack.css':'--wow-gold:#eac061',
  'assets/hero-landscape.svg':'<svg'
 };
 (async()=>{
