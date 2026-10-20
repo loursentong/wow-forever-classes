@@ -140,6 +140,8 @@ test('Données corrompues, 6 choix de style et maîtrise invalide : repli sain',
  assert.equal(p.pet.strict,false);
  assert.equal(p.pet.certainty,3);
  assert.equal(p.styles.ctrl,0);
+ const overspecified=E.sanitize({styles:{burst:5,zone:5,ctrl:5,surv:5,mob:5,support:5}});
+ assert.equal(E.selected(overspecified.styles).length,3, 'une sauvegarde corrompue ne contourne pas la limite de trois styles');
 });
 test('Extraits HTML : formulaire accessible, charte existante conservée, JS valide',()=>{
  assert.match(html,/id="reco-form"/);
