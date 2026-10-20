@@ -29,7 +29,7 @@ test('L’accueil reste sans classement quand aucune préférence n’est exprim
  assert.equal(E.ranking({mastery:3}).status,'unanswered');
 });
 test('Les contraintes strictes ne peuvent jamais être enfreintes',()=>{
- const p={roles:{tank:5},range:{value:'distance',strict:true,certainty:5}};
+ const p={roles:{tank:5},rolesStrict:true,range:{value:'distance',strict:true,certainty:5}};
  assert.equal(E.recommend(p).status,'no-match');
  const noPet=E.recommend({pet:{value:'avoid',strict:true,certainty:5}});
  assert.ok(noPet.results.every(x=>x.spec.pet!=='core'));
@@ -47,12 +47,20 @@ test('Une préférence de portée souple ne doit pas exclure la mêlée',()=>{
 test('Le rôle ne profite pas à une classe simplement parce qu’elle a plus de rôles',()=>{
  const p={roles:{dps:5}};
  const r=E.ranking(p);
- assert.ok(r.results.every(x=>x.spec.role==='dps'));
+ assert.ok(r.results.slice(0,3).every(x=>x.spec.role==='dps'));
+ assert.ok(r.results.some(x=>x.spec.role==='tank'), 'sans veto explicite les autres rôles restent explorables');
  const mage=E.specs.find(x=>x.id==='mage-feu');
  const druid=E.specs.find(x=>x.id==='druide-equilibre');
  assert.ok(E.eligible(mage,E.sanitize(p)));
  assert.ok(E.eligible(druid,E.sanitize(p)));
- assert.ok(!r.results.some(x=>x.spec.role==='soin'));
+ assert.ok(E.ranking({roles:{dps:5},rolesStrict:true}).results.every(x=>x.spec.role==='dps'));
+});
+test('Faible certitude dans un rôle : aucune exclusion implicite',()=>{
+ const soft=E.ranking({roles:{tank:0}});
+ const hard=E.ranking({roles:{tank:0},rolesStrict:true});
+ assert.ok(soft.results.some(x=>x.spec.role==='dps'));
+ assert.ok(hard.results.every(x=>x.spec.role==='tank'));
+ assert.ok(soft.results.length>hard.results.length);
 });
 test('Les six thèmes sont ignorés s’ils ne sont pas renseignés',()=>{
  const a=E.recommend({styles:{ctrl:5,zone:5}});
