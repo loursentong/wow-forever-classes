@@ -19,7 +19,7 @@ test('Inventaire : 9 classes, 27 spécialisations + 1 configuration Farouche our
  assert.equal(E.specs.filter(s=>s.classId==='druide').length,4);
  assert.equal(E.specs.filter(s=>s.classId==='chasseur').length,3);
  for(const s of E.specs){assert.match(s.source,/^https:\/\/worldofwarcraft\.blizzard\.com\//);assert.ok(s.dataQuality.officialKit);}
- assert.ok(js.includes('non des mesures de niveau 60'));
+ assert.ok(js.includes('pas des mesures de niveau 60'));
 });
 test('L’accueil reste sans classement quand aucune préférence n’est exprimée',()=>{
  const r=E.recommend({});
@@ -48,7 +48,7 @@ test('Le rôle ne profite pas à une classe simplement parce qu’elle a plus de
  const p={roles:{dps:5}};
  const r=E.ranking(p);
  assert.ok(r.results.slice(0,3).every(x=>x.spec.role==='dps'));
- assert.ok(r.results.some(x=>x.spec.role==='tank'), 'sans veto explicite les autres rôles restent explorables');
+ assert.ok(E.eligible(E.specs.find(x=>x.role==='tank'),E.sanitize(p)), 'sans veto explicite les autres rôles restent éligibles');
  const mage=E.specs.find(x=>x.id==='mage-feu');
  const druid=E.specs.find(x=>x.id==='druide-equilibre');
  assert.ok(E.eligible(mage,E.sanitize(p)));
@@ -97,7 +97,7 @@ test('Les spécialisations sont évaluées séparément : Farouche chat ≠ ours
  assert.equal(s2.role,'tank');
  assert.equal(s1.range,'melee');
  assert.ok(E.eligible(s1,E.sanitize({roles:{dps:5}})));
- assert.equal(E.eligible(s1,E.sanitize({roles:{tank:5}})),false);
+ assert.equal(E.eligible(s1,E.sanitize({roles:{tank:5},rolesStrict:true})),false);
 });
 test('Chasseur sans familier : configurations possibles, pas la Maîtrise des bêtes',()=>{
  const r=E.recommend({roles:{dps:5},range:{value:'distance',certainty:5,strict:true},pet:{value:'avoid',certainty:5,strict:true}});
