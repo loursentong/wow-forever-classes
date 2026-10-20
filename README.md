@@ -2,6 +2,14 @@
 
 Comparatif interactif des neuf classes de World of Warcraft: Forever, projeté au niveau 60 à partir des sources disponibles le 20 octobre 2026.
 
+## Assistant de choix (version exploratoire)
+
+Le nouveau questionnaire est placé avant le tableau historique et n'affiche **aucun classement tant que le joueur n'a pas exprimé de préférence**. Il comprend six questions facultatives : rôles, activités, portée, style, familiers, maîtrise/complexité. Chaque choix est accompagné d'une certitude de **0 à 5** ; un refus absolu nécessite une case distincte. Les questions laissées sans réponse n'influencent pas les résultats.
+
+Le moteur autonome compare **27 spécialisations et 1 configuration Farouche (ours)**, puis propose au plus trois classes différentes et une configuration précise pour chacune. Il affiche les compromis, les fiches officielles et des scénarios de réponses hésitantes. Ses notes de style et d'activité restent **des hypothèses éditoriales à confronter à la réalité du niveau 60**.
+
+Consulter [la méthodologie et ses limites](RECOMMANDATION-METHODE.md). Les quatorze critères historiques, leurs quinze préréglages et les courbes existantes sont conservés comme outils avancés.
+
 ## Fonctionnalités
 
 - Neuf classes, quatorze critères notés avec leurs sources et leur fiabilité. Burst et Dégâts de zone, ajoutés le 20 octobre, sont justifiés classe par classe sous le tableau.
@@ -22,7 +30,7 @@ Comparatif interactif des neuf classes de World of Warcraft: Forever, projeté a
 
 ## Tests
 
-Commande : node --test tests/skill-matching.test.cjs
+Commande : node --test tests/*.test.cjs
 
 Une GitHub Action vérifie chaque pull request. La suite protège les 126 notes (les 108 de `main` au commit `74a0e6f` et les 18 notes Burst et Dégâts de zone du 20 octobre), les scores de « Tout à égalité », les quinze profils et leur homogénéité, la maîtrise, les courbes, les préférences, « Mes critères », la remise à 0 et la migration des anciennes sauvegardes. Elle accepte les fins de ligne Windows et Unix.
 
