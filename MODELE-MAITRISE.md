@@ -2,9 +2,9 @@
 
 ## Principes
 
-Cette version combine le plancher et le plafond distincts introduits dans la branche Claude et les contrôles de non-régression du modèle précédent. Elle conserve les neuf classes, douze axes et 108 notes source. **Les coefficients de maîtrise sont des hypothèses éditoriales, non des observations au niveau 60.** Le score 0–100 est un indice d'adéquation et non une probabilité de satisfaction, de victoire ou de performance.
+Cette version combine le plancher et le plafond distincts introduits dans la branche Claude et les contrôles de non-régression du modèle précédent. Elle porte sur neuf classes, quatorze axes et 126 notes source (Burst et Dégâts de zone ont été ajoutés le 20 octobre). **Les coefficients de maîtrise sont des hypothèses éditoriales, non des observations au niveau 60.** Le score 0–100 est un indice d'adéquation et non une probabilité de satisfaction, de victoire ou de performance.
 
-Le **plancher** représente la difficulté d'accès aux performances, le **plafond** le potentiel de progrès supplémentaire. Deux paires sont définies par classe : une pour PvE (tank, soin, DPS, solo) et une pour PvP (BG, duel/sauvage, contrôle, survie). Les axes polyvalence, mobilité, utilité et technicité restent invariants. Les notes 1 ne peuvent jamais acquérir de rôle absent.
+Le **plancher** représente la difficulté d'accès aux performances, le **plafond** le potentiel de progrès supplémentaire. Deux paires sont définies par classe : une pour PvE (tank, soin, DPS, dégâts de zone, solo) et une pour PvP (BG, duel/sauvage, burst, contrôle, survie). Les axes polyvalence, mobilité, utilité et technicité restent invariants. Les notes 1 ne peuvent jamais acquérir de rôle absent.
 
 | Classe | Plancher PvE | Plafond PvE | Plancher PvP | Plafond PvP |
 | --- | ---: | ---: | ---: | ---: |
@@ -37,10 +37,10 @@ Pour un Chasseur débutant, note DPS 5 avec plancher PvE 2 donne 4,6, mais sa no
 ## Neutralité et accès universel
 
 - Valeur par défaut : profil « Tout à égalité » et niveau Confirmé.
-- Profils : Tout à égalité, Polyvalence, PvE d'abord, PvP d'abord, Tank en groupe, Soin en groupe, DPS en raid, Soutien et mobilité, Champ de bataille, Soin en champ de bataille, PvP sauvage, Contrôle, Solo et leveling. Règles : le critère qui donne son nom au profil pèse au moins la moitié des poids ; la Technicité (goût pour la difficulté) et la Polyvalence ne sont ajoutées à aucun profil d'activité ; chaque classe mène ou partage la tête d'au moins un profil au niveau Confirmé. Un préréglage change uniquement les douze poids et conserve le niveau de maîtrise choisi.
+- Profils : Tout à égalité, Polyvalence, PvE d'abord, PvP d'abord, Tank en groupe, Soin en groupe, DPS en raid, Dégâts de zone, Soutien et mobilité, Champ de bataille, Soin en champ de bataille, PvP sauvage, Burst et mobilité, Contrôle, Solo et leveling. Règles : le critère qui donne son nom au profil pèse au moins la moitié des poids ; la Technicité (goût pour la difficulté) et la Polyvalence ne sont ajoutées à aucun profil d'activité ; chaque classe mène ou partage la tête d'au moins un profil au niveau Confirmé. Un préréglage change uniquement les quatorze poids et conserve le niveau de maîtrise choisi.
 - Les neuf encarts « Pour toi » ont été remplacés par des indications génériques de style de jeu.
-- Les visiteurs conservent leurs propres préférences localement ; les anciennes sauvegardes sont migrées lorsqu'elles sont valides.
-- La maîtrise se règle dans la même liste que les pondérations, sans treizième axe ni poids supplémentaire. Elle adapte uniquement le classement et les courbes ; la matrice conserve toujours les 108 notes de référence, sans flèches ni notes ajustées.
+- Les visiteurs conservent leurs propres préférences localement ; les anciennes sauvegardes sont migrées lorsqu'elles sont valides. Une sauvegarde antérieure au 20 octobre reçoit 0 en Burst et en Dégâts de zone, ce qui conserve son classement et son profil, sauf si tous ses poids étaient égaux : les deux critères prennent alors ce même poids.
+- La maîtrise se règle dans la même liste que les pondérations, sans axe ni poids supplémentaire. Elle adapte uniquement le classement et les courbes ; la matrice conserve toujours les 126 notes de référence, sans flèches ni notes ajustées.
 - Les neuf courbes sont tracées, les utilisateurs choisissent lesquelles mettre en avant. Le tableau repliable restitue les 36 valeurs numériques.
 - Le tableau PvE/PvP plancher/plafond est conservé. Chaque raison est abrégée et renvoie à la bibliographie entre crochets ; les sources décrivent les mécanismes, pas la valeur chiffrée des coefficients, qui reste éditoriale.
 - Le bloc de duel de classes a été retiré. Le critère « Sauvage et duel », qui décrit une activité de jeu, est conservé.

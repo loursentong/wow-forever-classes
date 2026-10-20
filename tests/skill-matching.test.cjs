@@ -75,10 +75,10 @@ function boot(initial = {}, storageDisabled = false) {
 const ranking = html => [...html.matchAll(/class="bname">[\s\S]*?<\/span>([^<]+)<\/span>[\s\S]*?class="bval mono">(\d+)<\/span>/g)]
   .map(m=>[m[1],Number(m[2])]);
 
-test('Le comparatif conserve neuf classes, douze axes et quatre niveaux avec treize profils',()=>{
+test('Le comparatif conserve neuf classes, quatorze axes et quatre niveaux avec quinze profils',()=>{
   assert.equal(config.classes.length,9);
-  assert.equal(config.axes.length,12);
-  assert.deepEqual(Object.keys(config.presets),['egal','polyvalence','pve','pvp','tank','soin','dps','soutien','bg','soinbg','sauvage','controle','solo']);
+  assert.equal(config.axes.length,14);
+  assert.deepEqual(Object.keys(config.presets),['egal','polyvalence','pve','pvp','tank','soin','dps','zone','soutien','bg','soinbg','sauvage','burst','controle','solo']);
   assert.equal(config.levels.length,4);
   assert.ok(html.includes('id="curves-values"'));
   assert.equal((html.match(/<span class="tag you">Pour toi<\/span>/g)||[]).length,0);
@@ -86,10 +86,10 @@ test('Le comparatif conserve neuf classes, douze axes et quatre niveaux avec tre
   assert.ok(!/Ton profil|Spiritualiste d'Aion|tu l'as écarté|Tu te décris/i.test(html));
 });
 
-test('Les 108 notes source et les 108 cases restent identiques à la référence',()=>{
+test('Les 126 notes source et les 126 cases restent identiques à la référence',()=>{
   assert.deepEqual(Object.fromEntries(config.classes.map(c=>[c.id,c.r])),referenceNotes);
   const cells=[...html.matchAll(/<td class="cell [^"]+" data-c="(\d+)" data-k="([^"]+)" data-v="(\d)"><b>(\d)<\/b>/g)];
-  assert.equal(cells.length,108);
+  assert.equal(cells.length,126);
   const seen=new Set();
   for(const [,c,k,v,display] of cells){
     const id=config.classes[Number(c)].id;
@@ -97,14 +97,14 @@ test('Les 108 notes source et les 108 cases restent identiques à la référence
     assert.equal(v,display);
     seen.add(id+'/'+k);
   }
-  assert.equal(seen.size,108);
+  assert.equal(seen.size,126);
 });
 
 test('La maîtrise est dans le panneau des pondérations ; le tableau et le duel ne sont plus pilotés',()=>{
   const tool=html.match(/<section class="sec" aria-labelledby="h-tool">([\s\S]*?)<\/section>/)[1];
   assert.match(tool,/<div class="wrows">\s*<div class="wrow mastery-row">/);
   assert.equal((tool.match(/class="mbtn"/g)||[]).length,4);
-  assert.equal((tool.match(/data-ax=/g)||[]).length,48);
+  assert.equal((tool.match(/data-ax=/g)||[]).length,56);
   assert.ok(!/Réglage global|Duel de classes|id="duel|renderDuel|renderMatrix|\.delta/.test(html));
   const matrix=html.match(/aria-labelledby="h-matrix">([\s\S]*?)<\/section>/)[1];
   assert.ok(!/mlabel|data-m=|Notes au niveau/.test(matrix));
@@ -113,11 +113,11 @@ test('La maîtrise est dans le panneau des pondérations ; le tableau et le duel
   const before=h.elements.rank.innerHTML;
   h.groups['.mbtn'][0].trigger();
   assert.notEqual(h.elements.rank.innerHTML,before);
-  assert.equal(h.api.tw(),12);
+  assert.equal(h.api.tw(),14);
   assert.deepEqual(Object.keys(h.api.S.w),config.axes);
 });
 
-test('Chaque préréglage définit les douze poids, sans écraser la maîtrise',()=>{
+test('Chaque préréglage définit les quatorze poids, sans écraser la maîtrise',()=>{
   const h=boot();
   h.groups['.mbtn'][0].trigger();
   const signatures=new Set();
@@ -151,10 +151,11 @@ test('Les neuf raisons du modèle sont concises et renvoient à la bibliographie
   }
 });
 
-test('La référence Confirmé conserve les 108 notes et les scores initiaux des profils historiques',()=>{
-  // PvP d'abord et PvE d'abord ont été redéfinis (profils homogènes) : seul « Tout à égalité » garde ses scores d'origine.
+test('La référence Confirmé applique les notes telles quelles et fige les scores de « Tout à égalité »',()=>{
+  // Depuis l'ajout de Burst et Dégâts de zone (20 octobre), « Tout à égalité » porte sur quatorze critères.
+  // Sur les douze critères d'origine, ces scores étaient 82, 77, 70, 67, 67, 65, 62, 58 et 57.
   const historical = {
-    egal: [82,77,70,67,67,65,62,58,57]
+    egal: [80,76,73,70,69,64,63,63,60]
   };
   const h=boot();
   for(const [preset,scores] of Object.entries(historical)){
@@ -284,7 +285,7 @@ test('Profils homogènes : chaque classe mène ou partage la tête d’au moins 
 });
 
 test('Profils homogènes : le nom annonce le critère dominant, sans Technicité ni Polyvalence ajoutées',()=>{
-  const headline={tank:'tank',soin:'soin',dps:'dps',soutien:'util',bg:'bg',soinbg:'soin',sauvage:'sauv',controle:'ctrl',solo:'solo',polyvalence:'poly'};
+  const headline={tank:'tank',soin:'soin',dps:'dps',zone:'zone',soutien:'util',bg:'bg',soinbg:'soin',sauvage:'sauv',burst:'burst',controle:'ctrl',solo:'solo',polyvalence:'poly'};
   for(const [preset,weights] of Object.entries(config.presets)){
     if(preset==='egal') continue;
     assert.equal(weights.tech,0,preset+' ne doit pas pondérer la Technicité');
@@ -293,4 +294,44 @@ test('Profils homogènes : le nom annonce le critère dominant, sans Technicité
     const total=Object.values(weights).reduce((a,b)=>a+b,0);
     assert.ok(weights[k]===3 && weights[k]/total>=0.5, preset+' : '+k+' doit peser au moins la moitié');
   }
+});
+
+test('Burst suit le paramètre PvP et Dégâts de zone le paramètre PvE',()=>{
+  const h=boot();
+  assert.ok(config.pvpAx.includes('burst')&&!config.pveAx.includes('burst'));
+  assert.ok(config.pveAx.includes('zone')&&!config.pvpAx.includes('zone'));
+  const mage=config.classes.find(c=>c.id==='mage');
+  // Mage : plancher PvP 5, plancher PvE 3, plafonds 2 et 1.
+  assert.equal(h.api.eff(mage,'burst',0),3.4);
+  assert.equal(h.api.eff(mage,'zone',0),4.2);
+  assert.equal(h.api.eff(mage,'burst',3),5);
+  assert.equal(h.api.eff(mage,'zone',3),5);
+  const voleur=config.classes.find(c=>c.id==='voleur');
+  assert.equal(h.api.eff(voleur,'zone',0),1.6);
+});
+
+test('Une sauvegarde antérieure à Burst et Dégâts de zone garde son profil et son classement',()=>{
+  const added=['burst','zone'];
+  const before=w=>Object.fromEntries(config.axes.filter(k=>!added.includes(k)).map(k=>[k,w[k]]));
+  for(const preset of Object.keys(config.presets)){
+    if(added.some(k=>config.presets[preset][k]>0) && preset!=='egal') continue; // profils créés le 20 octobre
+    const h=boot({'wf-overview-v3':JSON.stringify({m:1,w:before(config.presets[preset])})});
+    assert.equal(JSON.stringify(h.api.S.w),JSON.stringify(config.presets[preset]),preset);
+    assert.equal(h.groups['.presets button'].find(b=>b.dataset.preset===preset).attrs['aria-pressed'],'true',preset);
+    assert.equal(h.api.S.m,1);
+  }
+  // Pondération personnelle : Burst et Dégâts de zone à 0, donc classement inchangé.
+  const custom={...before(config.presets.egal),tank:3,tech:0,mob:2};
+  const h=boot({'wf-overview-v3':JSON.stringify({w:custom})});
+  assert.equal(h.api.S.w.burst,0);
+  assert.equal(h.api.S.w.zone,0);
+  for(const c of config.classes){
+    const keys=Object.keys(custom), total=keys.reduce((a,k)=>a+custom[k],0);
+    const expected=100*keys.reduce((a,k)=>a+custom[k]*c.r[k],0)/(5*total);
+    assert.ok(Math.abs(h.api.score(c,2)-expected)<1e-9,c.id);
+  }
+  // Une sauvegarde qui contient déjà les nouveaux critères est reprise telle quelle.
+  const zero=boot({'wf-overview-v3':JSON.stringify({w:{...before(config.presets.egal),burst:0,zone:3}})});
+  assert.equal(zero.api.S.w.burst,0);
+  assert.equal(zero.api.S.w.zone,3);
 });
