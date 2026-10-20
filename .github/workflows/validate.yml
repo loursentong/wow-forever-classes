@@ -13,4 +13,4 @@ jobs:
         with:
           node-version: '22'
       - name: Tester le modèle, les graphiques et les interactions
-        run: node --test tests/skill-matching.test.cjs
+        run: node --test tests/*.test.cjs
