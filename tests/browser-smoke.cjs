@@ -146,6 +146,15 @@ async function check(){
   await page.locator('[data-reco-mode="guided"]').click();
   await page.locator('[data-step="0"]').click();
   await page.screenshot({path:path.join(__dirname,'screenshots','questionnaire-desktop.png'),fullPage:false});
+  // Contrôles des ressources graphiques et de l’accessibilité des animations.
+  const assets=await page.evaluate(async()=>Promise.all(['ux-polish.css','assets/hero-landscape.svg'].map(async p=>{
+    const r=await fetch(p);return {url:p,status:r.status,ok:r.ok};
+  })));
+  assert.ok(assets.every(x=>x.ok),'CSS et illustration manquants : '+JSON.stringify(assets));
+  await page.emulateMedia({reducedMotion:'reduce'});
+  const motion=await page.locator('.reco-modes button').first().evaluate(el=>getComputedStyle(el).transitionDuration);
+  assert.match(motion,/^0s(, 0s)*$/,'Les transitions doivent être désactivées avec reduced-motion');
+  await page.emulateMedia({reducedMotion:'no-preference'});
   assert.deepEqual(errors,[],'Erreurs JavaScript navigateur');
   process.stdout.write('Chromium : deux parcours, 14 poids, 15 presets, neuf rangs, maîtrise partagée, mobile et clavier — OK\n');
  }finally{
