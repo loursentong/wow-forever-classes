@@ -56,7 +56,7 @@ Cas particulier : somme des poids nulle ⇒ indice 0 pour toutes les classes. Le
 
 L'augmentation du score pour un Expert n'est **pas** un bonus de dégâts mesuré ni une récompense mécanique liée au niveau de difficulté ; elle représente seulement l'incertitude sur l'accès au potentiel des axes sensibles. Le choix d'un ajustement positif plus petit que les malus s'appuie sur l'idée que les notes de départ décrivaient déjà un potentiel relativement élevé. Ce calibrage est révisable.
 
-### Exemple sur le preset Ton profil
+### Exemple sur le preset Polyvalent
 
 | Niveau | 1re classe | 2e classe | Classement complet calculé sur les neuf classes |
 | --- | --- | --- | --- |
