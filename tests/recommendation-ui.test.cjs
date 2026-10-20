@@ -42,7 +42,7 @@ test('Le formulaire est visible et la liste reste vide avant réponse',()=>{
  const h=createHarness();
  assert.match(h.form.innerHTML,/Quels rôles souhaites-tu jouer/);
  assert.match(h.form.innerHTML,/Ton niveau actuel/);
- assert.match(h.form.innerHTML,/Certitude/);
+ assert.match(ui,/Certitude pour/);
  assert.match(h.results.innerHTML,/Aucune classe n’est favorisée/);
  assert.equal(h.profile().mastery,2);
 });
