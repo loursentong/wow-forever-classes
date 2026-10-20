@@ -1,0 +1,99 @@
+/* World of Warcraft: Forever — direction artistique communautaire.
+ * Icônes et paysages Blizzard : voir crédits au pied de page.
+ * Cette couche ne modifie ni les données ni les calculs. */
+:root{
+ --wow-ink:#08121d;--wow-panel:#111e2a;--wow-gold:#eac061;
+ --wow-gold-light:#ffe4a2;--wow-gold-deep:#815324;
+ --wow-edge:rgba(213,163,75,.36);
+ --wow-glow:0 0 16px rgba(226,162,50,.22),0 0 36px rgba(226,162,50,.09);
+ --wow-panel-shadow:0 14px 35px rgba(0,0,0,.25),inset 0 1px rgba(255,226,151,.07)
+}
+.reco-section{position:relative;gap:15px}
+.reco-hero{
+ position:relative;min-height:214px;display:flex;gap:20px;align-items:center;
+ border:1px solid rgba(218,158,60,.47);border-radius:10px;
+ background-image:linear-gradient(90deg,#06101c 0%,rgba(6,16,28,.98) 26%,rgba(6,16,28,.86) 48%,rgba(6,16,28,.42) 76%,rgba(6,16,28,.25) 100%),url("https://bnetcmsus-a.akamaihd.net/cms/blog_header/to/TO55V6TRR1RW1790054798721.png");
+ background-size:cover,cover;background-position:center,right 41%;
+ box-shadow:var(--wow-panel-shadow);overflow:hidden;
+}
+:root[data-theme="light"] .reco-hero, :root[data-theme="dark"] .reco-hero{
+ background-image:linear-gradient(90deg,#06101c 0%,rgba(6,16,28,.98) 26%,rgba(6,16,28,.86) 48%,rgba(6,16,28,.42) 76%,rgba(6,16,28,.25) 100%),url("https://bnetcmsus-a.akamaihd.net/cms/blog_header/to/TO55V6TRR1RW1790054798721.png");
+}
+.reco-hero::before{content:"";position:absolute;inset:4px;z-index:0;border:1px solid rgba(213,163,75,.19);border-radius:7px;pointer-events:none}
+.reco-hero:after{opacity:.15;mix-blend-mode:screen}
+.wow-hero-logo{position:relative;z-index:2;display:block;flex:none;width:clamp(104px,14vw,178px);max-height:178px;object-fit:contain;filter:drop-shadow(0 5px 9px rgba(0,0,0,.7));border:0}
+.reco-hero-copy{position:relative;z-index:2;max-width:675px;gap:8px}
+.reco-hero-copy h2,.reco-hero h2{font-family:var(--font-display);text-shadow:0 2px 7px rgba(0,0,0,.75);color:#f7eddf}
+.reco-hero-copy p{color:#b8cde1;text-shadow:0 1px 4px rgba(0,0,0,.85)}
+.reco-hero .eyebrow,.reco-hero-note{color:#f2c66e}
+.reco-hero-note{margin-top:1px;text-shadow:0 1px 4px #020812}
+.reco-mode-intro .reco-kicker{color:var(--accent)}
+.reco-modes button{position:relative;isolation:isolate;overflow:hidden;border-color:var(--wow-edge);box-shadow:inset 0 1px rgba(225,189,120,.04);min-height:70px}
+.reco-modes button:before{content:"";position:absolute;inset:0;z-index:-1;opacity:0;pointer-events:none;
+ background:linear-gradient(115deg,transparent 10%,rgba(255,224,155,.075) 46%,transparent 68%);
+ transform:translateX(-90%);transition:opacity .24s ease,transform .35s ease}
+.reco-modes button:hover:before{opacity:1;transform:translateX(0)}
+.reco-modes button:hover,.reco-modes button:focus-visible{border-color:#e9b555;box-shadow:var(--wow-glow),inset 0 1px rgba(245,211,139,.16)}
+.reco-modes button[aria-selected="true"]{border-color:#e5b15b;box-shadow:var(--wow-glow),inset 0 2px #dfae58}
+.reco-mode-symbol{color:var(--accent);border-color:rgba(221,161,61,.39);
+ box-shadow:inset 0 0 12px rgba(223,172,77,.1);transition:filter .2s ease,transform .2s ease}
+.reco-modes button:hover .reco-mode-symbol{filter:drop-shadow(0 0 8px rgba(247,187,75,.5));transform:scale(1.065)}
+.reco-workspace,.reco-results{position:relative;border:1px solid var(--wow-edge);box-shadow:var(--wow-panel-shadow);background:var(--surface)}
+.reco-workspace::before,.reco-results::before{content:"";position:absolute;top:-1px;left:15px;width:61px;height:1px;
+ background:linear-gradient(90deg,transparent,#f5c66c,transparent);pointer-events:none}
+.reco-option{border-color:color-mix(in srgb,var(--line) 68%,#b08a4d);position:relative;box-shadow:inset 0 0 15px rgba(0,0,0,.018)}
+.reco-option:hover,.reco-option:focus-visible{border-color:var(--wow-gold);box-shadow:0 0 12px rgba(222,166,65,.16),inset 0 0 12px rgba(230,179,75,.03)}
+.reco-option[aria-pressed="true"]{border-color:var(--wow-gold);box-shadow:var(--wow-glow),inset 2px 0 var(--accent)}
+.reco-option-art{display:grid;place-items:center;width:40px;height:40px;flex:none;border-radius:6px;
+ background:#102236;border:1px solid rgba(214,161,71,.4);box-shadow:inset 0 0 0 2px rgba(0,0,0,.2)}
+.reco-option-art img{display:block;width:100%;height:100%;object-fit:cover;border-radius:5px}
+.reco-option-neutral .reco-option-art{display:none}
+.reco-option .reco-option-mark{margin-left:auto;order:3}
+.reco-option[aria-pressed="true"] .reco-option-art{box-shadow:0 0 10px rgba(241,180,65,.29);border-color:var(--wow-gold)}
+.reco-step-no{transition:background .18s ease,box-shadow .18s ease,color .18s ease}
+.reco-step.is-current .reco-step-no{box-shadow:0 0 14px rgba(229,171,70,.35)}
+.reco-step.is-answered:not(.is-current) .reco-step-no{background:rgba(45,118,78,.15)}
+.reco-next,.reco-reveal-button{background:linear-gradient(180deg,#f7d082,#dfa43d);color:#111824;border:1px solid #f4cc79;
+ box-shadow:0 3px 0 rgba(86,50,11,.4),inset 0 1px rgba(255,247,218,.52)}
+.reco-next:hover,.reco-reveal-button:hover{filter:brightness(1.09);box-shadow:0 3px 0 rgba(86,50,11,.35),var(--wow-glow);transform:translateY(-1px)}
+.reco-next:active,.reco-reveal-button:active{transform:translateY(1px);box-shadow:0 1px 0 rgba(86,50,11,.4)}
+.reco-priority-group{border-color:var(--wow-edge);box-shadow:inset 0 1px rgba(251,214,132,.06)}
+.reco-template:hover,.reco-template:focus-visible{border-color:var(--accent);box-shadow:0 0 13px rgba(232,167,61,.15)}
+.reco-template[aria-pressed="true"]{box-shadow:inset 0 1px rgba(244,210,151,.16),0 0 11px rgba(226,175,76,.14)}
+.reco-result-card,.reco-priority-class{transition:border-color .17s ease,box-shadow .17s ease,transform .17s ease}
+.reco-result-card:hover,.reco-priority-class:hover{border-color:var(--wow-edge);box-shadow:0 6px 22px rgba(0,0,0,.16);transform:translateY(-1px)}
+.reco-emblem,.reco-priority-class-icon{border-radius:6px;overflow:hidden;border:1px solid rgba(235,196,105,.48);
+ box-shadow:0 0 0 2px rgba(0,0,0,.13),0 0 13px rgba(227,174,76,.12)}
+.reco-emblem img,.reco-priority-class-icon img{width:100%;height:100%;object-fit:cover;display:block}
+.reco-emblem{width:42px;height:42px;flex:none}
+.reco-priority-class-icon{width:30px;height:30px}
+.wow-class-index{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));align-items:stretch;gap:6px}
+.wow-class-index a{display:flex;align-items:center;flex-direction:column;gap:6px;text-decoration:none;color:var(--fg);
+ padding:10px 2px 9px;min-width:0;border:1px solid var(--line);border-radius:7px;background:var(--surface);
+ transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease}
+.wow-class-index img,.wow-card-class-icon{width:41px;height:41px;border-radius:7px;border:1px solid rgba(221,161,61,.48);
+ box-shadow:0 0 0 2px rgba(0,0,0,.11);object-fit:cover}
+.wow-class-index a:hover,.wow-class-index a:focus-visible{border-color:var(--wow-gold);box-shadow:var(--wow-glow);transform:translateY(-3px)}
+.wow-class-index a:hover img{box-shadow:var(--wow-glow)}
+.wow-class-index span{font-size:.72rem;font-weight:600;white-space:nowrap}
+.wow-card-class-icon{width:42px;height:42px;margin-right:7px;vertical-align:middle}
+.card-head{border-bottom-color:var(--wow-edge)}
+.wow-assets-note{display:block;font-size:.74rem;line-height:1.55;margin-top:8px;color:var(--muted)}
+.wow-assets-note a{color:var(--accent)}
+@media(max-width:980px){.wow-class-index{grid-template-columns:repeat(5,minmax(0,1fr))}}
+@media(max-width:690px){.reco-hero{align-items:center;padding:15px;gap:13px;min-height:165px}
+ .wow-hero-logo{width:90px;max-height:108px}
+ .reco-hero h2{font-size:clamp(1.22rem,5vw,1.6rem)}
+ .reco-hero-note{display:none}.reco-hero-copy{max-width:100%}
+ .wow-class-index{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .reco-option-art{width:35px;height:35px}
+ .reco-option-text strong{font-size:.8rem}
+ .reco-option .reco-option-mark{width:17px;height:17px}
+}
+@media(max-width:390px){.wow-hero-logo{width:75px}.reco-hero-copy h2{font-size:1.2rem}
+ .reco-hero-copy p{font-size:.76rem}}
+@media(prefers-reduced-motion:reduce){
+ .reco-modes button:before,.reco-mode-symbol,.reco-step-no,.reco-option,.reco-result-card,
+ .reco-priority-class,.wow-class-index a,.reco-next,.reco-reveal-button,.reco-template{
+ transition:none!important;transform:none!important;animation:none!important}
+}
