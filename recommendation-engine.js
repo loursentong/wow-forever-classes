@@ -214,6 +214,68 @@ function recommend(profile){
   return Object.assign({},base,{top:top,scenarios:probes.map(function(x){return {name:x.label,status:x.ranking.status,top:x.ranking.results.slice(0,3).map(function(r){return r.spec.classId;})};}),
     uncertain:scenarios.slice(1).map(function(x){return x.label;})});
 }
+/* Classement à 14 priorités : même inventaire de spécialisations que le parcours guidé.
+ * Les axes sont répartis en domaines pour éviter de compter trois fois le rôle
+ * ou de surpondérer un domaine parce que plusieurs de ses axes sont cochés.
+ */
+var PRIORITY_AXES=['poly','tank','soin','dps','bg','sauv','burst','zone','ctrl','surv','mob','util','solo','tech'];
+function sanitizeWeights(input){
+  var weights={};
+  PRIORITY_AXES.forEach(function(k){
+    weights[k]=input&&Number.isInteger(input[k])&&input[k]>=0&&input[k]<=3?input[k]:0;
+  });
+  return weights;
+}
+function priorityRanking(input,mastery){
+  var w=sanitizeWeights(input),m=Number.isInteger(mastery)&&mastery>=0&&mastery<=3?mastery:2;
+  var active=PRIORITY_AXES.filter(function(k){return w[k]>0;});
+  if(!active.length)return {status:'unanswered',results:[],active:[],weights:w,mastery:m};
+  var groups=[
+    {id:'roles',axes:['tank','soin','dps'],factor:.30},
+    {id:'activities',axes:['bg','sauv','solo'],factor:.28},
+    {id:'style',axes:['burst','zone','ctrl','surv','mob','util'],factor:.28},
+    {id:'affinity',axes:['poly','tech'],factor:.14}
+  ];
+  var activityMap={bg:'bg',sauv:'world',solo:'solo'};
+  var styleMap={burst:'burst',zone:'zone',ctrl:'ctrl',surv:'surv',mob:'mob',util:'support'};
+  var maxRoles=Math.max(w.tank,w.soin,w.dps);
+  function raw(s,k){
+    if(k==='tank'||k==='soin'||k==='dps')return maxRoles?s.role===k?w[k]/maxRoles:0:.5;
+    if(activityMap[k])return (adjustedActivity(s,activityMap[k],m)-1)/4;
+    if(styleMap[k])return (adjustedStyle(s,styleMap[k],m)-1)/4;
+    if(k==='poly')return (rolePool(s.classId).length-1)/2;
+    if(k==='tech')return clamp(((s.load.pve+s.load.pvp)/2-1)/4,0,1);
+    return .5;
+  }
+  function fit(s){
+    var parts={},numer=0,denom=0;
+    for(var g of groups){
+      var axes=g.axes.filter(function(k){return w[k]>0;});
+      if(!axes.length)continue;
+      // Rôles exprimés : l'aptitude à exercer la spécialisation préférée
+      // est une seule dimension ; les autres groupes sont moyens, pas additionnés.
+      var weighted=axes.reduce(function(t,k){return t+w[k]*raw(s,k);},0);
+      var total=axes.reduce(function(t,k){return t+w[k];},0);
+      var value=weighted/total;
+      var importance=g.factor*Math.max.apply(null,axes.map(function(k){return w[k];}))/3;
+      parts[g.id]={value:value,weight:importance};
+      numer+=value*importance;denom+=importance;
+    }
+    return {score:denom?100*numer/denom:0,parts:parts};
+  }
+  var byClass={};
+  for(var sp of specs){
+    var r=fit(sp);
+    if(!byClass[sp.classId]||r.score>byClass[sp.classId].score){
+      byClass[sp.classId]={spec:sp,classId:sp.classId,className:sp.className,
+        score:Math.round(r.score*100)/100,parts:r.parts};
+    }
+  }
+  var results=Object.keys(byClass).map(function(k){return byClass[k];})
+    .sort(function(a,b){return b.score-a.score||a.className.localeCompare(b.className,'fr');});
+  return {status:'ok',results:results,active:active,weights:w,mastery:m,
+    caveat:'Indice heuristique par spécialisation. Les égalités et faibles écarts ne sont pas des mesures de supériorité.'};
+}
 function checkData(){
  var errors=[],ids=new Set();
  for(var s of specs){
@@ -227,5 +289,5 @@ function checkData(){
 return {version:'1.0.0-exploratoire',sources:sources,specs:specs,roles:ROLE,activities:acts,styles:styles,
  defaultProfile:copy(DEFAULT),sanitize:sanitize,selected:selected,domains:domains,eligible:eligible,
  ranking:ranking,recommend:recommend,checkData:checkData,intensity:intensity,preferenceFit:preferenceFit,
- rolePool:rolePool,adjustedActivity:adjustedActivity};
+ rolePool:rolePool,adjustedActivity:adjustedActivity,priorityAxes:PRIORITY_AXES,priorityRanking:priorityRanking,sanitizeWeights:sanitizeWeights};
 });
