@@ -435,14 +435,15 @@ footer.end{font-size:.9rem;color:var(--muted)}
 @media(max-width:430px){.reco-progress-top{gap:5px}.reco-progress-top>div{flex-shrink:0;gap:6px}.reco-progress-top strong{white-space:nowrap;font-size:.79rem}.reco-progress-count{font-size:.69rem;white-space:nowrap}}
 @media(prefers-reduced-motion:reduce){.reco-progress-track span{transition:none}}
 </style>
+<link rel="stylesheet" href="ux-polish.css">
 </head>
 <body>
 <main class="wrap">
 <header class="top">
   <label class="theme-choice" for="theme">Apparence <select id="theme"><option value="dark" selected>Sombre</option><option value="light">Clair</option><option value="system">Système</option></select></label>
   <span class="eyebrow">World of Warcraft: Forever · niveau 60 projeté</span>
-  <h1>Les neuf classes de WoW Forever</h1>
-  <p class="lede">Ce que chaque classe peut faire, où elle excelle et où elle est faible, projeté au niveau 60 à partir de l'état de la bêta au 20 octobre 2026. Les notes de 1 à 5 sont une synthèse éditoriale des sources citées ; chaque critère indique sa fiabilité.</p>
+  <h1>WoW Forever : trouve ta classe.</h1>
+  <p class="lede">À chacun sa façon de jouer. Découvre les classes qui correspondent à tes envies — même si tu hésites — ou construis ton propre classement.</p>
   <div class="status">
     <div><span>Dernier patch</span><b>15-16 oct.</b></div>
     <div><span>Simulations</span><b>MythicSim, 20 oct.</b></div>
@@ -458,19 +459,17 @@ footer.end{font-size:.9rem;color:var(--muted)}
   <div class="reco-hero">
     <div class="reco-hero-copy">
       <span class="eyebrow">TON PROCHAIN PERSONNAGE · WORLD OF WARCRAFT: FOREVER</span>
-      <h2 id="h-reco">Une classe qui te ressemble, pas un classement imposé.</h2>
-      <p>Explore les spécialisations selon ton style. Tu peux être guidé pas à pas ou définir toi-même l'importance de chaque critère.</p>
+      <h2 id="h-reco">Choisis ton aventure, à ta façon.</h2>
+      <p>Six questions pour découvrir ton style, ou des priorités à régler librement. Pas besoin d’avoir toutes les réponses pour commencer.</p>
     </div>
-    <div class="reco-hero-facts" aria-label="Contenu de l'assistant">
-      <span><b>09</b> classes</span><span><b>28</b> configurations</span><span><b>02</b> façons de choisir</span>
-    </div>
+    <p class="reco-hero-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m12 2 1.9 7.4L21 12l-7.1 2.6L12 22l-1.9-7.4L3 12l7.1-2.6z"/></svg> Explore, ajuste, change d’avis : c’est ton choix.</p>
   </div>
   <div id="reco-app" class="reco-panel">
     <div class="reco-mode-intro">
       <div><span class="reco-kicker">Choisis ton approche</span><p>Deux façons de trouver ta classe. Tu peux passer de l'une à l'autre à tout moment.</p></div>
       <div class="reco-modes" role="tablist" aria-label="Mode de recommandation">
-        <button id="reco-tab-guided" type="button" role="tab" aria-controls="reco-guided" aria-selected="true" data-reco-mode="guided"><strong>Être guidé</strong><small>Je découvre mon style</small></button>
-        <button id="reco-tab-priorities" type="button" role="tab" aria-controls="reco-priorities" aria-selected="false" data-reco-mode="priorities"><strong>Régler mes priorités</strong><small>Je sais ce qui compte</small></button>
+        <button id="reco-tab-guided" type="button" role="tab" aria-controls="reco-guided" aria-selected="true" data-reco-mode="guided"><span class="reco-mode-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m15.7 8.3-2.5 4.9-4.9 2.5 2.5-4.9z"/></svg></span><span class="reco-mode-title"><strong>Être guidé</strong><small>Je découvre mon style</small></span></button>
+        <button id="reco-tab-priorities" type="button" role="tab" aria-controls="reco-priorities" aria-selected="false" data-reco-mode="priorities"><span class="reco-mode-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/><circle cx="9" cy="6" r="2" fill="var(--surface)"/><circle cx="16" cy="12" r="2" fill="var(--surface)"/><circle cx="11" cy="18" r="2" fill="var(--surface)"/></svg></span><span class="reco-mode-title"><strong>Régler mes priorités</strong><small>Je sais ce qui compte</small></span></button>
       </div>
     </div>
     <div id="reco-guided" role="tabpanel" aria-labelledby="reco-tab-guided">
@@ -479,7 +478,7 @@ footer.end{font-size:.9rem;color:var(--muted)}
           <div class="reco-topline"><p class="reco-hint">Réponds librement. Aucune question n'est obligatoire.</p><button id="reco-reset" class="reco-reset" type="button">Recommencer ↺</button></div>
           <div id="reco-form"><p class="reco-hint">Préparation du questionnaire…</p></div>
         </div>
-        <aside id="reco-results" class="reco-results" aria-live="polite" aria-label="Résultats du parcours guidé"><p class="reco-hint">Les recommandations s'afficheront ici.</p></aside>
+        <aside id="reco-results" class="reco-results" aria-live="polite" aria-label="Résultats du parcours guidé"><p class="reco-hint">Tes premières pistes seront disponibles quand tu le souhaiteras.</p></aside>
       </div>
     </div>
     <div id="reco-priorities" role="tabpanel" aria-labelledby="reco-tab-priorities" hidden>

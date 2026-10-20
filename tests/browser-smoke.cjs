@@ -10,12 +10,12 @@ const http=require('node:http');
 const {chromium}=require('playwright');
 
 const base=path.resolve(__dirname,'..');
-const allowed={'/':'index.html','/index.html':'index.html','/questionnaire.js':'questionnaire.js','/recommendation-engine.js':'recommendation-engine.js','/priorities-ui.js':'priorities-ui.js'};
+const allowed={'/':'index.html','/index.html':'index.html','/questionnaire.js':'questionnaire.js','/recommendation-engine.js':'recommendation-engine.js','/priorities-ui.js':'priorities-ui.js','/ux-polish.css':'ux-polish.css','/assets/hero-landscape.svg':'assets/hero-landscape.svg'};
 const server=http.createServer((req,res)=>{
   const pathname=new URL(req.url,'http://localhost').pathname;
   if(!Object.hasOwn(allowed,pathname)){res.writeHead(404);res.end();return;}
   const file=allowed[pathname];
-  res.setHeader('content-type',file.endsWith('.js')?'text/javascript; charset=utf-8':'text/html; charset=utf-8');
+  res.setHeader('content-type',file.endsWith('.js')?'text/javascript; charset=utf-8':file.endsWith('.css')?'text/css; charset=utf-8':file.endsWith('.svg')?'image/svg+xml; charset=utf-8':'text/html; charset=utf-8');
   res.end(fs.readFileSync(path.join(base,file)));
 });
 async function check(){
@@ -33,7 +33,9 @@ async function check(){
   await page.waitForSelector('#reco-form .reco-question');
   assert.equal(await page.locator('#reco-form .reco-question').count(),1,'Une question seulement à la fois');
   assert.equal(await page.locator('[data-step]').count(),6);
-  assert.match(await page.locator('#reco-results').textContent(),/Aucune classe ne part gagnante/);
+  assert.match(await page.locator('#reco-results').textContent(),/Tout commence par tes envies/);
+  assert.equal(await page.locator('#reco-hero-facts').count(),0);
+  assert.equal(await page.locator('link[href="ux-polish.css"]').count(),1);
 
   // Le comparatif historique reste intact sous ses réglages avancés.
   assert.equal(await page.locator('#rank').count(),1);
@@ -53,7 +55,19 @@ async function check(){
   const slider=page.locator('#rc-styles-ctrl');
   await slider.evaluate(el=>{el.value='0';el.dispatchEvent(new Event('input',{bubbles:true}));});
   assert.equal(await slider.inputValue(),'0');
-  assert.match(await page.locator('#reco-results').textContent(),/Les meilleures pistes pour toi/);
+  assert.match(await page.locator('#reco-results').textContent(),/Encore un peu de contexte/);
+  assert.equal(await page.locator('#reco-results .reco-result-card').count(),0);
+  // Une seconde dimension rend un aperçu possible sans l'imposer.
+  await page.locator('[data-step="2"]').click();
+  await page.locator('[data-single="range"][data-key="distance"]').click();
+  assert.match(await page.locator('#reco-results').textContent(),/Voir un aperçu/);
+  assert.equal(await page.locator('#reco-results .reco-result-card').count(),0);
+  await page.locator('[data-reco-reveal]').click();
+  assert.equal(await page.locator('#reco-results .reco-result-card').count(),3);
+  await page.locator('[data-reco-hide]').click();
+  assert.equal(await page.locator('#reco-results .reco-result-card').count(),0);
+  await page.locator('[data-reco-reveal]').click();
+  assert.equal(await page.locator('#reco-results .reco-result-card').count(),3);
   await page.locator('[data-step="4"]').click();
   assert.match(await page.locator('#reco-form').textContent(),/Quelle place pour les familiers/);
   await page.locator('[data-prev]').click();
@@ -69,7 +83,9 @@ async function check(){
   await page.locator('[data-step="2"]').click();
   await page.locator('[data-single="range"][data-key="distance"]').click();
   await page.locator('[data-strict="range"]').check();
-  assert.match(await page.locator('#reco-results').textContent(),/Aucune spécialisation ne remplit/);
+  assert.match(await page.locator('#reco-results').textContent(),/Voir un aperçu/);
+  await page.locator('[data-reco-reveal]').click();
+  assert.match(await page.locator('#reco-results').textContent(),/Ces exigences ne vont pas ensemble/);
 
   // Second parcours : poids classiques réutilisés, mêmes 15 profils, top neuf classes.
   await page.locator('[data-reco-mode="priorities"]').click();
@@ -117,16 +133,28 @@ async function check(){
   assert.ok(sizing.doc<=sizing.viewport+2,'Débordement formulaire mobile '+JSON.stringify(sizing));
   fs.mkdirSync(path.join(__dirname,'screenshots'),{recursive:true});
   await page.locator('#reco-form').scrollIntoViewIfNeeded();
+  await page.waitForTimeout(280);
   await page.screenshot({path:path.join(__dirname,'screenshots','questionnaire-mobile.png'),fullPage:false});
   await page.locator('[data-reco-mode="priorities"]').click();
   await page.locator('#reco-priority-form').scrollIntoViewIfNeeded();
+  await page.waitForTimeout(280);
   await page.screenshot({path:path.join(__dirname,'screenshots','priorites-mobile.png'),fullPage:false});
   await page.setViewportSize({width:1300,height:900});
   await page.locator('#h-reco').scrollIntoViewIfNeeded();
+  await page.waitForTimeout(280);
   await page.screenshot({path:path.join(__dirname,'screenshots','priorites-desktop.png'),fullPage:false});
   await page.locator('[data-reco-mode="guided"]').click();
   await page.locator('[data-step="0"]').click();
   await page.screenshot({path:path.join(__dirname,'screenshots','questionnaire-desktop.png'),fullPage:false});
+  // Contrôles des ressources graphiques et de l’accessibilité des animations.
+  const assets=await page.evaluate(async()=>Promise.all(['ux-polish.css','assets/hero-landscape.svg'].map(async p=>{
+    const r=await fetch(p);return {url:p,status:r.status,ok:r.ok};
+  })));
+  assert.ok(assets.every(x=>x.ok),'CSS et illustration manquants : '+JSON.stringify(assets));
+  await page.emulateMedia({reducedMotion:'reduce'});
+  const motion=await page.locator('.reco-modes button').first().evaluate(el=>getComputedStyle(el).transitionDuration);
+  assert.match(motion,/^0s(, 0s)*$/,'Les transitions doivent être désactivées avec reduced-motion');
+  await page.emulateMedia({reducedMotion:'no-preference'});
   assert.deepEqual(errors,[],'Erreurs JavaScript navigateur');
   process.stdout.write('Chromium : deux parcours, 14 poids, 15 presets, neuf rangs, maîtrise partagée, mobile et clavier — OK\n');
  }finally{

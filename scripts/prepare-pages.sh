@@ -4,7 +4,9 @@ set -euo pipefail
 # Le site GitHub Pages utilise un artefact statique : il faut copier tous les
 # scripts locaux avec index.html, pas seulement le HTML.
 mkdir -p _site
-cp -- index.html .nojekyll ./*.js RECOMMANDATION-METHODE.md _site/
+cp -- index.html .nojekyll ./*.js ./*.css RECOMMANDATION-METHODE.md _site/
+mkdir -p _site/assets
+cp -- assets/*.svg _site/assets/
 
 # La même vérification est exécutée dans la CI et pendant le déploiement.
 # Toute ressource locale oubliée doit faire échouer la publication.
