@@ -1,5 +1,11 @@
 # Les classes de WoW Forever
 
+
+> **Référentiel du moteur logique :** [CODEX-MOTEUR-LOGIQUE.md](CODEX-MOTEUR-LOGIQUE.md). Ce document spécifie les entrées, formules, filtres, interprétations, sauvegardes et règles de changement. Les tests de contrat comparent la version actuelle à [une photographie versionnée](tests/fixtures/moteur-reference-v1.json) couvrant les 28 configurations, les 126 notes historiques, 60 classements par préréglage et maîtrise et douze scénarios guidés.
+>
+> **Important :** un échec de ces tests peut signaler une évolution intentionnelle ou une régression. Ne jamais régénérer automatiquement la photographie pour rétablir une CI verte. Examiner les écarts, obtenir l'accord sur le nouveau comportement et versionner le référentiel.
+
+
 ## Stabilisation du modèle et UX de la vitrine
 
 **Correction majeure des rôles (21 octobre 2026) :** une classe pouvant exercer le rôle DPS, Tank ou Soin n'obtient plus automatiquement 100/100 sur ce critère. Chaque configuration dispose d'un score de rôle éditorial combinant deux valeurs :
