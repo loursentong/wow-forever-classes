@@ -168,6 +168,41 @@ table{border-collapse:separate;border-spacing:0;width:100%}
 .src th{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
 .src-box table{min-width:760px}
 footer.end{font-size:.9rem;color:var(--muted)}
+
+/* Compléments ciblés : sélecteur de maîtrise et visualisations, sans modifier les styles existants. */
+.skill-box{border:1px solid var(--line);border-radius:6px;margin:0;padding:10px 12px;min-width:0}
+.skill-box legend{font-size:.88rem;font-weight:700;padding:0 5px}
+.skill-choices{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
+.skill-choices button{font:inherit;font-size:.8rem;padding:7px 4px;cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:5px;min-width:0}
+.skill-choices button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--bg);font-weight:700}
+.skill-description{min-height:2.5em;font-size:.83rem;color:var(--muted)}
+.insights{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
+.insights .panel{gap:12px}
+.insight-svg{display:block;width:100%;height:auto;max-height:285px;overflow:visible}
+.insight-legend{display:flex;gap:7px 14px;flex-wrap:wrap;font-size:.79rem}
+.insight-legend span{display:inline-flex;gap:6px;align-items:center}
+.insight-legend i{width:10px;height:10px;border-radius:50%;background:var(--series);border:1px solid var(--line)}
+.insight-selectors{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.insight-selectors label{display:flex;flex-direction:column;gap:3px;font-size:.78rem;color:var(--muted)}
+.insight-selectors select{width:100%;min-width:0;font:inherit;font-size:.86rem;background:var(--surface);color:var(--fg);border:1px solid var(--line);border-radius:5px;padding:7px}
+.insight-summary{font-size:.82rem;font-weight:600}
+.driver-list{display:flex;flex-direction:column;gap:6px}
+.driver-row{display:grid;grid-template-columns:minmax(86px,1.12fr) minmax(75px,1fr) 3.6em;gap:9px;align-items:center;font-size:.78rem}
+.driver-row .name{overflow-wrap:anywhere}
+.driver-track{height:13px;background:var(--surface-2);position:relative;border-radius:2px;overflow:hidden}
+.driver-track:after{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--fg);opacity:.65}
+.driver-fill{position:absolute;top:2px;height:9px;min-width:1px;border-radius:2px}
+.driver-fill.positive{left:50%;background:var(--class-a)}
+.driver-fill.negative{right:50%;background:var(--class-b)}
+.driver-value{text-align:right;font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+.insight-data{font-size:.8rem;color:var(--muted)}
+.insight-data summary{cursor:pointer}
+.insight-data table{border-collapse:collapse;font-size:.79rem;width:100%;margin-top:8px}
+.insight-data th,.insight-data td{padding:5px;border-bottom:1px solid var(--line);text-align:right}
+.insight-data th:first-child{text-align:left}
+@media(max-width:950px){.insights{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:520px){.skill-choices{grid-template-columns:repeat(2,minmax(0,1fr))}.driver-row{grid-template-columns:minmax(72px,1fr) minmax(70px,1fr) 3em;gap:5px}}
+@media(prefers-reduced-motion:reduce){.insights *{transition:none!important}}
 </style>
 </head>
 <body>
@@ -180,7 +215,7 @@ footer.end{font-size:.9rem;color:var(--muted)}
     <div><span>Dernier patch</span><b>15-16 oct.</b></div>
     <div><span>Simulations</span><b>MythicSim, 20 oct.</b></div>
     <div><span>Tournoi de duel</span><b>18 oct. (niv. 30)</b></div>
-    <div><span>Fin de la bêta</span><b>22 oct.</b></div>
+    <div><span>Fin de la bêta</span><b>21 oct.</b></div>
     <div><span>Lancement</span><b>4 nov.</b></div>
   </div>
   <nav class="jump" aria-label="Aller à une classe"><a href="#c-guerrier"><span class="sw" style="--cc:#C69B6D"></span>Guerrier</a><a href="#c-paladin"><span class="sw" style="--cc:#F48CBA"></span>Paladin</a><a href="#c-chasseur"><span class="sw" style="--cc:#AAD372"></span>Chasseur</a><a href="#c-voleur"><span class="sw" style="--cc:#FFF468"></span>Voleur</a><a href="#c-pretre"><span class="sw" style="--cc:#FFFFFF"></span>Prêtre</a><a href="#c-chaman"><span class="sw" style="--cc:#0070DD"></span>Chaman</a><a href="#c-mage"><span class="sw" style="--cc:#3FC7EB"></span>Mage</a><a href="#c-demoniste"><span class="sw" style="--cc:#8788EE"></span>Démoniste</a><a href="#c-druide"><span class="sw" style="--cc:#FF7C0A"></span>Druide</a></nav>
@@ -190,7 +225,7 @@ footer.end{font-size:.9rem;color:var(--muted)}
   <div class="sec-head">
     <span class="eyebrow">En un coup d'œil</span>
     <h2 id="h-matrix">Les neuf classes sur douze critères</h2>
-    <p>Chaque classe est notée sur sa meilleure spé pour chaque critère, puisque la double spécialisation permet d'en garder deux. Survole un critère pour sa définition ; clique sur une classe pour sa fiche.</p>
+    <p>Chaque classe est notée sur sa meilleure spé pour chaque critère, puisque la double spécialisation permet d'en garder deux. Survole un critère pour sa définition ; clique sur une classe pour sa fiche. Les notes de ce tableau restent la référence « Confirmé » : le niveau de maîtrise ajuste le classement ci-dessous, pas les notes sources.</p>
   </div>
   <div class="legend">
     <span><i class="chip q5"><b>5</b></i> excellent</span>
@@ -213,11 +248,39 @@ footer.end{font-size:.9rem;color:var(--muted)}
   <div class="tool">
     <div class="panel">
       <div class="presets" role="group" aria-label="Préréglages"><button type="button" data-preset="profil" aria-pressed="true">Ton profil</button><button type="button" data-preset="egal" aria-pressed="false">Tout à égalité</button><button type="button" data-preset="pvp" aria-pressed="false">PvP d'abord</button><button type="button" data-preset="pve" aria-pressed="false">PvE d'abord</button></div>
+      <fieldset class="skill-box">
+        <legend>Niveau de maîtrise du joueur</legend>
+        <div class="skill-choices" role="group" aria-label="Niveau de maîtrise">
+          <button type="button" data-skill="debutant" aria-pressed="false">Débutant</button>
+          <button type="button" data-skill="intermediaire" aria-pressed="false">Intermédiaire</button>
+          <button type="button" data-skill="confirme" aria-pressed="true">Confirmé</button>
+          <button type="button" data-skill="expert" aria-pressed="false">Expert</button>
+        </div>
+        <p class="skill-description" id="skill-description">Confirmé : maîtrises régulièrement tes rotations, tes défensifs et tes déplacements. Les notes de départ sont conservées.</p>
+        <p class="note">Ce sélecteur modélise l'exécution probable d'une classe, pas son nombre de rôles. Hypothèse exploratoire, sans données mesurées au niveau 60. La « Technicité » pondérable reste ton goût pour la complexité.</p>
+      </fieldset>
       <div class="wrows"><div class="wrow"><span class="wlab">Polyvalence</span><div class="seg" role="group" aria-label="Importance de Polyvalence"><button type="button" data-ax="poly" data-v="0" aria-pressed="false" aria-label="Polyvalence : importance 0">0</button><button type="button" data-ax="poly" data-v="1" aria-pressed="false" aria-label="Polyvalence : importance 1">1</button><button type="button" data-ax="poly" data-v="2" aria-pressed="false" aria-label="Polyvalence : importance 2">2</button><button type="button" data-ax="poly" data-v="3" aria-pressed="true" aria-label="Polyvalence : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Tank</span><div class="seg" role="group" aria-label="Importance de Tank"><button type="button" data-ax="tank" data-v="0" aria-pressed="false" aria-label="Tank : importance 0">0</button><button type="button" data-ax="tank" data-v="1" aria-pressed="false" aria-label="Tank : importance 1">1</button><button type="button" data-ax="tank" data-v="2" aria-pressed="true" aria-label="Tank : importance 2">2</button><button type="button" data-ax="tank" data-v="3" aria-pressed="false" aria-label="Tank : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Soin</span><div class="seg" role="group" aria-label="Importance de Soin"><button type="button" data-ax="soin" data-v="0" aria-pressed="false" aria-label="Soin : importance 0">0</button><button type="button" data-ax="soin" data-v="1" aria-pressed="true" aria-label="Soin : importance 1">1</button><button type="button" data-ax="soin" data-v="2" aria-pressed="false" aria-label="Soin : importance 2">2</button><button type="button" data-ax="soin" data-v="3" aria-pressed="false" aria-label="Soin : importance 3">3</button></div></div><div class="wrow"><span class="wlab">DPS PvE</span><div class="seg" role="group" aria-label="Importance de DPS PvE"><button type="button" data-ax="dps" data-v="0" aria-pressed="false" aria-label="DPS PvE : importance 0">0</button><button type="button" data-ax="dps" data-v="1" aria-pressed="false" aria-label="DPS PvE : importance 1">1</button><button type="button" data-ax="dps" data-v="2" aria-pressed="true" aria-label="DPS PvE : importance 2">2</button><button type="button" data-ax="dps" data-v="3" aria-pressed="false" aria-label="DPS PvE : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Champ de bataille</span><div class="seg" role="group" aria-label="Importance de Champ de bataille"><button type="button" data-ax="bg" data-v="0" aria-pressed="false" aria-label="Champ de bataille : importance 0">0</button><button type="button" data-ax="bg" data-v="1" aria-pressed="false" aria-label="Champ de bataille : importance 1">1</button><button type="button" data-ax="bg" data-v="2" aria-pressed="false" aria-label="Champ de bataille : importance 2">2</button><button type="button" data-ax="bg" data-v="3" aria-pressed="true" aria-label="Champ de bataille : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Sauvage et duel</span><div class="seg" role="group" aria-label="Importance de Sauvage et duel"><button type="button" data-ax="sauv" data-v="0" aria-pressed="false" aria-label="Sauvage et duel : importance 0">0</button><button type="button" data-ax="sauv" data-v="1" aria-pressed="false" aria-label="Sauvage et duel : importance 1">1</button><button type="button" data-ax="sauv" data-v="2" aria-pressed="false" aria-label="Sauvage et duel : importance 2">2</button><button type="button" data-ax="sauv" data-v="3" aria-pressed="true" aria-label="Sauvage et duel : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Contrôle</span><div class="seg" role="group" aria-label="Importance de Contrôle"><button type="button" data-ax="ctrl" data-v="0" aria-pressed="false" aria-label="Contrôle : importance 0">0</button><button type="button" data-ax="ctrl" data-v="1" aria-pressed="false" aria-label="Contrôle : importance 1">1</button><button type="button" data-ax="ctrl" data-v="2" aria-pressed="false" aria-label="Contrôle : importance 2">2</button><button type="button" data-ax="ctrl" data-v="3" aria-pressed="true" aria-label="Contrôle : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Survie</span><div class="seg" role="group" aria-label="Importance de Survie"><button type="button" data-ax="surv" data-v="0" aria-pressed="false" aria-label="Survie : importance 0">0</button><button type="button" data-ax="surv" data-v="1" aria-pressed="false" aria-label="Survie : importance 1">1</button><button type="button" data-ax="surv" data-v="2" aria-pressed="false" aria-label="Survie : importance 2">2</button><button type="button" data-ax="surv" data-v="3" aria-pressed="true" aria-label="Survie : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Mobilité</span><div class="seg" role="group" aria-label="Importance de Mobilité"><button type="button" data-ax="mob" data-v="0" aria-pressed="false" aria-label="Mobilité : importance 0">0</button><button type="button" data-ax="mob" data-v="1" aria-pressed="true" aria-label="Mobilité : importance 1">1</button><button type="button" data-ax="mob" data-v="2" aria-pressed="false" aria-label="Mobilité : importance 2">2</button><button type="button" data-ax="mob" data-v="3" aria-pressed="false" aria-label="Mobilité : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Utilité</span><div class="seg" role="group" aria-label="Importance de Utilité"><button type="button" data-ax="util" data-v="0" aria-pressed="false" aria-label="Utilité : importance 0">0</button><button type="button" data-ax="util" data-v="1" aria-pressed="false" aria-label="Utilité : importance 1">1</button><button type="button" data-ax="util" data-v="2" aria-pressed="true" aria-label="Utilité : importance 2">2</button><button type="button" data-ax="util" data-v="3" aria-pressed="false" aria-label="Utilité : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Solo et farm</span><div class="seg" role="group" aria-label="Importance de Solo et farm"><button type="button" data-ax="solo" data-v="0" aria-pressed="false" aria-label="Solo et farm : importance 0">0</button><button type="button" data-ax="solo" data-v="1" aria-pressed="true" aria-label="Solo et farm : importance 1">1</button><button type="button" data-ax="solo" data-v="2" aria-pressed="false" aria-label="Solo et farm : importance 2">2</button><button type="button" data-ax="solo" data-v="3" aria-pressed="false" aria-label="Solo et farm : importance 3">3</button></div></div><div class="wrow"><span class="wlab">Technicité</span><div class="seg" role="group" aria-label="Importance de Technicité"><button type="button" data-ax="tech" data-v="0" aria-pressed="false" aria-label="Technicité : importance 0">0</button><button type="button" data-ax="tech" data-v="1" aria-pressed="false" aria-label="Technicité : importance 1">1</button><button type="button" data-ax="tech" data-v="2" aria-pressed="true" aria-label="Technicité : importance 2">2</button><button type="button" data-ax="tech" data-v="3" aria-pressed="false" aria-label="Technicité : importance 3">3</button></div></div></div>
     </div>
     <div class="panel">
       <ol class="rank" id="rank" aria-live="polite"><li><span class="bname"><span class="sw" style="--cc:#FF7C0A"></span>Druide</span><span class="btrack"><span class="bfill" style="width:80%"></span></span><span class="bval mono">80</span></li><li><span class="bname"><span class="sw" style="--cc:#F48CBA"></span>Paladin</span><span class="btrack"><span class="bfill" style="width:78%"></span></span><span class="bval mono">78</span></li><li><span class="bname"><span class="sw" style="--cc:#8788EE"></span>Démoniste</span><span class="btrack"><span class="bfill" style="width:70%"></span></span><span class="bval mono">70</span></li><li><span class="bname"><span class="sw" style="--cc:#FFFFFF"></span>Prêtre</span><span class="btrack"><span class="bfill" style="width:68%"></span></span><span class="bval mono">68</span></li><li><span class="bname"><span class="sw" style="--cc:#0070DD"></span>Chaman</span><span class="btrack"><span class="bfill" style="width:68%"></span></span><span class="bval mono">68</span></li><li><span class="bname"><span class="sw" style="--cc:#C69B6D"></span>Guerrier</span><span class="btrack"><span class="bfill" style="width:67%"></span></span><span class="bval mono">67</span></li><li><span class="bname"><span class="sw" style="--cc:#AAD372"></span>Chasseur</span><span class="btrack"><span class="bfill" style="width:63%"></span></span><span class="bval mono">63</span></li><li><span class="bname"><span class="sw" style="--cc:#FFF468"></span>Voleur</span><span class="btrack"><span class="bfill" style="width:60%"></span></span><span class="bval mono">60</span></li><li><span class="bname"><span class="sw" style="--cc:#3FC7EB"></span>Mage</span><span class="btrack"><span class="bfill" style="width:58%"></span></span><span class="bval mono">58</span></li></ol>
-      <p class="note">Un outil pour explorer, pas un verdict : les notes sont des estimations, et deux points d'écart ne veulent rien dire.</p>
+      <p class="note">Un outil pour explorer, pas un verdict : les scores sont des indices d'adéquation, pas des probabilités. Les ajustements de maîtrise sont des hypothèses ; quelques points d'écart ne prouvent pas une supériorité réelle.</p>
+    </div>
+  </div>
+  <div class="insights" aria-label="Exploration graphique du classement">
+    <div class="panel">
+      <h3>Progression selon la maîtrise</h3>
+      <p class="note">Évolution de l'indice d'adéquation des trois premières classes du classement actuel. Ce ne sont ni des DPS ni des probabilités.</p>
+      <div id="progress-chart" aria-live="off"><p class="note">Les courbes nécessitent JavaScript.</p></div>
+      <p class="note">Les niveaux correspondent à des hypothèses de réalisation des performances, et non à des courbes observées en jeu.</p>
+    </div>
+    <div class="panel">
+      <h3>Pourquoi une classe devance l'autre</h3>
+      <p class="note">Chaque barre donne la contribution du critère à l'écart de score entre les deux classes sélectionnées. Les poids nuls sont exclus.</p>
+      <div class="insight-selectors">
+        <label for="compare-a">Classe A<select id="compare-a"></select></label>
+        <label for="compare-b">Classe B<select id="compare-b"></select></label>
+      </div>
+      <div id="drivers-chart" aria-live="polite"><p class="note">La comparaison nécessite JavaScript.</p></div>
     </div>
   </div>
 </section>
@@ -246,7 +309,7 @@ footer.end{font-size:.9rem;color:var(--muted)}
     <div class="specs"><span class="spec"><b>Sacré</b> Soin</span><span class="spec"><b>Protection</b> Tank</span><span class="spec"><b>Vindicte</b> DPS mêlée</span></div>
     <p class="races">Alliance : Humain, Nain · Horde : Mort-vivant (nouveau)</p>
   </header>
-  <dl class="facts"><div><dt>Simulation PvE au 60</dt><dd>Shockadin 84 % (A, hybride), Vindicte 78 % (A) · tank : Protection 4e en menace (B) <a href="#src-2">[2]</a></dd></div><div><dt>Tournoi niv. 30</dt><dd>4 paladins qualifiés sur 4 à 6-0, 2 dans le top 8 <a href="#src-4">[4]</a></dd></div><div><dt>Joué au niv. 30</dt><dd>11,1 % des personnages <a href="#src-7">[7]</a></dd></div></dl>
+  <dl class="facts"><div><dt>Simulation PvE au 60</dt><dd>Shockadin 84 % (A, hybride), Vindicte 78 % (A) · tank : Protection 5e en menace (C) <a href="#src-2">[2]</a></dd></div><div><dt>Tournoi niv. 30</dt><dd>4 paladins qualifiés sur 4 à 6-0, 2 dans le top 8 <a href="#src-4">[4]</a></dd></div><div><dt>Joué au niv. 30</dt><dd>11,1 % des personnages <a href="#src-7">[7]</a></dd></div></dl>
   <div class="cols"><div class="col k-can"><h4>Peut faire</h4><ul><li>Tanker, soigner ou frapper, et mélanger Sacré et Vindicte en Shockadin <span class="refs"><a href="#src-1">[1]</a></span></li><li>Buffer tout le raid : bénédictions d'1 h, et Salut désormais à part des bénédictions <span class="refs"><a href="#src-3">[3]</a> <a href="#src-6">[6]</a></span></li><li>Farmer en zone en Protection et leveler sans difficulté <span class="refs"><a href="#src-1">[1]</a></span></li></ul></div><div class="col k-best"><h4>Excelle</h4><ul><li>Survie : plaques, Bouclier divin, Imposition des mains toutes les 20 min, soins personnels <span class="refs"><a href="#src-6">[6]</a></span></li><li>Champ de bataille : soigne en monocible comme personne, Bénédiction de liberté, porte une équipe <span class="refs"><a href="#src-1">[1]</a></span></li><li>Burst en Vindicte et en Shockadin ; meilleur taux de victoire en duel au tournoi selon Kami <span class="refs"><a href="#src-1">[1]</a> <a href="#src-4">[4]</a></span></li><li>Facile à prendre en main <span class="refs"><a href="#src-1">[1]</a></span></li></ul></div><div class="col k-weak"><h4>Faible</h4><ul><li>Mobilité : rien pour se rapprocher ni pour fuir, hormis la Bénédiction de liberté</li><li>Contrôle limité : surtout le Marteau de la justice, pas d'interruption</li><li>Soin de zone en retrait, malgré de nouveaux sorts <span class="refs"><a href="#src-1">[1]</a></span></li><li>Taxe hybride d'environ 5 % sur ses DPS <span class="refs"><a href="#src-5">[5]</a></span></li></ul></div></div>
   <div class="foot">
     <p><span class="tag watch">À surveiller</span>En baisse au dernier patch : Consécration et Champion of the Light divisés par deux, correctif du Sceau de piété. Shockadin −9 % et Vindicte −6 % en simulation, retombés de S à A. La menace de Fureur vertueuse remonte à 90 % <span class="refs"><a href="#src-2">[2]</a> <a href="#src-3">[3]</a></span>.</p>
@@ -330,7 +393,7 @@ footer.end{font-size:.9rem;color:var(--muted)}
     <div class="specs"><span class="spec"><b>Équilibre</b> DPS distance</span><span class="spec"><b>Farouche</b> Tank, DPS mêlée</span><span class="spec"><b>Restauration</b> Soin</span></div>
     <p class="races">Alliance : Elfe de la nuit, Skyborne · Horde : Tauren, Skyborne</p>
   </header>
-  <dl class="facts"><div><dt>Simulation PvE au 60</dt><dd>Farouche 73 % (B), Équilibre 62 % (C) · tank : Ours 1er en menace (S, non vérifié) · soin non simulé <a href="#src-2">[2]</a></dd></div><div><dt>Tournoi niv. 30</dt><dd>Meilleur druide éliminé au top 6 <a href="#src-4">[4]</a></dd></div><div><dt>Joué au niv. 30</dt><dd>11,5 % des personnages <a href="#src-7">[7]</a></dd></div></dl>
+  <dl class="facts"><div><dt>Simulation PvE au 60</dt><dd>Farouche 73 % (B), Équilibre 62 % (C) · tank : Ours 1er en menace (A, non vérifié) · soin non simulé <a href="#src-2">[2]</a></dd></div><div><dt>Tournoi niv. 30</dt><dd>Meilleur druide éliminé au top 6 <a href="#src-4">[4]</a></dd></div><div><dt>Joué au niv. 30</dt><dd>11,5 % des personnages <a href="#src-7">[7]</a></dd></div></dl>
   <div class="cols"><div class="col k-can"><h4>Peut faire</h4><ul><li>Les quatre rôles : tank ours, DPS félin, DPS distance, soin <span class="refs"><a href="#src-6">[6]</a></span></li><li>Changer de rôle grâce à la double spécialisation, sans reroll <span class="refs"><a href="#src-1">[1]</a></span></li><li>Rez de combat, Innervation, auras de critique pour tout le raid (Chef de la meute, Sélénien) <span class="refs"><a href="#src-1">[1]</a> <a href="#src-3">[3]</a></span></li></ul></div><div class="col k-best"><h4>Excelle</h4><ul><li>Polyvalence : la seule classe à quatre rôles</li><li>Mobilité et survie : formes, très difficile à tuer ; Berserk immunise contre la peur <span class="refs"><a href="#src-1">[1]</a></span></li><li>Soin : Restauration exceptionnelle en monocible comme en zone, avec Croissance sauvage <span class="refs"><a href="#src-1">[1]</a> <a href="#src-8">[8]</a></span></li><li>Farouche : dégâts indexés sur l'arme, enchantements et huiles actifs en forme (huile de givre pour ralentir) <span class="refs"><a href="#src-1">[1]</a> <a href="#src-6">[6]</a></span></li></ul></div><div class="col k-weak"><h4>Faible</h4><ul><li>Contrôle : Sarments et Sonner en ours, mais ni interruption ni ralentissement en félin <span class="refs"><a href="#src-6">[6]</a> <a href="#src-1">[1]</a></span></li><li>DPS PvE moyen : Farouche B, Équilibre C, plus la taxe hybride <span class="refs"><a href="#src-2">[2]</a> <a href="#src-5">[5]</a></span></li><li>Exigeant : les changements de forme sont contre-intuitifs <span class="refs"><a href="#src-1">[1]</a></span></li><li>Leveling lent au début <span class="refs"><a href="#src-8">[8]</a></span></li></ul></div></div>
   <div class="foot">
     <p><span class="tag watch">À surveiller</span>L'ours est 1er en menace dans les simulations, mais ce chiffre reste à vérifier en jeu <span class="refs"><a href="#src-2">[2]</a></span>.</p>
@@ -349,7 +412,7 @@ footer.end{font-size:.9rem;color:var(--muted)}
     <div class="rule"><b>Taxe hybride</b>Environ 5 % de dégâts en moins pour les spés DPS des classes hybrides : Guerrier, Paladin, Druide, Chaman, Prêtre. Chasseur, Mage, Voleur et Démoniste y échappent <span class="refs"><a href="#src-5">[5]</a></span>.</div>
     <div class="rule"><b>Intentions de Blizzard</b>Voleur meilleur DPS monocible, Guerrier roi des dégâts multicibles. Le duel n'est pas un format que Blizzard équilibre <span class="refs"><a href="#src-5">[5]</a></span>.</div>
     <div class="rule"><b>Combats PvP courts</b>Les dégâts et soins sur la durée peuvent critiquer, et aucune résilience n'est annoncée : le burst compte beaucoup <span class="refs"><a href="#src-1">[1]</a></span>.</div>
-    <div class="rule"><b>Équilibrage permanent</b>Un patch par semaine pendant la bêta, qui se termine le 22 octobre ; tout est remis à zéro au lancement du 4 novembre <span class="refs"><a href="#src-3">[3]</a></span>.</div>
+    <div class="rule"><b>Équilibrage permanent</b>Un patch par semaine pendant la bêta, dont le dernier jour officiel est le 21 octobre (heure du Pacifique) ; tout est remis à zéro au lancement du 4 novembre <span class="refs"><a href="#src-3">[9]</a></span>.</div>
     <div class="rule"><b>Premiers raids</b>Annoncés par Blizzard pour le 9 décembre : Barrow Deeps (10 joueurs), Sommet d'Hyjal (20) et Onyxia (40).</div>
   </div>
 </section>
@@ -362,7 +425,7 @@ footer.end{font-size:.9rem;color:var(--muted)}
   </div>
   <div class="table-box src-box"><table class="src">
     <thead><tr><th>N°</th><th>Source</th><th>Date</th><th>Fiabilité</th><th>Pourquoi</th></tr></thead>
-    <tbody><tr id="src-1"><td class="mono">[1]</td><td><a href="https://www.youtube.com/watch?v=W-FjneQX5uw">Kami Labs, « Guide des classes WoW Forever : forces, faiblesses et mon choix »</a></td><td class="mono nowrap">20 oct.</td><td><span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span></td><td>Vidéo de 41 min lue en entier dans sa langue d'origine (sous-titres automatiques français). Créateur français expérimenté, avis argumentés ; partenaire RestedXP, et il annonce jouer Farouche et Chasseur.</td></tr><tr id="src-2"><td class="mono">[2]</td><td><a href="https://mythicsim.com/wow-forever/tier-list">MythicSim, tier list WoW Forever</a></td><td class="mono nowrap">20 oct.</td><td><span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span></td><td>Simulation au niveau 60 théorique, 10 000 itérations, équipement fixe, boss unique statique. À jour du patch du 16 octobre. Ne classe ni les soigneurs ni la survie des tanks.</td></tr><tr id="src-3"><td class="mono">[3]</td><td><a href="https://us.forums.blizzard.com/en/wow/t/wow-forever-beta-development-notes-%E2%80%93-updated-october-15/2360696">Blizzard, notes de développement de la bêta du 15 octobre</a></td><td class="mono nowrap">15-16 oct.</td><td><span class="rel" title="Fiabilité : haute"><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td>Notes officielles, recoupées avec le résumé d'Icy Veins.</td></tr><tr id="src-4"><td class="mono">[4]</td><td><a href="https://endgametools.com/en/wow-forever/news/wow-forever-open-results">The Forever Open, tournoi de duel</a></td><td class="mono nowrap">18 oct.</td><td><span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span></td><td>Résultats factuels, recoupés avec Warcraft Tavern. Mais niveau 30, personnages Horde uniquement, et un format que Blizzard dit ne pas équilibrer.</td></tr><tr id="src-5"><td class="mono">[5]</td><td><a href="https://www.youtube.com/watch?v=uDRcv_w85j8">Blizzard, podcast WoW Forever, épisode 2</a></td><td class="mono nowrap">1er oct.</td><td><span class="rel" title="Fiabilité : haute"><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td>Intentions des développeurs : taxe hybride d'environ 5 %, Voleur meilleur DPS monocible, Guerrier roi du cleave, pas d'équilibrage pour le duel. Des intentions, pas des chiffres.</td></tr><tr id="src-6"><td class="mono">[6]</td><td><a href="https://worldofwarcraft.blizzard.com/en-us/news/24301515">Blizzard, Class Deep Dives et Class Highlights</a></td><td class="mono nowrap">30 sept.–7 oct.</td><td><span class="rel" title="Fiabilité : haute"><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td>Kit officiel de chaque classe et limites assumées par Blizzard (zone morte du Chasseur, contrôle faible du Druide, fragilité du Mage…).</td></tr><tr id="src-7"><td class="mono">[7]</td><td><a href="https://classicplus.io/">ClassicPlus.io, recensement de la bêta</a></td><td class="mono nowrap">13 oct.</td><td><span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span></td><td>68 280 personnages de niveau 30 à 39. Compte des personnages, pas des joueurs ; méthode non publiée.</td></tr><tr id="src-8"><td class="mono">[8]</td><td><a href="https://claude.ai/artifact/DodyZaprhTn325eAf8D7pg">Classements au niveau 30 : Mobalytics (Crix, PhaseShifter), Supatease, LFCarry, Shjelde et Wider</a></td><td class="mono nowrap">6-12 oct.</td><td><span class="rel" title="Fiabilité : faible"><i class="on"></i><i class=""></i><i class=""></i></span></td><td>Utiles pour le niveau 30, beaucoup moins pour le 60. Détail et fiabilité de chacun dans le comparatif complet.</td></tr></tbody>
+    <tbody><tr id="src-1"><td class="mono">[1]</td><td><a href="https://www.youtube.com/watch?v=W-FjneQX5uw">Kami Labs, « Guide des classes WoW Forever : forces, faiblesses et mon choix »</a></td><td class="mono nowrap">20 oct.</td><td><span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span></td><td>Vidéo de 41 min lue en entier dans sa langue d'origine (sous-titres automatiques français). Créateur français expérimenté, avis argumentés ; partenaire RestedXP, et il annonce jouer Farouche et Chasseur.</td></tr><tr id="src-2"><td class="mono">[2]</td><td><a href="https://mythicsim.com/wow-forever/tier-list">MythicSim, tier list WoW Forever</a></td><td class="mono nowrap">20 oct.</td><td><span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span></td><td>Simulation au niveau 60 théorique, 10 000 itérations, équipement fixe, boss unique statique. À jour du patch du 16 octobre. Ne classe ni les soigneurs ni la survie des tanks.</td></tr><tr id="src-3"><td class="mono">[3]</td><td><a href="https://us.forums.blizzard.com/en/wow/t/wow-forever-beta-development-notes-%E2%80%93-updated-october-15/2360696">Blizzard, notes de développement de la bêta du 15 octobre</a></td><td class="mono nowrap">15-16 oct.</td><td><span class="rel" title="Fiabilité : haute"><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td>Notes officielles, recoupées avec le résumé d'Icy Veins.</td></tr><tr id="src-4"><td class="mono">[4]</td><td><a href="https://endgametools.com/en/wow-forever/news/wow-forever-open-results">The Forever Open, tournoi de duel</a></td><td class="mono nowrap">18 oct.</td><td><span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span></td><td>Résultats factuels, recoupés avec Warcraft Tavern. Mais niveau 30, personnages Horde uniquement, et un format que Blizzard dit ne pas équilibrer.</td></tr><tr id="src-5"><td class="mono">[5]</td><td><a href="https://www.youtube.com/watch?v=uDRcv_w85j8">Blizzard, podcast WoW Forever, épisode 2</a></td><td class="mono nowrap">1er oct.</td><td><span class="rel" title="Fiabilité : haute"><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td>Intentions des développeurs : taxe hybride d'environ 5 %, Voleur meilleur DPS monocible, Guerrier roi du cleave, pas d'équilibrage pour le duel. Des intentions, pas des chiffres.</td></tr><tr id="src-6"><td class="mono">[6]</td><td><a href="https://worldofwarcraft.blizzard.com/en-us/news/24301515">Blizzard, Class Deep Dives et Class Highlights</a></td><td class="mono nowrap">30 sept.–7 oct.</td><td><span class="rel" title="Fiabilité : haute"><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td>Kit officiel de chaque classe et limites assumées par Blizzard (zone morte du Chasseur, contrôle faible du Druide, fragilité du Mage…).</td></tr><tr id="src-7"><td class="mono">[7]</td><td><a href="https://classicplus.io/">ClassicPlus.io, recensement de la bêta</a></td><td class="mono nowrap">13 oct.</td><td><span class="rel" title="Fiabilité : moyenne"><i class="on"></i><i class="on"></i><i class=""></i></span></td><td>68 280 personnages de niveau 30 à 39. Compte des personnages, pas des joueurs ; méthode non publiée.</td></tr><tr id="src-8"><td class="mono">[8]</td><td><a href="https://claude.ai/artifact/DodyZaprhTn325eAf8D7pg">Classements au niveau 30 : Mobalytics (Crix, PhaseShifter), Supatease, LFCarry, Shjelde et Wider</a></td><td class="mono nowrap">6-12 oct.</td><td><span class="rel" title="Fiabilité : faible"><i class="on"></i><i class=""></i><i class=""></i></span></td><td>Utiles pour le niveau 30, beaucoup moins pour le 60. Détail et fiabilité de chacun dans le comparatif complet.</td></tr><tr id="src-9"><td class="mono">[9]</td><td><a href="https://worldofwarcraft.blizzard.com/en-us/news/24304160/the-world-of-warcraft-forever-beta-now-live">Blizzard, calendrier officiel de la bêta WoW Forever</a></td><td class="mono nowrap">17 sept.</td><td><span class="rel" title="Fiabilité : haute"><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td>Annonce officielle : le 21 octobre est le dernier jour complet de test, selon le calendrier américain.</td></tr></tbody>
   </table></div>
 </section>
 
@@ -372,20 +435,145 @@ footer.end{font-size:.9rem;color:var(--muted)}
 <script>
 (function(){
   var D={"axes": ["poly", "tank", "soin", "dps", "bg", "sauv", "ctrl", "surv", "mob", "util", "solo", "tech"], "presets": {"profil": {"poly": 3, "tank": 2, "soin": 1, "dps": 2, "bg": 3, "sauv": 3, "ctrl": 3, "surv": 3, "mob": 1, "util": 2, "solo": 1, "tech": 2}, "egal": {"poly": 1, "tank": 1, "soin": 1, "dps": 1, "bg": 1, "sauv": 1, "ctrl": 1, "surv": 1, "mob": 1, "util": 1, "solo": 1, "tech": 1}, "pvp": {"poly": 1, "tank": 0, "soin": 0, "dps": 0, "bg": 3, "sauv": 3, "ctrl": 3, "surv": 3, "mob": 2, "util": 1, "solo": 1, "tech": 1}, "pve": {"poly": 2, "tank": 3, "soin": 2, "dps": 3, "bg": 0, "sauv": 0, "ctrl": 1, "surv": 1, "mob": 0, "util": 3, "solo": 1, "tech": 1}}, "classes": [{"name": "Guerrier", "color": "#C69B6D", "r": {"poly": 3, "tank": 5, "soin": 1, "dps": 5, "bg": 4, "sauv": 2, "ctrl": 3, "surv": 3, "mob": 4, "util": 3, "solo": 3, "tech": 4}}, {"name": "Paladin", "color": "#F48CBA", "r": {"poly": 4, "tank": 4, "soin": 4, "dps": 4, "bg": 5, "sauv": 4, "ctrl": 2, "surv": 5, "mob": 2, "util": 5, "solo": 5, "tech": 2}}, {"name": "Chasseur", "color": "#AAD372", "r": {"poly": 2, "tank": 1, "soin": 1, "dps": 5, "bg": 5, "sauv": 4, "ctrl": 3, "surv": 3, "mob": 3, "util": 3, "solo": 5, "tech": 2}}, {"name": "Voleur", "color": "#FFF468", "r": {"poly": 1, "tank": 1, "soin": 1, "dps": 3, "bg": 3, "sauv": 5, "ctrl": 5, "surv": 2, "mob": 4, "util": 2, "solo": 3, "tech": 5}}, {"name": "Prêtre", "color": "#FFFFFF", "r": {"poly": 3, "tank": 1, "soin": 5, "dps": 3, "bg": 5, "sauv": 4, "ctrl": 4, "surv": 3, "mob": 2, "util": 4, "solo": 3, "tech": 3}}, {"name": "Chaman", "color": "#0070DD", "r": {"poly": 4, "tank": 2, "soin": 4, "dps": 3, "bg": 4, "sauv": 4, "ctrl": 2, "surv": 3, "mob": 5, "util": 5, "solo": 3, "tech": 3}}, {"name": "Mage", "color": "#3FC7EB", "r": {"poly": 1, "tank": 1, "soin": 1, "dps": 4, "bg": 4, "sauv": 3, "ctrl": 5, "surv": 2, "mob": 3, "util": 3, "solo": 3, "tech": 4}}, {"name": "Démoniste", "color": "#8788EE", "r": {"poly": 1, "tank": 1, "soin": 1, "dps": 4, "bg": 5, "sauv": 5, "ctrl": 5, "surv": 4, "mob": 2, "util": 3, "solo": 4, "tech": 4}}, {"name": "Druide", "color": "#FF7C0A", "r": {"poly": 5, "tank": 4, "soin": 5, "dps": 3, "bg": 4, "sauv": 4, "ctrl": 2, "surv": 4, "mob": 5, "util": 5, "solo": 3, "tech": 5}}]};
+  /* Modelé séparé des notes de source : 0..3 = sensibilité supposée de l'exécution.
+     La référence « Confirmé » restitue exactement le classement original.
+     Pas de bonus sur la polyvalence, les sorts d'utilité, la mobilité intrinsèque ou
+     la technicité : aimer une classe complexe ne signifie pas savoir la jouer. */
+  var SKILL_LEVELS=['debutant','intermediaire','confirme','expert'];
+  var SKILL_LABELS=['Débutant','Intermédiaire','Confirmé','Expert'];
+  var SKILL_TEXT=[
+    'Débutant : rotations de base, contrôles et défensifs irréguliers ; priorité à la prise en main.',
+    'Intermédiaire : bases acquises, mais l’exécution avancée reste inconstante.',
+    'Confirmé : rotations, contrôles et déplacements réguliers. Les notes initiales sont conservées.',
+    'Expert : optimisation des fenêtres, rotations et adaptations. Gains modestes et hypothétiques.'
+  ];
+  var SKILL_SHIFT=[-0.40,-0.18,0,0.12];
+  var LOAD={
+    'Guerrier': {tank:2,dps:2,bg:2,sauv:3,ctrl:2,surv:2,solo:2},
+    'Paladin': {tank:1,soin:2,dps:2,bg:1,sauv:2,ctrl:1,surv:1,solo:1},
+    'Chasseur': {dps:3,bg:2,sauv:2,ctrl:2,surv:2,solo:0},
+    'Voleur': {dps:3,bg:2,sauv:3,ctrl:3,surv:3,solo:2},
+    'Prêtre': {soin:2,dps:2,bg:2,sauv:2,ctrl:2,surv:2,solo:2},
+    'Chaman': {tank:1,soin:2,dps:3,bg:2,sauv:3,ctrl:1,surv:2,solo:2},
+    'Mage': {dps:2,bg:2,sauv:3,ctrl:3,surv:3,solo:2},
+    'Démoniste': {dps:2,bg:2,sauv:3,ctrl:3,surv:2,solo:2},
+    'Druide': {tank:3,soin:3,dps:3,bg:3,sauv:3,ctrl:3,surv:3,solo:3}
+  };
+  var LABELS={poly:'Polyvalence',tank:'Tank',soin:'Soin',dps:'DPS PvE',
+    bg:'Champ de bataille',sauv:'Sauvage et duel',ctrl:'Contrôle',
+    surv:'Survie',mob:'Mobilité',util:'Utilité',solo:'Solo et farm',tech:'Technicité'};
   var w=Object.assign({},D.presets.profil);
-  var KEY='wf-overview-weights';
-  try{var s=JSON.parse(localStorage.getItem(KEY)||'null'); if(s&&typeof s==='object'){D.axes.forEach(function(k){if(typeof s[k]==='number')w[k]=s[k];});}}catch(e){}
+  var KEY='wf-overview-weights', SKILL_KEY='wf-overview-skill';
+  try{
+    var saved=JSON.parse(localStorage.getItem(KEY)||'null');
+    if(saved&&typeof saved==='object')D.axes.forEach(function(k){
+      if(Number.isInteger(saved[k])&&saved[k]>=0&&saved[k]<=3)w[k]=saved[k];
+    });
+  }catch(e){}
+  var skill='confirme';
+  try{
+    var stored=localStorage.getItem(SKILL_KEY);
+    if(SKILL_LEVELS.indexOf(stored)!==-1)skill=stored;
+  }catch(e){}
   var rank=document.getElementById('rank');
+  var compareA=document.getElementById('compare-a'),compareB=document.getElementById('compare-b');
+  var compareManual=false;
   function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
-  function score(r){var tw=0,s=0;D.axes.forEach(function(k){tw+=w[k];s+=w[k]*r[k];});return tw?Math.round(100*s/(5*tw)):0;}
+  function levelIndex(s){var i=SKILL_LEVELS.indexOf(s);return i<0?2:i;}
+  function effective(c,k,s){
+    var r=c.r[k],load=(LOAD[c.name]||{})[k]||0;
+    if(r<=1||!load)return r;
+    return Math.max(1,Math.min(5,r+SKILL_SHIFT[levelIndex(s)]*load));
+  }
+  function totalWeight(){return D.axes.reduce(function(n,k){return n+w[k];},0);}
+  function score(c,s){
+    var tw=totalWeight();
+    if(!tw)return 0;
+    var weighted=D.axes.reduce(function(n,k){return n+w[k]*effective(c,k,s);},0);
+    return Math.round(100*weighted/(5*tw));
+  }
+  function rawScore(c,s){
+    var tw=totalWeight();
+    return tw?100*D.axes.reduce(function(n,k){return n+w[k]*effective(c,k,s);},0)/(5*tw):0;
+  }
+  function chartColor(c){return c.name==='Prêtre'?'#777F8D':c.color;}
+  function renderProgress(list){
+    var top=list.slice(0,3).map(function(x){return x.c;});
+    var levels=SKILL_LABELS;
+    var x=[65,220,375,530],minY=52,maxY=224;
+    function y(v){return maxY-(maxY-minY)*v/100;}
+    var out=['<svg class="insight-svg" viewBox="0 0 610 270" role="img" aria-label="Courbes de score selon quatre niveaux de maîtrise pour '+esc(top.map(function(c){return c.name;}).join(', '))+'">'];
+    [20,40,60,80,100].forEach(function(t){
+      out.push('<line x1="47" y1="'+y(t)+'" x2="555" y2="'+y(t)+'" stroke="var(--line)" stroke-width="1"/>');
+      out.push('<text x="37" y="'+(y(t)+4)+'" text-anchor="end" fill="var(--muted)" font-size="12">'+t+'</text>');
+    });
+    var si=levelIndex(skill);
+    out.push('<line x1="'+x[si]+'" y1="'+minY+'" x2="'+x[si]+'" y2="'+maxY+'" stroke="var(--fg)" stroke-width="1.5" stroke-dasharray="4,4"/>');
+    top.forEach(function(c){
+      var color=chartColor(c);
+      var vals=SKILL_LEVELS.map(function(l){return score(c,l);});
+      out.push('<polyline points="'+vals.map(function(v,i){return x[i]+','+y(v);}).join(' ')+'" fill="none" stroke="'+color+'" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>');
+      vals.forEach(function(v,i){out.push('<circle cx="'+x[i]+'" cy="'+y(v)+'" r="'+(i===si?5:3.5)+'" fill="'+color+'" stroke="var(--surface)" stroke-width="1.7"><title>'+esc(c.name)+', '+levels[i]+' : '+v+'/100</title></circle>');});
+    });
+    levels.forEach(function(l,i){out.push('<text x="'+x[i]+'" y="247" text-anchor="middle" fill="var(--fg)" font-size="12">'+l+'</text>');});
+    out.push('</svg>');
+    out.push('<div class="insight-legend">'+top.map(function(c){return '<span><i style="--series:'+chartColor(c)+'"></i>'+esc(c.name)+'</span>';}).join('')+'</div>');
+    out.push('<details class="insight-data"><summary>Lire les valeurs du graphique</summary><table><thead><tr><th>Classe</th>'+levels.map(function(l){return '<th>'+l+'</th>';}).join('')+'</tr></thead><tbody>');
+    top.forEach(function(c){out.push('<tr><th>'+esc(c.name)+'</th>'+SKILL_LEVELS.map(function(l){return '<td>'+score(c,l)+'</td>';}).join('')+'</tr>');});
+    out.push('</tbody></table></details>');
+    document.getElementById('progress-chart').innerHTML=out.join('');
+  }
+  function renderDrivers(list){
+    if(!compareManual){
+      compareA.value=list[0].c.name;
+      compareB.value=list[1].c.name;
+    }
+    var a=D.classes.find(function(c){return c.name===compareA.value;});
+    var b=D.classes.find(function(c){return c.name===compareB.value;});
+    var node=document.getElementById('drivers-chart');
+    if(!a||!b||a===b){node.innerHTML='<p class="note">Sélectionne deux classes différentes pour examiner les écarts.</p>';return;}
+    var total=totalWeight();
+    if(!total){node.innerHTML='<p class="note">Donne un poids positif à au moins un critère pour obtenir une comparaison.</p>';return;}
+    var rows=D.axes.filter(function(k){return w[k]>0;}).map(function(k){
+      return {k:k,v:100*w[k]*(effective(a,k,skill)-effective(b,k,skill))/(5*total)};
+    }).filter(function(r){return Math.abs(r.v)>0.005;}).sort(function(x,y){return Math.abs(y.v)-Math.abs(x.v);});
+    var maxi=rows.reduce(function(n,r){return Math.max(n,Math.abs(r.v));},0);
+    var out=['<p class="insight-summary">'+esc(a.name)+' : '+score(a,skill)+' / '+esc(b.name)+' : '+score(b,skill)+
+      ' — écart non arrondi : '+(rawScore(a,skill)-rawScore(b,skill)).toLocaleString('fr-FR',{maximumFractionDigits:1})+' points</p>'];
+    if(!rows.length){out.push('<p class="note">Aucun critère pondéré ne départage ces classes.</p>');}
+    else{
+      out.push('<div class="insight-legend"><span><i style="--series:'+chartColor(a)+'"></i>Avantage '+esc(a.name)+'</span><span><i style="--series:'+chartColor(b)+'"></i>Avantage '+esc(b.name)+'</span></div>');
+      out.push('<div class="driver-list" style="--class-a:'+chartColor(a)+';--class-b:'+chartColor(b)+'">');
+      rows.forEach(function(r){
+        var v=r.v,lab=LABELS[r.k],width=(50*Math.abs(v)/maxi).toFixed(2),n=(v>0?'+':'')+v.toLocaleString('fr-FR',{maximumFractionDigits:1});
+        out.push('<div class="driver-row" title="'+esc(lab)+': '+n+' points" aria-label="'+esc(lab)+': '+n+' points pour '+esc(a.name)+' par rapport à '+esc(b.name)+'"><span class="name">'+esc(lab)+'</span><span class="driver-track"><span class="driver-fill '+(v>=0?'positive':'negative')+'" style="width:'+width+'%"></span></span><span class="driver-value">'+n+'</span></div>');
+      });
+      out.push('</div>');
+    }
+    out.push('<p class="note">Écart = poids × différence de notes ajustées / somme des poids. En points d’indice, avant arrondi.</p>');
+    node.innerHTML=out.join('');
+  }
   function render(){
-    var list=D.classes.map(function(c){return {c:c,s:score(c.r)};}).sort(function(a,b){return b.s-a.s;});
+    var list=D.classes.map(function(c){return {c:c,s:score(c,skill)};}).sort(function(a,b){return b.s-a.s;});
     rank.innerHTML=list.map(function(x){return '<li><span class="bname"><span class="sw" style="--cc:'+x.c.color+'"></span>'+esc(x.c.name)+'</span><span class="btrack"><span class="bfill" style="width:'+x.s+'%"></span></span><span class="bval mono">'+x.s+'</span></li>';}).join('');
     document.querySelectorAll('.seg button').forEach(function(b){b.setAttribute('aria-pressed',String(w[b.dataset.ax]===Number(b.dataset.v)));});
-    var match=null;Object.keys(D.presets).forEach(function(p){if(D.axes.every(function(k){return D.presets[p][k]===w[k];}))match=p;});
+    var match=null;
+    Object.keys(D.presets).forEach(function(p){if(D.axes.every(function(k){return D.presets[p][k]===w[k];}))match=p;});
     document.querySelectorAll('.presets button').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.preset===match));});
-    try{localStorage.setItem(KEY,JSON.stringify(w));}catch(e){}
+    document.querySelectorAll('.skill-choices button').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.skill===skill));});
+    document.getElementById('skill-description').textContent=SKILL_TEXT[levelIndex(skill)];
+    renderProgress(list);
+    renderDrivers(list);
+    try{
+      localStorage.setItem(KEY,JSON.stringify(w));
+      localStorage.setItem(SKILL_KEY,skill);
+    }catch(e){}
   }
+  var classOptions=D.classes.map(function(c){return '<option value="'+esc(c.name)+'">'+esc(c.name)+'</option>';}).join('');
+  compareA.innerHTML=classOptions;
+  compareB.innerHTML=classOptions;
+  [compareA,compareB].forEach(function(el){el.addEventListener('change',function(){compareManual=true;render();});});
+  document.querySelectorAll('.skill-choices button').forEach(function(b){b.addEventListener('click',function(){skill=b.dataset.skill;render();});});
   document.querySelectorAll('.seg button').forEach(function(b){b.addEventListener('click',function(){w[b.dataset.ax]=Number(b.dataset.v);render();});});
   document.querySelectorAll('.presets button').forEach(function(b){b.addEventListener('click',function(){w=Object.assign({},D.presets[b.dataset.preset]);render();});});
   render();
