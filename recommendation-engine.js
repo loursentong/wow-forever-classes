@@ -145,7 +145,7 @@ function specFit(s,p){
     var mainWeight=roles.length===1?1:roles.reduce(function(t,k){return t+(k===s.role?1+p.roles[k]/5:0);},0)/
       roles.reduce(function(t,k){return t+1+p.roles[k]/5;},0);
     var certainty=roles.reduce(function(t,k){return t+p.roles[k];},0)/roles.length;
-    var rolePve=(adjustedActivity(s,'raid',p.mastery)-1)/4;
+    var rolePve=roleSuitability(s,p.mastery);
     var raw=roles.length===1?(s.role===roles[0]?(.25+.75*rolePve):0):.65*coverage+.35*mainWeight*rolePve;
     parts.roles={value:preferenceFit(raw,certainty),weight:0.25};
   }
@@ -227,6 +227,23 @@ function sanitizeWeights(input){
   });
   return weights;
 }
+/* Référentiel éditorial historique par classe et rôle (indice 1–5).
+ * Conserve le contexte des notes de rôle de index.html, mais évalue en plus
+ * la configuration spécialisée en activité raid pour empêcher les 100% universels.
+ * Vérification de synchronisation avec les 126 notes d'origine dans les tests.
+ */
+var ROLE_REFERENCE={
+ guerrier:{tank:5,soin:1,dps:5},paladin:{tank:4,soin:4,dps:4},
+ chasseur:{tank:1,soin:1,dps:5},voleur:{tank:1,soin:1,dps:3},
+ pretre:{tank:1,soin:5,dps:3},chaman:{tank:2,soin:4,dps:3},
+ mage:{tank:1,soin:1,dps:4},demoniste:{tank:1,soin:1,dps:4},
+ druide:{tank:4,soin:5,dps:3}
+};
+function roleSuitability(s,m){
+ var baseline=(ROLE_REFERENCE[s.classId][s.role]-1)/4;
+ var specialized=(adjustedActivity(s,'raid',m)-1)/4;
+ return clamp(.55*baseline+.45*specialized,0,1);
+}
 function priorityRanking(input,mastery){
   var w=sanitizeWeights(input),m=Number.isInteger(mastery)&&mastery>=0&&mastery<=3?mastery:2;
   var active=PRIORITY_AXES.filter(function(k){return w[k]>0;});
@@ -243,7 +260,7 @@ function priorityRanking(input,mastery){
     // Un rôle n'est pas une note de performance : les spécialisations d'un même
     // rôle reçoivent une adéquation PvE distincte (proxy éditorial 'raid').
     // Le rôle inadéquat vaut 0 ; impossible d'agréger les meilleures spés d'une classe.
-    if(k==='tank'||k==='soin'||k==='dps')return s.role===k?(adjustedActivity(s,'raid',m)-1)/4:0;
+    if(k==='tank'||k==='soin'||k==='dps')return s.role===k?roleSuitability(s,m):0;
     if(activityMap[k])return (adjustedActivity(s,activityMap[k],m)-1)/4;
     if(styleMap[k])return (adjustedStyle(s,styleMap[k],m)-1)/4;
     if(k==='poly')return (rolePool(s.classId).length-1)/2;
@@ -292,5 +309,5 @@ function checkData(){
 return {version:'1.0.0-exploratoire',sources:sources,specs:specs,roles:ROLE,activities:acts,styles:styles,
  defaultProfile:copy(DEFAULT),sanitize:sanitize,selected:selected,domains:domains,eligible:eligible,
  ranking:ranking,recommend:recommend,checkData:checkData,intensity:intensity,preferenceFit:preferenceFit,
- rolePool:rolePool,adjustedActivity:adjustedActivity,priorityAxes:PRIORITY_AXES,priorityRanking:priorityRanking,sanitizeWeights:sanitizeWeights};
+ rolePool:rolePool,adjustedActivity:adjustedActivity,roleSuitability:roleSuitability,roleReference:ROLE_REFERENCE,priorityAxes:PRIORITY_AXES,priorityRanking:priorityRanking,sanitizeWeights:sanitizeWeights};
 });
