@@ -10,6 +10,7 @@ const expected={
  'priorities-ui.js':'priorityRanking',
  'ux-polish.css':'reco-reveal-button',
  'warcraft-visual-pack.css':'--wow-gold:#eac061',
+ 'wow-ui-rework.css':'reco-step-rail',
  'assets/hero-landscape.svg':'<svg'
 };
 (async()=>{
