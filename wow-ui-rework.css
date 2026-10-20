@@ -239,3 +239,35 @@ html[data-theme="dark"] body{background:radial-gradient(ellipse 65% 36% at 50% 2
  .reco-summary-edit,.wow-class-index a,.reco-result-card,.reco-priority-class{
  animation:none!important;transition:none!important;transform:none!important}
 }
+
+/* Derniers détails de la planche de référence : valeur produit, finition et thèmes. */
+.top .jump{display:none!important}
+.reco-hero{min-height:228px}
+.reco-hero-copy{gap:9px}
+.reco-hero-note{display:none}
+.wow-value-strip{display:flex;align-items:center;flex-wrap:wrap;gap:8px 20px;margin-top:5px}
+.wow-value-strip span{display:inline-flex;align-items:center;gap:8px;color:#e9d6b6;font-size:.76rem;white-space:nowrap}
+.wow-value-strip img{height:19px;width:19px;object-fit:cover;border-radius:4px;
+ border:1px solid rgba(231,172,73,.48);box-shadow:0 0 9px rgba(238,158,46,.26)}
+.reco-workspace:after,.reco-step-rail:after,.reco-summary-panel:after,.reco-sidebar .reco-results:after{
+ content:"";position:absolute;bottom:0;right:0;height:20px;width:20px;pointer-events:none;opacity:.65;
+ background:linear-gradient(135deg,transparent 42%,rgba(235,171,70,.65) 45% 49%,transparent 52%);
+}
+#reco-guided .reco-workspace #reco-form{display:flex;flex-direction:column;flex:1;min-height:430px}
+#reco-guided .reco-form-footer{margin-top:auto}
+.reco-quest-hint{color:#b2c9d7}
+:root[data-theme="light"] .reco-section{
+ --surface:#122032;--surface-2:#1b2c3e;--fg:#eef2f8;--muted:#a9bfd0;--line:#33475e;
+ --accent:#f0bb5c;--accent-soft:#33291a;--bg:#0a1420;color:#eef2f8;
+}
+:root[data-theme="light"] .reco-section .reco-hero{background-color:#081421}
+:root[data-theme="light"] .reco-section .reco-template{color:#f6e7d2}
+:root[data-theme="light"] .reco-section .reco-note{color:#a3b9ca}
+:root[data-theme="light"] .reco-section .reco-priority-class-info b{color:#faf3e4}
+@media(max-width:900px){#reco-guided .reco-workspace #reco-form{min-height:0}}
+@media(max-width:540px){
+ .reco-hero{min-height:176px}.wow-value-strip{gap:4px 9px}
+ .wow-value-strip span{font-size:.6rem;gap:4px}
+ .wow-value-strip img{height:15px;width:15px}
+ #reco-guided .reco-workspace #reco-form{min-height:0}
+}
