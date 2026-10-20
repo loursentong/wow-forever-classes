@@ -268,6 +268,11 @@ footer.end{font-size:.9rem;color:var(--muted)}
 @media(max-width:750px){.reco-questions{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:540px){.reco-panel{padding:12px}.reco-question{padding:11px}.reco-question .reco-hint{min-height:0}}
 
+.legacy-advanced{margin:22px 0;border:1px solid var(--line);border-radius:7px;padding:0 14px;background:var(--surface)}
+.legacy-advanced>summary{cursor:pointer;font-weight:700;padding:15px 4px;color:var(--fg)}
+.legacy-chevron{color:var(--accent)}
+.legacy-advanced[open]>summary{border-bottom:1px solid var(--line)}
+.legacy-advanced .sec{margin-top:20px}
 </style>
 </head>
 <body>
@@ -327,6 +332,8 @@ footer.end{font-size:.9rem;color:var(--muted)}
   </details>
 </section>
 
+<details class="legacy-advanced" id="legacy-advanced">
+  <summary>Affiner avec les 14 critères et les courbes de maîtrise <span class="legacy-chevron" aria-hidden="true">▾</span></summary>
 <section class="sec" aria-labelledby="h-tool">
   <div class="sec-head">
     <span class="eyebrow">Classer selon tes priorités</span>
@@ -377,6 +384,7 @@ footer.end{font-size:.9rem;color:var(--muted)}
     </div>
   </div>
 </section>
+</details>
 
 <section class="sec" aria-labelledby="h-model">
   <div class="sec-head">
