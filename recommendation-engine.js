@@ -281,7 +281,9 @@ function priorityRanking(input,mastery){
       parts[g.id]={value:value,weight:importance};
       numer+=value*importance;denom+=importance;
     }
-    return {score:denom?100*numer/denom:0,parts:parts};
+    // Un critère unique doit donner le même score quel que soit son poids :
+    // éviter la dérive d'arrondi des divisions flottantes normalisées.
+    return {score:active.length===1?100*raw(s,active[0]):(denom?100*numer/denom:0),parts:parts};
   }
   var byClass={};
   for(var sp of specs){
