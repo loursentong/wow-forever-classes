@@ -36,3 +36,18 @@ const candidates=[
  console.log('PRESS_META '+[...h.matchAll(/(?:property="og:image"|name="twitter:image")[^>]+>/gi)].slice(0,3).map(x=>x[0]).join(' '));
 })().catch(e=>console.log('Press parse '+e));
 
+
+(async()=>{
+ const html=await (await fetch('https://blizzard.gamespress.com/wowforeverreveal')).text();
+ for(const name of ['WoW_Forever_Logo.png','WoW_Forever_Announce_Key_Art_-_Alliance.jpg','WoW_Camelot_Announce_Zones_Riverglades_037.jpg']){
+  const i=html.indexOf('alt="'+name+'"');
+  const frag=html.slice(i,i+2400);
+  const preview=frag.match(/data-preview="([^"]+)"/);
+  console.log('OFFICIAL_PREVIEW',name,preview?preview[1]:'missing');
+ }
+ const skills=['inv_sword_04','inv_shield_05','spell_holy_greaterheal','spell_fire_fireball02','spell_frost_frostnova','ability_rogue_sprint','spell_holy_powerwordshield','inv_misc_map_01','ability_hunter_beastcall','spell_holy_devotionaura','inv_misc_book_09','spell_nature_lightning'];
+ for(const key of skills){
+  const url='https://render.worldofwarcraft.com/us/icons/56/'+key+'.jpg';
+  try{const res=await fetch(url,{signal:AbortSignal.timeout(6500)});console.log('SPELL_ICON',key,res.status,res.headers.get('content-type'));}catch(e){console.log('SPELL_ICON',key,'ERROR');}
+ }
+})().catch(e=>console.log('EXTENDED_PROBE',String(e)));
