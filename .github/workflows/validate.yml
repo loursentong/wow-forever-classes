@@ -14,6 +14,9 @@ jobs:
           node-version: '22'
       - name: Vérifier les fichiers réellement publiés sur GitHub Pages
         run: bash scripts/prepare-pages.sh
+      - name: Vérifier les sources d'icônes officielles (diagnostic)
+        run: node scripts/asset-source-check.cjs
+        continue-on-error: true
       - name: Tester le modèle, les graphiques et les interactions
         run: node --test tests/*.test.cjs
 
