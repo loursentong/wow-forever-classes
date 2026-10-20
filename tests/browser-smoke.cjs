@@ -212,7 +212,7 @@ async function check(){
   }
   await page.setViewportSize({width:1440,height:900});
   await page.locator('[data-step="2"]').click();
-  const choice=page.locator('[data-single="range"][data-key="distance"]');
+  const choice=page.locator('[data-single="range"][data-key="melee"]');
   const glowBefore=await choice.evaluate(el=>getComputedStyle(el).boxShadow);
   await choice.hover();
   const glowAfter=await choice.evaluate(el=>getComputedStyle(el).boxShadow);
