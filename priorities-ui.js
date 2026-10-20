@@ -8,7 +8,28 @@ if(!E||!D||!root||typeof E.priorityRanking!=='function')return;
 var modes=Array.prototype.slice.call(root.querySelectorAll('[data-reco-mode]'));
 var guided=root.querySelector('#reco-guided'),priority=root.querySelector('#reco-priorities');
 var form=root.querySelector('#reco-priority-form'),output=root.querySelector('#reco-priority-results');
-var KEY='wf-reco-mode-v1';
+var KEY='wf-reco-mode-v1',CUSTOM_KEY='wf-priority-custom-v1';
+var savedCustom=null;
+try{
+ var stored=JSON.parse(localStorage.getItem(CUSTOM_KEY)||'null');
+ if(stored&&stored.weights&&Number.isInteger(stored.mastery)&&stored.mastery>=0&&stored.mastery<=3){
+  var cleaned=E.sanitizeWeights(stored.weights);
+  if(E.priorityAxes.every(function(k){return stored.weights[k]===cleaned[k];}))
+   savedCustom={weights:cleaned,mastery:stored.mastery};
+ }
+ // Compatibilité : sauvegarde historique de « Mes critères » (ancienne interface).
+ if(!savedCustom){
+  var legacySaved=JSON.parse(localStorage.getItem('wf-overview-v3')||'null');
+  if(legacySaved&&legacySaved.c){
+   var oldW=E.sanitizeWeights(legacySaved.c);
+   if(E.priorityAxes.every(function(k){return oldW[k]===legacySaved.c[k];}))
+    savedCustom={weights:oldW,mastery:Number.isInteger(legacySaved.m)?legacySaved.m:2};
+  }
+ }
+}catch(err){savedCustom=null;}
+function isCurrentCustom(w,m){
+ return !!savedCustom&&savedCustom.mastery===m&&E.priorityAxes.every(function(k){return savedCustom.weights[k]===w[k];});
+}
 var axes=[
  {name:'Rôles',items:[['tank','Tank'],['soin','Soin'],['dps','DPS PvE']],hint:'Un seul domaine de rôle. Pas de bonus automatique pour pouvoir tout jouer.'},
  {name:'Activités',items:[['bg','Champ de bataille'],['sauv','PvP sauvage'],['solo','Solo / leveling']],hint:'Les activités que tu privilégies, évaluées dans leur contexte.'},
@@ -16,7 +37,7 @@ var axes=[
  {name:'Affinités facultatives',items:[['poly','Polyvalence'],['tech','Technicité']],hint:'La polyvalence et la difficulté ne sont valorisées que si tu les demandes expressément.'}
 ];
 var presetNames={egal:'Tous les critères',polyvalence:'Polyvalence',pve:'PvE',pvp:'PvP',tank:'Tank en groupe',soin:'Soin en groupe',dps:'DPS en raid',zone:'Dégâts de zone',soutien:'Soutien',bg:'Champ de bataille',soinbg:'Soin en BG',sauvage:'PvP sauvage',burst:'Burst et mobilité',controle:'Contrôle',solo:'Solo et leveling'};
-var popular=['pve','pvp','tank','soin','dps','solo'];
+var popular=['pve','pvp','dps','tank','soin','solo','bg','controle'];
 var mastery=['Débutant','Intermédiaire','Confirmé','Expert'];
 var WOW_ICON_BASE='https://render.worldofwarcraft.com/us/icons/56/classicon_';
 var wowClassIcons={guerrier:'warrior',paladin:'paladin',chasseur:'hunter',voleur:'rogue',pretre:'priest',chaman:'shaman',mage:'mage',demoniste:'warlock',druide:'druid'};
@@ -44,9 +65,12 @@ function makePreset(k,active){
 function controls(){
  var w=weights(),active=presetMatch(w),html='';
  html+='<div class="reco-priority-presets"><div><span class="reco-kicker">Démarrer avec un profil</span><p>Choisis un exemple, puis adapte chaque critère à ta façon.</p></div>';
- html+='<div class="reco-template-list">'+popular.map(function(k){return makePreset(k,active);}).join('')+'</div>';
- html+='<details class="reco-more-presets"><summary>Voir les 15 profils de départ</summary><div class="reco-template-list">'+
-  Object.keys(D.presets).filter(function(k){return popular.indexOf(k)<0;}).map(function(k){return makePreset(k,active);}).join('')+'</div></details></div>';
+ html+='<div class="reco-template-list">'+popular.map(function(k){return makePreset(k,active);}).join('')+'</div></div>';
+ html+='<div class="reco-custom-toolbar" aria-label="Sauvegarde des critères personnels"><div class="reco-custom-copy">'+
+  '<strong>Mes critères personnels</strong><small>Enregistre tes poids et ta maîtrise sur cet appareil, puis retrouve-les après avoir essayé les profils.</small></div>'+
+  '<div class="reco-custom-actions"><button type="button" data-prio-save>'+
+  (savedCustom?(isCurrentCustom(w,currentMastery())?'✓ Critères enregistrés':'Mettre à jour mes critères'):'Enregistrer mes critères')+'</button>'+
+  (savedCustom?'<button type="button" data-prio-restore '+(isCurrentCustom(w,currentMastery())?'disabled':'')+'>Reprendre mes critères</button>':'')+'</div></div>';
  html+='<div class="reco-priority-mastery"><div><b>Ton niveau de maîtrise</b><small>Influence les performances réalisables, pas le goût pour la difficulté.</small></div><div class="reco-mastery-choices" role="group" aria-label="Maîtrise pour le classement des priorités">'+
   mastery.map(function(name,i){return '<button type="button" data-prio-mastery="'+i+'" aria-pressed="'+(currentMastery()===i)+'">'+name+'</button>';}).join('')+'</div></div>';
  html+='<div class="reco-priority-groups">';
@@ -93,9 +117,22 @@ function results(){
      '</li>';
   });
   h+='</ol><p class="reco-note">Le classement est fondé sur les configurations de spécialisation les plus cohérentes avec les critères choisis. Les rôles ne sont comptés qu’une fois ; la polyvalence et la technicité n’interviennent que si tu les actives. Les faibles écarts ne prouvent pas de supériorité.</p>';
+  if(r.active.length===1)h+='<p class="reco-note">Avec un seul critère actif, le poids 1, 2 ou 3 ne change pas les proportions du score : il détermine son importance par rapport à d’autres critères si tu en ajoutes.</p>';
   if(presetMatch(w)==='egal')h+='<p class="reco-note">« Tous les critères » est un scénario de référence, pas un profil neutre du joueur : pour une recommandation personnelle, précise ce qui compte vraiment.</p>';
  }
  output.innerHTML=h;
+}
+function applyWeights(newW,newMastery){
+ var clean=E.sanitizeWeights(newW);
+ E.priorityAxes.forEach(function(k){
+  var old=find(k,clean[k]);if(old&&old.getAttribute('aria-pressed')!=='true')old.click();
+ });
+ if(Number.isInteger(newMastery)&&newMastery>=0&&newMastery<=3){
+  var masteryButton=document.querySelector('.mbtn[data-m="'+newMastery+'"]');
+  if(masteryButton&&masteryButton.getAttribute('aria-pressed')!=='true')masteryButton.click();
+  if(window.WFGuide&&window.WFGuide.setMastery)window.WFGuide.setMastery(newMastery);
+ }
+ sync();
 }
 function sync(){controls();results();}
 function setMode(m){
@@ -116,6 +153,15 @@ modes.forEach(function(b){
 });
 form.addEventListener('click',function(ev){
  var b=ev.target.closest('button');if(!b||!form.contains(b))return;
+ if(b.hasAttribute('data-prio-save')){
+  savedCustom={weights:E.sanitizeWeights(weights()),mastery:currentMastery()};
+  try{localStorage.setItem(CUSTOM_KEY,JSON.stringify(savedCustom));}catch(e){}
+  sync();return;
+ }
+ if(b.hasAttribute('data-prio-restore')){
+  if(savedCustom)applyWeights(savedCustom.weights,savedCustom.mastery);
+  return;
+ }
  if(b.dataset.prioAxis!==undefined){
   var legacy=find(b.dataset.prioAxis,Number(b.dataset.prioWeight));
   if(legacy)legacy.click();sync();return;
