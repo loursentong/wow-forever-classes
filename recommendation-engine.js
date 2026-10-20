@@ -145,7 +145,8 @@ function specFit(s,p){
     var mainWeight=roles.length===1?1:roles.reduce(function(t,k){return t+(k===s.role?1+p.roles[k]/5:0);},0)/
       roles.reduce(function(t,k){return t+1+p.roles[k]/5;},0);
     var certainty=roles.reduce(function(t,k){return t+p.roles[k];},0)/roles.length;
-    var raw=roles.length===1?(s.role===roles[0]?1:0):.65*coverage+.35*mainWeight;
+    var rolePve=(adjustedActivity(s,'raid',p.mastery)-1)/4;
+    var raw=roles.length===1?(s.role===roles[0]?(.25+.75*rolePve):0):.65*coverage+.35*mainWeight*rolePve;
     parts.roles={value:preferenceFit(raw,certainty),weight:0.25};
   }
   if(activities.length)parts.activities={value:aggregate(activities,p.activities,function(k){return (adjustedActivity(s,k,p.mastery)-1)/4;}),weight:.25};
@@ -239,7 +240,10 @@ function priorityRanking(input,mastery){
   var activityMap={bg:'bg',sauv:'world',solo:'solo'};
   var styleMap={burst:'burst',zone:'zone',ctrl:'ctrl',surv:'surv',mob:'mob',util:'support'};
   function raw(s,k){
-    if(k==='tank'||k==='soin'||k==='dps')return s.role===k?1:0;
+    // Un rôle n'est pas une note de performance : les spécialisations d'un même
+    // rôle reçoivent une adéquation PvE distincte (proxy éditorial 'raid').
+    // Le rôle inadéquat vaut 0 ; impossible d'agréger les meilleures spés d'une classe.
+    if(k==='tank'||k==='soin'||k==='dps')return s.role===k?(adjustedActivity(s,'raid',m)-1)/4:0;
     if(activityMap[k])return (adjustedActivity(s,activityMap[k],m)-1)/4;
     if(styleMap[k])return (adjustedStyle(s,styleMap[k],m)-1)/4;
     if(k==='poly')return (rolePool(s.classId).length-1)/2;
