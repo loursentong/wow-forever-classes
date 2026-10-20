@@ -39,7 +39,7 @@ function createHarness(initial={}){
 }
 test('Accueil épuré : une question, six étapes et aucune recommandation arbitraire',()=>{
  const h=createHarness();
- assert.match(h.form.innerHTML,/Quels rôles/);
+ assert.match(h.form.innerHTML,/Quel rôle voudrais-tu jouer/);
  assert.match(h.form.innerHTML,/data-step="5"/);
  assert.equal((h.form.innerHTML.match(/class="reco-question"/g)||[]).length,1);
  assert.match(h.results.innerHTML,/Aucune classe ne part gagnante/);
