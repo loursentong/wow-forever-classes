@@ -75,10 +75,10 @@ function boot(initial = {}, storageDisabled = false) {
 const ranking = html => [...html.matchAll(/class="bname">[\s\S]*?<\/span>([^<]+)<\/span>[\s\S]*?class="bval mono">(\d+)<\/span>/g)]
   .map(m=>[m[1],Number(m[2])]);
 
-test('Le comparatif conserve neuf classes, douze axes et quatre niveaux avec onze profils',()=>{
+test('Le comparatif conserve neuf classes, douze axes et quatre niveaux avec treize profils',()=>{
   assert.equal(config.classes.length,9);
   assert.equal(config.axes.length,12);
-  assert.deepEqual(Object.keys(config.presets),['egal','polyvalence','pvp','pve','solo','tank','soin','dps','bg','sauvage','soutien']);
+  assert.deepEqual(Object.keys(config.presets),['egal','polyvalence','pve','pvp','tank','soin','dps','soutien','bg','soinbg','sauvage','controle','solo']);
   assert.equal(config.levels.length,4);
   assert.ok(html.includes('id="curves-values"'));
   assert.equal((html.match(/<span class="tag you">Pour toi<\/span>/g)||[]).length,0);
@@ -134,8 +134,9 @@ test('Chaque préréglage définit les douze poids, sans écraser la maîtrise',
     assert.equal(h.groups['.presets button'].filter(b=>b.attrs['aria-pressed']==='true').length,1);
   }
   assert.equal(signatures.size,Object.keys(config.presets).length);
-  h.groups['.seg button[data-ax]'].find(b=>b.dataset.ax==='solo'&&b.dataset.v==='3').trigger();
-  assert.equal(h.api.S.w.solo,3);
+  // Modifier un poids qu'aucun profil n'utilise à 3 désélectionne tous les profils.
+  h.groups['.seg button[data-ax]'].find(b=>b.dataset.ax==='tech'&&b.dataset.v==='3').trigger();
+  assert.equal(h.api.S.w.tech,3);
   assert.ok(h.groups['.presets button'].every(b=>b.attrs['aria-pressed']==='false'));
 });
 
@@ -151,10 +152,9 @@ test('Les neuf raisons du modèle sont concises et renvoient à la bibliographie
 });
 
 test('La référence Confirmé conserve les 108 notes et les scores initiaux des profils historiques',()=>{
+  // PvP d'abord et PvE d'abord ont été redéfinis (profils homogènes) : seul « Tout à égalité » garde ses scores d'origine.
   const historical = {
-    egal: [82,77,70,67,67,65,62,58,57],
-    pvp: [81,78,76,72,71,71,70,66,63],
-    pve: [82,81,71,67,62,54,53,49,44]
+    egal: [82,77,70,67,67,65,62,58,57]
   };
   const h=boot();
   for(const [preset,scores] of Object.entries(historical)){
@@ -269,4 +269,28 @@ test('La page reste utilisable sans stockage local et avec une sauvegarde invali
   assert.equal(h.api.S.w.solo,3);
   assert.equal(ranking(h.elements.rank.innerHTML).length,9);
   assert.equal(boot({'wf-overview-v3':'{broken'}).api.S.m,2);
+});
+
+test('Profils homogènes : chaque classe mène ou partage la tête d’au moins un profil au niveau Confirmé',()=>{
+  const h=boot();
+  const leaders=new Set();
+  for(const preset of Object.keys(config.presets)){
+    h.groups['.presets button'].find(x=>x.dataset.preset===preset).trigger();
+    const scores=config.classes.map(c=>[c.id,Math.round(h.api.score(c,2))]);
+    const top=Math.max(...scores.map(x=>x[1]));
+    scores.filter(x=>x[1]===top).forEach(x=>leaders.add(x[0]));
+  }
+  assert.deepEqual([...leaders].sort(),config.classes.map(c=>c.id).sort());
+});
+
+test('Profils homogènes : le nom annonce le critère dominant, sans Technicité ni Polyvalence ajoutées',()=>{
+  const headline={tank:'tank',soin:'soin',dps:'dps',soutien:'util',bg:'bg',soinbg:'soin',sauvage:'sauv',controle:'ctrl',solo:'solo',polyvalence:'poly'};
+  for(const [preset,weights] of Object.entries(config.presets)){
+    if(preset==='egal') continue;
+    assert.equal(weights.tech,0,preset+' ne doit pas pondérer la Technicité');
+    if(preset!=='polyvalence') assert.equal(weights.poly,0,preset+' ne doit pas pondérer la Polyvalence');
+    const k=headline[preset]; if(!k) continue;
+    const total=Object.values(weights).reduce((a,b)=>a+b,0);
+    assert.ok(weights[k]===3 && weights[k]/total>=0.5, preset+' : '+k+' doit peser au moins la moitié');
+  }
 });

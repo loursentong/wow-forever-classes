@@ -37,7 +37,7 @@ Pour un Chasseur débutant, note DPS 5 avec plancher PvE 2 donne 4,6, mais sa no
 ## Neutralité et accès universel
 
 - Valeur par défaut : profil « Tout à égalité » et niveau Confirmé.
-- Profils : Tout à égalité, Polyvalence, PvP d'abord, PvE d'abord, Solo et leveling, Tank en groupe, Soin en groupe, DPS en raid, Champ de bataille, PvP sauvage, Soutien polyvalent. Un préréglage change uniquement les douze poids et conserve le niveau de maîtrise choisi.
+- Profils : Tout à égalité, Polyvalence, PvE d'abord, PvP d'abord, Tank en groupe, Soin en groupe, DPS en raid, Soutien et mobilité, Champ de bataille, Soin en champ de bataille, PvP sauvage, Contrôle, Solo et leveling. Règles : le critère qui donne son nom au profil pèse au moins la moitié des poids ; la Technicité (goût pour la difficulté) et la Polyvalence ne sont ajoutées à aucun profil d'activité ; chaque classe mène ou partage la tête d'au moins un profil au niveau Confirmé. Un préréglage change uniquement les douze poids et conserve le niveau de maîtrise choisi.
 - Les neuf encarts « Pour toi » ont été remplacés par des indications génériques de style de jeu.
 - Les visiteurs conservent leurs propres préférences localement ; les anciennes sauvegardes sont migrées lorsqu'elles sont valides.
 - La maîtrise se règle dans la même liste que les pondérations, sans treizième axe ni poids supplémentaire. Elle adapte uniquement le classement et les courbes ; la matrice conserve toujours les 108 notes de référence, sans flèches ni notes ajustées.

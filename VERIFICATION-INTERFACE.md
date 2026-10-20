@@ -27,3 +27,13 @@ Cette révision ne réévalue pas les données de performance ni les divergences
 ## Livraison
 
 Pull request séparée vers `main`. Le déploiement GitHub Pages reste déclenché par la fusion sur `main` ; aucune publication directe n'est effectuée par cette révision.
+
+## Révision des profils (Claude, 20 octobre 2026)
+
+Constat : dans les onze profils précédents, des critères génériques (Polyvalence, Mobilité, Utilité, Technicité) étaient ajoutés presque partout. Ils favorisaient le Druide, en tête de 7 profils sur 11, y compris « Tank en groupe » (devant le Guerrier, seul tank noté 5) et « Champ de bataille » ; le Mage, le Chasseur, le Prêtre et le Chaman ne menaient aucun profil.
+
+Révision : treize profils, chacun nommé d'après son critère dominant (au moins la moitié des poids), sans Technicité ni Polyvalence ajoutées. Têtes au niveau Confirmé : Guerrier (Tank ; DPS en raid, ex æquo avec le Chasseur), Paladin (PvE d'abord, Champ de bataille, Solo et leveling), Prêtre (Soin en champ de bataille), Voleur (PvP sauvage ; Contrôle, ex æquo avec le Mage et le Démoniste), Démoniste (PvP d'abord), Druide (Tout à égalité, Polyvalence, Soin en groupe ; Soutien et mobilité, ex æquo avec le Chaman).
+
+Limite : avec les notes actuelles, le Mage n'égale ou ne dépasse le Démoniste que sur la Mobilité, et le Chaman n'égale ou ne dépasse le Druide que sur la Technicité ; aucun profil honnête ne peut donc les placer seuls en tête.
+
+Tests : 17 réussis (deux nouveaux : chaque classe mène ou partage la tête d'un profil ; chaque profil respecte les règles de construction). Le test de désélection des profils modifie désormais la Technicité, qu'aucun profil n'utilise, au lieu du Solo, devenu le dernier profil de la liste.

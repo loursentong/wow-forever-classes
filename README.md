@@ -5,7 +5,7 @@ Comparatif interactif des neuf classes de World of Warcraft: Forever, projeté a
 ## Fonctionnalités
 
 - Neuf classes, douze critères notés avec leurs sources et leur fiabilité.
-- Pondération personnalisable de 0 à 3 par critère, avec onze profils : Tout à égalité (valeur par défaut), Polyvalence, PvP d'abord, PvE d'abord, Solo et leveling, Tank en groupe, Soin en groupe, DPS en raid, Champ de bataille, PvP sauvage et Soutien polyvalent.
+- Pondération personnalisable de 0 à 3 par critère, avec treize profils : Tout à égalité (valeur par défaut), Polyvalence, PvE d'abord, PvP d'abord, Tank en groupe, Soin en groupe, DPS en raid, Soutien et mobilité, Champ de bataille, Soin en champ de bataille, PvP sauvage, Contrôle et Solo et leveling. Chaque profil porte le nom de son critère dominant (au moins la moitié des poids), sans Technicité ni Polyvalence ajoutées, et chaque classe mène ou partage la tête d'au moins un profil.
 - Maîtrise dans le même panneau que les pondérations : Débutant, Intermédiaire, Confirmé, Expert. Ce réglage adapte le classement et les courbes sans ajouter d'axe pondéré ; les 108 notes du tableau d'ensemble restent fixes.
 - Plancher et plafond distincts en PvE et PvP, avec des raisons succinctes et des références bibliographiques. Confirmé conserve les scores de référence.
 - Courbes pour les neuf classes avec mise en avant au choix et tableau de chiffres repliable.
@@ -23,6 +23,6 @@ Comparatif interactif des neuf classes de World of Warcraft: Forever, projeté a
 
 Commande : node --test tests/skill-matching.test.cjs
 
-Une GitHub Action vérifie chaque pull request. La suite protège les 108 notes (instantané de `main` au commit `74a0e6f`), les scores historiques, les onze profils, la maîtrise, les courbes, les préférences et la migration des anciennes sauvegardes. Elle accepte les fins de ligne Windows et Unix.
+Une GitHub Action vérifie chaque pull request. La suite protège les 108 notes (instantané de `main` au commit `74a0e6f`), les scores historiques, les treize profils et leur homogénéité, la maîtrise, les courbes, les préférences et la migration des anciennes sauvegardes. Elle accepte les fins de ligne Windows et Unix.
 
 L'inspection visuelle reste nécessaire avant publication ; le détail des contrôles de cette révision est dans [VERIFICATION-INTERFACE.md](VERIFICATION-INTERFACE.md).
