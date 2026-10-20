@@ -200,6 +200,26 @@ async function check(){
   await page.waitForTimeout(300);
   await page.screenshot({path:path.join(__dirname,'screenshots','guide-immersion-interaction-desktop.png'),fullPage:false});
 
+  // Matrice de tailles, pour éviter une capture réussie à 390 px qui masque
+  // des cassures intermédiaires (320 / 500 / 768 / 1024 / 1440).
+  for(const width of [320,390,500,768,1024,1440]){
+    await page.setViewportSize({width,height:900});
+    const widths=await page.evaluate(()=>({
+      doc:document.documentElement.scrollWidth,
+      inner:document.documentElement.clientWidth
+    }));
+    assert.ok(widths.doc<=widths.inner+2,'Débordement à '+width+'px : '+JSON.stringify(widths));
+  }
+  await page.setViewportSize({width:1440,height:900});
+  await page.locator('[data-step="2"]').click();
+  const choice=page.locator('[data-single="range"][data-key="distance"]');
+  const glowBefore=await choice.evaluate(el=>getComputedStyle(el).boxShadow);
+  await choice.hover();
+  const glowAfter=await choice.evaluate(el=>getComputedStyle(el).boxShadow);
+  await page.waitForTimeout(240);
+  const glowReady=await choice.evaluate(el=>getComputedStyle(el).boxShadow);
+  assert.notEqual(glowBefore,glowReady,'Le survol doit éclairer le composant de manière visible');
+  assert.ok(typeof glowAfter==='string');
   // Contrôles des ressources graphiques et de l’accessibilité des animations.
   const assets=await page.evaluate(async()=>Promise.all(['ux-polish.css','warcraft-visual-pack.css','wow-ui-rework.css','assets/hero-landscape.svg'].map(async p=>{
     const r=await fetch(p);return {url:p,status:r.status,ok:r.ok};
