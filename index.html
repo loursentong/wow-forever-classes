@@ -219,6 +219,60 @@ footer.end{font-size:.9rem;color:var(--muted)}
 .pd{display:inline-flex;gap:3px}
 .pd i{width:8px;height:8px;border-radius:2px;border:1.5px solid var(--accent);display:block}
 .pd i.on{background:var(--accent)}
+
+/* Nouveau parcours, encapsulé : la charte Claude et les tableaux existants ne changent pas. */
+.reco-section{scroll-margin-top:18px}
+.reco-intro{max-width:90ch}
+.reco-panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;display:flex;flex-direction:column;gap:16px}
+.reco-note,.reco-hint,.reco-muted{font-size:.83rem;color:var(--muted)}
+.reco-topline{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.reco-reset{border:1px solid var(--line);border-radius:6px;padding:7px 12px;background:var(--surface-2);color:var(--fg);font:inherit;font-size:.84rem;cursor:pointer}
+.reco-reset:hover,.reco-options button:hover{border-color:var(--accent)}
+.reco-questions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.reco-question{border:1px solid var(--line);border-radius:7px;padding:14px;min-width:0;margin:0}
+.reco-question legend{font-weight:700;font-size:1rem;padding:0 6px}
+.reco-number{font-family:var(--font-mono);font-size:.78rem;color:var(--accent)}
+.reco-question .reco-hint{margin:0 0 12px;min-height:2em}
+.reco-label{display:block;font-size:.86rem;font-weight:600;margin:10px 0 7px}
+.reco-options{display:flex;flex-wrap:wrap;gap:6px}
+.reco-options button{cursor:pointer;border:1px solid var(--line);border-radius:6px;background:var(--surface-2);color:var(--fg);font:inherit;font-size:.83rem;padding:7px 10px}
+.reco-options button[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent);border-color:var(--accent);font-weight:700}
+.reco-cert{margin-top:9px;padding:9px 11px;background:var(--surface-2);border-radius:5px;display:flex;flex-direction:column;gap:5px}
+.reco-cert label{font-size:.82rem;display:flex;gap:8px;justify-content:space-between;align-items:center}
+.reco-cert output{font-family:var(--font-mono);font-weight:700;white-space:nowrap}
+.reco-cert input{width:100%;accent-color:var(--accent);cursor:pointer}
+.reco-cert small{font-size:.72rem;color:var(--muted);display:flex;justify-content:space-between}
+.reco-strict{display:flex;gap:9px;align-items:flex-start;font-size:.83rem;margin-top:12px}
+.reco-strict input{accent-color:var(--accent);margin-top:3px;flex:none}
+.reco-results{margin-top:8px}
+.reco-empty{padding:22px;border:1px dashed var(--line);border-radius:7px}
+.reco-empty h3{font-size:1.06rem}
+.reco-empty p{font-size:.91rem;color:var(--muted);max-width:75ch;margin-top:8px}
+.reco-results-head{display:flex;align-items:baseline;gap:6px 22px;justify-content:space-between;flex-wrap:wrap;margin-bottom:13px}
+.reco-results-head h3{font-size:1.14rem}
+.reco-results-head p{font-size:.81rem;color:var(--muted)}
+.reco-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.reco-result-card{border:1px solid var(--line);border-radius:7px;padding:13px;display:flex;flex-direction:column;gap:11px;min-width:0}
+.reco-result-top{display:flex;align-items:flex-start;gap:9px}
+.reco-result-top>div{flex:1;min-width:0}
+.reco-result-top h4{font-size:1rem}
+.reco-result-top p{font-size:.75rem;color:var(--muted);margin-top:3px}
+.reco-result-top strong{font-family:var(--font-mono);font-size:.87rem;white-space:nowrap}
+.reco-rank{font-family:var(--font-mono);color:var(--accent);font-weight:700;font-size:.87rem}
+.reco-bars{background:var(--surface-2);border-radius:3px;height:7px;overflow:hidden}
+.reco-bar{background:var(--accent);height:100%;border-radius:3px}
+.reco-result-card>p{font-size:.83rem}
+.reco-result-card a{color:var(--accent)}
+.reco-note{margin-top:10px;max-width:96ch}
+@media(max-width:900px){.reco-cards{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:750px){.reco-questions{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:540px){.reco-panel{padding:12px}.reco-question{padding:11px}.reco-question .reco-hint{min-height:0}}
+
+.legacy-advanced{margin:22px 0;border:1px solid var(--line);border-radius:7px;padding:0 14px;background:var(--surface)}
+.legacy-advanced>summary{cursor:pointer;font-weight:700;padding:15px 4px;color:var(--fg)}
+.legacy-chevron{color:var(--accent)}
+.legacy-advanced[open]>summary{border-bottom:1px solid var(--line)}
+.legacy-advanced .sec{margin-top:20px}
 </style>
 </head>
 <body>
@@ -237,6 +291,24 @@ footer.end{font-size:.9rem;color:var(--muted)}
   </div>
   <nav class="jump" aria-label="Aller à une classe"><a href="#c-guerrier"><span class="sw" style="--cc:#C69B6D"></span>Guerrier</a><a href="#c-paladin"><span class="sw" style="--cc:#F48CBA"></span>Paladin</a><a href="#c-chasseur"><span class="sw" style="--cc:#AAD372"></span>Chasseur</a><a href="#c-voleur"><span class="sw" style="--cc:#FFF468"></span>Voleur</a><a href="#c-pretre"><span class="sw" style="--cc:#FFFFFF"></span>Prêtre</a><a href="#c-chaman"><span class="sw" style="--cc:#0070DD"></span>Chaman</a><a href="#c-mage"><span class="sw" style="--cc:#3FC7EB"></span>Mage</a><a href="#c-demoniste"><span class="sw" style="--cc:#8788EE"></span>Démoniste</a><a href="#c-druide"><span class="sw" style="--cc:#FF7C0A"></span>Druide</a></nav>
 </header>
+
+
+<section class="sec reco-section" aria-labelledby="h-reco">
+  <div class="sec-head">
+    <span class="eyebrow">Aide au choix · version exploratoire</span>
+    <h2 id="h-reco">Trouve une classe qui correspond à ta façon de jouer</h2>
+    <p class="reco-intro">Six questions facultatives pour décrire tes envies. Pour chaque réponse, indique <strong>à quel point tu en es sûr</strong> de 0 (intuition) à 5 (certain). La certitude n'est ni un pourcentage ni un degré d'importance ; les exigences absolues se définissent séparément.</p>
+  </div>
+  <div id="reco-app" class="reco-panel">
+    <div class="reco-topline">
+      <p class="note">Aucune classe recommandée par défaut. Les attentes non renseignées ne favorisent personne.</p>
+      <button id="reco-reset" class="reco-reset" type="button">Effacer mes réponses</button>
+    </div>
+    <div id="reco-form"><p class="reco-hint">Préparation du questionnaire…</p></div>
+    <div id="reco-results" class="reco-results" aria-live="polite"><p class="reco-hint">Les recommandations s'afficheront ici.</p></div>
+    <p class="reco-note">Les rôles et techniques sont documentés par Blizzard ; les estimations de performances et de gameplay par spécialisation ne sont pas calibrées sur des joueurs de niveau 60. Une faible certitude entraîne des scénarios alternatifs, <strong>pas une fausse probabilité</strong>. Les 14 critères détaillés et les fiches existantes restent accessibles ci-dessous.</p>
+  </div>
+</section>
 
 <section class="sec" aria-labelledby="h-matrix">
   <div class="sec-head">
@@ -260,6 +332,8 @@ footer.end{font-size:.9rem;color:var(--muted)}
   </details>
 </section>
 
+<details class="legacy-advanced" id="legacy-advanced">
+  <summary>Affiner avec les 14 critères et les courbes de maîtrise <span class="legacy-chevron" aria-hidden="true">▾</span></summary>
 <section class="sec" aria-labelledby="h-tool">
   <div class="sec-head">
     <span class="eyebrow">Classer selon tes priorités</span>
@@ -310,6 +384,7 @@ footer.end{font-size:.9rem;color:var(--muted)}
     </div>
   </div>
 </section>
+</details>
 
 <section class="sec" aria-labelledby="h-model">
   <div class="sec-head">
@@ -619,5 +694,7 @@ window.__WF = {"axes":["poly","tank","soin","dps","bg","sauv","burst","zone","ct
   renderAll();
 })();
 </script>
+<script src="recommendation-engine.js"></script>
+<script src="questionnaire.js"></script>
 </body>
 </html>
