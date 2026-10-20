@@ -104,8 +104,12 @@ function distPool(c,p){
 }
 function eligible(s,p){
   var roles=selected(p.roles);
-  if(roles.length&&!roles.includes(s.role))return false;
-  if(roles.length&&p.rolesStrict&&!roles.every(function(k){return rolePool(s.classId).includes(k);}))return false;
+  // Seule une exigence explicitement déclarée exclut un rôle : même à 5/5,
+  // une préférence souple n'est PAS un filtre dur.
+  if(roles.length&&p.rolesStrict){
+    if(!roles.includes(s.role))return false;
+    if(!roles.every(function(k){return rolePool(s.classId).includes(k);}))return false;
+  }
   if(p.range.strict&&p.range.value==='distance'&&s.range!=='distance')return false;
   if(p.range.strict&&p.range.value==='melee'&&s.range!=='melee')return false;
   if(p.range.strict&&p.range.value==='mixte'&&distPool(s.classId,p).length<2)return false;
@@ -140,7 +144,9 @@ function specFit(s,p){
     // Deux rôles demandés donnent un intérêt explicite à pouvoir alterner.
     var mainWeight=roles.length===1?1:roles.reduce(function(t,k){return t+(k===s.role?1+p.roles[k]/5:0);},0)/
       roles.reduce(function(t,k){return t+1+p.roles[k]/5;},0);
-    parts.roles={value:roles.length===1?1:.65*coverage+.35*mainWeight,weight:0.25};
+    var certainty=roles.reduce(function(t,k){return t+p.roles[k];},0)/roles.length;
+    var raw=roles.length===1?(s.role===roles[0]?1:0):.65*coverage+.35*mainWeight;
+    parts.roles={value:preferenceFit(raw,certainty),weight:0.25};
   }
   if(activities.length)parts.activities={value:aggregate(activities,p.activities,function(k){return (adjustedActivity(s,k,p.mastery)-1)/4;}),weight:.25};
   if(p.range.value!=='any'){
