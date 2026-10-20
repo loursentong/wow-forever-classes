@@ -2,6 +2,14 @@
 
 Comparatif interactif des neuf classes de World of Warcraft: Forever, projeté au niveau 60 à partir des sources disponibles le 20 octobre 2026.
 
+## Finition visuelle et ergonomique
+
+La vitrine réutilise la palette Claude, avec une illustration SVG originale légère dans le bandeau et des icônes vectorielles pour les deux parcours. La finition est regroupée dans `ux-polish.css` (aucune bibliothèque graphique externe), pour permettre des ajustements indépendants du moteur.
+
+Le parcours guidé ne révèle **aucun classement après une seule dimension**. À partir de deux dimensions exprimées, il propose un **aperçu facultatif** ; le bouton final « Voir mes résultats » demande explicitement le classement. Une fois révélé, les résultats s'actualisent avec les nouvelles réponses et peuvent être masqués sans effacer les choix.
+
+La sélection du degré de certitude et les changements d'étape bénéficient de transitions courtes, tandis que le résumé « Mes choix » est replié par défaut. Les animations respectent `prefers-reduced-motion`. Le packaging GitHub Pages copie explicitement les fichiers CSS et les visuels et vérifie leurs réponses après déploiement.
+
 ## Deux parcours de choix, un même moteur
 
 Le bloc principal propose deux entrées équivalentes :
