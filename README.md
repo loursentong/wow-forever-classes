@@ -2,6 +2,19 @@
 
 Comparatif interactif des neuf classes de World of Warcraft: Forever, projeté au niveau 60 à partir des sources disponibles le 20 octobre 2026.
 
+## Pack graphique Warcraft — ressources officielles et crédit
+
+Le site utilise désormais le **logo officiel World of Warcraft: Forever** et un paysage issus de Blizzard News, ainsi que les **neuf icônes de classes** et plusieurs **icônes de compétences** chargées depuis le CDN officiel `render.worldofwarcraft.com`. Ces ressources restent la propriété de Blizzard Entertainment. Le pack visuel communautaire est volontairement distinct des créations propres à Kami Labs, qui sert de référence d'usage, pas de source à copier.
+
+La couche `warcraft-visual-pack.css` ajoute des dorures, halos et cadres fantasy réactifs au survol, sans modifier les 14 notes de critères, la maîtrise, les résultats ou les sauvegardes. Des liens d'accès rapide permettent d'ouvrir directement les neuf fiches de classes. Les états clavier et `prefers-reduced-motion` sont vérifiés.
+
+**Sources et conditions** :
+- [Kit de presse officiel de Forever](https://blizzard.gamespress.com/fr/wowforeverreveal)
+- [Logo Forever — actualités Blizzard](https://news.blizzard.com/en-us/article/24301453/everything-announced-at-blizzcon-2026-opening-ceremony)
+- [Conditions d'utilisation communautaire / fan site Blizzard](https://www.blizzard.com/en-us/legal/28d5ebbf-c245-4408-8ba9-043dd5f056bf/legal-faq) et [règles d'usage des marques](https://www.blizzard.com/en-us/legal/574308ba-d8db-44e9-bc64-76173f84a57e/blizzard-entertainment-logo-and-trademark-guidelines)
+
+Le site est **non officiel, non affilié** et doit conserver les notices de crédit. Les permissions communautaires comportent des conditions, notamment relatives au caractère non commercial : une mention de non-affiliation ne suffit pas à elle seule à autoriser n'importe quel usage.
+
 ## Finition visuelle et ergonomique
 
 La vitrine réutilise la palette Claude, avec une illustration SVG originale légère dans le bandeau et des icônes vectorielles pour les deux parcours. La finition est regroupée dans `ux-polish.css` (aucune bibliothèque graphique externe), pour permettre des ajustements indépendants du moteur.
