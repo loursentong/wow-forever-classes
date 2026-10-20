@@ -141,5 +141,9 @@ form.addEventListener('change',function(ev){
 root.querySelector('#reco-reset').addEventListener('click',function(){
   state=E.sanitize(null);renderForm();renderResults();
 });
+var advanced=document.getElementById('legacy-advanced');
+if(advanced)advanced.addEventListener('toggle',function(){
+  if(advanced.open)window.dispatchEvent(new Event('resize')); // Recalcule les courbes SVG selon la largeur du panneau.
+});
 renderForm();renderResults();
 })();
