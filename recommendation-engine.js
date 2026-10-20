@@ -120,7 +120,7 @@ function clamp(v,lo,hi){return Math.min(hi,Math.max(lo,v));}
 function execution(s,k,m){
   var isPve=k==='raid'||k==='solo';
   var load=isPve?s.load.pve:s.load.pvp;
-  if(k==='solo'&&s.classId==='chasseur')load=1;
+  if(k==='solo'&&s.classId==='chasseur')return 0; // Familiers/kit de leveling accessibles même au niveau Débutant
   var factor=[-0.29,-0.13,0,0.09][m];
   return clamp(factor*load,-1.2,0.35);
 }
