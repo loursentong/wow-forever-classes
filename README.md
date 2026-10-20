@@ -2,6 +2,17 @@
 
 Comparatif interactif des neuf classes de World of Warcraft: Forever, projeté au niveau 60 à partir des sources disponibles le 20 octobre 2026.
 
+## Deux parcours de choix, un même moteur
+
+Le bloc principal propose deux entrées équivalentes :
+
+- **Être guidé** : une question à la fois, progression en six étapes, navigation libre, graduation de certitude 0–5 pour chaque préférence et top 3 expliqué.
+- **Régler mes priorités** : les 14 critères pondérables historiques, les 15 profils prédéfinis et le niveau de maîtrise partagés avec le comparatif. Le résultat est désormais un **classement des neuf classes**, calculé sur une configuration concrète par classe par le même moteur de recommandation spécialisé.
+
+Le classement des priorités regroupe les axes en quatre domaines (rôles, activités, gameplay, affinités), afin de ne pas compter séparément la capacité à être tank, soin et DPS comme des qualités universelles. **Polyvalence** et **Technicité** n'interviennent que si leurs axes sont activés. Les notes sources du tableau et les scores historiques restent inchangés dans les réglages avancés. Un profil « Tous les critères » décrit un scénario de référence, pas les préférences d'un joueur particulier.
+
+Le choix du parcours est conservé localement. Le thème Claude, les préférences existantes, le niveau de maîtrise partagé et la navigation mobile/clavier restent pris en charge.
+
 ## Assistant de choix (version exploratoire)
 
 Le nouveau questionnaire est placé avant le tableau historique et n'affiche **aucun classement tant que le joueur n'a pas exprimé de préférence**. Il comprend six questions facultatives : rôles, activités, portée, style, familiers, maîtrise/complexité. Chaque choix est accompagné d'une certitude de **0 à 5** ; un refus absolu nécessite une case distincte. Les questions laissées sans réponse n'influencent pas les résultats.
