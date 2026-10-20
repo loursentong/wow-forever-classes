@@ -12,6 +12,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Vérifier les fichiers réellement publiés sur GitHub Pages
+        run: bash scripts/prepare-pages.sh
       - name: Tester le modèle, les graphiques et les interactions
         run: node --test tests/*.test.cjs
 
@@ -29,6 +31,9 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: Test live questionnaire interactions and mobile layout
         run: node tests/browser-smoke.cjs
+      - name: Diagnose current GitHub Pages production assets
+        run: node tests/pages-live-check.cjs
+        continue-on-error: true
       - name: Upload screenshots for visual review
         if: always()
         uses: actions/upload-artifact@v4
