@@ -271,3 +271,28 @@ html[data-theme="dark"] body{background:radial-gradient(ellipse 65% 36% at 50% 2
  .wow-value-strip img{height:15px;width:15px}
  #reco-guided .reco-workspace #reco-form{min-height:0}
 }
+
+/* Décor : l'art officiel reste net, mais son exposition est traitée comme
+ * une scène nocturne cinématique. Les textes/logos ne sont pas filtrés. */
+.reco-hero{
+ isolation:isolate;
+ background:#06111d!important;
+ background-image:none!important;
+ box-shadow:inset 0 0 0 1px rgba(241,179,71,.19),0 10px 40px rgba(0,0,0,.35)!important;
+}
+.reco-hero::before{
+ content:""!important;position:absolute!important;inset:0!important;z-index:0!important;
+ border:0!important;border-radius:0!important;
+ background:url("https://bnetcmsus-a.akamaihd.net/cms/blog_header/to/TO55V6TRR1RW1790054798721.png") right center / cover no-repeat!important;
+ filter:brightness(.37) contrast(1.24) saturate(1.3)!important;
+ opacity:.95!important;pointer-events:none;
+}
+.reco-hero::after{
+ content:""!important;position:absolute!important;inset:0!important;z-index:1!important;
+ border:1px solid rgba(255,198,96,.35)!important;border-radius:6px;
+ background:
+ linear-gradient(90deg,#050e18 0%,rgba(5,14,24,.96) 20%,rgba(5,14,24,.74) 43%,rgba(5,14,24,.28) 70%,rgba(4,13,21,.32) 100%),
+ radial-gradient(circle at 84% 40%,rgba(233,155,64,.28),transparent 34%)!important;
+ opacity:1!important;mix-blend-mode:normal!important;pointer-events:none;
+}
+.reco-hero .wow-hero-logo,.reco-hero .reco-hero-copy{position:relative;z-index:2}
