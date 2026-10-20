@@ -38,12 +38,12 @@ function elem(dataset = {}) {
   };
 }
 function boot(initial = {}, storageDisabled = false) {
-  const ids = ['mdesc','mlabel','rank','rank-status','curves','curves-values','theme'];
+  const ids = ['mdesc','mlabel','rank','rank-status','curves','curves-values','theme','mine'];
   const elements = Object.fromEntries(ids.map(id => [id, elem()]));
   const groups = {
     '.mbtn': config.levels.map((_, i) => elem({m: String(i)})),
     '.seg button[data-ax]': config.axes.flatMap(ax => [0,1,2,3].map(v => elem({ax, v: String(v)}))),
-    '.presets button': Object.keys(config.presets).map(preset => elem({preset})),
+    '.presets button[data-preset]': Object.keys(config.presets).map(preset => elem({preset})),
     '.hl-chips button': config.classes.map(c => elem({id: c.id}))
   };
   const document = {
@@ -126,18 +126,18 @@ test('Chaque préréglage définit les quatorze poids, sans écraser la maîtris
     assert.ok(Object.values(weights).every(v=>Number.isInteger(v)&&v>=0&&v<=3));
     assert.ok(Object.values(weights).some(v=>v>0));
     signatures.add(JSON.stringify(weights));
-    const button=h.groups['.presets button'].find(b=>b.dataset.preset===id);
+    const button=h.groups['.presets button[data-preset]'].find(b=>b.dataset.preset===id);
     button.trigger();
     assert.equal(JSON.stringify(h.api.S.w),JSON.stringify(weights));
     assert.equal(h.api.S.m,0);
     assert.equal(button.attrs['aria-pressed'],'true');
-    assert.equal(h.groups['.presets button'].filter(b=>b.attrs['aria-pressed']==='true').length,1);
+    assert.equal(h.groups['.presets button[data-preset]'].filter(b=>b.attrs['aria-pressed']==='true').length,1);
   }
   assert.equal(signatures.size,Object.keys(config.presets).length);
   // Modifier un poids qu'aucun profil n'utilise à 3 désélectionne tous les profils.
   h.groups['.seg button[data-ax]'].find(b=>b.dataset.ax==='tech'&&b.dataset.v==='3').trigger();
   assert.equal(h.api.S.w.tech,3);
-  assert.ok(h.groups['.presets button'].every(b=>b.attrs['aria-pressed']==='false'));
+  assert.ok(h.groups['.presets button[data-preset]'].every(b=>b.attrs['aria-pressed']==='false'));
 });
 
 test('Les neuf raisons du modèle sont concises et renvoient à la bibliographie',()=>{
@@ -159,7 +159,7 @@ test('La référence Confirmé applique les notes telles quelles et fige les sco
   };
   const h=boot();
   for(const [preset,scores] of Object.entries(historical)){
-    h.groups['.presets button'].find(x=>x.dataset.preset===preset).trigger();
+    h.groups['.presets button[data-preset]'].find(x=>x.dataset.preset===preset).trigger();
     assert.deepEqual(ranking(h.elements.rank.innerHTML).map(x=>x[1]),scores,preset);
   }
   for(const c of config.classes) for(const k of config.axes) assert.equal(h.api.eff(c,k,2),c.r[k]);
@@ -168,7 +168,7 @@ test('La référence Confirmé applique les notes telles quelles et fige les sco
 test('Débutant → Intermédiaire → Confirmé → Expert est monotone, 0 à 100',()=>{
   const h=boot();
   for(const preset of Object.keys(config.presets)){
-    h.groups['.presets button'].find(x=>x.dataset.preset===preset).trigger();
+    h.groups['.presets button[data-preset]'].find(x=>x.dataset.preset===preset).trigger();
     for(const c of config.classes){
       const v=[0,1,2,3].map(m=>h.api.score(c,m));
       assert.ok(v.every((x,i)=>x>=0 && x<=100 && (!i||x>=v[i-1])),c.name+'/'+preset+'/'+v);
@@ -216,7 +216,7 @@ test('Tous les poids nuls sont gérés et expliqués',()=>{
 test('Persistance et migration des anciennes préférences',()=>{
   const h=boot();
   h.groups['.mbtn'][0].trigger();
-  h.groups['.presets button'].find(x=>x.dataset.preset==='pvp').trigger();
+  h.groups['.presets button[data-preset]'].find(x=>x.dataset.preset==='pvp').trigger();
   const saved=boot(h.storage);
   assert.equal(saved.api.S.m,0);
   assert.equal(saved.api.S.w.bg,3);
@@ -265,7 +265,7 @@ test('Sombre par défaut, choix clair/sombre/système conservé indépendamment 
 test('La page reste utilisable sans stockage local et avec une sauvegarde invalide',()=>{
   const h=boot({},true);
   h.groups['.mbtn'][0].trigger();
-  h.groups['.presets button'].find(b=>b.dataset.preset==='solo').trigger();
+  h.groups['.presets button[data-preset]'].find(b=>b.dataset.preset==='solo').trigger();
   assert.equal(h.api.S.m,0);
   assert.equal(h.api.S.w.solo,3);
   assert.equal(ranking(h.elements.rank.innerHTML).length,9);
@@ -276,7 +276,7 @@ test('Profils homogènes : chaque classe mène ou partage la tête d’au moins 
   const h=boot();
   const leaders=new Set();
   for(const preset of Object.keys(config.presets)){
-    h.groups['.presets button'].find(x=>x.dataset.preset===preset).trigger();
+    h.groups['.presets button[data-preset]'].find(x=>x.dataset.preset===preset).trigger();
     const scores=config.classes.map(c=>[c.id,Math.round(h.api.score(c,2))]);
     const top=Math.max(...scores.map(x=>x[1]));
     scores.filter(x=>x[1]===top).forEach(x=>leaders.add(x[0]));
@@ -317,7 +317,7 @@ test('Une sauvegarde antérieure à Burst et Dégâts de zone garde son profil e
     if(added.some(k=>config.presets[preset][k]>0) && preset!=='egal') continue; // profils créés le 20 octobre
     const h=boot({'wf-overview-v3':JSON.stringify({m:1,w:before(config.presets[preset])})});
     assert.equal(JSON.stringify(h.api.S.w),JSON.stringify(config.presets[preset]),preset);
-    assert.equal(h.groups['.presets button'].find(b=>b.dataset.preset===preset).attrs['aria-pressed'],'true',preset);
+    assert.equal(h.groups['.presets button[data-preset]'].find(b=>b.dataset.preset===preset).attrs['aria-pressed'],'true',preset);
     assert.equal(h.api.S.m,1);
   }
   // Pondération personnelle : Burst et Dégâts de zone à 0, donc classement inchangé.
@@ -335,3 +335,50 @@ test('Une sauvegarde antérieure à Burst et Dégâts de zone garde son profil e
   assert.equal(zero.api.S.w.burst,0);
   assert.equal(zero.api.S.w.zone,3);
 });
+
+test('« Mes critères » garde la pondération personnelle et la réaffiche en un clic',()=>{
+  const h=boot();
+  const mine=h.elements.mine;
+  const presets=h.groups['.presets button[data-preset]'];
+  const preset=id=>presets.find(b=>b.dataset.preset===id).trigger();
+  const weight=(ax,v)=>h.groups['.seg button[data-ax]'].find(b=>b.dataset.ax===ax&&b.dataset.v===String(v)).trigger();
+  assert.equal(mine.hidden,true);
+  h.groups['.mbtn'][1].trigger();
+  weight('tank',3); weight('tech',0);
+  const custom=JSON.stringify(h.api.S.w);
+  assert.equal(mine.hidden,false);
+  assert.equal(mine.attrs['aria-pressed'],'true');
+  preset('pvp'); preset('zone');
+  assert.equal(mine.hidden,false);
+  assert.equal(mine.attrs['aria-pressed'],'false');
+  mine.trigger();
+  assert.equal(JSON.stringify(h.api.S.w),custom);
+  assert.equal(mine.attrs['aria-pressed'],'true');
+  assert.ok(presets.every(b=>b.attrs['aria-pressed']==='false'));
+  assert.equal(h.api.S.m,1,'le niveau de maîtrise ne change pas');
+  // Un réglage qui retombe exactement sur un profil ne remplace pas « Mes critères ».
+  preset('dps');
+  weight('dps',2);
+  const latest=JSON.stringify(h.api.S.w);
+  weight('dps',3);
+  assert.equal(presets.find(b=>b.dataset.preset==='dps').attrs['aria-pressed'],'true');
+  mine.trigger();
+  assert.equal(JSON.stringify(h.api.S.w),latest);
+  // Conservé au rechargement de la page.
+  const again=boot(h.storage);
+  assert.equal(JSON.stringify(again.api.S.c),latest);
+  assert.equal(again.elements.mine.hidden,false);
+});
+
+test('« Mes critères » reprend une pondération personnelle déjà enregistrée et ignore une sauvegarde invalide',()=>{
+  const custom={...config.presets.egal,tank:3};
+  const old=boot({'wf-overview-v3':JSON.stringify({w:custom,m:2})});
+  assert.equal(JSON.stringify(old.api.S.c),JSON.stringify(custom));
+  assert.equal(old.elements.mine.attrs['aria-pressed'],'true');
+  const bad=boot({'wf-overview-v3':JSON.stringify({w:config.presets.pvp,c:{tank:9}})});
+  assert.equal(bad.api.S.c,null);
+  assert.equal(bad.elements.mine.hidden,true);
+  const none=boot({},true);
+  assert.equal(none.elements.mine.hidden,true);
+});
+

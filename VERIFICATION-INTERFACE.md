@@ -75,3 +75,11 @@ Préférences enregistrées : une sauvegarde antérieure reçoit 0 dans les deux
 Tests : 19 réussis. Deux nouveaux tests couvrent les paramètres de maîtrise des nouveaux critères et la migration des sauvegardes, profil par profil. Les comptes passent à 14 axes, 126 cases et 56 boutons de poids.
 
 Navigateur (Chromium, 320, 390, 820, 1 024 et 1 440 pixels) : aucun débordement horizontal de la page, 14 colonnes réparties en 5 groupes, tableau des justifications lisible sans défilement dès 390 pixels. Les deux profils s'activent et placent le Mage et le Chaman en tête. Des sauvegardes à douze critères (PvP d'abord au niveau Débutant, Tout à égalité) se rechargent avec le bon profil sélectionné et le bon niveau. Aucune erreur JavaScript. Correctif au passage : à 320 pixels, la légende de fiabilité dépassait de 13 pixels, déjà avant cette révision ; elle passe désormais à la ligne.
+
+## « Mes critères » (Claude, 20 octobre 2026)
+
+Besoin : après avoir réglé ses propres poids puis essayé des profils pour comparer, le visiteur ne retrouvait plus sa pondération.
+
+Fonctionnement : chaque modification manuelle d'un poids enregistre la pondération obtenue sous « Mes critères », sauf si elle correspond exactement à un profil. Le bouton apparaît en tête de la liste des profils et réaffiche cette pondération en un clic ; il est sélectionné tant qu'elle est affichée. Le niveau de maîtrise n'est pas touché, comme pour les profils. La pondération est gardée sur l'appareil avec les autres préférences ; une pondération personnelle enregistrée avant cette version devient « Mes critères » au chargement.
+
+Tests : 21 réussis, dont deux nouveaux (enregistrement, retour en un clic, conservation au rechargement, sauvegarde invalide ignorée). Navigateur : parcours complet (poids personnels, deux profils, retour, rechargement) en sombre à 1 440 pixels et en clair à 390 pixels, sans débordement ni erreur JavaScript.

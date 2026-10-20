@@ -125,6 +125,8 @@ table{border-collapse:separate;border-spacing:0;width:100%}
 .presets button,.seg button{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--fg)}
 .presets button{font-size:.86rem;padding:5px 12px;border-radius:999px}
 .presets button[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.presets .mine{background:var(--accent-soft);border-color:var(--accent);font-weight:600}
+.presets .mine[aria-pressed="true"]{background:var(--accent);color:var(--bg);border-color:var(--accent)}
 .wrows{display:flex;flex-direction:column;gap:6px}
 .wrow{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .wlab{font-size:.92rem}
@@ -258,11 +260,11 @@ footer.end{font-size:.9rem;color:var(--muted)}
   <div class="sec-head">
     <span class="eyebrow">Classer selon tes priorités</span>
     <h2 id="h-tool">Quelle classe coche le plus de cases</h2>
-    <p>Le score est la moyenne des notes du tableau, pondérée par l'importance que tu donnes à chaque critère (0 = sans importance, 3 = essentiel), ajustée au niveau de maîtrise choisi dans le panneau. Le réglage initial est neutre (« Tout à égalité ») : chacun peut ensuite choisir ses propres priorités et son niveau de maîtrise.</p>
+    <p>Le score est la moyenne des notes du tableau, pondérée par l'importance que tu donnes à chaque critère (0 = sans importance, 3 = essentiel), ajustée au niveau de maîtrise choisi dans le panneau. Le réglage initial est neutre (« Tout à égalité ») : chacun peut ensuite choisir ses propres priorités et son niveau de maîtrise. Dès que tu modifies un critère, ta pondération est gardée sous « Mes critères » : tu peux essayer les profils, puis y revenir en un clic.</p>
   </div>
   <div class="tool">
     <div class="panel">
-      <div class="presets" role="group" aria-label="Préréglages"><button type="button" data-preset="egal" aria-pressed="true" title="Les quatorze critères au même poids.">Tout à égalité</button><button type="button" data-preset="polyvalence" aria-pressed="false" title="Polyvalence ×3 ; Tank, Soin et DPS PvE ×1.">Polyvalence</button><button type="button" data-preset="pve" aria-pressed="false" title="DPS PvE ×3 ; Tank, Soin et Utilité ×2.">PvE d'abord</button><button type="button" data-preset="pvp" aria-pressed="false" title="Champ de bataille et Sauvage ×3 ; Contrôle et Survie ×2 ; Mobilité ×1.">PvP d'abord</button><button type="button" data-preset="tank" aria-pressed="false" title="Tank ×3 ; Survie ×1.">Tank en groupe</button><button type="button" data-preset="soin" aria-pressed="false" title="Soin ×3 ; Utilité ×1.">Soin en groupe</button><button type="button" data-preset="dps" aria-pressed="false" title="DPS PvE ×3.">DPS en raid</button><button type="button" data-preset="zone" aria-pressed="false" title="Dégâts de zone ×3 ; Burst ×1.">Dégâts de zone</button><button type="button" data-preset="soutien" aria-pressed="false" title="Utilité ×3 ; Mobilité ×1.">Soutien et mobilité</button><button type="button" data-preset="bg" aria-pressed="false" title="Champ de bataille ×3 ; Survie ×1.">Champ de bataille</button><button type="button" data-preset="soinbg" aria-pressed="false" title="Soin ×3 ; Champ de bataille ×2.">Soin en champ de bataille</button><button type="button" data-preset="sauvage" aria-pressed="false" title="Sauvage et duel ×3 ; Contrôle et Mobilité ×1.">PvP sauvage</button><button type="button" data-preset="burst" aria-pressed="false" title="Burst ×3 ; Mobilité ×1.">Burst et mobilité</button><button type="button" data-preset="controle" aria-pressed="false" title="Contrôle ×3.">Contrôle</button><button type="button" data-preset="solo" aria-pressed="false" title="Solo et farm ×3 ; Survie ×1.">Solo et leveling</button></div>
+      <div class="presets" role="group" aria-label="Préréglages"><button type="button" class="mine" id="mine" aria-pressed="false" hidden title="Ta dernière pondération personnelle, gardée sur cet appareil pendant que tu essaies les profils.">Mes critères</button><button type="button" data-preset="egal" aria-pressed="true" title="Les quatorze critères au même poids.">Tout à égalité</button><button type="button" data-preset="polyvalence" aria-pressed="false" title="Polyvalence ×3 ; Tank, Soin et DPS PvE ×1.">Polyvalence</button><button type="button" data-preset="pve" aria-pressed="false" title="DPS PvE ×3 ; Tank, Soin et Utilité ×2.">PvE d'abord</button><button type="button" data-preset="pvp" aria-pressed="false" title="Champ de bataille et Sauvage ×3 ; Contrôle et Survie ×2 ; Mobilité ×1.">PvP d'abord</button><button type="button" data-preset="tank" aria-pressed="false" title="Tank ×3 ; Survie ×1.">Tank en groupe</button><button type="button" data-preset="soin" aria-pressed="false" title="Soin ×3 ; Utilité ×1.">Soin en groupe</button><button type="button" data-preset="dps" aria-pressed="false" title="DPS PvE ×3.">DPS en raid</button><button type="button" data-preset="zone" aria-pressed="false" title="Dégâts de zone ×3 ; Burst ×1.">Dégâts de zone</button><button type="button" data-preset="soutien" aria-pressed="false" title="Utilité ×3 ; Mobilité ×1.">Soutien et mobilité</button><button type="button" data-preset="bg" aria-pressed="false" title="Champ de bataille ×3 ; Survie ×1.">Champ de bataille</button><button type="button" data-preset="soinbg" aria-pressed="false" title="Soin ×3 ; Champ de bataille ×2.">Soin en champ de bataille</button><button type="button" data-preset="sauvage" aria-pressed="false" title="Sauvage et duel ×3 ; Contrôle et Mobilité ×1.">PvP sauvage</button><button type="button" data-preset="burst" aria-pressed="false" title="Burst ×3 ; Mobilité ×1.">Burst et mobilité</button><button type="button" data-preset="controle" aria-pressed="false" title="Contrôle ×3.">Contrôle</button><button type="button" data-preset="solo" aria-pressed="false" title="Solo et farm ×3 ; Survie ×1.">Solo et leveling</button></div>
       <div class="wrows">
         <div class="wrow mastery-row">
           <span class="wlab">Niveau de maîtrise</span>
@@ -477,7 +479,11 @@ window.__WF = {"axes":["poly","tank","soin","dps","bg","sauv","burst","zone","ct
   var D = window.__WF;
   var byId = {}; D.classes.forEach(function(c){ byId[c.id] = c; });
   var KEY = 'wf-overview-v3';
-  var S = { w: Object.assign({}, D.presets.egal), m: 2, hl: ['paladin','druide'] };
+  // c : dernière pondération personnelle (« Mes critères »), null tant que les poids suivent un profil.
+  var S = { w: Object.assign({}, D.presets.egal), m: 2, hl: ['paladin','druide'], c: null };
+  function copyW(o){ var w = {}; D.axes.forEach(function(k){ w[k] = o[k]; }); return w; }
+  function validW(o){ return !!o && typeof o === 'object' && !Array.isArray(o) && D.axes.every(function(k){ return Number.isInteger(o[k]) && o[k] >= 0 && o[k] <= 3; }); }
+  function presetOf(w){ var m = null; Object.keys(D.presets).forEach(function(p){ if (!m && D.axes.every(function(k){ return D.presets[p][k] === w[k]; })) m = p; }); return m; }
   // Burst et Dégâts de zone datent du 20 octobre 2026 : une sauvegarde antérieure ne les contient pas.
   // Ils prennent alors 0, ce qui garde le classement et le profil enregistrés, sauf si tous les critères
   // avaient le même poids (« Tout à égalité ») : ils reçoivent ce poids.
@@ -496,6 +502,7 @@ window.__WF = {"axes":["poly","tank","soin","dps","bg","sauv","burst","zone","ct
       if (stored.w && typeof stored.w === 'object') loadWeights(stored.w);
       if (Number.isInteger(stored.m) && stored.m >= 0 && stored.m <= 3) S.m = stored.m;
       if (Array.isArray(stored.hl)) S.hl = Array.from(new Set(stored.hl.filter(function(id){ return Object.prototype.hasOwnProperty.call(byId,id); })));
+      if (validW(stored.c)) S.c = copyW(stored.c);
     } else if (!saved) {
       var legacy = JSON.parse(localStorage.getItem('wf-overview-weights') || 'null');
       if (legacy && typeof legacy === 'object') loadWeights(legacy);
@@ -503,6 +510,8 @@ window.__WF = {"axes":["poly","tank","soin","dps","bg","sauv","burst","zone","ct
       if (legacyLevel >= 0) S.m = legacyLevel;
     }
   } catch (e) {}
+  // Une pondération personnelle enregistrée avant « Mes critères » le devient.
+  if (!S.c && !presetOf(S.w)) S.c = copyW(S.w);
   function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
   function esc(t){ return String(t).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
   function fmt(x, d){ var p = Math.pow(10, d || 0); return (Math.round(x * p) / p).toFixed(d || 0).replace('.', ','); }
@@ -525,14 +534,16 @@ window.__WF = {"axes":["poly","tank","soin","dps","bg","sauv","burst","zone","ct
     mlabel.textContent = D.levels[S.m].label + (S.m === 2 ? ' (référence)' : '');
   }
   // ---- classement
-  var rank = document.getElementById('rank');
+  var rank = document.getElementById('rank'), mine = document.getElementById('mine');
   function renderRank(){
     document.getElementById('rank-status').textContent = tw() ? '' : 'Tous les critères sont à 0 : aucun ne départage les classes.';
     var list = D.classes.map(function(c){ return { c: c, s: Math.round(score(c, S.m)) }; }).sort(function(a, b){ return b.s - a.s; });
     rank.innerHTML = list.map(function(x){ return '<li><span class="bname"><span class="sw" style="--cc:var(--k-' + x.c.id + ')"></span>' + esc(x.c.name) + '</span><span class="btrack"><span class="bfill" style="width:' + x.s + '%"></span></span><span class="bval mono">' + x.s + '</span></li>'; }).join('');
     document.querySelectorAll('.seg button[data-ax]').forEach(function(b){ b.setAttribute('aria-pressed', String(S.w[b.dataset.ax] === Number(b.dataset.v))); });
-    var match = null; Object.keys(D.presets).forEach(function(p){ if (D.axes.every(function(k){ return D.presets[p][k] === S.w[k]; })) match = p; });
-    document.querySelectorAll('.presets button').forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.preset === match)); });
+    var match = presetOf(S.w);
+    document.querySelectorAll('.presets button[data-preset]').forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.preset === match)); });
+    mine.hidden = !S.c;
+    mine.setAttribute('aria-pressed', String(!!S.c && D.axes.every(function(k){ return S.c[k] === S.w[k]; })));
   }
   // ---- courbes de maîtrise (SVG à l'échelle 1:1 du conteneur)
   var curves = document.getElementById('curves');
@@ -582,8 +593,12 @@ window.__WF = {"axes":["poly","tank","soin","dps","bg","sauv","burst","zone","ct
   function renderAll(){ renderMastery(); renderRank(); renderCurves(); save(); }
 
   document.querySelectorAll('.mbtn').forEach(function(b){ b.addEventListener('click', function(){ S.m = Number(b.dataset.m); renderAll(); }); });
-  document.querySelectorAll('.seg button[data-ax]').forEach(function(b){ b.addEventListener('click', function(){ S.w[b.dataset.ax] = Number(b.dataset.v); renderAll(); }); });
-  document.querySelectorAll('.presets button').forEach(function(b){ b.addEventListener('click', function(){ S.w = Object.assign({}, D.presets[b.dataset.preset]); renderAll(); }); });
+  document.querySelectorAll('.seg button[data-ax]').forEach(function(b){ b.addEventListener('click', function(){
+    S.w[b.dataset.ax] = Number(b.dataset.v);
+    if (!presetOf(S.w)) S.c = copyW(S.w);
+    renderAll(); }); });
+  document.querySelectorAll('.presets button[data-preset]').forEach(function(b){ b.addEventListener('click', function(){ S.w = Object.assign({}, D.presets[b.dataset.preset]); renderAll(); }); });
+  mine.addEventListener('click', function(){ if (S.c) { S.w = copyW(S.c); renderAll(); } });
   document.querySelectorAll('.hl-chips button').forEach(function(b){ b.addEventListener('click', function(){
     var id = b.dataset.id, i = S.hl.indexOf(id); if (i >= 0) S.hl.splice(i, 1); else S.hl.push(id); renderCurves(); save(); }); });
   var themeChoice = document.getElementById('theme');
