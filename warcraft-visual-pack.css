@@ -35,7 +35,8 @@
 .reco-modes button:hover:before{opacity:1;transform:translateX(0)}
 .reco-modes button:hover,.reco-modes button:focus-visible{border-color:#e9b555;box-shadow:var(--wow-glow),inset 0 1px rgba(245,211,139,.16)}
 .reco-modes button[aria-selected="true"]{border-color:#e5b15b;box-shadow:var(--wow-glow),inset 0 2px #dfae58}
-.reco-mode-symbol{color:var(--accent);border-color:rgba(221,161,61,.39);
+.reco-mode-symbol img{width:100%;height:100%;object-fit:cover;border-radius:7px;display:block}
+.reco-mode-symbol{padding:0;overflow:hidden;color:var(--accent);border-color:rgba(221,161,61,.39);
  box-shadow:inset 0 0 12px rgba(223,172,77,.1);transition:filter .2s ease,transform .2s ease}
 .reco-modes button:hover .reco-mode-symbol{filter:drop-shadow(0 0 8px rgba(247,187,75,.5));transform:scale(1.065)}
 .reco-workspace,.reco-results{position:relative;border:1px solid var(--wow-edge);box-shadow:var(--wow-panel-shadow);background:var(--surface)}
