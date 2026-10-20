@@ -136,14 +136,24 @@ function renderForm(){
  html+='<div class="reco-form-footer"><button type="button" class="reco-back" data-prev '+(step===0?'disabled':'')+'>← Précédent</button>'+
   '<span class="reco-form-help">Tu peux passer une question.</span>'+
   (step===5?'<button type="button" class="reco-next" data-show-results>Voir mes résultats ↓</button>':'<button type="button" class="reco-next" data-next>Question suivante →</button>')+'</div>';
- var tags=summaryText();
- var form=root.querySelector('#reco-form'),summaryPanel=root.querySelector('#reco-summary-panel');
- var previous=summaryPanel||(form.querySelector&&form.querySelector('.reco-summary'));
- var oldDetails=previous&&previous.querySelector&&previous.querySelector('details');
- var summaryOpen=!!(oldDetails&&oldDetails.open);
- var summaryMarkup='<div class="reco-summary-header"><span class="reco-kicker">Mes choix</span><span class="reco-summary-count">'+tags.length+' sélection'+(tags.length>1?'s':'')+'</span></div>'+
-  '<details class="reco-summary" '+(summaryOpen||!tags.length?'':'open')+'><summary>Voir mes préférences <span aria-hidden="true">⌄</span></summary><div class="reco-summary-tags">'+(tags.length?tags.map(function(t){return '<span>'+esc(t)+'</span>';}).join(''):'<span class="reco-summary-empty">Aucune préférence renseignée pour le moment.</span>')+'</div></details>';
- if(summaryPanel)summaryPanel.innerHTML=summaryMarkup;else html+=summaryMarkup;
+ var tags=summaryText(),form=root.querySelector('#reco-form'),summaryPanel=root.querySelector('#reco-summary-panel');
+ var roleKeys=E.selected(state.roles),activityKeys=E.selected(state.activities),styleKeys=E.selected(state.styles);
+ var summaryRows=[
+  {title:'Rôles',value:roleKeys.map(function(k){return names.roles[k];}).join(' · ')},
+  {title:'Activités',value:activityKeys.map(function(k){return names.activities[k];}).join(' · ')},
+  {title:'Portée',value:state.range.value==='any'?'':names.range[state.range.value]+' · '+state.range.certainty+'/5'},
+  {title:'Gameplay',value:styleKeys.map(function(k){return names.styles[k];}).join(' · ')},
+  {title:'Familiers',value:state.pet.value==='any'?'':names.pet[state.pet.value]},
+  {title:'Maîtrise',value:state.mastery===2?'Référence : confirmé':mastery[state.mastery]+(state.difficulty.value!=='any'?' · '+names.difficulty[state.difficulty.value]:'')}
+ ];
+ var summaryMarkup='<div class="reco-summary-header"><span class="reco-kicker">Mes choix</span><span class="reco-summary-count">'+answered().filter(Boolean).length+' / 6 thèmes</span></div>'+
+  '<div class="reco-summary-rows">'+summaryRows.map(function(item,i){
+   return '<div class="reco-summary-row'+(item.value&&!(i===5&&state.mastery===2)?' is-filled':'')+'"><span class="reco-summary-index">'+(i+1)+'</span>'+
+   '<span class="reco-summary-name">'+item.title+'</span><span class="reco-summary-value">'+esc(item.value||'Non renseigné')+'</span>'+
+   '<button type="button" class="reco-summary-edit" data-summary-step="'+i+'" aria-label="Modifier '+item.title+'">✎</button></div>';
+  }).join('')+'</div>';
+ if(summaryPanel)summaryPanel.innerHTML=summaryMarkup;
+ else html+='<div class="reco-summary" aria-label="Mes choix">'+summaryMarkup+'</div>';
  var canAnimate=!!(form.getBoundingClientRect&&window.matchMedia&&window.requestAnimationFrame&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches);
  var oldHeight=canAnimate?form.getBoundingClientRect().height:0;
  form.style&&(form.style.transition='none');
@@ -233,6 +243,11 @@ function navigate(next){
  if(legend&&typeof legend.focus==='function')legend.focus({preventScroll:true});
 }
 var form=root.querySelector('#reco-form'),resultsArea=root.querySelector('#reco-results');
+var editSummary=root.querySelector('#reco-summary-panel');
+if(editSummary)editSummary.addEventListener('click',function(ev){
+ var b=ev.target.closest('button[data-summary-step]');
+ if(b&&editSummary.contains(b))navigate(Number(b.dataset.summaryStep));
+});
 var stepRail=root.querySelector('#reco-rail');
 if(stepRail)stepRail.addEventListener('click',function(ev){
  var b=ev.target.closest('button[data-step]');
