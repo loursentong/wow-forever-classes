@@ -19,14 +19,14 @@ Lire [CODEX-MOTEUR-LOGIQUE.md](../CODEX-MOTEUR-LOGIQUE.md) avant toute modificat
 - [ ] Un test reproduisant la régression a été ajouté **avant** le correctif, si applicable.
 - [ ] Les 9 classes / 28 configurations, veto, certitudes, maîtrise et sauvegardes ont été vérifiés selon le périmètre.
 - [ ] Les classements et spécialisations affectés ont été comparés avant/après.
-- [ ] Si la photographie \`tests/fixtures/moteur-reference-v1.json\` change, les écarts sont listés et **explicitement approuvés** ; ne jamais la régénérer automatiquement pour faire passer une CI rouge.
+- [ ] Si la photographie `tests/fixtures/moteur-reference-v1.json` change, les écarts sont listés et **explicitement approuvés** ; ne jamais la régénérer automatiquement pour faire passer une CI rouge.
 - [ ] Si le changement est volontaire et incompatible, la version du référentiel et le changelog correspondant sont mis à jour.
 
 ### Validation
 
-- [ ] \`node --test tests/*.test.cjs\` réussi (ou expliquer pourquoi non exécuté).
+- [ ] `node --test tests/*.test.cjs` réussi (ou expliquer pourquoi non exécuté).
 - [ ] Tests Chromium, clavier et responsive exécutés si l'UI change.
-- [ ] \`bash scripts/prepare-pages.sh\` réussi.
+- [ ] `bash scripts/prepare-pages.sh` réussi.
 - [ ] Aucune régression du score « DPS PvE » (plus de 100/100 attribué mécaniquement aux neuf classes).
 - [ ] Les résultats présentés au public restent clairement qualifiés d'**estimations éditoriales**, non de mesures du niveau 60.
 - [ ] Les ressources graphiques utilisées ont une provenance et un statut de droits vérifiés si la DA change.
