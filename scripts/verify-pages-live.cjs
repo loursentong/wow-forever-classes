@@ -7,7 +7,9 @@ const expected={
  'index.html':'data-reco-mode="priorities"',
  'recommendation-engine.js':'priorityRanking',
  'questionnaire.js':'WFGuide',
- 'priorities-ui.js':'priorityRanking'
+ 'priorities-ui.js':'priorityRanking',
+ 'ux-polish.css':'reco-reveal-button',
+ 'assets/hero-landscape.svg':'<svg'
 };
 (async()=>{
  for(let attempt=1;attempt<=18;attempt++){
