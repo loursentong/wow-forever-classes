@@ -52,8 +52,8 @@ function field(n,title,hint,contents){
 }
 function renderForm(){
   var html='<div class="reco-questions">';
-  html+=field(1,'Quels rôles souhaites-tu jouer ?','Choisis-en plusieurs si tu veux alterner. Les spécialisations proposées correspondront aux rôles choisis.',multi('roles')+
-    (E.selected(state.roles).length>1?'<label class="reco-strict"><input type="checkbox" data-roles-strict '+(state.rolesStrict?'checked':'')+'> Je veux pouvoir exercer tous ces rôles sur une même classe</label>':''));
+  html+=field(1,'Quels rôles souhaites-tu jouer ?','Choisis-en plusieurs si tu veux alterner. Seules les exigences cochées éliminent des configurations.',multi('roles')+
+    (E.selected(state.roles).length>0?'<label class="reco-strict"><input type="checkbox" data-roles-strict '+(state.rolesStrict?'checked':'')+'>'+ (E.selected(state.roles).length>1?' Je veux pouvoir exercer tous ces rôles sur une même classe':' Ce rôle est indispensable pour moi')+'</label>':''));
   html+=field(2,'Où souhaites-tu jouer ?','Plusieurs activités possibles ; indique ta certitude pour chacune.',multi('activities'));
   html+=field(3,'Distance ou corps-à-corps ?','Préférence souple ou exigence absolue ; « alterner » signifie plusieurs configurations.',single('range'));
   html+=field(4,'Quel style de combat recherches-tu ?','Choisis jusqu’à trois qualités importantes pour ton plaisir de jeu.',multi('styles',3));
