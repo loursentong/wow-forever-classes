@@ -238,9 +238,8 @@ function priorityRanking(input,mastery){
   ];
   var activityMap={bg:'bg',sauv:'world',solo:'solo'};
   var styleMap={burst:'burst',zone:'zone',ctrl:'ctrl',surv:'surv',mob:'mob',util:'support'};
-  var maxRoles=Math.max(w.tank,w.soin,w.dps);
   function raw(s,k){
-    if(k==='tank'||k==='soin'||k==='dps')return maxRoles?s.role===k?w[k]/maxRoles:0:.5;
+    if(k==='tank'||k==='soin'||k==='dps')return s.role===k?1:0;
     if(activityMap[k])return (adjustedActivity(s,activityMap[k],m)-1)/4;
     if(styleMap[k])return (adjustedStyle(s,styleMap[k],m)-1)/4;
     if(k==='poly')return (rolePool(s.classId).length-1)/2;
