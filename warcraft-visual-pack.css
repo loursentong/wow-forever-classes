@@ -81,6 +81,20 @@
 .card-head{border-bottom-color:var(--wow-edge)}
 .wow-assets-note{display:block;font-size:.74rem;line-height:1.55;margin-top:8px;color:var(--muted)}
 .wow-assets-note a{color:var(--accent)}
+/* Auras propres aux neuf classes, sans changer les couleurs de leur kit. */
+.wow-class-index a[href="#c-guerrier"]{--class-aura:var(--k-guerrier)}
+.wow-class-index a[href="#c-paladin"]{--class-aura:var(--k-paladin)}
+.wow-class-index a[href="#c-chasseur"]{--class-aura:var(--k-chasseur)}
+.wow-class-index a[href="#c-voleur"]{--class-aura:var(--k-voleur)}
+.wow-class-index a[href="#c-pretre"]{--class-aura:var(--k-pretre)}
+.wow-class-index a[href="#c-chaman"]{--class-aura:var(--k-chaman)}
+.wow-class-index a[href="#c-mage"]{--class-aura:var(--k-mage)}
+.wow-class-index a[href="#c-demoniste"]{--class-aura:var(--k-demoniste)}
+.wow-class-index a[href="#c-druide"]{--class-aura:var(--k-druide)}
+.wow-class-index a:hover,.wow-class-index a:focus-visible{border-color:var(--class-aura);box-shadow:0 0 18px color-mix(in srgb,var(--class-aura) 34%,transparent)}
+.wow-class-index a:hover img,.wow-class-index a:focus-visible img{box-shadow:0 0 18px color-mix(in srgb,var(--class-aura) 67%,transparent)}
+.reco-result-card:hover .reco-emblem,.reco-priority-class:hover .reco-priority-class-icon{
+ box-shadow:0 0 16px color-mix(in srgb,var(--reco-class) 43%,transparent)}
 @media(max-width:980px){.wow-class-index{grid-template-columns:repeat(5,minmax(0,1fr))}}
 @media(max-width:690px){.reco-hero{align-items:center;padding:15px;gap:13px;min-height:165px}
  .wow-hero-logo{width:90px;max-height:108px}
