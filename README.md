@@ -1,5 +1,19 @@
 # Les classes de WoW Forever
 
+## Stabilisation du modèle et UX de la vitrine
+
+**Correction majeure des rôles (21 octobre 2026) :** une classe pouvant exercer le rôle DPS, Tank ou Soin n'obtient plus automatiquement 100/100 sur ce critère. Chaque configuration dispose d'un score de rôle éditorial combinant deux valeurs :
+- 55 % : notation du rôle par classe reprise à l'identique du comparatif historique (testée directement contre les données sources de `index.html`).
+- 45 % : adéquation éditoriale à l'activité de groupe / raid de la spécialisation, modulée par la maîtrise actuelle.
+
+Cette métrique **n'est pas** une mesure de DPS, HPS, menace ou performance réelle au niveau 60. Elle permet de hiérarchiser raisonnablement les configurations sans attribuer à une classe les avantages simultanés de plusieurs spécialisations. Les préférences Tank/Soin/DPS restent comptées dans **un seul domaine** afin d'éviter la prime structurelle à la polyvalence. Un poids 1 → 3 d'un critère *seul* ne modifie pas le score normalisé ; il modifie son importance **relative** dès qu'un autre critère est actif.
+
+Dans « Régler mes priorités », seuls **huit profils clairs** sont affichés, les quinze anciens restent présents dans les données historiques. « Enregistrer mes critères » sauvegarde explicitement pondérations et maîtrise dans `wf-priority-custom-v1`, sans remplacer les autres sauvegardes ; « Reprendre mes critères » restaure exactement la sélection après exploration. Migration automatique depuis l'ancien « Mes critères » si disponible.
+
+L'interface guidée a une navigation verticale en six étapes, une zone centrale de réponses, et une synthèse éditable à droite sur grand écran. Les animations sont facultatives et respectent `prefers-reduced-motion`. La couche `wow-ui-rework.css` restitue les grandes lignes du visuel fantasy de référence sans figer les contrôles dans une image.
+
+**Régression :** tests unitaires pour 14 axes × 4 maîtrises × 3 forces, 24 000 pondérations aléatoires, indépendance des classes, intégrité des 126 notes historiques, cas guidés, persistence des favoris et tests de navigateur mobile/ordinateur. Ces épreuves ne remplacent pas la vérification du modèle contre des données réelles de joueurs.
+
 Comparatif interactif des neuf classes de World of Warcraft: Forever, projeté au niveau 60 à partir des sources disponibles le 20 octobre 2026.
 
 ## Pack graphique Warcraft — ressources officielles et crédit

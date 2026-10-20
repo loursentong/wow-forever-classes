@@ -87,15 +87,24 @@ function multi(group,limit){
  return html;
 }
 function single(group){
- var html='<div class="reco-options" role="group" aria-label="'+labels[group]+'">';
- html+='<button type="button" class="reco-option reco-option-neutral" data-single="'+group+'" data-key="any" aria-pressed="'+(state[group].value==='any')+'"><span class="reco-option-mark" aria-hidden="true"></span><span class="reco-option-text"><strong>Je ne sais pas encore</strong><small>Aucune préférence imposée</small></span></button>';
- Object.keys(names[group]||{}).forEach(function(k){html+=choice(group,k,state[group].value===k,'single');});
+ var selected=state[group].value;
+ var html='<div class="reco-options reco-single-options" role="group" aria-label="'+labels[group]+'">';
+ html+='<div class="reco-choice-wrap">'+
+  '<button type="button" class="reco-option reco-option-neutral" data-single="'+group+'" data-key="any" aria-pressed="'+(selected==='any')+'"><span class="reco-option-mark" aria-hidden="true"></span><span class="reco-option-text"><strong>Je ne sais pas encore</strong><small>Aucune préférence imposée</small></span></button></div>';
+ Object.keys(names[group]||{}).forEach(function(k){
+  var on=selected===k;
+  html+='<div class="reco-choice-wrap'+(on?' is-picked':'')+'" data-choice-wrap="'+group+'/'+k+'">'+choice(group,k,on,'single');
+  if(on){
+   html+='<div class="reco-choice-details">'+certaintyControl(group,k,state[group].certainty);
+   if(group==='range')
+    html+='<label class="reco-strict"><input type="checkbox" data-strict="range" '+(state.range.strict?'checked':'')+'><span><strong>C’est une exigence absolue</strong><small>Écarte les configurations incompatibles.</small></span></label>';
+   if(group==='pet'&&state.pet.value==='avoid')
+    html+='<label class="reco-strict"><input type="checkbox" data-strict="pet" '+(state.pet.strict?'checked':'')+'><span><strong>Je ne veux pas de familier obligatoire</strong><small>Les configurations qui l’imposent seront écartées.</small></span></label>';
+   html+='</div>';
+  }
+  html+='</div>';
+ });
  html+='</div>';
- if(state[group].value!=='any')html+='<div class="reco-cert-list">'+certaintyControl(group,state[group].value,state[group].certainty)+'</div>';
- if(group==='range'&&state.range.value!=='any')
-  html+='<label class="reco-strict"><input type="checkbox" data-strict="range" '+(state.range.strict?'checked':'')+'><span><strong>C’est une exigence absolue</strong><small>Les configurations incompatibles seront exclues.</small></span></label>';
- if(group==='pet'&&state.pet.value==='avoid')
-  html+='<label class="reco-strict"><input type="checkbox" data-strict="pet" '+(state.pet.strict?'checked':'')+'><span><strong>Je refuse les configurations nécessitant un familier</strong><small>Une préférence simple ne suffit pas pour exclure.</small></span></label>';
  return html;
 }
 function question(n,title,hint,content){
@@ -118,17 +127,33 @@ function renderForm(){
  var done=answered(),count=done.filter(Boolean).length;
  var html='<div class="reco-progress-top"><div><span class="reco-kicker">Ton parcours</span><strong>Étape '+(step+1)+' sur 6</strong></div><span class="reco-progress-count">'+count+' thème'+(count>1?'s':'')+' renseigné'+(count>1?'s':'')+'</span></div>';
  html+='<div class="reco-progress-track" role="progressbar" aria-label="Étapes parcourues" aria-valuemin="0" aria-valuemax="6" aria-valuenow="'+(step+1)+'"><span style="width:'+((step+1)/6*100).toFixed(2)+'%"></span></div>';
- html+='<nav class="reco-steps" aria-label="Navigation entre les six questions">';
- short.forEach(function(t,i){html+='<button type="button" class="reco-step'+(i===step?' is-current':'')+(done[i]?' is-answered':'')+'" data-step="'+i+'" '+(i===step?'aria-current="step"':'')+' aria-label="Question '+(i+1)+' : '+t+(done[i]?' (renseignée)':'')+'"><span class="reco-step-no">'+(i+1)+'</span><span class="reco-step-label">'+t+'</span></button>';});
- html+='</nav>';
+ var nav='<nav class="reco-steps" aria-label="Navigation entre les six questions">';
+ short.forEach(function(t,i){nav+='<button type="button" class="reco-step'+(i===step?' is-current':'')+(done[i]?' is-answered':'')+'" data-step="'+i+'" '+(i===step?'aria-current="step"':'')+' aria-label="Question '+(i+1)+' : '+t+(done[i]?' (renseignée)':'')+'"><span class="reco-step-no">'+(done[i]&&i!==step?'✓':i+1)+'</span><span class="reco-step-label">'+t+'</span></button>';});
+ nav+='</nav>';
+ var rail=root.querySelector('#reco-rail');
+ if(rail)rail.innerHTML=nav;else html+=nav;
  html+=currentQuestion();
  html+='<div class="reco-form-footer"><button type="button" class="reco-back" data-prev '+(step===0?'disabled':'')+'>← Précédent</button>'+
   '<span class="reco-form-help">Tu peux passer une question.</span>'+
   (step===5?'<button type="button" class="reco-next" data-show-results>Voir mes résultats ↓</button>':'<button type="button" class="reco-next" data-next>Question suivante →</button>')+'</div>';
- var tags=summaryText();
- var form=root.querySelector('#reco-form'),prevSummary=form.querySelector&&form.querySelector('.reco-summary');
- var summaryOpen=!!(prevSummary&&prevSummary.open);
- html+='<details class="reco-summary" '+(summaryOpen?'open':'')+'><summary>Mes choix <span class="reco-summary-count">'+tags.length+' sélection'+(tags.length>1?'s':'')+'</span></summary><div class="reco-summary-tags">'+(tags.length?tags.map(function(t){return '<span>'+esc(t)+'</span>';}).join(''):'<span class="reco-summary-empty">Tu peux commencer par n’importe quelle question.</span>')+'</div></details>';
+ var tags=summaryText(),form=root.querySelector('#reco-form'),summaryPanel=root.querySelector('#reco-summary-panel');
+ var roleKeys=E.selected(state.roles),activityKeys=E.selected(state.activities),styleKeys=E.selected(state.styles);
+ var summaryRows=[
+  {title:'Rôles',value:roleKeys.map(function(k){return names.roles[k];}).join(' · ')},
+  {title:'Activités',value:activityKeys.map(function(k){return names.activities[k];}).join(' · ')},
+  {title:'Portée',value:state.range.value==='any'?'':names.range[state.range.value]+' · '+state.range.certainty+'/5'},
+  {title:'Gameplay',value:styleKeys.map(function(k){return names.styles[k];}).join(' · ')},
+  {title:'Familiers',value:state.pet.value==='any'?'':names.pet[state.pet.value]},
+  {title:'Maîtrise',value:state.mastery===2?'Référence : confirmé':mastery[state.mastery]+(state.difficulty.value!=='any'?' · '+names.difficulty[state.difficulty.value]:'')}
+ ];
+ var summaryMarkup='<div class="reco-summary-header"><span class="reco-kicker">Mes choix</span><span class="reco-summary-count">'+answered().filter(Boolean).length+' / 6 thèmes</span></div>'+
+  '<div class="reco-summary-rows">'+summaryRows.map(function(item,i){
+   return '<div class="reco-summary-row'+(item.value&&!(i===5&&state.mastery===2)?' is-filled':'')+'"><span class="reco-summary-index">'+(i+1)+'</span>'+
+   '<span class="reco-summary-name">'+item.title+'</span><span class="reco-summary-value">'+esc(item.value||'Non renseigné')+'</span>'+
+   '<button type="button" class="reco-summary-edit" data-summary-step="'+i+'" aria-label="Modifier '+item.title+'">✎</button></div>';
+  }).join('')+'</div>';
+ if(summaryPanel)summaryPanel.innerHTML=summaryMarkup;
+ else html+='<div class="reco-summary" aria-label="Mes choix">'+summaryMarkup+'</div>';
  var canAnimate=!!(form.getBoundingClientRect&&window.matchMedia&&window.requestAnimationFrame&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches);
  var oldHeight=canAnimate?form.getBoundingClientRect().height:0;
  form.style&&(form.style.transition='none');
@@ -218,6 +243,16 @@ function navigate(next){
  if(legend&&typeof legend.focus==='function')legend.focus({preventScroll:true});
 }
 var form=root.querySelector('#reco-form'),resultsArea=root.querySelector('#reco-results');
+var editSummary=root.querySelector('#reco-summary-panel');
+if(editSummary)editSummary.addEventListener('click',function(ev){
+ var b=ev.target.closest('button[data-summary-step]');
+ if(b&&editSummary.contains(b))navigate(Number(b.dataset.summaryStep));
+});
+var stepRail=root.querySelector('#reco-rail');
+if(stepRail)stepRail.addEventListener('click',function(ev){
+ var b=ev.target.closest('button[data-step]');
+ if(b&&stepRail.contains(b))navigate(Number(b.dataset.step));
+});
 resultsArea.addEventListener('click',function(ev){var b=ev.target.closest('button');if(!b)return;if(b.hasAttribute('data-reco-reveal'))showResults();else if(b.hasAttribute('data-reco-hide')){revealed=false;renderResults();}});
 form.addEventListener('click',function(ev){
  var b=ev.target.closest('button');if(!b||!form.contains(b))return;

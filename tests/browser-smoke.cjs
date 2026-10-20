@@ -10,7 +10,7 @@ const http=require('node:http');
 const {chromium}=require('playwright');
 
 const base=path.resolve(__dirname,'..');
-const allowed={'/':'index.html','/index.html':'index.html','/questionnaire.js':'questionnaire.js','/recommendation-engine.js':'recommendation-engine.js','/priorities-ui.js':'priorities-ui.js','/ux-polish.css':'ux-polish.css','/warcraft-visual-pack.css':'warcraft-visual-pack.css','/assets/hero-landscape.svg':'assets/hero-landscape.svg'};
+const allowed={'/':'index.html','/index.html':'index.html','/questionnaire.js':'questionnaire.js','/recommendation-engine.js':'recommendation-engine.js','/priorities-ui.js':'priorities-ui.js','/ux-polish.css':'ux-polish.css','/warcraft-visual-pack.css':'warcraft-visual-pack.css','/wow-ui-rework.css':'wow-ui-rework.css','/assets/hero-landscape.svg':'assets/hero-landscape.svg'};
 const server=http.createServer((req,res)=>{
   const pathname=new URL(req.url,'http://localhost').pathname;
   if(!Object.hasOwn(allowed,pathname)){res.writeHead(404);res.end();return;}
@@ -33,6 +33,19 @@ async function check(){
   await page.waitForSelector('#reco-form .reco-question');
   assert.equal(await page.locator('#reco-form .reco-question').count(),1,'Une question seulement à la fois');
   assert.equal(await page.locator('[data-step]').count(),6);
+  assert.equal(await page.locator('.reco-step-rail .reco-step').count(),6);
+  assert.equal(await page.locator('.reco-summary-row').count(),6);
+  const geometry=await page.evaluate(()=>{
+   const rect=x=>{const b=document.querySelector(x).getBoundingClientRect();return {left:b.left,right:b.right,width:b.width};};
+   return {rail:rect('#reco-rail'),form:rect('#reco-guided .reco-workspace'),sidebar:rect('.reco-sidebar')};
+  });
+  assert.ok(geometry.rail.right<=geometry.form.left&&geometry.form.right<=geometry.sidebar.left,
+    'Trois colonnes sans recouvrement : '+JSON.stringify(geometry));
+  assert.ok(geometry.form.width>350&&geometry.sidebar.width>=240);
+
+  await page.locator('[data-summary-step="2"]').click();
+  assert.match(await page.locator('#reco-form').textContent(),/Comment aimes-tu combattre/);
+  await page.locator('[data-summary-step="0"]').click();
   assert.match(await page.locator('#reco-results').textContent(),/Tout commence par tes envies/);
   assert.equal(await page.locator('#reco-hero-facts').count(),0);
   assert.equal(await page.locator('link[href="ux-polish.css"]').count(),1);
@@ -99,7 +112,14 @@ async function check(){
   await page.locator('[data-reco-mode="priorities"]').click();
   assert.equal(await page.locator('#reco-priorities').isVisible(),true);
   assert.equal(await page.locator('#reco-guided').isVisible(),false);
-  assert.equal(await page.locator('[data-prio-preset]').count(),15);
+  assert.equal(await page.locator('[data-prio-preset]').count(),8);
+  assert.equal(await page.locator('.reco-more-presets').count(),0);
+  assert.ok(await page.locator('[data-prio-save]').count()===1);
+  // Régression DPS PvE : les neuf classes ne peuvent PAS recevoir toutes 100.
+  await page.locator('[data-prio-preset="dps"]').click();
+  const dpsScores=await page.locator('#reco-priority-results .reco-priority-score').allTextContents();
+  assert.ok(new Set(dpsScores).size>=3, 'DPS PvE doit différencier les neuf classes');
+  assert.ok(dpsScores.some(x=>!x.trim().startsWith('100')));
   assert.equal(await page.locator('[data-prio-axis]').count(),56);
   assert.equal(await page.locator('#reco-priority-results .reco-priority-class').count(),9);
   await page.locator('[data-prio-preset="pvp"]').click();
@@ -111,6 +131,16 @@ async function check(){
   assert.equal(await page.locator('.seg button[data-ax="poly"][data-v="0"]').getAttribute('aria-pressed'),'true');
   const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('wf-overview-v3')));
   assert.equal(saved.w.bg,3);assert.equal(saved.m,3);
+  // Sauvegarde explicite : modifier, sauvegarder, tester un preset, restaurer.
+  await page.locator('[data-prio-save]').click();
+  const custom=await page.evaluate(()=>JSON.parse(localStorage.getItem('wf-priority-custom-v1')));
+  assert.equal(custom.mastery,3);assert.equal(custom.weights.bg,3);assert.equal(custom.weights.poly,0);
+  await page.locator('[data-prio-preset="solo"]').click();
+  assert.equal(await page.locator('.seg button[data-ax="solo"][data-v="3"]').getAttribute('aria-pressed'),'true');
+  await page.locator('[data-prio-restore]').click();
+  assert.equal(await page.locator('.seg button[data-ax="bg"][data-v="3"]').getAttribute('aria-pressed'),'true');
+  assert.equal(await page.locator('.seg button[data-ax="poly"][data-v="0"]').getAttribute('aria-pressed'),'true');
+  assert.equal(await page.locator('[data-prio-restore]').isDisabled(),true);
   assert.equal(await page.locator('[data-reco-mode="priorities"]').getAttribute('aria-selected'),'true');
   await page.reload({waitUntil:'domcontentloaded'});
   assert.equal(await page.locator('#reco-priorities').isVisible(),true);
@@ -132,6 +162,14 @@ async function check(){
   assert.ok(measurements.document<=measurements.viewport+2,'Débordement horizontal '+JSON.stringify(measurements));
   assert.equal(await page.locator('#reco-priority-results .reco-priority-class').count(),9);
   await page.locator('[data-reco-mode="guided"]').click();
+  const vertical=await page.evaluate(()=>{
+   const a=document.querySelector('#reco-rail').getBoundingClientRect();
+   const b=document.querySelector('#reco-guided .reco-workspace').getBoundingClientRect();
+   const c=document.querySelector('.reco-sidebar').getBoundingClientRect();
+   return {railBottom:a.bottom,formTop:b.top,formBottom:b.bottom,sidebarTop:c.top};
+  });
+  assert.ok(vertical.railBottom<=vertical.formTop+2&&vertical.formBottom<=vertical.sidebarTop+2,
+    'Empilement mobile : '+JSON.stringify(vertical));
   await page.locator('[data-step="2"]').click();
   await page.locator('[data-single="range"][data-key="melee"]').focus();
   assert.equal(await page.evaluate(()=>document.activeElement.dataset.key),'melee');
@@ -154,11 +192,40 @@ async function check(){
   await page.locator('[data-reco-mode="guided"]').click();
   await page.locator('[data-step="0"]').click();
   await page.screenshot({path:path.join(__dirname,'screenshots','questionnaire-desktop.png'),fullPage:false});
+  await page.locator('[data-multi="roles"][data-key="dps"]').click();
+  await page.locator('[data-step="1"]').click();
+  await page.locator('[data-multi="activities"][data-key="raid"]').click();
+  await page.locator('[data-step="2"]').click();
+  await page.locator('[data-single="range"][data-key="distance"]').click();
+  await page.waitForTimeout(300);
+  await page.screenshot({path:path.join(__dirname,'screenshots','guide-immersion-interaction-desktop.png'),fullPage:false});
+
+  // Matrice de tailles, pour éviter une capture réussie à 390 px qui masque
+  // des cassures intermédiaires (320 / 500 / 768 / 1024 / 1440).
+  for(const width of [320,390,500,768,1024,1440]){
+    await page.setViewportSize({width,height:900});
+    const widths=await page.evaluate(()=>({
+      doc:document.documentElement.scrollWidth,
+      inner:document.documentElement.clientWidth
+    }));
+    assert.ok(widths.doc<=widths.inner+2,'Débordement à '+width+'px : '+JSON.stringify(widths));
+  }
+  await page.setViewportSize({width:1440,height:900});
+  await page.locator('[data-step="2"]').click();
+  const choice=page.locator('[data-single="range"][data-key="melee"]');
+  const glowBefore=await choice.evaluate(el=>getComputedStyle(el).boxShadow);
+  await choice.hover();
+  const glowAfter=await choice.evaluate(el=>getComputedStyle(el).boxShadow);
+  await page.waitForTimeout(240);
+  const glowReady=await choice.evaluate(el=>getComputedStyle(el).boxShadow);
+  assert.notEqual(glowBefore,glowReady,'Le survol doit éclairer le composant de manière visible');
+  assert.ok(typeof glowAfter==='string');
   // Contrôles des ressources graphiques et de l’accessibilité des animations.
-  const assets=await page.evaluate(async()=>Promise.all(['ux-polish.css','warcraft-visual-pack.css','assets/hero-landscape.svg'].map(async p=>{
+  const assets=await page.evaluate(async()=>Promise.all(['ux-polish.css','warcraft-visual-pack.css','wow-ui-rework.css','assets/hero-landscape.svg'].map(async p=>{
     const r=await fetch(p);return {url:p,status:r.status,ok:r.ok};
   })));
   assert.ok(assets.every(x=>x.ok),'CSS et illustration manquants : '+JSON.stringify(assets));
+  assert.equal(await page.locator('#reco-summary-panel').count(),1);
   await page.emulateMedia({reducedMotion:'reduce'});
   const motion=await page.locator('.reco-modes button').first().evaluate(el=>getComputedStyle(el).transitionDuration);
   assert.match(motion,/^0s(, 0s)*$/,'Les transitions doivent être désactivées avec reduced-motion');

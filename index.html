@@ -437,6 +437,7 @@ footer.end{font-size:.9rem;color:var(--muted)}
 </style>
 <link rel="stylesheet" href="ux-polish.css">
 <link rel="stylesheet" href="warcraft-visual-pack.css">
+<link rel="stylesheet" href="wow-ui-rework.css">
 </head>
 <body>
 <main class="wrap">
@@ -461,8 +462,13 @@ footer.end{font-size:.9rem;color:var(--muted)}
     <img class="wow-hero-logo" src="https://bnetcmsus-a.akamaihd.net/cms/gallery/j3/J3RLTCKOODJ51789169243964.png" alt="World of Warcraft: Forever — logo officiel" decoding="async" fetchpriority="low">
     <div class="reco-hero-copy">
       <span class="eyebrow">TON PROCHAIN PERSONNAGE · WORLD OF WARCRAFT: FOREVER</span>
-      <h2 id="h-reco">Choisis ton aventure, à ta façon.</h2>
-      <p>Six questions pour découvrir ton style, ou des priorités à régler librement. Pas besoin d’avoir toutes les réponses pour commencer.</p>
+      <h2 id="h-reco">Trouve la classe qui te ressemble.</h2>
+      <p>Chaque joueur a sa façon de jouer. Explore les spécialisations qui correspondent à tes envies, à ton expérience et à ce qui compte vraiment pour toi.</p>
+      <div class="wow-value-strip" aria-label="Atouts de l'outil">
+        <span><img src="https://render.worldofwarcraft.com/us/icons/56/inv_misc_map_01.jpg" alt="" width="20" height="20"> Deux parcours au choix</span>
+        <span><img src="https://render.worldofwarcraft.com/us/icons/56/spell_holy_devotionaura.jpg" alt="" width="20" height="20"> Résultats personnalisés</span>
+        <span><img src="https://render.worldofwarcraft.com/us/icons/56/inv_misc_book_09.jpg" alt="" width="20" height="20"> Sources transparentes</span>
+      </div>
     </div>
     <p class="reco-hero-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m12 2 1.9 7.4L21 12l-7.1 2.6L12 22l-1.9-7.4L3 12l7.1-2.6z"/></svg> Explore, ajuste, change d’avis : c’est ton choix.</p>
   </div>
@@ -476,11 +482,15 @@ footer.end{font-size:.9rem;color:var(--muted)}
     </div>
     <div id="reco-guided" role="tabpanel" aria-labelledby="reco-tab-guided">
       <div class="reco-guided-layout">
+        <div id="reco-rail" class="reco-step-rail"></div>
         <div class="reco-workspace">
-          <div class="reco-topline"><p class="reco-hint">Réponds librement. Aucune question n'est obligatoire.</p><button id="reco-reset" class="reco-reset" type="button">Recommencer ↺</button></div>
+          <div class="reco-topline"><p class="reco-hint">Réponds librement. Chaque étape est facultative.</p><button id="reco-reset" class="reco-reset" type="button">Recommencer ↺</button></div>
           <div id="reco-form"><p class="reco-hint">Préparation du questionnaire…</p></div>
         </div>
-        <aside id="reco-results" class="reco-results" aria-live="polite" aria-label="Résultats du parcours guidé"><p class="reco-hint">Tes premières pistes seront disponibles quand tu le souhaiteras.</p></aside>
+        <aside class="reco-sidebar" aria-label="Synthèse et recommandations">
+          <div id="reco-summary-panel" class="reco-summary-panel"></div>
+          <div id="reco-results" class="reco-results" aria-live="polite" aria-label="Résultats du parcours guidé"><p class="reco-hint">Ton aperçu sera disponible sur demande.</p></div>
+        </aside>
       </div>
     </div>
     <div id="reco-priorities" role="tabpanel" aria-labelledby="reco-tab-priorities" hidden>

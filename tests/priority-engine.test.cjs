@@ -32,11 +32,11 @@ test('Le domaine du rôle est compté une seule fois, quelle que soit sa diversi
  assert.equal(tank.results[0].score,100);
  assert.equal(tank.results[0].spec.role,'tank');
  assert.equal(tank.results.find(x=>x.classId==='mage').score,0);
- assert.equal(tank.results.find(x=>x.classId==='druide').score,100);
- assert.equal(tank.results.find(x=>x.classId==='paladin').score,100);
+ assert.ok(tank.results.find(x=>x.classId==='druide').score<100);
+ assert.ok(tank.results.find(x=>x.classId==='paladin').score<100);
  const equal=E.priorityRanking(withW({tank:1,soin:1,dps:1}),2);
- assert.equal(new Set(equal.results.map(x=>x.score)).size,1,'Tous les rôles égaux ne créent pas un bonus de polyvalence');
- assert.equal(new Set(equal.results.map(x=>x.score))[Symbol.iterator]().next().value,33.33);
+ assert.ok(new Set(equal.results.map(x=>x.score)).size>1,'Les rôles sont distingués par leur adéquation au PvE, sans prime au généraliste');
+ assert.ok(equal.results.every(x=>x.parts.roles.weight>0),'Un seul domaine rôle même avec trois choix');
 });
 test('La polyvalence n’apporte des points que si l’axe est explicitement demandé',()=>{
  const alone=E.priorityRanking(withW({dps:3}),2);
@@ -99,4 +99,74 @@ test('La source de styles ne peut pas attribuer à un tank les qualités optimis
  assert.ok(['druide-farouche-chat','druide-farouche-ours','druide-equilibre','druide-restauration'].includes(d.spec.id));
  assert.equal(d.spec.classId,'druide');
  assert.ok(!r.results.some(x=>x.spec.id==='druide-farouche-chat'&&x.classId==='paladin'));
+});
+
+test('Régression DPS PvE : jamais 100% pour les neuf classes, quel que soit le poids',()=>{
+ for(let level=0;level<4;level++){
+  const results=[1,2,3].map(weight=>E.priorityRanking(withW({dps:weight}),level));
+  for(const r of results){
+   assert.equal(r.results.length,9);
+   assert.ok(r.results.filter(x=>x.score===100).length<9,'DPS au niveau '+level+' ne doit jamais donner 100 aux neuf classes');
+   assert.ok(new Set(r.results.map(x=>x.score)).size>=3,'Le rôle DPS distingue plusieurs degrés d’adéquation');
+   assert.ok(r.results.every(x=>x.spec.role==='dps'),'Meilleure spécialisation DPS pour chaque classe');
+  }
+  // Intensité d’un unique axe n’affecte pas les proportions : c’est l’importance relative.
+  assert.deepEqual(results[0].results.map(x=>x.score),results[1].results.map(x=>x.score));
+  assert.deepEqual(results[1].results.map(x=>x.score),results[2].results.map(x=>x.score));
+ }
+});
+test('Les notes des trois rôles sont ancrées dans les 126 notes historiques et la spé PvE',()=>{
+ const d=JSON.parse(html.match(/window\.__WF = (\{.*?\});\s*\(function\(\)/s)[1]);
+ for(const cls of d.classes)for(const k of ['dps','tank','soin']){
+  assert.equal(E.roleReference[cls.id][k],cls.r[k],cls.id+' '+k);
+ }
+ for(const spec of E.specs){
+  const quality=E.roleSuitability(spec,2);
+  const expected=.55*(E.roleReference[spec.classId][spec.role]-1)/4+
+    .45*(spec.activity.raid-1)/4;
+  assert.ok(Math.abs(quality-expected)<1e-9,spec.id);
+ }
+});
+test('14 axes × 4 niveaux × 3 forces : toujours neuf rangs, jamais tous 100',()=>{
+ for(const k of E.priorityAxes)for(let level=0;level<4;level++)for(let weight=1;weight<=3;weight++){
+  const r=E.priorityRanking(withW({[k]:weight}),level);
+  assert.equal(r.results.length,9,k);
+  assert.equal(r.active.length,1,k);
+  assert.equal(new Set(r.results.map(x=>x.classId)).size,9,k);
+  assert.ok(r.results.some(x=>x.score<100),'Axe non discriminant : '+k+' niveau '+level);
+  assert.ok(r.results.every(x=>x.score>=0&&x.score<=100&&Number.isFinite(x.score)),k);
+ }
+});
+test('Les priorités modulent effectivement le classement dans les profils multifactoriels',()=>{
+ const first=E.priorityRanking(withW({dps:3,solo:1}),2);
+ const second=E.priorityRanking(withW({dps:1,solo:3}),2);
+ assert.notDeepEqual(first.results.map(x=>[x.classId,x.score]),second.results.map(x=>[x.classId,x.score]));
+ const avg=E.priorityRanking(withW({dps:2,solo:2}),2);
+ assert.ok(avg.results.every(x=>x.spec.classId===x.classId));
+});
+test('L’exploration guidée distingue les spécialisations DPS même si aucun autre critère n’a été renseigné',()=>{
+ const r=E.recommend({roles:{dps:5}});
+ assert.equal(r.status,'ok');
+ assert.equal(r.top.length,3);
+ assert.ok(new Set(r.results.map(x=>x.score)).size>=3);
+ assert.ok(r.top.every(x=>x.spec.role==='dps'));
+});
+test('24 000 combinaisons aléatoires déterministes : bornes, classement, unicité, coefficients actifs',()=>{
+ let seed=20261021;
+ function rnd(){seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;}
+ const winners={};
+ for(let i=0;i<24000;i++){
+  const w=withW({});
+  for(const k of E.priorityAxes)w[k]=Math.floor(rnd()*4);
+  if(i%23===0)for(const k of E.priorityAxes)w[k]=0;
+  const lvl=i%4,r=E.priorityRanking(w,lvl);
+  if(!r.active.length){assert.equal(r.status,'unanswered');assert.equal(r.results.length,0);continue;}
+  assert.equal(r.status,'ok');assert.equal(r.results.length,9);
+  assert.equal(new Set(r.results.map(x=>x.classId)).size,9);
+  assert.ok(r.results.every(x=>x.score>=0&&x.score<=100&&Number.isFinite(x.score)));
+  assert.ok(r.results.every((x,j)=>j===0||x.score<=r.results[j-1].score));
+  assert.ok(r.results.every(x=>E.specs.some(sp=>sp===x.spec)));
+  winners[r.results[0].classId]=(winners[r.results[0].classId]||0)+1;
+ }
+ assert.ok(Object.keys(winners).length>=4,'Simulations variées : aucun quota par classe');
 });
