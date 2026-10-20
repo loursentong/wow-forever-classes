@@ -116,9 +116,10 @@ async function check(){
   }));
   assert.ok(sizing.doc<=sizing.viewport+2,'Débordement formulaire mobile '+JSON.stringify(sizing));
   fs.mkdirSync(path.join(__dirname,'screenshots'),{recursive:true});
-  await page.locator('#h-reco').scrollIntoViewIfNeeded();
+  await page.locator('#reco-form').scrollIntoViewIfNeeded();
   await page.screenshot({path:path.join(__dirname,'screenshots','questionnaire-mobile.png'),fullPage:false});
   await page.locator('[data-reco-mode="priorities"]').click();
+  await page.locator('#reco-priority-form').scrollIntoViewIfNeeded();
   await page.screenshot({path:path.join(__dirname,'screenshots','priorites-mobile.png'),fullPage:false});
   await page.setViewportSize({width:1300,height:900});
   await page.locator('#h-reco').scrollIntoViewIfNeeded();
