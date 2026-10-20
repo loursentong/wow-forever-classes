@@ -4,8 +4,8 @@
 var E=window.WFRecommend;
 var root=document.getElementById('reco-app');
 if(!E||!root)return;
-var KEY='wf-recommend-v1', state=E.defaultProfile;
-try{state=E.sanitize(JSON.parse(localStorage.getItem(KEY)||'null'));}catch(e){state=E.defaultProfile;}
+var KEY='wf-recommend-v1', state=E.sanitize(null);
+try{state=E.sanitize(JSON.parse(localStorage.getItem(KEY)||'null'));}catch(e){state=E.sanitize(null);}
 var names={roles:{dps:'DPS',tank:'Tank',soin:'Soin'},
  activities:{raid:'Donjons et raids',bg:'Champs de bataille',world:'PvP sauvage et duel',solo:'Solo et farm'},
  range:{distance:'À distance',melee:'Au corps-à-corps',mixte:'Pouvoir alterner'},
@@ -139,7 +139,7 @@ form.addEventListener('change',function(ev){
   renderResults();
 });
 root.querySelector('#reco-reset').addEventListener('click',function(){
-  state=E.defaultProfile;renderForm();renderResults();
+  state=E.sanitize(null);renderForm();renderResults();
 });
 renderForm();renderResults();
 })();
