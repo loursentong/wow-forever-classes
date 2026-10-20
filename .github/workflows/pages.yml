@@ -25,10 +25,8 @@ jobs:
         uses: actions/checkout@v7
       - name: Configurer Pages
         uses: actions/configure-pages@v6
-      - name: Préparer le site
-        run: |
-          mkdir -p _site
-          cp index.html .nojekyll _site/
+      - name: Préparer et vérifier le site complet
+        run: bash scripts/prepare-pages.sh
       - name: Envoyer le site
         uses: actions/upload-pages-artifact@v5
         with:
