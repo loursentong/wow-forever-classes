@@ -10,7 +10,7 @@ const http=require('node:http');
 const {chromium}=require('playwright');
 
 const base=path.resolve(__dirname,'..');
-const allowed={'/':'index.html','/index.html':'index.html','/questionnaire.js':'questionnaire.js','/recommendation-engine.js':'recommendation-engine.js'};
+const allowed={'/':'index.html','/index.html':'index.html','/questionnaire.js':'questionnaire.js','/recommendation-engine.js':'recommendation-engine.js','/priorities-ui.js':'priorities-ui.js'};
 const server=http.createServer((req,res)=>{
   const pathname=new URL(req.url,'http://localhost').pathname;
   if(!Object.hasOwn(allowed,pathname)){res.writeHead(404);res.end();return;}
@@ -31,10 +31,11 @@ async function check(){
   page.on('pageerror',err=>errors.push(String(err)));
   await page.goto('http://127.0.0.1:'+server.address().port+'/',{waitUntil:'domcontentloaded'});
   await page.waitForSelector('#reco-form .reco-question');
-  assert.equal(await page.locator('#reco-form .reco-question').count(),6);
-  assert.match(await page.locator('#reco-results').textContent(),/Aucune classe n’est favorisée/);
+  assert.equal(await page.locator('#reco-form .reco-question').count(),1,'Une question seulement à la fois');
+  assert.equal(await page.locator('[data-step]').count(),6);
+  assert.match(await page.locator('#reco-results').textContent(),/Aucune classe ne part gagnante/);
 
-  // Aucun classement par défaut et aucun conflit avec les 14 critères historiques.
+  // Le comparatif historique reste intact sous ses réglages avancés.
   assert.equal(await page.locator('#rank').count(),1);
   assert.equal(await page.locator('td.cell[data-k]').count(),126);
   assert.equal(await page.locator('#legacy-advanced').evaluate(el=>el.open),false);
@@ -42,49 +43,92 @@ async function check(){
   assert.equal(await page.locator('#legacy-advanced').evaluate(el=>el.open),true);
   await page.locator('#legacy-advanced > summary').click();
 
-  // Choix + certitude 0/5 : ce n'est pas une exclusion automatique.
-  await page.locator('[data-multi="roles"][data-key="dps"]').click();
-  await page.locator('#rc-roles-dps').evaluate(el=>{el.value='0';el.dispatchEvent(new Event('input',{bubbles:true}));});
-  assert.match(await page.locator('#reco-results').textContent(),/Les classes qui correspondent/);
-  assert.equal(await page.locator('#rc-roles-dps').inputValue(),'0');
-  assert.ok(await page.locator('#reco-results .reco-result-card').count()>=1);
+  // Étapes accessibles sans répondre à toutes les questions.
+  await page.locator('[data-step="3"]').click();
+  assert.match(await page.locator('#reco-form').textContent(),/Quel style te ressemble/);
+  for(const k of ['ctrl','zone','burst','surv']){
+    await page.locator('[data-multi="styles"][data-key="'+k+'"]').click();
+  }
+  assert.equal(await page.locator('#reco-form .reco-cert').count(),3);
+  const slider=page.locator('#rc-styles-ctrl');
+  await slider.evaluate(el=>{el.value='0';el.dispatchEvent(new Event('input',{bubbles:true}));});
+  assert.equal(await slider.inputValue(),'0');
+  assert.match(await page.locator('#reco-results').textContent(),/Les meilleures pistes pour toi/);
+  await page.locator('[data-step="4"]').click();
+  assert.match(await page.locator('#reco-form').textContent(),/Quelle place pour les familiers/);
+  await page.locator('[data-prev]').click();
+  assert.match(await page.locator('#reco-form').textContent(),/Quel style te ressemble/);
+  await page.reload({waitUntil:'domcontentloaded'});
+  await page.locator('[data-step="3"]').click();
+  assert.equal(await page.locator('[data-multi="styles"][data-key="ctrl"]').getAttribute('aria-pressed'),'true');
 
-  // Contrainte explicite incompatible : tank strict + DPS à distance strict.
+  // Veto sur rôle et portée explicites, état impossible honnêtement signalé.
   await page.locator('#reco-reset').click();
   await page.locator('[data-multi="roles"][data-key="tank"]').click();
   await page.locator('[data-roles-strict]').check();
+  await page.locator('[data-step="2"]').click();
   await page.locator('[data-single="range"][data-key="distance"]').click();
   await page.locator('[data-strict="range"]').check();
-  assert.match(await page.locator('#reco-results').textContent(),/Aucune spécialisation ne respecte/);
+  assert.match(await page.locator('#reco-results').textContent(),/Aucune spécialisation ne remplit/);
 
-  // Réinitialisation puis au plus trois styles.
-  await page.locator('#reco-reset').click();
-  for(const k of ['ctrl','zone','burst','surv'])await page.locator('[data-multi="styles"][data-key="'+k+'"]').click();
-  assert.equal(await page.locator('.reco-cert').count(),3);
-  assert.match(await page.locator('#reco-results').textContent(),/Les classes qui correspondent/);
-
-  // Sauvegarde des réponses après rechargement.
+  // Second parcours : poids classiques réutilisés, mêmes 15 profils, top neuf classes.
+  await page.locator('[data-reco-mode="priorities"]').click();
+  assert.equal(await page.locator('#reco-priorities').isVisible(),true);
+  assert.equal(await page.locator('#reco-guided').isVisible(),false);
+  assert.equal(await page.locator('[data-prio-preset]').count(),15);
+  assert.equal(await page.locator('[data-prio-axis]').count(),56);
+  assert.equal(await page.locator('#reco-priority-results .reco-priority-class').count(),9);
+  await page.locator('[data-prio-preset="pvp"]').click();
+  assert.equal(await page.locator('.seg button[data-ax="bg"][data-v="3"]').getAttribute('aria-pressed'),'true');
+  await page.locator('[data-prio-mastery="3"]').click();
+  assert.equal(await page.locator('.mbtn[data-m="3"]').getAttribute('aria-pressed'),'true');
+  assert.equal(await page.locator('#reco-priority-results .reco-priority-class').count(),9);
+  await page.locator('[data-prio-axis="poly"][data-prio-weight="0"]').click();
+  assert.equal(await page.locator('.seg button[data-ax="poly"][data-v="0"]').getAttribute('aria-pressed'),'true');
+  const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('wf-overview-v3')));
+  assert.equal(saved.w.bg,3);assert.equal(saved.m,3);
+  assert.equal(await page.locator('[data-reco-mode="priorities"]').getAttribute('aria-selected'),'true');
   await page.reload({waitUntil:'domcontentloaded'});
-  await page.waitForSelector('[data-multi="styles"][data-key="ctrl"]');
-  assert.equal(await page.locator('[data-multi="styles"][data-key="ctrl"]').getAttribute('aria-pressed'),'true');
-  assert.equal(await page.locator('.reco-cert').count(),3);
+  assert.equal(await page.locator('#reco-priorities').isVisible(),true);
+  assert.equal(await page.locator('[data-prio-mastery="3"]').getAttribute('aria-pressed'),'true');
 
-  // Mise en page mobile et champ clavier focusable.
+  // Maîtrise commune aux deux modes.
+  await page.locator('[data-reco-mode="guided"]').click();
+  await page.locator('[data-step="5"]').click();
+  assert.equal(await page.locator('[data-mastery="3"]').getAttribute('aria-pressed'),'true');
+  await page.locator('[data-mastery="0"]').click();
+  await page.locator('[data-reco-mode="priorities"]').click();
+  assert.equal(await page.locator('[data-prio-mastery="0"]').getAttribute('aria-pressed'),'true');
+
+  // Taille mobile, visibilité des navigations et accès clavier.
   await page.setViewportSize({width:390,height:844});
-  await page.locator('#h-reco').scrollIntoViewIfNeeded();
-  const dimensions=await page.evaluate(()=>({document:document.documentElement.scrollWidth,viewport:document.documentElement.clientWidth}));
-  assert.ok(dimensions.document<=dimensions.viewport+2,'Débordement horizontal : '+JSON.stringify(dimensions));
-  assert.equal(await page.locator('.reco-question').count(),6);
-  await page.locator('[data-multi="styles"][data-key="ctrl"]').focus();
-  assert.equal(await page.evaluate(()=>document.activeElement.dataset.key),'ctrl');
-
+  const measurements=await page.evaluate(()=>({
+    document:document.documentElement.scrollWidth,viewport:document.documentElement.clientWidth
+  }));
+  assert.ok(measurements.document<=measurements.viewport+2,'Débordement horizontal '+JSON.stringify(measurements));
+  assert.equal(await page.locator('#reco-priority-results .reco-priority-class').count(),9);
+  await page.locator('[data-reco-mode="guided"]').click();
+  await page.locator('[data-step="2"]').click();
+  await page.locator('[data-single="range"][data-key="melee"]').focus();
+  assert.equal(await page.evaluate(()=>document.activeElement.dataset.key),'melee');
+  const sizing=await page.evaluate(()=>({
+    doc:document.documentElement.scrollWidth,viewport:document.documentElement.clientWidth
+  }));
+  assert.ok(sizing.doc<=sizing.viewport+2,'Débordement formulaire mobile '+JSON.stringify(sizing));
   fs.mkdirSync(path.join(__dirname,'screenshots'),{recursive:true});
+  await page.locator('#reco-form').scrollIntoViewIfNeeded();
   await page.screenshot({path:path.join(__dirname,'screenshots','questionnaire-mobile.png'),fullPage:false});
+  await page.locator('[data-reco-mode="priorities"]').click();
+  await page.locator('#reco-priority-form').scrollIntoViewIfNeeded();
+  await page.screenshot({path:path.join(__dirname,'screenshots','priorites-mobile.png'),fullPage:false});
   await page.setViewportSize({width:1300,height:900});
   await page.locator('#h-reco').scrollIntoViewIfNeeded();
+  await page.screenshot({path:path.join(__dirname,'screenshots','priorites-desktop.png'),fullPage:false});
+  await page.locator('[data-reco-mode="guided"]').click();
+  await page.locator('[data-step="0"]').click();
   await page.screenshot({path:path.join(__dirname,'screenshots','questionnaire-desktop.png'),fullPage:false});
   assert.deepEqual(errors,[],'Erreurs JavaScript navigateur');
-  process.stdout.write('Chromium : questionnaire, certitude, veto, persistance, 14 axes, mobile et clavier — OK\n');
+  process.stdout.write('Chromium : deux parcours, 14 poids, 15 presets, neuf rangs, maîtrise partagée, mobile et clavier — OK\n');
  }finally{
   if(browser)await browser.close();
   await new Promise(resolve=>server.close(resolve));

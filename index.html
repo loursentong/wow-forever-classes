@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Ce que chaque classe de WoW Forever peut faire, où elle excelle et où elle est faible au niveau 60 : tableau sur quatorze critères, niveau de maîtrise, classement pondérable, courbes de maîtrise et fiches détaillées.">
+<meta name="description" content="Quel personnage choisir dans WoW Forever ? Parcours guidé ou 14 priorités personnalisables, maîtrise, classement de neuf classes par spécialisation, sources et comparatif.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Les classes de WoW Forever">
-<meta property="og:description" content="Ce que chaque classe de WoW Forever peut faire, où elle excelle et où elle est faible au niveau 60 : tableau sur quatorze critères, niveau de maîtrise, classement pondérable, courbes de maîtrise et fiches détaillées.">
+<meta property="og:description" content="Quel personnage choisir dans WoW Forever ? Parcours guidé ou 14 priorités personnalisables, maîtrise, classement de neuf classes par spécialisation, sources et comparatif.">
 <meta name="theme-color" content="#10141B">
 <script data-theme-init>
 try {
@@ -273,6 +273,167 @@ footer.end{font-size:.9rem;color:var(--muted)}
 .legacy-chevron{color:var(--accent)}
 .legacy-advanced[open]>summary{border-bottom:1px solid var(--line)}
 .legacy-advanced .sec{margin-top:20px}
+
+/* Vitrine de l'assistant, réutilisant strictement la palette du thème Claude. */
+.reco-section{gap:15px}
+.reco-hero{position:relative;isolation:isolate;overflow:hidden;display:flex;flex-wrap:wrap;align-items:flex-end;gap:24px;justify-content:space-between;padding:clamp(22px,4vw,43px);border:1px solid var(--line);border-radius:10px;background:radial-gradient(ellipse at 96% 6%,var(--accent-soft),transparent 48%),linear-gradient(135deg,var(--surface),var(--surface-2))}
+.reco-hero:after{content:"";position:absolute;z-index:-1;right:-85px;top:-110px;width:360px;height:360px;border:1px solid var(--line);border-radius:50%;box-shadow:0 0 0 48px rgba(128,128,128,.025),0 0 0 95px rgba(128,128,128,.015);pointer-events:none}
+.reco-hero-copy{max-width:680px;display:flex;flex-direction:column;gap:12px}
+.reco-hero-copy .eyebrow{font-size:.78rem;color:var(--accent);letter-spacing:.1em}
+.reco-hero h2{font-size:clamp(1.65rem,3.2vw,2.4rem);line-height:1.2}
+.reco-hero p{font-size:1.02rem;line-height:1.56;color:var(--muted);max-width:61ch}
+.reco-hero-facts{display:flex;gap:19px 23px;flex-wrap:wrap}
+.reco-hero-facts span{display:flex;align-items:baseline;gap:7px;color:var(--muted);font-size:.76rem;letter-spacing:.025em}
+.reco-hero-facts b{font-family:var(--font-mono);font-size:1.25rem;color:var(--fg)}
+.reco-panel{display:flex;flex-direction:column;gap:16px;background:transparent;border:0;border-radius:0;padding:0}
+.reco-mode-intro{display:flex;flex-direction:column;gap:13px}
+.reco-mode-intro>div:first-child{display:flex;gap:6px 18px;align-items:baseline;flex-wrap:wrap}
+.reco-mode-intro p{color:var(--muted);font-size:.85rem}
+.reco-kicker{color:var(--accent);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.reco-modes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.reco-modes button{display:flex;flex-direction:column;gap:4px;text-align:left;padding:15px 20px;cursor:pointer;border:1px solid var(--line);border-radius:7px;background:var(--surface);font:inherit;color:var(--fg)}
+.reco-modes button strong{font-size:1.03rem;font-weight:700}
+.reco-modes button small{font-size:.81rem;color:var(--muted)}
+.reco-modes button[aria-selected="true"]{border-color:var(--accent);background:linear-gradient(135deg,var(--accent-soft),var(--surface));box-shadow:inset 0 3px 0 var(--accent)}
+.reco-modes button[aria-selected="true"] strong{color:var(--accent)}
+.reco-guided-layout{display:grid;grid-template-columns:minmax(0,1.16fr) minmax(0,.84fr);gap:16px;align-items:start}
+.reco-workspace{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:clamp(14px,2.5vw,23px);min-width:0}
+.reco-results{margin:0;position:sticky;top:14px;min-width:0;max-height:calc(100vh - 28px);overflow-y:auto;scrollbar-width:thin;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:clamp(14px,2vw,20px)}
+.reco-results-head{display:flex;flex-direction:column;align-items:flex-start;gap:5px;margin-bottom:15px}
+.reco-results-head h3{font-size:1.07rem}
+.reco-topline{margin-bottom:17px}
+.reco-reset{white-space:nowrap;font-weight:600}
+.reco-questions{display:block}
+.reco-question{border:0;padding:0;margin:0;display:block;min-width:0}
+.reco-question legend{width:100%;font-family:var(--font-display);font-size:1.26rem;font-weight:700;line-height:1.25;letter-spacing:0;display:flex;flex-direction:column;gap:8px;margin:0 0 12px;padding:0}
+.reco-question-index{font-family:var(--font-body);color:var(--accent);font-size:.76rem;letter-spacing:.1em;font-weight:700}
+.reco-question-title{display:block}
+.reco-question .reco-hint{margin-bottom:18px;min-height:0;line-height:1.55;font-size:.88rem}
+.reco-progress-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:11px}
+.reco-progress-top>div{display:flex;gap:11px;align-items:baseline}
+.reco-progress-top strong{font-size:.88rem}
+.reco-progress-count{color:var(--muted);font-size:.75rem}
+.reco-progress-track{height:5px;border-radius:6px;background:var(--surface-2);margin-bottom:15px;overflow:hidden}
+.reco-progress-track span{height:100%;display:block;background:var(--accent);border-radius:6px;transition:width .25s}
+.reco-steps{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px;margin-bottom:25px}
+.reco-step{min-width:0;cursor:pointer;display:flex;flex-direction:column;gap:4px;align-items:center;padding:6px 1px 8px;border:0;border-bottom:2px solid var(--line);background:transparent;color:var(--muted);font:inherit}
+.reco-step-no{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;border:1px solid var(--line);font-family:var(--font-mono);font-size:.73rem;font-weight:600;background:var(--surface-2)}
+.reco-step-label{font-size:.68rem;white-space:nowrap}
+.reco-step.is-current{border-bottom-color:var(--accent);color:var(--fg)}
+.reco-step.is-current .reco-step-no{border-color:var(--accent);color:var(--bg);background:var(--accent)}
+.reco-step.is-answered:not(.is-current) .reco-step-no{color:var(--accent);border-color:var(--accent)}
+.reco-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.reco-option{display:flex;gap:10px;align-items:center;text-align:left;min-width:0;padding:12px 13px;min-height:60px;border:1px solid var(--line);border-radius:6px;background:var(--surface-2);font:inherit;color:var(--fg);cursor:pointer}
+.reco-option:focus-visible,.reco-step:focus-visible,.reco-modes button:focus-visible,.reco-next:focus-visible,.reco-back:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.reco-option-mark{display:block;flex:none;height:18px;width:18px;border:1.5px solid var(--muted);border-radius:5px;background:var(--surface);position:relative}
+.reco-option[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent)}
+.reco-option[aria-pressed="true"] .reco-option-mark{background:var(--accent);border-color:var(--accent)}
+.reco-option[aria-pressed="true"] .reco-option-mark:after{content:"";position:absolute;left:5px;top:2px;width:4px;height:8px;border-right:2px solid var(--bg);border-bottom:2px solid var(--bg);transform:rotate(45deg)}
+.reco-option-text{display:flex;flex-direction:column;gap:3px;min-width:0}
+.reco-option-text strong{font-size:.88rem;line-height:1.25}
+.reco-option-text small{font-size:.74rem;color:var(--muted);line-height:1.35}
+.reco-cert-list{margin-top:15px;display:flex;flex-direction:column;gap:9px}
+.reco-cert-title{color:var(--muted);font-size:.81rem;font-weight:600}
+.reco-cert{margin:0;border:1px solid var(--line);border-radius:6px;padding:11px 13px;background:var(--surface)}
+.reco-cert-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.reco-cert label{font-size:.78rem;color:var(--muted)}
+.reco-cert output{font-size:.75rem;color:var(--accent)}
+.reco-cert-scale{display:flex;justify-content:space-between;color:var(--muted);font-size:.72rem}
+.reco-cert input:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.reco-selection-count{font-size:.78rem;color:var(--muted);margin-top:8px}
+.reco-strict{margin-top:16px;border:1px dashed var(--line);border-radius:5px;background:var(--surface-2);padding:11px}
+.reco-strict span{display:flex;flex-direction:column;gap:3px}
+.reco-strict strong{font-size:.8rem}
+.reco-strict small{color:var(--muted);font-size:.75rem}
+.reco-mastery{display:flex;flex-direction:column;gap:9px;margin-bottom:18px}
+.reco-mastery-choices{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.reco-mastery-choices button{font:inherit;color:var(--fg);background:var(--surface-2);border:1px solid var(--line);border-radius:5px;padding:10px 4px;min-width:0;cursor:pointer;font-size:.8rem}
+.reco-mastery-choices button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--accent);font-weight:700}
+.reco-form-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:9px;margin:22px 0 14px}
+.reco-back,.reco-next{border:1px solid var(--line);background:var(--surface-2);color:var(--fg);font:inherit;font-size:.88rem;font-weight:700;border-radius:5px;padding:11px 15px;cursor:pointer}
+.reco-back:disabled{opacity:.42;cursor:default}
+.reco-next{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+.reco-form-help{font-size:.77rem;color:var(--muted)}
+.reco-summary{border-top:1px solid var(--line);padding-top:12px;display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.reco-summary>strong{font-size:.8rem;color:var(--muted)}
+.reco-summary-tags{display:flex;flex-wrap:wrap;gap:5px}
+.reco-summary-tags span{display:inline-flex;padding:3px 7px;border:1px solid var(--line);border-radius:999px;font-size:.72rem}
+.reco-summary-tags .reco-summary-empty{border:0;color:var(--muted)}
+.reco-cards{display:flex;flex-direction:column;gap:11px}
+.reco-result-card{position:relative;padding:14px;gap:10px;border-radius:7px}
+.reco-featured{border-color:var(--accent);background:linear-gradient(150deg,var(--accent-soft),var(--surface) 50%)}
+.reco-result-top{align-items:center;gap:10px}
+.reco-emblem{height:34px;width:34px;flex:none;border-radius:6px;background:var(--reco-class);color:var(--bg);display:grid;place-items:center;font-family:var(--font-display);font-size:1.05rem;font-weight:700}
+.reco-result-main{min-width:0;flex:1}
+.reco-result-label{color:var(--accent);font-size:.66rem;letter-spacing:.08em;font-weight:700}
+.reco-result-main h4{font-family:var(--font-display);font-size:1rem;line-height:1.25;text-transform:none;letter-spacing:0;margin:3px 0 0}
+.reco-result-main p{color:var(--muted);font-size:.74rem}
+.reco-score{text-align:right;display:flex;align-items:baseline;gap:2px}
+.reco-score strong{font-family:var(--font-mono);font-size:1.18rem}
+.reco-score small{font-size:.72rem;color:var(--muted)}
+.reco-fit{display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap;font-size:.77rem}
+.reco-fit span{font-weight:700}
+.reco-fit small{color:var(--muted);font-size:.7rem}
+.reco-reasons{display:grid;grid-template-columns:1fr 1fr;gap:9px;border-top:1px solid var(--line);padding-top:9px}
+.reco-reasons p{display:flex;flex-direction:column;gap:5px;min-width:0}
+.reco-reasons b{font-size:.73rem;color:var(--fg)}
+.reco-reasons span{font-size:.77rem;color:var(--muted)}
+.reco-evidence{border-top:1px solid var(--line);padding-top:7px;font-size:.76rem;color:var(--muted)}
+.reco-evidence summary{cursor:pointer}
+.reco-evidence p{margin:6px 0}
+.reco-evidence a{color:var(--accent)}
+.reco-empty{border:0;display:flex;flex-direction:column;gap:11px;align-items:flex-start;padding:15px 9px}
+.reco-empty-art{height:100px;width:100%;position:relative;display:flex;justify-content:center;align-items:center;gap:10px;color:var(--accent);font-family:var(--font-display)}
+.reco-empty-art span:first-child{font-size:3.2rem;color:var(--muted);opacity:.6}
+.reco-empty-art span:nth-child(2){font-size:2rem;position:relative;top:-22px}
+.reco-empty-art span:last-child{font-size:1.4rem;position:relative;top:12px}
+.reco-empty h3{font-size:1.14rem;line-height:1.3}
+.reco-empty-benefits{display:flex;gap:9px;flex-wrap:wrap}
+.reco-empty-benefits span{padding:5px 8px;background:var(--surface-2);border-radius:4px;font-size:.7rem;color:var(--muted)}
+.reco-disclaimer{border-top:1px solid var(--line);padding-top:12px;margin-top:0}
+.reco-label{font-size:.86rem}
+.reco-priority-presets{display:flex;flex-direction:column;gap:10px}
+.reco-priority-presets p{color:var(--muted);font-size:.8rem;margin-top:4px}
+.reco-template-list{display:flex;flex-wrap:wrap;gap:6px}
+.reco-template{border:1px solid var(--line);border-radius:999px;padding:7px 11px;color:var(--fg);background:var(--surface-2);font:inherit;font-size:.79rem;cursor:pointer}
+.reco-template[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:700}
+.reco-more-presets{font-size:.83rem}
+.reco-more-presets summary{cursor:pointer;color:var(--accent);margin-bottom:9px}
+.reco-priority-mastery{margin:18px 0;display:flex;flex-direction:column;gap:9px;padding:14px;background:var(--surface-2);border-radius:6px}
+.reco-priority-mastery>div:first-child{display:flex;flex-direction:column;gap:3px}
+.reco-priority-mastery small{color:var(--muted);font-size:.76rem}
+.reco-priority-groups{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.reco-priority-group{min-width:0;padding:12px;border:1px solid var(--line);border-radius:6px}
+.reco-priority-group-head{margin-bottom:10px}
+.reco-priority-group h4{font-family:var(--font-body);font-size:.82rem;margin:0;text-transform:none;letter-spacing:0}
+.reco-priority-group p{font-size:.73rem;color:var(--muted);margin-top:4px;line-height:1.35}
+.reco-priority-row{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:8px}
+.reco-priority-label{font-size:.76rem}
+.reco-weights{display:flex;flex:none}
+.reco-weights button{font:inherit;font-family:var(--font-mono);cursor:pointer;background:var(--surface-2);color:var(--fg);border:1px solid var(--line);height:28px;width:27px;font-size:.73rem;margin-left:-1px}
+.reco-weights button:first-child{border-radius:4px 0 0 4px;margin-left:0}
+.reco-weights button:last-child{border-radius:0 4px 4px 0}
+.reco-weights button[aria-pressed="true"]{color:var(--bg);background:var(--accent);border-color:var(--accent);position:relative;z-index:1}
+.reco-priority-footer{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:15px}
+.reco-priority-footer p{font-size:.73rem;color:var(--muted);flex:1}
+.reco-priority-footer button{font:inherit;font-size:.78rem;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:5px;padding:7px 10px;cursor:pointer}
+.reco-priority-ranking{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px}
+.reco-priority-class{border:1px solid var(--line);border-radius:5px;display:grid;grid-template-columns:17px 29px minmax(0,1fr) auto;grid-template-rows:auto 4px;gap:6px 8px;padding:9px 10px;align-items:center}
+.reco-priority-class:first-child{border-color:var(--accent);background:var(--accent-soft)}
+.reco-priority-place{font-family:var(--font-mono);font-size:.75rem;color:var(--muted)}
+.reco-priority-class-icon{display:grid;place-items:center;background:var(--reco-class);height:26px;width:26px;border-radius:5px;font-size:.82rem;font-family:var(--font-display);color:var(--bg)}
+.reco-priority-class-info{min-width:0;display:flex;flex-direction:column}
+.reco-priority-class-info b{font-size:.85rem}
+.reco-priority-class-info small{color:var(--muted);font-size:.69rem;overflow-wrap:anywhere}
+.reco-priority-score{font-family:var(--font-mono);font-size:.83rem;font-weight:700}
+.reco-priority-score small{color:var(--muted);font-weight:400}
+.reco-priority-line{grid-column:3/5;display:block;height:4px;border-radius:3px;overflow:hidden;background:var(--surface-2)}
+.reco-priority-line i{display:block;height:100%;background:var(--reco-class);border-radius:3px}
+@media(max-width:1000px){.reco-guided-layout{grid-template-columns:minmax(0,1fr)}.reco-results{position:static;max-height:none;overflow:visible}.reco-priority-groups{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:690px){.reco-hero{padding:20px}.reco-modes button{padding:12px}.reco-steps{gap:2px}.reco-step-label{font-size:.63rem}.reco-option-text small{font-size:.71rem}.reco-priority-groups{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:430px){.reco-options{grid-template-columns:minmax(0,1fr)}.reco-form-help{display:none}.reco-steps{grid-template-columns:repeat(6,minmax(0,1fr))}.reco-step-label{font-size:.58rem}.reco-step-no{height:23px;width:23px}.reco-modes button strong{font-size:.88rem}.reco-modes button small{font-size:.72rem}.reco-workspace,.reco-results{padding:13px}.reco-reasons{grid-template-columns:1fr}.reco-mastery-choices{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:430px){.reco-progress-top{gap:5px}.reco-progress-top>div{flex-shrink:0;gap:6px}.reco-progress-top strong{white-space:nowrap;font-size:.79rem}.reco-progress-count{font-size:.69rem;white-space:nowrap}}
+@media(prefers-reduced-motion:reduce){.reco-progress-track span{transition:none}}
 </style>
 </head>
 <body>
@@ -294,19 +455,40 @@ footer.end{font-size:.9rem;color:var(--muted)}
 
 
 <section class="sec reco-section" aria-labelledby="h-reco">
-  <div class="sec-head">
-    <span class="eyebrow">Aide au choix · version exploratoire</span>
-    <h2 id="h-reco">Trouve une classe qui correspond à ta façon de jouer</h2>
-    <p class="reco-intro">Six questions facultatives pour décrire tes envies. Pour chaque réponse, indique <strong>à quel point tu en es sûr</strong> de 0 (intuition) à 5 (certain). La certitude n'est ni un pourcentage ni un degré d'importance ; les exigences absolues se définissent séparément.</p>
+  <div class="reco-hero">
+    <div class="reco-hero-copy">
+      <span class="eyebrow">TON PROCHAIN PERSONNAGE · WORLD OF WARCRAFT: FOREVER</span>
+      <h2 id="h-reco">Une classe qui te ressemble, pas un classement imposé.</h2>
+      <p>Explore les spécialisations selon ton style. Tu peux être guidé pas à pas ou définir toi-même l'importance de chaque critère.</p>
+    </div>
+    <div class="reco-hero-facts" aria-label="Contenu de l'assistant">
+      <span><b>09</b> classes</span><span><b>28</b> configurations</span><span><b>02</b> façons de choisir</span>
+    </div>
   </div>
   <div id="reco-app" class="reco-panel">
-    <div class="reco-topline">
-      <p class="note">Aucune classe recommandée par défaut. Les attentes non renseignées ne favorisent personne.</p>
-      <button id="reco-reset" class="reco-reset" type="button">Effacer mes réponses</button>
+    <div class="reco-mode-intro">
+      <div><span class="reco-kicker">Choisis ton approche</span><p>Deux façons de trouver ta classe. Tu peux passer de l'une à l'autre à tout moment.</p></div>
+      <div class="reco-modes" role="tablist" aria-label="Mode de recommandation">
+        <button id="reco-tab-guided" type="button" role="tab" aria-controls="reco-guided" aria-selected="true" data-reco-mode="guided"><strong>Être guidé</strong><small>Je découvre mon style</small></button>
+        <button id="reco-tab-priorities" type="button" role="tab" aria-controls="reco-priorities" aria-selected="false" data-reco-mode="priorities"><strong>Régler mes priorités</strong><small>Je sais ce qui compte</small></button>
+      </div>
     </div>
-    <div id="reco-form"><p class="reco-hint">Préparation du questionnaire…</p></div>
-    <div id="reco-results" class="reco-results" aria-live="polite"><p class="reco-hint">Les recommandations s'afficheront ici.</p></div>
-    <p class="reco-note">Les rôles et techniques sont documentés par Blizzard ; les estimations de performances et de gameplay par spécialisation ne sont pas calibrées sur des joueurs de niveau 60. Une faible certitude entraîne des scénarios alternatifs, <strong>pas une fausse probabilité</strong>. Les 14 critères détaillés et les fiches existantes restent accessibles ci-dessous.</p>
+    <div id="reco-guided" role="tabpanel" aria-labelledby="reco-tab-guided">
+      <div class="reco-guided-layout">
+        <div class="reco-workspace">
+          <div class="reco-topline"><p class="reco-hint">Réponds librement. Aucune question n'est obligatoire.</p><button id="reco-reset" class="reco-reset" type="button">Recommencer ↺</button></div>
+          <div id="reco-form"><p class="reco-hint">Préparation du questionnaire…</p></div>
+        </div>
+        <aside id="reco-results" class="reco-results" aria-live="polite" aria-label="Résultats du parcours guidé"><p class="reco-hint">Les recommandations s'afficheront ici.</p></aside>
+      </div>
+    </div>
+    <div id="reco-priorities" role="tabpanel" aria-labelledby="reco-tab-priorities" hidden>
+      <div class="reco-guided-layout reco-priorities-layout">
+        <div class="reco-workspace" id="reco-priority-form"></div>
+        <aside id="reco-priority-results" class="reco-results" aria-live="polite" aria-label="Classement selon les priorités"></aside>
+      </div>
+    </div>
+    <p class="reco-note reco-disclaimer">Les notes de gameplay sont des estimations non calibrées au niveau 60. Les scores sont des indices d'adéquation, pas des probabilités. <a href="RECOMMANDATION-METHODE.md">Comprendre les calculs</a>. Le comparatif documentaire complet reste accessible plus bas.</p>
   </div>
 </section>
 
@@ -333,7 +515,8 @@ footer.end{font-size:.9rem;color:var(--muted)}
 </section>
 
 <details class="legacy-advanced" id="legacy-advanced">
-  <summary>Affiner avec les 14 critères et les courbes de maîtrise <span class="legacy-chevron" aria-hidden="true">▾</span></summary>
+  <summary>Explorer le comparatif historique et les courbes de maîtrise <span class="legacy-chevron" aria-hidden="true">▾</span></summary>
+  <p class="note">Ce comparatif conserve son indice descriptif historique. Pour un classement fondé sur les spécialisations, utilise « Régler mes priorités » dans l’assistant ci-dessus.</p>
 <section class="sec" aria-labelledby="h-tool">
   <div class="sec-head">
     <span class="eyebrow">Classer selon tes priorités</span>
@@ -696,5 +879,6 @@ window.__WF = {"axes":["poly","tank","soin","dps","bg","sauv","burst","zone","ct
 </script>
 <script src="recommendation-engine.js"></script>
 <script src="questionnaire.js"></script>
+<script src="priorities-ui.js"></script>
 </body>
 </html>

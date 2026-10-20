@@ -51,3 +51,30 @@ La CI exécute les tests historiques et la nouvelle suite. Les contrôles couvre
 Les profils générés ne représentent **pas** statistiquement la communauté : aucune part de première place par classe n'est une cible de validation. Les cas de référence doivent être confrontés à des spécialistes indépendants. Une inspection réelle de la page (mobile, clavier, contrastes, lecteurs d'écran) demeure indispensable.
 
 Évolutions futures : mesurer les performances par spécialisation et activité après lancement, documenter tailles d'échantillon et incertitudes, calibrer les poids par une étude d'utilisateurs consentants, et versionner les données après chaque patch.
+
+## Parcours de priorités — traitement du biais du généraliste
+
+Le mode « Régler mes priorités » n'utilise **pas** l'ancien score par moyenne des maxima de spécialisations. Les 14 pondérations et les 15 profils existants sont repris tels quels depuis leurs contrôles historiques, mais évalués par la fonction `priorityRanking` du nouveau moteur. Le niveau de maîtrise est partagé avec le questionnaire.
+
+Chaque spécialisation est évaluée sur quatre **domaines indépendants** :
+
+| Domaine | Axes associés | Coefficient maximum |
+| --- | --- | ---: |
+| Rôles | Tank, Soin, DPS PvE | 0,30 |
+| Activités | BG, PvP sauvage, Solo/leveling | 0,28 |
+| Gameplay | Burst, Zone, Contrôle, Survie, Mobilité, Utilité | 0,28 |
+| Affinités | Polyvalence, Technicité | 0,14 |
+
+La pertinence d'un domaine est une **moyenne pondérée** de ses axes activés ; son poids effectif est le coefficient du domaine × (plus grand poids de ses axes / 3). Seuls les domaines effectivement activés entrent dans la normalisation finale. Une classe n'est pas créditée de tous les rôles simultanément : une spécialisation occupe le rôle qu'elle peut réellement exercer, et la diversité des rôles ne donne un avantage que si l'axe Polyvalence est choisi. Le domaine « rôles » est compté une seule fois, même si plusieurs axes de rôle ont un poids positif.
+
+Les activités et styles sont évalués **dans la même configuration**, avec les coefficients éditoriaux de maîtrise. La Technicité n'est jamais un bonus par défaut ; lui attribuer un poids positif signifie explicitement rechercher un gameplay exigeant. Le meilleur résultat d'une configuration constitue le score de sa classe, sans réunir les qualités des différentes spécialisations. Les neuf classes restent affichées dans le classement, y compris si certaines répondent mal aux critères.
+
+Le cas « Tous les critères » ne constitue **pas un état neutre au sens individuel** : les quatorze axes sont activés et la polyvalence demandée expressément. Pour une recommandation sans présupposé, le questionnaire ne classe aucune classe tant qu'aucune préférence n'est déclarée ; le bouton « Tout remettre à zéro » supprime aussi l'influence des pondérations.
+
+Ces coefficients sont des conventions auditées et non une calibration auprès de joueurs. Les écarts de quelques points doivent être considérés comme des pistes proches, pas comme des mesures de supériorité. Le moteur **ne vise aucun quota de victoire par classe**.
+
+### Tests de cette interface
+
+- Tests unitaires de domaine et de données, avec cas rôles uniquement, polyvalence facultative, technicité facultative, scores finis, neuf classes distinctes et maintien des quinze profils.
+- Test Chromium des deux parcours et de leurs interactions : 6 étapes, 0–5 de certitude, 14 critères, 15 profils, classement de neuf classes, maîtrise synchronisée, préférences rechargées.
+- Captures mobiles et bureau générées automatiquement sur la pull request ; la revue visuelle et l'expérience utilisateur restent des activités de validation.
