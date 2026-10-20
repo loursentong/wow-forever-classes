@@ -34,3 +34,5 @@ jobs:
       - name: Déployer
         id: deployment
         uses: actions/deploy-pages@v5
+      - name: Vérifier la publication HTML et JavaScript
+        run: node scripts/verify-pages-live.cjs
