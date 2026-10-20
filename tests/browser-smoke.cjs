@@ -10,7 +10,7 @@ const http=require('node:http');
 const {chromium}=require('playwright');
 
 const base=path.resolve(__dirname,'..');
-const allowed={'/':'index.html','/index.html':'index.html','/questionnaire.js':'questionnaire.js','/recommendation-engine.js':'recommendation-engine.js','/priorities-ui.js':'priorities-ui.js','/ux-polish.css':'ux-polish.css','/warcraft-visual-pack.css':'warcraft-visual-pack.css','/assets/hero-landscape.svg':'assets/hero-landscape.svg'};
+const allowed={'/':'index.html','/index.html':'index.html','/questionnaire.js':'questionnaire.js','/recommendation-engine.js':'recommendation-engine.js','/priorities-ui.js':'priorities-ui.js','/ux-polish.css':'ux-polish.css','/warcraft-visual-pack.css':'warcraft-visual-pack.css','/wow-ui-rework.css':'wow-ui-rework.css','/assets/hero-landscape.svg':'assets/hero-landscape.svg'};
 const server=http.createServer((req,res)=>{
   const pathname=new URL(req.url,'http://localhost').pathname;
   if(!Object.hasOwn(allowed,pathname)){res.writeHead(404);res.end();return;}
@@ -33,6 +33,11 @@ async function check(){
   await page.waitForSelector('#reco-form .reco-question');
   assert.equal(await page.locator('#reco-form .reco-question').count(),1,'Une question seulement à la fois');
   assert.equal(await page.locator('[data-step]').count(),6);
+  assert.equal(await page.locator('.reco-step-rail .reco-step').count(),6);
+  assert.equal(await page.locator('.reco-summary-row').count(),6);
+  await page.locator('[data-summary-step="2"]').click();
+  assert.match(await page.locator('#reco-form').textContent(),/Comment aimes-tu combattre/);
+  await page.locator('[data-summary-step="0"]').click();
   assert.match(await page.locator('#reco-results').textContent(),/Tout commence par tes envies/);
   assert.equal(await page.locator('#reco-hero-facts').count(),0);
   assert.equal(await page.locator('link[href="ux-polish.css"]').count(),1);
@@ -99,7 +104,14 @@ async function check(){
   await page.locator('[data-reco-mode="priorities"]').click();
   assert.equal(await page.locator('#reco-priorities').isVisible(),true);
   assert.equal(await page.locator('#reco-guided').isVisible(),false);
-  assert.equal(await page.locator('[data-prio-preset]').count(),15);
+  assert.equal(await page.locator('[data-prio-preset]').count(),8);
+  assert.equal(await page.locator('.reco-more-presets').count(),0);
+  assert.ok(await page.locator('[data-prio-save]').count()===1);
+  // Régression DPS PvE : les neuf classes ne peuvent PAS recevoir toutes 100.
+  await page.locator('[data-prio-preset="dps"]').click();
+  const dpsScores=await page.locator('#reco-priority-results .reco-priority-score').allTextContents();
+  assert.ok(new Set(dpsScores).size>=3, 'DPS PvE doit différencier les neuf classes');
+  assert.ok(dpsScores.some(x=>!x.trim().startsWith('100')));
   assert.equal(await page.locator('[data-prio-axis]').count(),56);
   assert.equal(await page.locator('#reco-priority-results .reco-priority-class').count(),9);
   await page.locator('[data-prio-preset="pvp"]').click();
@@ -111,6 +123,16 @@ async function check(){
   assert.equal(await page.locator('.seg button[data-ax="poly"][data-v="0"]').getAttribute('aria-pressed'),'true');
   const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('wf-overview-v3')));
   assert.equal(saved.w.bg,3);assert.equal(saved.m,3);
+  // Sauvegarde explicite : modifier, sauvegarder, tester un preset, restaurer.
+  await page.locator('[data-prio-save]').click();
+  const custom=await page.evaluate(()=>JSON.parse(localStorage.getItem('wf-priority-custom-v1')));
+  assert.equal(custom.mastery,3);assert.equal(custom.weights.bg,3);assert.equal(custom.weights.poly,0);
+  await page.locator('[data-prio-preset="solo"]').click();
+  assert.equal(await page.locator('.seg button[data-ax="solo"][data-v="3"]').getAttribute('aria-pressed'),'true');
+  await page.locator('[data-prio-restore]').click();
+  assert.equal(await page.locator('.seg button[data-ax="bg"][data-v="3"]').getAttribute('aria-pressed'),'true');
+  assert.equal(await page.locator('.seg button[data-ax="poly"][data-v="0"]').getAttribute('aria-pressed'),'true');
+  assert.equal(await page.locator('[data-prio-restore]').isDisabled(),true);
   assert.equal(await page.locator('[data-reco-mode="priorities"]').getAttribute('aria-selected'),'true');
   await page.reload({waitUntil:'domcontentloaded'});
   assert.equal(await page.locator('#reco-priorities').isVisible(),true);
@@ -155,10 +177,11 @@ async function check(){
   await page.locator('[data-step="0"]').click();
   await page.screenshot({path:path.join(__dirname,'screenshots','questionnaire-desktop.png'),fullPage:false});
   // Contrôles des ressources graphiques et de l’accessibilité des animations.
-  const assets=await page.evaluate(async()=>Promise.all(['ux-polish.css','warcraft-visual-pack.css','assets/hero-landscape.svg'].map(async p=>{
+  const assets=await page.evaluate(async()=>Promise.all(['ux-polish.css','warcraft-visual-pack.css','wow-ui-rework.css','assets/hero-landscape.svg'].map(async p=>{
     const r=await fetch(p);return {url:p,status:r.status,ok:r.ok};
   })));
   assert.ok(assets.every(x=>x.ok),'CSS et illustration manquants : '+JSON.stringify(assets));
+  assert.equal(await page.locator('#reco-summary-panel').count(),1);
   await page.emulateMedia({reducedMotion:'reduce'});
   const motion=await page.locator('.reco-modes button').first().evaluate(el=>getComputedStyle(el).transitionDuration);
   assert.match(motion,/^0s(, 0s)*$/,'Les transitions doivent être désactivées avec reduced-motion');
