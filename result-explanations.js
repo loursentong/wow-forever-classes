@@ -41,19 +41,66 @@
  // et les maximums 100.
  var partOrder=['roles','healStyles','activities','range','styles','pet','difficulty'];
  var partNames={roles:'Rôles',healStyles:'Façon de soigner',activities:'Activités',range:'Portée',styles:'Gameplay',pet:'Familiers',difficulty:'Complexité'};
- function apportion(raw,total){
-  var out=raw.map(Math.floor),left=total-out.reduce(function(a,b){return a+b;},0);
-  raw.map(function(v,i){return {i:i,r:v-Math.floor(v)};}).sort(function(a,b){return b.r-a.r||a.i-b.i;})
-   .forEach(function(x,n){if(n<left)out[x.i]++;});
+ function apportion(raw,total,caps){
+  var out=raw.map(function(v,i){return Math.min(Math.floor(v),caps?caps[i]:Infinity);});
+  var left=total-out.reduce(function(a,b){return a+b;},0);
+  // Les points ne peuvent pas dépasser le maximum affiché, lui-même arrondi.
+  while(left>0){
+   var available=raw.map(function(v,i){return {i:i,r:v-out[i]};})
+    .filter(function(x){return !caps||out[x.i]<caps[x.i];}).sort(function(a,b){return b.r-a.r||a.i-b.i;});
+   if(!available.length)break;
+   out[available[0].i]++;left--;
+  }
   return out;
  }
  function scoreParts(fit,score){
   var keys=partOrder.filter(function(k){return fit&&fit[k];});
   var denom=keys.reduce(function(t,k){return t+fit[k].weight;},0);
   if(!denom)return [];
-  var points=apportion(keys.map(function(k){return 100*fit[k].value*fit[k].weight/denom;}),Math.round(score));
   var max=apportion(keys.map(function(k){return 100*fit[k].weight/denom;}),100);
+  var points=apportion(keys.map(function(k){return 100*fit[k].value*fit[k].weight/denom;}),Math.round(score),max);
   return keys.map(function(k,i){return {key:k,label:partNames[k],fit:Math.round(100*fit[k].value),points:points[i],max:max[i]};});
+ }
+ var answerNames={raid:'Donjons et raids',bg:'Champs de bataille',world:'PvP sauvage',solo:'Solo',
+  burst:'Burst',zone:'Dégâts de zone',ctrl:'Contrôle',surv:'Survie',mob:'Mobilité',support:'Soutien',
+  prevention:'Prévenir les dégâts',duree:'Soins sur la durée',cible:'Gros soins ciblés',groupe:'Soins de groupe',
+  distance:'Jouer à distance',melee:'Jouer en mêlée',mixte:'Alterner distance et mêlée',
+  like:'Jouer avec un familier',avoid:'Jouer sans familier',simple:'Jeu simple',complex:'Jeu exigeant'};
+ var roleNames={tank:'Tank',soin:'Soin',dps:'Dégâts'};
+ function number(v){return String(Math.round(v*10)/10).replace('.',',');}
+ function answerLabel(a,p){return a.domain==='roles'?'Rôle : '+Object.keys(p.roles).map(function(k){return roleNames[k];}).join(' + '):answerNames[a.key];}
+ function mainCause(a){return Object.keys(a.causes).sort(function(x,y){return a.causes[y]-a.causes[x];})[0];}
+ function answerText(a,p){
+  var text;
+  if(a.domain==='healStyles'&&a.note===undefined){
+   text='Cette spécialisation ne soigne pas : elle ne répond pas à cette envie.';
+  }else if(a.note!==undefined){
+   text='Repère de la spécialisation : '+number(a.note)+'/5.';
+   if(Math.abs(a.note-a.adjusted)>.001)text+=' Avec ta maîtrise : '+number(a.adjusted)+'/5.';
+  }else if(a.domain==='roles'){
+   var many=Object.keys(p.roles).length>1;
+   text=many?'Tes rôles sont évalués ensemble : la classe doit pouvoir les proposer, et la spécialisation retenue compte aussi.':
+    'Ce choix tient compte du rôle de la spécialisation et de son aisance estimée en PvE.';
+   text+=' Correspondance avec ce choix : '+Math.round(a.raw*100)+' %.';
+  }else text='Cette spécialisation répond à '+Math.round(a.raw*100)+' % de ce choix.';
+  if(a.certainty<5)text+=' Tu as indiqué '+number(a.certainty)+'/5 de certitude : le résultat est moins tranché.';
+  return text;
+ }
+ function mainTradeoff(explanation){
+  if(!explanation||!explanation.answers.length)return '';
+  var a=explanation.answers.slice().sort(function(x,y){return y.loss-x.loss;})[0],p=explanation.profile;
+  if(a.loss<.05)return 'Tes choix correspondent pleinement à cette piste dans nos estimations. Regarde si son style de jeu te plaît.';
+  var label=answerLabel(a,p),cause=mainCause(a);
+  if(cause==='certainty')return 'Tu hésites sur « '+label+' » ('+number(a.certainty)+'/5 de certitude). C’est ce qui retient le plus son score.';
+  if(a.domain==='healStyles'&&a.note===undefined)return 'Ton envie « '+label+' » n’est pas remplie : cette spécialisation ne soigne pas.';
+  if(cause==='mastery')return label+' : '+(a.adjusted!==undefined?number(a.adjusted)+'/5 avec ta maîtrise. ':'')+'Cette spécialisation demande de la pratique pour en profiter pleinement.';
+  if(a.note!==undefined)return label+' : '+number(a.note)+'/5. C’est le principal compromis avec tes envies.';
+  if(a.domain==='roles')return label+' : '+Math.round(a.raw*100)+' % de correspondance. C’est le principal compromis avec tes envies.';
+  if(a.domain==='pet')return a.key==='like'?'Tu veux un familier. '+(explanation.spec.pet==='none'||explanation.spec.variant==='sans-familier'?'Le build présenté ici se joue sans compagnon.':'Il n’est pas au centre de cette spécialisation.'):
+   'Tu préfères jouer sans familier, mais le build présenté ici en utilise un.';
+  if(a.domain==='range')return a.key==='mixte'?'Tu veux alterner distance et mêlée. Cette classe ne propose pas les deux pour tes rôles.':
+   'Tu veux jouer '+(a.key==='distance'?'à distance':'en mêlée')+', mais cette spécialisation se joue '+(explanation.spec.range==='distance'?'à distance.':'en mêlée.');
+  return a.key==='simple'?'Tu veux un jeu simple. Cette spécialisation demande davantage de pratique.':'Tu cherches un jeu exigeant. Cette spécialisation est plutôt accessible.';
  }
  function tieNote(results){
   if(!results.length)return '';
@@ -70,13 +117,15 @@
   'demoniste-destruction':'Évaluée sans démon : sans Séduction ni Verrou magique, et sans démon pour encaisser en solo. Peur, Voile mortel et le ralentissement de Conflagration restent.'
  };
  function petNotice(spec,profile){
+  if(spec.id==='chasseur-precision')return 'Précision est évaluée en Loup solitaire, sans familier. Le build avec compagnon n’est pas évalué ici.';
   if(!profile||!profile.pet||profile.pet.value!=='avoid')return '';
   if(spec.pet==='core')return 'Le familier est central dans cette spécialisation : cette piste répond moins bien à ton envie de jouer sans compagnon.';
   if(spec.pet!=='optional')return '';
+  if(spec.variant!=='sans-familier')return 'Évaluée avec son compagnon : ce build répond mieux à l’ensemble de tes choix. Pour jouer uniquement sans familier, coche l’exigence absolue.';
   return petless[spec.id]||'Évaluée sans familier.';
  }
- // Façon de soigner (référence v8) : mêmes règles que le moteur, deux choix au plus, comptés seulement
- // avec le rôle Soin, et pour les seules configurations de soin.
+ // Façon de soigner (référence v9) : deux choix au plus, retenus avec le rôle Soin.
+ // Les configurations hors soin ne répondent pas à cette préférence.
  var healNames={prevention:'prévenir les dégâts',duree:'soins sur la durée',cible:'gros soins ciblés',groupe:'soigner tout le groupe'};
  function healChoices(p){
   var valid=function(v){return Number.isInteger(v)&&v>=0&&v<=5;};
@@ -96,11 +145,11 @@
   }
   if(p&&Object.hasOwn(p.roles||{},'soin')){
    var heal=healChoices(p);
-   out.push(heal.length?'Ta façon de soigner ('+heal.map(function(k){return healNames[k];}).join(', ')+') départage les spécialisations de soin ; elle ne compte pas pour les autres rôles.':
+   out.push(heal.length?'Ta façon de soigner ('+heal.map(function(k){return healNames[k];}).join(', ')+') départage les spécialisations de soin. Les autres rôles répondent moins bien à cette envie.':
     'Tu peux préciser ta façon de soigner à la question 1 : elle départage les spécialisations de soin.');
   }else if(w&&w.soin>0)
    out.push('Ce comparateur ne départage pas les façons de soigner : le parcours guidé le fait à la question 1, et la fiche de chaque spécialisation de soin les décrit.');
   return out;
  }
- return {criteria:criteria,ranks:ranks,rankHint:rankHint,scoreParts:scoreParts,tieNote:tieNote,petNotice:petNotice,contextNotes:contextNotes,healChoices:healChoices};
+ return {criteria:criteria,ranks:ranks,rankHint:rankHint,scoreParts:scoreParts,answerLabel:answerLabel,answerText:answerText,mainTradeoff:mainTradeoff,number:number,tieNote:tieNote,petNotice:petNotice,contextNotes:contextNotes,healChoices:healChoices};
 });

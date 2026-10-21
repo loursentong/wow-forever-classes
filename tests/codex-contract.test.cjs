@@ -17,7 +17,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
 const E=require('../recommendation-engine.js');
-const fixture=require('./fixtures/moteur-reference-v8.json');
+const fixture=require('./fixtures/moteur-reference-v9.json');
 const html=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
 const questionnaire=fs.readFileSync(path.join(__dirname,'..','questionnaire.js'),'utf8');
 const prioritiesUI=fs.readFileSync(path.join(__dirname,'..','priorities-ui.js'),'utf8');
@@ -77,8 +77,8 @@ test('CODEx: référence de rôle toujours liée aux notes historiques',()=>{
   assert.ok(Math.abs(E.roleSuitability(s,2)-(.55*baseline+.45*activity))<1e-12,s.id);
  }
 });
-test('CODEx: 27 scénarios guidés — statut, spécialisation, scores, sensibilité, vétos, variantes sans familier, difficulté et soin',()=>{
- assert.equal(fixture.guide.length,27);
+test('CODEx: 34 scénarios guidés — statut, spécialisation, scores, sensibilité, vétos, variantes sans familier, difficulté et soin',()=>{
+ assert.equal(fixture.guide.length,34);
  for(const ex of fixture.guide){
   const actual=compactGuide(ex.profile);
   assert.deepEqual(actual,{

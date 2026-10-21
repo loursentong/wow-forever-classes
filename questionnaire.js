@@ -106,7 +106,7 @@ function single(group){
    if(group==='range')
     html+='<label class="reco-strict"><input type="checkbox" data-strict="range" '+(state.range.strict?'checked':'')+'><span><strong>C’est une exigence absolue</strong><small>Écarte les configurations incompatibles.</small></span></label>';
    if(group==='pet'&&state.pet.value==='avoid')
-    html+='<label class="reco-strict"><input type="checkbox" data-strict="pet" '+(state.pet.strict?'checked':'')+'><span><strong>Je ne veux pas de familier obligatoire</strong><small>Les configurations qui l’imposent seront écartées.</small></span></label>';
+    html+='<label class="reco-strict"><input type="checkbox" data-strict="pet" '+(state.pet.strict?'checked':'')+'><span><strong>Je veux jouer uniquement sans familier</strong><small>Les builds avec compagnon seront écartés.</small></span></label>';
    html+='</div>';
   }
   html+='</div>';
@@ -198,7 +198,6 @@ function fitLabel(v){
 }
 /* « Pourquoi cette piste » : part de chaque critère dans le score, stabilité face aux réponses
  * hésitantes (scénarios du moteur), sources. */
-var KB_URL='https://github.com/loursentong/wow-forever-classes/tree/main/connaissances';
 function hesitations(report){
  return (report.uncertain||[]).map(function(label){
   var m=/^Sans (\w+)(?:\/(\w+))?$/.exec(label);
@@ -208,23 +207,29 @@ function hesitations(report){
 }
 function whyBlock(r,hesitant){
  var parts=X?X.scoreParts(r.fit,r.score):[];
+ var explanation=E.explain(r.spec.id,state);
  var rows=parts.map(function(p){
+  var answers=explanation.answers.filter(function(a){return a.domain===p.key;}).map(function(a){
+   return '<p><b>'+esc(X.answerLabel(a,explanation.profile))+'</b><span>'+esc(X.answerText(a,explanation.profile))+'</span></p>';
+  }).join('');
   return '<li><span class="reco-why-name">'+esc(p.label)+'</span><span class="reco-why-bar" aria-hidden="true"><i style="width:'+p.fit+'%"></i></span>'+
-   '<span class="reco-why-fit" title="Adéquation à ta réponse">'+p.fit+' %</span><span class="reco-why-points">'+p.points+' / '+p.max+' pts</span></li>';
+   '<span class="reco-why-fit" title="Correspondance avec tes réponses, certitude comprise">'+p.fit+' %</span><span class="reco-why-points">'+p.points+' / '+p.max+' pts</span>'+
+   '<div class="reco-answer-list">'+answers+'</div></li>';
  }).join('');
- var stability=r.scenarioCount<=1?'aucune de tes réponses n’est hésitante (certitude de 2 ou moins) : il n’y a pas de variante à tester.':
-  'parmi tes trois premières pistes dans '+r.scenarioAppearances+' des '+r.scenarioCount+' scénarios testés : tes réponses actuelles, puis sans chacune de tes réponses hésitantes'+
+ var stability=r.scenarioCount<=1?'Tes choix sont assez affirmés : nous n’avons pas testé de variante sans eux.':
+  'Cette classe reste dans tes trois premières pistes dans '+r.scenarioAppearances+' cas sur '+r.scenarioCount+'. Nous avons comparé tes réponses actuelles, puis retiré chacune de tes réponses les plus hésitantes'+
   (hesitant.length?' ('+hesitant.join(', ')+')':'')+'.';
  return '<details class="reco-evidence reco-why"><summary>Pourquoi cette piste</summary>'+
-  '<p><b>Ce qui fait son score de '+Math.round(r.score)+' :</b> pour chaque critère renseigné, son adéquation à ta réponse (la barre) et les points obtenus sur les points possibles. Une réponse hésitante pèse moins : son adéquation est rapprochée de 50 %.</p>'+
+  '<p><b>Pourquoi '+Math.round(r.score)+' sur 100 ?</b> '+esc(X.mainTradeoff(explanation))+'</p>'+
+  '<p>Voici le détail de tes choix. Les notes sur 5 décrivent la spécialisation ; les points composent ton résultat. Ce sont des repères pour choisir, pas des mesures de puissance.</p>'+
   (rows?'<ul class="reco-why-parts" aria-label="Part de chaque critère dans le score">'+rows+'</ul>':'')+
-  '<p><b>Stabilité face à tes hésitations :</b> '+esc(stability)+'</p>'+
-  '<p><b>Sources :</b> notes éditoriales, non mesurées au niveau 60, justifiées dans la <a href="'+KB_URL+'" target="_blank" rel="noopener noreferrer">base de connaissances du projet ↗</a> · <a href="'+esc(r.spec.source)+'" target="_blank" rel="noopener noreferrer">présentation officielle de la classe ↗</a></p>'+
+  '<p><b>Si tu changes d’avis :</b> '+esc(stability)+'</p>'+
+  '<p><a href="fiches-sources/'+esc(r.classId)+'.html#'+esc(r.spec.id)+(r.spec.variant==='sans-familier'?'-sans-familier':'')+'">Comprendre les notes et voir les sources du '+esc(r.className)+'</a></p>'+
   '</details>';
 }
 function resultCard(r,i,position,hesitant){
  var strong=r.strengths.length?r.strengths.map(pointsName).join(' · '):'Plusieurs pistes possibles';
- var weak=r.tradeoffs.length?r.tradeoffs.map(pointsName).join(' · '):'Consulte les repères de cette spécialisation ci-dessous';
+ var weak=X.mainTradeoff(E.explain(r.spec.id,state));
  var cls=r.classId;
  var tied=position&&position.tied,leader=position?position.leader:i===0;
  var petNotice=X?X.petNotice(r.spec,state):'';

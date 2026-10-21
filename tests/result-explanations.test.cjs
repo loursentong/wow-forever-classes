@@ -40,7 +40,7 @@ test('Les égalités des soigneurs incluent la quatrième classe au-delà des tr
 test('Familier : la limite dépend du profil demandé et de la configuration, sans modifier les scores',()=>{
  const p=E.sanitize({styles:{ctrl:5},pet:{value:'avoid',strict:true,certainty:5}});
  const before=JSON.stringify(E.recommend(p));
- const aff=E.specs.find(s=>s.id==='demoniste-affliction');
+ const aff=E.petless['demoniste-affliction'];
  const mage=E.specs.find(s=>s.id==='mage-givre');
  const bm=E.specs.find(s=>s.id==='chasseur-maitrise-betes');
  assert.match(X.petNotice(aff,p),/Évaluée sans démon/);

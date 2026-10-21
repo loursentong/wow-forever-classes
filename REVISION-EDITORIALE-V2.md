@@ -1,4 +1,4 @@
-# Révision éditoriale v2 et références v3 à v8 — 21 octobre 2026
+# Révision éditoriale v2 et références v3 à v9 — 21 octobre 2026
 
 Changement de **données et d'explications**, approuvé par le responsable du projet après la revue pratique des 28 configurations : moteur `1.0.1-exploratoire`, référence v2. Il est complété le même jour par la règle d'affichage à score égal (moteur `1.0.2-exploratoire`, référence v3) puis par l'exception solo du Chasseur réservée à Maîtrise des bêtes (moteur `1.0.3-exploratoire`, référence v4), voir plus bas. Base commune : `71f81ec53bc3023e5fd8e8428de1267ff5df2d4a`.
 
@@ -166,9 +166,19 @@ Aucun des 107 cas de la v7 ne change : aucun ne précise de façon de soigner. L
 
 Le panneau « Jouer … » de chaque configuration de soin décrit aussi sa façon de soigner, dans les deux parcours.
 
+## Version 1.0.8 : familier et soin (référence v9)
+
+Proposition d'Astra après un audit des interactions (8 172 profils guidés et 2 768 profils personnalisés de contrôle), retenue par le responsable du projet le 21 octobre 2026. Aucune note, aucun coefficient ni aucune priorité ne change.
+
+- **Sans compagnon, souhait souple.** Affliction, Destruction et Survie sont évaluées avec et sans leur compagnon ; le meilleur build complet est retenu, à égalité celui sans compagnon, sans jamais mélanger leurs notes. Avant, le build sans compagnon s'imposait dès « Je préfère éviter », même à 0/5 de certitude. Exemple, Contrôle 5/5, Distance 5/5, sans familier 0/5 : Affliction passe de 80,56 sans démon à 86,39 avec démon, et le résultat l'annonce. Un refus strict garde seulement le build sans compagnon.
+- **Précision** est toujours évaluée en Loup solitaire : « J'aime les familiers » ne lui accorde plus 76 % sur ce critère, mais 10 %, comme à tout build sans compagnon. Exemple, Burst, Distance et familier souhaité, tous certains : Précision passe de 94,67 à 80.
+- **La façon de soigner compte pour toutes les pistes.** Une configuration qui ne soigne pas reçoit une adéquation nulle à cette envie, atténuée par la certitude, et toutes les pistes ont le même dénominateur. Ajouter « Prévenir les dégâts » ne peut plus faire représenter le Paladin par Protection au lieu de Sacré, comme dans le cas relevé par l'audit. Dans un profil Soin et DPS, les pistes DPS baissent : avec Soin 4/5, DPS 3/5 et Prévention 5/5, le Paladin passe de Vindicte à 71,2 à Sacré à 47,49.
+
+Sur les 27 scénarios guidés de la v8, deux changent de scores ou de configuration, sans changement de première classe ; les priorités et le mode personnalisé sont identiques. Sur les 8 172 profils guidés de contrôle, 729 changent, dont 170 de première classe : 99 par la règle du familier, 243 par celle du soin, 387 par les deux ; l'écart maximal est de 21,98 points. La v9 ajoute sept scénarios.
+
 ## Références et reproduction
 
-La fixture v1 et `tests/reference-notes.json` sont conservés. La fixture v2 fige les mêmes entrées, après vérification des trois seuls écarts de notes. La fixture v3 ne diffère de la v2 que par les configurations affichées à score égal. La fixture v4 ne diffère de la v3 que par le Chasseur en solo, en Débutant ou Intermédiaire. La fixture v5 ne diffère de la v4 que par un scénario sans familier ; elle ajoute quatre scénarios. La fixture v6 reprend la v5 à l'identique et ajoute quatre scénarios de difficulté. La fixture v7 ne diffère de la v6 que par les cinq notes décidées. La fixture v8, active, reprend la v7 à l'identique, y ajoute les profils de soin et sept scénarios de soin. Les tests protègent les empreintes des v1 à v7. Les formules de score existantes et les données de maîtrise sont inchangées ; la v8 ajoute un domaine, la façon de soigner.
+La fixture v1 et `tests/reference-notes.json` sont conservés. La fixture v2 fige les mêmes entrées, après vérification des trois seuls écarts de notes. La fixture v3 ne diffère de la v2 que par les configurations affichées à score égal. La fixture v4 ne diffère de la v3 que par le Chasseur en solo, en Débutant ou Intermédiaire. La fixture v5 ne diffère de la v4 que par un scénario sans familier ; elle ajoute quatre scénarios. La fixture v6 reprend la v5 à l'identique et ajoute quatre scénarios de difficulté. La fixture v7 ne diffère de la v6 que par les cinq notes décidées. La fixture v8 reprend la v7 à l'identique, y ajoute les profils de soin et sept scénarios de soin. La fixture v9, active, ne diffère de la v8 que par deux scénarios de soin, le build de référence de Précision et sept scénarios d'interactions. Les tests protègent les empreintes des v1 à v8. Les formules de score existantes et les données de maîtrise sont inchangées ; la v8 ajoute un domaine, la façon de soigner.
 
 ```text
 node --test tests/*.test.cjs
@@ -179,10 +189,12 @@ node scripts/reference-v5.cjs comparaison-v4-v5.json
 node scripts/reference-v6.cjs comparaison-v5-v6.json
 node scripts/reference-v7.cjs comparaison-v6-v7.json
 node scripts/reference-v8.cjs comparaison-v7-v8.json
+node scripts/reference-v9.cjs comparaison-v8-v9.json
+node scripts/audit-interactions.cjs > audit-interactions.json
 bash scripts/prepare-pages.sh
 node tests/browser-smoke.cjs
 ```
 
-Les comparaisons produisent les scores, rangs et spécialisations avant/après avec la cause de chaque écart. Elles ne réécrivent aucune fixture : `scripts/reference-v8.cjs` n'écrit la photographie qu'avec l'option explicite `--fixture`. Le test navigateur utilise Playwright ; `FRV_CHROMIUM_EXECUTABLE` permet de sélectionner un Chrome/Chromium déjà installé.
+Les comparaisons produisent les scores, rangs et spécialisations avant/après avec la cause de chaque écart. Elles ne réécrivent aucune fixture : `scripts/reference-v9.cjs` n'écrit la photographie qu'avec l'option explicite `--fixture`, et jamais sur un fichier existant. Le test navigateur utilise Playwright ; `FRV_CHROMIUM_EXECUTABLE` permet de sélectionner un Chrome/Chromium déjà installé.
 
 Les tests et les 99 cas vérifient la cohérence de l'implémentation, pas la justesse scientifique au niveau 60. Cette étape ne revoit ni les coefficients de maîtrise ni les formules et ne lance pas de nouvel audit exhaustif.

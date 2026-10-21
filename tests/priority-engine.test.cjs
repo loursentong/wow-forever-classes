@@ -88,7 +88,7 @@ test('Les classes sont représentées par UNE configuration cohérente et les sc
  for(const w of profiles)for(let level=0;level<4;level++){
   const r=E.priorityRanking(w,level);
   assert.equal(r.results.length,9);
-  assert.ok(r.results.every(x=>E.specs.some(s=>s===x.spec)));
+  assert.ok(r.results.every(x=>E.specs.some(s=>(E.referenceVariants[s.id]?E.petless[s.id]:s)===x.spec)));
   assert.ok(r.results.every(x=>Number.isFinite(x.score)));
   assert.ok(r.results.every((x,i)=>i===0||x.score<=r.results[i-1].score));
  }
@@ -165,7 +165,7 @@ test('24 000 combinaisons aléatoires déterministes : bornes, classement, unici
   assert.equal(new Set(r.results.map(x=>x.classId)).size,9);
   assert.ok(r.results.every(x=>x.score>=0&&x.score<=100&&Number.isFinite(x.score)));
   assert.ok(r.results.every((x,j)=>j===0||x.score<=r.results[j-1].score));
-  assert.ok(r.results.every(x=>E.specs.some(sp=>sp===x.spec)));
+  assert.ok(r.results.every(x=>E.specs.some(sp=>(E.referenceVariants[sp.id]?E.petless[sp.id]:sp)===x.spec)));
   winners[r.results[0].classId]=(winners[r.results[0].classId]||0)+1;
  }
  assert.ok(Object.keys(winners).length>=4,'Simulations variées : aucun quota par classe');

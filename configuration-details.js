@@ -20,12 +20,13 @@
   if(!note)return '';
   return '<details class="reco-evidence reco-config-details" data-config-id="'+esc(spec.id)+'">'+
    '<summary>Jouer '+esc(spec.label)+'</summary>'+
+   (spec.id==='chasseur-precision'?'<p><b>Build évalué :</b> Loup solitaire, sans familier. Le build avec compagnon n’est pas évalué ici.</p>':'')+
    '<p><b>Pour toi si…</b> '+esc(note.fit)+'</p>'+
    '<p><b>Ses atouts :</b> '+note.strengths.map(esc).join(' · ')+'.</p>'+
    '<p><b>À prévoir :</b> '+esc(note.caution)+'</p>'+
    (spec.heal?healLine(spec.heal):'')+
    (spec.load?'<p><b>Difficulté de cette spécialisation :</b> PvE : '+esc(effort[spec.load.pve])+' · PvP : '+esc(effort[spec.load.pvp])+'. Repères éditoriaux : la prise en main et l’optimisation peuvent différer.</p>':'')+
-   '<p><a href="'+esc(spec.source)+'" target="_blank" rel="noopener noreferrer">Fiche officielle de la classe ↗</a></p>'+
+   '<p><a href="fiches-sources/'+esc(spec.classId)+'.html#'+esc(spec.id)+(spec.variant==='sans-familier'?'-sans-familier':'')+'">Les notes et les sources du '+esc(spec.className)+'</a> · <a href="'+esc(spec.source)+'" target="_blank" rel="noopener noreferrer">Fiche officielle ↗</a></p>'+
    '</details>';
  };
 });

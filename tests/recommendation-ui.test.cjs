@@ -247,8 +247,9 @@ test('Pourquoi cette piste remplace « Fiabilité et incertitude » : critères,
  assert.doesNotMatch(h.results.innerHTML,/Fiabilité et incertitude/);
  assert.equal((h.results.innerHTML.match(/<summary>Pourquoi cette piste<\/summary>/g)||[]).length,3);
  assert.match(h.results.innerHTML,/reco-why-parts[\s\S]*Rôles[\s\S]*Activités/);
- assert.match(h.results.innerHTML,/sans chacune de tes réponses hésitantes \(Soin\)/);
- assert.match(h.results.innerHTML,/github\.com\/loursentong\/wow-forever-classes\/tree\/main\/connaissances/);
+ assert.match(h.results.innerHTML,/retiré chacune de tes réponses les plus hésitantes \(Soin\)/);
+ assert.match(h.results.innerHTML,/fiches-sources\/chaman\.html#chaman-restauration/);
+ assert.match(h.results.innerHTML,/Tu hésites sur « Rôle : Soin » \(2\/5 de certitude\)/);
  h.certainty('roles','soin',5);
- assert.match(h.results.innerHTML,/aucune de tes réponses n’est hésitante/);
+ assert.match(h.results.innerHTML,/Tes choix sont assez affirmés/);
 });
