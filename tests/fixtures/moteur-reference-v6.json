@@ -1,0 +1,7330 @@
+{
+  "info": {
+    "schema": 1,
+    "sourceMainCommit": "71f81ec53bc3023e5fd8e8428de1267ff5df2d4a",
+    "engineVersion": "1.0.5-exploratoire",
+    "meaning": "Snapshot de comportement observé, non validation scientifique",
+    "revision": 6,
+    "previousReference": "moteur-reference-v5.json",
+    "decision": "La préférence de difficulté juge la charge PvE quand le joueur n’a choisi que des activités PvE, la charge PvP quand il n’a choisi que du PvP, sinon la moyenne (décision du responsable du projet, 21 octobre 2026, après les retours de sa guilde : le Chasseur est jugé simple en PvE et exigeant en PvP de haut niveau). Les notes, les autres formules et les priorités sont inchangées."
+  },
+  "matrix": {
+    "axes": [
+      "poly",
+      "tank",
+      "soin",
+      "dps",
+      "bg",
+      "sauv",
+      "burst",
+      "zone",
+      "ctrl",
+      "surv",
+      "mob",
+      "util",
+      "solo",
+      "tech"
+    ],
+    "classes": [
+      {
+        "id": "guerrier",
+        "r": {
+          "poly": 3,
+          "tank": 5,
+          "soin": 1,
+          "dps": 5,
+          "bg": 4,
+          "sauv": 2,
+          "burst": 4,
+          "zone": 5,
+          "ctrl": 3,
+          "surv": 3,
+          "mob": 4,
+          "util": 3,
+          "solo": 3,
+          "tech": 4
+        }
+      },
+      {
+        "id": "paladin",
+        "r": {
+          "poly": 4,
+          "tank": 4,
+          "soin": 5,
+          "dps": 4,
+          "bg": 5,
+          "sauv": 4,
+          "burst": 4,
+          "zone": 3,
+          "ctrl": 2,
+          "surv": 5,
+          "mob": 2,
+          "util": 5,
+          "solo": 5,
+          "tech": 2
+        }
+      },
+      {
+        "id": "chasseur",
+        "r": {
+          "poly": 2,
+          "tank": 1,
+          "soin": 1,
+          "dps": 5,
+          "bg": 5,
+          "sauv": 4,
+          "burst": 4,
+          "zone": 3,
+          "ctrl": 3,
+          "surv": 3,
+          "mob": 3,
+          "util": 3,
+          "solo": 5,
+          "tech": 2
+        }
+      },
+      {
+        "id": "voleur",
+        "r": {
+          "poly": 1,
+          "tank": 1,
+          "soin": 1,
+          "dps": 3,
+          "bg": 3,
+          "sauv": 5,
+          "burst": 5,
+          "zone": 2,
+          "ctrl": 5,
+          "surv": 2,
+          "mob": 4,
+          "util": 2,
+          "solo": 3,
+          "tech": 5
+        }
+      },
+      {
+        "id": "pretre",
+        "r": {
+          "poly": 3,
+          "tank": 1,
+          "soin": 5,
+          "dps": 3,
+          "bg": 5,
+          "sauv": 4,
+          "burst": 3,
+          "zone": 2,
+          "ctrl": 4,
+          "surv": 3,
+          "mob": 2,
+          "util": 4,
+          "solo": 3,
+          "tech": 3
+        }
+      },
+      {
+        "id": "chaman",
+        "r": {
+          "poly": 4,
+          "tank": 2,
+          "soin": 5,
+          "dps": 3,
+          "bg": 4,
+          "sauv": 4,
+          "burst": 5,
+          "zone": 4,
+          "ctrl": 2,
+          "surv": 3,
+          "mob": 5,
+          "util": 5,
+          "solo": 3,
+          "tech": 3
+        }
+      },
+      {
+        "id": "mage",
+        "r": {
+          "poly": 1,
+          "tank": 1,
+          "soin": 1,
+          "dps": 4,
+          "bg": 4,
+          "sauv": 3,
+          "burst": 5,
+          "zone": 5,
+          "ctrl": 5,
+          "surv": 2,
+          "mob": 3,
+          "util": 3,
+          "solo": 3,
+          "tech": 4
+        }
+      },
+      {
+        "id": "demoniste",
+        "r": {
+          "poly": 1,
+          "tank": 1,
+          "soin": 1,
+          "dps": 4,
+          "bg": 5,
+          "sauv": 5,
+          "burst": 5,
+          "zone": 4,
+          "ctrl": 5,
+          "surv": 4,
+          "mob": 2,
+          "util": 3,
+          "solo": 4,
+          "tech": 4
+        }
+      },
+      {
+        "id": "druide",
+        "r": {
+          "poly": 5,
+          "tank": 4,
+          "soin": 5,
+          "dps": 3,
+          "bg": 4,
+          "sauv": 4,
+          "burst": 4,
+          "zone": 3,
+          "ctrl": 2,
+          "surv": 4,
+          "mob": 5,
+          "util": 5,
+          "solo": 3,
+          "tech": 5
+        }
+      }
+    ],
+    "presets": {
+      "egal": {
+        "poly": 1,
+        "tank": 1,
+        "soin": 1,
+        "dps": 1,
+        "bg": 1,
+        "sauv": 1,
+        "burst": 1,
+        "zone": 1,
+        "ctrl": 1,
+        "surv": 1,
+        "mob": 1,
+        "util": 1,
+        "solo": 1,
+        "tech": 1
+      },
+      "polyvalence": {
+        "poly": 3,
+        "tank": 1,
+        "soin": 1,
+        "dps": 1,
+        "bg": 0,
+        "sauv": 0,
+        "burst": 0,
+        "zone": 0,
+        "ctrl": 0,
+        "surv": 0,
+        "mob": 0,
+        "util": 0,
+        "solo": 0,
+        "tech": 0
+      },
+      "pve": {
+        "poly": 0,
+        "tank": 2,
+        "soin": 2,
+        "dps": 3,
+        "bg": 0,
+        "sauv": 0,
+        "burst": 0,
+        "zone": 0,
+        "ctrl": 0,
+        "surv": 0,
+        "mob": 0,
+        "util": 2,
+        "solo": 0,
+        "tech": 0
+      },
+      "pvp": {
+        "poly": 0,
+        "tank": 0,
+        "soin": 0,
+        "dps": 0,
+        "bg": 3,
+        "sauv": 3,
+        "burst": 0,
+        "zone": 0,
+        "ctrl": 2,
+        "surv": 2,
+        "mob": 1,
+        "util": 0,
+        "solo": 0,
+        "tech": 0
+      },
+      "tank": {
+        "poly": 0,
+        "tank": 3,
+        "soin": 0,
+        "dps": 0,
+        "bg": 0,
+        "sauv": 0,
+        "burst": 0,
+        "zone": 0,
+        "ctrl": 0,
+        "surv": 1,
+        "mob": 0,
+        "util": 0,
+        "solo": 0,
+        "tech": 0
+      },
+      "soin": {
+        "poly": 0,
+        "tank": 0,
+        "soin": 3,
+        "dps": 0,
+        "bg": 0,
+        "sauv": 0,
+        "burst": 0,
+        "zone": 0,
+        "ctrl": 0,
+        "surv": 0,
+        "mob": 0,
+        "util": 1,
+        "solo": 0,
+        "tech": 0
+      },
+      "dps": {
+        "poly": 0,
+        "tank": 0,
+        "soin": 0,
+        "dps": 3,
+        "bg": 0,
+        "sauv": 0,
+        "burst": 0,
+        "zone": 0,
+        "ctrl": 0,
+        "surv": 0,
+        "mob": 0,
+        "util": 0,
+        "solo": 0,
+        "tech": 0
+      },
+      "zone": {
+        "poly": 0,
+        "tank": 0,
+        "soin": 0,
+        "dps": 0,
+        "bg": 0,
+        "sauv": 0,
+        "burst": 1,
+        "zone": 3,
+        "ctrl": 0,
+        "surv": 0,
+        "mob": 0,
+        "util": 0,
+        "solo": 0,
+        "tech": 0
+      },
+      "soutien": {
+        "poly": 0,
+        "tank": 0,
+        "soin": 0,
+        "dps": 0,
+        "bg": 0,
+        "sauv": 0,
+        "burst": 0,
+        "zone": 0,
+        "ctrl": 0,
+        "surv": 0,
+        "mob": 1,
+        "util": 3,
+        "solo": 0,
+        "tech": 0
+      },
+      "bg": {
+        "poly": 0,
+        "tank": 0,
+        "soin": 0,
+        "dps": 0,
+        "bg": 3,
+        "sauv": 0,
+        "burst": 0,
+        "zone": 0,
+        "ctrl": 0,
+        "surv": 1,
+        "mob": 0,
+        "util": 0,
+        "solo": 0,
+        "tech": 0
+      },
+      "soinbg": {
+        "poly": 0,
+        "tank": 0,
+        "soin": 3,
+        "dps": 0,
+        "bg": 2,
+        "sauv": 0,
+        "burst": 0,
+        "zone": 0,
+        "ctrl": 0,
+        "surv": 0,
+        "mob": 0,
+        "util": 0,
+        "solo": 0,
+        "tech": 0
+      },
+      "sauvage": {
+        "poly": 0,
+        "tank": 0,
+        "soin": 0,
+        "dps": 0,
+        "bg": 0,
+        "sauv": 3,
+        "burst": 0,
+        "zone": 0,
+        "ctrl": 1,
+        "surv": 0,
+        "mob": 1,
+        "util": 0,
+        "solo": 0,
+        "tech": 0
+      },
+      "burst": {
+        "poly": 0,
+        "tank": 0,
+        "soin": 0,
+        "dps": 0,
+        "bg": 0,
+        "sauv": 0,
+        "burst": 3,
+        "zone": 0,
+        "ctrl": 0,
+        "surv": 0,
+        "mob": 1,
+        "util": 0,
+        "solo": 0,
+        "tech": 0
+      },
+      "controle": {
+        "poly": 0,
+        "tank": 0,
+        "soin": 0,
+        "dps": 0,
+        "bg": 0,
+        "sauv": 0,
+        "burst": 0,
+        "zone": 0,
+        "ctrl": 3,
+        "surv": 0,
+        "mob": 0,
+        "util": 0,
+        "solo": 0,
+        "tech": 0
+      },
+      "solo": {
+        "poly": 0,
+        "tank": 0,
+        "soin": 0,
+        "dps": 0,
+        "bg": 0,
+        "sauv": 0,
+        "burst": 0,
+        "zone": 0,
+        "ctrl": 0,
+        "surv": 1,
+        "mob": 0,
+        "util": 0,
+        "solo": 3,
+        "tech": 0
+      }
+    }
+  },
+  "specs": [
+    {
+      "id": "guerrier-armes",
+      "classId": "guerrier",
+      "className": "Guerrier",
+      "label": "Armes",
+      "role": "dps",
+      "range": "melee",
+      "pet": "none",
+      "activity": {
+        "raid": 4,
+        "bg": 4,
+        "world": 3,
+        "solo": 2
+      },
+      "style": {
+        "burst": 5,
+        "zone": 4,
+        "ctrl": 3,
+        "surv": 3,
+        "mob": 4,
+        "support": 2
+      },
+      "load": {
+        "pve": 2,
+        "pvp": 4
+      },
+      "source": "https://worldofwarcraft.blizzard.com/en-us/news/24301514",
+      "dataQuality": {
+        "officialKit": true,
+        "activity": "éditoriale",
+        "style": "éditoriale"
+      }
+    },
+    {
+      "id": "guerrier-fureur",
+      "classId": "guerrier",
+      "className": "Guerrier",
+      "label": "Fureur",
+      "role": "dps",
+      "range": "melee",
+      "pet": "none",
+      "activity": {
+        "raid": 5,
+        "bg": 4,
+        "world": 3,
+        "solo": 3
+      },
+      "style": {
+        "burst": 4,
+        "zone": 5,
+        "ctrl": 2,
+        "surv": 3,
+        "mob": 4,
+        "support": 2
+      },
+      "load": {
+        "pve": 3,
+        "pvp": 3
+      },
+      "source": "https://worldofwarcraft.blizzard.com/en-us/news/24301514",
+      "dataQuality": {
+        "officialKit": true,
+        "activity": "éditoriale",
+        "style": "éditoriale"
+      }
+    },
+    {
+      "id": "guerrier-protection",
+      "classId": "guerrier",
+      "className": "Guerrier",
+      "label": "Protection",
+      "role": "tank",
+      "range": "melee",
+      "pet": "none",
+      "activity": {
+        "raid": 5,
+        "bg": 4,
+        "world": 2,
+        "solo": 3
+      },
+      "style": {
+        "burst": 2,
+        "zone": 3,
+        "ctrl": 3,
+        "surv": 5,
+        "mob": 3,
+        "support": 3
+      },
+      "load": {
+        "pve": 3,
+        "pvp": 4
+      },
+      "source": "https://worldofwarcraft.blizzard.com/en-us/news/24301514",
+      "dataQuality": {
+        "officialKit": true,
+        "activity": "éditoriale",
+        "style": "éditoriale"
+      }
+    },
+    {
+      "id": "paladin-sacre",
+      "classId": "paladin",
+      "className": "Paladin",
+      "label": "Sacré",
+      "role": "soin",
+      "range": "distance",
+      "pet": "none",
+      "activity": {
+        "raid": 5,
+        "bg": 5,
+        "world": 4,
+        "solo": 3
+      },
+      "style": {
+        "burst": 2,
+        "zone": 2,
+        "ctrl": 2,
+        "surv": 5,
+        "mob": 2,
+        "support": 5
+      },
+      "load": {
+        "pve": 2,
+        "pvp": 2
+      },
+      "source": "https://worldofwarcraft.blizzard.com/en-us/news/24302099",
+      "dataQuality": {
+        "officialKit": true,
+        "activity": "éditoriale",
+        "style": "éditoriale"
+      }
+    },
+    {
+      "id": "paladin-protection",
+      "classId": "paladin",
+      "className": "Paladin",
+      "label": "Protection",
+      "role": "tank",
+      "range": "melee",
+      "pet": "none",
+      "activity": {
+        "raid": 4,
+        "bg": 4,
+        "world": 3,
+        "solo": 5
+      },
+      "style": {
+        "burst": 3,
+        "zone": 3,
+        "ctrl": 2,
+        "surv": 5,
+        "mob": 2,
+        "support": 5
+      },
+      "load": {
+        "pve": 2,
+        "pvp": 2
+      },
+      "source": "https://worldofwarcraft.blizzard.com/en-us/news/24302099",
+      "dataQuality": {
+        "officialKit": true,
+        "activity": "éditoriale",
+        "style": "éditoriale"
+      }
+    },
+    {
+      "id": "paladin-vindicte",
+      "classId": "paladin",
+      "className": "Paladin",
+      "label": "Vindicte",
+      "role": "dps",
+      "range": "melee",
+      "pet": "none",
+      "activity": {
+        "raid": 4,
+        "bg": 4,
+        "world": 4,
+        "solo": 4
+      },
+      "style": {
+        "burst": 4,
+        "zone": 3,
+        "ctrl": 2,
+        "surv": 4,
+        "mob": 2,
+        "support": 4
+      },
+      "load": {
+        "pve": 2,
+        "pvp": 2
+      },
+      "source": "https://worldofwarcraft.blizzard.com/en-us/news/24302099",
+      "dataQuality": {
+        "officialKit": true,
+        "activity": "éditoriale",
+        "style": "éditoriale"
+      }
+    },
+    {
+      "id": "chasseur-maitrise-betes",
+      "classId": "chasseur",
+      "className": "Chasseur",
+      "label": "Maîtrise des bêtes",
+      "role": "dps",
+      "range": "distance",
+      "pet": "core",
+      "activity": {
+        "raid": 4,
+        "bg": 4,
+        "world": 4,
+        "solo": 5
+      },
+      "style": {
+        "burst": 3,
+        "zone": 2,
+        "ctrl": 3,
+        "surv": 3,
+        "mob": 3,
+        "support": 2
+      },
+      "load": {
+        "pve": 1,
+        "pvp": 2
+      },
+      "source": "https://worldofwarcraft.blizzard.com/fr-fr/news/24301515/world-of-warcraft-forever-chasseurchasseresse-et-druidedruidesse",
+      "dataQuality": {
+        "officialKit": true,
+        "activity": "éditoriale",
+        "style": "éditoriale"
+      }
+    },
+    {
+      "id": "chasseur-precision",
+      "classId": "chasseur",
+      "className": "Chasseur",
+      "label": "Précision",
+      "role": "dps",
+      "range": "distance",
+      "pet": "optional",
+      "activity": {
+        "raid": 4,
+        "bg": 5,
+        "world": 4,
+        "solo": 5
+      },
+      "style": {
+        "burst": 5,
+        "zone": 3,
+        "ctrl": 3,
+        "surv": 2,
+        "mob": 3,
+        "support": 2
+      },
+      "load": {
+        "pve": 2,
+        "pvp": 3
+      },
+      "source": "https://worldofwarcraft.blizzard.com/fr-fr/news/24301515/world-of-warcraft-forever-chasseurchasseresse-et-druidedruidesse",
+      "dataQuality": {
+        "officialKit": true,
+        "activity": "éditoriale",
+        "style": "éditoriale"
+      }
+    },
+    {
+      "id": "chasseur-survie",
+      "classId": "chasseur",
+      "className": "Chasseur",
+      "label": "Survie",
+      "role": "dps",
+      "range": "melee",
+      "pet": "optional",
+      "activity": {
+        "raid": 5,
+        "bg": 4,
+        "world": 4,
+        "solo": 5
+      },
+      "style": {
+        "burst": 4,
+        "zone": 3,
+        "ctrl": 4,
+        "surv": 3,
+        "mob": 3,
+        "support": 2
+      },
+      "load": {
+        "pve": 4,
+        "pvp": 3
+      },
+      "source": "https://worldofwarcraft.blizzard.com/fr-fr/news/24301515/world-of-warcraft-forever-chasseurchasseresse-et-druidedruidesse",
+      "dataQuality": {
+        "officialKit": true,
+        "activity": "éditoriale",
+        "style": "éditoriale"
+      }
+    },
+    {
+      "id": "voleur-assassinat",
+      "classId": "voleur",
+      "className": "Voleur",
+      "label": "Assassinat",
+      "role": "dps",
+      "range": "melee",
+      "pet": "none",
+      "activity": {
+        "raid": 3,
+        "bg": 3,
+        "world": 5,
+        "solo": 3
+      },
+      "style": {
+        "burst": 5,
+        "zone": 2,
+        "ctrl": 5,
+        "surv": 2,
+        "mob": 4,
+        "support": 1
+      },
+      "load": {
+        "pve": 3,
+        "pvp": 4
+      },
+      "source": "https://worldofwarcraft.blizzard.com/en-us/news/24310968/world-of-warcraft-forever-class-deep-dives-rogue-and-warlock",
+      "dataQuality": {
+        "officialKit": true,
+        "activity": "éditoriale",
+        "style": "éditoriale"
+      }
+    },
+    {
+      "id": "voleur-combat",
+      "classId": "voleur",
+      "className": "Voleur",
+      "label": "Combat",
+      "role": "dps",
+      "range": "melee",
+      "pet": "none",
+      "activity": {
+        "raid": 4,
+        "bg": 3,
+        "world": 4,
+        "solo": 3
+      },
+      "style": {
+        "burst": 4,
+        "zone": 3,
+        "ctrl": 4,
+        "surv": 3,
+        "mob": 4,
+        "support": 1
+      },
+      "load": {
+        "pve": 2,
+        "pvp": 3
+      },
+      "source": "https://worldofwarcraft.blizzard.com/en-us/news/24310968/world-of-warcraft-forever-class-deep-dives-rogue-and-warlock",
+      "dataQuality": {
+        "officialKit": true,
+        "activity": "éditoriale",
+        "style": "éditoriale"
+      }
+    },
+    {
+      "id": "voleur-finesse",
+      "classId": "voleur",
+      "className": "Voleur",
+      "label": "Finesse",
+      "role": "dps",
+      "range": "melee",
+      "pet": "none",
+      "activity": {
+        "raid": 3,
+        "bg": 4,
+        "world": 5,
+        "solo": 3
+      },
+      "style": {
+        "burst": 5,
+        "zone": 2,
+        "ctrl": 5,
+        "surv": 2,
+        "mob": 5,
+        "support": 1
+      },
+      "load": {
+        "pve": 3,
+        "pvp": 5
+      },
+      "source": "https://worldofwarcraft.blizzard.com/en-us/news/24310968/world-of-warcraft-forever-class-deep-dives-rogue-and-warlock",
+      "dataQuality": {
+        "officialKit": true,
+        "activity": "éditoriale",
+        "style": "éditoriale"
+      }
+    },
+    {
+      "id": "pretre-discipline",
+      "classId": "pretre",
+      "className": "Prêtre",
+      "label": "Discipline",
+      "role": "soin",
+      "range": "distance",
+      "pet": "none",
+      "activity": {
+        "raid": 5,
+        "bg": 5,
+        "world": 4,
+        "solo": 3
+      },
+      "style": {
+        "burst": 2,
+        "zone": 2,
+        "ctrl": 3,
+        "surv": 4,
+        "mob": 2,
+        "support": 5
+      },
+      "load": {
+        "pve": 3,
+        "pvp": 4
+      },
+      "source": "https://worldofwarcraft.blizzard.com/en-us/news/24301514",
+      "dataQuality": {
+        "officialKit": true,
+        "activity": "éditoriale",
+        "style": "éditoriale"
+      }
+    },
+    {
+      "id": "pretre-sacre",
+      "classId": "pretre",
+      "className": "Prêtre",
+      "label": "Sacré",
+      "role": "soin",
+      "range": "distance",
+      "pet": "none",
+      "activity": {
+        "raid": 5,
+        "bg": 5,
+        "world": 3,
+        "solo": 3
+      },
+      "style": {
+        "burst": 2,
+        "zone": 2,
+        "ctrl": 3,
+        "surv": 4,
+        "mob": 2,
+        "support": 5
+      },
+      "load": {
+        "pve": 2,
+        "pvp": 3
+      },
+      "source": "https://worldofwarcraft.blizzard.com/en-us/news/24301514",
+      "dataQuality": {
+        "officialKit": true,
+        "activity": "éditoriale",
+        "style": "éditoriale"
+      }
+    },
+    {
+      "id": "pretre-ombre",
+      "classId": "pretre",
+      "className": "Prêtre",
+      "label": "Ombre",
+      "role": "dps",
+      "range": "distance",
+      "pet": "none",
+      "activity": {
+        "raid": 3,
+        "bg": 4,
+        "world": 4,
+        "solo": 3
+      },
+      "style": {
+        "burst": 3,
+        "zone": 2,
+        "ctrl": 4,
+        "surv": 3,
+        "mob": 2,
+        "support": 4
+      },
+      "load": {
+        "pve": 3,
+        "pvp": 4
+      },
+      "source": "https://worldofwarcraft.blizzard.com/en-us/news/24301514",
+      "dataQuality": {
+        "officialKit": true,
+        "activity": "éditoriale",
+        "style": "éditoriale"
+      }
+    },
+    {
+      "id": "chaman-elementaire",
+      "classId": "chaman",
+      "className": "Chaman",
+      "label": "Élémentaire",
+      "role": "dps",
+      "range": "distance",
+      "pet": "none",
+      "activity": {
+        "raid": 3,
+        "bg": 4,
+        "world": 4,
+        "solo": 3
+      },
+      "style": {
+        "burst": 5,
+        "zone": 4,
+        "ctrl": 3,
+        "surv": 3,
+        "mob": 4,
+        "support": 4
+      },
+      "load": {
+        "pve": 3,
+        "pvp": 3
+      },
+      "source": "https://worldofwarcraft.blizzard.com/en-us/news/24302097",
+      "dataQuality": {
+        "officialKit": true,
+        "activity": "éditoriale",
+        "style": "éditoriale"
+      }
+    },
+    {
+      "id": "chaman-amelioration",
+      "classId": "chaman",
+      "className": "Chaman",
+      "label": "Amélioration",
+      "role": "dps",
+      "range": "melee",
+      "pet": "none",
+      "activity": {
+        "raid": 4,
+        "bg": 4,
+        "world": 4,
+        "solo": 3
+      },
+      "style": {
+        "burst": 5,
+        "zone": 3,
+        "ctrl": 2,
+        "surv": 3,
+        "mob": 5,
+        "support": 4
+      },
+      "load": {
+        "pve": 3,
+        "pvp": 3
+      },
+      "source": "https://worldofwarcraft.blizzard.com/en-us/news/24302097",
+      "dataQuality": {
+        "officialKit": true,
+        "activity": "éditoriale",
+        "style": "éditoriale"
+      }
+    },
+    {
+      "id": "chaman-restauration",
+      "classId": "chaman",
+      "className": "Chaman",
+      "label": "Restauration",
+      "role": "soin",
+      "range": "distance",
+      "pet": "none",
+      "activity": {
+        "raid": 5,
+        "bg": 5,
+        "world": 4,
+        "solo": 3
+      },
+      "style": {
+        "burst": 2,
+        "zone": 2,
+        "ctrl": 2,
+        "surv": 4,
+        "mob": 4,
+        "support": 5
+      },
+      "load": {
+        "pve": 2,
+        "pvp": 3
+      },
+      "source": "https://worldofwarcraft.blizzard.com/en-us/news/24302097",
+      "dataQuality": {
+        "officialKit": true,
+        "activity": "éditoriale",
+        "style": "éditoriale"
+      }
+    },
+    {
+      "id": "mage-arcane",
+      "classId": "mage",
+      "className": "Mage",
+      "label": "Arcane",
+      "role": "dps",
+      "range": "distance",
+      "pet": "none",
+      "activity": {
+        "raid": 4,
+        "bg": 4,
+        "world": 3,
+        "solo": 3
+      },
+      "style": {
+        "burst": 5,
+        "zone": 4,
+        "ctrl": 4,
+        "surv": 2,
+        "mob": 3,
+        "support": 3
+      },
+      "load": {
+        "pve": 3,
+        "pvp": 4
+      },
+      "source": "https://worldofwarcraft.blizzard.com/en-us/news/24302097",
+      "dataQuality": {
+        "officialKit": true,
+        "activity": "éditoriale",
+        "style": "éditoriale"
+      }
+    },
+    {
+      "id": "mage-feu",
+      "classId": "mage",
+      "className": "Mage",
+      "label": "Feu",
+      "role": "dps",
+      "range": "distance",
+      "pet": "none",
+      "activity": {
+        "raid": 4,
+        "bg": 4,
+        "world": 4,
+        "solo": 3
+      },
+      "style": {
+        "burst": 5,
+        "zone": 5,
+        "ctrl": 3,
+        "surv": 2,
+        "mob": 3,
+        "support": 3
+      },
+      "load": {
+        "pve": 3,
+        "pvp": 4
+      },
+      "source": "https://worldofwarcraft.blizzard.com/en-us/news/24302097",
+      "dataQuality": {
+        "officialKit": true,
+        "activity": "éditoriale",
+        "style": "éditoriale"
+      }
+    },
+    {
+      "id": "mage-givre",
+      "classId": "mage",
+      "className": "Mage",
+      "label": "Givre",
+      "role": "dps",
+      "range": "distance",
+      "pet": "none",
+      "activity": {
+        "raid": 3,
+        "bg": 5,
+        "world": 5,
+        "solo": 3
+      },
+      "style": {
+        "burst": 4,
+        "zone": 5,
+        "ctrl": 5,
+        "surv": 3,
+        "mob": 3,
+        "support": 3
+      },
+      "load": {
+        "pve": 2,
+        "pvp": 4
+      },
+      "source": "https://worldofwarcraft.blizzard.com/en-us/news/24302097",
+      "dataQuality": {
+        "officialKit": true,
+        "activity": "éditoriale",
+        "style": "éditoriale"
+      }
+    },
+    {
+      "id": "demoniste-affliction",
+      "classId": "demoniste",
+      "className": "Démoniste",
+      "label": "Affliction",
+      "role": "dps",
+      "range": "distance",
+      "pet": "optional",
+      "activity": {
+        "raid": 4,
+        "bg": 5,
+        "world": 5,
+        "solo": 4
+      },
+      "style": {
+        "burst": 3,
+        "zone": 4,
+        "ctrl": 5,
+        "surv": 4,
+        "mob": 2,
+        "support": 3
+      },
+      "load": {
+        "pve": 3,
+        "pvp": 3
+      },
+      "source": "https://worldofwarcraft.blizzard.com/en-us/news/24310968/world-of-warcraft-forever-class-deep-dives-rogue-and-warlock",
+      "dataQuality": {
+        "officialKit": true,
+        "activity": "éditoriale",
+        "style": "éditoriale"
+      }
+    },
+    {
+      "id": "demoniste-demonologie",
+      "classId": "demoniste",
+      "className": "Démoniste",
+      "label": "Démonologie",
+      "role": "dps",
+      "range": "distance",
+      "pet": "core",
+      "activity": {
+        "raid": 4,
+        "bg": 5,
+        "world": 4,
+        "solo": 5
+      },
+      "style": {
+        "burst": 4,
+        "zone": 4,
+        "ctrl": 4,
+        "surv": 5,
+        "mob": 2,
+        "support": 3
+      },
+      "load": {
+        "pve": 3,
+        "pvp": 4
+      },
+      "source": "https://worldofwarcraft.blizzard.com/en-us/news/24310968/world-of-warcraft-forever-class-deep-dives-rogue-and-warlock",
+      "dataQuality": {
+        "officialKit": true,
+        "activity": "éditoriale",
+        "style": "éditoriale"
+      }
+    },
+    {
+      "id": "demoniste-destruction",
+      "classId": "demoniste",
+      "className": "Démoniste",
+      "label": "Destruction",
+      "role": "dps",
+      "range": "distance",
+      "pet": "optional",
+      "activity": {
+        "raid": 4,
+        "bg": 5,
+        "world": 5,
+        "solo": 4
+      },
+      "style": {
+        "burst": 5,
+        "zone": 4,
+        "ctrl": 4,
+        "surv": 3,
+        "mob": 2,
+        "support": 2
+      },
+      "load": {
+        "pve": 3,
+        "pvp": 4
+      },
+      "source": "https://worldofwarcraft.blizzard.com/en-us/news/24310968/world-of-warcraft-forever-class-deep-dives-rogue-and-warlock",
+      "dataQuality": {
+        "officialKit": true,
+        "activity": "éditoriale",
+        "style": "éditoriale"
+      }
+    },
+    {
+      "id": "druide-equilibre",
+      "classId": "druide",
+      "className": "Druide",
+      "label": "Équilibre",
+      "role": "dps",
+      "range": "distance",
+      "pet": "none",
+      "activity": {
+        "raid": 3,
+        "bg": 4,
+        "world": 4,
+        "solo": 3
+      },
+      "style": {
+        "burst": 4,
+        "zone": 3,
+        "ctrl": 3,
+        "surv": 3,
+        "mob": 5,
+        "support": 5
+      },
+      "load": {
+        "pve": 3,
+        "pvp": 4
+      },
+      "source": "https://worldofwarcraft.blizzard.com/en-us/news/24301515",
+      "dataQuality": {
+        "officialKit": true,
+        "activity": "éditoriale",
+        "style": "éditoriale"
+      }
+    },
+    {
+      "id": "druide-farouche-chat",
+      "classId": "druide",
+      "className": "Druide",
+      "label": "Farouche (félin)",
+      "role": "dps",
+      "range": "melee",
+      "pet": "none",
+      "activity": {
+        "raid": 4,
+        "bg": 4,
+        "world": 4,
+        "solo": 4
+      },
+      "style": {
+        "burst": 5,
+        "zone": 3,
+        "ctrl": 3,
+        "surv": 4,
+        "mob": 5,
+        "support": 3
+      },
+      "load": {
+        "pve": 4,
+        "pvp": 5
+      },
+      "source": "https://worldofwarcraft.blizzard.com/en-us/news/24301515",
+      "dataQuality": {
+        "officialKit": true,
+        "activity": "éditoriale",
+        "style": "éditoriale"
+      }
+    },
+    {
+      "id": "druide-farouche-ours",
+      "classId": "druide",
+      "className": "Druide",
+      "label": "Farouche (ours)",
+      "role": "tank",
+      "range": "melee",
+      "pet": "none",
+      "activity": {
+        "raid": 4,
+        "bg": 4,
+        "world": 3,
+        "solo": 4
+      },
+      "style": {
+        "burst": 2,
+        "zone": 3,
+        "ctrl": 3,
+        "surv": 5,
+        "mob": 4,
+        "support": 4
+      },
+      "load": {
+        "pve": 4,
+        "pvp": 5
+      },
+      "source": "https://worldofwarcraft.blizzard.com/en-us/news/24301515",
+      "dataQuality": {
+        "officialKit": true,
+        "activity": "éditoriale",
+        "style": "éditoriale"
+      }
+    },
+    {
+      "id": "druide-restauration",
+      "classId": "druide",
+      "className": "Druide",
+      "label": "Restauration",
+      "role": "soin",
+      "range": "distance",
+      "pet": "none",
+      "activity": {
+        "raid": 5,
+        "bg": 5,
+        "world": 4,
+        "solo": 3
+      },
+      "style": {
+        "burst": 2,
+        "zone": 2,
+        "ctrl": 3,
+        "surv": 4,
+        "mob": 5,
+        "support": 5
+      },
+      "load": {
+        "pve": 3,
+        "pvp": 4
+      },
+      "source": "https://worldofwarcraft.blizzard.com/en-us/news/24301515",
+      "dataQuality": {
+        "officialKit": true,
+        "activity": "éditoriale",
+        "style": "éditoriale"
+      }
+    }
+  ],
+  "guide": [
+    {
+      "id": "no-preferences",
+      "profile": {},
+      "status": "unanswered",
+      "compatible": 0,
+      "used": [],
+      "results": [],
+      "uncertain": [],
+      "scenarios": [],
+      "sansFamilier": []
+    },
+    {
+      "id": "dps-soft",
+      "profile": {
+        "roles": {
+          "dps": 5
+        }
+      },
+      "status": "ok",
+      "compatible": 28,
+      "used": [
+        "roles"
+      ],
+      "results": [
+        [
+          "chasseur",
+          "chasseur-survie",
+          100
+        ],
+        [
+          "guerrier",
+          "guerrier-fureur",
+          100
+        ],
+        [
+          "demoniste",
+          "demoniste-affliction",
+          81.25
+        ],
+        [
+          "mage",
+          "mage-arcane",
+          81.25
+        ],
+        [
+          "paladin",
+          "paladin-vindicte",
+          81.25
+        ],
+        [
+          "chaman",
+          "chaman-amelioration",
+          70.94
+        ],
+        [
+          "druide",
+          "druide-farouche-chat",
+          70.94
+        ],
+        [
+          "voleur",
+          "voleur-combat",
+          70.94
+        ],
+        [
+          "pretre",
+          "pretre-ombre",
+          62.5
+        ]
+      ],
+      "uncertain": [],
+      "scenarios": [
+        [
+          "Réponses actuelles",
+          "ok",
+          [
+            "chasseur",
+            "guerrier",
+            "demoniste"
+          ]
+        ]
+      ],
+      "sansFamilier": []
+    },
+    {
+      "id": "tank-pve-strict",
+      "profile": {
+        "roles": {
+          "tank": 5
+        },
+        "activities": {
+          "raid": 5
+        },
+        "rolesStrict": true
+      },
+      "status": "ok",
+      "compatible": 3,
+      "used": [
+        "roles",
+        "activities"
+      ],
+      "results": [
+        [
+          "guerrier",
+          "guerrier-protection",
+          100
+        ],
+        [
+          "druide",
+          "druide-farouche-ours",
+          78.13
+        ],
+        [
+          "paladin",
+          "paladin-protection",
+          78.13
+        ]
+      ],
+      "uncertain": [],
+      "scenarios": [
+        [
+          "Réponses actuelles",
+          "ok",
+          [
+            "guerrier",
+            "druide",
+            "paladin"
+          ]
+        ]
+      ],
+      "sansFamilier": []
+    },
+    {
+      "id": "healer-battleground",
+      "profile": {
+        "roles": {
+          "soin": 5
+        },
+        "activities": {
+          "bg": 5
+        },
+        "styles": {
+          "support": 5,
+          "surv": 4
+        }
+      },
+      "status": "ok",
+      "compatible": 28,
+      "used": [
+        "roles",
+        "activities",
+        "styles"
+      ],
+      "results": [
+        [
+          "paladin",
+          "paladin-sacre",
+          98.93
+        ],
+        [
+          "chaman",
+          "chaman-restauration",
+          95.89
+        ],
+        [
+          "druide",
+          "druide-restauration",
+          95.89
+        ],
+        [
+          "pretre",
+          "pretre-discipline",
+          95.89
+        ],
+        [
+          "demoniste",
+          "demoniste-demonologie",
+          56.07
+        ],
+        [
+          "mage",
+          "mage-givre",
+          50
+        ],
+        [
+          "guerrier",
+          "guerrier-protection",
+          47.14
+        ],
+        [
+          "chasseur",
+          "chasseur-precision",
+          43.39
+        ],
+        [
+          "voleur",
+          "voleur-finesse",
+          30.89
+        ]
+      ],
+      "uncertain": [],
+      "scenarios": [
+        [
+          "Réponses actuelles",
+          "ok",
+          [
+            "paladin",
+            "chaman",
+            "druide"
+          ]
+        ]
+      ],
+      "sansFamilier": []
+    },
+    {
+      "id": "dps-ranged-strict",
+      "profile": {
+        "roles": {
+          "dps": 5
+        },
+        "range": {
+          "value": "distance",
+          "certainty": 5,
+          "strict": true
+        },
+        "activities": {
+          "raid": 5
+        }
+      },
+      "status": "ok",
+      "compatible": 16,
+      "used": [
+        "roles",
+        "activities",
+        "range"
+      ],
+      "results": [
+        [
+          "chasseur",
+          "chasseur-maitrise-betes",
+          87.14
+        ],
+        [
+          "demoniste",
+          "demoniste-affliction",
+          83.17
+        ],
+        [
+          "mage",
+          "mage-arcane",
+          83.17
+        ],
+        [
+          "chaman",
+          "chaman-elementaire",
+          66.35
+        ],
+        [
+          "druide",
+          "druide-equilibre",
+          66.35
+        ],
+        [
+          "pretre",
+          "pretre-ombre",
+          66.35
+        ],
+        [
+          "paladin",
+          "paladin-sacre",
+          61.54
+        ]
+      ],
+      "uncertain": [],
+      "scenarios": [
+        [
+          "Réponses actuelles",
+          "ok",
+          [
+            "chasseur",
+            "demoniste",
+            "mage"
+          ]
+        ]
+      ],
+      "sansFamilier": []
+    },
+    {
+      "id": "melee-burst",
+      "profile": {
+        "range": {
+          "value": "melee",
+          "certainty": 5
+        },
+        "styles": {
+          "burst": 5,
+          "mob": 4
+        }
+      },
+      "status": "ok",
+      "compatible": 28,
+      "used": [
+        "range",
+        "styles"
+      ],
+      "results": [
+        [
+          "chaman",
+          "chaman-amelioration",
+          97.86
+        ],
+        [
+          "druide",
+          "druide-farouche-chat",
+          97.86
+        ],
+        [
+          "voleur",
+          "voleur-finesse",
+          97.86
+        ],
+        [
+          "guerrier",
+          "guerrier-armes",
+          91.79
+        ],
+        [
+          "chasseur",
+          "chasseur-survie",
+          78.57
+        ],
+        [
+          "paladin",
+          "paladin-vindicte",
+          72.5
+        ],
+        [
+          "mage",
+          "mage-arcane",
+          48
+        ],
+        [
+          "demoniste",
+          "demoniste-destruction",
+          41.93
+        ],
+        [
+          "pretre",
+          "pretre-ombre",
+          27.64
+        ]
+      ],
+      "uncertain": [],
+      "scenarios": [
+        [
+          "Réponses actuelles",
+          "ok",
+          [
+            "chaman",
+            "druide",
+            "voleur"
+          ]
+        ]
+      ],
+      "sansFamilier": []
+    },
+    {
+      "id": "solo-pet",
+      "profile": {
+        "activities": {
+          "solo": 5
+        },
+        "pet": {
+          "value": "like",
+          "certainty": 5
+        }
+      },
+      "status": "ok",
+      "compatible": 28,
+      "used": [
+        "activities",
+        "pet"
+      ],
+      "results": [
+        [
+          "chasseur",
+          "chasseur-maitrise-betes",
+          100
+        ],
+        [
+          "demoniste",
+          "demoniste-demonologie",
+          100
+        ],
+        [
+          "paladin",
+          "paladin-protection",
+          74.29
+        ],
+        [
+          "druide",
+          "druide-farouche-chat",
+          56.43
+        ],
+        [
+          "chaman",
+          "chaman-restauration",
+          38.57
+        ],
+        [
+          "guerrier",
+          "guerrier-fureur",
+          38.57
+        ],
+        [
+          "mage",
+          "mage-arcane",
+          38.57
+        ],
+        [
+          "pretre",
+          "pretre-discipline",
+          38.57
+        ],
+        [
+          "voleur",
+          "voleur-combat",
+          38.57
+        ]
+      ],
+      "uncertain": [],
+      "scenarios": [
+        [
+          "Réponses actuelles",
+          "ok",
+          [
+            "chasseur",
+            "demoniste",
+            "paladin"
+          ]
+        ]
+      ],
+      "sansFamilier": []
+    },
+    {
+      "id": "solo-no-mandatory-pet",
+      "profile": {
+        "activities": {
+          "solo": 3
+        },
+        "pet": {
+          "value": "avoid",
+          "certainty": 5,
+          "strict": true
+        }
+      },
+      "status": "ok",
+      "compatible": 26,
+      "used": [
+        "activities",
+        "pet"
+      ],
+      "results": [
+        [
+          "chasseur",
+          "chasseur-precision",
+          89.29
+        ],
+        [
+          "paladin",
+          "paladin-protection",
+          89.29
+        ],
+        [
+          "druide",
+          "druide-farouche-chat",
+          76.79
+        ],
+        [
+          "chaman",
+          "chaman-restauration",
+          64.29
+        ],
+        [
+          "demoniste",
+          "demoniste-affliction",
+          64.29
+        ],
+        [
+          "guerrier",
+          "guerrier-fureur",
+          64.29
+        ],
+        [
+          "mage",
+          "mage-arcane",
+          64.29
+        ],
+        [
+          "pretre",
+          "pretre-discipline",
+          64.29
+        ],
+        [
+          "voleur",
+          "voleur-combat",
+          64.29
+        ]
+      ],
+      "uncertain": [],
+      "scenarios": [
+        [
+          "Réponses actuelles",
+          "ok",
+          [
+            "chasseur",
+            "paladin",
+            "druide"
+          ]
+        ]
+      ],
+      "sansFamilier": [
+        "chasseur-precision",
+        "demoniste-affliction"
+      ]
+    },
+    {
+      "id": "tank-ranged-contradiction",
+      "profile": {
+        "roles": {
+          "tank": 5
+        },
+        "rolesStrict": true,
+        "range": {
+          "value": "distance",
+          "certainty": 5,
+          "strict": true
+        }
+      },
+      "status": "no-match",
+      "compatible": 0,
+      "used": [
+        "roles",
+        "range"
+      ],
+      "results": [],
+      "uncertain": [],
+      "scenarios": [],
+      "sansFamilier": []
+    },
+    {
+      "id": "low-certainty-styles",
+      "profile": {
+        "styles": {
+          "ctrl": 0,
+          "burst": 1
+        },
+        "mastery": 0
+      },
+      "status": "ok",
+      "compatible": 28,
+      "used": [
+        "styles"
+      ],
+      "results": [
+        [
+          "voleur",
+          "voleur-assassinat",
+          61.86
+        ],
+        [
+          "demoniste",
+          "demoniste-destruction",
+          58.74
+        ],
+        [
+          "mage",
+          "mage-arcane",
+          58.74
+        ],
+        [
+          "chasseur",
+          "chasseur-precision",
+          56.91
+        ],
+        [
+          "guerrier",
+          "guerrier-armes",
+          56.41
+        ],
+        [
+          "chaman",
+          "chaman-elementaire",
+          56.11
+        ],
+        [
+          "druide",
+          "druide-farouche-chat",
+          54.75
+        ],
+        [
+          "paladin",
+          "paladin-vindicte",
+          49.28
+        ],
+        [
+          "pretre",
+          "pretre-ombre",
+          48.74
+        ]
+      ],
+      "uncertain": [
+        "Sans styles/burst",
+        "Sans styles/ctrl"
+      ],
+      "scenarios": [
+        [
+          "Réponses actuelles",
+          "ok",
+          [
+            "voleur",
+            "demoniste",
+            "mage"
+          ]
+        ],
+        [
+          "Sans styles/burst",
+          "ok",
+          [
+            "demoniste",
+            "mage",
+            "voleur"
+          ]
+        ],
+        [
+          "Sans styles/ctrl",
+          "ok",
+          [
+            "chasseur",
+            "guerrier",
+            "chaman"
+          ]
+        ]
+      ],
+      "sansFamilier": []
+    },
+    {
+      "id": "absolute-mixed-range",
+      "profile": {
+        "roles": {
+          "dps": 3
+        },
+        "range": {
+          "value": "mixte",
+          "certainty": 5,
+          "strict": true
+        }
+      },
+      "status": "ok",
+      "compatible": 10,
+      "used": [
+        "roles",
+        "range"
+      ],
+      "results": [
+        [
+          "chasseur",
+          "chasseur-survie",
+          90.62
+        ],
+        [
+          "chaman",
+          "chaman-amelioration",
+          77.91
+        ],
+        [
+          "druide",
+          "druide-farouche-chat",
+          77.91
+        ]
+      ],
+      "uncertain": [],
+      "scenarios": [
+        [
+          "Réponses actuelles",
+          "ok",
+          [
+            "chasseur",
+            "chaman",
+            "druide"
+          ]
+        ]
+      ],
+      "sansFamilier": []
+    },
+    {
+      "id": "exact-complex-skill",
+      "profile": {
+        "difficulty": {
+          "value": "complex",
+          "certainty": 5
+        },
+        "mastery": 3
+      },
+      "status": "ok",
+      "compatible": 28,
+      "used": [
+        "difficulty"
+      ],
+      "results": [
+        [
+          "druide",
+          "druide-farouche-chat",
+          87.5
+        ],
+        [
+          "voleur",
+          "voleur-finesse",
+          75
+        ],
+        [
+          "chasseur",
+          "chasseur-survie",
+          62.5
+        ],
+        [
+          "demoniste",
+          "demoniste-demonologie",
+          62.5
+        ],
+        [
+          "guerrier",
+          "guerrier-protection",
+          62.5
+        ],
+        [
+          "mage",
+          "mage-arcane",
+          62.5
+        ],
+        [
+          "pretre",
+          "pretre-discipline",
+          62.5
+        ],
+        [
+          "chaman",
+          "chaman-amelioration",
+          50
+        ],
+        [
+          "paladin",
+          "paladin-sacre",
+          25
+        ]
+      ],
+      "uncertain": [],
+      "scenarios": [
+        [
+          "Réponses actuelles",
+          "ok",
+          [
+            "druide",
+            "voleur",
+            "chasseur"
+          ]
+        ]
+      ],
+      "sansFamilier": []
+    },
+    {
+      "id": "pet-avoid-control-ranged-beginner",
+      "profile": {
+        "styles": {
+          "ctrl": 5
+        },
+        "range": {
+          "value": "distance",
+          "certainty": 5
+        },
+        "pet": {
+          "value": "avoid",
+          "certainty": 5,
+          "strict": true
+        },
+        "mastery": 0
+      },
+      "status": "ok",
+      "compatible": 26,
+      "used": [
+        "range",
+        "styles",
+        "pet"
+      ],
+      "results": [
+        [
+          "mage",
+          "mage-givre",
+          92.91
+        ],
+        [
+          "demoniste",
+          "demoniste-affliction",
+          83.57
+        ],
+        [
+          "pretre",
+          "pretre-ombre",
+          81.8
+        ],
+        [
+          "chaman",
+          "chaman-elementaire",
+          72.46
+        ],
+        [
+          "chasseur",
+          "chasseur-precision",
+          72.46
+        ],
+        [
+          "druide",
+          "druide-restauration",
+          70.69
+        ],
+        [
+          "voleur",
+          "voleur-assassinat",
+          63.58
+        ],
+        [
+          "paladin",
+          "paladin-sacre",
+          63.12
+        ],
+        [
+          "guerrier",
+          "guerrier-protection",
+          41.36
+        ]
+      ],
+      "uncertain": [],
+      "scenarios": [
+        [
+          "Réponses actuelles",
+          "ok",
+          [
+            "mage",
+            "demoniste",
+            "pretre"
+          ]
+        ]
+      ],
+      "sansFamilier": [
+        "demoniste-affliction",
+        "chasseur-precision"
+      ]
+    },
+    {
+      "id": "pet-avoid-control-ranged",
+      "profile": {
+        "styles": {
+          "ctrl": 5
+        },
+        "range": {
+          "value": "distance",
+          "certainty": 5
+        },
+        "pet": {
+          "value": "avoid",
+          "certainty": 5,
+          "strict": true
+        }
+      },
+      "status": "ok",
+      "compatible": 26,
+      "used": [
+        "range",
+        "styles",
+        "pet"
+      ],
+      "results": [
+        [
+          "mage",
+          "mage-givre",
+          100
+        ],
+        [
+          "demoniste",
+          "demoniste-affliction",
+          88.89
+        ],
+        [
+          "pretre",
+          "pretre-ombre",
+          88.89
+        ],
+        [
+          "chaman",
+          "chaman-elementaire",
+          77.78
+        ],
+        [
+          "chasseur",
+          "chasseur-precision",
+          77.78
+        ],
+        [
+          "druide",
+          "druide-restauration",
+          77.78
+        ],
+        [
+          "voleur",
+          "voleur-assassinat",
+          70.67
+        ],
+        [
+          "paladin",
+          "paladin-sacre",
+          66.67
+        ],
+        [
+          "guerrier",
+          "guerrier-protection",
+          48.44
+        ]
+      ],
+      "uncertain": [],
+      "scenarios": [
+        [
+          "Réponses actuelles",
+          "ok",
+          [
+            "mage",
+            "demoniste",
+            "pretre"
+          ]
+        ]
+      ],
+      "sansFamilier": [
+        "demoniste-affliction",
+        "chasseur-precision"
+      ]
+    },
+    {
+      "id": "pet-avoid-solo",
+      "profile": {
+        "activities": {
+          "solo": 5
+        },
+        "pet": {
+          "value": "avoid",
+          "certainty": 5
+        }
+      },
+      "status": "ok",
+      "compatible": 28,
+      "used": [
+        "activities",
+        "pet"
+      ],
+      "results": [
+        [
+          "chasseur",
+          "chasseur-precision",
+          100
+        ],
+        [
+          "paladin",
+          "paladin-protection",
+          100
+        ],
+        [
+          "druide",
+          "druide-farouche-chat",
+          82.14
+        ],
+        [
+          "demoniste",
+          "demoniste-demonologie",
+          72.86
+        ],
+        [
+          "chaman",
+          "chaman-restauration",
+          64.29
+        ],
+        [
+          "guerrier",
+          "guerrier-fureur",
+          64.29
+        ],
+        [
+          "mage",
+          "mage-arcane",
+          64.29
+        ],
+        [
+          "pretre",
+          "pretre-discipline",
+          64.29
+        ],
+        [
+          "voleur",
+          "voleur-combat",
+          64.29
+        ]
+      ],
+      "uncertain": [],
+      "scenarios": [
+        [
+          "Réponses actuelles",
+          "ok",
+          [
+            "chasseur",
+            "paladin",
+            "druide"
+          ]
+        ]
+      ],
+      "sansFamilier": [
+        "chasseur-precision"
+      ]
+    },
+    {
+      "id": "pet-avoid-ranged-world",
+      "profile": {
+        "roles": {
+          "dps": 5
+        },
+        "range": {
+          "value": "distance",
+          "certainty": 4
+        },
+        "activities": {
+          "world": 5
+        },
+        "pet": {
+          "value": "avoid",
+          "certainty": 4
+        }
+      },
+      "status": "ok",
+      "compatible": 28,
+      "used": [
+        "roles",
+        "activities",
+        "range",
+        "pet"
+      ],
+      "results": [
+        [
+          "mage",
+          "mage-givre",
+          88.44
+        ],
+        [
+          "chasseur",
+          "chasseur-precision",
+          86.35
+        ],
+        [
+          "demoniste",
+          "demoniste-affliction",
+          82.92
+        ],
+        [
+          "chaman",
+          "chaman-elementaire",
+          76.67
+        ],
+        [
+          "druide",
+          "druide-equilibre",
+          76.67
+        ],
+        [
+          "pretre",
+          "pretre-ombre",
+          76.67
+        ],
+        [
+          "voleur",
+          "voleur-assassinat",
+          70.04
+        ],
+        [
+          "paladin",
+          "paladin-vindicte",
+          67.96
+        ],
+        [
+          "guerrier",
+          "guerrier-fureur",
+          65.87
+        ]
+      ],
+      "uncertain": [],
+      "scenarios": [
+        [
+          "Réponses actuelles",
+          "ok",
+          [
+            "mage",
+            "chasseur",
+            "demoniste"
+          ]
+        ]
+      ],
+      "sansFamilier": [
+        "chasseur-precision",
+        "demoniste-affliction"
+      ]
+    },
+    {
+      "id": "difficulty-simple-pve",
+      "profile": {
+        "difficulty": {
+          "value": "simple",
+          "certainty": 5
+        },
+        "activities": {
+          "raid": 5
+        }
+      },
+      "status": "ok",
+      "compatible": 28,
+      "used": [
+        "activities",
+        "difficulty"
+      ],
+      "results": [
+        [
+          "chaman",
+          "chaman-restauration",
+          95.83
+        ],
+        [
+          "paladin",
+          "paladin-sacre",
+          95.83
+        ],
+        [
+          "pretre",
+          "pretre-sacre",
+          95.83
+        ],
+        [
+          "druide",
+          "druide-restauration",
+          91.67
+        ],
+        [
+          "guerrier",
+          "guerrier-fureur",
+          91.67
+        ],
+        [
+          "chasseur",
+          "chasseur-survie",
+          87.5
+        ],
+        [
+          "voleur",
+          "voleur-combat",
+          75
+        ],
+        [
+          "demoniste",
+          "demoniste-affliction",
+          70.83
+        ],
+        [
+          "mage",
+          "mage-arcane",
+          70.83
+        ]
+      ],
+      "uncertain": [],
+      "scenarios": [
+        [
+          "Réponses actuelles",
+          "ok",
+          [
+            "chaman",
+            "paladin",
+            "pretre"
+          ]
+        ]
+      ],
+      "sansFamilier": []
+    },
+    {
+      "id": "difficulty-simple-pvp",
+      "profile": {
+        "difficulty": {
+          "value": "simple",
+          "certainty": 5
+        },
+        "activities": {
+          "world": 5
+        }
+      },
+      "status": "ok",
+      "compatible": 28,
+      "used": [
+        "activities",
+        "difficulty"
+      ],
+      "results": [
+        [
+          "demoniste",
+          "demoniste-affliction",
+          91.67
+        ],
+        [
+          "mage",
+          "mage-givre",
+          87.5
+        ],
+        [
+          "voleur",
+          "voleur-assassinat",
+          87.5
+        ],
+        [
+          "chasseur",
+          "chasseur-maitrise-betes",
+          75
+        ],
+        [
+          "paladin",
+          "paladin-sacre",
+          75
+        ],
+        [
+          "chaman",
+          "chaman-restauration",
+          70.83
+        ],
+        [
+          "druide",
+          "druide-restauration",
+          66.67
+        ],
+        [
+          "pretre",
+          "pretre-discipline",
+          66.67
+        ],
+        [
+          "guerrier",
+          "guerrier-fureur",
+          50
+        ]
+      ],
+      "uncertain": [],
+      "scenarios": [
+        [
+          "Réponses actuelles",
+          "ok",
+          [
+            "demoniste",
+            "mage",
+            "voleur"
+          ]
+        ]
+      ],
+      "sansFamilier": []
+    },
+    {
+      "id": "difficulty-complex-pve",
+      "profile": {
+        "difficulty": {
+          "value": "complex",
+          "certainty": 5
+        },
+        "activities": {
+          "raid": 5
+        }
+      },
+      "status": "ok",
+      "compatible": 28,
+      "used": [
+        "activities",
+        "difficulty"
+      ],
+      "results": [
+        [
+          "chasseur",
+          "chasseur-survie",
+          95.83
+        ],
+        [
+          "druide",
+          "druide-restauration",
+          91.67
+        ],
+        [
+          "guerrier",
+          "guerrier-fureur",
+          91.67
+        ],
+        [
+          "pretre",
+          "pretre-discipline",
+          91.67
+        ],
+        [
+          "chaman",
+          "chaman-restauration",
+          87.5
+        ],
+        [
+          "paladin",
+          "paladin-sacre",
+          87.5
+        ],
+        [
+          "demoniste",
+          "demoniste-affliction",
+          70.83
+        ],
+        [
+          "mage",
+          "mage-arcane",
+          70.83
+        ],
+        [
+          "voleur",
+          "voleur-combat",
+          66.67
+        ]
+      ],
+      "uncertain": [],
+      "scenarios": [
+        [
+          "Réponses actuelles",
+          "ok",
+          [
+            "chasseur",
+            "druide",
+            "guerrier"
+          ]
+        ]
+      ],
+      "sansFamilier": []
+    },
+    {
+      "id": "difficulty-complex-pvp",
+      "profile": {
+        "difficulty": {
+          "value": "complex",
+          "certainty": 5
+        },
+        "activities": {
+          "bg": 5
+        }
+      },
+      "status": "ok",
+      "compatible": 28,
+      "used": [
+        "activities",
+        "difficulty"
+      ],
+      "results": [
+        [
+          "demoniste",
+          "demoniste-demonologie",
+          95.83
+        ],
+        [
+          "druide",
+          "druide-restauration",
+          95.83
+        ],
+        [
+          "mage",
+          "mage-givre",
+          95.83
+        ],
+        [
+          "pretre",
+          "pretre-discipline",
+          95.83
+        ],
+        [
+          "chaman",
+          "chaman-restauration",
+          91.67
+        ],
+        [
+          "chasseur",
+          "chasseur-precision",
+          91.67
+        ],
+        [
+          "paladin",
+          "paladin-sacre",
+          87.5
+        ],
+        [
+          "voleur",
+          "voleur-finesse",
+          79.17
+        ],
+        [
+          "guerrier",
+          "guerrier-protection",
+          75
+        ]
+      ],
+      "uncertain": [],
+      "scenarios": [
+        [
+          "Réponses actuelles",
+          "ok",
+          [
+            "demoniste",
+            "druide",
+            "mage"
+          ]
+        ]
+      ],
+      "sansFamilier": []
+    }
+  ],
+  "priorities": [
+    {
+      "id": "egal",
+      "levels": [
+        {
+          "mastery": 0,
+          "results": [
+            [
+              "druide",
+              "druide-restauration",
+              47.73
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              46.8
+            ],
+            [
+              "demoniste",
+              "demoniste-demonologie",
+              44.06
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              43.62
+            ],
+            [
+              "mage",
+              "mage-givre",
+              42.65
+            ],
+            [
+              "chasseur",
+              "chasseur-precision",
+              42.5
+            ],
+            [
+              "pretre",
+              "pretre-discipline",
+              40.73
+            ],
+            [
+              "guerrier",
+              "guerrier-fureur",
+              39.25
+            ],
+            [
+              "voleur",
+              "voleur-finesse",
+              35.76
+            ]
+          ]
+        },
+        {
+          "mastery": 1,
+          "results": [
+            [
+              "druide",
+              "druide-restauration",
+              54.43
+            ],
+            [
+              "demoniste",
+              "demoniste-demonologie",
+              50.76
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              50.64
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              48.4
+            ],
+            [
+              "mage",
+              "mage-givre",
+              48.38
+            ],
+            [
+              "pretre",
+              "pretre-discipline",
+              47.43
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              47.42
+            ],
+            [
+              "guerrier",
+              "guerrier-fureur",
+              45
+            ],
+            [
+              "voleur",
+              "voleur-finesse",
+              41.62
+            ]
+          ]
+        },
+        {
+          "mastery": 2,
+          "results": [
+            [
+              "druide",
+              "druide-farouche-chat",
+              60.08
+            ],
+            [
+              "demoniste",
+              "demoniste-demonologie",
+              56.21
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              53.75
+            ],
+            [
+              "mage",
+              "mage-givre",
+              53.04
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              52.87
+            ],
+            [
+              "pretre",
+              "pretre-discipline",
+              52.87
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              52.29
+            ],
+            [
+              "guerrier",
+              "guerrier-fureur",
+              49.67
+            ],
+            [
+              "voleur",
+              "voleur-finesse",
+              47.58
+            ]
+          ]
+        },
+        {
+          "mastery": 3,
+          "results": [
+            [
+              "druide",
+              "druide-farouche-chat",
+              63.83
+            ],
+            [
+              "demoniste",
+              "demoniste-demonologie",
+              58.25
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              55.38
+            ],
+            [
+              "pretre",
+              "pretre-discipline",
+              55.29
+            ],
+            [
+              "paladin",
+              "paladin-protection",
+              55.09
+            ],
+            [
+              "mage",
+              "mage-givre",
+              54.24
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              54.03
+            ],
+            [
+              "guerrier",
+              "guerrier-fureur",
+              52.42
+            ],
+            [
+              "voleur",
+              "voleur-finesse",
+              49.9
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "polyvalence",
+      "levels": [
+        {
+          "mastery": 0,
+          "results": [
+            [
+              "paladin",
+              "paladin-sacre",
+              71.32
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              70.86
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              42.15
+            ],
+            [
+              "pretre",
+              "pretre-sacre",
+              42.15
+            ],
+            [
+              "guerrier",
+              "guerrier-fureur",
+              41.7
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              12.08
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              9.06
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              9.06
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              7.6
+            ]
+          ]
+        },
+        {
+          "mastery": 1,
+          "results": [
+            [
+              "paladin",
+              "paladin-sacre",
+              71.82
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              71.61
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              42.65
+            ],
+            [
+              "pretre",
+              "pretre-sacre",
+              42.65
+            ],
+            [
+              "guerrier",
+              "guerrier-fureur",
+              42.45
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              13.08
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              9.81
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              9.81
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              8.1
+            ]
+          ]
+        },
+        {
+          "mastery": 2,
+          "results": [
+            [
+              "druide",
+              "druide-restauration",
+              72.22
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              72.22
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              43.06
+            ],
+            [
+              "guerrier",
+              "guerrier-fureur",
+              43.06
+            ],
+            [
+              "pretre",
+              "pretre-discipline",
+              43.06
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              13.89
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              10.42
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              10.42
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              8.51
+            ]
+          ]
+        },
+        {
+          "mastery": 3,
+          "results": [
+            [
+              "druide",
+              "druide-restauration",
+              72.22
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              72.22
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              43.06
+            ],
+            [
+              "guerrier",
+              "guerrier-fureur",
+              43.06
+            ],
+            [
+              "pretre",
+              "pretre-discipline",
+              43.06
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              13.89
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              10.84
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              10.84
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              8.79
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pve",
+      "levels": [
+        {
+          "mastery": 0,
+          "results": [
+            [
+              "chaman",
+              "chaman-restauration",
+              51.76
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              51.76
+            ],
+            [
+              "pretre",
+              "pretre-sacre",
+              51.76
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              49.66
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              31.82
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              31.82
+            ],
+            [
+              "chasseur",
+              "chasseur-maitrise-betes",
+              30.64
+            ],
+            [
+              "guerrier",
+              "guerrier-protection",
+              30.48
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              14.46
+            ]
+          ]
+        },
+        {
+          "mastery": 1,
+          "results": [
+            [
+              "chaman",
+              "chaman-restauration",
+              54.08
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              54.08
+            ],
+            [
+              "pretre",
+              "pretre-sacre",
+              54.08
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              53.14
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              35.78
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              35.78
+            ],
+            [
+              "guerrier",
+              "guerrier-protection",
+              33.96
+            ],
+            [
+              "chasseur",
+              "chasseur-maitrise-betes",
+              31.96
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              15.41
+            ]
+          ]
+        },
+        {
+          "mastery": 2,
+          "results": [
+            [
+              "chaman",
+              "chaman-restauration",
+              55.97
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              55.97
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              55.97
+            ],
+            [
+              "pretre",
+              "pretre-discipline",
+              55.97
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              38.99
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              38.99
+            ],
+            [
+              "guerrier",
+              "guerrier-protection",
+              36.79
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              36.01
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              16.18
+            ]
+          ]
+        },
+        {
+          "mastery": 3,
+          "results": [
+            [
+              "chaman",
+              "chaman-restauration",
+              55.97
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              55.97
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              55.97
+            ],
+            [
+              "pretre",
+              "pretre-discipline",
+              55.97
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              41.22
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              41.22
+            ],
+            [
+              "guerrier",
+              "guerrier-protection",
+              38.21
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              37.85
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              17.67
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pvp",
+      "levels": [
+        {
+          "mastery": 0,
+          "results": [
+            [
+              "demoniste",
+              "demoniste-affliction",
+              72.16
+            ],
+            [
+              "mage",
+              "mage-givre",
+              64.86
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              62.61
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              57.04
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              56.98
+            ],
+            [
+              "voleur",
+              "voleur-finesse",
+              56.26
+            ],
+            [
+              "chasseur",
+              "chasseur-maitrise-betes",
+              53.43
+            ],
+            [
+              "pretre",
+              "pretre-discipline",
+              51.04
+            ],
+            [
+              "guerrier",
+              "guerrier-fureur",
+              37.67
+            ]
+          ]
+        },
+        {
+          "mastery": 1,
+          "results": [
+            [
+              "demoniste",
+              "demoniste-affliction",
+              82.01
+            ],
+            [
+              "mage",
+              "mage-givre",
+              77.63
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              69.98
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              69.17
+            ],
+            [
+              "voleur",
+              "voleur-finesse",
+              67.46
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              66.65
+            ],
+            [
+              "pretre",
+              "pretre-discipline",
+              63.98
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              60.86
+            ],
+            [
+              "guerrier",
+              "guerrier-armes",
+              49.13
+            ]
+          ]
+        },
+        {
+          "mastery": 2,
+          "results": [
+            [
+              "demoniste",
+              "demoniste-affliction",
+              90
+            ],
+            [
+              "mage",
+              "mage-givre",
+              88
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              80.5
+            ],
+            [
+              "voleur",
+              "voleur-finesse",
+              80.5
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              74.5
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              74.5
+            ],
+            [
+              "pretre",
+              "pretre-discipline",
+              74.5
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              69
+            ],
+            [
+              "guerrier",
+              "guerrier-armes",
+              59.5
+            ]
+          ]
+        },
+        {
+          "mastery": 3,
+          "results": [
+            [
+              "demoniste",
+              "demoniste-affliction",
+              90.89
+            ],
+            [
+              "mage",
+              "mage-givre",
+              88.97
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              84.67
+            ],
+            [
+              "voleur",
+              "voleur-finesse",
+              83.9
+            ],
+            [
+              "pretre",
+              "pretre-discipline",
+              78.96
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              77.91
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              76.44
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              74.62
+            ],
+            [
+              "guerrier",
+              "guerrier-armes",
+              66.49
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tank",
+      "levels": [
+        {
+          "mastery": 0,
+          "results": [
+            [
+              "guerrier",
+              "guerrier-protection",
+              88.75
+            ],
+            [
+              "paladin",
+              "paladin-protection",
+              74.06
+            ],
+            [
+              "druide",
+              "druide-farouche-ours",
+              67.06
+            ],
+            [
+              "demoniste",
+              "demoniste-demonologie",
+              19.94
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              14.96
+            ],
+            [
+              "pretre",
+              "pretre-sacre",
+              14.96
+            ],
+            [
+              "chasseur",
+              "chasseur-maitrise-betes",
+              9.97
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              9.03
+            ],
+            [
+              "mage",
+              "mage-givre",
+              8.08
+            ]
+          ]
+        },
+        {
+          "mastery": 1,
+          "results": [
+            [
+              "guerrier",
+              "guerrier-protection",
+              94.96
+            ],
+            [
+              "paladin",
+              "paladin-protection",
+              77.85
+            ],
+            [
+              "druide",
+              "druide-farouche-ours",
+              74.35
+            ],
+            [
+              "demoniste",
+              "demoniste-demonologie",
+              22.03
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              16.52
+            ],
+            [
+              "pretre",
+              "pretre-sacre",
+              16.52
+            ],
+            [
+              "chasseur",
+              "chasseur-maitrise-betes",
+              11.02
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              10.59
+            ],
+            [
+              "mage",
+              "mage-givre",
+              10.17
+            ]
+          ]
+        },
+        {
+          "mastery": 2,
+          "results": [
+            [
+              "guerrier",
+              "guerrier-protection",
+              100
+            ],
+            [
+              "druide",
+              "druide-farouche-ours",
+              80.93
+            ],
+            [
+              "paladin",
+              "paladin-protection",
+              80.93
+            ],
+            [
+              "demoniste",
+              "demoniste-demonologie",
+              23.73
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              17.8
+            ],
+            [
+              "pretre",
+              "pretre-discipline",
+              17.8
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              11.86
+            ],
+            [
+              "mage",
+              "mage-givre",
+              11.86
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              11.86
+            ]
+          ]
+        },
+        {
+          "mastery": 3,
+          "results": [
+            [
+              "guerrier",
+              "guerrier-protection",
+              100
+            ],
+            [
+              "druide",
+              "druide-farouche-ours",
+              83.94
+            ],
+            [
+              "paladin",
+              "paladin-protection",
+              82.48
+            ],
+            [
+              "demoniste",
+              "demoniste-demonologie",
+              23.73
+            ],
+            [
+              "pretre",
+              "pretre-discipline",
+              18.94
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              18.68
+            ],
+            [
+              "mage",
+              "mage-givre",
+              13.01
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              12.75
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              12.75
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "soin",
+      "levels": [
+        {
+          "mastery": 0,
+          "results": [
+            [
+              "chaman",
+              "chaman-restauration",
+              93.13
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              93.13
+            ],
+            [
+              "pretre",
+              "pretre-sacre",
+              93.13
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              89.7
+            ],
+            [
+              "mage",
+              "mage-givre",
+              9.97
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              9.03
+            ],
+            [
+              "guerrier",
+              "guerrier-protection",
+              9.03
+            ],
+            [
+              "chasseur",
+              "chasseur-maitrise-betes",
+              4.99
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              0
+            ]
+          ]
+        },
+        {
+          "mastery": 1,
+          "results": [
+            [
+              "chaman",
+              "chaman-restauration",
+              96.92
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              96.92
+            ],
+            [
+              "pretre",
+              "pretre-sacre",
+              96.92
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              95.38
+            ],
+            [
+              "mage",
+              "mage-givre",
+              11.02
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              10.59
+            ],
+            [
+              "guerrier",
+              "guerrier-protection",
+              10.59
+            ],
+            [
+              "chasseur",
+              "chasseur-maitrise-betes",
+              5.51
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              0
+            ]
+          ]
+        },
+        {
+          "mastery": 2,
+          "results": [
+            [
+              "chaman",
+              "chaman-restauration",
+              100
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              100
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              100
+            ],
+            [
+              "pretre",
+              "pretre-discipline",
+              100
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              11.86
+            ],
+            [
+              "guerrier",
+              "guerrier-protection",
+              11.86
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              11.86
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              5.93
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              0
+            ]
+          ]
+        },
+        {
+          "mastery": 3,
+          "results": [
+            [
+              "chaman",
+              "chaman-restauration",
+              100
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              100
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              100
+            ],
+            [
+              "pretre",
+              "pretre-discipline",
+              100
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              12.75
+            ],
+            [
+              "guerrier",
+              "guerrier-protection",
+              12.75
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              12.75
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              7.07
+            ],
+            [
+              "voleur",
+              "voleur-assassinat",
+              0.88
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dps",
+      "levels": [
+        {
+          "mastery": 0,
+          "results": [
+            [
+              "guerrier",
+              "guerrier-fureur",
+              90.21
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              86.95
+            ],
+            [
+              "paladin",
+              "paladin-vindicte",
+              68.47
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              65.21
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              65.21
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              54.73
+            ],
+            [
+              "chaman",
+              "chaman-amelioration",
+              51.46
+            ],
+            [
+              "druide",
+              "druide-farouche-chat",
+              48.2
+            ],
+            [
+              "pretre",
+              "pretre-ombre",
+              40.21
+            ]
+          ]
+        },
+        {
+          "mastery": 1,
+          "results": [
+            [
+              "guerrier",
+              "guerrier-fureur",
+              95.61
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              94.15
+            ],
+            [
+              "paladin",
+              "paladin-vindicte",
+              72.08
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              70.61
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              70.61
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              58.33
+            ],
+            [
+              "chaman",
+              "chaman-amelioration",
+              56.86
+            ],
+            [
+              "druide",
+              "druide-farouche-chat",
+              55.4
+            ],
+            [
+              "pretre",
+              "pretre-ombre",
+              45.61
+            ]
+          ]
+        },
+        {
+          "mastery": 2,
+          "results": [
+            [
+              "chasseur",
+              "chasseur-survie",
+              100
+            ],
+            [
+              "guerrier",
+              "guerrier-fureur",
+              100
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              75
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              75
+            ],
+            [
+              "paladin",
+              "paladin-vindicte",
+              75
+            ],
+            [
+              "chaman",
+              "chaman-amelioration",
+              61.25
+            ],
+            [
+              "druide",
+              "druide-farouche-chat",
+              61.25
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              61.25
+            ],
+            [
+              "pretre",
+              "pretre-ombre",
+              50
+            ]
+          ]
+        },
+        {
+          "mastery": 3,
+          "results": [
+            [
+              "chasseur",
+              "chasseur-survie",
+              100
+            ],
+            [
+              "guerrier",
+              "guerrier-fureur",
+              100
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              78.04
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              78.04
+            ],
+            [
+              "paladin",
+              "paladin-vindicte",
+              77.03
+            ],
+            [
+              "druide",
+              "druide-farouche-chat",
+              65.19
+            ],
+            [
+              "chaman",
+              "chaman-amelioration",
+              64.29
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              63.27
+            ],
+            [
+              "pretre",
+              "pretre-ombre",
+              53.04
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "zone",
+      "levels": [
+        {
+          "mastery": 0,
+          "results": [
+            [
+              "mage",
+              "mage-feu",
+              88.04
+            ],
+            [
+              "guerrier",
+              "guerrier-fureur",
+              81.79
+            ],
+            [
+              "chaman",
+              "chaman-elementaire",
+              69.29
+            ],
+            [
+              "demoniste",
+              "demoniste-destruction",
+              69.29
+            ],
+            [
+              "chasseur",
+              "chasseur-precision",
+              54.53
+            ],
+            [
+              "paladin",
+              "paladin-vindicte",
+              48.28
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              48.28
+            ],
+            [
+              "druide",
+              "druide-farouche-chat",
+              46.55
+            ],
+            [
+              "pretre",
+              "pretre-ombre",
+              19.29
+            ]
+          ]
+        },
+        {
+          "mastery": 1,
+          "results": [
+            [
+              "mage",
+              "mage-feu",
+              94.64
+            ],
+            [
+              "guerrier",
+              "guerrier-fureur",
+              88.39
+            ],
+            [
+              "chaman",
+              "chaman-elementaire",
+              75.89
+            ],
+            [
+              "demoniste",
+              "demoniste-destruction",
+              75.89
+            ],
+            [
+              "chasseur",
+              "chasseur-precision",
+              58.93
+            ],
+            [
+              "druide",
+              "druide-farouche-chat",
+              55.35
+            ],
+            [
+              "paladin",
+              "paladin-vindicte",
+              52.68
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              52.68
+            ],
+            [
+              "pretre",
+              "pretre-ombre",
+              25.89
+            ]
+          ]
+        },
+        {
+          "mastery": 2,
+          "results": [
+            [
+              "mage",
+              "mage-feu",
+              100
+            ],
+            [
+              "guerrier",
+              "guerrier-fureur",
+              93.75
+            ],
+            [
+              "chaman",
+              "chaman-elementaire",
+              81.25
+            ],
+            [
+              "demoniste",
+              "demoniste-destruction",
+              81.25
+            ],
+            [
+              "chasseur",
+              "chasseur-precision",
+              62.5
+            ],
+            [
+              "druide",
+              "druide-farouche-chat",
+              62.5
+            ],
+            [
+              "paladin",
+              "paladin-vindicte",
+              56.25
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              56.25
+            ],
+            [
+              "pretre",
+              "pretre-ombre",
+              31.25
+            ]
+          ]
+        },
+        {
+          "mastery": 3,
+          "results": [
+            [
+              "mage",
+              "mage-feu",
+              100
+            ],
+            [
+              "guerrier",
+              "guerrier-fureur",
+              94.68
+            ],
+            [
+              "chaman",
+              "chaman-elementaire",
+              84.03
+            ],
+            [
+              "demoniste",
+              "demoniste-destruction",
+              84.03
+            ],
+            [
+              "druide",
+              "druide-farouche-chat",
+              66.11
+            ],
+            [
+              "chasseur",
+              "chasseur-precision",
+              64.36
+            ],
+            [
+              "paladin",
+              "paladin-vindicte",
+              58.73
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              58.73
+            ],
+            [
+              "pretre",
+              "pretre-ombre",
+              34.96
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "soutien",
+      "levels": [
+        {
+          "mastery": 0,
+          "results": [
+            [
+              "druide",
+              "druide-restauration",
+              88.04
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              85.78
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              73.28
+            ],
+            [
+              "pretre",
+              "pretre-sacre",
+              73.28
+            ],
+            [
+              "mage",
+              "mage-givre",
+              42.03
+            ],
+            [
+              "guerrier",
+              "guerrier-protection",
+              38.04
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              31.79
+            ],
+            [
+              "chasseur",
+              "chasseur-maitrise-betes",
+              27.26
+            ],
+            [
+              "voleur",
+              "voleur-finesse",
+              22.01
+            ]
+          ]
+        },
+        {
+          "mastery": 1,
+          "results": [
+            [
+              "druide",
+              "druide-restauration",
+              94.64
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              90.18
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              77.68
+            ],
+            [
+              "pretre",
+              "pretre-sacre",
+              77.68
+            ],
+            [
+              "mage",
+              "mage-givre",
+              46.43
+            ],
+            [
+              "guerrier",
+              "guerrier-protection",
+              44.64
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              38.39
+            ],
+            [
+              "chasseur",
+              "chasseur-maitrise-betes",
+              29.46
+            ],
+            [
+              "voleur",
+              "voleur-finesse",
+              23.66
+            ]
+          ]
+        },
+        {
+          "mastery": 2,
+          "results": [
+            [
+              "druide",
+              "druide-restauration",
+              100
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              93.75
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              81.25
+            ],
+            [
+              "pretre",
+              "pretre-discipline",
+              81.25
+            ],
+            [
+              "guerrier",
+              "guerrier-protection",
+              50
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              50
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              43.75
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              31.25
+            ],
+            [
+              "voleur",
+              "voleur-finesse",
+              25
+            ]
+          ]
+        },
+        {
+          "mastery": 3,
+          "results": [
+            [
+              "druide",
+              "druide-restauration",
+              100
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              94.37
+            ],
+            [
+              "pretre",
+              "pretre-discipline",
+              82.18
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              81.87
+            ],
+            [
+              "guerrier",
+              "guerrier-protection",
+              53.71
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              53.71
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              47.46
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              36.06
+            ],
+            [
+              "voleur",
+              "voleur-finesse",
+              27.78
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bg",
+      "levels": [
+        {
+          "mastery": 0,
+          "results": [
+            [
+              "paladin",
+              "paladin-sacre",
+              87.13
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              74.45
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              74.45
+            ],
+            [
+              "pretre",
+              "pretre-sacre",
+              74.45
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              68.01
+            ],
+            [
+              "chasseur",
+              "chasseur-precision",
+              61.95
+            ],
+            [
+              "mage",
+              "mage-givre",
+              61.76
+            ],
+            [
+              "guerrier",
+              "guerrier-protection",
+              55.51
+            ],
+            [
+              "voleur",
+              "voleur-finesse",
+              35.88
+            ]
+          ]
+        },
+        {
+          "mastery": 1,
+          "results": [
+            [
+              "paladin",
+              "paladin-sacre",
+              94.23
+            ],
+            [
+              "demoniste",
+              "demoniste-demonologie",
+              88.46
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              85.1
+            ],
+            [
+              "pretre",
+              "pretre-sacre",
+              85.1
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              82.21
+            ],
+            [
+              "mage",
+              "mage-givre",
+              75.96
+            ],
+            [
+              "chasseur",
+              "chasseur-precision",
+              72.6
+            ],
+            [
+              "guerrier",
+              "guerrier-protection",
+              69.71
+            ],
+            [
+              "voleur",
+              "voleur-finesse",
+              48.08
+            ]
+          ]
+        },
+        {
+          "mastery": 2,
+          "results": [
+            [
+              "demoniste",
+              "demoniste-demonologie",
+              100
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              100
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              93.75
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              93.75
+            ],
+            [
+              "pretre",
+              "pretre-discipline",
+              93.75
+            ],
+            [
+              "mage",
+              "mage-givre",
+              87.5
+            ],
+            [
+              "chasseur",
+              "chasseur-precision",
+              81.25
+            ],
+            [
+              "guerrier",
+              "guerrier-protection",
+              81.25
+            ],
+            [
+              "voleur",
+              "voleur-finesse",
+              62.5
+            ]
+          ]
+        },
+        {
+          "mastery": 3,
+          "results": [
+            [
+              "demoniste",
+              "demoniste-demonologie",
+              100
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              100
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              94.95
+            ],
+            [
+              "pretre",
+              "pretre-discipline",
+              94.95
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              94.68
+            ],
+            [
+              "mage",
+              "mage-givre",
+              88.7
+            ],
+            [
+              "guerrier",
+              "guerrier-protection",
+              87.81
+            ],
+            [
+              "chasseur",
+              "chasseur-precision",
+              82.18
+            ],
+            [
+              "voleur",
+              "voleur-finesse",
+              70.27
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "soinbg",
+      "levels": [
+        {
+          "mastery": 0,
+          "results": [
+            [
+              "paladin",
+              "paladin-sacre",
+              90.42
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              87.64
+            ],
+            [
+              "pretre",
+              "pretre-sacre",
+              87.64
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              82.84
+            ],
+            [
+              "chasseur",
+              "chasseur-precision",
+              30.01
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              30.01
+            ],
+            [
+              "mage",
+              "mage-givre",
+              27.23
+            ],
+            [
+              "guerrier",
+              "guerrier-fureur",
+              20.42
+            ],
+            [
+              "voleur",
+              "voleur-finesse",
+              17.26
+            ]
+          ]
+        },
+        {
+          "mastery": 1,
+          "results": [
+            [
+              "paladin",
+              "paladin-sacre",
+              95.7
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              94.46
+            ],
+            [
+              "pretre",
+              "pretre-sacre",
+              94.46
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              92.31
+            ],
+            [
+              "chasseur",
+              "chasseur-precision",
+              34.62
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              34.62
+            ],
+            [
+              "mage",
+              "mage-givre",
+              33.37
+            ],
+            [
+              "guerrier",
+              "guerrier-fureur",
+              25.03
+            ],
+            [
+              "voleur",
+              "voleur-finesse",
+              22.53
+            ]
+          ]
+        },
+        {
+          "mastery": 2,
+          "results": [
+            [
+              "chaman",
+              "chaman-restauration",
+              100
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              100
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              100
+            ],
+            [
+              "pretre",
+              "pretre-discipline",
+              100
+            ],
+            [
+              "chasseur",
+              "chasseur-precision",
+              38.36
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              38.36
+            ],
+            [
+              "mage",
+              "mage-givre",
+              38.36
+            ],
+            [
+              "guerrier",
+              "guerrier-fureur",
+              28.77
+            ],
+            [
+              "voleur",
+              "voleur-finesse",
+              28.77
+            ]
+          ]
+        },
+        {
+          "mastery": 3,
+          "results": [
+            [
+              "chaman",
+              "chaman-restauration",
+              100
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              100
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              100
+            ],
+            [
+              "pretre",
+              "pretre-discipline",
+              100
+            ],
+            [
+              "chasseur",
+              "chasseur-precision",
+              38.36
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              38.36
+            ],
+            [
+              "mage",
+              "mage-givre",
+              38.36
+            ],
+            [
+              "guerrier",
+              "guerrier-protection",
+              32.12
+            ],
+            [
+              "voleur",
+              "voleur-finesse",
+              32.12
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sauvage",
+      "levels": [
+        {
+          "mastery": 0,
+          "results": [
+            [
+              "voleur",
+              "voleur-finesse",
+              73.94
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              71.32
+            ],
+            [
+              "mage",
+              "mage-givre",
+              69.01
+            ],
+            [
+              "chasseur",
+              "chasseur-maitrise-betes",
+              56.38
+            ],
+            [
+              "chaman",
+              "chaman-amelioration",
+              52.57
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              49.76
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              49.63
+            ],
+            [
+              "pretre",
+              "pretre-ombre",
+              43.51
+            ],
+            [
+              "guerrier",
+              "guerrier-fureur",
+              30.7
+            ]
+          ]
+        },
+        {
+          "mastery": 1,
+          "results": [
+            [
+              "voleur",
+              "voleur-finesse",
+              86.03
+            ],
+            [
+              "mage",
+              "mage-givre",
+              82.66
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              81.97
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              63.69
+            ],
+            [
+              "chaman",
+              "chaman-amelioration",
+              63.22
+            ],
+            [
+              "chasseur",
+              "chasseur-maitrise-betes",
+              63.2
+            ],
+            [
+              "pretre",
+              "pretre-ombre",
+              57.44
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              56.73
+            ],
+            [
+              "guerrier",
+              "guerrier-armes",
+              42.03
+            ]
+          ]
+        },
+        {
+          "mastery": 2,
+          "results": [
+            [
+              "voleur",
+              "voleur-finesse",
+              100
+            ],
+            [
+              "mage",
+              "mage-givre",
+              93.75
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              90.63
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              75
+            ],
+            [
+              "chaman",
+              "chaman-amelioration",
+              71.88
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              71.88
+            ],
+            [
+              "pretre",
+              "pretre-ombre",
+              68.75
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              62.5
+            ],
+            [
+              "guerrier",
+              "guerrier-armes",
+              53.13
+            ]
+          ]
+        },
+        {
+          "mastery": 3,
+          "results": [
+            [
+              "voleur",
+              "voleur-finesse",
+              100
+            ],
+            [
+              "mage",
+              "mage-givre",
+              94.06
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              91.09
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              82.16
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              78
+            ],
+            [
+              "chaman",
+              "chaman-elementaire",
+              77.87
+            ],
+            [
+              "pretre",
+              "pretre-ombre",
+              76.38
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              66.49
+            ],
+            [
+              "guerrier",
+              "guerrier-armes",
+              60.6
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "levels": [
+        {
+          "mastery": 0,
+          "results": [
+            [
+              "chaman",
+              "chaman-amelioration",
+              88.04
+            ],
+            [
+              "voleur",
+              "voleur-finesse",
+              88.04
+            ],
+            [
+              "guerrier",
+              "guerrier-armes",
+              85.78
+            ],
+            [
+              "druide",
+              "druide-farouche-chat",
+              84.05
+            ],
+            [
+              "chasseur",
+              "chasseur-precision",
+              79.53
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              75.54
+            ],
+            [
+              "demoniste",
+              "demoniste-destruction",
+              69.29
+            ],
+            [
+              "paladin",
+              "paladin-vindicte",
+              54.53
+            ],
+            [
+              "pretre",
+              "pretre-ombre",
+              31.79
+            ]
+          ]
+        },
+        {
+          "mastery": 1,
+          "results": [
+            [
+              "chaman",
+              "chaman-amelioration",
+              94.64
+            ],
+            [
+              "voleur",
+              "voleur-finesse",
+              94.64
+            ],
+            [
+              "druide",
+              "druide-farouche-chat",
+              92.85
+            ],
+            [
+              "guerrier",
+              "guerrier-armes",
+              90.18
+            ],
+            [
+              "chasseur",
+              "chasseur-precision",
+              83.93
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              82.14
+            ],
+            [
+              "demoniste",
+              "demoniste-destruction",
+              75.89
+            ],
+            [
+              "paladin",
+              "paladin-vindicte",
+              58.93
+            ],
+            [
+              "pretre",
+              "pretre-ombre",
+              38.39
+            ]
+          ]
+        },
+        {
+          "mastery": 2,
+          "results": [
+            [
+              "chaman",
+              "chaman-amelioration",
+              100
+            ],
+            [
+              "druide",
+              "druide-farouche-chat",
+              100
+            ],
+            [
+              "voleur",
+              "voleur-finesse",
+              100
+            ],
+            [
+              "guerrier",
+              "guerrier-armes",
+              93.75
+            ],
+            [
+              "chasseur",
+              "chasseur-precision",
+              87.5
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              87.5
+            ],
+            [
+              "demoniste",
+              "demoniste-destruction",
+              81.25
+            ],
+            [
+              "paladin",
+              "paladin-vindicte",
+              62.5
+            ],
+            [
+              "pretre",
+              "pretre-ombre",
+              43.75
+            ]
+          ]
+        },
+        {
+          "mastery": 3,
+          "results": [
+            [
+              "chaman",
+              "chaman-amelioration",
+              100
+            ],
+            [
+              "druide",
+              "druide-farouche-chat",
+              100
+            ],
+            [
+              "voleur",
+              "voleur-finesse",
+              100
+            ],
+            [
+              "guerrier",
+              "guerrier-armes",
+              94.37
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              88.43
+            ],
+            [
+              "chasseur",
+              "chasseur-precision",
+              88.12
+            ],
+            [
+              "demoniste",
+              "demoniste-destruction",
+              82.18
+            ],
+            [
+              "paladin",
+              "paladin-vindicte",
+              64.98
+            ],
+            [
+              "pretre",
+              "pretre-ombre",
+              47.46
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "controle",
+      "levels": [
+        {
+          "mastery": 0,
+          "results": [
+            [
+              "demoniste",
+              "demoniste-affliction",
+              88.04
+            ],
+            [
+              "mage",
+              "mage-givre",
+              84.05
+            ],
+            [
+              "voleur",
+              "voleur-assassinat",
+              84.05
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              63.04
+            ],
+            [
+              "pretre",
+              "pretre-ombre",
+              59.05
+            ],
+            [
+              "chaman",
+              "chaman-elementaire",
+              38.04
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              34.05
+            ],
+            [
+              "guerrier",
+              "guerrier-protection",
+              34.05
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              17.03
+            ]
+          ]
+        },
+        {
+          "mastery": 1,
+          "results": [
+            [
+              "demoniste",
+              "demoniste-affliction",
+              94.64
+            ],
+            [
+              "mage",
+              "mage-givre",
+              92.85
+            ],
+            [
+              "voleur",
+              "voleur-assassinat",
+              92.85
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              69.64
+            ],
+            [
+              "pretre",
+              "pretre-ombre",
+              67.85
+            ],
+            [
+              "chaman",
+              "chaman-elementaire",
+              44.64
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              42.85
+            ],
+            [
+              "guerrier",
+              "guerrier-protection",
+              42.85
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              21.43
+            ]
+          ]
+        },
+        {
+          "mastery": 2,
+          "results": [
+            [
+              "demoniste",
+              "demoniste-affliction",
+              100
+            ],
+            [
+              "mage",
+              "mage-givre",
+              100
+            ],
+            [
+              "voleur",
+              "voleur-assassinat",
+              100
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              75
+            ],
+            [
+              "pretre",
+              "pretre-ombre",
+              75
+            ],
+            [
+              "chaman",
+              "chaman-elementaire",
+              50
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              50
+            ],
+            [
+              "guerrier",
+              "guerrier-protection",
+              50
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              25
+            ]
+          ]
+        },
+        {
+          "mastery": 3,
+          "results": [
+            [
+              "demoniste",
+              "demoniste-affliction",
+              100
+            ],
+            [
+              "mage",
+              "mage-givre",
+              100
+            ],
+            [
+              "voleur",
+              "voleur-assassinat",
+              100
+            ],
+            [
+              "pretre",
+              "pretre-ombre",
+              79.81
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              78.71
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              54.81
+            ],
+            [
+              "guerrier",
+              "guerrier-protection",
+              54.81
+            ],
+            [
+              "chaman",
+              "chaman-elementaire",
+              53.71
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              27.48
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "solo",
+      "levels": [
+        {
+          "mastery": 0,
+          "results": [
+            [
+              "paladin",
+              "paladin-protection",
+              87.13
+            ],
+            [
+              "chasseur",
+              "chasseur-maitrise-betes",
+              85.51
+            ],
+            [
+              "demoniste",
+              "demoniste-demonologie",
+              79.7
+            ],
+            [
+              "druide",
+              "druide-farouche-ours",
+              55.37
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              42.38
+            ],
+            [
+              "pretre",
+              "pretre-sacre",
+              42.38
+            ],
+            [
+              "guerrier",
+              "guerrier-protection",
+              42.2
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              36.13
+            ],
+            [
+              "mage",
+              "mage-givre",
+              35.14
+            ]
+          ]
+        },
+        {
+          "mastery": 1,
+          "results": [
+            [
+              "paladin",
+              "paladin-protection",
+              94.23
+            ],
+            [
+              "demoniste",
+              "demoniste-demonologie",
+              90.9
+            ],
+            [
+              "chasseur",
+              "chasseur-maitrise-betes",
+              86.61
+            ],
+            [
+              "druide",
+              "druide-farouche-ours",
+              69.27
+            ],
+            [
+              "guerrier",
+              "guerrier-protection",
+              53.4
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              50.03
+            ],
+            [
+              "pretre",
+              "pretre-sacre",
+              50.03
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              43.78
+            ],
+            [
+              "mage",
+              "mage-givre",
+              43.34
+            ]
+          ]
+        },
+        {
+          "mastery": 2,
+          "results": [
+            [
+              "demoniste",
+              "demoniste-demonologie",
+              100
+            ],
+            [
+              "paladin",
+              "paladin-protection",
+              100
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              87.5
+            ],
+            [
+              "druide",
+              "druide-farouche-ours",
+              81.25
+            ],
+            [
+              "guerrier",
+              "guerrier-protection",
+              62.5
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              56.25
+            ],
+            [
+              "pretre",
+              "pretre-discipline",
+              56.25
+            ],
+            [
+              "mage",
+              "mage-givre",
+              50
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              50
+            ]
+          ]
+        },
+        {
+          "mastery": 3,
+          "results": [
+            [
+              "demoniste",
+              "demoniste-demonologie",
+              100
+            ],
+            [
+              "paladin",
+              "paladin-protection",
+              100
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              88.43
+            ],
+            [
+              "druide",
+              "druide-farouche-ours",
+              87.81
+            ],
+            [
+              "guerrier",
+              "guerrier-protection",
+              67.56
+            ],
+            [
+              "pretre",
+              "pretre-discipline",
+              62.52
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              60.55
+            ],
+            [
+              "mage",
+              "mage-givre",
+              54.58
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              54.3
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "isolatedRoles": [
+    {
+      "mastery": 0,
+      "axes": [
+        {
+          "axis": "dps",
+          "results": [
+            [
+              "guerrier",
+              "guerrier-fureur",
+              90.21
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              86.95
+            ],
+            [
+              "paladin",
+              "paladin-vindicte",
+              68.47
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              65.21
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              65.21
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              54.73
+            ],
+            [
+              "chaman",
+              "chaman-amelioration",
+              51.46
+            ],
+            [
+              "druide",
+              "druide-farouche-chat",
+              48.2
+            ],
+            [
+              "pretre",
+              "pretre-ombre",
+              40.21
+            ]
+          ]
+        },
+        {
+          "axis": "tank",
+          "results": [
+            [
+              "guerrier",
+              "guerrier-protection",
+              90.21
+            ],
+            [
+              "paladin",
+              "paladin-protection",
+              68.47
+            ],
+            [
+              "druide",
+              "druide-farouche-ours",
+              61.95
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              0
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              0
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              0
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              0
+            ],
+            [
+              "pretre",
+              "pretre-sacre",
+              0
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              0
+            ]
+          ]
+        },
+        {
+          "axis": "soin",
+          "results": [
+            [
+              "chaman",
+              "chaman-restauration",
+              93.48
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              93.48
+            ],
+            [
+              "pretre",
+              "pretre-sacre",
+              93.48
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              90.21
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              0
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              0
+            ],
+            [
+              "guerrier",
+              "guerrier-fureur",
+              0
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              0
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "mastery": 1,
+      "axes": [
+        {
+          "axis": "dps",
+          "results": [
+            [
+              "guerrier",
+              "guerrier-fureur",
+              95.61
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              94.15
+            ],
+            [
+              "paladin",
+              "paladin-vindicte",
+              72.08
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              70.61
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              70.61
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              58.33
+            ],
+            [
+              "chaman",
+              "chaman-amelioration",
+              56.86
+            ],
+            [
+              "druide",
+              "druide-farouche-chat",
+              55.4
+            ],
+            [
+              "pretre",
+              "pretre-ombre",
+              45.61
+            ]
+          ]
+        },
+        {
+          "axis": "tank",
+          "results": [
+            [
+              "guerrier",
+              "guerrier-protection",
+              95.61
+            ],
+            [
+              "paladin",
+              "paladin-protection",
+              72.08
+            ],
+            [
+              "druide",
+              "druide-farouche-ours",
+              69.15
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              0
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              0
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              0
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              0
+            ],
+            [
+              "pretre",
+              "pretre-sacre",
+              0
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              0
+            ]
+          ]
+        },
+        {
+          "axis": "soin",
+          "results": [
+            [
+              "chaman",
+              "chaman-restauration",
+              97.08
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              97.08
+            ],
+            [
+              "pretre",
+              "pretre-sacre",
+              97.08
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              95.61
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              0
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              0
+            ],
+            [
+              "guerrier",
+              "guerrier-fureur",
+              0
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              0
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "mastery": 2,
+      "axes": [
+        {
+          "axis": "dps",
+          "results": [
+            [
+              "chasseur",
+              "chasseur-survie",
+              100
+            ],
+            [
+              "guerrier",
+              "guerrier-fureur",
+              100
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              75
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              75
+            ],
+            [
+              "paladin",
+              "paladin-vindicte",
+              75
+            ],
+            [
+              "chaman",
+              "chaman-amelioration",
+              61.25
+            ],
+            [
+              "druide",
+              "druide-farouche-chat",
+              61.25
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              61.25
+            ],
+            [
+              "pretre",
+              "pretre-ombre",
+              50
+            ]
+          ]
+        },
+        {
+          "axis": "tank",
+          "results": [
+            [
+              "guerrier",
+              "guerrier-protection",
+              100
+            ],
+            [
+              "druide",
+              "druide-farouche-ours",
+              75
+            ],
+            [
+              "paladin",
+              "paladin-protection",
+              75
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              0
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              0
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              0
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              0
+            ],
+            [
+              "pretre",
+              "pretre-discipline",
+              0
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              0
+            ]
+          ]
+        },
+        {
+          "axis": "soin",
+          "results": [
+            [
+              "chaman",
+              "chaman-restauration",
+              100
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              100
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              100
+            ],
+            [
+              "pretre",
+              "pretre-discipline",
+              100
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              0
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              0
+            ],
+            [
+              "guerrier",
+              "guerrier-fureur",
+              0
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              0
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "mastery": 3,
+      "axes": [
+        {
+          "axis": "dps",
+          "results": [
+            [
+              "chasseur",
+              "chasseur-survie",
+              100
+            ],
+            [
+              "guerrier",
+              "guerrier-fureur",
+              100
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              78.04
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              78.04
+            ],
+            [
+              "paladin",
+              "paladin-vindicte",
+              77.03
+            ],
+            [
+              "druide",
+              "druide-farouche-chat",
+              65.19
+            ],
+            [
+              "chaman",
+              "chaman-amelioration",
+              64.29
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              63.27
+            ],
+            [
+              "pretre",
+              "pretre-ombre",
+              53.04
+            ]
+          ]
+        },
+        {
+          "axis": "tank",
+          "results": [
+            [
+              "guerrier",
+              "guerrier-protection",
+              100
+            ],
+            [
+              "druide",
+              "druide-farouche-ours",
+              78.94
+            ],
+            [
+              "paladin",
+              "paladin-protection",
+              77.03
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              0
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              0
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              0
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              0
+            ],
+            [
+              "pretre",
+              "pretre-discipline",
+              0
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              0
+            ]
+          ]
+        },
+        {
+          "axis": "soin",
+          "results": [
+            [
+              "chaman",
+              "chaman-restauration",
+              100
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              100
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              100
+            ],
+            [
+              "pretre",
+              "pretre-discipline",
+              100
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              0
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              0
+            ],
+            [
+              "guerrier",
+              "guerrier-fureur",
+              0
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              0
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              0
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "mixed": [
+    {
+      "weights": {
+        "dps": 3,
+        "solo": 1
+      },
+      "levels": [
+        {
+          "mastery": 0,
+          "results": [
+            [
+              "chasseur",
+              "chasseur-maitrise-betes",
+              88.93
+            ],
+            [
+              "guerrier",
+              "guerrier-fureur",
+              75.51
+            ],
+            [
+              "demoniste",
+              "demoniste-demonologie",
+              68.31
+            ],
+            [
+              "paladin",
+              "paladin-vindicte",
+              66.58
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              56.44
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              50.16
+            ],
+            [
+              "druide",
+              "druide-farouche-chat",
+              47.68
+            ],
+            [
+              "chaman",
+              "chaman-amelioration",
+              45.95
+            ],
+            [
+              "pretre",
+              "pretre-ombre",
+              37.37
+            ]
+          ]
+        },
+        {
+          "mastery": 2,
+          "results": [
+            [
+              "chasseur",
+              "chasseur-survie",
+              100
+            ],
+            [
+              "guerrier",
+              "guerrier-fureur",
+              88.14
+            ],
+            [
+              "demoniste",
+              "demoniste-demonologie",
+              80.93
+            ],
+            [
+              "paladin",
+              "paladin-vindicte",
+              75
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              69.07
+            ],
+            [
+              "druide",
+              "druide-farouche-chat",
+              64.51
+            ],
+            [
+              "chaman",
+              "chaman-amelioration",
+              58.58
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              58.58
+            ],
+            [
+              "pretre",
+              "pretre-ombre",
+              50
+            ]
+          ]
+        },
+        {
+          "mastery": 3,
+          "results": [
+            [
+              "chasseur",
+              "chasseur-survie",
+              100
+            ],
+            [
+              "guerrier",
+              "guerrier-fureur",
+              89.74
+            ],
+            [
+              "demoniste",
+              "demoniste-demonologie",
+              83.25
+            ],
+            [
+              "paladin",
+              "paladin-vindicte",
+              77.61
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              72.99
+            ],
+            [
+              "druide",
+              "druide-farouche-chat",
+              69.59
+            ],
+            [
+              "chaman",
+              "chaman-amelioration",
+              62.5
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              61.19
+            ],
+            [
+              "pretre",
+              "pretre-ombre",
+              53.92
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "weights": {
+        "dps": 1,
+        "solo": 3
+      },
+      "levels": [
+        {
+          "mastery": 0,
+          "results": [
+            [
+              "chasseur",
+              "chasseur-maitrise-betes",
+              96.18
+            ],
+            [
+              "demoniste",
+              "demoniste-demonologie",
+              74.82
+            ],
+            [
+              "paladin",
+              "paladin-protection",
+              63
+            ],
+            [
+              "druide",
+              "druide-farouche-chat",
+              46.58
+            ],
+            [
+              "guerrier",
+              "guerrier-fureur",
+              44.56
+            ],
+            [
+              "mage",
+              "mage-givre",
+              41.22
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              40.56
+            ],
+            [
+              "chaman",
+              "chaman-amelioration",
+              34.36
+            ],
+            [
+              "pretre",
+              "pretre-ombre",
+              31.4
+            ]
+          ]
+        },
+        {
+          "mastery": 2,
+          "results": [
+            [
+              "chasseur",
+              "chasseur-survie",
+              100
+            ],
+            [
+              "demoniste",
+              "demoniste-demonologie",
+              93.42
+            ],
+            [
+              "paladin",
+              "paladin-vindicte",
+              75
+            ],
+            [
+              "druide",
+              "druide-farouche-chat",
+              71.38
+            ],
+            [
+              "guerrier",
+              "guerrier-fureur",
+              63.16
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              56.58
+            ],
+            [
+              "chaman",
+              "chaman-amelioration",
+              52.96
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              52.96
+            ],
+            [
+              "pretre",
+              "pretre-ombre",
+              50
+            ]
+          ]
+        },
+        {
+          "mastery": 3,
+          "results": [
+            [
+              "chasseur",
+              "chasseur-survie",
+              100
+            ],
+            [
+              "demoniste",
+              "demoniste-demonologie",
+              94.22
+            ],
+            [
+              "druide",
+              "druide-farouche-chat",
+              78.87
+            ],
+            [
+              "paladin",
+              "paladin-vindicte",
+              78.85
+            ],
+            [
+              "guerrier",
+              "guerrier-fureur",
+              68.13
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              62.35
+            ],
+            [
+              "chaman",
+              "chaman-amelioration",
+              58.73
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              56.81
+            ],
+            [
+              "pretre",
+              "pretre-ombre",
+              55.77
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "weights": {
+        "bg": 3,
+        "ctrl": 2,
+        "poly": 0
+      },
+      "levels": [
+        {
+          "mastery": 0,
+          "results": [
+            [
+              "demoniste",
+              "demoniste-affliction",
+              82.17
+            ],
+            [
+              "mage",
+              "mage-givre",
+              76.22
+            ],
+            [
+              "chasseur",
+              "chasseur-precision",
+              62.17
+            ],
+            [
+              "pretre",
+              "pretre-sacre",
+              62.17
+            ],
+            [
+              "voleur",
+              "voleur-finesse",
+              60.4
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              58.11
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              56.22
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              52.17
+            ],
+            [
+              "guerrier",
+              "guerrier-protection",
+              41.22
+            ]
+          ]
+        },
+        {
+          "mastery": 2,
+          "results": [
+            [
+              "demoniste",
+              "demoniste-affliction",
+              100
+            ],
+            [
+              "mage",
+              "mage-givre",
+              100
+            ],
+            [
+              "voleur",
+              "voleur-finesse",
+              85
+            ],
+            [
+              "chasseur",
+              "chasseur-precision",
+              80
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              80
+            ],
+            [
+              "pretre",
+              "pretre-discipline",
+              80
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              70
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              70
+            ],
+            [
+              "guerrier",
+              "guerrier-protection",
+              65
+            ]
+          ]
+        },
+        {
+          "mastery": 3,
+          "results": [
+            [
+              "demoniste",
+              "demoniste-affliction",
+              100
+            ],
+            [
+              "mage",
+              "mage-givre",
+              100
+            ],
+            [
+              "voleur",
+              "voleur-finesse",
+              90.25
+            ],
+            [
+              "pretre",
+              "pretre-ombre",
+              82.17
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              81.93
+            ],
+            [
+              "chasseur",
+              "chasseur-precision",
+              81.49
+            ],
+            [
+              "guerrier",
+              "guerrier-protection",
+              72.18
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              71.49
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              70.99
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "weights": {
+        "tank": 3,
+        "soin": 3,
+        "dps": 3
+      },
+      "levels": [
+        {
+          "mastery": 0,
+          "results": [
+            [
+              "chaman",
+              "chaman-restauration",
+              31.16
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              31.16
+            ],
+            [
+              "pretre",
+              "pretre-sacre",
+              31.16
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              30.07
+            ],
+            [
+              "guerrier",
+              "guerrier-fureur",
+              30.07
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              28.98
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              21.74
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              21.74
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              18.24
+            ]
+          ]
+        },
+        {
+          "mastery": 2,
+          "results": [
+            [
+              "chaman",
+              "chaman-restauration",
+              33.33
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              33.33
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              33.33
+            ],
+            [
+              "guerrier",
+              "guerrier-fureur",
+              33.33
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              33.33
+            ],
+            [
+              "pretre",
+              "pretre-discipline",
+              33.33
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              25
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              25
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              20.42
+            ]
+          ]
+        },
+        {
+          "mastery": 3,
+          "results": [
+            [
+              "chaman",
+              "chaman-restauration",
+              33.33
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              33.33
+            ],
+            [
+              "druide",
+              "druide-restauration",
+              33.33
+            ],
+            [
+              "guerrier",
+              "guerrier-fureur",
+              33.33
+            ],
+            [
+              "paladin",
+              "paladin-sacre",
+              33.33
+            ],
+            [
+              "pretre",
+              "pretre-discipline",
+              33.33
+            ],
+            [
+              "demoniste",
+              "demoniste-affliction",
+              26.01
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              26.01
+            ],
+            [
+              "voleur",
+              "voleur-combat",
+              21.09
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "weights": {
+        "solo": 3,
+        "tech": 2,
+        "bg": 1
+      },
+      "levels": [
+        {
+          "mastery": 0,
+          "results": [
+            [
+              "demoniste",
+              "demoniste-demonologie",
+              72.95
+            ],
+            [
+              "chasseur",
+              "chasseur-precision",
+              72.14
+            ],
+            [
+              "paladin",
+              "paladin-protection",
+              65.69
+            ],
+            [
+              "druide",
+              "druide-farouche-chat",
+              56.19
+            ],
+            [
+              "mage",
+              "mage-givre",
+              45.78
+            ],
+            [
+              "pretre",
+              "pretre-discipline",
+              44.83
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              44.02
+            ],
+            [
+              "voleur",
+              "voleur-finesse",
+              43.08
+            ],
+            [
+              "guerrier",
+              "guerrier-protection",
+              40.14
+            ]
+          ]
+        },
+        {
+          "mastery": 2,
+          "results": [
+            [
+              "demoniste",
+              "demoniste-demonologie",
+              90.63
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              85.94
+            ],
+            [
+              "druide",
+              "druide-farouche-chat",
+              78.13
+            ],
+            [
+              "paladin",
+              "paladin-protection",
+              76.56
+            ],
+            [
+              "pretre",
+              "pretre-discipline",
+              62.5
+            ],
+            [
+              "voleur",
+              "voleur-finesse",
+              60.94
+            ],
+            [
+              "mage",
+              "mage-givre",
+              59.38
+            ],
+            [
+              "guerrier",
+              "guerrier-protection",
+              57.81
+            ],
+            [
+              "chaman",
+              "chaman-restauration",
+              56.25
+            ]
+          ]
+        },
+        {
+          "mastery": 3,
+          "results": [
+            [
+              "demoniste",
+              "demoniste-demonologie",
+              90.63
+            ],
+            [
+              "chasseur",
+              "chasseur-survie",
+              87.2
+            ],
+            [
+              "druide",
+              "druide-farouche-chat",
+              84.69
+            ],
+            [
+              "paladin",
+              "paladin-protection",
+              77.41
+            ],
+            [
+              "voleur",
+              "voleur-finesse",
+              66.38
+            ],
+            [
+              "pretre",
+              "pretre-discipline",
+              66.3
+            ],
+            [
+              "guerrier",
+              "guerrier-protection",
+              63.25
+            ],
+            [
+              "mage",
+              "mage-arcane",
+              63.25
+            ],
+            [
+              "chaman",
+              "chaman-amelioration",
+              59.75
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "petless": {
+    "chasseur-precision": {},
+    "chasseur-survie": {
+      "solo": [
+        5,
+        4
+      ]
+    },
+    "demoniste-affliction": {
+      "world": [
+        5,
+        4
+      ],
+      "solo": [
+        4,
+        3
+      ],
+      "ctrl": [
+        5,
+        4
+      ]
+    },
+    "demoniste-destruction": {
+      "world": [
+        5,
+        4
+      ],
+      "solo": [
+        4,
+        3
+      ],
+      "ctrl": [
+        4,
+        3
+      ]
+    }
+  }
+}

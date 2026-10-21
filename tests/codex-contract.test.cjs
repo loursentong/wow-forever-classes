@@ -5,7 +5,8 @@
  * approuvées le 21 octobre 2026 (voir REVISION-EDITORIALE-V2.md) ; v3 ne change
  * que la configuration qui représente une classe à score égal (plus haut potentiel) ;
  * v4 réserve l'exception solo du Chasseur à Maîtrise des bêtes ; v5 évalue les configurations à
- * familier facultatif avec leurs notes sans familier quand le joueur préfère jouer sans compagnon.
+ * familier facultatif avec leurs notes sans familier quand le joueur préfère jouer sans compagnon ;
+ * v6 juge la préférence de difficulté sur le contexte (PvE ou PvP) des activités choisies.
  * Ne JAMAIS régénérer ces valeurs sur un échec de CI sans revue explicite des
  * écarts, approbation du changement et nouvelle version documentée.
  */
@@ -14,7 +15,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
 const E=require('../recommendation-engine.js');
-const fixture=require('./fixtures/moteur-reference-v5.json');
+const fixture=require('./fixtures/moteur-reference-v6.json');
 const html=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
 const questionnaire=fs.readFileSync(path.join(__dirname,'..','questionnaire.js'),'utf8');
 const prioritiesUI=fs.readFileSync(path.join(__dirname,'..','priorities-ui.js'),'utf8');
@@ -74,8 +75,8 @@ test('CODEx: référence de rôle toujours liée aux notes historiques',()=>{
   assert.ok(Math.abs(E.roleSuitability(s,2)-(.55*baseline+.45*activity))<1e-12,s.id);
  }
 });
-test('CODEx: 16 scénarios guidés — statut, spécialisation, scores, sensibilité, vétos et variantes sans familier',()=>{
- assert.equal(fixture.guide.length,16);
+test('CODEx: 20 scénarios guidés — statut, spécialisation, scores, sensibilité, vétos, variantes sans familier et difficulté',()=>{
+ assert.equal(fixture.guide.length,20);
  for(const ex of fixture.guide){
   const actual=compactGuide(ex.profile);
   assert.deepEqual(actual,{

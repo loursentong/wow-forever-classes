@@ -2,7 +2,7 @@
  "classe": "chaman",
  "libelle": "Chaman",
  "date": "2026-10-21",
- "moteur": "1.0.4-exploratoire",
+ "moteur": "1.0.5-exploratoire",
  "faits": [
   {
    "id": "ch-role",

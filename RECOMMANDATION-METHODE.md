@@ -118,7 +118,7 @@ Ces simulations et tests de comportement ne constituent **pas une validation sci
 
 Chaque classe est représentée par une seule spécialisation adaptée à l'ensemble des réponses. Ajouter un critère peut changer la spécialisation retenue. Les égalités exactes partagent un rang ; l'ordre d'affichage ne démontre aucune supériorité. Les scores principaux sont arrondis à l'entier : un même entier affiché ne signifie pas nécessairement une égalité exacte.
 
-Le contrôle recouvre immobilisations, ralentissements, neutralisations et interruptions, dont les contraintes diffèrent selon les talents et le familier. Les repères de difficulté PvE/PvP concernent la spécialisation affichée, sans mesurer précisément l'apprentissage d'un joueur ni sa capacité à optimiser.
+Le contrôle recouvre immobilisations, ralentissements, neutralisations et interruptions, dont les contraintes diffèrent selon les talents et le familier. Les repères de difficulté PvE/PvP concernent la spécialisation affichée, sans mesurer précisément l'apprentissage d'un joueur ni sa capacité à optimiser. Depuis le moteur 1.0.5, ton rapport à la difficulté est comparé à la difficulté PvE si tu n'as choisi que des activités PvE, à la difficulté PvP si tu n'as choisi que du PvP, sinon à leur moyenne.
 
 Un familier « facultatif » ne signifie pas un résultat identique sans compagnon. Depuis le moteur 1.0.4, quand le joueur préfère éviter les familiers, Affliction, Destruction, Survie et Précision sont évaluées dans leur version sans familier, et le résultat l'annonce : sans démon, le Démoniste perd notamment Séduction et Verrou magique. Les variantes du Chasseur alternant mêlée et distance nécessitent aussi un alignement de leurs hypothèses de performance et de difficulté.
 

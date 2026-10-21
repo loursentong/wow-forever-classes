@@ -151,6 +151,18 @@ function adjustedStyle(s,k,m){
   var domain=pvp?'world':'raid';
   return clamp(s.style[k]+execution(s,domain,m)*0.55,1,5);
 }
+/* Difficulté selon les activités (référence v6) : la préférence de difficulté juge la charge PvE si
+ * le joueur n'a choisi que des activités PvE (donjons et raids, solo), la charge PvP s'il n'a choisi
+ * que du PvP (champs de bataille, PvP sauvage), sinon la moyenne des deux. */
+function difficultyContext(p){
+  var a=selected(p.activities);
+  var pve=a.some(function(k){return k==='raid'||k==='solo';}),pvp=a.some(function(k){return k==='bg'||k==='world';});
+  return pve&&!pvp?'pve':pvp&&!pve?'pvp':'mixte';
+}
+function difficultyLoad(s,p){
+  var c=difficultyContext(p);
+  return c==='pve'?s.load.pve:c==='pvp'?s.load.pvp:(s.load.pve+s.load.pvp)/2;
+}
 function intensity(cert){return .25+.75*cert/5;}
 function preferenceFit(raw,cert){return .5+intensity(cert)*(raw-.5);}
 function aggregate(keys,answers,rawFn){
@@ -182,7 +194,7 @@ function specFit(s,p){
     parts.pet={value:preferenceFit(v,p.pet.certainty),weight:.10};
   }
   if(p.difficulty.value!=='any'){
-    var load=(s.load.pve+s.load.pvp)/2;var v=p.difficulty.value==='simple'?(5-load)/4:(load-1)/4;
+    var load=difficultyLoad(s,p);var v=p.difficulty.value==='simple'?(5-load)/4:(load-1)/4;
     parts.difficulty={value:preferenceFit(v,p.difficulty.certainty),weight:.05};
   }
   var denom=Object.keys(parts).reduce(function(t,k){return t+parts[k].weight;},0);
@@ -348,7 +360,7 @@ function checkData(){
  }
  return errors;
 }
-return {version:'1.0.4-exploratoire',sources:sources,specs:specs,petless:petless,roles:ROLE,activities:acts,styles:styles,
+return {version:'1.0.5-exploratoire',sources:sources,specs:specs,petless:petless,difficultyContext:difficultyContext,difficultyLoad:difficultyLoad,roles:ROLE,activities:acts,styles:styles,
  defaultProfile:copy(DEFAULT),sanitize:sanitize,selected:selected,domains:domains,eligible:eligible,
  ranking:ranking,recommend:recommend,checkData:checkData,intensity:intensity,preferenceFit:preferenceFit,
  rolePool:rolePool,adjustedActivity:adjustedActivity,potential:potential,roleSuitability:roleSuitability,roleReference:ROLE_REFERENCE,priorityAxes:PRIORITY_AXES,priorityRanking:priorityRanking,sanitizeWeights:sanitizeWeights};

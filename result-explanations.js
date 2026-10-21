@@ -40,6 +40,13 @@
   var out=[],p=context.profile,w=context.weights;
   if((p&&Object.hasOwn(p.styles||{},'ctrl'))||(w&&w.ctrl>0))
    out.push('Le contrôle regroupe plusieurs usages. La maîtrise choisie tient aussi compte de la difficulté estimée à utiliser ces outils.');
+  if(p&&p.difficulty&&p.difficulty.value&&p.difficulty.value!=='any'){
+   // Même règle que le moteur (difficultyContext) : PvE seul, PvP seul, sinon moyenne.
+   var acts=Object.keys(p.activities||{}),pve=acts.some(function(k){return k==='raid'||k==='solo';}),pvp=acts.some(function(k){return k==='bg'||k==='world';});
+   out.push(pve&&!pvp?'Ton rapport à la difficulté est comparé à la difficulté PvE de chaque spécialisation, puisque tes activités sont en PvE.':
+    pvp&&!pve?'Ton rapport à la difficulté est comparé à la difficulté PvP de chaque spécialisation, puisque tes activités sont en PvP.':
+    'Ton rapport à la difficulté est comparé à la moyenne PvE et PvP de chaque spécialisation, faute d’activités d’un seul type.');
+  }
   if((p&&Object.hasOwn(p.roles||{},'soin'))||(w&&w.soin>0))
    out.push('Les styles de soin ne sont pas encore départagés par tes réponses. Consulte les fiches des spécialisations pour comparer leur façon de soigner.');
   return out;

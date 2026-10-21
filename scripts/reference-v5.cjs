@@ -9,7 +9,9 @@
 // Seuls les profils guidés qui évitent les familiers peuvent changer, et seulement pour le
 // Chasseur et le Démoniste ; les priorités, sans préférence de familier, restent identiques.
 // La v5 ajoute quatre scénarios guidés sans familier.
-// Usage : node scripts/reference-v5.cjs [rapport.json] [--fixture chemin.json]
+// Usage : node scripts/reference-v5.cjs [rapport.json]
+// Depuis le moteur 1.0.5, la comparaison porte sur la photographie v5 figée (le moteur actuel suit
+// la v6, voir scripts/reference-v6.cjs) ; aucune photographie n'est écrite.
 const fs=require('node:fs');
 const path=require('node:path');
 const assert=require('node:assert/strict');
@@ -88,10 +90,8 @@ function compare(before,after){
   regle:DECISION,variantes:after.petless,resultats:cases.filter(c=>c.modifie)};
 }
 if(require.main===module){
- const args=process.argv.slice(2),i=args.indexOf('--fixture');
- const fixturePath=i>=0?args.splice(i,2)[1]:null;
- const next=snapshot(),report=compare(v4,next);
- if(fixturePath)fs.writeFileSync(path.resolve(fixturePath),JSON.stringify(next,null,2)+'\n');
+ const args=process.argv.slice(2);
+ const report=compare(v4,require('../tests/fixtures/moteur-reference-v5.json'));
  if(args[0])fs.writeFileSync(args[0],JSON.stringify(report,null,2)+'\n');
  console.log(JSON.stringify({version:report.version,cas:report.cas,cas_modifies:report.cas_modifies,nouveaux:report.nouveaux_cas.length}));
 }
