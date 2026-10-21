@@ -19,7 +19,7 @@ test('La photographie v2 reste intacte ; la v3 en dérive explicitement',()=>{
  assert.equal(hash,'a78c33f624a6cd9f984e6b2536efa37b3065e375');
  assert.equal(v3.info.revision,3);
  assert.equal(v3.info.previousReference,'moteur-reference-v2.json');
- assert.equal(v3.info.engineVersion,E.version);
+ assert.equal(v3.info.engineVersion,'1.0.2-exploratoire');
 });
 
 test('v2 → v3 : mêmes classes, rangs et scores ; seule la configuration affichée à égalité change, vers le plus haut potentiel',()=>{

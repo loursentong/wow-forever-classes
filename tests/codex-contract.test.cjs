@@ -3,7 +3,8 @@
  * CONTRAT DE NON-RÉGRESSION DU MOTEUR — voir CODEX-MOTEUR-LOGIQUE.md.
  * v1 conserve le commit 470fc92b... ; v2 ne révise que les trois notes
  * approuvées le 21 octobre 2026 (voir REVISION-EDITORIALE-V2.md) ; v3 ne change
- * que la configuration qui représente une classe à score égal (plus haut potentiel).
+ * que la configuration qui représente une classe à score égal (plus haut potentiel) ;
+ * v4 réserve l'exception solo du Chasseur à Maîtrise des bêtes.
  * Ne JAMAIS régénérer ces valeurs sur un échec de CI sans revue explicite des
  * écarts, approbation du changement et nouvelle version documentée.
  */
@@ -12,7 +13,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
 const E=require('../recommendation-engine.js');
-const fixture=require('./fixtures/moteur-reference-v3.json');
+const fixture=require('./fixtures/moteur-reference-v4.json');
 const html=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
 const questionnaire=fs.readFileSync(path.join(__dirname,'..','questionnaire.js'),'utf8');
 const prioritiesUI=fs.readFileSync(path.join(__dirname,'..','priorities-ui.js'),'utf8');

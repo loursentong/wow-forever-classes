@@ -1,7 +1,8 @@
 'use strict';
 // Référence v3 : seule la configuration qui représente une classe à score égal peut changer.
-// Usage : node scripts/reference-v3.cjs [rapport.json] [--fixture chemin.json]
-// Sans --fixture, aucune photographie n'est écrite ; le rapport est facultatif.
+// Usage : node scripts/reference-v3.cjs [rapport.json]
+// Depuis le moteur 1.0.3, la comparaison porte sur la photographie v3 figée (le moteur actuel suit
+// la v4, voir scripts/reference-v4.cjs) ; aucune photographie n'est écrite.
 const fs=require('node:fs');
 const path=require('node:path');
 const assert=require('node:assert/strict');
@@ -63,10 +64,8 @@ function compare(before,after){
   regle:DECISION,resultats:cases.filter(c=>c.modifie)};
 }
 if(require.main===module){
- const args=process.argv.slice(2),i=args.indexOf('--fixture');
- const fixturePath=i>=0?args.splice(i,2)[1]:null;
- const next=snapshot(),report=compare(v2,next);
- if(fixturePath)fs.writeFileSync(path.resolve(fixturePath),JSON.stringify(next,null,2)+'\n');
+ const args=process.argv.slice(2);
+ const report=compare(v2,require('../tests/fixtures/moteur-reference-v3.json'));
  if(args[0])fs.writeFileSync(args[0],JSON.stringify(report,null,2)+'\n');
  console.log(JSON.stringify({version:report.version,cas:report.cas,cas_modifies:report.cas_modifies}));
 }
