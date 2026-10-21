@@ -293,3 +293,20 @@ test('Aperçu du classement : les neuf classes suivent chaque réponse, sans att
  h.strict('roles',true);h.step(2);h.single('range','distance');h.strict('range',true);h.press('multi','roles','dps');h.press('multi','roles','tank');h.strict('roles',true);
  assert.match(h.live.innerHTML,/Aucune configuration ne remplit toutes tes exigences/);
 });
+
+test('Exigence absolue : la certitude du choix exigé passe à 5/5 et son curseur est verrouillé',()=>{
+ const h=createHarness();
+ h.step(2);h.single('range','distance');h.certainty('range','distance',3);
+ assert.equal(h.profile().range.certainty,3);
+ h.strict('range',true);
+ assert.equal(h.profile().range.certainty,5);
+ assert.match(h.form.innerHTML,/id="rc-range-distance"[^>]*value="5"[^>]* disabled\/>/);
+ assert.match(h.form.innerHTML,/Exigence absolue : certitude maximale/);
+ h.step(0);h.press('multi','roles','dps');h.certainty('roles','dps',1);h.strict('roles',true);
+ assert.equal(h.profile().roles.dps,5);
+ h.press('multi','roles','soin');assert.equal(h.profile().roles.soin,5,'un rôle ajouté sous exigence est certain');
+ h.strict('roles',false);assert.doesNotMatch(h.form.innerHTML,/id="rc-roles-dps"[^>]* disabled/);
+ // Une ancienne sauvegarde stricte et hésitante est relue à 5/5.
+ const old=createHarness({'wf-recommend-v1':JSON.stringify({pet:{value:'avoid',certainty:0,strict:true},rolesStrict:true,roles:{tank:2}})});
+ assert.equal(old.profile().pet.certainty,5);assert.equal(old.profile().roles.tank,5);
+});
