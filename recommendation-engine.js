@@ -120,7 +120,9 @@ function clamp(v,lo,hi){return Math.min(hi,Math.max(lo,v));}
 function execution(s,k,m){
   var isPve=k==='raid'||k==='solo';
   var load=isPve?s.load.pve:s.load.pvp;
-  if(k==='solo'&&s.classId==='chasseur')return 0; // Familiers/kit de leveling accessibles même au niveau Débutant
+  // Leveling porté par le familier, accessible même en Débutant : réservé à la spécialisation
+  // où il est central (Maîtrise des bêtes). Précision et Survie suivent la règle générale.
+  if(k==='solo'&&s.classId==='chasseur'&&s.pet==='core')return 0;
   var factor=[-0.29,-0.13,0,0.09][m];
   return clamp(factor*load,-1.2,0.35);
 }
@@ -318,7 +320,7 @@ function checkData(){
  }
  return errors;
 }
-return {version:'1.0.2-exploratoire',sources:sources,specs:specs,roles:ROLE,activities:acts,styles:styles,
+return {version:'1.0.3-exploratoire',sources:sources,specs:specs,roles:ROLE,activities:acts,styles:styles,
  defaultProfile:copy(DEFAULT),sanitize:sanitize,selected:selected,domains:domains,eligible:eligible,
  ranking:ranking,recommend:recommend,checkData:checkData,intensity:intensity,preferenceFit:preferenceFit,
  rolePool:rolePool,adjustedActivity:adjustedActivity,potential:potential,roleSuitability:roleSuitability,roleReference:ROLE_REFERENCE,priorityAxes:PRIORITY_AXES,priorityRanking:priorityRanking,sanitizeWeights:sanitizeWeights};

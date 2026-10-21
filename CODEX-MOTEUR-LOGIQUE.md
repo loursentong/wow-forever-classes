@@ -1,8 +1,8 @@
 # CODEX — Contrat du moteur logique de WoW Forever Classes
 
-> **Statut : référentiel normatif v3 — 21 octobre 2026.** v2 : révision des données ; v3 : configuration qui représente une classe à score égal.
+> **Statut : référentiel normatif v4 — 21 octobre 2026.** v2 : révision des données ; v3 : configuration qui représente une classe à score égal ; v4 : exception solo du Chasseur réservée à Maîtrise des bêtes.
 > **Base figée :** commit de production `470fc92b607327ba7573307d1c00577ffc887208`, après la correction « DPS PvE = 100 partout ».
-> **Base des révisions v2 et v3 :** `71f81ec53bc3023e5fd8e8428de1267ff5df2d4a`. Moteur `1.0.2-exploratoire` : soin Chaman et Paladin 4→5, contrôle Discipline 4→3 (v2) ; à score égal, une classe est représentée par sa configuration au plus haut potentiel ajusté à la maîtrise (v3). Formules de score et maîtrise inchangées. Décisions et effets dans [REVISION-EDITORIALE-V2.md](REVISION-EDITORIALE-V2.md).
+> **Base des révisions v2 à v4 :** `71f81ec53bc3023e5fd8e8428de1267ff5df2d4a`. Moteur `1.0.3-exploratoire` : soin Chaman et Paladin 4→5, contrôle Discipline 4→3 (v2) ; à score égal, une classe est représentée par sa configuration au plus haut potentiel ajusté à la maîtrise (v3) ; seule Maîtrise des bêtes garde l'exception solo du Chasseur (v4). Formules de score et coefficients de maîtrise inchangés. Décisions et effets dans [REVISION-EDITORIALE-V2.md](REVISION-EDITORIALE-V2.md).
 > **Périmètre :** algorithmes, hypothèses, données, sauvegardes, tests et gouvernance des évolutions.
 > **Non-objectif :** déclarer le modèle scientifiquement validé, équilibrer arbitrairement les classes, garantir des performances en jeu ou figer à jamais les valeurs éditoriales.
 
@@ -14,7 +14,7 @@ Les trois sources de vérité techniques sont :
 
 1. `recommendation-engine.js` : moteur partagé, exécutable dans Node.js et dans le navigateur.
 2. `index.html` → `window.__WF` : matrice historique **9 classes × 14 notes = 126 notes**, 15 préréglages et calcul historique conservé séparément.
-3. `tests/fixtures/moteur-reference-v3.json` : **photographie active de la version de référence**, vérifiée par `tests/codex-contract.test.cjs`. Les photographies `moteur-reference-v1.json` et `moteur-reference-v2.json` restent immuables : l'empreinte de la v1 et les trois seuls écarts de notes sont protégés par `tests/editorial-update.test.cjs`, l'empreinte de la v2 et les seuls écarts admis de la v3 par `tests/egalites-v3.test.cjs`.
+3. `tests/fixtures/moteur-reference-v4.json` : **photographie active de la version de référence**, vérifiée par `tests/codex-contract.test.cjs`. Les photographies v1 à v3 restent immuables : l'empreinte de la v1 et les trois seuls écarts de notes sont protégés par `tests/editorial-update.test.cjs`, l'empreinte de la v2 et les seuls écarts admis de la v3 par `tests/egalites-v3.test.cjs`, l'empreinte de la v3 et les seuls écarts admis de la v4 par `tests/chasseur-solo-v4.test.cjs`.
 
 `questionnaire.js` et `priorities-ui.js` gèrent **l'affichage et les préférences**, mais ne doivent pas constituer des moteurs de scoring concurrents. `RECOMMANDATION-METHODE.md` apporte les explications destinées aux utilisateurs. En cas de contradiction entre l'intention de ce codex et le code, **arrêter la modification, caractériser l'écart, puis décider explicitement du contrat voulu** : ne pas réécrire silencieusement le codex pour justifier un résultat accidentel.
 
@@ -44,7 +44,7 @@ La modulation du moteur spécialisé suit, pour une activité `k` et une spécia
 - `delta = clamp(facteur[maîtrise] × charge_execution[s,contexte], -1.2, 0.35)`
 - `facteur = [-0.29, -0.13, 0, +0.09]`
 - `activite_ajustee = clamp(note_activite + delta, 1, 5)`
-- Exception explicite : activité `solo` du **Chasseur** → `delta = 0` (hypothèse de facilité d'accès à son kit).
+- Exception explicite : activité `solo` du **Chasseur Maîtrise des bêtes**, seule configuration où le familier est central → `delta = 0` (hypothèse de leveling porté par le familier). Depuis la v4, Précision et Survie, où le familier est facultatif, suivent la règle générale.
 - Pour les styles `ctrl` et `surv`, le contexte d'exécution est PvP (`world`), pour les autres styles PvE (`raid`) ; la correction est `0.55 × delta`, puis bornée à `[1,5]`.
 
 La maîtrise représente une **hypothèse de réalisation du potentiel** ; elle ne mesure ni le niveau réel du joueur ni un bonus de DPS universel. Le **goût pour la complexité** est un critère distinct.
@@ -250,7 +250,7 @@ Le fichier `tests/fixtures/moteur-reference-v1.json` contient :
 - les **3 rôles isolés × 4 maîtrises** ;
 - **5 mélanges d'axes × 3 maîtrises**.
 
-Les photographies v1 et v2 restent conservées. `tests/codex-contract.test.cjs` compare désormais le moteur et les données **directement** à la photographie v3 des mêmes 99 cas. `scripts/compare-editorial-v2.cjs` reproduit la comparaison v1→v2 à partir des photographies figées ; `scripts/reference-v3.cjs` rejoue la v2 avec le moteur actuel et vérifie que seuls changent, à score égal, les configurations affichées (41 cas sur 99). Aucun de ces scripts n'écrit de fixture sans l'option explicite `--fixture`. Ces photographies ne sont **pas un jeu d'entraînement**, ni une preuve de justesse du gameplay : elles détectent les changements.
+Les photographies v1 à v3 restent conservées. `tests/codex-contract.test.cjs` compare désormais le moteur et les données **directement** à la photographie v4 des mêmes 99 cas. `scripts/compare-editorial-v2.cjs` (v1→v2, 39 cas sur 99) et `scripts/reference-v3.cjs` (v2→v3, 41 cas : seules changent, à score égal, les configurations affichées) comparent des photographies figées. `scripts/reference-v4.cjs` rejoue la v3 avec le moteur actuel et vérifie que seul le Chasseur change, en solo, en Débutant ou Intermédiaire, et à la baisse (5 cas sur 99). Aucun script n'écrit de fixture sans l'option explicite `--fixture`. Ces photographies ne sont **pas un jeu d'entraînement**, ni une preuve de justesse du gameplay : elles détectent les changements.
 
 La v2 accepte une égalité des quatre classes soigneuses sur le seul axe Soin aux maîtrises Confirmé et Expert. Cette convention éditoriale ne dit pas que leurs soins réels sont égaux. Les classes sans configuration de soin restent à zéro sur cet axe ; les axes Tank et DPS restent différenciés.
 

@@ -1,6 +1,6 @@
-# Révision éditoriale v2 et référence v3 — 21 octobre 2026
+# Révision éditoriale v2 et références v3-v4 — 21 octobre 2026
 
-Changement de **données et d'explications**, approuvé par le responsable du projet après la revue pratique des 28 configurations : moteur `1.0.1-exploratoire`, référence v2. Il est complété le même jour par la règle d'affichage à score égal : moteur `1.0.2-exploratoire`, référence v3, [voir plus bas](#version-102--configuration-affichée-à-score-égal). Base commune : `71f81ec53bc3023e5fd8e8428de1267ff5df2d4a`.
+Changement de **données et d'explications**, approuvé par le responsable du projet après la revue pratique des 28 configurations : moteur `1.0.1-exploratoire`, référence v2. Il est complété le même jour par la règle d'affichage à score égal (moteur `1.0.2-exploratoire`, référence v3) puis par l'exception solo du Chasseur réservée à Maîtrise des bêtes (moteur `1.0.3-exploratoire`, référence v4), voir plus bas. Base commune : `71f81ec53bc3023e5fd8e8428de1267ff5df2d4a`.
 
 ## Décisions appliquées
 
@@ -77,20 +77,39 @@ Sur les 99 cas de référence, **41 changent de configuration affichée** : 38 d
 | Priorités, Soutien et mobilité : 1ʳᵉ place | Druide Équilibre | Druide Restauration |
 | Priorités, DPS en raid, Débutant : 4ᵉ | Démoniste Destruction | Démoniste Affliction |
 
-**Limite connue.** Le Chasseur n'est pas pénalisé en solo, quelle que soit sa spécialisation : c'est une exception existante du moteur. Survie et Maîtrise des bêtes restent donc à égalité en solo même en Débutant. Survie l'emporte alors par son potentiel PvE : 3,84 contre 3,71 sur 5. Réserver l'exception aux spécialisations à familier changerait des scores : ce serait une décision distincte.
+**Limite relevée, réglée par la version 1.0.3.** Le Chasseur n'était pas pénalisé en solo, quelle que soit sa spécialisation. Survie et Maîtrise des bêtes restaient donc à égalité en solo même en Débutant, et Survie l'emportait par son potentiel PvE : 3,84 contre 3,71 sur 5.
+
+## Version 1.0.3 : exception solo du Chasseur réservée à Maîtrise des bêtes
+
+Le responsable du projet l'a décidé le 21 octobre 2026. Seule Maîtrise des bêtes, où le familier est central, garde l'exception : son activité solo n'est pas réduite par la maîtrise, car le leveling y est porté par le familier.
+
+Précision et Survie, où le familier est facultatif, suivent désormais la règle générale. En Débutant, leur note solo passe de 5 à 4,42 et 3,84 ; en Intermédiaire, à 4,74 et 4,48. Rien ne change en Confirmé et en Expert, ni pour les autres classes.
+
+Sur les 99 cas de référence, **5 changent**, tous en solo, en Débutant ou Intermédiaire, et seul le Chasseur y baisse :
+
+| Cas | Avant | Après |
+|---|---|---|
+| Mélange DPS 3 + solo 1, Débutant : 1ʳᵉ place | Chasseur Survie 90,05 | Chasseur Maîtrise des bêtes 88,93 |
+| Mélange DPS 1 + solo 3, Débutant : 1ʳᵉ place | Chasseur Survie 96,57 | Chasseur Maîtrise des bêtes 96,18 |
+| Mélange solo 3 + technicité 2 + BG 1, Débutant | Chasseur Survie 81,86, 1ᵉʳ | Chasseur Précision 72,14, 2ᵉ |
+| Tout à égalité, Débutant | Chasseur Précision 43,85, 4ᵉ | Chasseur Précision 42,50, 6ᵉ |
+| Tout à égalité, Intermédiaire | Chasseur Survie 48,63, 4ᵉ | Chasseur Survie 47,42, 7ᵉ |
+
+Dans le guide, un débutant ou un intermédiaire qui cherche du solo voit de nouveau le Chasseur Maîtrise des bêtes en première piste, à 100. En Confirmé, les trois spécialisations du Chasseur restent à 100 ; la règle d'égalité retient alors Survie, au plus haut potentiel.
 
 ## Références et reproduction
 
-La fixture v1 et `tests/reference-notes.json` sont conservés. La fixture v2 fige les mêmes entrées, après vérification des trois seuls écarts de notes. La fixture v3, active, ne diffère de la v2 que par les configurations affichées à score égal. Les tests protègent les empreintes de la v1 et de la v2. Le code des formules de score et les données de maîtrise sont inchangés.
+La fixture v1 et `tests/reference-notes.json` sont conservés. La fixture v2 fige les mêmes entrées, après vérification des trois seuls écarts de notes. La fixture v3 ne diffère de la v2 que par les configurations affichées à score égal. La fixture v4, active, ne diffère de la v3 que par le Chasseur en solo, en Débutant ou Intermédiaire. Les tests protègent les empreintes des v1, v2 et v3. Le code des formules de score et les données de maîtrise sont inchangés.
 
 ```text
 node --test tests/*.test.cjs
 node scripts/compare-editorial-v2.cjs comparaison-v1-v2.json
 node scripts/reference-v3.cjs comparaison-v2-v3.json
+node scripts/reference-v4.cjs comparaison-v3-v4.json
 bash scripts/prepare-pages.sh
 node tests/browser-smoke.cjs
 ```
 
-Les comparaisons produisent les scores, rangs et spécialisations avant/après avec la cause de chaque écart. Elles ne réécrivent aucune fixture : `scripts/reference-v3.cjs` n'écrit la photographie qu'avec l'option explicite `--fixture`. Le test navigateur utilise Playwright ; `FRV_CHROMIUM_EXECUTABLE` permet de sélectionner un Chrome/Chromium déjà installé.
+Les comparaisons produisent les scores, rangs et spécialisations avant/après avec la cause de chaque écart. Elles ne réécrivent aucune fixture : `scripts/reference-v4.cjs` n'écrit la photographie qu'avec l'option explicite `--fixture`. Le test navigateur utilise Playwright ; `FRV_CHROMIUM_EXECUTABLE` permet de sélectionner un Chrome/Chromium déjà installé.
 
 Les tests et les 99 cas vérifient la cohérence de l'implémentation, pas la justesse scientifique au niveau 60. Cette étape ne revoit ni les coefficients de maîtrise ni les formules et ne lance pas de nouvel audit exhaustif.
