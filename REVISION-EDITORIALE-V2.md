@@ -36,6 +36,32 @@ Le cas guidé « Soigneur soutien BG » change de première piste : Paladin Sacr
 
 Des spécialisations retenues peuvent changer : par exemple Paladin Sacré remplace Protection dans « Tous les critères » à certaines maîtrises, et Prêtre Ombre peut remplacer Discipline quand seul le contrôle compte. Ce sont les conséquences de la sélection de la meilleure configuration, sans cumul des spécialisations. Aucun ajustement n'a cherché à répartir les premières places entre classes.
 
+## Contrôle pratique de la maîtrise
+
+Quatre profils simples ont été comparés en Débutant et en Confirmé, avec des préférences identiques. Dans le guide, une seule réponse est donnée, à certitude 5. Dans les priorités, ce sont les profils de l'interface.
+
+| Profil | Guide : Confirmé → Débutant | Priorités : Confirmé → Débutant |
+|---|---|---|
+| Solo | Chasseur Maîtrise des bêtes, Démonologie, Paladin Protection à 100 → Maîtrise des bêtes 100, Paladin Protection 85,5, Démonologie 78,3 | Démonologie 100, Paladin Protection 100, Chasseur Survie 87,5 → Paladin Protection 87,1, Chasseur Maîtrise des bêtes 85,5, Démonologie 79,7 |
+| Soin | Chaman, Druide, Paladin, Prêtre (Discipline) à 100 → Chaman, Paladin, Prêtre (Sacré) 95,1, Druide 92,7 | Mêmes classes à 100 → Chaman, Paladin, Prêtre (Sacré) 93,1, Druide 89,7 |
+| Tank | Guerrier 100, Druide ours 81,3, Paladin 81,3 → Guerrier 92,7, Paladin 76,4, Druide ours 71,5 | Guerrier 100, Druide ours 80,9, Paladin 80,9 → Guerrier 88,8, Paladin 74,1, Druide ours 67,1 |
+| DPS | Chasseur Survie et Guerrier Fureur 100, Démoniste Affliction 81,3 → Fureur 92,7, Survie 90,2, Paladin Vindicte 76,4 | Survie et Fureur 100, Affliction 75 → Fureur 90,2, Survie 87,0, Vindicte 68,5 |
+
+**Conclusion : les coefficients de maîtrise sont conservés.**
+
+- **Pénalité bornée.** En Débutant, une configuration exigeante perd au plus 1,2 point sur 5 par activité ou qualité. L'écart le plus fort est de −29 points de score, pour Farouche en solo.
+- **Ordre cohérent.** Les configurations accessibles remontent : Paladin Protection passe devant l'ours, Sacré remplace Discipline. Aucune configuration exigeante n'est exclue ni reléguée derrière des choix nettement moins adaptés.
+- **Choix explicites respectés.** Un débutant qui demande un gameplay « Exigeant » garde des pistes exigeantes : Survie, Fureur, Démonologie en DPS. « Accessible » place la Maîtrise des bêtes en tête.
+- **Goût et maîtrise distincts.** La Technicité des priorités et la difficulté recherchée dans le guide reposent sur la charge d'exécution brute, sans effet de la maîtrise. L'interface sépare déjà les deux notions.
+
+Deux observations ne relèvent pas de la maîtrise. Ce lot ne les modifie pas.
+
+- **DPS seul, en Débutant.** Chasseur Survie, configuration de mêlée exigeante, devance de peu la Maîtrise des bêtes : 90,2 contre 89,1. Le volet « Jouer Survie » signale l'exigence, et le choix « Accessible » inverse l'ordre.
+- **Égalités dans les priorités.** Entre deux spécialisations de même score d'une même classe, l'arrondi des nombres décide de celle qui est affichée.
+  - Exemple : profil Solo en Confirmé. Le Chasseur apparaît en Survie, alors que Maîtrise des bêtes obtient exactement le même score.
+  - Une règle explicite changerait la spécialisation affichée dans 33 à 39 des 87 cas de priorités de la référence, sans changer de score. Par exemple : à égalité, la configuration la plus accessible.
+  - Cette règle demande une décision et une nouvelle version de référence.
+
 ## Références et reproduction
 
 La fixture v1 et `tests/reference-notes.json` sont conservés. La nouvelle fixture v2 fige les mêmes entrées, après vérification des trois seuls écarts de notes. Les tests protègent aussi l'empreinte de la v1. Le code des formules et les données de maîtrise sont inchangés.
