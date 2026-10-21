@@ -21,7 +21,7 @@ const fixture=require('./fixtures/moteur-reference-v9.json');
 const html=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
 const questionnaire=fs.readFileSync(path.join(__dirname,'..','questionnaire.js'),'utf8');
 const prioritiesUI=fs.readFileSync(path.join(__dirname,'..','priorities-ui.js'),'utf8');
-const match=html.match(/window\.__WF = (\{.*?\});\s*\(function\(\)/s);
+const match=html.match(/window\.__WF = (\{.*?\});\s*<\/script>/s);
 assert.ok(match,'La matrice historique doit rester exposée dans window.__WF');
 const D=JSON.parse(match[1]);
 function compactResults(r){
@@ -159,7 +159,7 @@ test('CODEx: état guidé et priorités séparés, sauvegarde personnelle identi
  assert.match(prioritiesUI,/wf-priority-custom-v1/);
  assert.match(prioritiesUI,/data-prio-save/);
  assert.match(prioritiesUI,/data-prio-restore/);
- assert.match(html,/wf-overview-v3/);
+ assert.match(prioritiesUI,/wf-overview-v3/);
  const zeros=E.priorityRanking({},2);
  assert.equal(zeros.status,'unanswered');
  assert.deepEqual(zeros.results,[]);

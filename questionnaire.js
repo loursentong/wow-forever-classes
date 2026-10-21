@@ -148,11 +148,13 @@ function renderForm(){
  var rail=root.querySelector('#reco-rail');
  if(rail)rail.innerHTML=nav;else html+=nav;
  html+=currentQuestion();
+ // À la dernière question, « Voir mes résultats » prend la place de « Question suivante » ; le bloc
+ // sous le questionnaire, qui propose de prévisualiser les résultats aux questions 1 à 5, s'efface alors.
+ var empty=step===5&&E.recommend(state).status==='unanswered';
  html+='<div class="reco-form-footer"><button type="button" class="reco-back" data-prev '+(step===0?'disabled':'')+'>← Précédent</button>'+
-  '<span class="reco-form-help">Tu peux passer une question.</span>'+
-  // À la dernière question, le bouton n'est pas répété quand le bloc juste en dessous propose déjà « Voir mes résultats ».
-  (step===5?(canReveal(E.recommend(state))?'':'<button type="button" class="reco-next" data-show-results>Voir mes résultats ↓</button>'):
-   '<button type="button" class="reco-next" data-next>Question suivante →</button>')+'</div>';
+  '<span class="reco-form-help" id="reco-form-help">'+(step<5?'Tu peux passer une question.':empty?'Choisis au moins une préférence pour voir tes résultats.':'Dernière question : tu peux la passer.')+'</span>'+
+  (step<5?'<button type="button" class="reco-next" data-next>Question suivante →</button>':
+   '<button type="button" class="reco-next" data-show-results aria-describedby="reco-form-help"'+(empty?' disabled':'')+'>Voir mes résultats ↓</button>')+'</div>';
  var tags=summaryText(),form=root.querySelector('#reco-form'),summaryPanel=root.querySelector('#reco-summary-panel');
  var roleKeys=E.selected(state.roles),activityKeys=E.selected(state.activities),styleKeys=E.selected(state.styles);
  var summaryRows=[
@@ -210,7 +212,7 @@ function whyBlock(r,hesitant){
  var explanation=E.explain(r.spec.id,state);
  var rows=parts.map(function(p){
   var answers=explanation.answers.filter(function(a){return a.domain===p.key;}).map(function(a){
-   return '<p><b>'+esc(X.answerLabel(a,explanation.profile))+'</b><span>'+esc(X.answerText(a,explanation.profile))+'</span></p>';
+   return X.answerHtml(X.answerLabel(a,explanation.profile),X.answerLines(a,explanation));
   }).join('');
   return '<li><span class="reco-why-name">'+esc(p.label)+'</span><span class="reco-why-bar" aria-hidden="true"><i style="width:'+p.fit+'%"></i></span>'+
    '<span class="reco-why-fit" title="Correspondance avec tes réponses, certitude comprise">'+p.fit+' %</span><span class="reco-why-points">'+p.points+' / '+p.max+' pts</span>'+
@@ -221,7 +223,8 @@ function whyBlock(r,hesitant){
   (hesitant.length?' ('+hesitant.join(', ')+')':'')+'.';
  return '<details class="reco-evidence reco-why"><summary>Pourquoi cette piste</summary>'+
   '<p><b>Pourquoi '+Math.round(r.score)+' sur 100 ?</b> '+esc(X.mainTradeoff(explanation))+'</p>'+
-  '<p>Voici le détail de tes choix. Les notes sur 5 décrivent la spécialisation ; les points composent ton résultat. Ce sont des repères pour choisir, pas des mesures de puissance.</p>'+
+  '<p>Pour chacun de tes choix : la note de référence de la spécialisation, ton choix, puis ce que cela donne. Une note de 1/5 vaut 0&nbsp;%, 3/5 vaut 50&nbsp;% et 5/5 vaut 100&nbsp;% ; '+
+  'moins tu es sûr d’un choix, plus son résultat se rapproche de 50&nbsp;%. Les points des critères forment ton score sur 100 : des estimations pour t’aider à choisir, pas des mesures de puissance.</p>'+
   (rows?'<ul class="reco-why-parts" aria-label="Part de chaque critère dans le score">'+rows+'</ul>':'')+
   '<p><b>Si tu changes d’avis :</b> '+esc(stability)+'</p>'+
   '<p><a href="fiches-sources/'+esc(r.classId)+'.html#'+esc(r.spec.id)+(r.spec.variant==='sans-familier'?'-sans-familier':'')+'">Comprendre les notes et voir les sources du '+esc(r.className)+'</a></p>'+
@@ -257,10 +260,32 @@ function discovery(n){
   '<span'+(n>=1?' class="is-done"':'')+'></span><span'+(n>=2?' class="is-done"':'')+'></span></div>'+
   '<small>'+(n?'Encore une préférence pour un premier aperçu.':'Deux préférences suffisent pour un premier aperçu.')+'</small>';
 }
+/* Aperçu du classement, à droite du questionnaire : les neuf classes selon les réponses actuelles,
+ * dans un bloc repliable fermé par défaut (les résultats restent affichés à la demande). */
+var live=root.querySelector('#reco-live-body');
+function renderLive(report){
+ if(!live)return;
+ var h;
+ if(report.status==='unanswered')h='<p class="reco-live-empty">Réponds à une question : les neuf classes se classeront ici à chaque réponse.</p>';
+ else if(report.status==='no-match')h='<p class="reco-live-empty">Aucune configuration ne remplit toutes tes exigences.</p>';
+ else{
+  var positions=X?X.ranks(report.results):[];
+  h=(report.used.length<2?'<p class="reco-live-note">Avec une seule préférence, ce classement est encore peu parlant.</p>':'')+
+   '<ol class="reco-live-list">'+report.results.map(function(r,i){
+    var p=positions[i]||{rank:i+1},score=Math.round(r.score);
+    return '<li value="'+p.rank+'" style="--reco-class:var(--k-'+esc(r.spec.classId)+')"><span class="reco-live-rank">'+p.rank+'</span>'+
+     '<img src="'+wowClassIcon(r.spec.classId)+'" alt="" width="28" height="28" loading="lazy" decoding="async">'+
+     '<span class="reco-live-name"><b>'+esc(r.spec.className)+'</b><small>'+esc(r.spec.label)+(r.spec.variant==='sans-familier'?' · sans familier':'')+'</small></span>'+
+     '<span class="reco-live-score">'+score+'</span><span class="reco-live-bar" aria-hidden="true"><i style="width:'+Math.max(0,Math.min(100,score))+'%"></i></span></li>';
+   }).join('')+'</ol>';
+ }
+ if(live.innerHTML!==h)live.innerHTML=h;
+}
 function canReveal(report){return !revealed&&report.status==='ok'&&report.used.length>=2;}
 function renderResults(){
  var report=E.recommend(state),out=root.querySelector('#reco-results'),h='';
  var ready=canReveal(report);
+ renderLive(report);
  if(report.status==='unanswered'){
   h=waiting('reco-intro','Ta prochaine aventure','Tout commence par tes envies.',
    'Choisis ce qui t’attire : nous construirons ta sélection étape par étape, sans favoriser de classe au départ.',discovery(0));
@@ -268,10 +293,10 @@ function renderResults(){
   if(report.used.length<2&&report.status==='ok'){
    h=waiting('reco-awaiting','Une première piste','Encore un peu de contexte…',
     'Un seul choix ne définit pas ton style. Continue à ton rythme : une autre préférence rendra l’aperçu plus pertinent.',discovery(1));
-  }else{
+  }else if(step<5){
    h=waiting('reco-ready','Une sélection prend forme','Prêt à découvrir tes pistes ?',
-    'Tes réponses permettent de commencer une comparaison. Tu peux continuer les questions ou voir tes résultats dès maintenant.',
-    '<button type="button" class="reco-reveal-button" data-reco-reveal>Voir mes résultats <span aria-hidden="true">→</span></button>');
+    'Tes réponses permettent déjà une comparaison. Tu peux continuer les questions ou prévisualiser tes résultats dès maintenant : ils s’affineront à chaque réponse.',
+    '<button type="button" class="reco-reveal-button" data-reco-reveal>Prévisualiser mes résultats <span aria-hidden="true">→</span></button>');
   }
  }else if(report.status==='no-match'){
   h=waiting('reco-no-match','Aucune correspondance stricte','Ces exigences ne vont pas ensemble',
@@ -280,7 +305,6 @@ function renderResults(){
  }else{
   h='<div class="reco-results-head"><div><span class="reco-kicker">Sélection personnalisée</span><h3>Tes meilleures pistes</h3></div>'+
    '<button type="button" class="reco-hide-results" data-reco-hide>Masquer les résultats</button></div>';
-  h+='<p class="reco-results-meta">'+report.compatible+' configurations compatibles · '+report.used.length+' dimensions prises en compte</p>';
   h+='<p class="reco-note">Chaque piste retient une spécialisation pour l’ensemble de tes réponses. Ajouter une activité peut changer celle qui est proposée.</p>';
   var positions=X?X.ranks(report.results):[],tie=X?X.tieNote(report.results):'';
   if(tie)h+='<p class="reco-note reco-tie-note">'+esc(tie)+'</p>';
@@ -292,9 +316,10 @@ function renderResults(){
  if(out.innerHTML!==h){
   out.innerHTML=h;
  }
+ out.hidden=!h;
  if(out.classList){
   out.classList.toggle('is-revealed',!!revealed&&report.status==='ok');
-  out.classList.toggle('is-ready',ready);
+  out.classList.toggle('is-ready',ready&&!!h);
  }
  try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}
 }
@@ -306,7 +331,7 @@ function showResults(){
  if(r&&r.scrollIntoView)r.scrollIntoView({behavior:window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'nearest'});
 }
 function navigate(next){
- step=Math.max(0,Math.min(5,next));renderForm();
+ step=Math.max(0,Math.min(5,next));renderForm();renderResults();
  var legend=root.querySelector('#reco-form .reco-question legend');
  if(legend&&typeof legend.focus==='function')legend.focus({preventScroll:true});
 }
@@ -321,7 +346,16 @@ if(stepRail)stepRail.addEventListener('click',function(ev){
  var b=ev.target.closest('button[data-step]');
  if(b&&stepRail.contains(b))navigate(Number(b.dataset.step));
 });
-resultsArea.addEventListener('click',function(ev){var b=ev.target.closest('button');if(!b)return;if(b.hasAttribute('data-reco-reveal')){showResults();renderForm();}else if(b.hasAttribute('data-reco-hide')){revealed=false;renderResults();renderForm();}});
+resultsArea.addEventListener('click',function(ev){
+ var b=ev.target.closest('button');if(!b)return;
+ if(b.hasAttribute('data-reco-reveal'))showResults();
+ else if(b.hasAttribute('data-reco-hide')){
+  revealed=false;renderResults();
+  // Le bouton cliqué disparaît : le focus va au bouton qui rouvre les résultats.
+  var again=resultsArea.querySelector&&resultsArea.querySelector('[data-reco-reveal]')||form.querySelector('[data-show-results]');
+  if(again&&again.focus){again.focus({preventScroll:true});if(again.scrollIntoView)again.scrollIntoView({block:'nearest'});}
+ }
+});
 form.addEventListener('click',function(ev){
  var b=ev.target.closest('button');if(!b||!form.contains(b))return;
  if(b.dataset.step!==undefined){navigate(Number(b.dataset.step));return;}
@@ -343,7 +377,7 @@ form.addEventListener('click',function(ev){
   state[group].value=key;state[group].strict=false;state[group].certainty=3;
   renderForm();renderResults();return;
  }
- if(b.dataset.mastery!==undefined){state.mastery=Number(b.dataset.mastery);renderForm();renderResults();var old=document.querySelector&&document.querySelector('.mbtn[data-m="'+state.mastery+'"]');if(old)old.click();}
+ if(b.dataset.mastery!==undefined){state.mastery=Number(b.dataset.mastery);renderForm();renderResults();if(window.WFPriorities&&window.WFPriorities.setMastery)window.WFPriorities.setMastery(state.mastery);}
 });
 form.addEventListener('input',function(ev){
  var el=ev.target,group=el.dataset.certgroup,key=el.dataset.certkey;
@@ -364,10 +398,6 @@ form.addEventListener('change',function(ev){
 });
 root.querySelector('#reco-reset').addEventListener('click',function(){
  state=E.sanitize(null);step=0;revealed=false;renderForm();renderResults();
-});
-var advanced=document.getElementById('legacy-advanced');
-if(advanced)advanced.addEventListener('toggle',function(){
- if(advanced.open)window.dispatchEvent(new Event('resize'));
 });
 window.WFGuide={getMastery:function(){return state.mastery;},setMastery:function(v){if(Number.isInteger(v)&&v>=0&&v<=3){state.mastery=v;renderForm();renderResults();}}};
 renderForm();renderResults();

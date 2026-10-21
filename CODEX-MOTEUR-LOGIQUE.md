@@ -151,11 +151,19 @@ Les choix de certitude **≤ 2** sont successivement retirés **un par un** et l
 
 Les résultats apparaissent **uniquement sur demande** dans l'interface : l'algorithme peut recalculer instantanément, mais ne doit pas forcer l'affichage du top 3 après une première réponse.
 
+**Agencement du 21 octobre 2026 :** à l'arrivée, aucun parcours n'est ouvert ; deux cartes présentent les parcours et le visiteur choisit. À côté du questionnaire, un **aperçu du classement** des neuf classes suit chaque réponse ; il est **replié par défaut** et ne s'ouvre que sur un geste du joueur, ce qui respecte la règle ci-dessus. Aux questions 1 à 5, dès deux dimensions, le bloc sous la question propose de **« Prévisualiser mes résultats »** ; à la question 6, **« Voir mes résultats »** remplace « Question suivante » et ce bloc s'efface (pas de doublon). Sans aucune préférence, ce bouton est inactif et la question dit pourquoi ; la maîtrise seule n'est pas une préférence.
+
+### 2.7. Explication d'un résultat
+
+API : `explain(id, profile)` (§ 2.4) renvoie, réponse par réponse, les valeurs du calcul lui-même : `base` (adéquation avec la maîtrise de référence), `raw` (avec la maîtrise du joueur), `certainty`, `fit` (après certitude), `note` et `adjusted` pour les critères notés sur 5, et la part de points correspondante. Pour les rôles, la trace porte aussi `covered` (rôles demandés que propose la classe) et `aptitude` (aisance estimée en PvE de la spécialisation) ; ces deux champs ne servent qu'à l'explication et ne modifient aucun score.
+
+« Pourquoi cette piste » lit chaque réponse **en trois temps**, avec les intitulés du questionnaire : **La spécialisation** (sa note de référence sur 5, puis la note avec la maîtrise du joueur quand elle diffère), **Ton choix** (certitude 0 à 5 et son mot, exigences éventuelles), **Donc** (l'adéquation en clair, puis, si la certitude est inférieure à 5, l'adéquation retenue après certitude). Une note de 1/5 vaut 0 %, 3/5 vaut 50 %, 5/5 vaut 100 % ; une certitude faible rapproche le résultat de 50 %. Le pourcentage d'un groupe est la moyenne de ses réponses ; ses points font exactement le score affiché (§ 2.4). « Pourquoi cette place » applique la même lecture au mode personnalisé (§ 3.1), avec le poids du critère et sa part dans son groupe à la place de la certitude.
+
 ## 3. Parcours « Mode personnalisé » — API et contrat
 
 ### 3.1. Entrée
 
-API : `sanitizeWeights(weights)`, `priorityRanking(weights, mastery)`.
+API : `sanitizeWeights(weights)`, `priorityRanking(weights, mastery)`, `priorityExplain(id, weights, mastery)`. La dernière renvoie, critère par critère, les valeurs du calcul (`group`, `key`, `weight`, `share`, `raw`, et selon le critère `note`/`adjusted`, `roles` ou `load`) ; le classement et son explication partagent les mêmes fonctions et ne peuvent pas diverger.
 
 - **14 axes**, dans l'ordre : `poly,tank,soin,dps,bg,sauv,burst,zone,ctrl,surv,mob,util,solo,tech`.
 - Poids **entiers 0…3** ; les valeurs absentes, négatives, décimales ou non entières sont neutralisées à **0**.
@@ -219,7 +227,7 @@ Aucun classement sans critère exprimé. Aucun quota de classes. Aucun ajustemen
 
 ## 4. Le comparateur documentaire historique est un troisième calcul distinct
 
-`index.html` conserve `window.__WF`, les **126 notes**, les courbes et le classement historique. Son score descriptif n'est **pas** le score du moteur spécialisé.
+**Retiré de la page le 21 octobre 2026.** Le tableau de bord historique (classement à 14 poids, courbes de maîtrise) était dépassé et pouvait être pris pour l'algorithme des parcours : il n'est plus affiché ni exécuté. `index.html` conserve `window.__WF` (les **126 notes**, 14 axes, 15 profils, niveaux et coefficients) : le mode personnalisé y lit ses profils, la matrice des notes et les fiches de classes restent affichées, et les tests vérifient ces données contre la photographie de référence. La section « Comment la maîtrise est modélisée » décrit désormais le modèle du moteur (§ 1.2) ; elle suit le détail des classes et précède les sources. Pour mémoire, le score descriptif historique n'était **pas** le score du moteur spécialisé :
 
 ```text
 note_effective(c,k,m) = note_historique(c,k)
@@ -240,16 +248,16 @@ Les coefficients `penalty`, `bonus`, `mastery` et `masteryOverrides` appartienne
 | Clé `localStorage` | Propriétaire | Contrat |
 |---|---|---|
 | `wf-recommend-v1` | questionnaire | profil nettoyé, certitudes, exigences et maîtrise ; depuis la v8, champ facultatif `healStyles` (façon de soigner) |
-| `wf-reco-mode-v1` | choix du parcours | `guided` ou `priorities` |
+| `wf-reco-mode-v1` | choix du parcours | `guided` ou `priorities` : dernier parcours ouvert. Depuis le 21 octobre 2026, il n'ouvre plus ce parcours au chargement : la page propose toujours le choix et signale ce parcours (« dernier parcours utilisé »). |
 | `wf-priority-custom-v1` | priorités | sauvegarde **explicite** `{weights, mastery}`, rappel possible |
-| `wf-overview-v3` | comparateur historique | poids actifs `w`, maîtrise `m`, surlignage `hl`, critères personnalisés `c` |
+| `wf-overview-v3` | mode personnalisé (comparateur historique jusqu'au 21 octobre 2026) | schéma inchangé : poids actifs `w`, maîtrise `m` ; `hl` et `c`, hérités, sont conservés tels quels. Rien n'est écrit sans geste du visiteur. |
 | `wf-overview-theme` | *(retirée)* | ancien choix du thème. Depuis le 21 octobre 2026, la page est toujours sombre : la clé n'est plus lue ni écrite, et une valeur déjà enregistrée est ignorée sans être effacée. |
 
 Compatibilité de la v8 : une sauvegarde antérieure, sans `healStyles`, reste valide et ne précise aucune façon de soigner ; une façon de soigner enregistrée sans le rôle Soin n'est pas restaurée. Aucune migration n'est nécessaire (tests aller/retour dans `tests/recommendation-ui.test.cjs`).
 
-Compatibilité historique : le comparateur sait migrer `wf-overview-v2`, `wf-overview-weights` et `wf-overview-skill` ; le parcours priorités sait réimporter `wf-overview-v3.c` si aucune sauvegarde personnalisée moderne n'est disponible.
+Compatibilité historique : le mode personnalisé reprend les migrations du comparateur retiré (`wf-overview-v2`, puis `wf-overview-weights` et `wf-overview-skill`) ; une sauvegarde antérieure au 20 octobre 2026, sans Burst ni Dégâts de zone, leur donne 0, ou le poids commun si tous les autres critères avaient le même ; une pondération personnelle d'avant « Mes critères » devient une sauvegarde reprenable, et `wf-overview-v3.c` est réimporté si aucune sauvegarde personnalisée moderne n'est disponible (tests dans `tests/skill-matching.test.cjs`).
 
-La maîtrise est synchronisée entre les deux parcours via les interfaces existantes ; **ne pas lier les poids de priorités aux réponses guidées**.
+La maîtrise est partagée entre les deux parcours (`window.WFGuide` et `window.WFPriorities`) : un choix dans l'un est repris et sauvegardé par l'autre. Au chargement, une maîtrise sauvegardée par le mode personnalisé est conservée ; sinon celle du questionnaire est reprise, sans écriture. **Ne pas lier les poids de priorités aux réponses guidées**.
 
 **Garantie attendue :** choisir un préréglage ou changer de parcours ne détruit pas la sauvegarde personnelle ; recharger la page ne fait pas perdre une préférence valide. Si `localStorage` est indisponible ou corrompu, le moteur doit rester utilisable sans crash.
 
