@@ -113,15 +113,15 @@ Chaque dimension activée produit un `parts[dimension] = {value, weight}`. Coeff
 
 **Activités et styles :** moyenne des adéquations normalisées `(note_ajustée − 1)/4` de leurs choix, après la fonction de certitude. Sélectionner trois styles ne multiplie pas le poids total du domaine.
 
-**Façon de soigner (v8) :** domaine actif seulement si le rôle Soin est demandé et qu'au moins une façon de soigner est choisie. Pour une configuration de soin, moyenne des adéquations `(heal_k − 1)/4` des choix, après la fonction de certitude. Une configuration d'un autre rôle n'est pas jugée sur ce domaine : elle n'en reçoit aucune part, donc ni bonus ni pénalité, et son score est inchangé. Le parcours « Régler mes priorités » ne l'utilise pas.
+**Façon de soigner (v8) :** domaine actif seulement si le rôle Soin est demandé et qu'au moins une façon de soigner est choisie. Pour une configuration de soin, moyenne des adéquations `(heal_k − 1)/4` des choix, après la fonction de certitude. Une configuration d'un autre rôle n'est pas jugée sur ce domaine : elle n'en reçoit aucune part, donc ni bonus ni pénalité, et son score est inchangé. Le parcours « Mode personnalisé » ne l'utilise pas.
 
 **Portée :** adéquation brute `1` pour le type souhaité, `0,12` pour l'autre ; le choix `mixte` vaut `1` si la classe peut alterner selon les rôles demandés, sinon `0,28`.
 
 **Familier :** `like` donne `1` pour `core`, `0,76` pour `optional`, `0,1` pour `none`. `avoid` donne `1` pour `none`, `0,05` pour `core` avant tout veto strict, et `1` pour la variante sans familier d'une configuration `optional`.
 
-**Variantes sans familier (v5) :** dès que le joueur choisit `avoid`, quelle que soit sa certitude, une configuration `optional` est remplacée par sa variante sans familier, pour tous les domaines du score. La variante répond pleinement au souhait ; son compromis passe dans ses notes et non plus dans une pénalité forfaitaire (l'ancien `0,78`, conservé seulement pour une configuration de base évaluée hors de ce cas). Elle garde l'identifiant, le rôle, la portée et la charge de sa configuration ; le résultat la signale par `spec.variant = 'sans-familier'`. Un scénario de sensibilité qui retire la préférence de familier revient à la configuration de base. Le parcours « Régler mes priorités », sans préférence de familier, n'utilise jamais ces variantes.
+**Variantes sans familier (v5) :** dès que le joueur choisit `avoid`, quelle que soit sa certitude, une configuration `optional` est remplacée par sa variante sans familier, pour tous les domaines du score. La variante répond pleinement au souhait ; son compromis passe dans ses notes et non plus dans une pénalité forfaitaire (l'ancien `0,78`, conservé seulement pour une configuration de base évaluée hors de ce cas). Elle garde l'identifiant, le rôle, la portée et la charge de sa configuration ; le résultat la signale par `spec.variant = 'sans-familier'`. Un scénario de sensibilité qui retire la préférence de familier revient à la configuration de base. Le parcours « Mode personnalisé », sans préférence de familier, n'utilise jamais ces variantes.
 
-**Difficulté souhaitée (v6) :** la charge retenue `L` dépend des activités choisies (`difficultyContext`) : `charge_pve` si toutes sont PvE (donjons et raids, solo), `charge_pvp` si toutes sont PvP (champs de bataille, PvP sauvage), sinon la moyenne `(charge_pve + charge_pvp)/2`, comme avant la v6. Elle devient `(5−L)/4` pour `simple` et `(L−1)/4` pour `complex`. Le parcours « Régler mes priorités » garde la moyenne pour l'axe Technicité.
+**Difficulté souhaitée (v6) :** la charge retenue `L` dépend des activités choisies (`difficultyContext`) : `charge_pve` si toutes sont PvE (donjons et raids, solo), `charge_pvp` si toutes sont PvP (champs de bataille, PvP sauvage), sinon la moyenne `(charge_pve + charge_pvp)/2`, comme avant la v6. Elle devient `(5−L)/4` pour `simple` et `(L−1)/4` pour `complex`. Le parcours « Mode personnalisé » garde la moyenne pour l'axe Technicité.
 
 Le score **par spécialisation** normalise les **seuls domaines renseignés** :
 
@@ -146,7 +146,7 @@ Les choix de certitude **≤ 2** sont successivement retirés **un par un** et l
 
 Les résultats apparaissent **uniquement sur demande** dans l'interface : l'algorithme peut recalculer instantanément, mais ne doit pas forcer l'affichage du top 3 après une première réponse.
 
-## 3. Parcours « Régler mes priorités » — API et contrat
+## 3. Parcours « Mode personnalisé » — API et contrat
 
 ### 3.1. Entrée
 

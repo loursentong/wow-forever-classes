@@ -56,7 +56,7 @@ Les profils générés ne représentent **pas** statistiquement la communauté :
 
 ## Parcours de priorités — traitement du biais du généraliste
 
-Le mode « Régler mes priorités » n'utilise **pas** l'ancien score par moyenne des maxima de spécialisations. Les 14 pondérations et les 15 profils existants sont repris tels quels depuis leurs contrôles historiques, mais évalués par la fonction `priorityRanking` du nouveau moteur. Le niveau de maîtrise est partagé avec le questionnaire.
+Le mode « Mode personnalisé » n'utilise **pas** l'ancien score par moyenne des maxima de spécialisations. Les 14 pondérations et les 15 profils existants sont repris tels quels depuis leurs contrôles historiques, mais évalués par la fonction `priorityRanking` du nouveau moteur. Le niveau de maîtrise est partagé avec le questionnaire.
 
 Chaque spécialisation est évaluée sur quatre **domaines indépendants** :
 
