@@ -12,8 +12,6 @@ html[data-theme="dark"] body{background:radial-gradient(ellipse 65% 36% at 50% 2
 .wrap{max-width:1536px;padding:10px clamp(10px,1.35vw,22px) 65px;gap:24px}
 .top{min-height:26px;display:flex;align-items:flex-end;justify-content:flex-end;gap:0}
 .top > .eyebrow,.top > h1,.top > .lede,.top > .status,.top > .jump{position:absolute!important;width:1px!important;height:1px!important;margin:-1px!important;padding:0!important;overflow:hidden!important;clip-path:inset(50%)!important;white-space:nowrap!important}
-.top .theme-choice{position:relative;z-index:6;font-size:.72rem}
-.top .theme-choice select{background:var(--surface);border-color:var(--ui-line);padding:4px 18px 4px 7px}
 .reco-section{gap:9px}
 .reco-panel{gap:11px}
 .reco-hero{position:relative;min-height:205px;display:flex;flex-wrap:nowrap;align-items:center;justify-content:flex-start;gap:24px;padding:16px clamp(19px,3vw,42px);
@@ -256,14 +254,6 @@ html[data-theme="dark"] body{background:radial-gradient(ellipse 65% 36% at 50% 2
 #reco-guided .reco-workspace #reco-form{display:flex;flex-direction:column;flex:1;min-height:430px}
 #reco-guided .reco-form-footer{margin-top:auto}
 .reco-quest-hint{color:#b2c9d7}
-:root[data-theme="light"] .reco-section{
- --surface:#122032;--surface-2:#1b2c3e;--fg:#eef2f8;--muted:#a9bfd0;--line:#33475e;
- --accent:#f0bb5c;--accent-soft:#33291a;--bg:#0a1420;color:#eef2f8;
-}
-:root[data-theme="light"] .reco-section .reco-hero{background-color:#081421}
-:root[data-theme="light"] .reco-section .reco-template{color:#f6e7d2}
-:root[data-theme="light"] .reco-section .reco-note{color:#a3b9ca}
-:root[data-theme="light"] .reco-section .reco-priority-class-info b{color:#faf3e4}
 @media(max-width:900px){#reco-guided .reco-workspace #reco-form{min-height:0}}
 @media(max-width:540px){
  .reco-hero{min-height:176px}.wow-value-strip{gap:4px 9px}
@@ -297,12 +287,9 @@ html[data-theme="dark"] body{background:radial-gradient(ellipse 65% 36% at 50% 2
 }
 .reco-hero .wow-hero-logo,.reco-hero .reco-hero-copy{position:relative;z-index:2}
 
-/* L'accueil est la vitrine : la commande d'apparence ne doit pas pousser
- * l'illustration de 50 px vers le bas sur ordinateur. */
+/* L'accueil est la vitrine : l'en-tête (titres réservés aux lecteurs d'écran)
+ * ne pousse pas l'illustration vers le bas sur ordinateur. */
 @media(min-width:621px){
  .wrap{position:relative;padding-top:10px}
  .top{position:absolute;z-index:20;top:17px;right:clamp(16px,2vw,32px);height:auto;min-height:0}
- .top .theme-choice{background:rgba(9,20,32,.83);border:1px solid rgba(230,177,78,.35);
-  border-radius:5px;padding:3px 5px;color:#c9dbe6}
- .top .theme-choice select{background:#101e2b;color:#ebeff6}
 }

@@ -89,3 +89,15 @@ Tests : 21 réussis, dont deux nouveaux (enregistrement, retour en un clic, cons
 Un bouton en tête de la liste des critères met les quatorze poids à 0, pour repartir d'une pondération vierge plutôt que de « Tout à égalité ». Il ne change ni le niveau de maîtrise ni « Mes critères » : une remise à 0 accidentelle reste réparable en un clic, et c'est le réglage manuel suivant qui devient la nouvelle pondération personnelle. Le bouton est désactivé quand tous les poids sont déjà à 0, et le message du classement invite alors à donner de l'importance aux critères qui comptent.
 
 Tests : 22 réussis, dont un nouveau. Navigateur : remise à 0, nouveau réglage et retour à « Mes critères » vérifiés en sombre à 1 440 pixels et en clair à 390 pixels, sans débordement ni erreur JavaScript.
+
+## Thème sombre unique (Claude, 21 octobre 2026)
+
+Le thème clair n'avait pas suivi la refonte graphique : page blanche autour de blocs sombres. Il est retiré avec le sélecteur « Apparence » ; le sombre de la refonte devient le seul thème. `index.html` garde `data-theme="dark"`, et sa palette de base est désormais la palette sombre. Les règles propres aux thèmes clair et système sont supprimées des feuilles de style.
+
+`wf-overview-theme` n'est plus lue ni écrite. Une valeur déjà enregistrée, par exemple « clair », est ignorée et laissée en place : la page s'affiche en sombre. Aucune autre sauvegarde ne change.
+
+Sur mobile, l'en-tête de page ne contenait plus que des titres réservés aux lecteurs d'écran. Il ne réserve plus de place : le logo remonte de 40 pixels.
+
+Tests : 81 réussis. Le test du sélecteur de thème est remplacé par celui du thème unique : ancienne préférence ignorée sans être effacée, classement inchangé. Un autre test vérifie qu'aucune feuille de style ne garde de variante claire ou système.
+
+Navigateur (Chromium) : le test de bout en bout charge aussi la page à 390 pixels avec une préférence « clair » enregistrée et un système réglé en clair ; la page reste sombre. Le relevé des styles calculés est identique avant et après sur ordinateur (1 440 pixels) et sur mobile (390 pixels), hors sélecteur retiré et place de l'en-tête sur mobile.

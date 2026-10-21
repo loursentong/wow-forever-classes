@@ -39,42 +39,23 @@
   url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Cpath d='M21 9v12H9' stroke='%23E9B34F' stroke-width='1.3' fill='none'/%3E%3Cpath d='M16 14l2.5 2.5L16 19l-2.5-2.5z' fill='%23FFD78C'/%3E%3C/svg%3E") calc(100% - 3px) calc(100% - 3px)/22px 22px no-repeat;
 }
 
-/* 1. Thème sombre : palette de la maquette et décor plein cadre. Le thème clair garde
- * sa page claire ; la zone de choix y reste sombre, comme avant la refonte. */
+/* 1. Thème sombre, seul thème du site : palette de la maquette et décor plein cadre.
+ * Le HTML pose data-theme="dark" une fois pour toutes ; aucun choix d'apparence n'est proposé. */
 :root[data-theme="dark"]{
  --bg:#0A1725;--surface:#122235;--surface-2:#1A2B40;--fg:#E2EAF2;--muted:#A2B7CC;--line:#24364D;
  --accent:#E9B34F;--accent-soft:#2A2214;
  --q5:#FFC58A;--q5-bg:#3A2108;--q4:#DDB8FB;--q4-bg:#2C1442;--q3:#B3D4F7;--q3-bg:#0D2440;
  --q2:#A6EBA3;--q2-bg:#122A16;--q1:#B8BEC8;--q1-bg:#171C24;
 }
-@media (prefers-color-scheme:dark){
- :root[data-theme="system"]{
-  --bg:#0A1725;--surface:#122235;--surface-2:#1A2B40;--fg:#E2EAF2;--muted:#A2B7CC;--line:#24364D;
-  --accent:#E9B34F;--accent-soft:#2A2214;
-  --q5:#FFC58A;--q5-bg:#3A2108;--q4:#DDB8FB;--q4-bg:#2C1442;--q3:#B3D4F7;--q3-bg:#0D2440;
-  --q2:#A6EBA3;--q2-bg:#122A16;--q1:#B8BEC8;--q1-bg:#171C24;
- }
-}
 body{position:relative}
 .wrap{position:relative;z-index:1}
+/* L'en-tête de page ne garde que des titres réservés aux lecteurs d'écran : il ne prend aucune place. */
+header.top{position:absolute;min-height:0}
 :root[data-theme="dark"] body{background:var(--rf-bg)}
 :root[data-theme="dark"] body::before{content:"";position:absolute;top:0;left:0;right:0;z-index:0;pointer-events:none;
  height:clamp(700px,66vw,1080px);background:var(--rf-backdrop)}
 :root[data-theme="dark"] .reco-hero{background:transparent!important;border:0!important;box-shadow:none!important;
  border-radius:0;padding:clamp(30px,4.4vw,64px) 0 6px;min-height:0;overflow:visible}
-@media (prefers-color-scheme:dark){
- :root[data-theme="system"] body{background:var(--rf-bg)}
- :root[data-theme="system"] body::before{content:"";position:absolute;top:0;left:0;right:0;z-index:0;pointer-events:none;
-  height:clamp(700px,66vw,1080px);background:var(--rf-backdrop)}
- :root[data-theme="system"] .reco-hero{background:transparent!important;border:0!important;box-shadow:none!important;
-  border-radius:0;padding:clamp(30px,4.4vw,64px) 0 6px;min-height:0;overflow:visible}
-}
-:root[data-theme="light"] .reco-hero{border:1px solid var(--rf-b-border)!important;border-radius:14px;padding:clamp(22px,3vw,40px);
- background:linear-gradient(90deg,rgba(5,12,21,.95) 0%,rgba(5,12,21,.8) 30%,rgba(5,12,21,.3) 62%,rgba(5,12,21,.1) 100%),var(--rf-hero) 58% 38%/cover no-repeat!important}
-@media (prefers-color-scheme:light){
- :root[data-theme="system"] .reco-hero{border:1px solid var(--rf-b-border)!important;border-radius:14px;padding:clamp(22px,3vw,40px);
-  background:linear-gradient(90deg,rgba(5,12,21,.95) 0%,rgba(5,12,21,.8) 30%,rgba(5,12,21,.3) 62%,rgba(5,12,21,.1) 100%),var(--rf-hero) 58% 38%/cover no-repeat!important}
-}
 
 /* 2. En-tête : logo officiel et mention de fan, titre, promesse, atouts. */
 .reco-hero::before,.reco-hero::after{content:none!important}
@@ -400,16 +381,6 @@ body{position:relative}
 :root[data-theme="dark"] .q2 b{box-shadow:inset 0 0 0 1px #3FBF3A}
 :root[data-theme="dark"] .q1 b{box-shadow:inset 0 0 0 1px #5B6574}
 :root[data-theme="dark"] .tech b{background:transparent;color:#C9D1DC;outline:1px dashed #4A5668;outline-offset:-1px}
-@media (prefers-color-scheme:dark){
- :root[data-theme="system"] .table-box{border-radius:12px;border-color:#1E2B3D;background:#0F1722}
- :root[data-theme="system"] .matrix .sticky{background:#0F1722}
- :root[data-theme="system"] .q5 b{box-shadow:inset 0 0 0 1px #FF8000}
- :root[data-theme="system"] .q4 b{box-shadow:inset 0 0 0 1px #B567F2}
- :root[data-theme="system"] .q3 b{box-shadow:inset 0 0 0 1px #3D8FE6}
- :root[data-theme="system"] .q2 b{box-shadow:inset 0 0 0 1px #3FBF3A}
- :root[data-theme="system"] .q1 b{box-shadow:inset 0 0 0 1px #5B6574}
- :root[data-theme="system"] .tech b{background:transparent;color:#C9D1DC;outline:1px dashed #4A5668;outline-offset:-1px}
-}
 
 /* 11. Titres de section, fiches, pied de page. */
 .sec-head h2,.card h3{color:var(--fg)}

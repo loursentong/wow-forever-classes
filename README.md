@@ -33,7 +33,7 @@ La page applique la maquette validée ([design/README.md](design/README.md)) par
 - dans le parcours guidé, les résultats révélés s'affichent sous la question, à la même largeur, les trois pistes côte à côte ; fermé, l'aperçu reste sous « Mes choix » ;
 - médaillons des neuf classes et couleurs de rareté des objets pour les notes.
 
-Ces visuels viennent du kit de presse officiel et sont publiés avec le site (`assets/img`, provenance et droits dans [assets/README.md](assets/README.md)). Le thème clair garde sa page claire et l'en-tête y devient un encadré illustré. Aucun calcul, aucune donnée et aucune sauvegarde ne changent ; les icônes de classes et de compétences restent chargées depuis le serveur de Blizzard.
+Ces visuels viennent du kit de presse officiel et sont publiés avec le site (`assets/img`, provenance et droits dans [assets/README.md](assets/README.md)). Le site n'a plus qu'un thème, sombre : le thème clair et le choix d'apparence ont été retirés le même jour. Aucun calcul, aucune donnée et aucune sauvegarde ne changent ; les icônes de classes et de compétences restent chargées depuis le serveur de Blizzard.
 
 ## Pack graphique Warcraft — ressources officielles et crédit
 
@@ -65,7 +65,7 @@ Le bloc principal propose deux entrées équivalentes :
 
 Le classement des priorités regroupe les axes en quatre domaines (rôles, activités, gameplay, affinités), afin de ne pas compter séparément la capacité à être tank, soin et DPS comme des qualités universelles. **Polyvalence** et **Technicité** n'interviennent que si leurs axes sont activés. Les notes sources du tableau et les scores historiques restent inchangés dans les réglages avancés. Un profil « Tous les critères » décrit un scénario de référence, pas les préférences d'un joueur particulier.
 
-Le choix du parcours est conservé localement. Le thème Claude, les préférences existantes, le niveau de maîtrise partagé et la navigation mobile/clavier restent pris en charge.
+Le choix du parcours est conservé localement. Les préférences existantes, le niveau de maîtrise partagé et la navigation mobile/clavier restent pris en charge.
 
 ## Assistant de choix (version exploratoire)
 
@@ -83,7 +83,7 @@ Consulter [la méthodologie et ses limites](RECOMMANDATION-METHODE.md). Les quat
 - Maîtrise dans le même panneau que les pondérations : Débutant, Intermédiaire, Confirmé, Expert. Ce réglage adapte le classement et les courbes sans ajouter d'axe pondéré ; les 126 notes du tableau d'ensemble restent fixes.
 - Plancher et plafond distincts en PvE et PvP, avec des raisons succinctes et des références bibliographiques. Confirmé conserve les scores de référence.
 - Courbes pour les neuf classes avec mise en avant au choix et tableau de chiffres repliable.
-- Palette Claude sombre par défaut ; choix clair, sombre ou système enregistré sur l'appareil.
+- Un seul thème, sombre, celui de la refonte. L'ancien choix clair, sombre ou système a été retiré le 21 octobre 2026 ; une préférence encore enregistrée est ignorée.
 - Préférences enregistrées sur l'appareil du visiteur, page sans dépendances de compilation.
 
 **L'indice sur 100 n'est pas une probabilité.** Les adaptations de maîtrise sont des hypothèses documentées et non des données de joueurs niveau 60.

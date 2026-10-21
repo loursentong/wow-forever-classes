@@ -40,6 +40,16 @@ test('Un bandeau commun aux deux parcours, sans décalage au changement',()=>{
  assert.match(refonte,/url\("assets\/img\/hero-vallee-nuit\.webp"\)/);
  assert.match(refonte,/url\("assets\/img\/bandeau-gantelet\.webp"\)/);
 });
+test('Un seul thème, sombre : aucune feuille de style ne garde de variante claire ou système',()=>{
+ // Thème clair retiré le 21 octobre 2026 : la page est toujours sombre, sans choix d'apparence.
+ assert.match(html,/<html lang="fr" data-theme="dark">/);
+ assert.match(html,/:root\{\r?\n  color-scheme:dark;/);
+ assert.match(html,/<meta name="theme-color" content="#0A1725">/);
+ for(const f of ['index.html','ux-polish.css','warcraft-visual-pack.css','wow-ui-rework.css','refonte-forever.css']){
+  const src=fs.readFileSync(path.join(__dirname,'..',f),'utf8');
+  assert.ok(!/data-theme="(light|system)"|prefers-color-scheme|theme-choice|wf-overview-theme/.test(src),f);
+ }
+});
 test('La refonte reste une couche de présentation accessible',()=>{
  assert.match(refonte,/prefers-reduced-motion:reduce/);
  assert.match(refonte,/:focus-visible\{outline:2px solid/);
