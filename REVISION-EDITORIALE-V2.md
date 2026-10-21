@@ -1,4 +1,4 @@
-# Révision éditoriale v2 et références v3 à v6 — 21 octobre 2026
+# Révision éditoriale v2 et références v3 à v7 — 21 octobre 2026
 
 Changement de **données et d'explications**, approuvé par le responsable du projet après la revue pratique des 28 configurations : moteur `1.0.1-exploratoire`, référence v2. Il est complété le même jour par la règle d'affichage à score égal (moteur `1.0.2-exploratoire`, référence v3) puis par l'exception solo du Chasseur réservée à Maîtrise des bêtes (moteur `1.0.3-exploratoire`, référence v4), voir plus bas. Base commune : `71f81ec53bc3023e5fd8e8428de1267ff5df2d4a`.
 
@@ -125,9 +125,27 @@ Cette préférence pèse 5 % du score : l'effet reste limité.
 - Exemple : un joueur qui cherche un gameplay exigeant en donjons et raids voit Survie passer de 93,75 à 95,83. Il est jugé sur sa rotation en alternance (PvE 4) et non plus sur sa moyenne (3,5).
 - Les résultats annoncent quelle difficulté a été comparée. « Régler mes priorités » garde la moyenne pour l'axe Technicité.
 
+## Version 1.0.6 : note raid des DPS alignée sur leurs dégâts
+
+Le responsable du projet l'a décidé le 21 octobre 2026, sur les écarts de la base de connaissances relus par Astra. Pour un DPS, la note « Donjons et raids » mesure ses dégâts simulés seuls ; son utilité de groupe est notée dans « Soutien ». Barèmes, en pourcentage du meilleur DPS simulé au niveau 60 : 5 à partir de 86 %, 4 de 72 à 85 %, 3 de 55 à 71 %, 2 en dessous. Les Chasseurs sont pris dans la rotation évaluée (tir statique pour Maîtrise des bêtes et Précision, alternance pour Survie).
+
+| Configuration | Note | Simulation |
+|---|---|---|
+| Chaman Élémentaire | raid 3→2 | 49 % |
+| Démoniste Destruction | raid 4→3 | 68 % |
+| Chaman Amélioration | raid 4→3 | 68 % (ses totems restent notés 4 en Soutien) |
+| Voleur Combat | raid 4→3 | 65 % (à revoir si Blizzard renforce le Voleur) |
+| Druide Farouche (félin) | zone 3→2 | « Swipe » réservé à l'ours |
+
+Les autres écarts :
+- le contrôle du félin et celui du Druide Restauration sont gardés à 3, avec « Pounce » et les outils accessibles par changement de forme ;
+- six écarts attendent les données du lancement : les duels du Mage, la zone d'Équilibre, et le solo d'Armes, Givre et Amélioration.
+
+Sur les 107 cas de la v6, **45 changent**, mais **la première classe recommandée ne change dans aucun**. Seule la configuration en tête change une fois : « Tout à égalité » en Confirmé, Druide félin 60,08 → Druide Restauration 59,87.
+
 ## Références et reproduction
 
-La fixture v1 et `tests/reference-notes.json` sont conservés. La fixture v2 fige les mêmes entrées, après vérification des trois seuls écarts de notes. La fixture v3 ne diffère de la v2 que par les configurations affichées à score égal. La fixture v4 ne diffère de la v3 que par le Chasseur en solo, en Débutant ou Intermédiaire. La fixture v5 ne diffère de la v4 que par un scénario sans familier ; elle ajoute quatre scénarios. La fixture v6, active, reprend la v5 à l'identique et ajoute quatre scénarios de difficulté. Les tests protègent les empreintes des v1 à v5. Le code des formules de score et les données de maîtrise sont inchangés.
+La fixture v1 et `tests/reference-notes.json` sont conservés. La fixture v2 fige les mêmes entrées, après vérification des trois seuls écarts de notes. La fixture v3 ne diffère de la v2 que par les configurations affichées à score égal. La fixture v4 ne diffère de la v3 que par le Chasseur en solo, en Débutant ou Intermédiaire. La fixture v5 ne diffère de la v4 que par un scénario sans familier ; elle ajoute quatre scénarios. La fixture v6 reprend la v5 à l'identique et ajoute quatre scénarios de difficulté. La fixture v7, active, ne diffère de la v6 que par les cinq notes décidées. Les tests protègent les empreintes des v1 à v6. Le code des formules de score et les données de maîtrise sont inchangés.
 
 ```text
 node --test tests/*.test.cjs
@@ -136,10 +154,11 @@ node scripts/reference-v3.cjs comparaison-v2-v3.json
 node scripts/reference-v4.cjs comparaison-v3-v4.json
 node scripts/reference-v5.cjs comparaison-v4-v5.json
 node scripts/reference-v6.cjs comparaison-v5-v6.json
+node scripts/reference-v7.cjs comparaison-v6-v7.json
 bash scripts/prepare-pages.sh
 node tests/browser-smoke.cjs
 ```
 
-Les comparaisons produisent les scores, rangs et spécialisations avant/après avec la cause de chaque écart. Elles ne réécrivent aucune fixture : `scripts/reference-v6.cjs` n'écrit la photographie qu'avec l'option explicite `--fixture`. Le test navigateur utilise Playwright ; `FRV_CHROMIUM_EXECUTABLE` permet de sélectionner un Chrome/Chromium déjà installé.
+Les comparaisons produisent les scores, rangs et spécialisations avant/après avec la cause de chaque écart. Elles ne réécrivent aucune fixture : `scripts/reference-v7.cjs` n'écrit la photographie qu'avec l'option explicite `--fixture`. Le test navigateur utilise Playwright ; `FRV_CHROMIUM_EXECUTABLE` permet de sélectionner un Chrome/Chromium déjà installé.
 
 Les tests et les 99 cas vérifient la cohérence de l'implémentation, pas la justesse scientifique au niveau 60. Cette étape ne revoit ni les coefficients de maîtrise ni les formules et ne lance pas de nouvel audit exhaustif.

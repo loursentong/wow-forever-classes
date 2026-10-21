@@ -24,6 +24,8 @@ var names={guerrier:'Guerrier',paladin:'Paladin',chasseur:'Chasseur',voleur:'Vol
 /* Format : id;classe;spécialisation;role;portée;familier; activités(raid,bg,sauvage,solo); styles(burst,zone,controle,survie,mobilite,soutien); charge d'exécution PvE,PvP.
  * "optionnel" signifie configuration sans familier théoriquement viable, PAS rendement égal.
  * Tous les chiffres d'activité et style sont des hypothèses, à remplacer par télémétrie par spécialisation.
+ * Activité raid d'un DPS (référence v7) : dégâts simulés seuls, barèmes 5 ≥ 86 %, 4 de 72 à 85 %, 3 de 55 à 71 %,
+ * 2 en dessous ; l'utilité de groupe est notée dans le style Soutien.
  * Source pour rôles/portée : présentation officielle de la classe (sources).
  */
 var rows=[
@@ -37,22 +39,22 @@ var rows=[
 ['precision','chasseur','Précision','dps','distance','optional',[4,5,4,5],[5,3,3,2,3,2],[2,3]],
 ['survie','chasseur','Survie','dps','melee','optional',[5,4,4,5],[4,3,4,3,3,2],[4,3]],
 ['assassinat','voleur','Assassinat','dps','melee','none',[3,3,5,3],[5,2,5,2,4,1],[3,4]],
-['combat','voleur','Combat','dps','melee','none',[4,3,4,3],[4,3,4,3,4,1],[2,3]],
+['combat','voleur','Combat','dps','melee','none',[3,3,4,3],[4,3,4,3,4,1],[2,3]],
 ['finesse','voleur','Finesse','dps','melee','none',[3,4,5,3],[5,2,5,2,5,1],[3,5]],
 ['discipline','pretre','Discipline','soin','distance','none',[5,5,4,3],[2,2,3,4,2,5],[3,4]],
 ['sacre','pretre','Sacré','soin','distance','none',[5,5,3,3],[2,2,3,4,2,5],[2,3]],
 ['ombre','pretre','Ombre','dps','distance','none',[3,4,4,3],[3,2,4,3,2,4],[3,4]],
-['elementaire','chaman','Élémentaire','dps','distance','none',[3,4,4,3],[5,4,3,3,4,4],[3,3]],
-['amelioration','chaman','Amélioration','dps','melee','none',[4,4,4,3],[5,3,2,3,5,4],[3,3]],
+['elementaire','chaman','Élémentaire','dps','distance','none',[2,4,4,3],[5,4,3,3,4,4],[3,3]],
+['amelioration','chaman','Amélioration','dps','melee','none',[3,4,4,3],[5,3,2,3,5,4],[3,3]],
 ['restauration','chaman','Restauration','soin','distance','none',[5,5,4,3],[2,2,2,4,4,5],[2,3]],
 ['arcane','mage','Arcane','dps','distance','none',[4,4,3,3],[5,4,4,2,3,3],[3,4]],
 ['feu','mage','Feu','dps','distance','none',[4,4,4,3],[5,5,3,2,3,3],[3,4]],
 ['givre','mage','Givre','dps','distance','none',[3,5,5,3],[4,5,5,3,3,3],[2,4]],
 ['affliction','demoniste','Affliction','dps','distance','optional',[4,5,5,4],[3,4,5,4,2,3],[3,3]],
 ['demonologie','demoniste','Démonologie','dps','distance','core',[4,5,4,5],[4,4,4,5,2,3],[3,4]],
-['destruction','demoniste','Destruction','dps','distance','optional',[4,5,5,4],[5,4,4,3,2,2],[3,4]],
+['destruction','demoniste','Destruction','dps','distance','optional',[3,5,5,4],[5,4,4,3,2,2],[3,4]],
 ['equilibre','druide','Équilibre','dps','distance','none',[3,4,4,3],[4,3,3,3,5,5],[3,4]],
-['farouche-chat','druide','Farouche (félin)','dps','melee','none',[4,4,4,4],[5,3,3,4,5,3],[4,5]],
+['farouche-chat','druide','Farouche (félin)','dps','melee','none',[4,4,4,4],[5,2,3,4,5,3],[4,5]],
 ['farouche-ours','druide','Farouche (ours)','tank','melee','none',[4,4,3,4],[2,3,3,5,4,4],[4,5]],
 ['restauration','druide','Restauration','soin','distance','none',[5,5,4,3],[2,2,3,4,5,5],[3,4]]
 ];
@@ -360,7 +362,7 @@ function checkData(){
  }
  return errors;
 }
-return {version:'1.0.5-exploratoire',sources:sources,specs:specs,petless:petless,difficultyContext:difficultyContext,difficultyLoad:difficultyLoad,roles:ROLE,activities:acts,styles:styles,
+return {version:'1.0.6-exploratoire',sources:sources,specs:specs,petless:petless,difficultyContext:difficultyContext,difficultyLoad:difficultyLoad,roles:ROLE,activities:acts,styles:styles,
  defaultProfile:copy(DEFAULT),sanitize:sanitize,selected:selected,domains:domains,eligible:eligible,
  ranking:ranking,recommend:recommend,checkData:checkData,intensity:intensity,preferenceFit:preferenceFit,
  rolePool:rolePool,adjustedActivity:adjustedActivity,potential:potential,roleSuitability:roleSuitability,roleReference:ROLE_REFERENCE,priorityAxes:PRIORITY_AXES,priorityRanking:priorityRanking,sanitizeWeights:sanitizeWeights};

@@ -6,7 +6,8 @@
  * que la configuration qui représente une classe à score égal (plus haut potentiel) ;
  * v4 réserve l'exception solo du Chasseur à Maîtrise des bêtes ; v5 évalue les configurations à
  * familier facultatif avec leurs notes sans familier quand le joueur préfère jouer sans compagnon ;
- * v6 juge la préférence de difficulté sur le contexte (PvE ou PvP) des activités choisies.
+ * v6 juge la préférence de difficulté sur le contexte (PvE ou PvP) des activités choisies ; v7 aligne la note
+ * raid des DPS sur leurs dégâts simulés et passe Farouche (félin) à 2 en zone.
  * Ne JAMAIS régénérer ces valeurs sur un échec de CI sans revue explicite des
  * écarts, approbation du changement et nouvelle version documentée.
  */
@@ -15,7 +16,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
 const E=require('../recommendation-engine.js');
-const fixture=require('./fixtures/moteur-reference-v6.json');
+const fixture=require('./fixtures/moteur-reference-v7.json');
 const html=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
 const questionnaire=fs.readFileSync(path.join(__dirname,'..','questionnaire.js'),'utf8');
 const prioritiesUI=fs.readFileSync(path.join(__dirname,'..','priorities-ui.js'),'utf8');

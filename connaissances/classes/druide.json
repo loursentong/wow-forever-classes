@@ -2,7 +2,7 @@
  "classe": "druide",
  "libelle": "Druide",
  "date": "2026-10-21",
- "moteur": "1.0.5-exploratoire",
+ "moteur": "1.0.6-exploratoire",
  "faits": [
   {
    "id": "dr-role",
@@ -210,6 +210,14 @@
     "druide-farouche-ours",
     "druide-equilibre"
    ]
+  },
+  {
+   "id": "dr-donnees-jeu",
+   "categorie": "controle",
+   "texte": "Données du jeu lues par le simulateur wowsims : « Pounce » étourdit depuis Prowl, dans le dos de la cible ; « Bash » étourdit en forme d’ours ; « Feral Charge » (talent Farouche) immobilise et interrompt, en forme d’ours seulement.",
+   "sources": [
+    "wowsims-forever"
+   ]
   }
  ],
  "specialisations": [
@@ -390,21 +398,23 @@
      "confiance": "moyenne"
     },
     "zone": {
-     "valeur": 3,
-     "raison": "Aucun outil de zone en félin : « Swipe » est réservé à l’ours, ce que les développeurs citent eux-mêmes.",
+     "valeur": 2,
+     "raison": "Aucun outil de zone en félin : « Swipe » est réservé à l’ours, ce que les développeurs citent eux-mêmes pour faire du Guerrier le roi du multicible.",
      "appuis": [
       "dr-zone-chat"
      ],
-     "confiance": "faible"
+     "confiance": "haute"
     },
     "ctrl": {
      "valeur": 3,
-     "raison": "Aucune interruption ni aucun ralentissement en félin ; contrôle plus faible et moins fiable selon Blizzard.",
+     "raison": "« Pounce » étourdit depuis le camouflage ; par changement de forme, « Bash » et « Feral Charge » (immobilisation et interruption, en ours) et les racines. Ni interruption ni ralentissement en félin : chaque outil hors du félin coûte un changement de forme.",
      "appuis": [
+      "dr-donnees-jeu",
       "dr-ours-controle",
+      "dr-racines",
       "dr-limites"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     },
     "surv": {
      "valeur": 4,
@@ -634,12 +644,13 @@
     },
     "ctrl": {
      "valeur": 3,
-     "raison": "Entangling Roots et Nature’s Grasp ; les contrôles accessibles via un changement de forme et les améliorations de talents doivent être évalués avec leurs contraintes. « Racines seulement » est une description insuffisante du kit.",
+     "raison": "« Entangling Roots » et « Nature’s Grasp », et « Bash » en forme d’ours ; ni ralentissement, ni silence, ni interruption.",
      "appuis": [
       "dr-racines",
+      "dr-donnees-jeu",
       "dr-limites"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     },
     "surv": {
      "valeur": 4,

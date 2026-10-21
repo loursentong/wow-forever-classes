@@ -20,7 +20,7 @@ test('La photographie v5 reste intacte ; la v6 en dérive explicitement',()=>{
  assert.equal(v5.info.engineVersion,'1.0.4-exploratoire');
  assert.equal(v6.info.revision,6);
  assert.equal(v6.info.previousReference,'moteur-reference-v5.json');
- assert.equal(v6.info.engineVersion,E.version);
+ assert.equal(v6.info.engineVersion,'1.0.5-exploratoire');
 });
 
 test('v5 → v6 : aucun des 103 cas ne change ; quatre scénarios de difficulté s’ajoutent',()=>{

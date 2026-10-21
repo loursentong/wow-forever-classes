@@ -5,7 +5,9 @@
 // sauvage), sinon la moyenne des deux, comme avant. Seuls les profils qui combinent cette préférence
 // avec des activités d'un seul contexte peuvent changer ; aucun des 103 cas de la v5 n'en fait partie.
 // La v6 ajoute quatre scénarios qui combinent difficulté et activités.
-// Usage : node scripts/reference-v6.cjs [rapport.json] [--fixture chemin.json]
+// Usage : node scripts/reference-v6.cjs [rapport.json]
+// Depuis le moteur 1.0.6, la comparaison porte sur la photographie v6 figée (le moteur actuel suit
+// la v7, voir scripts/reference-v7.cjs) ; aucune photographie n'est écrite.
 const fs=require('node:fs');
 const path=require('node:path');
 const assert=require('node:assert/strict');
@@ -62,10 +64,8 @@ function compare(before,after){
   regle:DECISION,resultats:cases.filter(c=>c.modifie)};
 }
 if(require.main===module){
- const args=process.argv.slice(2),i=args.indexOf('--fixture');
- const fixturePath=i>=0?args.splice(i,2)[1]:null;
- const next=snapshot(),report=compare(v5,next);
- if(fixturePath)fs.writeFileSync(path.resolve(fixturePath),JSON.stringify(next,null,2)+'\n');
+ const args=process.argv.slice(2);
+ const report=compare(v5,require('../tests/fixtures/moteur-reference-v6.json'));
  if(args[0])fs.writeFileSync(args[0],JSON.stringify(report,null,2)+'\n');
  console.log(JSON.stringify({version:report.version,cas:report.cas,cas_modifies:report.cas_modifies,nouveaux:report.nouveaux_cas.length}));
 }

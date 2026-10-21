@@ -2,7 +2,7 @@
  "classe": "pretre",
  "libelle": "Prêtre",
  "date": "2026-10-21",
- "moteur": "1.0.5-exploratoire",
+ "moteur": "1.0.6-exploratoire",
  "faits": [
   {
    "id": "pr-role",

@@ -2,7 +2,7 @@
  "classe": "chaman",
  "libelle": "Chaman",
  "date": "2026-10-21",
- "moteur": "1.0.5-exploratoire",
+ "moteur": "1.0.6-exploratoire",
  "faits": [
   {
    "id": "ch-role",
@@ -219,13 +219,12 @@
    },
    "notes": {
     "raid": {
-     "valeur": 3,
-     "raison": "Simulation 60 : dernier DPS (49 %), 13 points sous la configuration suivante ; seuls ses totems de groupe le soutiennent.",
+     "valeur": 2,
+     "raison": "Barème des dégâts : dernier DPS simulé au niveau 60 (49 % du meilleur), sous le seuil de 55 %. L’utilité de ses totems est notée dans Soutien.",
      "appuis": [
-      "ch-sim",
-      "ch-soutien"
+      "ch-sim"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     },
     "bg": {
      "valeur": 4,
@@ -339,8 +338,8 @@
    },
    "notes": {
     "raid": {
-     "valeur": 4,
-     "raison": "Simulation 60 : 15e DPS (68 %) ; les totems de raid (« Windfury », « Strength of Earth », « Grace of Air ») le maintiennent dans le groupe noté 4.",
+     "valeur": 3,
+     "raison": "Barème des dégâts : 68 % du meilleur DPS simulé (15e), entre 55 et 71 %. Ses totems de raid sont notés dans Soutien (4).",
      "appuis": [
       "ch-sim",
       "ch-soutien"

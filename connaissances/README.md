@@ -11,9 +11,14 @@ Elle relie chaque note du moteur à des **faits sourcés**, avec une **raison** 
 | `sources.json` | Registre : type, fiabilité, portée, date, statut (utilisée, repérée, écartée) de chaque source. |
 | `classes/<classe>.json` | Faits de kit (catégorie, texte, sources, configurations concernées ; critères contredits pour une limite), puis, pour chaque configuration, son profil et ses 12 notes `{valeur, raison, appuis, confiance}`. Une configuration à familier facultatif porte aussi sa `variante_sans_familier` : les seules notes qui changent sans compagnon, utilisées par le moteur depuis la v5. |
 | `ecarts.json` | Propositions de réévaluation, avec leurs arguments et une décision à prendre ; notes à surveiller. |
-| `ecarts-a-arbitrer.md` | La même chose, à lire. |
+| `ecarts-a-arbitrer.md` | La même chose, à lire, régénérée par `node scripts/synthese-ecarts.cjs`. Un écart tranché porte sa décision ; un écart ouvert, ce qu’il attend. |
 
 Les 12 critères reprennent les clés du moteur : `raid`, `bg`, `world`, `solo` (activités), `burst`, `zone`, `ctrl`, `surv`, `mob`, `support` (styles), `charge_pve`, `charge_pvp` (difficulté d’exécution).
+
+## Définitions des critères
+
+- **Donjons et raids, pour un DPS** : ses dégâts simulés seuls, en pourcentage du meilleur DPS simulé au niveau 60 (5 à partir de 86 %, 4 de 72 à 85 %, 3 de 55 à 71 %, 2 en dessous), dans la rotation évaluée. L’utilité de groupe est notée dans « Soutien ». Les soigneurs et les tanks gardent leur convention.
+- **Contrôle** : neutraliser, interrompre, ralentir ou immobiliser, avec les seuls outils du build évalué. Un outil accessible par changement de forme ou par un familier compte avec sa contrainte ; des outils de familiers différents ne sont jamais disponibles ensemble.
 
 ## Échelles
 

@@ -87,7 +87,7 @@
   'chaman-elementaire':{
    fit:'Tu veux lancer des sorts offensifs et aider avec tes totems.',
    strengths:['Pics de dégâts','Totems de soutien'],
-   caution:'Le mana, le placement et le choix des totems demandent de l’attention. Ton équipement doit correspondre au jeu de lanceur de sorts.'
+   caution:'Le mana, le placement et le choix des totems demandent de l’attention. En raid, ses dégâts simulés sont les plus bas au niveau 60 : son atout de groupe tient surtout aux totems.'
   },
   'chaman-amelioration':{
    fit:'Tu aimes mêler attaques d’armes, magie et totems.',

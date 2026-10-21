@@ -2,7 +2,7 @@
  "classe": "voleur",
  "libelle": "Voleur",
  "date": "2026-10-21",
- "moteur": "1.0.5-exploratoire",
+ "moteur": "1.0.6-exploratoire",
  "faits": [
   {
    "id": "v-role",
@@ -334,13 +334,13 @@
    },
    "notes": {
     "raid": {
-     "valeur": 4,
-     "raison": "Seule l’intention de Blizzard (Voleur meilleur DPS monocible) soutient ce 4 : la simulation 60 le place 17e (65 %), sous l’Ombre notée 3.",
+     "valeur": 3,
+     "raison": "Barème des dégâts : 65 % du meilleur DPS simulé (17e), entre 55 et 71 %. Blizzard veut faire du Voleur le meilleur DPS monocible sur combat statique : à revoir après ses ajustements.",
      "appuis": [
-      "v-intention",
-      "v-sim"
+      "v-sim",
+      "v-intention"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     },
     "bg": {
      "valeur": 3,
