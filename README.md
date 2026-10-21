@@ -18,7 +18,7 @@
 
 Cette métrique **n'est pas** une mesure de DPS, HPS, menace ou performance réelle au niveau 60. Elle permet de hiérarchiser raisonnablement les configurations sans attribuer à une classe les avantages simultanés de plusieurs spécialisations. Les préférences Tank/Soin/DPS restent comptées dans **un seul domaine** afin d'éviter la prime structurelle à la polyvalence. Un poids 1 → 3 d'un critère *seul* ne modifie pas le score normalisé ; il modifie son importance **relative** dès qu'un autre critère est actif.
 
-Dans « Régler mes priorités », seuls **huit profils clairs** sont affichés, les quinze anciens restent présents dans les données historiques. « Enregistrer mes critères » sauvegarde explicitement pondérations et maîtrise dans `wf-priority-custom-v1`, sans remplacer les autres sauvegardes ; « Reprendre mes critères » restaure exactement la sélection après exploration. Migration automatique depuis l'ancien « Mes critères » si disponible.
+Dans « Mode personnalisé », seuls **huit profils clairs** sont affichés, les quinze anciens restent présents dans les données historiques. « Enregistrer mes critères » sauvegarde explicitement pondérations et maîtrise dans `wf-priority-custom-v1`, sans remplacer les autres sauvegardes ; « Reprendre mes critères » restaure exactement la sélection après exploration. Migration automatique depuis l'ancien « Mes critères » si disponible.
 
 L'interface guidée a une navigation verticale en six étapes, une zone centrale de réponses, et une synthèse éditable à droite sur grand écran. Sous la question, à la même largeur, un bloc mène aux résultats : il montre la progression vers un premier aperçu, puis le bouton « Voir mes résultats », et accueille les résultats à la même place. Les animations sont facultatives et respectent `prefers-reduced-motion`. La couche `wow-ui-rework.css` restitue les grandes lignes du visuel fantasy de référence sans figer les contrôles dans une image.
 
@@ -33,7 +33,7 @@ La page applique la maquette validée ([design/README.md](design/README.md)) par
 - décor plein cadre de l'Arbre-monde, avec voiles de lecture et braises fixes ;
 - logo officiel toujours accompagné de la mention « Outil de fan · non officiel » ;
 - portails dorés pour les deux parcours, cadres héroïques (question, classement) et nobles (étapes, « Mes choix », aperçu) ;
-- un bandeau commun aux deux parcours, dont le texte et l'image suivent le parcours choisi (vallée de nuit pour « Être guidé », gantelet pour « Régler mes priorités ») : en changer ne décale pas la page ; Darkspear Islands illustre le tableau des notes ;
+- un bandeau commun aux deux parcours, dont le texte et l'image suivent le parcours choisi (vallée de nuit pour « Être guidé », gantelet pour « Mode personnalisé ») : en changer ne décale pas la page ; Darkspear Islands illustre le tableau des notes ;
 - dans le parcours guidé, l'aperçu et les résultats occupent la même place, sous la question et à la même largeur ; les trois pistes s'empilent en pleine largeur, la principale d'abord (évolution du 21 octobre 2026) ;
 - chaque piste du parcours guidé explique « Pourquoi cette piste » : la part de chaque critère dans le score (adéquation et points obtenus sur possibles, dont la somme fait le score affiché), sa stabilité quand on retire une réponse hésitante, et ses sources (base de connaissances, présentation officielle) ;
 - les blocs déroulants des résultats (« Jouer … », « Pourquoi cette piste ») sont encadrés en or avec un chevron, et prennent la forme d'une pastille dans le classement à neuf classes ; ce classement nomme les égalités (« à égalité avec le Paladin ») et chiffre les écarts serrés (« 0,4 point derrière le Prêtre ») ;
@@ -67,7 +67,7 @@ La sélection du degré de certitude et les changements d'étape bénéficient d
 Le bloc principal propose deux entrées équivalentes :
 
 - **Être guidé** : une question à la fois, progression en six étapes, navigation libre, graduation de certitude 0–5 pour chaque préférence et top 3 expliqué.
-- **Régler mes priorités** : les 14 critères pondérables historiques, les 15 profils prédéfinis et le niveau de maîtrise partagés avec le comparatif. Le résultat est désormais un **classement des neuf classes**, calculé sur une configuration concrète par classe par le même moteur de recommandation spécialisé.
+- **Mode personnalisé** : les 14 critères pondérables historiques, les 15 profils prédéfinis et le niveau de maîtrise partagés avec le comparatif. Le résultat est désormais un **classement des neuf classes**, calculé sur une configuration concrète par classe par le même moteur de recommandation spécialisé.
 
 Le classement des priorités regroupe les axes en quatre domaines (rôles, activités, gameplay, affinités), afin de ne pas compter séparément la capacité à être tank, soin et DPS comme des qualités universelles. **Polyvalence** et **Technicité** n'interviennent que si leurs axes sont activés. Les notes sources du tableau et les scores historiques restent inchangés dans les réglages avancés. Un profil « Tous les critères » décrit un scénario de référence, pas les préférences d'un joueur particulier.
 

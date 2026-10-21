@@ -32,7 +32,7 @@ test('Le bandeau reprend le logo officiel et un décor du kit de presse, héberg
 test('Un bandeau commun aux deux parcours, sans décalage au changement',()=>{
  assert.equal((html.match(/class="rf-band"/g)||[]).length,1);
  assert.match(html,/<div class="rf-band-copy rf-band-copy-guide">\s*<p class="rf-band-kicker">Parcours 1<\/p>\s*<h3 class="rf-band-title">Être guidé<\/h3>/);
- assert.match(html,/<div class="rf-band-copy rf-band-copy-priorites">\s*<p class="rf-band-kicker">Parcours 2<\/p>\s*<h3 class="rf-band-title">Régler mes priorités<\/h3>/);
+ assert.match(html,/<div class="rf-band-copy rf-band-copy-priorites">\s*<p class="rf-band-kicker">Parcours 2<\/p>\s*<h3 class="rf-band-title">Mode personnalisé<\/h3>/);
  assert.ok(html.indexOf('class="rf-band"')<html.indexOf('id="reco-guided"'),'Le bandeau précède les deux panneaux');
  // Les deux textes occupent la même cellule : la hauteur ne dépend pas du parcours affiché.
  assert.match(refonte,/\.rf-band-copy\{grid-area:1\/1/);
