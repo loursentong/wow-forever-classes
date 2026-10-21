@@ -119,7 +119,8 @@ test('Cas de référence indépendants : préférences ciblées et exclusion des
   ['Contrôle de zone DPS distance sans pet', {roles:{dps:5},range:{value:'distance',certainty:5,strict:true},pet:{value:'avoid',certainty:5,strict:true},styles:{ctrl:5,zone:5},activities:{raid:4},mastery:3},'Mage'],
   ['Duel mobile en mêlée', {roles:{dps:5},range:{value:'melee',certainty:5,strict:true},styles:{ctrl:5,burst:5,mob:5},activities:{world:5},mastery:3},'Voleur'],
   ['Solo accessible aux débutants',{activities:{solo:5},difficulty:{value:'simple',certainty:5},mastery:0},'Chasseur'],
-  ['Soigneur soutien BG',{roles:{soin:5},activities:{bg:5},styles:{support:5,surv:4}},'Druide']
+  // v2 : soin Paladin 4→5, sa résistance le place devant ; aucune modification des poids.
+  ['Soigneur soutien BG',{roles:{soin:5},activities:{bg:5},styles:{support:5,surv:4}},'Paladin']
  ];
  for(const [label,p,expected] of cases)assert.equal(best(p).className,expected,label);
 });

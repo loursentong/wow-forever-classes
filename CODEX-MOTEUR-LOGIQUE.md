@@ -1,7 +1,8 @@
 # CODEX — Contrat du moteur logique de WoW Forever Classes
 
-> **Statut : référentiel normatif du comportement existant, v1 — 21 octobre 2026.**
+> **Statut : référentiel normatif v2, révision des données — 21 octobre 2026.**
 > **Base figée :** commit de production `470fc92b607327ba7573307d1c00577ffc887208`, après la correction « DPS PvE = 100 partout ».
+> **Base de la révision locale :** `71f81ec53bc3023e5fd8e8428de1267ff5df2d4a`. Moteur `1.0.1-exploratoire` : soin Chaman et Paladin 4→5, contrôle Discipline 4→3 ; formules et maîtrise inchangées. Décision et effets dans [REVISION-EDITORIALE-V2.md](REVISION-EDITORIALE-V2.md).
 > **Périmètre :** algorithmes, hypothèses, données, sauvegardes, tests et gouvernance des évolutions.
 > **Non-objectif :** déclarer le modèle scientifiquement validé, équilibrer arbitrairement les classes, garantir des performances en jeu ou figer à jamais les valeurs éditoriales.
 
@@ -13,7 +14,7 @@ Les trois sources de vérité techniques sont :
 
 1. `recommendation-engine.js` : moteur partagé, exécutable dans Node.js et dans le navigateur.
 2. `index.html` → `window.__WF` : matrice historique **9 classes × 14 notes = 126 notes**, 15 préréglages et calcul historique conservé séparément.
-3. `tests/fixtures/moteur-reference-v1.json` : **photographie immuable de la version de référence** (données et classements observés), vérifiée par `tests/codex-contract.test.cjs`.
+3. `tests/fixtures/moteur-reference-v2.json` : **photographie active de la version de référence**, vérifiée par `tests/codex-contract.test.cjs`. La photographie `moteur-reference-v1.json` reste immuable ; son empreinte et les trois seuls écarts de notes sont protégés par `tests/editorial-update.test.cjs`.
 
 `questionnaire.js` et `priorities-ui.js` gèrent **l'affichage et les préférences**, mais ne doivent pas constituer des moteurs de scoring concurrents. `RECOMMANDATION-METHODE.md` apporte les explications destinées aux utilisateurs. En cas de contradiction entre l'intention de ce codex et le code, **arrêter la modification, caractériser l'écart, puis décider explicitement du contrat voulu** : ne pas réécrire silencieusement le codex pour justifier un résultat accidentel.
 
@@ -247,7 +248,9 @@ Le fichier `tests/fixtures/moteur-reference-v1.json` contient :
 - les **3 rôles isolés × 4 maîtrises** ;
 - **5 mélanges d'axes × 3 maîtrises**.
 
-`tests/codex-contract.test.cjs` compare le moteur et les données **directement** à cette photographie. Elle n'est **pas un jeu d'entraînement**, ni une preuve de justesse du gameplay : c'est un dispositif de **détection de changements**.
+La photographie v1 reste conservée. `tests/codex-contract.test.cjs` compare désormais le moteur et les données **directement** à la photographie v2 des mêmes 99 cas. `scripts/compare-editorial-v2.cjs` reproduit la comparaison v1→v2 sans écrire de fixture. Ces photographies ne sont **pas un jeu d'entraînement**, ni une preuve de justesse du gameplay : elles détectent les changements.
+
+La v2 accepte une égalité des quatre classes soigneuses sur le seul axe Soin aux maîtrises Confirmé et Expert. Cette convention éditoriale ne dit pas que leurs soins réels sont égaux. Les classes sans configuration de soin restent à zéro sur cet axe ; les axes Tank et DPS restent différenciés.
 
 Les valeurs et les égalités observées dans cette photographie appartiennent à la version de référence. Si une source Blizzard apporte ultérieurement des données vérifiées modifiant une note, il peut être **correct** que les tests échouent : ils exigent alors une décision explicite et une nouvelle version documentée.
 

@@ -114,7 +114,7 @@ function results(){
      esc(x.spec.label)+' · '+(x.spec.range==='distance'?'Distance':'Mêlée')+(close?' · résultat proche':'')+'</small></span>'+
      '<span class="reco-priority-score">'+rounded+'<small>/100</small></span>'+
      '<span class="reco-priority-line" aria-hidden="true"><i style="width:'+Math.max(0,Math.min(100,rounded))+'%"></i></span>'+
-     '</li>';
+     (window.WFConfigurationDetails?window.WFConfigurationDetails(x.spec):'')+'</li>';
   });
   h+='</ol><p class="reco-note">Le classement est fondé sur les configurations de spécialisation les plus cohérentes avec les critères choisis. Les rôles ne sont comptés qu’une fois ; la polyvalence et la technicité n’interviennent que si tu les actives. Les faibles écarts ne prouvent pas de supériorité.</p>';
   if(r.active.length===1)h+='<p class="reco-note">Avec un seul critère actif, le poids 1, 2 ou 3 ne change pas les proportions du score : il détermine son importance par rapport à d’autres critères si tu en ajoutes.</p>';

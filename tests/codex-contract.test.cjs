@@ -1,7 +1,8 @@
 'use strict';
 /*
  * CONTRAT DE NON-RÉGRESSION DU MOTEUR — voir CODEX-MOTEUR-LOGIQUE.md.
- * Les attentes proviennent du commit de référence 470fc92b... (PR #14).
+ * v1 conserve le commit 470fc92b... ; v2 ne révise que les trois notes
+ * approuvées le 21 octobre 2026 (voir REVISION-EDITORIALE-V2.md).
  * Ne JAMAIS régénérer ces valeurs sur un échec de CI sans revue explicite des
  * écarts, approbation du changement et nouvelle version documentée.
  */
@@ -10,7 +11,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
 const E=require('../recommendation-engine.js');
-const fixture=require('./fixtures/moteur-reference-v1.json');
+const fixture=require('./fixtures/moteur-reference-v2.json');
 const html=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
 const questionnaire=fs.readFileSync(path.join(__dirname,'..','questionnaire.js'),'utf8');
 const prioritiesUI=fs.readFileSync(path.join(__dirname,'..','priorities-ui.js'),'utf8');
@@ -104,7 +105,15 @@ test('CODEx: DPS PvE / Tank / Soin isolés × 4 maîtrises — aucune régressio
    const r=E.priorityRanking(w,level.mastery);
    assert.deepEqual(compactResults(r),axis.results,axis.axis+'/maîtrise='+level.mastery);
    const unique=new Set(r.results.map(x=>x.score));
-   assert.ok(unique.size>=3,'Axe rôle non discriminant : '+axis.axis);
+   // La révision éditoriale accepte les quatre classes de soin au même palier.
+   // Les tanks et DPS restent différenciés ; les classes sans soigneur restent à 0.
+   assert.ok(unique.size>=(axis.axis==='soin'?2:3),'Axe rôle non discriminant : '+axis.axis);
+   if(axis.axis==='soin'){
+    for(const row of r.results){
+     if(!['paladin','chaman','pretre','druide'].includes(row.classId))assert.equal(row.score,0);
+     else if(level.mastery>=2)assert.equal(row.score,100);
+    }
+   }
    assert.ok(!r.results.every(x=>x.score===100),axis.axis);
    for(const n of [1,2]){
     assert.deepEqual(compactResults(E.priorityRanking({[axis.axis]:n},level.mastery)),axis.results,

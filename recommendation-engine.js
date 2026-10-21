@@ -39,7 +39,7 @@ var rows=[
 ['assassinat','voleur','Assassinat','dps','melee','none',[3,3,5,3],[5,2,5,2,4,1],[3,4]],
 ['combat','voleur','Combat','dps','melee','none',[4,3,4,3],[4,3,4,3,4,1],[2,3]],
 ['finesse','voleur','Finesse','dps','melee','none',[3,4,5,3],[5,2,5,2,5,1],[3,5]],
-['discipline','pretre','Discipline','soin','distance','none',[5,5,4,3],[2,2,4,4,2,5],[3,4]],
+['discipline','pretre','Discipline','soin','distance','none',[5,5,4,3],[2,2,3,4,2,5],[3,4]],
 ['sacre','pretre','Sacré','soin','distance','none',[5,5,3,3],[2,2,3,4,2,5],[2,3]],
 ['ombre','pretre','Ombre','dps','distance','none',[3,4,4,3],[3,2,4,3,2,4],[3,4]],
 ['elementaire','chaman','Élémentaire','dps','distance','none',[3,4,4,3],[5,4,3,3,4,4],[3,3]],
@@ -230,12 +230,13 @@ function sanitizeWeights(input){
 /* Référentiel éditorial historique par classe et rôle (indice 1–5).
  * Conserve le contexte des notes de rôle de index.html, mais évalue en plus
  * la configuration spécialisée en activité raid pour empêcher les 100% universels.
- * Vérification de synchronisation avec les 126 notes d'origine dans les tests.
+ * Révision éditoriale v2 : soins Paladin/Chaman 5, contrôle Discipline 3.
+ * Vérification de synchronisation avec les 126 notes affichées dans les tests.
  */
 var ROLE_REFERENCE={
- guerrier:{tank:5,soin:1,dps:5},paladin:{tank:4,soin:4,dps:4},
+ guerrier:{tank:5,soin:1,dps:5},paladin:{tank:4,soin:5,dps:4},
  chasseur:{tank:1,soin:1,dps:5},voleur:{tank:1,soin:1,dps:3},
- pretre:{tank:1,soin:5,dps:3},chaman:{tank:2,soin:4,dps:3},
+ pretre:{tank:1,soin:5,dps:3},chaman:{tank:2,soin:5,dps:3},
  mage:{tank:1,soin:1,dps:4},demoniste:{tank:1,soin:1,dps:4},
  druide:{tank:4,soin:5,dps:3}
 };
@@ -308,7 +309,7 @@ function checkData(){
  }
  return errors;
 }
-return {version:'1.0.0-exploratoire',sources:sources,specs:specs,roles:ROLE,activities:acts,styles:styles,
+return {version:'1.0.1-exploratoire',sources:sources,specs:specs,roles:ROLE,activities:acts,styles:styles,
  defaultProfile:copy(DEFAULT),sanitize:sanitize,selected:selected,domains:domains,eligible:eligible,
  ranking:ranking,recommend:recommend,checkData:checkData,intensity:intensity,preferenceFit:preferenceFit,
  rolePool:rolePool,adjustedActivity:adjustedActivity,roleSuitability:roleSuitability,roleReference:ROLE_REFERENCE,priorityAxes:PRIORITY_AXES,priorityRanking:priorityRanking,sanitizeWeights:sanitizeWeights};

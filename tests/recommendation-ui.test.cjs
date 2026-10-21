@@ -17,7 +17,7 @@ function createHarness(initial={}){
  const root={querySelector(s){return {'#reco-form':form,'#reco-results':results,'#reco-reset':reset}[s]||null;}};
  const document={getElementById(id){return id==='reco-app'?root:null;}};
  const localStorage={getItem(k){return Object.hasOwn(store,k)?store[k]:null;},setItem(k,v){store[k]=v;}};
- const window={WFRecommend:engine};
+ const window={WFRecommend:engine,WFConfigurationDetails:require('../configuration-details.js')};
  vm.runInNewContext(ui,{window,document,localStorage},{timeout:2000});
  function button(dataset,attrs=[]){
   return {dataset,hasAttribute(k){return attrs.includes(k);},closest(){return this;}};
