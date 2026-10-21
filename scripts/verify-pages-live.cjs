@@ -11,7 +11,10 @@ const expected={
  'ux-polish.css':'reco-reveal-button',
  'warcraft-visual-pack.css':'--wow-gold:#eac061',
  'wow-ui-rework.css':'reco-step-rail',
- 'assets/hero-landscape.svg':'<svg'
+ 'refonte-forever.css':'rf-band',
+ 'assets/hero-landscape.svg':'<svg',
+ 'assets/img/hero-arbre-monde.webp':'WEBP',
+ 'assets/img/logo-wow-forever.webp':'WEBP'
 };
 (async()=>{
  for(let attempt=1;attempt<=18;attempt++){

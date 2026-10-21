@@ -1,6 +1,6 @@
 # Refonte graphique
 
-Maquette de la refonte visuelle, validée le 21 octobre 2026 comme cible du rendu. Elle fixe l'apparence de la page, pas sa logique : le moteur, ses calculs et ses textes restent ceux du site, décrits dans [CODEX-MOTEUR-LOGIQUE.md](../CODEX-MOTEUR-LOGIQUE.md). Les images sont dans [`assets/`](../assets/README.md).
+Maquette de la refonte visuelle, validée le 21 octobre 2026 comme cible du rendu et intégrée le même jour par [`refonte-forever.css`](../refonte-forever.css). Elle fixe l'apparence de la page, pas sa logique : le moteur, ses calculs et ses textes restent ceux du site, décrits dans [CODEX-MOTEUR-LOGIQUE.md](../CODEX-MOTEUR-LOGIQUE.md). Les images sont dans [`assets/`](../assets/README.md).
 
 | Fichier | Contenu |
 | --- | --- |
@@ -27,7 +27,7 @@ Au sens du codex, l'intégration est un changement de type **Présentation** : a
 - Ne pas modifier `recommendation-engine.js`, `window.__WF` (126 notes, 15 préréglages), `tests/fixtures/moteur-reference-v1.json` ni les clés `localStorage`.
 - Garder les points d'accroche des scripts : `#reco-app`, `[data-reco-mode]`, `#reco-guided`, `#reco-priorities`, `#reco-form`, `#reco-rail`, `#reco-summary-panel`, `#reco-results`, `#reco-reset`, `#reco-priority-form`, `#reco-priority-results`, `#legacy-advanced`, les attributs `data-*` produits par `questionnaire.js` et `priorities-ui.js`, ainsi que `.presets button[data-preset]`, `.seg button[data-ax]`, `.mbtn[data-m]`, `#reset-w` et les identifiants du comparatif vérifiés par `tests/skill-matching.test.cjs`.
 - Passer d'abord par les feuilles de style ; ne changer le balisage que là où la maquette l'exige (en-tête, bandeaux).
-- Pour servir ces images, `scripts/prepare-pages.sh` doit copier `assets/img` et `assets/icons`. `tests/visual-pack.test.cjs` vérifie aujourd'hui les adresses du CDN de Blizzard et quelques règles de `warcraft-visual-pack.css` : passer aux fichiers locaux demande d'adapter ce test dans la même PR, en le signalant.
+- `scripts/prepare-pages.sh` publie `assets/img` et vérifie aussi les `url()` des feuilles de style. Les icônes de `assets/icons` ne sont pas encore utilisées : passer des icônes du CDN de Blizzard aux fichiers locaux demandera de modifier `questionnaire.js`, `priorities-ui.js`, `index.html` et `tests/visual-pack.test.cjs` dans une même PR, en le signalant.
 - Valider avec `node --test tests/*.test.cjs`, `bash scripts/prepare-pages.sh` et `node tests/browser-smoke.cjs`.
 
 ## Polices

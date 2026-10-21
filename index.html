@@ -7,7 +7,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Les classes de WoW Forever">
 <meta property="og:description" content="Quel personnage choisir dans WoW Forever ? Parcours guidé ou 14 priorités personnalisables, maîtrise, classement de neuf classes par spécialisation, sources et comparatif.">
-<meta name="theme-color" content="#10141B">
+<meta name="theme-color" content="#0A1725">
 <script data-theme-init>
 try {
   var theme = localStorage.getItem('wf-overview-theme');
@@ -438,6 +438,8 @@ footer.end{font-size:.9rem;color:var(--muted)}
 <link rel="stylesheet" href="ux-polish.css">
 <link rel="stylesheet" href="warcraft-visual-pack.css">
 <link rel="stylesheet" href="wow-ui-rework.css">
+<link rel="preload" as="image" href="assets/img/hero-arbre-monde.webp" type="image/webp">
+<link rel="stylesheet" href="refonte-forever.css">
 </head>
 <body>
 <main class="wrap">
@@ -459,7 +461,10 @@ footer.end{font-size:.9rem;color:var(--muted)}
 
 <section class="sec reco-section" aria-labelledby="h-reco">
   <div class="reco-hero">
-    <img class="wow-hero-logo" src="https://bnetcmsus-a.akamaihd.net/cms/gallery/j3/J3RLTCKOODJ51789169243964.png" alt="World of Warcraft: Forever — logo officiel" decoding="async" fetchpriority="low">
+    <div class="wow-hero-brand">
+      <img class="wow-hero-logo" src="assets/img/logo-wow-forever.webp" alt="World of Warcraft: Forever — logo officiel" width="520" height="424" decoding="async">
+      <span class="wow-fan-mention">Outil de fan · non officiel</span>
+    </div>
     <div class="reco-hero-copy">
       <span class="eyebrow">TON PROCHAIN PERSONNAGE · WORLD OF WARCRAFT: FOREVER</span>
       <h2 id="h-reco">Trouve la classe qui te ressemble.</h2>
@@ -494,6 +499,11 @@ footer.end{font-size:.9rem;color:var(--muted)}
       </div>
     </div>
     <div id="reco-priorities" role="tabpanel" aria-labelledby="reco-tab-priorities" hidden>
+      <div class="rf-band">
+        <p class="rf-band-kicker">Parcours 2</p>
+        <h3 class="rf-band-title">Régler mes priorités</h3>
+        <p class="rf-band-text">Un profil de départ, tes propres critères, ton niveau, puis le classement des neuf classes.</p>
+      </div>
       <div class="reco-guided-layout reco-priorities-layout">
         <div class="reco-workspace" id="reco-priority-form"></div>
         <aside id="reco-priority-results" class="reco-results" aria-live="polite" aria-label="Classement selon les priorités"></aside>

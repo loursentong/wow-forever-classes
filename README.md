@@ -22,9 +22,21 @@ L'interface guidée a une navigation verticale en six étapes, une zone centrale
 
 Comparatif interactif des neuf classes de World of Warcraft: Forever, projeté au niveau 60 à partir des sources disponibles le 20 octobre 2026.
 
+## Refonte graphique (21 octobre 2026)
+
+La page applique la maquette validée ([design/README.md](design/README.md)) par une dernière feuille de style, `refonte-forever.css`, chargée après les autres :
+
+- décor plein cadre de l'Arbre-monde, avec voiles de lecture et braises fixes ;
+- logo officiel toujours accompagné de la mention « Outil de fan · non officiel » ;
+- portails dorés pour les deux parcours, cadres héroïques (question, classement) et nobles (étapes, « Mes choix », aperçu) ;
+- bandeaux du gantelet pour « Régler mes priorités » et de Darkspear Islands pour le tableau des notes ;
+- médaillons des neuf classes et couleurs de rareté des objets pour les notes.
+
+Ces visuels viennent du kit de presse officiel et sont publiés avec le site (`assets/img`, provenance et droits dans [assets/README.md](assets/README.md)). Le thème clair garde sa page claire et l'en-tête y devient un encadré illustré. Aucun calcul, aucune donnée et aucune sauvegarde ne changent ; les icônes de classes et de compétences restent chargées depuis le serveur de Blizzard.
+
 ## Pack graphique Warcraft — ressources officielles et crédit
 
-Le site utilise désormais le **logo officiel World of Warcraft: Forever** et un paysage issus de Blizzard News, ainsi que les **neuf icônes de classes** et plusieurs **icônes de compétences** chargées depuis le CDN officiel `render.worldofwarcraft.com`. Ces ressources restent la propriété de Blizzard Entertainment. Le pack visuel communautaire est volontairement distinct des créations propres à Kami Labs, qui sert de référence d'usage, pas de source à copier.
+Le site utilise le **logo officiel World of Warcraft: Forever** et des décors du **kit de presse officiel**, hébergés avec le site, ainsi que les **neuf icônes de classes** et plusieurs **icônes de compétences** chargées depuis le CDN officiel `render.worldofwarcraft.com`. Ces ressources restent la propriété de Blizzard Entertainment. Le pack visuel communautaire est volontairement distinct des créations propres à Kami Labs, qui sert de référence d'usage, pas de source à copier.
 
 La couche `warcraft-visual-pack.css` ajoute des dorures, halos et cadres fantasy réactifs au survol, sans modifier les 14 notes de critères, la maîtrise, les résultats ou les sauvegardes. Des liens d'accès rapide permettent d'ouvrir directement les neuf fiches de classes. Les états clavier et `prefers-reduced-motion` sont vérifiés.
 

@@ -10,12 +10,15 @@ const http=require('node:http');
 const {chromium}=require('playwright');
 
 const base=path.resolve(__dirname,'..');
-const allowed={'/':'index.html','/index.html':'index.html','/questionnaire.js':'questionnaire.js','/recommendation-engine.js':'recommendation-engine.js','/priorities-ui.js':'priorities-ui.js','/ux-polish.css':'ux-polish.css','/warcraft-visual-pack.css':'warcraft-visual-pack.css','/wow-ui-rework.css':'wow-ui-rework.css','/assets/hero-landscape.svg':'assets/hero-landscape.svg'};
+const allowed={'/':'index.html','/index.html':'index.html','/questionnaire.js':'questionnaire.js','/recommendation-engine.js':'recommendation-engine.js','/priorities-ui.js':'priorities-ui.js','/ux-polish.css':'ux-polish.css','/warcraft-visual-pack.css':'warcraft-visual-pack.css','/wow-ui-rework.css':'wow-ui-rework.css','/refonte-forever.css':'refonte-forever.css','/assets/hero-landscape.svg':'assets/hero-landscape.svg'};
+// Visuels de la refonte (kit de presse officiel), servis comme sur GitHub Pages.
+for(const f of ['logo-wow-forever.webp','hero-arbre-monde.webp','bandeau-gantelet.webp','bandeau-darkspear.webp','grain.png'])allowed['/assets/img/'+f]='assets/img/'+f;
+const types={'.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml; charset=utf-8','.webp':'image/webp','.png':'image/png'};
 const server=http.createServer((req,res)=>{
   const pathname=new URL(req.url,'http://localhost').pathname;
   if(!Object.hasOwn(allowed,pathname)){res.writeHead(404);res.end();return;}
   const file=allowed[pathname];
-  res.setHeader('content-type',file.endsWith('.js')?'text/javascript; charset=utf-8':file.endsWith('.css')?'text/css; charset=utf-8':file.endsWith('.svg')?'image/svg+xml; charset=utf-8':'text/html; charset=utf-8');
+  res.setHeader('content-type',types[path.extname(file)]||'text/html; charset=utf-8');
   res.end(fs.readFileSync(path.join(base,file)));
 });
 async function check(){
@@ -56,7 +59,10 @@ async function check(){
   assert.equal(await page.locator('.wow-class-index img').count(),9,'Les neuf icônes de classe doivent figurer dans la navigation');
   assert.equal(await page.locator('.wow-card-class-icon').count(),9,'Les neuf fiches doivent utiliser l’iconographie officielle');
   assert.equal(await page.locator('.wow-hero-logo').count(),1);
-  assert.match(await page.locator('.wow-hero-logo').getAttribute('src'),/bnetcmsus-a\.akamaihd\.net/);
+  // Logo officiel du kit de presse, hébergé avec le site et toujours accompagné de la mention de fan.
+  assert.equal(await page.locator('.wow-hero-logo').getAttribute('src'),'assets/img/logo-wow-forever.webp');
+  assert.ok(await page.locator('.wow-hero-logo').evaluate(img=>img.complete&&img.naturalWidth>0),'Le logo doit se charger');
+  assert.match(await page.locator('.wow-fan-mention').textContent(),/Outil de fan · non officiel/);
   assert.match(await page.locator('footer.end').textContent(),/non affilié à Blizzard Entertainment/);
 
   assert.equal(await page.locator('#legacy-advanced').evaluate(el=>el.open),false);
@@ -221,7 +227,8 @@ async function check(){
   assert.notEqual(glowBefore,glowReady,'Le survol doit éclairer le composant de manière visible');
   assert.ok(typeof glowAfter==='string');
   // Contrôles des ressources graphiques et de l’accessibilité des animations.
-  const assets=await page.evaluate(async()=>Promise.all(['ux-polish.css','warcraft-visual-pack.css','wow-ui-rework.css','assets/hero-landscape.svg'].map(async p=>{
+  const assets=await page.evaluate(async()=>Promise.all(['ux-polish.css','warcraft-visual-pack.css','wow-ui-rework.css','refonte-forever.css','assets/hero-landscape.svg',
+   'assets/img/hero-arbre-monde.webp','assets/img/bandeau-gantelet.webp','assets/img/bandeau-darkspear.webp','assets/img/grain.png'].map(async p=>{
     const r=await fetch(p);return {url:p,status:r.status,ok:r.ok};
   })));
   assert.ok(assets.every(x=>x.ok),'CSS et illustration manquants : '+JSON.stringify(assets));
