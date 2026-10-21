@@ -2,7 +2,7 @@
  "classe": "demoniste",
  "libelle": "Démoniste",
  "date": "2026-10-21",
- "moteur": "1.0.3-exploratoire",
+ "moteur": "1.0.4-exploratoire",
  "faits": [
   {
    "id": "d-role",
@@ -254,7 +254,7 @@
     },
     "ctrl": {
      "valeur": 5,
-     "raison": "Fear, Death Coil, Curse of Tongues et Curse of Exhaustion si le talent est choisi ; Seduction ou Spell Lock dépend du familier invoqué. La note actuelle ne distingue pas le build avec familier du build sans familier.",
+     "raison": "Avec un démon invoqué : Fear, Death Coil, Curse of Tongues, Curse of Exhaustion (talent) et Seduction ou Spell Lock selon le démon, jamais les deux. La variante sans familier est notée à part.",
      "appuis": [
       "d-controle",
       "d-ralentissements"
@@ -302,6 +302,43 @@
       "d-demons"
      ],
      "confiance": "faible"
+    }
+   },
+   "variante_sans_familier": {
+    "synthese": "Sans démon : ni Séduction ni Verrou magique, et plus personne pour encaisser à sa place.",
+    "appuis": [
+     "d-controle",
+     "d-role"
+    ],
+    "notes": {
+     "ctrl": {
+      "valeur": 4,
+      "raison": "Sans démon : Fear, Death Coil, Curse of Tongues et Curse of Exhaustion (talent) ; ni Seduction ni Spell Lock.",
+      "appuis": [
+       "d-controle",
+       "d-ralentissements"
+      ],
+      "confiance": "moyenne"
+     },
+     "world": {
+      "valeur": 4,
+      "raison": "En duel, il perd Seduction, Spell Lock et le démon qui encaisse ; drains, peurs et malédictions restent. Ampleur de la baisse estimée, non mesurée.",
+      "appuis": [
+       "d-controle",
+       "d-defense",
+       "d-role"
+      ],
+      "confiance": "faible"
+     },
+     "solo": {
+      "valeur": 3,
+      "raison": "Physiquement faible, le Démoniste compte sur ses démons pour se protéger : sans eux, plus personne n’encaisse à sa place en solo.",
+      "appuis": [
+       "d-role",
+       "d-solo"
+      ],
+      "confiance": "moyenne"
+     }
     }
    }
   },
@@ -496,7 +533,7 @@
     },
     "ctrl": {
      "valeur": 4,
-     "raison": "Fear et Death Coil ; Seduction ou Spell Lock selon le démon invoqué, aucun des deux sans familier. Conflagrate ralentit avec le talent Aftermath. La note actuelle ne distingue pas les variantes de familier.",
+     "raison": "Avec un démon invoqué : Fear, Death Coil, Seduction ou Spell Lock selon le démon, et le ralentissement de Conflagrate (talent Aftermath). La variante sans familier est notée à part.",
      "appuis": [
       "d-controle",
       "d-ralentissements"
@@ -544,6 +581,43 @@
       "d-controle"
      ],
      "confiance": "faible"
+    }
+   },
+   "variante_sans_familier": {
+    "synthese": "Sans démon : ni Séduction ni Verrou magique, et plus personne pour encaisser à sa place.",
+    "appuis": [
+     "d-controle",
+     "d-role"
+    ],
+    "notes": {
+     "ctrl": {
+      "valeur": 3,
+      "raison": "Sans démon : Fear, Death Coil et le ralentissement de Conflagrate (talent Aftermath) ; ni Seduction, ni Spell Lock, ni Curse of Exhaustion (Affliction).",
+      "appuis": [
+       "d-controle",
+       "d-ralentissements"
+      ],
+      "confiance": "moyenne"
+     },
+     "world": {
+      "valeur": 4,
+      "raison": "En duel, il perd Seduction, Spell Lock et le démon qui encaisse ; son burst et ses peurs restent. Ampleur de la baisse estimée, non mesurée.",
+      "appuis": [
+       "d-controle",
+       "d-role",
+       "d-destru"
+      ],
+      "confiance": "faible"
+     },
+     "solo": {
+      "valeur": 3,
+      "raison": "Physiquement faible, le Démoniste compte sur ses démons pour se protéger : sans eux, plus personne n’encaisse à sa place en solo.",
+      "appuis": [
+       "d-role",
+       "d-solo"
+      ],
+      "confiance": "moyenne"
+     }
     }
    }
   }

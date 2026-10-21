@@ -79,6 +79,24 @@ test('Chaque note a une raison, des appuis qui concernent sa configuration et un
  }
 });
 
+test('Variantes sans familier : alignées sur le moteur, justifiées, et seulement pour un familier facultatif',()=>{
+ for(const k of classes)for(const s of k.specialisations){
+  const m=E.specs.find(x=>x.id===s.id),v=s.variante_sans_familier;
+  assert.equal(!!v,m.pet==='optional',s.id+' : variante si et seulement si le familier est facultatif');
+  if(!v)continue;
+  const engine=E.petless[s.id];
+  assert.ok(engine,s.id);
+  const diff=CRITERES.filter(c=>valeur(engine,c)!==valeur(m,c));
+  assert.deepEqual(Object.keys(v.notes).sort(),diff.sort(),s.id+' : notes qui changent sans familier');
+  for(const [c,n] of Object.entries(v.notes)){
+   assert.equal(n.valeur,valeur(engine,c),s.id+'/'+c);
+   assert.ok(n.raison&&n.raison.length>=15&&['haute','moyenne','faible'].includes(n.confiance),s.id+'/'+c);
+   for(const a of n.appuis)assert.ok(faits.has(a)&&applique(faits.get(a),s.id),s.id+'/'+c+' : '+a);
+  }
+  assert.ok(v.synthese&&v.appuis.length&&v.appuis.every(a=>faits.has(a)&&applique(faits.get(a),s.id)),s.id);
+ }
+});
+
 test('Règles : une note de style à 4 ou plus s’appuie sur un fait de son domaine et cite les limites qui pèsent contre elle',()=>{
  for(const k of classes)for(const s of k.specialisations)for(const c of CRITERES){
   const n=s.notes[c],id=s.id+'/'+c;

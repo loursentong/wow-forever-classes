@@ -22,12 +22,19 @@
   if(top.length<2)return '';
   return 'À égalité en tête : '+top.map(function(r){return r.className||r.spec.className;}).join(', ')+'. L’ordre d’affichage ne les départage pas.';
  }
+ // Depuis la référence v5, une configuration à familier facultatif est évaluée sans familier quand le
+ // joueur préfère jouer sans compagnon : le texte décrit ce que cette variante perd ou garde.
+ var petless={
+  'chasseur-precision':'Évaluée en « Loup solitaire », sans familier : ses notes supposent déjà ce choix.',
+  'chasseur-survie':'Évaluée sans familier : un peu moins à l’aise en solo ; ses pièges, ses contrôles et ses défenses restent les siens.',
+  'demoniste-affliction':'Évaluée sans démon : sans Séduction ni Verrou magique, et sans démon pour encaisser en solo. Peur, Voile mortel et malédictions restent.',
+  'demoniste-destruction':'Évaluée sans démon : sans Séduction ni Verrou magique, et sans démon pour encaisser en solo. Peur, Voile mortel et le ralentissement de Conflagration restent.'
+ };
  function petNotice(spec,profile){
   if(!profile||!profile.pet||profile.pet.value!=='avoid')return '';
   if(spec.pet==='core')return 'Le familier est central dans cette spécialisation : cette piste répond moins bien à ton envie de jouer sans compagnon.';
   if(spec.pet!=='optional')return '';
-  return 'Le familier est facultatif selon le build, mais ce score ne distingue pas encore les variantes avec et sans compagnon.'+
-   (spec.classId==='demoniste'?' Sans démon invoqué, tu perds ses contrôles, notamment Séduction ou l’interruption du Chasseur corrompu.':' Les outils et le confort en solo peuvent changer sans lui.');
+  return petless[spec.id]||'Évaluée sans familier.';
  }
  function contextNotes(context){
   var out=[],p=context.profile,w=context.weights;

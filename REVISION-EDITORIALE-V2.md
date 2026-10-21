@@ -1,4 +1,4 @@
-# Révision éditoriale v2 et références v3-v4 — 21 octobre 2026
+# Révision éditoriale v2 et références v3 à v5 — 21 octobre 2026
 
 Changement de **données et d'explications**, approuvé par le responsable du projet après la revue pratique des 28 configurations : moteur `1.0.1-exploratoire`, référence v2. Il est complété le même jour par la règle d'affichage à score égal (moteur `1.0.2-exploratoire`, référence v3) puis par l'exception solo du Chasseur réservée à Maîtrise des bêtes (moteur `1.0.3-exploratoire`, référence v4), voir plus bas. Base commune : `71f81ec53bc3023e5fd8e8428de1267ff5df2d4a`.
 
@@ -97,19 +97,39 @@ Sur les 99 cas de référence, **5 changent**, tous en solo, en Débutant ou Int
 
 Dans le guide, un débutant ou un intermédiaire qui cherche du solo voit de nouveau le Chasseur Maîtrise des bêtes en première piste, à 100. En Confirmé, les trois spécialisations du Chasseur restent à 100 ; la règle d'égalité retient alors Survie, au plus haut potentiel.
 
+## Version 1.0.4 : variantes sans familier
+
+Le responsable du projet l'a décidé le 21 octobre 2026, après les retours de sa guilde, relus par Astra. Quand le joueur préfère jouer sans compagnon, une configuration à familier facultatif est évaluée avec les notes de son build sans familier. Avant, elle gardait ses notes avec familier, avec une pénalité forfaitaire. Raisons et appuis sont dans la [base de connaissances](connaissances/README.md).
+
+| Configuration | Notes qui changent sans familier | Raison |
+|---|---|---|
+| Démoniste Affliction | contrôle 5→4, PvP sauvage 5→4, solo 4→3 | ni Séduction ni Verrou magique, et plus de démon pour encaisser |
+| Démoniste Destruction | contrôle 4→3, PvP sauvage 5→4, solo 4→3 | idem ; Peur, Voile mortel et le ralentissement de Conflagration restent |
+| Chasseur Survie | solo 5→4 | plus de familier pour encaisser en solo |
+| Chasseur Précision | aucune | déjà évaluée en « Loup solitaire » |
+
+La variante répond pleinement au souhait de jouer sans compagnon (1 au lieu de 0,78) : le compromis est désormais dans ses notes. Rien ne change sans cette préférence, ni dans « Régler mes priorités ».
+
+Sur les 99 cas de référence, **un seul change** : « solo sans familier obligatoire ».
+- Le Chasseur y est représenté par Précision, à égalité avec le Paladin Protection à 89,29 (Survie était à 83).
+- Le Démoniste Affliction passe de 70,50 à 64,29.
+
+La référence v5 ajoute quatre scénarios sans familier. Parmi eux, le retour de guilde « contrôle à distance sans familier » : le Mage Givre y passe seul en tête à toutes les maîtrises (en Confirmé, 100 contre 88,89 au Démoniste sans démon).
+
 ## Références et reproduction
 
-La fixture v1 et `tests/reference-notes.json` sont conservés. La fixture v2 fige les mêmes entrées, après vérification des trois seuls écarts de notes. La fixture v3 ne diffère de la v2 que par les configurations affichées à score égal. La fixture v4, active, ne diffère de la v3 que par le Chasseur en solo, en Débutant ou Intermédiaire. Les tests protègent les empreintes des v1, v2 et v3. Le code des formules de score et les données de maîtrise sont inchangés.
+La fixture v1 et `tests/reference-notes.json` sont conservés. La fixture v2 fige les mêmes entrées, après vérification des trois seuls écarts de notes. La fixture v3 ne diffère de la v2 que par les configurations affichées à score égal. La fixture v4 ne diffère de la v3 que par le Chasseur en solo, en Débutant ou Intermédiaire. La fixture v5, active, ne diffère de la v4 que par un scénario sans familier ; elle ajoute quatre scénarios. Les tests protègent les empreintes des v1 à v4. Le code des formules de score et les données de maîtrise sont inchangés.
 
 ```text
 node --test tests/*.test.cjs
 node scripts/compare-editorial-v2.cjs comparaison-v1-v2.json
 node scripts/reference-v3.cjs comparaison-v2-v3.json
 node scripts/reference-v4.cjs comparaison-v3-v4.json
+node scripts/reference-v5.cjs comparaison-v4-v5.json
 bash scripts/prepare-pages.sh
 node tests/browser-smoke.cjs
 ```
 
-Les comparaisons produisent les scores, rangs et spécialisations avant/après avec la cause de chaque écart. Elles ne réécrivent aucune fixture : `scripts/reference-v4.cjs` n'écrit la photographie qu'avec l'option explicite `--fixture`. Le test navigateur utilise Playwright ; `FRV_CHROMIUM_EXECUTABLE` permet de sélectionner un Chrome/Chromium déjà installé.
+Les comparaisons produisent les scores, rangs et spécialisations avant/après avec la cause de chaque écart. Elles ne réécrivent aucune fixture : `scripts/reference-v5.cjs` n'écrit la photographie qu'avec l'option explicite `--fixture`. Le test navigateur utilise Playwright ; `FRV_CHROMIUM_EXECUTABLE` permet de sélectionner un Chrome/Chromium déjà installé.
 
 Les tests et les 99 cas vérifient la cohérence de l'implémentation, pas la justesse scientifique au niveau 60. Cette étape ne revoit ni les coefficients de maîtrise ni les formules et ne lance pas de nouvel audit exhaustif.

@@ -1,6 +1,6 @@
 # Écarts à arbitrer
 
-> Base de connaissances du 2026-10-21, moteur `1.0.3-exploratoire`. Aucune valeur n’a été changée : chaque proposition attend une décision. Les arguments restent à apprécier dans leur contexte ; ils ne prouvent pas tous une erreur de note.
+> Base de connaissances du 2026-10-21, moteur `1.0.4-exploratoire`. Aucune valeur n’a été changée : chaque proposition attend une décision. Les arguments restent à apprécier dans leur contexte ; ils ne prouvent pas tous une erreur de note.
 > Pour chaque ligne : **garder** (la note reste, en confiance faible) ou **changer** (nouvelle valeur dans le moteur,
 > avec une nouvelle photographie de référence, comme pour les révisions précédentes).
 

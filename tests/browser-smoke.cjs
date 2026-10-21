@@ -322,7 +322,8 @@ async function check(){
   await page.locator('#rc-pet-avoid').fill('5');
   await page.locator('[data-strict="pet"]').check();
   const warlock=page.locator('#reco-results .reco-result-card').filter({has:page.locator('h4', {hasText:'Démoniste'})});
-  assert.match(await warlock.locator('.reco-config-notice').textContent(),/Sans démon invoqué/);
+  assert.match(await warlock.locator('.reco-config-notice').textContent(),/Évaluée sans démon/);
+  assert.match(await warlock.locator('.reco-result-main p').textContent(),/sans familier/);
   assert.equal(await page.locator('#reco-results .reco-result-card').first().locator('h4').textContent(),'Mage');
   await page.setViewportSize({width:390,height:844});
   await warlock.screenshot({path:path.join(__dirname,'screenshots','lot1-familier-mobile.png'),animations:'disabled'});

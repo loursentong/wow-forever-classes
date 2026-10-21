@@ -2,7 +2,7 @@
  "classe": "chasseur",
  "libelle": "Chasseur",
  "date": "2026-10-21",
- "moteur": "1.0.3-exploratoire",
+ "moteur": "1.0.4-exploratoire",
  "faits": [
   {
    "id": "c-role",
@@ -528,6 +528,13 @@
      ],
      "confiance": "faible"
     }
+   },
+   "variante_sans_familier": {
+    "synthese": "Déjà évaluée en « Loup solitaire » (+20 % de dégâts sans familier) : aucune note ne change.",
+    "appuis": [
+     "c-familier-precision"
+    ],
+    "notes": {}
    }
   },
   {
@@ -655,6 +662,25 @@
       "c-pieges"
      ],
      "confiance": "faible"
+    }
+   },
+   "variante_sans_familier": {
+    "synthese": "Sans familier pour encaisser, seule l’aisance en solo baisse ; pièges, contrôles et défenses lui appartiennent.",
+    "appuis": [
+     "c-familier-survie",
+     "c-role"
+    ],
+    "notes": {
+     "solo": {
+      "valeur": 4,
+      "raison": "Sans familier pour encaisser en solo, la mêlée de Survie prend les coups elle-même ; « Deflection » et « Counterattack » limitent la perte.",
+      "appuis": [
+       "c-role",
+       "c-defense",
+       "c-familier-survie"
+      ],
+      "confiance": "faible"
+     }
     }
    }
   }

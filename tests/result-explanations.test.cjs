@@ -30,8 +30,13 @@ test('Familier : la limite dépend du profil demandé et de la configuration, sa
  const aff=E.specs.find(s=>s.id==='demoniste-affliction');
  const mage=E.specs.find(s=>s.id==='mage-givre');
  const bm=E.specs.find(s=>s.id==='chasseur-maitrise-betes');
- assert.match(X.petNotice(aff,p),/ne distingue pas encore/);
- assert.match(X.petNotice(aff,p),/Sans démon invoqué/);
+ assert.match(X.petNotice(aff,p),/Évaluée sans démon/);
+ assert.match(X.petNotice(aff,p),/Séduction ni Verrou magique/);
+ assert.match(X.petNotice(E.specs.find(s=>s.id==='chasseur-precision'),p),/Loup solitaire/);
+ // Le texte décrit la variante réellement évaluée par le moteur pour ce profil.
+ const warlock=E.recommend(p).results.find(r=>r.spec.classId==='demoniste');
+ assert.equal(warlock.spec.variant,'sans-familier');
+ assert.match(X.petNotice(warlock.spec,p),/Évaluée sans démon/);
  assert.equal(X.petNotice(mage,p),'');
  assert.equal(X.petNotice(aff,E.sanitize(null)),'');
  assert.match(X.petNotice(bm,E.sanitize({pet:{value:'avoid'}})),/familier est central/);

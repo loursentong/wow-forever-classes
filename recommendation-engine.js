@@ -63,6 +63,25 @@ var specs=rows.map(function(r){
   styles.forEach(function(k,i){st[k]=r[7][i];});
   return {id:r[1]+'-'+r[0],classId:r[1],className:names[r[1]],label:r[2],role:r[3],range:r[4],pet:r[5],activity:a,style:st,load:{pve:r[8][0],pvp:r[8][1]},source:sources[r[1]],dataQuality:{officialKit:true,activity:'éditoriale',style:'éditoriale'}};
 });
+/* Variantes sans familier (référence v5) : pour chaque configuration à familier facultatif, notes
+ * du build joué sans compagnon, uniquement là où le familier compte (base de connaissances).
+ * Elles s'appliquent quand le joueur préfère jouer sans compagnon ; la variante répond alors
+ * pleinement à ce souhait, et son compromis est porté par ses notes, plus par la préférence.
+ * Précision est déjà évaluée en « Loup solitaire » : aucune note ne change. */
+var PETLESS={
+ 'chasseur-precision':{},
+ 'chasseur-survie':{activity:{solo:4}},
+ 'demoniste-affliction':{activity:{world:4,solo:3},style:{ctrl:4}},
+ 'demoniste-destruction':{activity:{world:4,solo:3},style:{ctrl:3}}
+};
+var petless={};
+specs.forEach(function(s){
+  if(s.pet!=='optional'||!PETLESS[s.id])return;
+  var d=PETLESS[s.id];
+  petless[s.id]=Object.assign({},s,{variant:'sans-familier',
+    activity:Object.assign({},s.activity,d.activity||{}),style:Object.assign({},s.style,d.style||{})});
+});
+function profileSpec(s,p){return p.pet.value==='avoid'&&petless[s.id]?petless[s.id]:s;}
 var ROLE=['tank','soin','dps'];
 var DEFAULT={roles:{},rolesStrict:false,activities:{},range:{value:'any',certainty:3,strict:false},styles:{},pet:{value:'any',certainty:3,strict:false},difficulty:{value:'any',certainty:3},mastery:2};
 function validCert(v){return Number.isInteger(v)&&v>=0&&v<=5;}
@@ -159,7 +178,7 @@ function specFit(s,p){
   if(sty.length)parts.styles={value:aggregate(sty,p.styles,function(k){return (adjustedStyle(s,k,p.mastery)-1)/4;}),weight:.20};
   if(p.pet.value!=='any'){
     var v=p.pet.value==='like'?(s.pet==='core'?1:s.pet==='optional'?.76:.1):
-      (s.pet==='none'?1:s.pet==='optional'?.78:.05);
+      (s.pet==='none'||s.variant==='sans-familier'?1:s.pet==='optional'?.78:.05);
     parts.pet={value:preferenceFit(v,p.pet.certainty),weight:.10};
   }
   if(p.difficulty.value!=='any'){
@@ -185,8 +204,8 @@ function ranking(profile){
   var p=sanitize(profile),used=domains(p);
   if(!used.length)return {status:'unanswered',profile:p,used:used,results:[],compatible:0};
   var candidates=specs.filter(function(s){return eligible(s,p);}).map(function(s){
-    var fit=specFit(s,p);
-    return {spec:s,score:Math.round(10000*fit.value)/100,fit:fit.parts};
+    var v=profileSpec(s,p),fit=specFit(v,p);
+    return {spec:v,score:Math.round(10000*fit.value)/100,fit:fit.parts};
   }).sort(stableSort);
   if(!candidates.length)return {status:'no-match',profile:p,used:used,results:[],compatible:0};
   var best={};
@@ -317,10 +336,19 @@ function checkData(){
   if(!sources[s.classId]||ROLE.indexOf(s.role)<0||['distance','melee'].indexOf(s.range)<0||['none','optional','core'].indexOf(s.pet)<0)errors.push('structure '+s.id);
   for(var k of acts)if(!Number.isInteger(s.activity[k])||s.activity[k]<1||s.activity[k]>5)errors.push('activité '+s.id+':'+k);
   for(var k of styles)if(!Number.isInteger(s.style[k])||s.style[k]<1||s.style[k]>5)errors.push('style '+s.id+':'+k);
+  if(s.pet==='optional'&&!petless[s.id])errors.push('variante sans familier manquante '+s.id);
+ }
+ for(var id in PETLESS){
+  var base=specs.find(function(x){return x.id===id;});
+  if(!base||base.pet!=='optional')errors.push('variante sans familier sans objet '+id);
+  else for(var part of ['activity','style'])for(var k in PETLESS[id][part]||{}){
+   var v=PETLESS[id][part][k];
+   if(!(k in base[part])||!Number.isInteger(v)||v<1||v>5)errors.push('variante '+id+':'+k);
+  }
  }
  return errors;
 }
-return {version:'1.0.3-exploratoire',sources:sources,specs:specs,roles:ROLE,activities:acts,styles:styles,
+return {version:'1.0.4-exploratoire',sources:sources,specs:specs,petless:petless,roles:ROLE,activities:acts,styles:styles,
  defaultProfile:copy(DEFAULT),sanitize:sanitize,selected:selected,domains:domains,eligible:eligible,
  ranking:ranking,recommend:recommend,checkData:checkData,intensity:intensity,preferenceFit:preferenceFit,
  rolePool:rolePool,adjustedActivity:adjustedActivity,potential:potential,roleSuitability:roleSuitability,roleReference:ROLE_REFERENCE,priorityAxes:PRIORITY_AXES,priorityRanking:priorityRanking,sanitizeWeights:sanitizeWeights};

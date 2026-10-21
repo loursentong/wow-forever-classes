@@ -120,6 +120,6 @@ Chaque classe est représentée par une seule spécialisation adaptée à l'ense
 
 Le contrôle recouvre immobilisations, ralentissements, neutralisations et interruptions, dont les contraintes diffèrent selon les talents et le familier. Les repères de difficulté PvE/PvP concernent la spécialisation affichée, sans mesurer précisément l'apprentissage d'un joueur ni sa capacité à optimiser.
 
-Un familier « facultatif » ne signifie pas un résultat identique sans compagnon. Le calcul actuel ne distingue pas encore ces variantes ; les résultats concernés le signalent lorsque le joueur préfère éviter les familiers. Les contrôles propres à un démon invoqué ne sont pas disponibles sans lui. Les variantes du Chasseur alternant mêlée et distance nécessitent aussi un alignement de leurs hypothèses de performance et de difficulté.
+Un familier « facultatif » ne signifie pas un résultat identique sans compagnon. Depuis le moteur 1.0.4, quand le joueur préfère éviter les familiers, Affliction, Destruction, Survie et Précision sont évaluées dans leur version sans familier, et le résultat l'annonce : sans démon, le Démoniste perd notamment Séduction et Verrou magique. Les variantes du Chasseur alternant mêlée et distance nécessitent aussi un alignement de leurs hypothèses de performance et de difficulté.
 
 Les types de soins ne sont pas encore des préférences du questionnaire. Une égalité entre soigneurs ne signifie donc pas qu'ils se jouent de la même façon ou fournissent exactement les mêmes soins. Voir [le périmètre du lot d'explications](LOT-1-EXPLICATIONS.md).

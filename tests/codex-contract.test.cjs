@@ -4,7 +4,8 @@
  * v1 conserve le commit 470fc92b... ; v2 ne révise que les trois notes
  * approuvées le 21 octobre 2026 (voir REVISION-EDITORIALE-V2.md) ; v3 ne change
  * que la configuration qui représente une classe à score égal (plus haut potentiel) ;
- * v4 réserve l'exception solo du Chasseur à Maîtrise des bêtes.
+ * v4 réserve l'exception solo du Chasseur à Maîtrise des bêtes ; v5 évalue les configurations à
+ * familier facultatif avec leurs notes sans familier quand le joueur préfère jouer sans compagnon.
  * Ne JAMAIS régénérer ces valeurs sur un échec de CI sans revue explicite des
  * écarts, approbation du changement et nouvelle version documentée.
  */
@@ -13,7 +14,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
 const E=require('../recommendation-engine.js');
-const fixture=require('./fixtures/moteur-reference-v4.json');
+const fixture=require('./fixtures/moteur-reference-v5.json');
 const html=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
 const questionnaire=fs.readFileSync(path.join(__dirname,'..','questionnaire.js'),'utf8');
 const prioritiesUI=fs.readFileSync(path.join(__dirname,'..','priorities-ui.js'),'utf8');
@@ -31,7 +32,8 @@ function compactGuide(profile){
   used:r.used,
   results:r.results.map(x=>[x.spec.classId,x.spec.id,x.score]),
   uncertain:r.uncertain,
-  scenarios:r.scenarios.map(x=>[x.name,x.status,x.top])
+  scenarios:r.scenarios.map(x=>[x.name,x.status,x.top]),
+  sansFamilier:r.results.filter(x=>x.spec.variant==='sans-familier').map(x=>x.spec.id)
  };
 }
 function stableIds(r){
@@ -72,13 +74,13 @@ test('CODEx: référence de rôle toujours liée aux notes historiques',()=>{
   assert.ok(Math.abs(E.roleSuitability(s,2)-(.55*baseline+.45*activity))<1e-12,s.id);
  }
 });
-test('CODEx: 12 scénarios guidés — statut, spécialisation, scores, sensibilité et vétos',()=>{
- assert.equal(fixture.guide.length,12);
+test('CODEx: 16 scénarios guidés — statut, spécialisation, scores, sensibilité, vétos et variantes sans familier',()=>{
+ assert.equal(fixture.guide.length,16);
  for(const ex of fixture.guide){
   const actual=compactGuide(ex.profile);
   assert.deepEqual(actual,{
    status:ex.status,compatible:ex.compatible,used:ex.used,
-   results:ex.results,uncertain:ex.uncertain,scenarios:ex.scenarios
+   results:ex.results,uncertain:ex.uncertain,scenarios:ex.scenarios,sansFamilier:ex.sansFamilier
   },'Régression du guide : '+ex.id);
   if(actual.status==='ok'){
    assert.ok(actual.results.length<=9,ex.id);

@@ -2,8 +2,9 @@
 // Référence v4 : l'exception solo du Chasseur est réservée à Maîtrise des bêtes (familier central).
 // Seuls le score et la configuration du Chasseur peuvent changer, uniquement en solo, en Débutant ou
 // Intermédiaire, et seulement à la baisse ; les autres classes gardent configuration, score et ordre.
-// Usage : node scripts/reference-v4.cjs [rapport.json] [--fixture chemin.json]
-// Sans --fixture, aucune photographie n'est écrite ; le rapport est facultatif.
+// Usage : node scripts/reference-v4.cjs [rapport.json]
+// Depuis le moteur 1.0.4, la comparaison porte sur la photographie v4 figée (le moteur actuel suit
+// la v5, voir scripts/reference-v5.cjs) ; aucune photographie n'est écrite.
 const fs=require('node:fs');
 const path=require('node:path');
 const assert=require('node:assert/strict');
@@ -72,10 +73,8 @@ function compare(before,after){
   regle:DECISION,resultats:cases.filter(c=>c.modifie)};
 }
 if(require.main===module){
- const args=process.argv.slice(2),i=args.indexOf('--fixture');
- const fixturePath=i>=0?args.splice(i,2)[1]:null;
- const next=snapshot(),report=compare(v3,next);
- if(fixturePath)fs.writeFileSync(path.resolve(fixturePath),JSON.stringify(next,null,2)+'\n');
+ const args=process.argv.slice(2);
+ const report=compare(v3,require('../tests/fixtures/moteur-reference-v4.json'));
  if(args[0])fs.writeFileSync(args[0],JSON.stringify(report,null,2)+'\n');
  console.log(JSON.stringify({version:report.version,cas:report.cas,cas_modifies:report.cas_modifies}));
 }
