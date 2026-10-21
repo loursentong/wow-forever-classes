@@ -107,7 +107,7 @@
    "portee": "Dégâts et menace au niveau 60 théorique.",
    "date": "2026-10-21",
    "consultee": "2026-10-21",
-   "note": "wowsims Forever (commit 62b7445), client 1.60.1.70425 ; boss unique statique 2 min, 10 000 itérations, équipement de donjon, tissage supposé pour les Chasseurs ; ni soigneurs ni survie.",
+   "note": "wowsims Forever (commit 62b7445), client 1.60.1.70425 ; boss unique statique 2 min, 10 000 itérations, équipement de donjon, tissage supposé pour les Chasseurs ; ni soigneurs ni survie. La FAQ annonce un Quick Sim en HPS, sans classement des soigneurs ; son implémentation n’a pas été validée ici.",
    "statut": "utilisee",
    "raison_statut": null
   },
@@ -390,10 +390,10 @@
    "url": "https://mobalytics.gg/wow-forever/tier-list",
    "type": "avis",
    "fiabilite": "moyenne",
-   "portee": "Leveling des niveaux 1 à 20 de la bêta et spécialisation conseillée par classe.",
+   "portee": "Tableau de leveling bêta 1–20, accompagné de liens vers des guides 1–30 : les deux contextes ne doivent pas être confondus.",
    "date": "bêta (non datée)",
    "consultee": "2026-10-21",
-   "note": "Parties de l’équipe Mobalytics (vitesse, confort, puissance) ; « une idée approximative ». Distincte de la liste fondée sur Vanilla.",
+   "note": "Parties de l’équipe Mobalytics (vitesse, confort, puissance) ; « une idée approximative ». Distincte de la liste fondée sur Vanilla. Le tableau conseille Armes, tandis que la page consultée le 21 octobre présente aussi un guide Guerrier Protection 1–30 daté du 18 octobre ; aucune de ces recommandations ne mesure le solo au niveau 60.",
    "statut": "utilisee",
    "raison_statut": null
   },
@@ -432,7 +432,7 @@
    "portee": "Rotations modélisées (listes de priorités) des spécialisations de dégâts et de tank.",
    "date": "2026-10-21",
    "consultee": "2026-10-21",
-   "note": "Commit 10b0e65. Mesure indirecte de difficulté : la rotation optimale écrite par des auteurs différents, pas la difficulté ressentie. Les soigneurs n’y sont pas simulés.",
+   "note": "Commit 10b0e65 déclaré dans la passation. Les rotations inspectées concernent dégâts et tank. Leur taille dépend des auteurs et des optimisations : ce n’est pas une mesure de difficulté ressentie. Cet échantillon ne démontre pas l’absence générale de simulation de soin.",
    "statut": "utilisee",
    "raison_statut": null
   },

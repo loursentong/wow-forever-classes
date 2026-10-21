@@ -80,7 +80,7 @@
    "valeur": 3,
    "proposition": 2,
    "priorite": "basse",
-   "constat": "Racines seulement, sans ralentissement, silence ni interruption ; Chaman Restauration (interruption et ralentissement) et Paladin Sacré (un seul étourdissement) sont à 2.",
+   "constat": "Entangling Roots et Nature’s Grasp sont présents. Avant de proposer 2, préciser les changements de forme et talents retenus, ainsi que la distinction entre immobiliser, ralentir et interrompre ; la comparaison avec Chaman et Paladin ne suffit pas seule.",
    "appuis": [
     "dr-racines",
     "dr-limites",
@@ -182,7 +182,7 @@
   {
    "spec": "soigneurs",
    "critere": "raid",
-   "constat": "Convention : les cinq soigneurs sont à 5. Aucune donnée ne les départage avant le lancement : pas de raid dans la bêta et aucune simulation de soin (le simulateur communautaire ne modélise pas les sorts de soin)."
+   "constat": "Convention : les cinq soigneurs sont à 5. Aucun classement comparatif de soin validé dans ce corpus. MythicSim annonce un Quick Sim en HPS mais exclut les soigneurs de sa tier list ; ce point ne prouve ni égalité de performance ni absence de simulation."
   },
   {
    "spec": "druide-restauration",

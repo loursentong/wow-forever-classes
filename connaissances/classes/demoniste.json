@@ -15,7 +15,7 @@
   {
    "id": "d-controle",
    "categorie": "controle",
-   "texte": "« Fear », « Death Coil », « Seduction » (démon) et l’interruption du Felhunter (« Spell Lock », recharge réduite par « Improved Felhunter »).",
+   "texte": "« Fear » et « Death Coil » appartiennent au personnage. « Seduction » dépend du Sayaad invoqué ; « Spell Lock » dépend du Felhunter invoqué. Ces deux contrôles de familiers ne sont pas disponibles simultanément avec un seul démon et disparaissent sans familier. La recharge réduite de « Spell Lock » exige en plus le talent « Improved Felhunter » en Démonologie.",
    "sources": [
     "wt-demoniste",
     "bz-dd-voleur-demoniste"
@@ -254,12 +254,12 @@
     },
     "ctrl": {
      "valeur": 5,
-     "raison": "« Fear », « Death Coil », « Seduction », « Spell Lock », « Curse of Exhaustion » (16 points) et « Curse of Tongues ».",
+     "raison": "Fear, Death Coil, Curse of Tongues et Curse of Exhaustion si le talent est choisi ; Seduction ou Spell Lock dépend du familier invoqué. La note actuelle ne distingue pas le build avec familier du build sans familier.",
      "appuis": [
       "d-controle",
       "d-ralentissements"
      ],
-     "confiance": "haute"
+     "confiance": "faible"
     },
     "surv": {
      "valeur": 4,
@@ -376,7 +376,7 @@
     },
     "ctrl": {
      "valeur": 4,
-     "raison": "« Fear », « Death Coil », « Seduction » et « Spell Lock » à recharge réduite (« Improved Felhunter »).",
+     "raison": "Fear et Death Coil ; Seduction ou Spell Lock selon le démon invoqué. La recharge de Spell Lock est réduite uniquement avec le talent Improved Felhunter. Les deux familiers ne fournissent pas leurs contrôles simultanément.",
      "appuis": [
       "d-controle",
       "d-demons"
@@ -496,7 +496,7 @@
     },
     "ctrl": {
      "valeur": 4,
-     "raison": "« Fear », « Death Coil », « Seduction », « Spell Lock » ; « Conflagrate » ralentit de 50 %.",
+     "raison": "Fear et Death Coil ; Seduction ou Spell Lock selon le démon invoqué, aucun des deux sans familier. Conflagrate ralentit avec le talent Aftermath. La note actuelle ne distingue pas les variantes de familier.",
      "appuis": [
       "d-controle",
       "d-ralentissements"

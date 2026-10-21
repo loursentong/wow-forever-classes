@@ -27,7 +27,7 @@
   {
    "id": "dr-racines",
    "categorie": "controle",
-   "texte": "« Entangling Roots » (utilisable en intérieur), « Nature’s Grasp » de base au 10 ; Équilibre : « Overgrowth » (jusqu’à 3 cibles), « Improved Entangling Roots ».",
+   "texte": "Entangling Roots fonctionne en intérieur ; Nature’s Grasp devient une capacité de base au niveau 10, utilisable en forme animale. Overgrowth et Improved Entangling Roots sont des talents d’Équilibre : leurs améliorations ne doivent être attribuées à un autre profil que si son build les prend effectivement.",
    "sources": [
     "bz-dd-chasseur-druide"
    ]
@@ -634,7 +634,7 @@
     },
     "ctrl": {
      "valeur": 3,
-     "raison": "Racines seulement ; ni ralentissement, ni silence, ni interruption.",
+     "raison": "Entangling Roots et Nature’s Grasp ; les contrôles accessibles via un changement de forme et les améliorations de talents doivent être évalués avec leurs contraintes. « Racines seulement » est une description insuffisante du kit.",
      "appuis": [
       "dr-racines",
       "dr-limites"

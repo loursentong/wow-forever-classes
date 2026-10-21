@@ -128,7 +128,7 @@
   {
    "id": "pr-sim",
    "categorie": "performance",
-   "texte": "Simulation 60 : Ombre 13e (71 %), malgré les renforcements du 15 octobre ; soigneurs non simulés.",
+   "texte": "Simulation 60 : Ombre 13e (71 %), malgré les renforcements du 15 octobre ; soigneurs absents de ce classement.",
    "sources": [
     "mythicsim",
     "bz-notes-15-oct"

@@ -380,13 +380,13 @@
     },
     "charge_pve": {
      "valeur": 1,
-     "raison": "La classe jugée la plus simple et une rotation simulée courte (6 sorts en tir statique) ; le familier demande toutefois de la pratique.",
+     "raison": "La classe jugée la plus simple et une rotation simulée courte (6 sorts en tir statique) ; le familier demande toutefois de la pratique. Cette appréciation statique ne décrit pas la rotation alternant distance et mêlée citée pour la performance en raid ; les deux hypothèses restent à aligner.",
      "appuis": [
       "c-leveling",
       "c-familier-gestion",
       "c-rotation"
      ],
-     "confiance": "haute"
+     "confiance": "faible"
     },
     "charge_pvp": {
      "valeur": 2,
@@ -511,13 +511,13 @@
     },
     "charge_pve": {
      "valeur": 2,
-     "raison": "Rotation simulée courte en tir statique (7 sorts) ; zone morte de 8 m à respecter, tissage plus exigeant.",
+     "raison": "Rotation simulée courte en tir statique (7 sorts) ; zone morte de 8 m à respecter, tissage plus exigeant. Cette appréciation statique ne décrit pas la rotation alternant distance et mêlée citée pour la performance en raid ; les deux hypothèses restent à aligner.",
      "appuis": [
       "c-zone-morte",
       "c-tissage",
       "c-rotation"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "charge_pvp": {
      "valeur": 3,
@@ -640,12 +640,12 @@
     },
     "charge_pve": {
      "valeur": 4,
-     "raison": "Alterner distance et mêlée est au cœur de la spécialisation : 9 à 11 sorts et plus de 200 conditions en simulation, talents de tissage à investir.",
+     "raison": "La rotation optimisée alternant distance et mêlée comporte 9 à 11 sorts et plus de 200 conditions dans le modèle consulté. Cela suggère des décisions supplémentaires, sans mesurer la difficulté d’apprentissage ; le profil mêlée simple ne doit pas hériter automatiquement de cette estimation.",
      "appuis": [
       "c-tissage",
       "c-rotation"
      ],
-     "confiance": "haute"
+     "confiance": "moyenne"
     },
     "charge_pvp": {
      "valeur": 3,

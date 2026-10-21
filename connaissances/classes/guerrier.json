@@ -79,7 +79,7 @@
   {
    "id": "g-defense",
    "categorie": "defense",
-   "texte": "« Shield Wall » et « Retaliation » (15 min), « Victory Rush » rend 10 % des PV ; soins personnels très limités.",
+   "texte": "Shield Wall et Retaliation (15 min). Victory Rush, appris au niveau 20, rend 10 % des PV maximum après une victoire sur un ennemi non trivial : accès conditionnel pendant 20 secondes, recharge de 30 secondes. Cela ne constitue pas un soin disponible en permanence.",
    "sources": [
     "bz-dd-pretre-guerrier",
     "wt-guerrier"
@@ -225,12 +225,13 @@
   {
    "id": "g-leveling",
    "categorie": "solo",
-   "texte": "Leveling lent et sans soin, moins indulgent en solo que Chasseur ou Démoniste (Icy Veins) ; classé C dans la liste de leveling de la bêta (Mobalytics), D dans celle fondée sur Vanilla.",
+   "texte": "Leveling jugé lent et moins indulgent en solo que Chasseur ou Démoniste (Icy Veins) ; classe C dans la liste de la bêta 1–20 (Mobalytics), D dans celle fondée sur Vanilla. Ces appréciations ne signifient pas une absence de soin : Victory Rush est un soin conditionnel.",
    "sources": [
     "crix-niv30",
     "mobalytics-leveling",
     "iv-choisir",
-    "mobalytics-leveling-beta"
+    "mobalytics-leveling-beta",
+    "bz-dd-pretre-guerrier"
    ]
   },
   {
@@ -327,11 +328,12 @@
     },
     "solo": {
      "valeur": 2,
-     "raison": "Classe lente et sans soin en solo (C dans la liste de la bêta) ; Armes y est pourtant la spécialisation conseillée, ce qui ne justifie pas de la placer sous Fureur.",
+     "raison": "Armes est conseillé dans le tableau Mobalytics limité à la bêta 1–20 ; la même page renvoie aussi à un guide Protection 1–30. Ces contextes ne suffisent pas à départager le solo niveau 60. Victory Rush apporte un soin conditionnel.",
      "appuis": [
       "g-leveling",
       "g-equipement",
-      "g-leveling-armes"
+      "g-leveling-armes",
+      "g-defense"
      ],
      "confiance": "faible"
     },
@@ -454,11 +456,12 @@
     },
     "solo": {
      "valeur": 3,
-     "raison": "Classe lente et sans soin en solo (C dans la liste de la bêta) ; le multicible et la vitesse de « Bloodthirst » aident au farm ; aucune source propre à Fureur.",
+     "raison": "Classe lente, aux soins conditionnels en solo (C dans la liste de la bêta) ; le multicible et la vitesse de « Bloodthirst » aident au farm ; aucune source propre à Fureur.",
      "appuis": [
       "g-leveling",
       "g-zone",
-      "g-fureur-mobilite"
+      "g-fureur-mobilite",
+      "g-defense"
      ],
      "confiance": "faible"
     },
@@ -580,10 +583,11 @@
     },
     "solo": {
      "valeur": 3,
-     "raison": "Farme des packs grâce aux soins passifs de l’héritage selon Kami ; classe lente et sans soin en solo (C dans la liste de la bêta).",
+     "raison": "Farme des packs grâce aux soins passifs de l’héritage selon Kami ; classe lente, aux soins conditionnels en solo (C dans la liste de la bêta).",
      "appuis": [
       "g-farm-prot",
-      "g-leveling"
+      "g-leveling",
+      "g-defense"
      ],
      "confiance": "faible"
     },
