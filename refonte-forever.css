@@ -247,6 +247,8 @@ header.top{position:absolute;min-height:0}
 .reco-featured .reco-result-label{color:var(--rf-gold-light)}
 .reco-result-main h4{font-family:var(--font-body);font-weight:700;font-size:16px;color:var(--rf-ivory)}
 .reco-result-main p{font-size:13px;color:var(--rf-muted)}
+/* Nom de la spécialisation retenue : la règle mono de .reco-result-top strong vise le score. */
+.reco-result-top .reco-result-main p strong{font-family:inherit;font-size:inherit;font-weight:700;white-space:normal;color:var(--rf-ivory)}
 .reco-score strong{font-family:var(--font-mono);font-weight:500;font-size:20px;color:var(--rf-gold-light)}
 .reco-score small{font-size:11px;color:var(--rf-faint)}
 .reco-fit span{font-size:12.5px;font-weight:700;color:var(--rf-ivory)}
