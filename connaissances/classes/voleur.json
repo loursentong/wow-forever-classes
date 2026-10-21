@@ -1,0 +1,536 @@
+{
+ "classe": "voleur",
+ "libelle": "Voleur",
+ "date": "2026-10-21",
+ "moteur": "1.0.3-exploratoire",
+ "faits": [
+  {
+   "id": "v-role",
+   "categorie": "role",
+   "texte": "Maître de la Discrétion et seul à disposer des poisons ; plus haut potentiel de dégâts en mêlée monocible selon Blizzard.",
+   "sources": [
+    "bz-dd-voleur-demoniste"
+   ]
+  },
+  {
+   "id": "v-intention",
+   "categorie": "performance",
+   "texte": "Blizzard veut faire du Voleur le meilleur DPS monocible sur combat statique.",
+   "sources": [
+    "bz-podcast-2"
+   ]
+  },
+  {
+   "id": "v-controle",
+   "categorie": "controle",
+   "texte": "« Sap » (ne brise plus la Discrétion), « Gouge », « Blind », « Kidney Shot », « Cheap Shot ».",
+   "sources": [
+    "bz-dd-voleur-demoniste",
+    "wt-voleur"
+   ]
+  },
+  {
+   "id": "v-kick",
+   "categorie": "interruption",
+   "texte": "« Kick » interrompt les incantations.",
+   "sources": [
+    "wt-voleur"
+   ]
+  },
+  {
+   "id": "v-poisons",
+   "categorie": "ralentissement",
+   "texte": "Poisons, dont « Crippling Poison » qui ralentit ; cumulables avec les pierres à aiguiser.",
+   "sources": [
+    "bz-dd-voleur-demoniste",
+    "wt-voleur"
+   ]
+  },
+  {
+   "id": "v-mobilite",
+   "categorie": "mobilite",
+   "texte": "« Sprint », « Vanish » et Discrétion ; « Endurance » réduit les recharges de « Sprint » et « Evasion ».",
+   "sources": [
+    "bz-dd-voleur-demoniste",
+    "wt-voleur"
+   ]
+  },
+  {
+   "id": "v-defense",
+   "categorie": "defense",
+   "texte": "« Evasion » et « Deflection » (parade) ; aucun soin personnel.",
+   "sources": [
+    "bz-dd-voleur-demoniste",
+    "wt-voleur"
+   ]
+  },
+  {
+   "id": "v-soutien",
+   "categorie": "soutien",
+   "texte": "Utilité de groupe limitée : « Expose Armor », « Distract ».",
+   "sources": [
+    "bz-dd-voleur-demoniste",
+    "wt-voleur"
+   ]
+  },
+  {
+   "id": "v-zone",
+   "categorie": "zone",
+   "texte": "Peu de dégâts de zone : seul « Blade Flurry » (Combat) en apporte un peu.",
+   "sources": [
+    "bz-dd-voleur-demoniste",
+    "wt-voleur"
+   ]
+  },
+  {
+   "id": "v-assa",
+   "categorie": "burst",
+   "texte": "Assassinat : « Mutilate », « Venom » (+30 % de dégâts des poisons), « Cold Blood ».",
+   "sources": [
+    "bz-dd-voleur-demoniste"
+   ],
+   "specs": [
+    "voleur-assassinat"
+   ]
+  },
+  {
+   "id": "v-combat",
+   "categorie": "burst",
+   "texte": "Combat : « Adrenaline Rush », « Flawless Execution », « Hack and Slash » ; « Slice and Dice » est son plus gros bonus.",
+   "sources": [
+    "bz-dd-voleur-demoniste",
+    "wt-voleur"
+   ],
+   "specs": [
+    "voleur-combat"
+   ]
+  },
+  {
+   "id": "v-finesse",
+   "categorie": "burst",
+   "texte": "Finesse : « Premeditation », « Quietus », « Thousand Cuts », « Cutthroat » (Ambush sans Discrétion).",
+   "sources": [
+    "bz-dd-voleur-demoniste"
+   ],
+   "specs": [
+    "voleur-finesse"
+   ]
+  },
+  {
+   "id": "v-finesse-controle",
+   "categorie": "controle",
+   "texte": "Finesse : « Dirty Tricks » rend « Sap » et « Blind » moins chers et « Sap » compatible avec la Discrétion ; « Camouflage », « Master of Deception ».",
+   "sources": [
+    "bz-dd-voleur-demoniste"
+   ],
+   "specs": [
+    "voleur-finesse"
+   ]
+  },
+  {
+   "id": "v-ressource",
+   "categorie": "ressource",
+   "texte": "Énergie, points de combo, ouvertures depuis la Discrétion ; début difficile, montée en puissance rapide, forte dépendance à l’équipement.",
+   "sources": [
+    "wt-voleur"
+   ]
+  },
+  {
+   "id": "v-sim",
+   "categorie": "performance",
+   "texte": "Simulation 60 : Combat 17e (65 %), Finesse 18e (63 %), Assassinat 21e (62 %).",
+   "sources": [
+    "mythicsim"
+   ]
+  },
+  {
+   "id": "v-tournoi",
+   "categorie": "performance",
+   "texte": "Duel niveau 30 : meilleur Voleur éliminé au top 16.",
+   "sources": [
+    "forever-open"
+   ]
+  },
+  {
+   "id": "v-pvp-kami",
+   "categorie": "pvp",
+   "texte": "En PvP sauvage, de quoi gagner ou fuir la plupart des combats, surtout en Finesse ; survie limitée une fois découvert, surtout en Combat.",
+   "sources": [
+    "kami-video"
+   ]
+  },
+  {
+   "id": "v-leveling",
+   "categorie": "solo",
+   "texte": "Classé A pour le leveling par Mobalytics (base Vanilla) ; aucun soin personnel.",
+   "sources": [
+    "mobalytics-leveling",
+    "wt-voleur"
+   ]
+  }
+ ],
+ "specialisations": [
+  {
+   "id": "voleur-assassinat",
+   "libelle": "Assassinat",
+   "profil": {
+    "role": "dps",
+    "portee": "melee",
+    "familier": "none",
+    "appuis_familier": []
+   },
+   "notes": {
+    "raid": {
+     "valeur": 3,
+     "raison": "Simulation 60 : 21e DPS (62 %) ; Blizzard veut le Voleur meilleur DPS monocible sur combat statique, ce que la simulation ne montre pas encore.",
+     "appuis": [
+      "v-sim",
+      "v-intention"
+     ],
+     "confiance": "moyenne"
+    },
+    "bg": {
+     "valeur": 3,
+     "raison": "Ouvertures depuis la Discrétion et contrôles, mais peu de dégâts de zone et une survie limitée dans les mêlées de groupe.",
+     "appuis": [
+      "v-controle",
+      "v-defense",
+      "v-zone"
+     ],
+     "confiance": "faible"
+    },
+    "world": {
+     "valeur": 5,
+     "raison": "Discrétion, chaîne de contrôles et burst d’ouverture pour choisir ses combats. Tournoi niveau 30 : meilleur Voleur éliminé au top 16.",
+     "appuis": [
+      "v-controle",
+      "v-assa",
+      "v-mobilite",
+      "v-pvp-kami",
+      "v-tournoi"
+     ],
+     "confiance": "faible"
+    },
+    "solo": {
+     "valeur": 3,
+     "raison": "Classé A au leveling par Mobalytics (base Vanilla), mais aucun soin personnel ; aucune source propre à Forever.",
+     "appuis": [
+      "v-leveling",
+      "v-defense"
+     ],
+     "confiance": "faible"
+    },
+    "burst": {
+     "valeur": 5,
+     "raison": "« Mutilate », « Venom » (+30 % de dégâts des poisons) et « Cold Blood ».",
+     "appuis": [
+      "v-assa"
+     ],
+     "confiance": "moyenne"
+    },
+    "zone": {
+     "valeur": 2,
+     "raison": "Peu de dégâts de zone : seul « Blade Flurry » (Combat) en apporte un peu.",
+     "appuis": [
+      "v-zone"
+     ],
+     "confiance": "haute"
+    },
+    "ctrl": {
+     "valeur": 5,
+     "raison": "« Sap », « Gouge », « Blind », « Kidney Shot », « Cheap Shot », « Kick » et « Crippling Poison » : la panoplie de contrôle la plus complète.",
+     "appuis": [
+      "v-controle",
+      "v-kick",
+      "v-poisons"
+     ],
+     "confiance": "haute"
+    },
+    "surv": {
+     "valeur": 2,
+     "raison": "« Evasion », « Deflection » et « Vanish », mais aucun soin personnel.",
+     "appuis": [
+      "v-defense",
+      "v-mobilite"
+     ],
+     "confiance": "moyenne"
+    },
+    "mob": {
+     "valeur": 4,
+     "raison": "« Sprint », « Vanish » et Discrétion.",
+     "appuis": [
+      "v-mobilite"
+     ],
+     "confiance": "moyenne"
+    },
+    "support": {
+     "valeur": 1,
+     "raison": "Utilité de groupe limitée : « Expose Armor », « Distract ».",
+     "appuis": [
+      "v-soutien"
+     ],
+     "confiance": "haute"
+    },
+    "charge_pve": {
+     "valeur": 3,
+     "raison": "Énergie, points de combo et poisons à entretenir ; début difficile, montée en puissance rapide. Aucune mesure de difficulté.",
+     "appuis": [
+      "v-ressource",
+      "v-poisons"
+     ],
+     "confiance": "faible"
+    },
+    "charge_pvp": {
+     "valeur": 4,
+     "raison": "Ouvertures depuis la Discrétion et chaînes de contrôles à enchaîner sans erreur. Aucune mesure de difficulté.",
+     "appuis": [
+      "v-ressource",
+      "v-controle"
+     ],
+     "confiance": "faible"
+    }
+   }
+  },
+  {
+   "id": "voleur-combat",
+   "libelle": "Combat",
+   "profil": {
+    "role": "dps",
+    "portee": "melee",
+    "familier": "none",
+    "appuis_familier": []
+   },
+   "notes": {
+    "raid": {
+     "valeur": 4,
+     "raison": "Seule l’intention de Blizzard (Voleur meilleur DPS monocible) soutient ce 4 : la simulation 60 le place 17e (65 %), sous l’Ombre notée 3.",
+     "appuis": [
+      "v-intention",
+      "v-sim"
+     ],
+     "confiance": "faible"
+    },
+    "bg": {
+     "valeur": 3,
+     "raison": "Contrôles et « Blade Flurry », mais survie limitée une fois découvert (Kami).",
+     "appuis": [
+      "v-controle",
+      "v-zone",
+      "v-pvp-kami"
+     ],
+     "confiance": "faible"
+    },
+    "world": {
+     "valeur": 4,
+     "raison": "Contrôles et « Adrenaline Rush » pour gagner les combats engagés, avec moins d’échappatoires que Finesse (Kami).",
+     "appuis": [
+      "v-controle",
+      "v-combat",
+      "v-pvp-kami",
+      "v-tournoi"
+     ],
+     "confiance": "faible"
+    },
+    "solo": {
+     "valeur": 3,
+     "raison": "Classé A au leveling par Mobalytics (base Vanilla), mais aucun soin personnel ; aucune source propre à Forever.",
+     "appuis": [
+      "v-leveling",
+      "v-defense"
+     ],
+     "confiance": "faible"
+    },
+    "burst": {
+     "valeur": 4,
+     "raison": "« Adrenaline Rush », « Flawless Execution » et « Hack and Slash » ; « Slice and Dice », son plus gros bonus, est régulier plutôt qu’explosif.",
+     "appuis": [
+      "v-combat"
+     ],
+     "confiance": "moyenne"
+    },
+    "zone": {
+     "valeur": 3,
+     "raison": "« Blade Flurry » apporte un peu de dégâts de zone, le seul outil du Voleur.",
+     "appuis": [
+      "v-zone"
+     ],
+     "confiance": "moyenne"
+    },
+    "ctrl": {
+     "valeur": 4,
+     "raison": "Toute la panoplie de base (« Sap », « Gouge », « Blind », « Kidney Shot », « Kick »), sans les talents de contrôle de Finesse.",
+     "appuis": [
+      "v-controle",
+      "v-kick",
+      "v-poisons"
+     ],
+     "confiance": "moyenne"
+    },
+    "surv": {
+     "valeur": 3,
+     "raison": "« Evasion » et « Deflection » (parade) aident en mêlée ; Kami juge pourtant sa survie la plus limitée une fois découvert.",
+     "appuis": [
+      "v-defense",
+      "v-pvp-kami"
+     ],
+     "confiance": "faible"
+    },
+    "mob": {
+     "valeur": 4,
+     "raison": "« Sprint », « Vanish » et Discrétion ; « Endurance » réduit les recharges de « Sprint » et « Evasion ».",
+     "appuis": [
+      "v-mobilite"
+     ],
+     "confiance": "moyenne"
+    },
+    "support": {
+     "valeur": 1,
+     "raison": "Utilité de groupe limitée : « Expose Armor », « Distract ».",
+     "appuis": [
+      "v-soutien"
+     ],
+     "confiance": "haute"
+    },
+    "charge_pve": {
+     "valeur": 2,
+     "raison": "Rotation la plus directe des trois, centrée sur « Slice and Dice ». Aucune mesure de difficulté.",
+     "appuis": [
+      "v-combat",
+      "v-ressource"
+     ],
+     "confiance": "faible"
+    },
+    "charge_pvp": {
+     "valeur": 3,
+     "raison": "Contrôles et ressources à gérer, moins de jeu de Discrétion que Finesse. Aucune mesure de difficulté.",
+     "appuis": [
+      "v-ressource",
+      "v-controle"
+     ],
+     "confiance": "faible"
+    }
+   }
+  },
+  {
+   "id": "voleur-finesse",
+   "libelle": "Finesse",
+   "profil": {
+    "role": "dps",
+    "portee": "melee",
+    "familier": "none",
+    "appuis_familier": []
+   },
+   "notes": {
+    "raid": {
+     "valeur": 3,
+     "raison": "Simulation 60 : 18e DPS (63 %).",
+     "appuis": [
+      "v-sim"
+     ],
+     "confiance": "moyenne"
+    },
+    "bg": {
+     "valeur": 4,
+     "raison": "« Dirty Tricks », « Camouflage » et ouvertures répétées pour isoler une cible ; aucune source propre aux champs de bataille.",
+     "appuis": [
+      "v-finesse-controle",
+      "v-finesse",
+      "v-pvp-kami"
+     ],
+     "confiance": "faible"
+    },
+    "world": {
+     "valeur": 5,
+     "raison": "De quoi gagner ou fuir la plupart des combats sauvages, surtout en Finesse (Kami) : « Cutthroat », « Camouflage », « Master of Deception ».",
+     "appuis": [
+      "v-pvp-kami",
+      "v-finesse",
+      "v-finesse-controle",
+      "v-tournoi"
+     ],
+     "confiance": "moyenne"
+    },
+    "solo": {
+     "valeur": 3,
+     "raison": "Classé A au leveling par Mobalytics (base Vanilla), mais aucun soin personnel ; aucune source propre à Forever.",
+     "appuis": [
+      "v-leveling",
+      "v-defense"
+     ],
+     "confiance": "faible"
+    },
+    "burst": {
+     "valeur": 5,
+     "raison": "« Premeditation », « Quietus », « Thousand Cuts » et « Cutthroat » (Ambush sans Discrétion).",
+     "appuis": [
+      "v-finesse"
+     ],
+     "confiance": "moyenne"
+    },
+    "zone": {
+     "valeur": 2,
+     "raison": "Peu de dégâts de zone : seul « Blade Flurry » (Combat) en apporte un peu.",
+     "appuis": [
+      "v-zone"
+     ],
+     "confiance": "haute"
+    },
+    "ctrl": {
+     "valeur": 5,
+     "raison": "Panoplie de base renforcée par « Dirty Tricks » : « Sap » et « Blind » moins chers, « Sap » sans briser la Discrétion.",
+     "appuis": [
+      "v-controle",
+      "v-finesse-controle",
+      "v-kick"
+     ],
+     "confiance": "haute"
+    },
+    "surv": {
+     "valeur": 2,
+     "raison": "« Evasion », « Vanish » et Discrétion pour éviter le combat plutôt que l’encaisser ; aucun soin personnel.",
+     "appuis": [
+      "v-defense",
+      "v-mobilite"
+     ],
+     "confiance": "moyenne"
+    },
+    "mob": {
+     "valeur": 5,
+     "raison": "« Sprint », « Vanish », Discrétion, « Camouflage » et « Master of Deception » : se placer et disparaître à volonté.",
+     "appuis": [
+      "v-mobilite",
+      "v-finesse-controle"
+     ],
+     "confiance": "moyenne"
+    },
+    "support": {
+     "valeur": 1,
+     "raison": "Utilité de groupe limitée : « Expose Armor », « Distract ».",
+     "appuis": [
+      "v-soutien"
+     ],
+     "confiance": "haute"
+    },
+    "charge_pve": {
+     "valeur": 3,
+     "raison": "Énergie, points de combo et poisons à entretenir ; début difficile, montée en puissance rapide. Aucune mesure de difficulté.",
+     "appuis": [
+      "v-ressource",
+      "v-poisons"
+     ],
+     "confiance": "faible"
+    },
+    "charge_pvp": {
+     "valeur": 5,
+     "raison": "Le jeu de Discrétion le plus exigeant : ouvertures, réinitialisations et contrôles à enchaîner. Aucune mesure de difficulté.",
+     "appuis": [
+      "v-finesse",
+      "v-finesse-controle",
+      "v-ressource"
+     ],
+     "confiance": "faible"
+    }
+   }
+  }
+ ]
+}

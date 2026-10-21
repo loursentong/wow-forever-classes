@@ -1,0 +1,527 @@
+{
+ "classe": "demoniste",
+ "libelle": "Démoniste",
+ "date": "2026-10-21",
+ "moteur": "1.0.3-exploratoire",
+ "faits": [
+  {
+   "id": "d-role",
+   "categorie": "role",
+   "texte": "Pouvoirs d’Ombre, de Feu et démoniaques ; physiquement faible, il compte sur ses démons pour se protéger.",
+   "sources": [
+    "bz-dd-voleur-demoniste"
+   ]
+  },
+  {
+   "id": "d-controle",
+   "categorie": "controle",
+   "texte": "« Fear », « Death Coil », « Seduction » (démon) et l’interruption du Felhunter (« Spell Lock », recharge réduite par « Improved Felhunter »).",
+   "sources": [
+    "wt-demoniste",
+    "bz-dd-voleur-demoniste"
+   ]
+  },
+  {
+   "id": "d-ralentissements",
+   "categorie": "ralentissement",
+   "texte": "« Curse of Exhaustion » (Affliction, 16 points, −30 %), « Curse of Tongues » ; « Conflagrate » ralentit de 50 % (Destruction).",
+   "sources": [
+    "bz-dd-voleur-demoniste",
+    "wt-demoniste"
+   ]
+  },
+  {
+   "id": "d-mobilite",
+   "categorie": "limite",
+   "texte": "Aucun sort de mobilité : ni téléportation courte ni course.",
+   "sources": [
+    "wt-demoniste"
+   ],
+   "contre": [
+    "mob"
+   ]
+  },
+  {
+   "id": "d-defense",
+   "categorie": "defense",
+   "texte": "Drains de vie (« Improved Drains », « Soul Siphon »), « Demon Armor » ; Démonologie : « Soul Link », « Demonic Aegis », « Fel Vitality » ; Destruction : « Molten Skin ».",
+   "sources": [
+    "bz-dd-voleur-demoniste",
+    "kami-video"
+   ]
+  },
+  {
+   "id": "d-soutien",
+   "categorie": "soutien",
+   "texte": "« Healthstone », « Soulstone » (résurrection en combat), « Ritual of Summoning », malédictions ; « Bane of Havoc » en Destruction.",
+   "sources": [
+    "wt-demoniste",
+    "bz-dd-voleur-demoniste"
+   ]
+  },
+  {
+   "id": "d-zone",
+   "categorie": "zone",
+   "texte": "« Rain of Fire », « Hellfire » ; dégâts sur la durée sur plusieurs cibles.",
+   "sources": [
+    "bz-dd-voleur-demoniste",
+    "wt-demoniste"
+   ]
+  },
+  {
+   "id": "d-affli",
+   "categorie": "burst",
+   "texte": "Affliction : dégâts sur la durée et drains (« Wrack », « Pandemic », « Malevolence », « Nightfall »).",
+   "sources": [
+    "bz-dd-voleur-demoniste"
+   ],
+   "specs": [
+    "demoniste-affliction"
+   ]
+  },
+  {
+   "id": "d-demono",
+   "categorie": "familier",
+   "texte": "Démonologie : démon central (« Demonic Knowledge », « Demonic Brand », « Demonic Pact »).",
+   "sources": [
+    "bz-dd-voleur-demoniste",
+    "wt-demoniste"
+   ],
+   "specs": [
+    "demoniste-demonologie"
+   ]
+  },
+  {
+   "id": "d-demono-burst",
+   "categorie": "burst",
+   "texte": "Démonologie : « Soul Fire » (recharge réduite jusqu’à 90 %) et « Decimation ».",
+   "sources": [
+    "bz-dd-voleur-demoniste"
+   ],
+   "specs": [
+    "demoniste-demonologie"
+   ]
+  },
+  {
+   "id": "d-destru",
+   "categorie": "burst",
+   "texte": "Destruction : burst Feu et Ombre (« Shadowburn », « Conflagrate », « Incinerate », « Shadow and Flame »).",
+   "sources": [
+    "bz-dd-voleur-demoniste"
+   ],
+   "specs": [
+    "demoniste-destruction"
+   ]
+  },
+  {
+   "id": "d-demons",
+   "categorie": "familier",
+   "texte": "Démons indexés sur son équipement : Imp, Voidwalker (tank), Sayaad (« Seduction »), Felhunter (dissipation, interruption).",
+   "sources": [
+    "wt-demoniste",
+    "bz-dd-voleur-demoniste"
+   ]
+  },
+  {
+   "id": "d-ressource",
+   "categorie": "ressource",
+   "texte": "Montée en puissance lente, « Life Tap », éclats d’âme ; il gère ses affaiblissements au lieu de répéter un seul sort.",
+   "sources": [
+    "wt-demoniste",
+    "bz-dd-voleur-demoniste"
+   ]
+  },
+  {
+   "id": "d-sim",
+   "categorie": "performance",
+   "texte": "Simulation 60 : Démonologie 5e (83 %), Affliction 11e (74 %), Destruction 16e (68 %).",
+   "sources": [
+    "mythicsim"
+   ]
+  },
+  {
+   "id": "d-tournoi",
+   "categorie": "performance",
+   "texte": "Duel niveau 30 : vainqueur et finaliste Démonistes ; les quatre finalistes invaincus en qualification.",
+   "sources": [
+    "forever-open"
+   ]
+  },
+  {
+   "id": "d-bg-kami",
+   "categorie": "pvp",
+   "texte": "« Intuable » en champ de bataille selon Kami ; fragile face aux Druides farouches et aux Voleurs.",
+   "sources": [
+    "kami-video"
+   ]
+  },
+  {
+   "id": "d-solo",
+   "categorie": "solo",
+   "texte": "Réussit seul des contenus que la plupart des classes ne peuvent pas faire (certaines quêtes élites) ; classé A au leveling par Mobalytics.",
+   "sources": [
+    "wt-demoniste",
+    "mobalytics-leveling"
+   ]
+  }
+ ],
+ "specialisations": [
+  {
+   "id": "demoniste-affliction",
+   "libelle": "Affliction",
+   "profil": {
+    "role": "dps",
+    "portee": "distance",
+    "familier": "optional",
+    "appuis_familier": [
+     "d-demons"
+    ]
+   },
+   "notes": {
+    "raid": {
+     "valeur": 4,
+     "raison": "Simulation 60 : 11e DPS (74 %).",
+     "appuis": [
+      "d-sim",
+      "d-affli"
+     ],
+     "confiance": "moyenne"
+    },
+    "bg": {
+     "valeur": 5,
+     "raison": "« Intuable » en champ de bataille selon Kami : drains, peurs et malédictions ; fragile face aux Druides farouches et aux Voleurs.",
+     "appuis": [
+      "d-bg-kami",
+      "d-controle",
+      "d-defense"
+     ],
+     "confiance": "moyenne"
+    },
+    "world": {
+     "valeur": 5,
+     "raison": "Tournoi niveau 30 : vainqueur et finaliste Démonistes ; drains et contrôles pour tenir un duel.",
+     "appuis": [
+      "d-tournoi",
+      "d-controle",
+      "d-defense",
+      "d-bg-kami"
+     ],
+     "confiance": "moyenne"
+    },
+    "solo": {
+     "valeur": 4,
+     "raison": "Réussit seul certaines quêtes élites (Warcraft Tavern) ; classé A au leveling par Mobalytics (base Vanilla).",
+     "appuis": [
+      "d-solo",
+      "d-defense"
+     ],
+     "confiance": "moyenne"
+    },
+    "burst": {
+     "valeur": 3,
+     "raison": "Dégâts sur la durée et drains (« Wrack », « Pandemic », « Malevolence », « Nightfall ») plutôt qu’explosifs.",
+     "appuis": [
+      "d-affli"
+     ],
+     "confiance": "moyenne"
+    },
+    "zone": {
+     "valeur": 4,
+     "raison": "« Rain of Fire », « Hellfire » et dégâts sur la durée sur plusieurs cibles.",
+     "appuis": [
+      "d-zone"
+     ],
+     "confiance": "moyenne"
+    },
+    "ctrl": {
+     "valeur": 5,
+     "raison": "« Fear », « Death Coil », « Seduction », « Spell Lock », « Curse of Exhaustion » (16 points) et « Curse of Tongues ».",
+     "appuis": [
+      "d-controle",
+      "d-ralentissements"
+     ],
+     "confiance": "haute"
+    },
+    "surv": {
+     "valeur": 4,
+     "raison": "Drains de vie (« Improved Drains », « Soul Siphon ») et « Demon Armor ».",
+     "appuis": [
+      "d-defense"
+     ],
+     "confiance": "moyenne"
+    },
+    "mob": {
+     "valeur": 2,
+     "raison": "Aucun sort de mobilité : ni téléportation courte ni course.",
+     "appuis": [
+      "d-mobilite"
+     ],
+     "confiance": "haute"
+    },
+    "support": {
+     "valeur": 3,
+     "raison": "« Healthstone », « Soulstone » (résurrection en combat), « Ritual of Summoning » et malédictions.",
+     "appuis": [
+      "d-soutien"
+     ],
+     "confiance": "moyenne"
+    },
+    "charge_pve": {
+     "valeur": 3,
+     "raison": "Montée en puissance lente, « Life Tap » et affaiblissements à entretenir plutôt qu’un seul sort à répéter.",
+     "appuis": [
+      "d-ressource"
+     ],
+     "confiance": "faible"
+    },
+    "charge_pvp": {
+     "valeur": 3,
+     "raison": "Malédictions et peurs à gérer, démon à piloter. Aucune mesure de difficulté.",
+     "appuis": [
+      "d-ressource",
+      "d-demons"
+     ],
+     "confiance": "faible"
+    }
+   }
+  },
+  {
+   "id": "demoniste-demonologie",
+   "libelle": "Démonologie",
+   "profil": {
+    "role": "dps",
+    "portee": "distance",
+    "familier": "core",
+    "appuis_familier": [
+     "d-demono",
+     "d-demons"
+    ]
+   },
+   "notes": {
+    "raid": {
+     "valeur": 4,
+     "raison": "Simulation 60 : 5e DPS (83 %), le meilleur Démoniste.",
+     "appuis": [
+      "d-sim",
+      "d-demono"
+     ],
+     "confiance": "moyenne"
+    },
+    "bg": {
+     "valeur": 5,
+     "raison": "« Intuable » en champ de bataille selon Kami ; « Soul Link » et « Demonic Aegis » le rendent très résistant.",
+     "appuis": [
+      "d-bg-kami",
+      "d-defense",
+      "d-controle"
+     ],
+     "confiance": "moyenne"
+    },
+    "world": {
+     "valeur": 4,
+     "raison": "Démon central et défenses solides. Tournoi niveau 30 : vainqueur et finaliste Démonistes.",
+     "appuis": [
+      "d-demono",
+      "d-defense",
+      "d-tournoi"
+     ],
+     "confiance": "moyenne"
+    },
+    "solo": {
+     "valeur": 5,
+     "raison": "Réussit seul des contenus que la plupart des classes ne peuvent pas faire ; démon central qui encaisse (« Soul Link »). Classé A par Mobalytics (base Vanilla).",
+     "appuis": [
+      "d-solo",
+      "d-demono",
+      "d-defense"
+     ],
+     "confiance": "moyenne"
+    },
+    "burst": {
+     "valeur": 4,
+     "raison": "« Soul Fire » (recharge réduite jusqu’à 90 %) et « Decimation ».",
+     "appuis": [
+      "d-demono-burst"
+     ],
+     "confiance": "moyenne"
+    },
+    "zone": {
+     "valeur": 4,
+     "raison": "« Rain of Fire », « Hellfire » et dégâts sur la durée sur plusieurs cibles.",
+     "appuis": [
+      "d-zone"
+     ],
+     "confiance": "moyenne"
+    },
+    "ctrl": {
+     "valeur": 4,
+     "raison": "« Fear », « Death Coil », « Seduction » et « Spell Lock » à recharge réduite (« Improved Felhunter »).",
+     "appuis": [
+      "d-controle",
+      "d-demons"
+     ],
+     "confiance": "moyenne"
+    },
+    "surv": {
+     "valeur": 5,
+     "raison": "« Soul Link », « Demonic Aegis », « Fel Vitality », drains et « Demon Armor ».",
+     "appuis": [
+      "d-defense"
+     ],
+     "confiance": "haute"
+    },
+    "mob": {
+     "valeur": 2,
+     "raison": "Aucun sort de mobilité : ni téléportation courte ni course.",
+     "appuis": [
+      "d-mobilite"
+     ],
+     "confiance": "haute"
+    },
+    "support": {
+     "valeur": 3,
+     "raison": "« Healthstone », « Soulstone » (résurrection en combat), « Ritual of Summoning » et malédictions.",
+     "appuis": [
+      "d-soutien"
+     ],
+     "confiance": "moyenne"
+    },
+    "charge_pve": {
+     "valeur": 3,
+     "raison": "Démon à piloter, « Life Tap » et éclats d’âme à gérer. Aucune mesure de difficulté.",
+     "appuis": [
+      "d-ressource",
+      "d-demono"
+     ],
+     "confiance": "faible"
+    },
+    "charge_pvp": {
+     "valeur": 4,
+     "raison": "Démon, peurs et « Spell Lock » à coordonner sous pression. Aucune mesure de difficulté.",
+     "appuis": [
+      "d-demons",
+      "d-controle"
+     ],
+     "confiance": "faible"
+    }
+   }
+  },
+  {
+   "id": "demoniste-destruction",
+   "libelle": "Destruction",
+   "profil": {
+    "role": "dps",
+    "portee": "distance",
+    "familier": "optional",
+    "appuis_familier": [
+     "d-demons"
+    ]
+   },
+   "notes": {
+    "raid": {
+     "valeur": 4,
+     "raison": "Simulation 60 : 16e DPS (68 %), sous l’Ombre notée 3 : la mesure ne soutient pas ce 4.",
+     "appuis": [
+      "d-sim"
+     ],
+     "confiance": "faible"
+    },
+    "bg": {
+     "valeur": 5,
+     "raison": "Burst Feu et Ombre (« Shadowburn », « Conflagrate ») ; « Intuable » en champ de bataille selon Kami.",
+     "appuis": [
+      "d-destru",
+      "d-bg-kami",
+      "d-controle"
+     ],
+     "confiance": "moyenne"
+    },
+    "world": {
+     "valeur": 5,
+     "raison": "Burst et contrôles ; tournoi niveau 30 : vainqueur et finaliste Démonistes.",
+     "appuis": [
+      "d-destru",
+      "d-controle",
+      "d-tournoi"
+     ],
+     "confiance": "moyenne"
+    },
+    "solo": {
+     "valeur": 4,
+     "raison": "Réussit seul certaines quêtes élites (Warcraft Tavern) ; classé A au leveling par Mobalytics (base Vanilla).",
+     "appuis": [
+      "d-solo",
+      "d-defense"
+     ],
+     "confiance": "moyenne"
+    },
+    "burst": {
+     "valeur": 5,
+     "raison": "« Shadowburn », « Conflagrate », « Incinerate » et « Shadow and Flame ».",
+     "appuis": [
+      "d-destru"
+     ],
+     "confiance": "moyenne"
+    },
+    "zone": {
+     "valeur": 4,
+     "raison": "« Rain of Fire », « Hellfire » et dégâts sur la durée sur plusieurs cibles.",
+     "appuis": [
+      "d-zone"
+     ],
+     "confiance": "moyenne"
+    },
+    "ctrl": {
+     "valeur": 4,
+     "raison": "« Fear », « Death Coil », « Seduction », « Spell Lock » ; « Conflagrate » ralentit de 50 %.",
+     "appuis": [
+      "d-controle",
+      "d-ralentissements"
+     ],
+     "confiance": "moyenne"
+    },
+    "surv": {
+     "valeur": 3,
+     "raison": "« Molten Skin », drains et « Demon Armor », sans les défenses de Démonologie.",
+     "appuis": [
+      "d-defense"
+     ],
+     "confiance": "moyenne"
+    },
+    "mob": {
+     "valeur": 2,
+     "raison": "Aucun sort de mobilité : ni téléportation courte ni course.",
+     "appuis": [
+      "d-mobilite"
+     ],
+     "confiance": "haute"
+    },
+    "support": {
+     "valeur": 2,
+     "raison": "Utilité de classe (« Healthstone », « Soulstone », « Ritual of Summoning ») ; « Bane of Havoc » sert surtout les dégâts.",
+     "appuis": [
+      "d-soutien"
+     ],
+     "confiance": "faible"
+    },
+    "charge_pve": {
+     "valeur": 3,
+     "raison": "Montée en puissance lente, « Life Tap » et affaiblissements à entretenir plutôt qu’un seul sort à répéter.",
+     "appuis": [
+      "d-ressource"
+     ],
+     "confiance": "faible"
+    },
+    "charge_pvp": {
+     "valeur": 4,
+     "raison": "Burst à placer au bon moment, peurs et démon à gérer. Aucune mesure de difficulté.",
+     "appuis": [
+      "d-destru",
+      "d-controle"
+     ],
+     "confiance": "faible"
+    }
+   }
+  }
+ ]
+}

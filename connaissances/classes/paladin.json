@@ -1,0 +1,586 @@
+{
+ "classe": "paladin",
+ "libelle": "Paladin",
+ "date": "2026-10-21",
+ "moteur": "1.0.3-exploratoire",
+ "faits": [
+  {
+   "id": "p-role",
+   "categorie": "role",
+   "texte": "Peut tanker, soigner et frapper ; Blizzard le présente comme le soigneur monocible le plus puissant ; système de Seals et Judgements.",
+   "sources": [
+    "bz-dd-paladin"
+   ]
+  },
+  {
+   "id": "p-limites",
+   "categorie": "limite",
+   "texte": "Aucune interruption ni aucun ralentissement ; portée limitée ; « Consecration » ne touche efficacement que 4 ennemis.",
+   "sources": [
+    "bz-dd-paladin"
+   ],
+   "contre": [
+    "ctrl",
+    "zone",
+    "mob"
+   ]
+  },
+  {
+   "id": "p-hoj",
+   "categorie": "controle",
+   "texte": "« Hammer of Justice » est son seul étourdissement ; « Repentance » (Vindicte, 21 points) sert surtout en PvP.",
+   "sources": [
+    "wt-paladin",
+    "bz-dd-paladin"
+   ]
+  },
+  {
+   "id": "p-justice",
+   "categorie": "ralentissement",
+   "texte": "Juger « Seal of Justice » empêche les ennemis de fuir.",
+   "sources": [
+    "wt-paladin"
+   ]
+  },
+  {
+   "id": "p-mobilite",
+   "categorie": "mobilite",
+   "texte": "Ni vitesse ni moyen de rapprochement, hormis « Pursuit of Justice » (Vindicte, jusqu’à 15 %) ; « Blessing of Freedom » contre les entraves.",
+   "sources": [
+    "bz-dd-paladin",
+    "wt-paladin",
+    "kami-video"
+   ]
+  },
+  {
+   "id": "p-defense",
+   "categorie": "defense",
+   "texte": "Plaques et bouclier ; « Divine Shield », « Divine Protection », « Lay on Hands » toutes les 20 min au lieu d’une heure.",
+   "sources": [
+    "bz-dd-paladin",
+    "kami-video"
+   ]
+  },
+  {
+   "id": "p-prot-defense",
+   "categorie": "defense",
+   "texte": "Protection : « Templar’s Bulwark » (bouclier de 100 % des PV pendant 8 s, 5 min), « Seal of Fury » (bouclier de 50 % des dégâts, provocation par Judgement), « Sacred Duty », « Iron Creed ».",
+   "sources": [
+    "bz-dd-paladin"
+   ],
+   "specs": [
+    "paladin-protection"
+   ]
+  },
+  {
+   "id": "p-prot-degats",
+   "categorie": "burst",
+   "texte": "Protection : « Swift Judgement » remet Judgement à disposition sans coût ; « Holy Strike » sert surtout la menace.",
+   "sources": [
+    "bz-dd-paladin"
+   ],
+   "specs": [
+    "paladin-protection"
+   ]
+  },
+  {
+   "id": "p-soutien",
+   "categorie": "soutien",
+   "texte": "Bénédictions d’une heure (« Blessing of Kings » de base), « Salvation » séparée des bénédictions, auras de résistance à 30 m pour le raid, « Cleanse ».",
+   "sources": [
+    "bz-dd-paladin",
+    "wt-paladin",
+    "bz-notes-15-oct"
+   ]
+  },
+  {
+   "id": "p-sacre",
+   "categorie": "soutien",
+   "texte": "Sacré : « Holy Shock » toutes les 10 s, « Light’s Vigil » (31 points, soin du groupe), « Infusion of Light », « Reverence » pour le mana.",
+   "sources": [
+    "bz-dd-paladin"
+   ],
+   "specs": [
+    "paladin-sacre"
+   ]
+  },
+  {
+   "id": "p-vindicte-soutien",
+   "categorie": "soutien",
+   "texte": "Vindicte : « Sacred Arbiter » rafraîchit tous les Judgements sur la cible, y compris ceux des autres Paladins.",
+   "sources": [
+    "bz-dd-paladin"
+   ],
+   "specs": [
+    "paladin-vindicte"
+   ]
+  },
+  {
+   "id": "p-zone",
+   "categorie": "zone",
+   "texte": "« Consecration » de base au niveau 20 (dégâts modérés sur 4 ennemis), « Holy Wrath », « Exorcism », « Consecrated Ground ».",
+   "sources": [
+    "bz-dd-paladin",
+    "wt-paladin"
+   ]
+  },
+  {
+   "id": "p-burst",
+   "categorie": "burst",
+   "texte": "Vindicte : « Vengeance », « Vindication », « Twist of Light » (deux sceaux à la fois), « Hammer of Wrath » instantané ; burst aussi en Shockadin.",
+   "sources": [
+    "bz-dd-paladin",
+    "wt-paladin",
+    "kami-video"
+   ],
+   "specs": [
+    "paladin-vindicte",
+    "paladin-sacre"
+   ]
+  },
+  {
+   "id": "p-nerf",
+   "categorie": "performance",
+   "texte": "Patch du 16 octobre : « Consecration » et « Champion of the Light » réduits ; Shockadin −9 % et Vindicte −6 % en simulation.",
+   "sources": [
+    "bz-notes-15-oct",
+    "mythicsim"
+   ]
+  },
+  {
+   "id": "p-sim",
+   "categorie": "performance",
+   "texte": "Simulation 60 : Shockadin (expérimental) 4e à 84 %, Vindicte 7e à 78 % ; tank : Protection à 67 % de la menace de l’ours (groupe C), survie non simulée.",
+   "sources": [
+    "mythicsim"
+   ]
+  },
+  {
+   "id": "p-taxe",
+   "categorie": "performance",
+   "texte": "Taxe hybride d’environ 5 % sur ses dégâts, voulue par Blizzard.",
+   "sources": [
+    "bz-podcast-2"
+   ]
+  },
+  {
+   "id": "p-facile",
+   "categorie": "ressource",
+   "texte": "Facile à prendre en main.",
+   "sources": [
+    "kami-video"
+   ]
+  },
+  {
+   "id": "p-mana",
+   "categorie": "ressource",
+   "texte": "Seals et Judgements coûtent cher en mana ; le « Seal Twisting » n’existe plus de base.",
+   "sources": [
+    "bz-dd-paladin"
+   ]
+  },
+  {
+   "id": "p-bg",
+   "categorie": "pvp",
+   "texte": "En champ de bataille, il soigne en monocible comme personne et porte une équipe avec « Blessing of Freedom ».",
+   "sources": [
+    "kami-video"
+   ]
+  },
+  {
+   "id": "p-tournoi",
+   "categorie": "performance",
+   "texte": "Duel niveau 30 : les quatre Paladins invaincus en qualification, deux dans les huit derniers.",
+   "sources": [
+    "forever-open"
+   ]
+  },
+  {
+   "id": "p-solo-kami",
+   "categorie": "solo",
+   "texte": "Protection farme en zone et monte de niveau sans difficulté.",
+   "sources": [
+    "kami-video"
+   ],
+   "specs": [
+    "paladin-protection"
+   ]
+  },
+  {
+   "id": "p-solo-mobalytics",
+   "categorie": "solo",
+   "texte": "Paladin classé D (dernier) pour le leveling par Mobalytics (base Vanilla).",
+   "sources": [
+    "mobalytics-leveling"
+   ]
+  }
+ ],
+ "specialisations": [
+  {
+   "id": "paladin-sacre",
+   "libelle": "Sacré",
+   "profil": {
+    "role": "soin",
+    "portee": "distance",
+    "familier": "none",
+    "appuis_familier": []
+   },
+   "notes": {
+    "raid": {
+     "valeur": 5,
+     "raison": "Blizzard le présente comme le soigneur monocible le plus puissant : « Holy Shock », « Light’s Vigil », auras de raid. Aucune donnée comparative entre soigneurs.",
+     "appuis": [
+      "p-role",
+      "p-sacre",
+      "p-soutien"
+     ],
+     "confiance": "moyenne"
+    },
+    "bg": {
+     "valeur": 5,
+     "raison": "Soin monocible sans égal et « Blessing of Freedom » qui porte une équipe (Kami) ; plaques et « Divine Shield ».",
+     "appuis": [
+      "p-bg",
+      "p-defense"
+     ],
+     "confiance": "moyenne"
+    },
+    "world": {
+     "valeur": 4,
+     "raison": "Plaques, « Divine Shield » et « Hammer of Justice » : difficile à tuer, peu de dégâts. Tournoi niveau 30 : les quatre Paladins invaincus en qualification.",
+     "appuis": [
+      "p-defense",
+      "p-hoj",
+      "p-tournoi"
+     ],
+     "confiance": "moyenne"
+    },
+    "solo": {
+     "valeur": 3,
+     "raison": "Survit sans peine mais tue lentement en soin ; Paladin classé D au leveling par Mobalytics (base Vanilla).",
+     "appuis": [
+      "p-solo-mobalytics",
+      "p-defense"
+     ],
+     "confiance": "faible"
+    },
+    "burst": {
+     "valeur": 2,
+     "raison": "Configuration soigneur : peu de dégâts explosifs ; la variante Shockadin (dégâts) n’a pas de configuration distincte.",
+     "appuis": [
+      "p-sacre",
+      "p-burst"
+     ],
+     "confiance": "moyenne"
+    },
+    "zone": {
+     "valeur": 2,
+     "raison": "« Consecration » et « Holy Wrath » existent, mais la configuration soigneur fait peu de dégâts de zone.",
+     "appuis": [
+      "p-zone"
+     ],
+     "confiance": "moyenne"
+    },
+    "ctrl": {
+     "valeur": 2,
+     "raison": "Ni interruption ni ralentissement, de l’aveu de Blizzard ; « Hammer of Justice » est son seul étourdissement.",
+     "appuis": [
+      "p-limites",
+      "p-hoj",
+      "p-justice"
+     ],
+     "confiance": "haute"
+    },
+    "surv": {
+     "valeur": 5,
+     "raison": "Plaques, bouclier, « Divine Shield », « Divine Protection » et « Lay on Hands » toutes les 20 min.",
+     "appuis": [
+      "p-defense"
+     ],
+     "confiance": "haute"
+    },
+    "mob": {
+     "valeur": 2,
+     "raison": "Ni vitesse ni moyen de rapprochement ; « Blessing of Freedom » contre les entraves.",
+     "appuis": [
+      "p-mobilite",
+      "p-limites"
+     ],
+     "confiance": "haute"
+    },
+    "support": {
+     "valeur": 5,
+     "raison": "Bénédictions d’une heure, auras de résistance pour le raid, « Cleanse » et soin de groupe (« Light’s Vigil »).",
+     "appuis": [
+      "p-soutien",
+      "p-sacre"
+     ],
+     "confiance": "haute"
+    },
+    "charge_pve": {
+     "valeur": 2,
+     "raison": "Facile à prendre en main selon Kami ; le « Seal Twisting » n’existe plus de base. Aucune mesure de difficulté.",
+     "appuis": [
+      "p-facile",
+      "p-mana"
+     ],
+     "confiance": "moyenne"
+    },
+    "charge_pvp": {
+     "valeur": 2,
+     "raison": "Facile à prendre en main selon Kami ; le « Seal Twisting » n’existe plus de base. Aucune mesure de difficulté.",
+     "appuis": [
+      "p-facile",
+      "p-mana"
+     ],
+     "confiance": "moyenne"
+    }
+   }
+  },
+  {
+   "id": "paladin-protection",
+   "libelle": "Protection",
+   "profil": {
+    "role": "tank",
+    "portee": "melee",
+    "familier": "none",
+    "appuis_familier": []
+   },
+   "notes": {
+    "raid": {
+     "valeur": 4,
+     "raison": "Tank complet sur le papier (« Templar’s Bulwark », « Seal of Fury »), mais menace simulée la plus faible des trois tanks (67 % de l’ours, groupe C) ; survie non simulée.",
+     "appuis": [
+      "p-prot-defense",
+      "p-sim"
+     ],
+     "confiance": "faible"
+    },
+    "bg": {
+     "valeur": 4,
+     "raison": "Plaques, bouclier et « Blessing of Freedom » pour tenir les objectifs ; aucune source PvP propre à la Protection.",
+     "appuis": [
+      "p-prot-defense",
+      "p-bg"
+     ],
+     "confiance": "faible"
+    },
+    "world": {
+     "valeur": 3,
+     "raison": "Très résistant, mais peu de dégâts et aucune mobilité pour conclure un combat seul.",
+     "appuis": [
+      "p-prot-defense",
+      "p-mobilite"
+     ],
+     "confiance": "faible"
+    },
+    "solo": {
+     "valeur": 5,
+     "raison": "Farme en zone et monte de niveau sans difficulté selon Kami ; mais Mobalytics classe le Paladin D (base Vanilla) et « Consecration » a été réduite le 16 octobre.",
+     "appuis": [
+      "p-solo-kami",
+      "p-solo-mobalytics",
+      "p-nerf"
+     ],
+     "confiance": "faible"
+    },
+    "burst": {
+     "valeur": 3,
+     "raison": "« Swift Judgement » relance Judgement sans coût ; « Holy Strike » sert surtout la menace.",
+     "appuis": [
+      "p-prot-degats"
+     ],
+     "confiance": "moyenne"
+    },
+    "zone": {
+     "valeur": 3,
+     "raison": "« Consecration » (4 ennemis), « Consecrated Ground » et « Holy Wrath ».",
+     "appuis": [
+      "p-zone",
+      "p-limites"
+     ],
+     "confiance": "moyenne"
+    },
+    "ctrl": {
+     "valeur": 2,
+     "raison": "Ni interruption ni ralentissement, de l’aveu de Blizzard ; « Hammer of Justice » est son seul étourdissement.",
+     "appuis": [
+      "p-limites",
+      "p-hoj",
+      "p-justice"
+     ],
+     "confiance": "haute"
+    },
+    "surv": {
+     "valeur": 5,
+     "raison": "« Templar’s Bulwark » (bouclier de 100 % des PV), « Seal of Fury », « Sacred Duty », « Iron Creed », en plus des défenses de la classe.",
+     "appuis": [
+      "p-prot-defense",
+      "p-defense"
+     ],
+     "confiance": "haute"
+    },
+    "mob": {
+     "valeur": 2,
+     "raison": "Ni vitesse ni moyen de rapprochement ; « Blessing of Freedom » contre les entraves.",
+     "appuis": [
+      "p-mobilite",
+      "p-limites"
+     ],
+     "confiance": "haute"
+    },
+    "support": {
+     "valeur": 5,
+     "raison": "Bénédictions d’une heure, auras de résistance pour le raid et « Cleanse », comme toute la classe.",
+     "appuis": [
+      "p-soutien"
+     ],
+     "confiance": "moyenne"
+    },
+    "charge_pve": {
+     "valeur": 2,
+     "raison": "Facile à prendre en main selon Kami ; le « Seal Twisting » n’existe plus de base. Aucune mesure de difficulté.",
+     "appuis": [
+      "p-facile",
+      "p-mana"
+     ],
+     "confiance": "moyenne"
+    },
+    "charge_pvp": {
+     "valeur": 2,
+     "raison": "Facile à prendre en main selon Kami ; le « Seal Twisting » n’existe plus de base. Aucune mesure de difficulté.",
+     "appuis": [
+      "p-facile",
+      "p-mana"
+     ],
+     "confiance": "moyenne"
+    }
+   }
+  },
+  {
+   "id": "paladin-vindicte",
+   "libelle": "Vindicte",
+   "profil": {
+    "role": "dps",
+    "portee": "melee",
+    "familier": "none",
+    "appuis_familier": []
+   },
+   "notes": {
+    "raid": {
+     "valeur": 4,
+     "raison": "Simulation 60 : 7e DPS (78 %) après les réductions du 16 octobre ; « Sacred Arbiter » rafraîchit les Judgements de tous les Paladins ; taxe hybride d’environ 5 %.",
+     "appuis": [
+      "p-sim",
+      "p-nerf",
+      "p-vindicte-soutien",
+      "p-taxe"
+     ],
+     "confiance": "moyenne"
+    },
+    "bg": {
+     "valeur": 4,
+     "raison": "Burst (« Hammer of Wrath » instantané), « Repentance », plaques et « Blessing of Freedom » ; aucune source PvP propre à la Vindicte.",
+     "appuis": [
+      "p-burst",
+      "p-hoj",
+      "p-bg"
+     ],
+     "confiance": "faible"
+    },
+    "world": {
+     "valeur": 4,
+     "raison": "Plaques, « Divine Shield », « Hammer of Justice » et « Repentance », avec du burst. Tournoi niveau 30 : deux Paladins dans les huit derniers.",
+     "appuis": [
+      "p-defense",
+      "p-hoj",
+      "p-burst",
+      "p-tournoi"
+     ],
+     "confiance": "moyenne"
+    },
+    "solo": {
+     "valeur": 4,
+     "raison": "Sceaux, Judgements et défenses de plaques pour enchaîner seul ; Paladin classé D au leveling par Mobalytics (base Vanilla).",
+     "appuis": [
+      "p-defense",
+      "p-solo-mobalytics"
+     ],
+     "confiance": "faible"
+    },
+    "burst": {
+     "valeur": 4,
+     "raison": "« Vengeance », « Vindication », « Twist of Light » (deux sceaux à la fois) et « Hammer of Wrath » instantané.",
+     "appuis": [
+      "p-burst"
+     ],
+     "confiance": "moyenne"
+    },
+    "zone": {
+     "valeur": 3,
+     "raison": "« Consecration » (4 ennemis, réduite le 16 octobre) et « Exorcism ».",
+     "appuis": [
+      "p-zone",
+      "p-nerf",
+      "p-limites"
+     ],
+     "confiance": "moyenne"
+    },
+    "ctrl": {
+     "valeur": 2,
+     "raison": "Ni interruption ni ralentissement ; « Hammer of Justice » et « Repentance » (21 points), surtout utile en PvP.",
+     "appuis": [
+      "p-limites",
+      "p-hoj",
+      "p-justice"
+     ],
+     "confiance": "moyenne"
+    },
+    "surv": {
+     "valeur": 4,
+     "raison": "Plaques, « Divine Shield », « Divine Protection » et « Lay on Hands » toutes les 20 min.",
+     "appuis": [
+      "p-defense"
+     ],
+     "confiance": "haute"
+    },
+    "mob": {
+     "valeur": 2,
+     "raison": "Ni vitesse ni rapprochement, hormis « Pursuit of Justice » (jusqu’à 15 %) ; « Blessing of Freedom » contre les entraves.",
+     "appuis": [
+      "p-mobilite",
+      "p-limites"
+     ],
+     "confiance": "haute"
+    },
+    "support": {
+     "valeur": 4,
+     "raison": "Bénédictions, auras et « Cleanse » de la classe ; « Sacred Arbiter » renforce les Judgements des autres Paladins.",
+     "appuis": [
+      "p-soutien",
+      "p-vindicte-soutien"
+     ],
+     "confiance": "moyenne"
+    },
+    "charge_pve": {
+     "valeur": 2,
+     "raison": "Facile à prendre en main selon Kami ; le « Seal Twisting » n’existe plus de base. Aucune mesure de difficulté.",
+     "appuis": [
+      "p-facile",
+      "p-mana"
+     ],
+     "confiance": "moyenne"
+    },
+    "charge_pvp": {
+     "valeur": 2,
+     "raison": "Facile à prendre en main selon Kami ; le « Seal Twisting » n’existe plus de base. Aucune mesure de difficulté.",
+     "appuis": [
+      "p-facile",
+      "p-mana"
+     ],
+     "confiance": "moyenne"
+    }
+   }
+  }
+ ]
+}

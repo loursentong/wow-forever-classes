@@ -1,0 +1,538 @@
+{
+ "classe": "chaman",
+ "libelle": "Chaman",
+ "date": "2026-10-21",
+ "moteur": "1.0.3-exploratoire",
+ "faits": [
+  {
+   "id": "ch-role",
+   "categorie": "role",
+   "texte": "Maître des totems qui buffe, soigne et résout les problèmes du groupe ; DPS mêlée, DPS sorts ou soigneur.",
+   "sources": [
+    "bz-dd-mage-chaman"
+   ]
+  },
+  {
+   "id": "ch-pas-controle",
+   "categorie": "limite",
+   "texte": "Pas de contrôle efficace, de l’aveu de Blizzard ; ni maléfice ni peur.",
+   "sources": [
+    "bz-dd-mage-chaman",
+    "wt-chaman"
+   ],
+   "contre": [
+    "ctrl"
+   ]
+  },
+  {
+   "id": "ch-interruption",
+   "categorie": "interruption",
+   "texte": "« Earth Shock » interrompt ; « Frost Shock » ralentit ; « Earthbind Totem ».",
+   "sources": [
+    "wt-chaman"
+   ]
+  },
+  {
+   "id": "ch-earthbound",
+   "categorie": "controle",
+   "texte": "Élémentaire : « Earthbound » (21 points) immobilise les cibles proches 5 s à la pose d’« Earthbind Totem ».",
+   "sources": [
+    "bz-dd-mage-chaman",
+    "wt-chaman"
+   ],
+   "specs": [
+    "chaman-elementaire"
+   ]
+  },
+  {
+   "id": "ch-mobilite",
+   "categorie": "mobilite",
+   "texte": "« Ghost Wolf » (+40 %) ; « Improved Ghost Wolf », dans l’arbre Amélioration, le rend instantané et utilisable en intérieur ; la meilleure mobilité du jeu selon Kami.",
+   "sources": [
+    "bz-dd-mage-chaman",
+    "wt-chaman",
+    "kami-video"
+   ]
+  },
+  {
+   "id": "ch-defense",
+   "categorie": "defense",
+   "texte": "Maille et bouclier ; « Anticipation » et « Toughness » en Amélioration, « Water Shield » en Restauration.",
+   "sources": [
+    "bz-dd-mage-chaman",
+    "wt-chaman"
+   ]
+  },
+  {
+   "id": "ch-soutien",
+   "categorie": "soutien",
+   "texte": "Totems pour tout le raid (« Windfury », « Flametongue », « Grace of Air », « Strength of Earth »), « Mana Tide Totem », « Purge », totems de purification.",
+   "sources": [
+    "bz-dd-mage-chaman",
+    "wt-chaman",
+    "bz-notes-15-oct"
+   ]
+  },
+  {
+   "id": "ch-utilite",
+   "categorie": "pvp",
+   "texte": "Restauration jugée indispensable, « Purge » offensive, « Grounding Totem ».",
+   "sources": [
+    "kami-video"
+   ]
+  },
+  {
+   "id": "ch-zone",
+   "categorie": "zone",
+   "texte": "« Chain Lightning », « Fire Nova », « Magma Totem » ; « Lightning Overload » relance des sorts.",
+   "sources": [
+    "bz-dd-mage-chaman",
+    "wt-chaman"
+   ]
+  },
+  {
+   "id": "ch-elem-burst",
+   "categorie": "burst",
+   "texte": "Élémentaire : « Lava Burst » (31 points), « Elemental Mastery » (de retour au 15 octobre), gros critiques attendus au 60.",
+   "sources": [
+    "bz-dd-mage-chaman",
+    "bz-notes-15-oct",
+    "wt-chaman",
+    "kami-video"
+   ],
+   "specs": [
+    "chaman-elementaire"
+   ]
+  },
+  {
+   "id": "ch-amelio-burst",
+   "categorie": "burst",
+   "texte": "Amélioration : « Stormstrike » (8 s), « Rage of the Farseer » (+30 % de vitesse d’attaque 25 s), procs de « Windfury ».",
+   "sources": [
+    "bz-dd-mage-chaman",
+    "wt-chaman",
+    "kami-video"
+   ],
+   "specs": [
+    "chaman-amelioration"
+   ]
+  },
+  {
+   "id": "ch-resto",
+   "categorie": "soutien",
+   "texte": "Restauration : « Riptide », « Chain Heal », « Healing Way », « Nature’s Swiftness », « Mana Tide Totem » ; peu de sorts instantanés.",
+   "sources": [
+    "bz-dd-mage-chaman",
+    "wt-chaman"
+   ],
+   "specs": [
+    "chaman-restauration"
+   ]
+  },
+  {
+   "id": "ch-mana",
+   "categorie": "ressource",
+   "texte": "Placement et timing des totems ; mana limité sur les longs combats ; Élémentaire très dépendant de la puissance des sorts.",
+   "sources": [
+    "bz-dd-mage-chaman",
+    "wt-chaman"
+   ]
+  },
+  {
+   "id": "ch-sim",
+   "categorie": "performance",
+   "texte": "Simulation 60 : Amélioration 15e (68 %), Élémentaire 24e et dernier (49 %).",
+   "sources": [
+    "mythicsim"
+   ]
+  },
+  {
+   "id": "ch-tournoi",
+   "categorie": "performance",
+   "texte": "Duel niveau 30 : Chamans 3e et 4e.",
+   "sources": [
+    "forever-open"
+   ]
+  },
+  {
+   "id": "ch-tank",
+   "categorie": "role",
+   "texte": "Amélioration peut tanker en appoint en petit groupe, sans vraie provocation ni survie suffisante en fin de jeu.",
+   "sources": [
+    "bz-dd-mage-chaman",
+    "wt-chaman",
+    "crix-niv30"
+   ],
+   "specs": [
+    "chaman-amelioration"
+   ]
+  },
+  {
+   "id": "ch-leveling",
+   "categorie": "solo",
+   "texte": "Amélioration est la spécialisation préférée pour le leveling en monde ouvert ; Chaman classé B par Mobalytics.",
+   "sources": [
+    "wt-chaman",
+    "mobalytics-leveling"
+   ]
+  }
+ ],
+ "specialisations": [
+  {
+   "id": "chaman-elementaire",
+   "libelle": "Élémentaire",
+   "profil": {
+    "role": "dps",
+    "portee": "distance",
+    "familier": "none",
+    "appuis_familier": []
+   },
+   "notes": {
+    "raid": {
+     "valeur": 3,
+     "raison": "Simulation 60 : dernier DPS (49 %), 13 points sous la configuration suivante ; seuls ses totems de groupe le soutiennent.",
+     "appuis": [
+      "ch-sim",
+      "ch-soutien"
+     ],
+     "confiance": "faible"
+    },
+    "bg": {
+     "valeur": 4,
+     "raison": "Gros critiques attendus au 60, « Purge » offensive, « Grounding Totem » et « Earth Shock » pour interrompre.",
+     "appuis": [
+      "ch-elem-burst",
+      "ch-utilite",
+      "ch-interruption"
+     ],
+     "confiance": "moyenne"
+    },
+    "world": {
+     "valeur": 4,
+     "raison": "« Earth Shock », « Frost Shock », « Ghost Wolf » et burst élémentaire. Tournoi niveau 30 : Chamans 3e et 4e.",
+     "appuis": [
+      "ch-interruption",
+      "ch-mobilite",
+      "ch-elem-burst",
+      "ch-tournoi"
+     ],
+     "confiance": "moyenne"
+    },
+    "solo": {
+     "valeur": 3,
+     "raison": "Chaman classé B au leveling par Mobalytics (base Vanilla) ; Amélioration est la spécialisation préférée pour le leveling.",
+     "appuis": [
+      "ch-leveling"
+     ],
+     "confiance": "faible"
+    },
+    "burst": {
+     "valeur": 5,
+     "raison": "« Lava Burst » (31 points), « Elemental Mastery » (de retour le 15 octobre) et gros critiques attendus au 60.",
+     "appuis": [
+      "ch-elem-burst"
+     ],
+     "confiance": "moyenne"
+    },
+    "zone": {
+     "valeur": 4,
+     "raison": "« Chain Lightning », « Fire Nova », « Magma Totem » ; « Lightning Overload » relance des sorts.",
+     "appuis": [
+      "ch-zone"
+     ],
+     "confiance": "moyenne"
+    },
+    "ctrl": {
+     "valeur": 3,
+     "raison": "« Earth Shock » interrompt, « Frost Shock » ralentit et « Earthbound » (21 points) immobilise 5 s ; Blizzard admet que la classe n’a pas de contrôle efficace.",
+     "appuis": [
+      "ch-interruption",
+      "ch-earthbound",
+      "ch-pas-controle"
+     ],
+     "confiance": "moyenne"
+    },
+    "surv": {
+     "valeur": 3,
+     "raison": "Maille et bouclier ; peu de défenses actives propres à Élémentaire.",
+     "appuis": [
+      "ch-defense"
+     ],
+     "confiance": "moyenne"
+    },
+    "mob": {
+     "valeur": 4,
+     "raison": "« Ghost Wolf » (+40 %) ; la version instantanée vient de l’arbre Amélioration.",
+     "appuis": [
+      "ch-mobilite"
+     ],
+     "confiance": "moyenne"
+    },
+    "support": {
+     "valeur": 4,
+     "raison": "Totems pour tout le raid, « Purge » et totems de purification.",
+     "appuis": [
+      "ch-soutien"
+     ],
+     "confiance": "haute"
+    },
+    "charge_pve": {
+     "valeur": 3,
+     "raison": "Totems à placer, mana limité sur les longs combats, très dépendant de la puissance des sorts. Aucune mesure de difficulté.",
+     "appuis": [
+      "ch-mana"
+     ],
+     "confiance": "faible"
+    },
+    "charge_pvp": {
+     "valeur": 3,
+     "raison": "Totems et interruptions à placer au bon moment. Aucune mesure de difficulté.",
+     "appuis": [
+      "ch-mana",
+      "ch-interruption"
+     ],
+     "confiance": "faible"
+    }
+   }
+  },
+  {
+   "id": "chaman-amelioration",
+   "libelle": "Amélioration",
+   "profil": {
+    "role": "dps",
+    "portee": "melee",
+    "familier": "none",
+    "appuis_familier": []
+   },
+   "notes": {
+    "raid": {
+     "valeur": 4,
+     "raison": "Simulation 60 : 15e DPS (68 %) ; les totems de raid (« Windfury », « Strength of Earth », « Grace of Air ») le maintiennent dans le groupe noté 4.",
+     "appuis": [
+      "ch-sim",
+      "ch-soutien"
+     ],
+     "confiance": "moyenne"
+    },
+    "bg": {
+     "valeur": 4,
+     "raison": "Burst de « Stormstrike » et des procs de « Windfury », « Purge » offensive et « Grounding Totem ».",
+     "appuis": [
+      "ch-amelio-burst",
+      "ch-utilite"
+     ],
+     "confiance": "moyenne"
+    },
+    "world": {
+     "valeur": 4,
+     "raison": "« Ghost Wolf » instantané, « Earth Shock » et burst de « Stormstrike ». Tournoi niveau 30 : Chamans 3e et 4e.",
+     "appuis": [
+      "ch-mobilite",
+      "ch-interruption",
+      "ch-amelio-burst",
+      "ch-tournoi"
+     ],
+     "confiance": "moyenne"
+    },
+    "solo": {
+     "valeur": 3,
+     "raison": "Spécialisation préférée pour le leveling en monde ouvert (Warcraft Tavern) ; Chaman classé B par Mobalytics (base Vanilla).",
+     "appuis": [
+      "ch-leveling",
+      "ch-tank"
+     ],
+     "confiance": "faible"
+    },
+    "burst": {
+     "valeur": 5,
+     "raison": "« Stormstrike » (8 s), « Rage of the Farseer » (+30 % de vitesse d’attaque 25 s) et procs de « Windfury ».",
+     "appuis": [
+      "ch-amelio-burst"
+     ],
+     "confiance": "moyenne"
+    },
+    "zone": {
+     "valeur": 3,
+     "raison": "« Fire Nova », « Magma Totem » et « Chain Lightning », moins exploités qu’en Élémentaire.",
+     "appuis": [
+      "ch-zone"
+     ],
+     "confiance": "moyenne"
+    },
+    "ctrl": {
+     "valeur": 2,
+     "raison": "« Earth Shock » interrompt et « Frost Shock » ralentit, sans contrôle dur ; Blizzard admet que la classe n’a pas de contrôle efficace.",
+     "appuis": [
+      "ch-interruption",
+      "ch-pas-controle"
+     ],
+     "confiance": "haute"
+    },
+    "surv": {
+     "valeur": 3,
+     "raison": "Maille, bouclier possible, « Anticipation » et « Toughness ».",
+     "appuis": [
+      "ch-defense"
+     ],
+     "confiance": "moyenne"
+    },
+    "mob": {
+     "valeur": 5,
+     "raison": "« Improved Ghost Wolf » rend la forme instantanée et utilisable en intérieur : la meilleure mobilité du jeu selon Kami.",
+     "appuis": [
+      "ch-mobilite"
+     ],
+     "confiance": "haute"
+    },
+    "support": {
+     "valeur": 4,
+     "raison": "Totems pour tout le raid, « Purge » et totems de purification.",
+     "appuis": [
+      "ch-soutien"
+     ],
+     "confiance": "haute"
+    },
+    "charge_pve": {
+     "valeur": 3,
+     "raison": "Totems à placer et à relancer, procs à exploiter. Aucune mesure de difficulté.",
+     "appuis": [
+      "ch-mana",
+      "ch-amelio-burst"
+     ],
+     "confiance": "faible"
+    },
+    "charge_pvp": {
+     "valeur": 3,
+     "raison": "Totems et interruptions à placer au bon moment. Aucune mesure de difficulté.",
+     "appuis": [
+      "ch-mana",
+      "ch-interruption"
+     ],
+     "confiance": "faible"
+    }
+   }
+  },
+  {
+   "id": "chaman-restauration",
+   "libelle": "Restauration",
+   "profil": {
+    "role": "soin",
+    "portee": "distance",
+    "familier": "none",
+    "appuis_familier": []
+   },
+   "notes": {
+    "raid": {
+     "valeur": 5,
+     "raison": "« Chain Heal », « Riptide », « Mana Tide Totem » et totems de raid ; jugée indispensable par Kami. Aucune donnée comparative entre soigneurs.",
+     "appuis": [
+      "ch-resto",
+      "ch-soutien",
+      "ch-utilite"
+     ],
+     "confiance": "moyenne"
+    },
+    "bg": {
+     "valeur": 5,
+     "raison": "Soins de groupe, « Purge » offensive, « Grounding Totem » et « Ghost Wolf ».",
+     "appuis": [
+      "ch-resto",
+      "ch-utilite",
+      "ch-mobilite"
+     ],
+     "confiance": "moyenne"
+    },
+    "world": {
+     "valeur": 4,
+     "raison": "Maille, bouclier et « Water Shield », « Earth Shock » et « Ghost Wolf » ; peu de sorts instantanés. Tournoi niveau 30 : Chamans 3e et 4e.",
+     "appuis": [
+      "ch-defense",
+      "ch-interruption",
+      "ch-mobilite",
+      "ch-resto",
+      "ch-tournoi"
+     ],
+     "confiance": "faible"
+    },
+    "solo": {
+     "valeur": 3,
+     "raison": "Chaman classé B au leveling par Mobalytics (base Vanilla) ; Amélioration est la spécialisation préférée pour le leveling.",
+     "appuis": [
+      "ch-leveling"
+     ],
+     "confiance": "faible"
+    },
+    "burst": {
+     "valeur": 2,
+     "raison": "Configuration soigneur : peu de dégâts explosifs.",
+     "appuis": [
+      "ch-resto"
+     ],
+     "confiance": "moyenne"
+    },
+    "zone": {
+     "valeur": 2,
+     "raison": "Configuration soigneur : les sorts de zone de la classe y sont peu exploités.",
+     "appuis": [
+      "ch-zone",
+      "ch-resto"
+     ],
+     "confiance": "moyenne"
+    },
+    "ctrl": {
+     "valeur": 2,
+     "raison": "« Earth Shock » interrompt et « Frost Shock » ralentit, sans contrôle dur ; Blizzard admet que la classe n’a pas de contrôle efficace.",
+     "appuis": [
+      "ch-interruption",
+      "ch-pas-controle"
+     ],
+     "confiance": "haute"
+    },
+    "surv": {
+     "valeur": 4,
+     "raison": "Maille, bouclier et « Water Shield », avec ses propres soins.",
+     "appuis": [
+      "ch-defense",
+      "ch-resto"
+     ],
+     "confiance": "moyenne"
+    },
+    "mob": {
+     "valeur": 4,
+     "raison": "« Ghost Wolf » (+40 %) ; la version instantanée vient de l’arbre Amélioration.",
+     "appuis": [
+      "ch-mobilite"
+     ],
+     "confiance": "moyenne"
+    },
+    "support": {
+     "valeur": 5,
+     "raison": "Totems de raid, « Mana Tide Totem », « Purge » et totems de purification, en plus des soins de groupe.",
+     "appuis": [
+      "ch-soutien",
+      "ch-resto"
+     ],
+     "confiance": "haute"
+    },
+    "charge_pve": {
+     "valeur": 2,
+     "raison": "« Chain Heal » et « Riptide » lisibles ; placement des totems et mana à gérer. Aucune mesure de difficulté.",
+     "appuis": [
+      "ch-resto",
+      "ch-mana"
+     ],
+     "confiance": "faible"
+    },
+    "charge_pvp": {
+     "valeur": 3,
+     "raison": "Peu de sorts instantanés : soigner sous pression demande du placement. Aucune mesure de difficulté.",
+     "appuis": [
+      "ch-resto",
+      "ch-mana"
+     ],
+     "confiance": "faible"
+    }
+   }
+  }
+ ]
+}

@@ -1,0 +1,524 @@
+{
+ "classe": "pretre",
+ "libelle": "Prêtre",
+ "date": "2026-10-21",
+ "moteur": "1.0.3-exploratoire",
+ "faits": [
+  {
+   "id": "pr-role",
+   "categorie": "role",
+   "texte": "Lanceur de sorts polyvalent ; le guérisseur le plus polyvalent selon Blizzard.",
+   "sources": [
+    "bz-dd-pretre-guerrier"
+   ]
+  },
+  {
+   "id": "pr-limites",
+   "categorie": "limite",
+   "texte": "Tissu, peu de moyens de fuite ; dépend des alliés pour le tanking et le contrôle.",
+   "sources": [
+    "bz-dd-pretre-guerrier",
+    "wt-pretre"
+   ],
+   "contre": [
+    "mob",
+    "surv"
+   ]
+  },
+  {
+   "id": "pr-controle",
+   "categorie": "controle",
+   "texte": "« Psychic Scream », « Mind Control », « Silence » (Ombre, sans prérequis) ; raciaux « Chastise » (Nain) et « Confounding Flash » (Gnome).",
+   "sources": [
+    "bz-dd-pretre-guerrier",
+    "kami-video"
+   ]
+  },
+  {
+   "id": "pr-mind-flay",
+   "categorie": "ralentissement",
+   "texte": "« Mind Flay » ralentit (moins avec « Improved Mind Flay »).",
+   "sources": [
+    "bz-dd-pretre-guerrier"
+   ],
+   "specs": [
+    "pretre-ombre"
+   ]
+  },
+  {
+   "id": "pr-defense",
+   "categorie": "defense",
+   "texte": "« Power Word: Shield », « Divine Aegis », « Fade » (réduction de menace doublée) ; raciaux « Desperate Prayer », « Contingency Plan », « Elune’s Grace ».",
+   "sources": [
+    "bz-dd-pretre-guerrier"
+   ]
+  },
+  {
+   "id": "pr-soutien",
+   "categorie": "soutien",
+   "texte": "« Prayer of Healing » soigne tout le groupe de la cible ; « Divine Spirit » de base au 30, « Fear Ward » pour tous au 20 ; « Power Infusion ».",
+   "sources": [
+    "bz-dd-pretre-guerrier",
+    "wt-pretre"
+   ]
+  },
+  {
+   "id": "pr-disc",
+   "categorie": "soutien",
+   "texte": "Discipline : boucliers d’absorption, « Divine Aegis », « Soul Warding », « Penance » (21 points), « Power Infusion ».",
+   "sources": [
+    "bz-dd-pretre-guerrier",
+    "wt-pretre"
+   ],
+   "specs": [
+    "pretre-discipline"
+   ]
+  },
+  {
+   "id": "pr-sacre",
+   "categorie": "soutien",
+   "texte": "Sacré : « Binding Heal », « Prayer of Mending » (31 points), « Litany of Light » ; domine le soin de zone.",
+   "sources": [
+    "bz-dd-pretre-guerrier",
+    "kami-video"
+   ],
+   "specs": [
+    "pretre-sacre"
+   ]
+  },
+  {
+   "id": "pr-ombre",
+   "categorie": "burst",
+   "texte": "Ombre : « Shadowform » (coût Ombre −50 %, critiques +100 %), « Shadow Word: Death », « Early Demise ».",
+   "sources": [
+    "bz-dd-pretre-guerrier"
+   ],
+   "specs": [
+    "pretre-ombre"
+   ]
+  },
+  {
+   "id": "pr-ombre-soutien",
+   "categorie": "soutien",
+   "texte": "Ombre : « Vampiric Embrace » ; « Dark Inspiration » donne jusqu’à 15 % d’Esprit au groupe.",
+   "sources": [
+    "bz-dd-pretre-guerrier",
+    "bz-notes-15-oct"
+   ],
+   "specs": [
+    "pretre-ombre"
+   ]
+  },
+  {
+   "id": "pr-zone",
+   "categorie": "zone",
+   "texte": "Peu de dégâts de zone : « Holy Nova » (gratuite avec « Searing Light » en Sacré), « Devouring Contagion » en Ombre.",
+   "sources": [
+    "bz-dd-pretre-guerrier"
+   ]
+  },
+  {
+   "id": "pr-mana",
+   "categorie": "ressource",
+   "texte": "Gestion du mana sur les longs combats, point faible typique du Prêtre.",
+   "sources": [
+    "wt-pretre"
+   ]
+  },
+  {
+   "id": "pr-sim",
+   "categorie": "performance",
+   "texte": "Simulation 60 : Ombre 13e (71 %), malgré les renforcements du 15 octobre ; soigneurs non simulés.",
+   "sources": [
+    "mythicsim",
+    "bz-notes-15-oct"
+   ]
+  },
+  {
+   "id": "pr-bg",
+   "categorie": "pvp",
+   "texte": "En champ de bataille, il soigne beaucoup de monde à la fois et reste très redouté ; parmi les meilleurs soigneurs en PvE comme en PvP.",
+   "sources": [
+    "kami-video"
+   ]
+  },
+  {
+   "id": "pr-tournoi",
+   "categorie": "performance",
+   "texte": "Duel niveau 30 : meilleur Prêtre éliminé au top 12.",
+   "sources": [
+    "forever-open"
+   ]
+  },
+  {
+   "id": "pr-leveling",
+   "categorie": "solo",
+   "texte": "Prêtre classé C pour le leveling par Mobalytics (base Vanilla).",
+   "sources": [
+    "mobalytics-leveling"
+   ]
+  }
+ ],
+ "specialisations": [
+  {
+   "id": "pretre-discipline",
+   "libelle": "Discipline",
+   "profil": {
+    "role": "soin",
+    "portee": "distance",
+    "familier": "none",
+    "appuis_familier": []
+   },
+   "notes": {
+    "raid": {
+     "valeur": 5,
+     "raison": "Le soigneur le plus polyvalent selon Blizzard : boucliers d’absorption, « Penance », « Power Infusion ». Aucune donnée comparative entre soigneurs.",
+     "appuis": [
+      "pr-role",
+      "pr-disc",
+      "pr-bg"
+     ],
+     "confiance": "moyenne"
+    },
+    "bg": {
+     "valeur": 5,
+     "raison": "Soigne beaucoup de monde à la fois et reste très redouté en champ de bataille (Kami) ; boucliers et « Psychic Scream ».",
+     "appuis": [
+      "pr-bg",
+      "pr-disc",
+      "pr-controle"
+     ],
+     "confiance": "moyenne"
+    },
+    "world": {
+     "valeur": 4,
+     "raison": "Boucliers, « Divine Aegis » et « Psychic Scream » pour tenir un duel ; tissu et peu d’échappatoires. Tournoi niveau 30 : meilleur Prêtre au top 12.",
+     "appuis": [
+      "pr-disc",
+      "pr-defense",
+      "pr-controle",
+      "pr-limites",
+      "pr-tournoi"
+     ],
+     "confiance": "faible"
+    },
+    "solo": {
+     "valeur": 3,
+     "raison": "Prêtre classé C au leveling par Mobalytics (base Vanilla) ; aucune source propre à Forever.",
+     "appuis": [
+      "pr-leveling"
+     ],
+     "confiance": "faible"
+    },
+    "burst": {
+     "valeur": 2,
+     "raison": "Configuration soigneur : peu de dégâts explosifs.",
+     "appuis": [
+      "pr-disc"
+     ],
+     "confiance": "moyenne"
+    },
+    "zone": {
+     "valeur": 2,
+     "raison": "Peu de dégâts de zone : « Holy Nova ».",
+     "appuis": [
+      "pr-zone"
+     ],
+     "confiance": "haute"
+    },
+    "ctrl": {
+     "valeur": 3,
+     "raison": "« Psychic Scream » et « Mind Control », plus les raciaux « Chastise » (Nain) et « Confounding Flash » (Gnome).",
+     "appuis": [
+      "pr-controle"
+     ],
+     "confiance": "moyenne"
+    },
+    "surv": {
+     "valeur": 4,
+     "raison": "« Power Word: Shield », « Divine Aegis », « Fade » et raciaux défensifs, malgré le tissu et peu de moyens de fuite.",
+     "appuis": [
+      "pr-defense",
+      "pr-disc",
+      "pr-limites"
+     ],
+     "confiance": "moyenne"
+    },
+    "mob": {
+     "valeur": 2,
+     "raison": "Tissu et peu de moyens de fuite.",
+     "appuis": [
+      "pr-limites"
+     ],
+     "confiance": "haute"
+    },
+    "support": {
+     "valeur": 5,
+     "raison": "Prières de groupe, « Divine Spirit » de base au 30, « Fear Ward » pour tous, « Power Infusion ».",
+     "appuis": [
+      "pr-soutien",
+      "pr-disc"
+     ],
+     "confiance": "haute"
+    },
+    "charge_pve": {
+     "valeur": 3,
+     "raison": "Boucliers à anticiper et mana à gérer sur les longs combats. Aucune mesure de difficulté.",
+     "appuis": [
+      "pr-mana",
+      "pr-disc"
+     ],
+     "confiance": "faible"
+    },
+    "charge_pvp": {
+     "valeur": 4,
+     "raison": "Boucliers, peur et dissipations à placer sous pression, mana compté. Aucune mesure de difficulté.",
+     "appuis": [
+      "pr-mana",
+      "pr-controle"
+     ],
+     "confiance": "faible"
+    }
+   }
+  },
+  {
+   "id": "pretre-sacre",
+   "libelle": "Sacré",
+   "profil": {
+    "role": "soin",
+    "portee": "distance",
+    "familier": "none",
+    "appuis_familier": []
+   },
+   "notes": {
+    "raid": {
+     "valeur": 5,
+     "raison": "Domine le soin de zone (Kami) : « Binding Heal », « Prayer of Mending », « Litany of Light ». Aucune donnée comparative entre soigneurs.",
+     "appuis": [
+      "pr-sacre",
+      "pr-role",
+      "pr-bg"
+     ],
+     "confiance": "moyenne"
+    },
+    "bg": {
+     "valeur": 5,
+     "raison": "Soigne beaucoup de monde à la fois et reste très redouté en champ de bataille (Kami) ; « Prayer of Healing » soigne tout un groupe.",
+     "appuis": [
+      "pr-bg",
+      "pr-sacre",
+      "pr-soutien"
+     ],
+     "confiance": "moyenne"
+    },
+    "world": {
+     "valeur": 3,
+     "raison": "Moins de protections instantanées que Discipline pour tenir un duel ; tissu et peu d’échappatoires.",
+     "appuis": [
+      "pr-sacre",
+      "pr-defense",
+      "pr-limites",
+      "pr-tournoi"
+     ],
+     "confiance": "faible"
+    },
+    "solo": {
+     "valeur": 3,
+     "raison": "Prêtre classé C au leveling par Mobalytics (base Vanilla) ; aucune source propre à Forever.",
+     "appuis": [
+      "pr-leveling"
+     ],
+     "confiance": "faible"
+    },
+    "burst": {
+     "valeur": 2,
+     "raison": "Configuration soigneur : peu de dégâts explosifs.",
+     "appuis": [
+      "pr-sacre"
+     ],
+     "confiance": "moyenne"
+    },
+    "zone": {
+     "valeur": 2,
+     "raison": "Peu de dégâts de zone : « Holy Nova », gratuite avec « Searing Light ».",
+     "appuis": [
+      "pr-zone"
+     ],
+     "confiance": "haute"
+    },
+    "ctrl": {
+     "valeur": 3,
+     "raison": "« Psychic Scream » et « Mind Control », plus les raciaux « Chastise » (Nain) et « Confounding Flash » (Gnome).",
+     "appuis": [
+      "pr-controle"
+     ],
+     "confiance": "moyenne"
+    },
+    "surv": {
+     "valeur": 4,
+     "raison": "« Power Word: Shield », « Divine Aegis », « Fade » et raciaux défensifs, malgré le tissu et peu de moyens de fuite.",
+     "appuis": [
+      "pr-defense",
+      "pr-limites"
+     ],
+     "confiance": "moyenne"
+    },
+    "mob": {
+     "valeur": 2,
+     "raison": "Tissu et peu de moyens de fuite.",
+     "appuis": [
+      "pr-limites"
+     ],
+     "confiance": "haute"
+    },
+    "support": {
+     "valeur": 5,
+     "raison": "Prières de groupe, « Divine Spirit » de base au 30, « Fear Ward » pour tous ; « Prayer of Mending » et « Litany of Light ».",
+     "appuis": [
+      "pr-soutien",
+      "pr-sacre"
+     ],
+     "confiance": "haute"
+    },
+    "charge_pve": {
+     "valeur": 2,
+     "raison": "Soins de zone puissants et lisibles ; le mana reste le point à surveiller. Aucune mesure de difficulté.",
+     "appuis": [
+      "pr-sacre",
+      "pr-mana"
+     ],
+     "confiance": "faible"
+    },
+    "charge_pvp": {
+     "valeur": 3,
+     "raison": "Soigner sous pression en tissu, mana compté. Aucune mesure de difficulté.",
+     "appuis": [
+      "pr-mana",
+      "pr-limites"
+     ],
+     "confiance": "faible"
+    }
+   }
+  },
+  {
+   "id": "pretre-ombre",
+   "libelle": "Ombre",
+   "profil": {
+    "role": "dps",
+    "portee": "distance",
+    "familier": "none",
+    "appuis_familier": []
+   },
+   "notes": {
+    "raid": {
+     "valeur": 3,
+     "raison": "Simulation 60 : 13e DPS (71 %), juste sous le groupe noté 4 (73 % et plus) malgré les renforcements du 15 octobre ; « Dark Inspiration » et « Vampiric Embrace » aident le groupe.",
+     "appuis": [
+      "pr-sim",
+      "pr-ombre-soutien"
+     ],
+     "confiance": "moyenne"
+    },
+    "bg": {
+     "valeur": 4,
+     "raison": "« Silence », « Psychic Scream » et « Mind Control » ; « Vampiric Embrace » soigne le groupe.",
+     "appuis": [
+      "pr-controle",
+      "pr-ombre-soutien"
+     ],
+     "confiance": "faible"
+    },
+    "world": {
+     "valeur": 4,
+     "raison": "« Silence », « Psychic Scream », « Shadow Word: Death » et ralentissement de « Mind Flay » ; tissu. Tournoi niveau 30 : meilleur Prêtre au top 12.",
+     "appuis": [
+      "pr-controle",
+      "pr-ombre",
+      "pr-mind-flay",
+      "pr-limites",
+      "pr-tournoi"
+     ],
+     "confiance": "faible"
+    },
+    "solo": {
+     "valeur": 3,
+     "raison": "Prêtre classé C au leveling par Mobalytics (base Vanilla) ; aucune source propre à Forever.",
+     "appuis": [
+      "pr-leveling"
+     ],
+     "confiance": "faible"
+    },
+    "burst": {
+     "valeur": 3,
+     "raison": "« Shadowform » (coût Ombre réduit de moitié, critiques renforcés), « Shadow Word: Death » et « Early Demise » : des dégâts surtout réguliers.",
+     "appuis": [
+      "pr-ombre"
+     ],
+     "confiance": "moyenne"
+    },
+    "zone": {
+     "valeur": 2,
+     "raison": "Peu de dégâts de zone : « Devouring Contagion ».",
+     "appuis": [
+      "pr-zone"
+     ],
+     "confiance": "haute"
+    },
+    "ctrl": {
+     "valeur": 4,
+     "raison": "« Silence » sans prérequis, « Psychic Scream », « Mind Control » et ralentissement de « Mind Flay ».",
+     "appuis": [
+      "pr-controle",
+      "pr-mind-flay"
+     ],
+     "confiance": "moyenne"
+    },
+    "surv": {
+     "valeur": 3,
+     "raison": "Tissu, « Power Word: Shield » et « Fade » ; « Vampiric Embrace » rend un peu de vie.",
+     "appuis": [
+      "pr-defense",
+      "pr-ombre-soutien",
+      "pr-limites"
+     ],
+     "confiance": "moyenne"
+    },
+    "mob": {
+     "valeur": 2,
+     "raison": "Tissu et peu de moyens de fuite.",
+     "appuis": [
+      "pr-limites"
+     ],
+     "confiance": "haute"
+    },
+    "support": {
+     "valeur": 4,
+     "raison": "« Vampiric Embrace » et « Dark Inspiration » (jusqu’à 15 % d’Esprit pour le groupe), en plus de « Divine Spirit » et « Fear Ward ».",
+     "appuis": [
+      "pr-ombre-soutien",
+      "pr-soutien"
+     ],
+     "confiance": "moyenne"
+    },
+    "charge_pve": {
+     "valeur": 3,
+     "raison": "Sorts sur la durée et mana à gérer sur les longs combats. Aucune mesure de difficulté.",
+     "appuis": [
+      "pr-mana",
+      "pr-ombre"
+     ],
+     "confiance": "faible"
+    },
+    "charge_pvp": {
+     "valeur": 4,
+     "raison": "Contrôles et « Silence » à placer au bon moment, en tissu. Aucune mesure de difficulté.",
+     "appuis": [
+      "pr-controle",
+      "pr-limites"
+     ],
+     "confiance": "faible"
+    }
+   }
+  }
+ ]
+}

@@ -1,0 +1,618 @@
+{
+ "classe": "guerrier",
+ "libelle": "Guerrier",
+ "date": "2026-10-21",
+ "moteur": "1.0.3-exploratoire",
+ "faits": [
+  {
+   "id": "g-role",
+   "categorie": "role",
+   "texte": "Combattant de mêlée durable, maître du corps à corps, capable de dégâts soutenus contre plusieurs cibles.",
+   "sources": [
+    "bz-dd-pretre-guerrier"
+   ]
+  },
+  {
+   "id": "g-rage",
+   "categorie": "ressource",
+   "texte": "La Rage se gagne en frappant et en subissant des dégâts ; elle retombe hors combat, et « Tactical Mastery » n’en conserve que 10 au changement de posture.",
+   "sources": [
+    "bz-dd-pretre-guerrier",
+    "wt-guerrier"
+   ]
+  },
+  {
+   "id": "g-postures",
+   "categorie": "ressource",
+   "texte": "Beaucoup de capacités exigent une posture précise ; changer de posture coûte de la Rage.",
+   "sources": [
+    "wt-guerrier"
+   ]
+  },
+  {
+   "id": "g-mobilite",
+   "categorie": "mobilite",
+   "texte": "« Charge » et « Intercept » pour engager ; « Vanguard » (Protection, 16 points) autorise « Charge » en Posture défensive.",
+   "sources": [
+    "wt-guerrier",
+    "bz-dd-pretre-guerrier"
+   ]
+  },
+  {
+   "id": "g-fureur-mobilite",
+   "categorie": "mobilite",
+   "texte": "Fureur : « Bloodthirst » donne +10 % de vitesse pendant 10 s ; Rage berserker purge les ralentissements et « Intercept » revient plus vite.",
+   "sources": [
+    "bz-dd-pretre-guerrier",
+    "kami-video"
+   ],
+   "specs": [
+    "guerrier-fureur"
+   ]
+  },
+  {
+   "id": "g-interruption",
+   "categorie": "interruption",
+   "texte": "« Pummel » et « Shield Bash » figurent parmi les sorts d’entraîneur.",
+   "sources": [
+    "kami-grimoire"
+   ]
+  },
+  {
+   "id": "g-ralentissement",
+   "categorie": "ralentissement",
+   "texte": "« Hamstring » ralentit ; « Improved Hamstring » (Armes) est cité pour le PvP.",
+   "sources": [
+    "kami-grimoire",
+    "wt-guerrier"
+   ]
+  },
+  {
+   "id": "g-controle",
+   "categorie": "controle",
+   "texte": "Contrôle limité : « Disarm » amélioré par talent, « Concussion Blow » en Protection ; « Improved Revenge » n’étourdit plus.",
+   "sources": [
+    "bz-dd-pretre-guerrier",
+    "wt-guerrier"
+   ]
+  },
+  {
+   "id": "g-defense",
+   "categorie": "defense",
+   "texte": "« Shield Wall » et « Retaliation » (15 min), « Victory Rush » rend 10 % des PV ; soins personnels très limités.",
+   "sources": [
+    "bz-dd-pretre-guerrier",
+    "wt-guerrier"
+   ]
+  },
+  {
+   "id": "g-prot-defense",
+   "categorie": "defense",
+   "texte": "Protection : « Improved Shield Wall », « Last Stand », « Anticipation » (Défense doublée), « Bastion », blocages qui rendent de la Rage ; « Focused Rage » réduit le coût des attaques.",
+   "sources": [
+    "bz-dd-pretre-guerrier",
+    "wt-guerrier"
+   ],
+   "specs": [
+    "guerrier-protection"
+   ]
+  },
+  {
+   "id": "g-mur",
+   "categorie": "defense",
+   "texte": "« Shield Wall » jusqu’à 4 min de recharge avec talents, 60 % de réduction pendant 12 s ; « Thunder Clap » réduit de 20 % la vitesse d’attaque.",
+   "sources": [
+    "kami-video"
+   ],
+   "specs": [
+    "guerrier-protection"
+   ]
+  },
+  {
+   "id": "g-defiance",
+   "categorie": "role",
+   "texte": "Protection : « Defiance » augmente la menace en Posture défensive avec un bouclier.",
+   "sources": [
+    "bz-dd-pretre-guerrier"
+   ],
+   "specs": [
+    "guerrier-protection"
+   ]
+  },
+  {
+   "id": "g-zone",
+   "categorie": "zone",
+   "texte": "« Cleave », « Whirlwind » (Posture berserker), « Sweeping Strikes », « Thunder Clap » ; Fureur : « Raging Blows » fait frapper « Whirlwind » des deux armes et réduit le coût de « Cleave ».",
+   "sources": [
+    "bz-dd-pretre-guerrier",
+    "wt-guerrier"
+   ]
+  },
+  {
+   "id": "g-thunder",
+   "categorie": "zone",
+   "texte": "« Thunder Clap » utilisable en Posture défensive, recharge 6 s, dégâts indexés sur la puissance d’attaque.",
+   "sources": [
+    "bz-dd-pretre-guerrier"
+   ]
+  },
+  {
+   "id": "g-cleave",
+   "categorie": "zone",
+   "texte": "Blizzard veut faire du Guerrier la référence des dégâts multicibles en mêlée.",
+   "sources": [
+    "bz-podcast-2"
+   ]
+  },
+  {
+   "id": "g-burst",
+   "categorie": "burst",
+   "texte": "« Recklessness » et « Death Wish » ; Armes : « Spearing Strike » (16 points).",
+   "sources": [
+    "bz-dd-pretre-guerrier"
+   ]
+  },
+  {
+   "id": "g-mortal",
+   "categorie": "pvp",
+   "texte": "« Mortal Strike » réduit de 50 % les soins reçus par la cible : l’arme anti-soigneur en PvP.",
+   "sources": [
+    "kami-video",
+    "wt-guerrier"
+   ],
+   "specs": [
+    "guerrier-armes"
+   ]
+  },
+  {
+   "id": "g-soutien",
+   "categorie": "soutien",
+   "texte": "Cris et affaiblissements : « Battle Shout » (bonus réduit), « Demoralizing Shout », « Sunder Armor ».",
+   "sources": [
+    "bz-dd-pretre-guerrier",
+    "wt-guerrier"
+   ]
+  },
+  {
+   "id": "g-equipement",
+   "categorie": "limite",
+   "texte": "Très dépendant de l’équipement ; faible sans équipement, surtout en leveling ; tirer plusieurs ennemis seul est souvent fatal.",
+   "sources": [
+    "wt-guerrier",
+    "kami-video",
+    "crix-niv30"
+   ],
+   "contre": [
+    "solo",
+    "world"
+   ]
+  },
+  {
+   "id": "g-limite-burst",
+   "categorie": "limite",
+   "texte": "Peu d’outils pour encaisser un gros burst, et il récupère mal après avoir subi trop de dégâts.",
+   "sources": [
+    "bz-dd-pretre-guerrier"
+   ],
+   "contre": [
+    "surv"
+   ]
+  },
+  {
+   "id": "g-bg",
+   "categorie": "pvp",
+   "texte": "En champ de bataille, il finit les cibles, idéalement avec un soigneur derrière.",
+   "sources": [
+    "kami-video"
+   ]
+  },
+  {
+   "id": "g-sim",
+   "categorie": "performance",
+   "texte": "Simulation 60 : Fureur 2e (86 % du meilleur), Armes 9e (74 %) ; tank : Protection à 85 % de la menace de l’ours, survie non simulée.",
+   "sources": [
+    "mythicsim"
+   ]
+  },
+  {
+   "id": "g-tournoi",
+   "categorie": "performance",
+   "texte": "Duel niveau 30 : meilleur Guerrier éliminé dès le top 24, dernière classe.",
+   "sources": [
+    "forever-open"
+   ]
+  },
+  {
+   "id": "g-leveling",
+   "categorie": "solo",
+   "texte": "Leveling lent, sans soin ; classé D par Mobalytics (base Vanilla).",
+   "sources": [
+    "crix-niv30",
+    "mobalytics-leveling"
+   ]
+  },
+  {
+   "id": "g-farm-prot",
+   "categorie": "solo",
+   "texte": "Protection farme des packs grâce aux soins passifs de l’héritage.",
+   "sources": [
+    "kami-video"
+   ],
+   "specs": [
+    "guerrier-protection"
+   ]
+  }
+ ],
+ "specialisations": [
+  {
+   "id": "guerrier-armes",
+   "libelle": "Armes",
+   "profil": {
+    "role": "dps",
+    "portee": "melee",
+    "familier": "none",
+    "appuis_familier": []
+   },
+   "notes": {
+    "raid": {
+     "valeur": 4,
+     "raison": "Simulation 60 : 9e DPS sur 24 (74 % du meilleur), dans le groupe noté 4 ; Fureur reste la référence du Guerrier en raid.",
+     "appuis": [
+      "g-sim"
+     ],
+     "confiance": "moyenne"
+    },
+    "bg": {
+     "valeur": 4,
+     "raison": "Finisseur en champ de bataille, idéalement avec un soigneur derrière ; « Mortal Strike » coupe la moitié des soins de la cible.",
+     "appuis": [
+      "g-bg",
+      "g-mortal",
+      "g-equipement"
+     ],
+     "confiance": "moyenne"
+    },
+    "world": {
+     "valeur": 3,
+     "raison": "Seul, il manque de soins et d’échappatoires et dépend de l’équipement ; « Mortal Strike » l’aide en duel. Tournoi niveau 30 : dernière classe, à ne pas surinterpréter.",
+     "appuis": [
+      "g-equipement",
+      "g-limite-burst",
+      "g-mortal",
+      "g-tournoi"
+     ],
+     "confiance": "moyenne"
+    },
+    "solo": {
+     "valeur": 2,
+     "raison": "Leveling lent et sans soin pour la classe (D chez Mobalytics, base Vanilla) ; aucune source ne sépare Armes et Fureur en solo.",
+     "appuis": [
+      "g-leveling",
+      "g-equipement"
+     ],
+     "confiance": "faible"
+    },
+    "burst": {
+     "valeur": 5,
+     "raison": "« Spearing Strike », « Recklessness », « Death Wish » et « Mortal Strike » : la spécialisation de burst du Guerrier.",
+     "appuis": [
+      "g-burst",
+      "g-mortal"
+     ],
+     "confiance": "moyenne"
+    },
+    "zone": {
+     "valeur": 4,
+     "raison": "« Cleave », « Whirlwind », « Sweeping Strikes » et « Thunder Clap » ; Blizzard veut le Guerrier en référence du multicible de mêlée.",
+     "appuis": [
+      "g-zone",
+      "g-thunder",
+      "g-cleave"
+     ],
+     "confiance": "moyenne"
+    },
+    "ctrl": {
+     "valeur": 3,
+     "raison": "« Pummel », « Hamstring » amélioré pour le PvP et « Disarm » amélioré : gêne réelle, peu de contrôle dur.",
+     "appuis": [
+      "g-interruption",
+      "g-ralentissement",
+      "g-controle"
+     ],
+     "confiance": "moyenne"
+    },
+    "surv": {
+     "valeur": 3,
+     "raison": "Plaques, « Shield Wall » et « Retaliation » (15 min), « Victory Rush » ; peu d’outils contre un gros burst.",
+     "appuis": [
+      "g-defense",
+      "g-limite-burst"
+     ],
+     "confiance": "moyenne"
+    },
+    "mob": {
+     "valeur": 4,
+     "raison": "« Charge » et « Intercept » pour engager et poursuivre ; aucune échappatoire.",
+     "appuis": [
+      "g-mobilite"
+     ],
+     "confiance": "moyenne"
+    },
+    "support": {
+     "valeur": 2,
+     "raison": "Cris et affaiblissements (« Battle Shout » réduit, « Demoralizing Shout », « Sunder Armor ») ; ni soin ni dissipation.",
+     "appuis": [
+      "g-soutien"
+     ],
+     "confiance": "moyenne"
+    },
+    "charge_pve": {
+     "valeur": 2,
+     "raison": "Rotation PvE simple autour de « Mortal Strike » ; Rage et postures communes à la classe. Aucune mesure de difficulté.",
+     "appuis": [
+      "g-rage",
+      "g-postures"
+     ],
+     "confiance": "faible"
+    },
+    "charge_pvp": {
+     "valeur": 4,
+     "raison": "En PvP, danse des postures et timing de « Mortal Strike » et des contrôles. Aucune mesure de difficulté.",
+     "appuis": [
+      "g-postures",
+      "g-rage",
+      "g-mortal"
+     ],
+     "confiance": "faible"
+    }
+   }
+  },
+  {
+   "id": "guerrier-fureur",
+   "libelle": "Fureur",
+   "profil": {
+    "role": "dps",
+    "portee": "melee",
+    "familier": "none",
+    "appuis_familier": []
+   },
+   "notes": {
+    "raid": {
+     "valeur": 5,
+     "raison": "Simulation 60 : 2e DPS (86 % du meilleur) ; Blizzard veut le Guerrier en référence du multicible de mêlée.",
+     "appuis": [
+      "g-sim",
+      "g-cleave"
+     ],
+     "confiance": "moyenne"
+    },
+    "bg": {
+     "valeur": 4,
+     "raison": "Finisseur en champ de bataille, idéalement avec un soigneur derrière ; « Whirlwind » à deux armes dans les mêlées de groupe.",
+     "appuis": [
+      "g-bg",
+      "g-zone",
+      "g-equipement"
+     ],
+     "confiance": "faible"
+    },
+    "world": {
+     "valeur": 3,
+     "raison": "Seul, il manque de soins et d’échappatoires ; Rage berserker et « Bloodthirst » l’aident à coller sa cible. Tournoi niveau 30 : dernière classe, à ne pas surinterpréter.",
+     "appuis": [
+      "g-equipement",
+      "g-limite-burst",
+      "g-fureur-mobilite",
+      "g-tournoi"
+     ],
+     "confiance": "moyenne"
+    },
+    "solo": {
+     "valeur": 3,
+     "raison": "Leveling lent et sans soin pour la classe (D chez Mobalytics, base Vanilla) ; le multicible et la vitesse de « Bloodthirst » aident au farm.",
+     "appuis": [
+      "g-leveling",
+      "g-zone",
+      "g-fureur-mobilite"
+     ],
+     "confiance": "faible"
+    },
+    "burst": {
+     "valeur": 4,
+     "raison": "« Recklessness » et « Death Wish » ; des dégâts plus réguliers qu’explosifs.",
+     "appuis": [
+      "g-burst"
+     ],
+     "confiance": "moyenne"
+    },
+    "zone": {
+     "valeur": 5,
+     "raison": "« Raging Blows » fait frapper « Whirlwind » des deux armes et réduit le coût de « Cleave » ; Blizzard vise le Guerrier en référence du multicible de mêlée.",
+     "appuis": [
+      "g-zone",
+      "g-cleave",
+      "g-thunder"
+     ],
+     "confiance": "haute"
+    },
+    "ctrl": {
+     "valeur": 2,
+     "raison": "« Pummel » et « Hamstring » de base, sans talent de contrôle.",
+     "appuis": [
+      "g-interruption",
+      "g-ralentissement"
+     ],
+     "confiance": "moyenne"
+    },
+    "surv": {
+     "valeur": 3,
+     "raison": "Plaques, « Shield Wall » et « Retaliation » (15 min), « Victory Rush » ; peu d’outils contre un gros burst.",
+     "appuis": [
+      "g-defense",
+      "g-limite-burst"
+     ],
+     "confiance": "moyenne"
+    },
+    "mob": {
+     "valeur": 4,
+     "raison": "« Charge » et « Intercept » à recharge réduite, +10 % de vitesse avec « Bloodthirst », Rage berserker contre les ralentissements.",
+     "appuis": [
+      "g-mobilite",
+      "g-fureur-mobilite"
+     ],
+     "confiance": "haute"
+    },
+    "support": {
+     "valeur": 2,
+     "raison": "Cris et affaiblissements (« Battle Shout » réduit, « Demoralizing Shout », « Sunder Armor ») ; ni soin ni dissipation.",
+     "appuis": [
+      "g-soutien"
+     ],
+     "confiance": "moyenne"
+    },
+    "charge_pve": {
+     "valeur": 3,
+     "raison": "Rotation plus chargée qu’Armes (« Bloodthirst », « Whirlwind », gestion de la Rage). Aucune mesure de difficulté.",
+     "appuis": [
+      "g-rage",
+      "g-postures"
+     ],
+     "confiance": "faible"
+    },
+    "charge_pvp": {
+     "valeur": 3,
+     "raison": "Moins de danse des postures qu’Armes en PvP. Aucune mesure de difficulté.",
+     "appuis": [
+      "g-postures"
+     ],
+     "confiance": "faible"
+    }
+   }
+  },
+  {
+   "id": "guerrier-protection",
+   "libelle": "Protection",
+   "profil": {
+    "role": "tank",
+    "portee": "melee",
+    "familier": "none",
+    "appuis_familier": []
+   },
+   "notes": {
+    "raid": {
+     "valeur": 5,
+     "raison": "Tank de référence : la boîte à outils défensive la plus complète des trois tanks (blocage, « Shield Wall » amélioré, « Last Stand ») ; menace simulée à 85 % de l’ours, survie non simulée.",
+     "appuis": [
+      "g-prot-defense",
+      "g-mur",
+      "g-defiance",
+      "g-sim"
+     ],
+     "confiance": "moyenne"
+    },
+    "bg": {
+     "valeur": 4,
+     "raison": "Solide et gênant (« Shield Bash », « Concussion Blow »), il tient les objectifs ; aucune source PvP propre à la Protection.",
+     "appuis": [
+      "g-prot-defense",
+      "g-controle",
+      "g-interruption"
+     ],
+     "confiance": "faible"
+    },
+    "world": {
+     "valeur": 2,
+     "raison": "Peu de dégâts pour gagner un duel seul ; la défense ne compense pas l’absence de soins.",
+     "appuis": [
+      "g-equipement",
+      "g-prot-defense",
+      "g-tournoi"
+     ],
+     "confiance": "faible"
+    },
+    "solo": {
+     "valeur": 3,
+     "raison": "Farme des packs grâce aux soins passifs de l’héritage selon Kami ; leveling de classe lent (D chez Mobalytics, base Vanilla).",
+     "appuis": [
+      "g-farm-prot",
+      "g-leveling"
+     ],
+     "confiance": "faible"
+    },
+    "burst": {
+     "valeur": 2,
+     "raison": "Dégâts tournés vers la menace, sans outil de burst propre.",
+     "appuis": [
+      "g-defiance",
+      "g-burst"
+     ],
+     "confiance": "moyenne"
+    },
+    "zone": {
+     "valeur": 3,
+     "raison": "« Thunder Clap » en Posture défensive (6 s) et « Cleave » : de quoi tenir plusieurs cibles, sans les dégâts de Fureur.",
+     "appuis": [
+      "g-thunder",
+      "g-zone"
+     ],
+     "confiance": "moyenne"
+    },
+    "ctrl": {
+     "valeur": 3,
+     "raison": "« Shield Bash », « Concussion Blow » et la réduction de vitesse d’attaque de « Thunder Clap ».",
+     "appuis": [
+      "g-interruption",
+      "g-controle",
+      "g-mur"
+     ],
+     "confiance": "moyenne"
+    },
+    "surv": {
+     "valeur": 5,
+     "raison": "« Shield Wall » amélioré (60 % pendant 12 s), « Last Stand », « Anticipation », « Bastion », blocages ; la limite de classe face au burst vaut surtout hors Protection.",
+     "appuis": [
+      "g-prot-defense",
+      "g-mur",
+      "g-limite-burst"
+     ],
+     "confiance": "haute"
+    },
+    "mob": {
+     "valeur": 3,
+     "raison": "« Vanguard » autorise « Charge » en Posture défensive ; « Intercept » reste lié à la Posture berserker.",
+     "appuis": [
+      "g-mobilite"
+     ],
+     "confiance": "moyenne"
+    },
+    "support": {
+     "valeur": 3,
+     "raison": "Cris, « Demoralizing Shout » et « Thunder Clap » qui réduisent les dégâts subis par le groupe.",
+     "appuis": [
+      "g-soutien",
+      "g-mur"
+     ],
+     "confiance": "moyenne"
+    },
+    "charge_pve": {
+     "valeur": 3,
+     "raison": "Menace et Rage à gérer, défenses à placer au bon moment. Aucune mesure de difficulté.",
+     "appuis": [
+      "g-rage",
+      "g-prot-defense"
+     ],
+     "confiance": "faible"
+    },
+    "charge_pvp": {
+     "valeur": 4,
+     "raison": "Postures, interruptions et défenses à enchaîner en PvP. Aucune mesure de difficulté.",
+     "appuis": [
+      "g-postures",
+      "g-interruption"
+     ],
+     "confiance": "faible"
+    }
+   }
+  }
+ ]
+}

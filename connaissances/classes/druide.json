@@ -1,0 +1,649 @@
+{
+ "classe": "druide",
+ "libelle": "Druide",
+ "date": "2026-10-21",
+ "moteur": "1.0.3-exploratoire",
+ "faits": [
+  {
+   "id": "dr-role",
+   "categorie": "role",
+   "texte": "Classe très polyvalente qui peut remplir tous les rôles avec le bon équipement et les bons talents.",
+   "sources": [
+    "bz-dd-chasseur-druide",
+    "wt-druide"
+   ]
+  },
+  {
+   "id": "dr-limites",
+   "categorie": "limite",
+   "texte": "Ne peut ni ralentir, ni réduire au silence, ni interrompre ; contrôle plus faible et moins fiable.",
+   "sources": [
+    "bz-dd-chasseur-druide"
+   ],
+   "contre": [
+    "ctrl"
+   ]
+  },
+  {
+   "id": "dr-racines",
+   "categorie": "controle",
+   "texte": "« Entangling Roots » (utilisable en intérieur), « Nature’s Grasp » de base au 10 ; Équilibre : « Overgrowth » (jusqu’à 3 cibles), « Improved Entangling Roots ».",
+   "sources": [
+    "bz-dd-chasseur-druide"
+   ]
+  },
+  {
+   "id": "dr-ours-controle",
+   "categorie": "controle",
+   "texte": "Ours : « Bash » (recharge réduite par « Brutal Impact ») ; aucune interruption ni aucun ralentissement en félin.",
+   "sources": [
+    "bz-dd-chasseur-druide",
+    "kami-video"
+   ],
+   "specs": [
+    "druide-farouche-ours",
+    "druide-farouche-chat"
+   ]
+  },
+  {
+   "id": "dr-mobilite",
+   "categorie": "mobilite",
+   "texte": "Forme de voyage, « Dash », camouflage en félin ; « Feral Charge » (30 s en félin), « Feral Swiftness » ; se transformer libère des entraves.",
+   "sources": [
+    "bz-dd-chasseur-druide",
+    "wt-druide"
+   ]
+  },
+  {
+   "id": "dr-defense",
+   "categorie": "defense",
+   "texte": "« Barkskin » utilisable en forme ; ours : « Frenzied Regeneration » (100 % des PV sur la durée), « Thick Hide », « Natural Reaction » ; très difficile à tuer selon Kami.",
+   "sources": [
+    "bz-dd-chasseur-druide",
+    "kami-video"
+   ]
+  },
+  {
+   "id": "dr-soutien",
+   "categorie": "soutien",
+   "texte": "« Rebirth », « Innervate », « Mark of the Wild », retrait des malédictions et poisons, auras « Leader of the Pack » et « Moonkin Form ».",
+   "sources": [
+    "wt-druide",
+    "bz-dd-chasseur-druide",
+    "kami-video"
+   ]
+  },
+  {
+   "id": "dr-resto",
+   "categorie": "soutien",
+   "texte": "Restauration : « Wild Growth » (31 points), « Swiftmend » sans consommer les soins sur la durée, « Revive » ; soins sur la durée cumulables et critiques ; boîte à outils plus limitée que celle du Prêtre selon Blizzard.",
+   "sources": [
+    "bz-dd-chasseur-druide",
+    "wt-druide"
+   ],
+   "specs": [
+    "druide-restauration"
+   ]
+  },
+  {
+   "id": "dr-equilibre",
+   "categorie": "burst",
+   "texte": "Équilibre : « Eclipse », « Nature’s Grace », « Insect Swarm », « Hurricane » sans recharge, « Moonkin Form ».",
+   "sources": [
+    "bz-dd-chasseur-druide"
+   ],
+   "specs": [
+    "druide-equilibre"
+   ]
+  },
+  {
+   "id": "dr-chat",
+   "categorie": "burst",
+   "texte": "Félin : « Berserk » (31 points, +100 % de critique), « Shifting Power » (40 d’Énergie), « Shred », « Rake ».",
+   "sources": [
+    "bz-dd-chasseur-druide"
+   ],
+   "specs": [
+    "druide-farouche-chat"
+   ]
+  },
+  {
+   "id": "dr-ours",
+   "categorie": "zone",
+   "texte": "Ours : « Lacerate », « Primal Bite », « Swipe » (3 cibles) ; ne bloque ni ne pare, compte sur l’esquive et l’armure.",
+   "sources": [
+    "bz-dd-chasseur-druide",
+    "wt-druide"
+   ],
+   "specs": [
+    "druide-farouche-ours"
+   ]
+  },
+  {
+   "id": "dr-zone-chat",
+   "categorie": "limite",
+   "texte": "Aucun outil de zone cité en félin : « Swipe » est réservé à l’ours.",
+   "sources": [
+    "bz-dd-chasseur-druide",
+    "wt-druide"
+   ],
+   "specs": [
+    "druide-farouche-chat"
+   ],
+   "contre": [
+    "zone"
+   ]
+  },
+  {
+   "id": "dr-complexite",
+   "categorie": "ressource",
+   "texte": "Complexité élevée : nombreux sorts et barres, changements de forme coûteux en temps et en ressources, contre-intuitifs selon Kami.",
+   "sources": [
+    "wt-druide",
+    "kami-video"
+   ]
+  },
+  {
+   "id": "dr-sim",
+   "categorie": "performance",
+   "texte": "Simulation 60 : Farouche félin 12e (73 %), Équilibre 22e (62 %) ; ours 1er en menace (100 %), à vérifier en jeu.",
+   "sources": [
+    "mythicsim"
+   ]
+  },
+  {
+   "id": "dr-taxe",
+   "categorie": "performance",
+   "texte": "Taxe hybride d’environ 5 % sur ses dégâts.",
+   "sources": [
+    "bz-podcast-2"
+   ]
+  },
+  {
+   "id": "dr-tournoi",
+   "categorie": "performance",
+   "texte": "Duel niveau 30 : meilleur Druide dans les six derniers.",
+   "sources": [
+    "forever-open"
+   ]
+  },
+  {
+   "id": "dr-leveling",
+   "categorie": "solo",
+   "texte": "Leveling lent au début ; Druide classé B par Mobalytics.",
+   "sources": [
+    "crix-niv30",
+    "mobalytics-leveling"
+   ]
+  }
+ ],
+ "specialisations": [
+  {
+   "id": "druide-equilibre",
+   "libelle": "Équilibre",
+   "profil": {
+    "role": "dps",
+    "portee": "distance",
+    "familier": "none",
+    "appuis_familier": []
+   },
+   "notes": {
+    "raid": {
+     "valeur": 3,
+     "raison": "Simulation 60 : 22e DPS (62 %) ; « Moonkin Form », « Innervate » et « Rebirth » apportent de l’utilité ; taxe hybride d’environ 5 %.",
+     "appuis": [
+      "dr-sim",
+      "dr-soutien",
+      "dr-taxe"
+     ],
+     "confiance": "moyenne"
+    },
+    "bg": {
+     "valeur": 4,
+     "raison": "Mobilité de forme, racines et soutien ; très difficile à tuer selon Kami.",
+     "appuis": [
+      "dr-mobilite",
+      "dr-racines",
+      "dr-defense"
+     ],
+     "confiance": "faible"
+    },
+    "world": {
+     "valeur": 4,
+     "raison": "Racines, formes qui libèrent des entraves et burst d’« Eclipse ». Tournoi niveau 30 : meilleur Druide dans les six derniers.",
+     "appuis": [
+      "dr-racines",
+      "dr-mobilite",
+      "dr-equilibre",
+      "dr-tournoi"
+     ],
+     "confiance": "moyenne"
+    },
+    "solo": {
+     "valeur": 3,
+     "raison": "Leveling lent au début (Crix) ; Druide classé B par Mobalytics (base Vanilla) ; aucune source propre à cette configuration.",
+     "appuis": [
+      "dr-leveling"
+     ],
+     "confiance": "faible"
+    },
+    "burst": {
+     "valeur": 4,
+     "raison": "« Eclipse », « Nature’s Grace » et « Insect Swarm ».",
+     "appuis": [
+      "dr-equilibre"
+     ],
+     "confiance": "moyenne"
+    },
+    "zone": {
+     "valeur": 3,
+     "raison": "« Hurricane » sans recharge en fait pourtant un sort de zone répétable.",
+     "appuis": [
+      "dr-equilibre"
+     ],
+     "confiance": "faible"
+    },
+    "ctrl": {
+     "valeur": 3,
+     "raison": "« Entangling Roots », « Overgrowth » (jusqu’à 3 cibles) et « Improved Entangling Roots » ; ni ralentissement, ni silence, ni interruption.",
+     "appuis": [
+      "dr-racines",
+      "dr-limites"
+     ],
+     "confiance": "moyenne"
+    },
+    "surv": {
+     "valeur": 3,
+     "raison": "« Barkskin » utilisable en forme et changements de forme qui libèrent des entraves.",
+     "appuis": [
+      "dr-defense",
+      "dr-mobilite"
+     ],
+     "confiance": "moyenne"
+    },
+    "mob": {
+     "valeur": 5,
+     "raison": "Forme de voyage, « Dash » et changements de forme qui libèrent des entraves.",
+     "appuis": [
+      "dr-mobilite"
+     ],
+     "confiance": "haute"
+    },
+    "support": {
+     "valeur": 5,
+     "raison": "« Moonkin Form », « Innervate », « Rebirth », « Mark of the Wild » et retrait des malédictions et poisons.",
+     "appuis": [
+      "dr-soutien"
+     ],
+     "confiance": "moyenne"
+    },
+    "charge_pve": {
+     "valeur": 3,
+     "raison": "Nombreux sorts et barres, gestion d’« Eclipse » ; complexité jugée élevée pour la classe.",
+     "appuis": [
+      "dr-complexite",
+      "dr-equilibre"
+     ],
+     "confiance": "moyenne"
+    },
+    "charge_pvp": {
+     "valeur": 4,
+     "raison": "Changements de forme sous pression, coûteux et contre-intuitifs selon Kami.",
+     "appuis": [
+      "dr-complexite"
+     ],
+     "confiance": "moyenne"
+    }
+   }
+  },
+  {
+   "id": "druide-farouche-chat",
+   "libelle": "Farouche (félin)",
+   "profil": {
+    "role": "dps",
+    "portee": "melee",
+    "familier": "none",
+    "appuis_familier": []
+   },
+   "notes": {
+    "raid": {
+     "valeur": 4,
+     "raison": "Simulation 60 : 12e DPS (73 %) ; « Leader of the Pack » pour le groupe ; taxe hybride d’environ 5 %.",
+     "appuis": [
+      "dr-sim",
+      "dr-soutien",
+      "dr-taxe"
+     ],
+     "confiance": "moyenne"
+    },
+    "bg": {
+     "valeur": 4,
+     "raison": "Mobilité, camouflage et burst de « Berserk » ; très difficile à tuer selon Kami.",
+     "appuis": [
+      "dr-mobilite",
+      "dr-chat",
+      "dr-defense"
+     ],
+     "confiance": "faible"
+    },
+    "world": {
+     "valeur": 4,
+     "raison": "Camouflage, « Feral Charge » et burst. Tournoi niveau 30 : meilleur Druide dans les six derniers.",
+     "appuis": [
+      "dr-mobilite",
+      "dr-chat",
+      "dr-tournoi"
+     ],
+     "confiance": "moyenne"
+    },
+    "solo": {
+     "valeur": 4,
+     "raison": "Leveling lent au début (Crix) ; Druide classé B par Mobalytics (base Vanilla) ; aucune source propre à cette configuration.",
+     "appuis": [
+      "dr-leveling"
+     ],
+     "confiance": "faible"
+    },
+    "burst": {
+     "valeur": 5,
+     "raison": "« Berserk » (31 points, +100 % de critique), « Shifting Power », « Shred » et « Rake ».",
+     "appuis": [
+      "dr-chat"
+     ],
+     "confiance": "moyenne"
+    },
+    "zone": {
+     "valeur": 3,
+     "raison": "Aucun outil de zone cité en félin : « Swipe » est réservé à l’ours.",
+     "appuis": [
+      "dr-zone-chat"
+     ],
+     "confiance": "faible"
+    },
+    "ctrl": {
+     "valeur": 3,
+     "raison": "Aucune interruption ni aucun ralentissement en félin ; contrôle plus faible et moins fiable selon Blizzard.",
+     "appuis": [
+      "dr-ours-controle",
+      "dr-limites"
+     ],
+     "confiance": "faible"
+    },
+    "surv": {
+     "valeur": 4,
+     "raison": "« Barkskin » en forme, changements de forme qui libèrent des entraves ; très difficile à tuer selon Kami.",
+     "appuis": [
+      "dr-defense",
+      "dr-mobilite"
+     ],
+     "confiance": "moyenne"
+    },
+    "mob": {
+     "valeur": 5,
+     "raison": "« Feral Charge » (30 s en félin), « Dash », « Feral Swiftness », camouflage et forme de voyage.",
+     "appuis": [
+      "dr-mobilite"
+     ],
+     "confiance": "haute"
+    },
+    "support": {
+     "valeur": 3,
+     "raison": "« Leader of the Pack », « Mark of the Wild », « Innervate » et « Rebirth » de la classe, moins accessibles en forme.",
+     "appuis": [
+      "dr-soutien"
+     ],
+     "confiance": "moyenne"
+    },
+    "charge_pve": {
+     "valeur": 4,
+     "raison": "Énergie, saignements et changements de forme ; complexité jugée élevée pour la classe.",
+     "appuis": [
+      "dr-complexite",
+      "dr-chat"
+     ],
+     "confiance": "moyenne"
+    },
+    "charge_pvp": {
+     "valeur": 5,
+     "raison": "Changements de forme sous pression, coûteux et contre-intuitifs selon Kami.",
+     "appuis": [
+      "dr-complexite"
+     ],
+     "confiance": "moyenne"
+    }
+   }
+  },
+  {
+   "id": "druide-farouche-ours",
+   "libelle": "Farouche (ours)",
+   "profil": {
+    "role": "tank",
+    "portee": "melee",
+    "familier": "none",
+    "appuis_familier": []
+   },
+   "notes": {
+    "raid": {
+     "valeur": 4,
+     "raison": "Menace simulée la plus haute des trois tanks (100 %), à vérifier en jeu ; ne bloque ni ne pare et compte sur l’esquive et l’armure ; survie non simulée.",
+     "appuis": [
+      "dr-sim",
+      "dr-ours",
+      "dr-defense"
+     ],
+     "confiance": "moyenne"
+    },
+    "bg": {
+     "valeur": 4,
+     "raison": "Très difficile à tuer et mobile : utile pour tenir ou porter un objectif.",
+     "appuis": [
+      "dr-defense",
+      "dr-mobilite"
+     ],
+     "confiance": "faible"
+    },
+    "world": {
+     "valeur": 3,
+     "raison": "Très résistant, mais peu de dégâts pour conclure seul.",
+     "appuis": [
+      "dr-defense",
+      "dr-ours"
+     ],
+     "confiance": "faible"
+    },
+    "solo": {
+     "valeur": 4,
+     "raison": "Très résistant (« Frenzied Regeneration ») ; leveling de classe lent au début (Crix), B chez Mobalytics (base Vanilla).",
+     "appuis": [
+      "dr-defense",
+      "dr-leveling"
+     ],
+     "confiance": "faible"
+    },
+    "burst": {
+     "valeur": 2,
+     "raison": "Dégâts tournés vers la menace (« Lacerate », « Primal Bite »).",
+     "appuis": [
+      "dr-ours"
+     ],
+     "confiance": "moyenne"
+    },
+    "zone": {
+     "valeur": 3,
+     "raison": "« Swipe » touche 3 cibles.",
+     "appuis": [
+      "dr-ours"
+     ],
+     "confiance": "moyenne"
+    },
+    "ctrl": {
+     "valeur": 3,
+     "raison": "« Bash » (recharge réduite par « Brutal Impact ») et racines en forme humanoïde.",
+     "appuis": [
+      "dr-ours-controle",
+      "dr-racines"
+     ],
+     "confiance": "moyenne"
+    },
+    "surv": {
+     "valeur": 5,
+     "raison": "« Frenzied Regeneration » (100 % des PV sur la durée), « Thick Hide », « Natural Reaction » et « Barkskin ».",
+     "appuis": [
+      "dr-defense"
+     ],
+     "confiance": "haute"
+    },
+    "mob": {
+     "valeur": 4,
+     "raison": "« Feral Charge », forme de voyage et « Dash » ; changements de forme qui libèrent des entraves.",
+     "appuis": [
+      "dr-mobilite"
+     ],
+     "confiance": "moyenne"
+    },
+    "support": {
+     "valeur": 4,
+     "raison": "« Rebirth », « Innervate », « Mark of the Wild » et « Leader of the Pack ».",
+     "appuis": [
+      "dr-soutien"
+     ],
+     "confiance": "moyenne"
+    },
+    "charge_pve": {
+     "valeur": 4,
+     "raison": "Rage, menace et défenses à gérer ; complexité jugée élevée pour la classe.",
+     "appuis": [
+      "dr-complexite",
+      "dr-ours"
+     ],
+     "confiance": "moyenne"
+    },
+    "charge_pvp": {
+     "valeur": 5,
+     "raison": "Changements de forme sous pression, coûteux et contre-intuitifs selon Kami.",
+     "appuis": [
+      "dr-complexite"
+     ],
+     "confiance": "moyenne"
+    }
+   }
+  },
+  {
+   "id": "druide-restauration",
+   "libelle": "Restauration",
+   "profil": {
+    "role": "soin",
+    "portee": "distance",
+    "familier": "none",
+    "appuis_familier": []
+   },
+   "notes": {
+    "raid": {
+     "valeur": 5,
+     "raison": "« Wild Growth », « Swiftmend » et soins sur la durée cumulables ; Blizzard juge pourtant sa boîte à outils plus limitée que celle du Prêtre. Aucune donnée comparative entre soigneurs.",
+     "appuis": [
+      "dr-resto",
+      "dr-soutien"
+     ],
+     "confiance": "faible"
+    },
+    "bg": {
+     "valeur": 5,
+     "raison": "Soins sur la durée en mouvement, formes qui libèrent des entraves ; très difficile à tuer selon Kami.",
+     "appuis": [
+      "dr-resto",
+      "dr-mobilite",
+      "dr-defense"
+     ],
+     "confiance": "moyenne"
+    },
+    "world": {
+     "valeur": 4,
+     "raison": "Mobilité et soins sur la durée pour durer. Tournoi niveau 30 : meilleur Druide dans les six derniers.",
+     "appuis": [
+      "dr-mobilite",
+      "dr-resto",
+      "dr-tournoi"
+     ],
+     "confiance": "moyenne"
+    },
+    "solo": {
+     "valeur": 3,
+     "raison": "Leveling lent au début (Crix) ; Druide classé B par Mobalytics (base Vanilla) ; aucune source propre à cette configuration.",
+     "appuis": [
+      "dr-leveling"
+     ],
+     "confiance": "faible"
+    },
+    "burst": {
+     "valeur": 2,
+     "raison": "Configuration soigneur : peu de dégâts.",
+     "appuis": [
+      "dr-resto"
+     ],
+     "confiance": "moyenne"
+    },
+    "zone": {
+     "valeur": 2,
+     "raison": "Configuration soigneur : peu de dégâts.",
+     "appuis": [
+      "dr-resto"
+     ],
+     "confiance": "moyenne"
+    },
+    "ctrl": {
+     "valeur": 3,
+     "raison": "Racines seulement ; ni ralentissement, ni silence, ni interruption.",
+     "appuis": [
+      "dr-racines",
+      "dr-limites"
+     ],
+     "confiance": "faible"
+    },
+    "surv": {
+     "valeur": 4,
+     "raison": "Soins sur la durée, « Barkskin » et changements de forme.",
+     "appuis": [
+      "dr-defense",
+      "dr-resto"
+     ],
+     "confiance": "moyenne"
+    },
+    "mob": {
+     "valeur": 5,
+     "raison": "Forme de voyage, « Dash » et changements de forme qui libèrent des entraves.",
+     "appuis": [
+      "dr-mobilite"
+     ],
+     "confiance": "haute"
+    },
+    "support": {
+     "valeur": 5,
+     "raison": "« Rebirth », « Innervate », « Mark of the Wild », « Revive » et retrait des malédictions et poisons.",
+     "appuis": [
+      "dr-soutien",
+      "dr-resto"
+     ],
+     "confiance": "haute"
+    },
+    "charge_pve": {
+     "valeur": 3,
+     "raison": "Soins sur la durée à entretenir sur plusieurs cibles ; complexité jugée élevée pour la classe.",
+     "appuis": [
+      "dr-complexite",
+      "dr-resto"
+     ],
+     "confiance": "moyenne"
+    },
+    "charge_pvp": {
+     "valeur": 4,
+     "raison": "Soigner en changeant de forme sous pression, contre-intuitif selon Kami.",
+     "appuis": [
+      "dr-complexite"
+     ],
+     "confiance": "moyenne"
+    }
+   }
+  }
+ ]
+}

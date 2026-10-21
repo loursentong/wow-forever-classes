@@ -92,6 +92,7 @@ Consulter [la méthodologie et ses limites](RECOMMANDATION-METHODE.md). Les quat
 
 ## Documentation
 
+- [Base de connaissances : sources, faits de kit et justification des notes](connaissances/README.md), avec [les écarts à arbitrer](connaissances/ecarts-a-arbitrer.md)
 - [Audit documentaire](AUDIT-2026-10-20.md)
 - [Modèle de maîtrise et validation](MODELE-MAITRISE.md)
 - [Refonte graphique : maquette validée et règles d'intégration](design/README.md)

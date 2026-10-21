@@ -1,0 +1,634 @@
+{
+ "classe": "chasseur",
+ "libelle": "Chasseur",
+ "date": "2026-10-21",
+ "moteur": "1.0.3-exploratoire",
+ "faits": [
+  {
+   "id": "c-role",
+   "categorie": "role",
+   "texte": "DPS uniquement, avec la plus longue portée du jeu ; le familier peut tanker en solo ou en petit groupe.",
+   "sources": [
+    "bz-dd-chasseur-druide"
+   ]
+  },
+  {
+   "id": "c-zone-morte",
+   "categorie": "limite",
+   "texte": "Zone morte de 8 m : aucune attaque à distance au contact.",
+   "sources": [
+    "bz-dd-chasseur-druide",
+    "wt-chasseur"
+   ],
+   "contre": [
+    "bg",
+    "world"
+   ]
+  },
+  {
+   "id": "c-pas-stun",
+   "categorie": "limite",
+   "texte": "Ne peut ni étourdir ni interrompre de base.",
+   "sources": [
+    "bz-dd-chasseur-druide"
+   ],
+   "contre": [
+    "ctrl"
+   ]
+  },
+  {
+   "id": "c-pieges",
+   "categorie": "controle",
+   "texte": "Pièges utilisables en combat (recharge 30 s), un de Givre et un de Feu à la fois, posés à ses pieds : « Freezing Trap », « Frost Trap », « Explosive Trap ».",
+   "sources": [
+    "bz-dd-chasseur-druide",
+    "wt-chasseur",
+    "bz-notes-15-oct"
+   ]
+  },
+  {
+   "id": "c-ralentissements",
+   "categorie": "ralentissement",
+   "texte": "« Wing Clip » ; familiers : « Boar Charge » et « Spider Web » immobilisent, « Crab Pinch » et « Tendon Rip » ralentissent.",
+   "sources": [
+    "wt-chasseur",
+    "bz-dd-chasseur-druide"
+   ]
+  },
+  {
+   "id": "c-scatter",
+   "categorie": "controle",
+   "texte": "Précision : « Scatter Shot » sert d’interruption de fortune.",
+   "sources": [
+    "wt-chasseur"
+   ],
+   "specs": [
+    "chasseur-precision"
+   ]
+  },
+  {
+   "id": "c-survie-controle",
+   "categorie": "controle",
+   "texte": "Survie : « Entrapment » allonge l’immobilisation des pièges, « Counterattack » (16 points), « Improved Wing Clip ».",
+   "sources": [
+    "bz-dd-chasseur-druide",
+    "wt-chasseur"
+   ],
+   "specs": [
+    "chasseur-survie"
+   ]
+  },
+  {
+   "id": "c-mobilite",
+   "categorie": "mobilite",
+   "texte": "« Disengage », « Feign Death » ; Survie : « Strider Kick » (+30 % de vitesse pendant 3 s).",
+   "sources": [
+    "bz-dd-chasseur-druide",
+    "wt-chasseur"
+   ]
+  },
+  {
+   "id": "c-defense",
+   "categorie": "defense",
+   "texte": "Familier qui encaisse ; Survie gagne « Deflection », « Counterattack » et « Surefooted ».",
+   "sources": [
+    "bz-dd-chasseur-druide",
+    "wt-chasseur"
+   ]
+  },
+  {
+   "id": "c-familier-mdb",
+   "categorie": "familier",
+   "texte": "Maîtrise des bêtes : jeu centré sur le familier (« Focused Fire », « Intimidation », « Summon Hawk »).",
+   "sources": [
+    "bz-dd-chasseur-druide",
+    "wt-chasseur"
+   ],
+   "specs": [
+    "chasseur-maitrise-betes"
+   ]
+  },
+  {
+   "id": "c-familier-precision",
+   "categorie": "familier",
+   "texte": "Précision : familier facultatif ; « Lone Wolf » donne +20 % de dégâts sans familier.",
+   "sources": [
+    "bz-dd-chasseur-druide",
+    "wt-chasseur"
+   ],
+   "specs": [
+    "chasseur-precision"
+   ]
+  },
+  {
+   "id": "c-familier-survie",
+   "categorie": "familier",
+   "texte": "Survie : orientée mêlée, le familier n’y est pas central.",
+   "sources": [
+    "bz-dd-chasseur-druide"
+   ],
+   "specs": [
+    "chasseur-survie"
+   ]
+  },
+  {
+   "id": "c-soutien",
+   "categorie": "soutien",
+   "texte": "« Trueshot Aura » (Précision, 21 points) et « Furious Howl » du loup ; ni soin, ni dissipation, ni résurrection.",
+   "sources": [
+    "bz-dd-chasseur-druide",
+    "wt-chasseur"
+   ]
+  },
+  {
+   "id": "c-zone",
+   "categorie": "zone",
+   "texte": "« Multi-Shot » et « Volley », renforcés par « Barrage » en Précision ; « Explosive Trap » ; familiers à dégâts de zone (ours, gorille).",
+   "sources": [
+    "bz-dd-chasseur-druide",
+    "wt-chasseur"
+   ]
+  },
+  {
+   "id": "c-burst",
+   "categorie": "burst",
+   "texte": "Précision : « Sniper Shot » (31 points, 45 m), « Rapid Killing » ; Maîtrise des bêtes : « Summon Hawk » (16 points).",
+   "sources": [
+    "bz-dd-chasseur-druide"
+   ]
+  },
+  {
+   "id": "c-survie-degats",
+   "categorie": "burst",
+   "texte": "Survie : « Savage Strikes », « Predator’s Edge », « Expose Prey » et « Lacerating Strikes » (31 points) renforcent la mêlée.",
+   "sources": [
+    "bz-dd-chasseur-druide"
+   ],
+   "specs": [
+    "chasseur-survie"
+   ]
+  },
+  {
+   "id": "c-portee",
+   "categorie": "pvp",
+   "texte": "Précision tire à 45 m de base, 51 m avec talent, et +10 m sur trois tirs.",
+   "sources": [
+    "kami-video"
+   ],
+   "specs": [
+    "chasseur-precision"
+   ]
+  },
+  {
+   "id": "c-tissage",
+   "categorie": "ressource",
+   "texte": "Survie alterne distance et mêlée, au cœur de la spécialisation ; la simulation suppose ce tissage pour les trois spécialisations.",
+   "sources": [
+    "wt-chasseur",
+    "mythicsim"
+   ]
+  },
+  {
+   "id": "c-familier-gestion",
+   "categorie": "ressource",
+   "texte": "Le familier demande de la pratique ; munitions, carquois et nourriture du familier à gérer.",
+   "sources": [
+    "wt-chasseur"
+   ]
+  },
+  {
+   "id": "c-sim",
+   "categorie": "performance",
+   "texte": "Simulation 60 avec tissage : Survie 1re (100 %, seule en S), Précision 3e (85 %), Maîtrise des bêtes 8e (77 %).",
+   "sources": [
+    "mythicsim"
+   ]
+  },
+  {
+   "id": "c-nerf",
+   "categorie": "performance",
+   "texte": "Patch du 15 octobre : « Auto Shot » après 0,5 s immobile, capacités de familiers réduites.",
+   "sources": [
+    "bz-notes-15-oct"
+   ]
+  },
+  {
+   "id": "c-leveling",
+   "categorie": "solo",
+   "texte": "En tête des listes de leveling ; Maîtrise des bêtes est le choix naturel en monde ouvert ; la classe jugée la plus simple.",
+   "sources": [
+    "wt-chasseur",
+    "kami-video",
+    "crix-niv30",
+    "mobalytics-leveling"
+   ]
+  },
+  {
+   "id": "c-tournoi",
+   "categorie": "performance",
+   "texte": "Duel niveau 30 : meilleur Chasseur éliminé au top 16.",
+   "sources": [
+    "forever-open"
+   ]
+  },
+  {
+   "id": "c-survie-pvp",
+   "categorie": "pvp",
+   "texte": "Survie était surtout une spécialisation PvP dans Classic et garde ses avantages défensifs.",
+   "sources": [
+    "wt-chasseur"
+   ],
+   "specs": [
+    "chasseur-survie"
+   ]
+  }
+ ],
+ "specialisations": [
+  {
+   "id": "chasseur-maitrise-betes",
+   "libelle": "Maîtrise des bêtes",
+   "profil": {
+    "role": "dps",
+    "portee": "distance",
+    "familier": "core",
+    "appuis_familier": [
+     "c-familier-mdb"
+    ]
+   },
+   "notes": {
+    "raid": {
+     "valeur": 4,
+     "raison": "Simulation 60 : 8e DPS (77 %), en supposant le tissage distance-mêlée ; capacités de familiers réduites le 15 octobre.",
+     "appuis": [
+      "c-sim",
+      "c-tissage",
+      "c-nerf"
+     ],
+     "confiance": "moyenne"
+    },
+    "bg": {
+     "valeur": 4,
+     "raison": "Plus longue portée du jeu, familier qui gêne (« Intimidation », immobilisations) et pièges ; zone morte de 8 m au contact.",
+     "appuis": [
+      "c-role",
+      "c-familier-mdb",
+      "c-ralentissements",
+      "c-pieges",
+      "c-zone-morte"
+     ],
+     "confiance": "faible"
+    },
+    "world": {
+     "valeur": 4,
+     "raison": "Familier, pièges en combat, « Feign Death » et « Disengage » ; mais zone morte de 8 m, ni étourdissement ni interruption de base. Tournoi niveau 30 : meilleur Chasseur au top 16.",
+     "appuis": [
+      "c-familier-mdb",
+      "c-pieges",
+      "c-mobilite",
+      "c-zone-morte",
+      "c-pas-stun",
+      "c-tournoi"
+     ],
+     "confiance": "faible"
+    },
+    "solo": {
+     "valeur": 5,
+     "raison": "En tête des listes de leveling (Warcraft Tavern, Kami, Crix, Mobalytics) ; Maîtrise des bêtes est le choix naturel en monde ouvert, le familier encaissant à sa place.",
+     "appuis": [
+      "c-leveling",
+      "c-familier-mdb",
+      "c-role"
+     ],
+     "confiance": "haute"
+    },
+    "burst": {
+     "valeur": 3,
+     "raison": "« Summon Hawk » (16 points), « Focused Fire » et « Intimidation » : des dégâts surtout réguliers, portés par le familier.",
+     "appuis": [
+      "c-burst",
+      "c-familier-mdb"
+     ],
+     "confiance": "moyenne"
+    },
+    "zone": {
+     "valeur": 2,
+     "raison": "« Multi-Shot » et « Volley » de base, sans le renfort de « Barrage » ; certains familiers frappent en zone.",
+     "appuis": [
+      "c-zone"
+     ],
+     "confiance": "moyenne"
+    },
+    "ctrl": {
+     "valeur": 3,
+     "raison": "Pièges en combat, immobilisations et ralentissements des familiers, « Intimidation » ; ni étourdissement ni interruption de base.",
+     "appuis": [
+      "c-pieges",
+      "c-ralentissements",
+      "c-familier-mdb",
+      "c-pas-stun"
+     ],
+     "confiance": "moyenne"
+    },
+    "surv": {
+     "valeur": 3,
+     "raison": "Le familier encaisse ; « Feign Death » et « Disengage » pour décrocher.",
+     "appuis": [
+      "c-defense",
+      "c-mobilite"
+     ],
+     "confiance": "moyenne"
+    },
+    "mob": {
+     "valeur": 3,
+     "raison": "« Disengage » et « Feign Death » pour décrocher ; aucun sort de vitesse cité par les sources de la bêta.",
+     "appuis": [
+      "c-mobilite"
+     ],
+     "confiance": "moyenne"
+    },
+    "support": {
+     "valeur": 2,
+     "raison": "« Furious Howl » du loup ; ni soin, ni dissipation, ni résurrection.",
+     "appuis": [
+      "c-soutien"
+     ],
+     "confiance": "haute"
+    },
+    "charge_pve": {
+     "valeur": 1,
+     "raison": "La classe jugée la plus simple ; le familier demande toutefois de la pratique et de l’entretien.",
+     "appuis": [
+      "c-leveling",
+      "c-familier-gestion"
+     ],
+     "confiance": "moyenne"
+    },
+    "charge_pvp": {
+     "valeur": 2,
+     "raison": "Familier et pièges à gérer, zone morte à éviter ; reste la plus accessible des trois.",
+     "appuis": [
+      "c-familier-gestion",
+      "c-zone-morte",
+      "c-pieges"
+     ],
+     "confiance": "faible"
+    }
+   }
+  },
+  {
+   "id": "chasseur-precision",
+   "libelle": "Précision",
+   "profil": {
+    "role": "dps",
+    "portee": "distance",
+    "familier": "optional",
+    "appuis_familier": [
+     "c-familier-precision"
+    ]
+   },
+   "notes": {
+    "raid": {
+     "valeur": 4,
+     "raison": "Simulation 60 : 3e DPS (85 %), en supposant le tissage distance-mêlée ; « Trueshot Aura » pour le groupe.",
+     "appuis": [
+      "c-sim",
+      "c-tissage",
+      "c-soutien"
+     ],
+     "confiance": "moyenne"
+    },
+    "bg": {
+     "valeur": 5,
+     "raison": "Portée record (45 m de base, 51 m avec talent), « Sniper Shot » et « Scatter Shot » : frapper de loin dans les combats de groupe.",
+     "appuis": [
+      "c-portee",
+      "c-burst",
+      "c-scatter",
+      "c-zone-morte"
+     ],
+     "confiance": "moyenne"
+    },
+    "world": {
+     "valeur": 4,
+     "raison": "Burst à très longue portée et « Scatter Shot » ; mais zone morte de 8 m et pas de familier pour encaisser. Tournoi niveau 30 : meilleur Chasseur au top 16.",
+     "appuis": [
+      "c-portee",
+      "c-burst",
+      "c-scatter",
+      "c-zone-morte",
+      "c-familier-precision",
+      "c-tournoi"
+     ],
+     "confiance": "faible"
+    },
+    "solo": {
+     "valeur": 5,
+     "raison": "En tête des listes de leveling pour la classe ; « Lone Wolf » (+20 % de dégâts sans familier) rend le familier facultatif.",
+     "appuis": [
+      "c-leveling",
+      "c-familier-precision"
+     ],
+     "confiance": "moyenne"
+    },
+    "burst": {
+     "valeur": 5,
+     "raison": "« Sniper Shot » (31 points, 45 m) et « Rapid Killing ».",
+     "appuis": [
+      "c-burst",
+      "c-portee"
+     ],
+     "confiance": "moyenne"
+    },
+    "zone": {
+     "valeur": 3,
+     "raison": "« Barrage » renforce « Multi-Shot » et « Volley ».",
+     "appuis": [
+      "c-zone"
+     ],
+     "confiance": "moyenne"
+    },
+    "ctrl": {
+     "valeur": 3,
+     "raison": "Pièges en combat et « Scatter Shot » en interruption de fortune ; ni étourdissement ni interruption de base.",
+     "appuis": [
+      "c-pieges",
+      "c-scatter",
+      "c-pas-stun"
+     ],
+     "confiance": "moyenne"
+    },
+    "surv": {
+     "valeur": 2,
+     "raison": "Sans familier pour encaisser (« Lone Wolf »), il compte sur la portée, « Feign Death » et « Disengage ».",
+     "appuis": [
+      "c-familier-precision",
+      "c-mobilite",
+      "c-defense"
+     ],
+     "confiance": "moyenne"
+    },
+    "mob": {
+     "valeur": 3,
+     "raison": "« Disengage » et « Feign Death » pour décrocher ; aucun sort de vitesse cité par les sources de la bêta.",
+     "appuis": [
+      "c-mobilite"
+     ],
+     "confiance": "moyenne"
+    },
+    "support": {
+     "valeur": 2,
+     "raison": "« Trueshot Aura » (21 points) ; ni soin, ni dissipation, ni résurrection.",
+     "appuis": [
+      "c-soutien"
+     ],
+     "confiance": "haute"
+    },
+    "charge_pve": {
+     "valeur": 2,
+     "raison": "Rotation à distance et zone morte de 8 m à respecter ; le tissage supposé par la simulation est plus exigeant.",
+     "appuis": [
+      "c-zone-morte",
+      "c-tissage"
+     ],
+     "confiance": "faible"
+    },
+    "charge_pvp": {
+     "valeur": 3,
+     "raison": "Gestion de la distance et de la zone morte, pièges en combat. Aucune mesure de difficulté.",
+     "appuis": [
+      "c-zone-morte",
+      "c-pieges"
+     ],
+     "confiance": "faible"
+    }
+   }
+  },
+  {
+   "id": "chasseur-survie",
+   "libelle": "Survie",
+   "profil": {
+    "role": "dps",
+    "portee": "melee",
+    "familier": "optional",
+    "appuis_familier": [
+     "c-familier-survie"
+    ]
+   },
+   "notes": {
+    "raid": {
+     "valeur": 5,
+     "raison": "Simulation 60 : 1re (100 %, seule en S), en tissant distance et mêlée comme le veut la spécialisation.",
+     "appuis": [
+      "c-sim",
+      "c-tissage",
+      "c-survie-degats"
+     ],
+     "confiance": "moyenne"
+    },
+    "bg": {
+     "valeur": 4,
+     "raison": "Spécialisation surtout PvP dans Classic, elle garde ses avantages défensifs et de contrôle (pièges, « Counterattack ») ; zone morte gênante à distance.",
+     "appuis": [
+      "c-survie-pvp",
+      "c-survie-controle",
+      "c-zone-morte"
+     ],
+     "confiance": "moyenne"
+    },
+    "world": {
+     "valeur": 4,
+     "raison": "Contrôle (« Entrapment », « Counterattack ») et défenses (« Deflection ») ; ni étourdissement ni interruption de base, zone morte à distance. Tournoi niveau 30 : meilleur Chasseur au top 16.",
+     "appuis": [
+      "c-survie-controle",
+      "c-defense",
+      "c-survie-pvp",
+      "c-zone-morte",
+      "c-pas-stun",
+      "c-tournoi"
+     ],
+     "confiance": "faible"
+    },
+    "solo": {
+     "valeur": 5,
+     "raison": "En tête des listes de leveling pour la classe ; la mêlée et les défenses de Survie compensent un familier secondaire.",
+     "appuis": [
+      "c-leveling",
+      "c-familier-survie",
+      "c-defense"
+     ],
+     "confiance": "moyenne"
+    },
+    "burst": {
+     "valeur": 4,
+     "raison": "« Savage Strikes », « Predator’s Edge », « Expose Prey » et « Lacerating Strikes » (31 points).",
+     "appuis": [
+      "c-survie-degats"
+     ],
+     "confiance": "moyenne"
+    },
+    "zone": {
+     "valeur": 3,
+     "raison": "« Multi-Shot », « Volley » et « Explosive Trap ».",
+     "appuis": [
+      "c-zone",
+      "c-pieges"
+     ],
+     "confiance": "moyenne"
+    },
+    "ctrl": {
+     "valeur": 4,
+     "raison": "« Entrapment » allonge l’immobilisation des pièges, « Counterattack » (16 points), « Improved Wing Clip » ; ni étourdissement ni interruption de base.",
+     "appuis": [
+      "c-survie-controle",
+      "c-pieges",
+      "c-ralentissements",
+      "c-pas-stun"
+     ],
+     "confiance": "moyenne"
+    },
+    "surv": {
+     "valeur": 3,
+     "raison": "« Deflection », « Counterattack » et « Surefooted » ; familier secondaire.",
+     "appuis": [
+      "c-defense",
+      "c-familier-survie"
+     ],
+     "confiance": "moyenne"
+    },
+    "mob": {
+     "valeur": 3,
+     "raison": "« Disengage », « Feign Death » et « Strider Kick » (+30 % de vitesse pendant 3 s).",
+     "appuis": [
+      "c-mobilite"
+     ],
+     "confiance": "moyenne"
+    },
+    "support": {
+     "valeur": 2,
+     "raison": "Ni soin, ni dissipation, ni résurrection ; quelques bonus de familier.",
+     "appuis": [
+      "c-soutien"
+     ],
+     "confiance": "haute"
+    },
+    "charge_pve": {
+     "valeur": 4,
+     "raison": "Alterner distance et mêlée est au cœur de la spécialisation et de son résultat simulé.",
+     "appuis": [
+      "c-tissage"
+     ],
+     "confiance": "moyenne"
+    },
+    "charge_pvp": {
+     "valeur": 3,
+     "raison": "Placement entre mêlée et distance, pièges en combat. Aucune mesure de difficulté.",
+     "appuis": [
+      "c-tissage",
+      "c-pieges"
+     ],
+     "confiance": "faible"
+    }
+   }
+  }
+ ]
+}
