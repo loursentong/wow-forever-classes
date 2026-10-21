@@ -314,7 +314,7 @@ header.top{position:absolute;min-height:0}
  #reco-results .reco-result-top{grid-template-columns:44px minmax(0,1fr) auto}
  #reco-results .reco-emblem{width:44px;height:44px}
 }
-/* c. Blocs déroulants des résultats (« Jouer … », « Fiabilité et incertitude »), dans les deux
+/* c. Blocs déroulants des résultats (« Jouer … », « Pourquoi cette piste »), dans les deux
  *    parcours : cadre or, bandeau teinté et chevron, pour les repérer d'un coup d'œil. */
 details.reco-evidence{margin:0;padding:0;border:1px solid rgba(233,179,79,.5);border-radius:10px;background:rgba(5,12,21,.45);
  font-size:14px;line-height:1.55;color:var(--rf-soft);overflow:hidden}
@@ -343,6 +343,19 @@ details.reco-evidence p b{color:var(--rf-ivory)}
 #reco-priority-results details.reco-evidence>p{margin:9px 4px}
 #reco-priority-results details.reco-evidence>p:last-child{margin-bottom:10px}
 #reco-guided .reco-results.is-revealed .reco-cards{margin-top:16px}
+/* d. « Pourquoi cette piste » : une ligne par critère (nom, adéquation, points obtenus sur possibles). */
+.reco-why-parts{list-style:none;margin:4px 14px 12px;padding:0;display:grid;gap:7px}
+.reco-why-parts li{display:grid;grid-template-columns:minmax(110px,150px) minmax(0,1fr) 46px 78px;align-items:center;gap:10px;font-size:14px}
+.reco-why-name{color:var(--rf-ivory);font-weight:600}
+.reco-why-bar{height:6px;border-radius:3px;background:#1C2E45;overflow:hidden}
+.reco-why-bar i{display:block;height:100%;border-radius:3px;background:var(--rf-bar)}
+.reco-why-fit,.reco-why-points{text-align:right;font-family:var(--font-mono);font-size:13px;white-space:nowrap}
+.reco-why-fit{color:var(--rf-muted)}
+.reco-why-points{color:var(--rf-gold-light)}
+@media (max-width:600px){
+ .reco-why-parts li{grid-template-columns:minmax(0,1fr) 46px 78px;row-gap:5px}
+ .reco-why-bar{grid-column:1/-1;grid-row:2}
+}
 @media (prefers-reduced-motion:reduce){
  details.reco-evidence>summary,details.reco-evidence>summary::after{transition:none}
 }

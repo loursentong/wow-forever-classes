@@ -238,3 +238,17 @@ test('Dernière question : un seul bouton « Voir mes résultats » à l’écra
  h.hide();
  assert.doesNotMatch(h.form.innerHTML,/data-show-results/);
 });
+
+test('Pourquoi cette piste remplace « Fiabilité et incertitude » : critères, hésitations nommées, sources',()=>{
+ const h=createHarness();
+ h.press('multi','roles','soin');h.certainty('roles','soin',2);
+ h.step(1);h.press('multi','activities','raid');
+ h.reveal();
+ assert.doesNotMatch(h.results.innerHTML,/Fiabilité et incertitude/);
+ assert.equal((h.results.innerHTML.match(/<summary>Pourquoi cette piste<\/summary>/g)||[]).length,3);
+ assert.match(h.results.innerHTML,/reco-why-parts[\s\S]*Rôles[\s\S]*Activités/);
+ assert.match(h.results.innerHTML,/sans chacune de tes réponses hésitantes \(Soin\)/);
+ assert.match(h.results.innerHTML,/github\.com\/loursentong\/wow-forever-classes\/tree\/main\/connaissances/);
+ h.certainty('roles','soin',5);
+ assert.match(h.results.innerHTML,/aucune de tes réponses n’est hésitante/);
+});

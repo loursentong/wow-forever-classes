@@ -123,6 +123,11 @@ async function check(){
   assert.match(summaryLook.borderColor,/rgba\(233, 179, 79/);
   assert.equal(summaryLook.summaryColor,'rgb(255, 215, 140)');
   assert.equal(summaryLook.chevron,'""');
+  // « Pourquoi cette piste » : les points des critères font le score affiché.
+  const why=await page.locator('#reco-results .reco-result-card').first().evaluate(card=>({score:Number(card.querySelector('.reco-score strong').textContent),
+   points:[...card.querySelectorAll('.reco-why-points')].map(x=>Number(x.textContent.split('/')[0])),summary:card.querySelector('.reco-why summary').textContent}));
+  assert.equal(why.summary,'Pourquoi cette piste');
+  assert.equal(why.points.reduce((a,b)=>a+b,0),why.score,JSON.stringify(why));
   await page.locator('[data-reco-hide]').click();
   assert.equal(await page.locator('#reco-results .reco-result-card').count(),0);
   placed=await place();

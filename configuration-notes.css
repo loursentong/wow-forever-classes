@@ -1,5 +1,5 @@
 /* Texte ajouté aux composants existants ; palette et décor conservés.
- * Lien et anneau de focus : ceux de la refonte (or clair), comme pour « Fiabilité et incertitude ». */
+ * Lien et anneau de focus : ceux de la refonte (or clair), comme pour « Pourquoi cette piste ». */
 .reco-priority-class > .reco-config-details{grid-column:1 / -1;min-width:0}
 .reco-config-details summary{cursor:pointer;color:inherit}
 .reco-config-details p{line-height:1.6;overflow-wrap:anywhere}
