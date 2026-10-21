@@ -1,8 +1,8 @@
 # CODEX — Contrat du moteur logique de WoW Forever Classes
 
-> **Statut : référentiel normatif v7 — 21 octobre 2026.** v2 : révision des données ; v3 : configuration qui représente une classe à score égal ; v4 : exception solo du Chasseur réservée à Maîtrise des bêtes ; v5 : variantes sans familier ; v6 : difficulté selon les activités ; v7 : note raid des DPS alignée sur leurs dégâts simulés.
+> **Statut : référentiel normatif v8 — 21 octobre 2026.** v2 : révision des données ; v3 : configuration qui représente une classe à score égal ; v4 : exception solo du Chasseur réservée à Maîtrise des bêtes ; v5 : variantes sans familier ; v6 : difficulté selon les activités ; v7 : note raid des DPS alignée sur leurs dégâts simulés ; v8 : façon de soigner.
 > **Base figée :** commit de production `470fc92b607327ba7573307d1c00577ffc887208`, après la correction « DPS PvE = 100 partout ».
-> **Base des révisions v2 à v7 :** `71f81ec53bc3023e5fd8e8428de1267ff5df2d4a`. Moteur `1.0.6-exploratoire` : soin Chaman et Paladin 4→5, contrôle Discipline 4→3 (v2) ; à score égal, une classe est représentée par sa configuration au plus haut potentiel ajusté à la maîtrise (v3) ; seule Maîtrise des bêtes garde l'exception solo du Chasseur (v4) ; quand le joueur préfère jouer sans compagnon, une configuration à familier facultatif est évaluée avec les notes de son build sans familier (v5) ; la préférence de difficulté juge la charge PvE ou PvP selon les activités choisies (v6) ; la note raid d'un DPS suit ses dégâts simulés (Élémentaire 3→2, Destruction, Combat et Amélioration 4→3) et Farouche (félin) passe à 2 en zone (v7). Formules de score et coefficients de maîtrise inchangés. Décisions et effets dans [REVISION-EDITORIALE-V2.md](REVISION-EDITORIALE-V2.md).
+> **Base des révisions v2 à v8 :** `71f81ec53bc3023e5fd8e8428de1267ff5df2d4a`. Moteur `1.0.7-exploratoire` : soin Chaman et Paladin 4→5, contrôle Discipline 4→3 (v2) ; à score égal, une classe est représentée par sa configuration au plus haut potentiel ajusté à la maîtrise (v3) ; seule Maîtrise des bêtes garde l'exception solo du Chasseur (v4) ; quand le joueur préfère jouer sans compagnon, une configuration à familier facultatif est évaluée avec les notes de son build sans familier (v5) ; la préférence de difficulté juge la charge PvE ou PvP selon les activités choisies (v6) ; la note raid d'un DPS suit ses dégâts simulés (Élémentaire 3→2, Destruction, Combat et Amélioration 4→3) et Farouche (félin) passe à 2 en zone (v7) ; avec le rôle Soin, jusqu'à deux façons de soigner comparent les configurations de soin selon leur profil de soin (v8). Notes d'activité et de style, formules des autres domaines et coefficients de maîtrise inchangés. Décisions et effets dans [REVISION-EDITORIALE-V2.md](REVISION-EDITORIALE-V2.md).
 > **Périmètre :** algorithmes, hypothèses, données, sauvegardes, tests et gouvernance des évolutions.
 > **Non-objectif :** déclarer le modèle scientifiquement validé, équilibrer arbitrairement les classes, garantir des performances en jeu ou figer à jamais les valeurs éditoriales.
 
@@ -14,7 +14,7 @@ Les trois sources de vérité techniques sont :
 
 1. `recommendation-engine.js` : moteur partagé, exécutable dans Node.js et dans le navigateur.
 2. `index.html` → `window.__WF` : matrice historique **9 classes × 14 notes = 126 notes**, 15 préréglages et calcul historique conservé séparément.
-3. `tests/fixtures/moteur-reference-v7.json` : **photographie active de la version de référence**, vérifiée par `tests/codex-contract.test.cjs`. Les photographies v1 à v6 restent immuables : l'empreinte de la v1 et les trois seuls écarts de notes sont protégés par `tests/editorial-update.test.cjs`, l'empreinte de la v2 et les seuls écarts admis de la v3 par `tests/egalites-v3.test.cjs`, l'empreinte de la v3 et les seuls écarts admis de la v4 par `tests/chasseur-solo-v4.test.cjs`, l'empreinte de la v4 et les seuls écarts admis de la v5 par `tests/sans-familier-v5.test.cjs`, l'empreinte de la v5 et l'absence d'écart de la v6 par `tests/difficulte-contexte-v6.test.cjs`, l'empreinte de la v6 et les seules cinq notes changées de la v7 par `tests/raid-degats-v7.test.cjs`.
+3. `tests/fixtures/moteur-reference-v8.json` : **photographie active de la version de référence**, vérifiée par `tests/codex-contract.test.cjs`. Les photographies v1 à v7 restent immuables : l'empreinte de la v1 et les trois seuls écarts de notes sont protégés par `tests/editorial-update.test.cjs`, l'empreinte de la v2 et les seuls écarts admis de la v3 par `tests/egalites-v3.test.cjs`, l'empreinte de la v3 et les seuls écarts admis de la v4 par `tests/chasseur-solo-v4.test.cjs`, l'empreinte de la v4 et les seuls écarts admis de la v5 par `tests/sans-familier-v5.test.cjs`, l'empreinte de la v5 et l'absence d'écart de la v6 par `tests/difficulte-contexte-v6.test.cjs`, l'empreinte de la v6 et les seules cinq notes changées de la v7 par `tests/raid-degats-v7.test.cjs`, l'empreinte de la v7 et l'absence d'écart de la v8 par `tests/soin-v8.test.cjs`.
 
 `questionnaire.js` et `priorities-ui.js` gèrent **l'affichage et les préférences**, mais ne doivent pas constituer des moteurs de scoring concurrents. `RECOMMANDATION-METHODE.md` apporte les explications destinées aux utilisateurs. En cas de contradiction entre l'intention de ce codex et le code, **arrêter la modification, caractériser l'écart, puis décider explicitement du contrat voulu** : ne pas réécrire silencieusement le codex pour justifier un résultat accidentel.
 
@@ -33,6 +33,7 @@ Les mots **DOIT**, **INTERDIT**, **REQUIERT** et **NON GARANTI** sont à prendre
 - Les catégories rôle/portée/familier proviennent des kits et descriptions de classes ; les URL Blizzard attestent ces éléments structurels, **pas la véracité des notes éditoriales**.
 - **Définitions (v7) :** pour un DPS, l'activité `raid` mesure ses **dégâts simulés seuls**, en pourcentage du meilleur DPS simulé au niveau 60 : 5 à partir de 86 %, 4 de 72 à 85 %, 3 de 55 à 71 %, 2 en dessous ; l'utilité de groupe est notée dans le style `support`. Le style `ctrl` couvre trois usages, neutraliser, interrompre, ralentir ou immobiliser, avec les seuls outils du build évalué ; ceux accessibles par changement de forme comptent avec leur contrainte. Les soigneurs et les tanks gardent leur convention.
 - **Variantes sans familier (v5) :** chaque configuration à familier `optional` a une variante « sans familier » (`E.petless`) qui ne modifie que les notes où le familier compte : Affliction (contrôle 5→4, PvP sauvage 5→4, solo 4→3), Destruction (contrôle 4→3, PvP sauvage 5→4, solo 4→3), Survie (solo 5→4) ; Précision, déjà évaluée en « Loup solitaire », est inchangée. Raisons et appuis dans la base de connaissances.
+- **Profils de soin (v8) :** les cinq configurations de soin, et elles seules, portent un profil `heal` de 1 à 5 sur quatre façons de soigner : `prevention` (prévenir les dégâts : boucliers et absorptions), `duree` (soins sur la durée), `cible` (gros soins ciblés) et `groupe` (soigner tout le groupe). C'est un portrait éditorial tiré des présentations officielles, pas une mesure de puissance : Sacré (Paladin) 1/1/5/3, Discipline 5/2/4/3, Sacré (Prêtre) 3/2/4/5, Restauration (Chaman) 1/3/4/5, Restauration (Druide) 1/5/3/4 (dans cet ordre). Raisons et appuis dans la base de connaissances (`profil_soin`).
 - **Justifications :** la [base de connaissances](connaissances/README.md) relie chaque note à des faits sourcés, avec une raison et un niveau de confiance, et liste les notes que les faits contredisent. Elle ne change aucun calcul ; `tests/base-connaissances.test.cjs` vérifie qu'elle reste alignée sur le moteur (mêmes configurations, valeurs et version).
 
 **Invariants :** aucun doublon d'identifiant de configuration, aucune configuration sans classe, aucune note non finie/hors plage, aucun mélange des attributs de deux spécialisations dans une même évaluation, aucune modification silencieuse des 126 notes historiques.
@@ -58,18 +59,19 @@ La maîtrise représente une **hypothèse de réalisation du potentiel** ; elle 
 
 API : `sanitize(profile)`, `ranking(profile)`, `recommend(profile)`.
 
-Six dimensions répondables, toutes facultatives :
+Sept dimensions répondables, toutes facultatives :
 
 | Dimension | Forme | Choix/particularité |
 | --- | --- | --- |
 | Rôles | ensemble `dps/tank/soin` | plusieurs, contrainte explicite `rolesStrict` |
+| Façon de soigner (v8) | ensemble `prevention/duree/cible/groupe` | **2 choix maximum**, retenus seulement si le rôle Soin est choisi |
 | Activités | ensemble `raid/bg/world/solo` | plusieurs |
 | Portée | `any/distance/melee/mixte` | préférence ou contrainte explicite |
 | Styles | ensemble des six qualités | **3 choix maximum** |
 | Familiers | `any/like/avoid` | `avoid` peut être strict |
 | Difficulté souhaitée | `any/simple/complex` | distincte de `mastery` |
 
-Certitude **entière de 0 à 5**, attachée à chaque choix exprimé. Les données invalides ou corrompues sont nettoyées (sélections hors catalogue ignorées, maîtrise hors plage ramenée au défaut, styles limités à trois).
+Certitude **entière de 0 à 5**, attachée à chaque choix exprimé. Les données invalides ou corrompues sont nettoyées (sélections hors catalogue ignorées, maîtrise hors plage ramenée au défaut, styles limités à trois, façons de soigner limitées à deux et ignorées sans le rôle Soin).
 
 **Contrat :** une question sans réponse n'intervient ni dans les poids ni dans les filtres. `mastery` seule n'exprime aucune préférence et ne déclenche **pas** de classement.
 
@@ -103,13 +105,15 @@ Les contraintes contradictoires renvoient `status='no-match'`, **sans inventer d
 
 Chaque dimension activée produit un `parts[dimension] = {value, weight}`. Coefficients de conception :
 
-| Rôles | Activités | Portée | Styles | Familiers | Difficulté |
-|---:|---:|---:|---:|---:|---:|
-| 0,25 | 0,25 | 0,15 | 0,20 | 0,10 | 0,05 |
+| Rôles | Activités | Portée | Styles | Façon de soigner | Familiers | Difficulté |
+|---:|---:|---:|---:|---:|---:|---:|
+| 0,25 | 0,25 | 0,15 | 0,20 | 0,15 | 0,10 | 0,05 |
 
 **Rôles :** si un seul rôle est demandé, une configuration du rôle correspondant reçoit la valeur brute `0,25 + 0,75 × roleSuitability(s, mastery)` ; toute autre configuration reçoit **0**, avant l'atténuation par certitude. Pour plusieurs rôles, la valeur brute mélange **65 % de couverture de tous les rôles par la classe** et **35 % d'adéquation à celui de la spécialisation** ; aucune polyvalence n'est récompensée lorsque le joueur ne la demande pas.
 
 **Activités et styles :** moyenne des adéquations normalisées `(note_ajustée − 1)/4` de leurs choix, après la fonction de certitude. Sélectionner trois styles ne multiplie pas le poids total du domaine.
+
+**Façon de soigner (v8) :** domaine actif seulement si le rôle Soin est demandé et qu'au moins une façon de soigner est choisie. Pour une configuration de soin, moyenne des adéquations `(heal_k − 1)/4` des choix, après la fonction de certitude. Une configuration d'un autre rôle n'est pas jugée sur ce domaine : elle n'en reçoit aucune part, donc ni bonus ni pénalité, et son score est inchangé. Le parcours « Régler mes priorités » ne l'utilise pas.
 
 **Portée :** adéquation brute `1` pour le type souhaité, `0,12` pour l'autre ; le choix `mixte` vaut `1` si la classe peut alterner selon les rôles demandés, sinon `0,28`.
 
@@ -138,7 +142,7 @@ score_affiché = arrondi(100 × score_brut, 2 décimales)
 
 ### 2.6. Sensibilité (et ce qu'elle ne signifie pas)
 
-Les choix de certitude **≤ 2** sont successivement retirés **un par un** et les classements recalculés. La stabilité exprimée est un décompte interne d'apparitions dans le top 3 des scénarios admissibles ; **ce n'est pas une probabilité statistique**. Ne pas annoncer « 90 % de chances d'aimer cette classe » à partir de ce dispositif.
+Les choix de certitude **≤ 2** sont successivement retirés **un par un** et les classements recalculés ; depuis la v8, une façon de soigner hésitante l'est aussi, et retirer le rôle Soin retire avec lui la façon de soigner. La stabilité exprimée est un décompte interne d'apparitions dans le top 3 des scénarios admissibles ; **ce n'est pas une probabilité statistique**. Ne pas annoncer « 90 % de chances d'aimer cette classe » à partir de ce dispositif.
 
 Les résultats apparaissent **uniquement sur demande** dans l'interface : l'algorithme peut recalculer instantanément, mais ne doit pas forcer l'affichage du top 3 après une première réponse.
 
@@ -230,11 +234,13 @@ Les coefficients `penalty`, `bonus`, `mastery` et `masteryOverrides` appartienne
 
 | Clé `localStorage` | Propriétaire | Contrat |
 |---|---|---|
-| `wf-recommend-v1` | questionnaire | profil nettoyé, certitudes, exigences et maîtrise |
+| `wf-recommend-v1` | questionnaire | profil nettoyé, certitudes, exigences et maîtrise ; depuis la v8, champ facultatif `healStyles` (façon de soigner) |
 | `wf-reco-mode-v1` | choix du parcours | `guided` ou `priorities` |
 | `wf-priority-custom-v1` | priorités | sauvegarde **explicite** `{weights, mastery}`, rappel possible |
 | `wf-overview-v3` | comparateur historique | poids actifs `w`, maîtrise `m`, surlignage `hl`, critères personnalisés `c` |
 | `wf-overview-theme` | *(retirée)* | ancien choix du thème. Depuis le 21 octobre 2026, la page est toujours sombre : la clé n'est plus lue ni écrite, et une valeur déjà enregistrée est ignorée sans être effacée. |
+
+Compatibilité de la v8 : une sauvegarde antérieure, sans `healStyles`, reste valide et ne précise aucune façon de soigner ; une façon de soigner enregistrée sans le rôle Soin n'est pas restaurée. Aucune migration n'est nécessaire (tests aller/retour dans `tests/recommendation-ui.test.cjs`).
 
 Compatibilité historique : le comparateur sait migrer `wf-overview-v2`, `wf-overview-weights` et `wf-overview-skill` ; le parcours priorités sait réimporter `wf-overview-v3.c` si aucune sauvegarde personnalisée moderne n'est disponible.
 
@@ -257,7 +263,7 @@ Le fichier `tests/fixtures/moteur-reference-v1.json` contient :
 - les **3 rôles isolés × 4 maîtrises** ;
 - **5 mélanges d'axes × 3 maîtrises**.
 
-Les photographies v1 à v4 restent conservées. `tests/codex-contract.test.cjs` compare désormais le moteur et les données **directement** à la photographie v7 : les mêmes 99 cas, plus quatre scénarios guidés sans familier (v5) et quatre qui combinent difficulté et activités (v6). `scripts/compare-editorial-v2.cjs` (v1→v2, 39 cas sur 99) et `scripts/reference-v3.cjs` (v2→v3, 41 cas : seules changent, à score égal, les configurations affichées) comparent des photographies figées. `scripts/reference-v4.cjs` compare les photographies v3 et v4 : seul le Chasseur change, en solo, en Débutant ou Intermédiaire, et à la baisse (5 cas sur 99). `scripts/reference-v5.cjs` compare les photographies v4 et v5 : seuls les profils qui évitent les familiers changent, et seulement pour le Chasseur et le Démoniste (1 cas sur 99). `scripts/reference-v6.cjs` compare les photographies v5 et v6 : aucun des 103 cas ne change, quatre scénarios de difficulté s'ajoutent. `scripts/reference-v7.cjs` rejoue la v6 avec le moteur actuel : seules les cinq notes décidées changent, et les classes qui ne les portent pas gardent configuration et score dans chaque classement (45 cas sur 107 bougent, aucune première classe). Aucun script n'écrit de fixture sans l'option explicite `--fixture`. Ces photographies ne sont **pas un jeu d'entraînement**, ni une preuve de justesse du gameplay : elles détectent les changements.
+Les photographies v1 à v4 restent conservées. `tests/codex-contract.test.cjs` compare désormais le moteur et les données **directement** à la photographie v8 : les mêmes 99 cas, plus quatre scénarios guidés sans familier (v5), quatre qui combinent difficulté et activités (v6) et sept scénarios de soin (v8). `scripts/compare-editorial-v2.cjs` (v1→v2, 39 cas sur 99) et `scripts/reference-v3.cjs` (v2→v3, 41 cas : seules changent, à score égal, les configurations affichées) comparent des photographies figées. `scripts/reference-v4.cjs` compare les photographies v3 et v4 : seul le Chasseur change, en solo, en Débutant ou Intermédiaire, et à la baisse (5 cas sur 99). `scripts/reference-v5.cjs` compare les photographies v4 et v5 : seuls les profils qui évitent les familiers changent, et seulement pour le Chasseur et le Démoniste (1 cas sur 99). `scripts/reference-v6.cjs` compare les photographies v5 et v6 : aucun des 103 cas ne change, quatre scénarios de difficulté s'ajoutent. `scripts/reference-v7.cjs` compare les photographies v6 et v7 : seules les cinq notes décidées changent, et les classes qui ne les portent pas gardent configuration et score dans chaque classement (45 cas sur 107 bougent, aucune première classe). `scripts/reference-v8.cjs` rejoue la v7 avec le moteur actuel : aucun des 107 cas ne change, sept scénarios de soin s'ajoutent. Aucun script n'écrit de fixture sans l'option explicite `--fixture`. Ces photographies ne sont **pas un jeu d'entraînement**, ni une preuve de justesse du gameplay : elles détectent les changements.
 
 La v2 accepte une égalité des quatre classes soigneuses sur le seul axe Soin aux maîtrises Confirmé et Expert. Cette convention éditoriale ne dit pas que leurs soins réels sont égaux. Les classes sans configuration de soin restent à zéro sur cet axe ; les axes Tank et DPS restent différenciés.
 

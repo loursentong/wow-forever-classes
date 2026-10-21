@@ -2,7 +2,7 @@
  "classe": "voleur",
  "libelle": "Voleur",
  "date": "2026-10-21",
- "moteur": "1.0.6-exploratoire",
+ "moteur": "1.0.7-exploratoire",
  "faits": [
   {
    "id": "v-role",

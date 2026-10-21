@@ -5,7 +5,9 @@
 // e2, e3 et e13). L'écart e5 s'y ajoute : Farouche (félin) en zone 3→2, faute de Swipe hors de l'ours.
 // Seules ces cinq notes changent ; les classes concernées sont le Chaman, le Démoniste, le Voleur et le
 // Druide : les autres gardent configuration et score dans chaque classement, seul leur rang peut bouger.
-// Usage : node scripts/reference-v7.cjs [rapport.json] [--fixture chemin.json]
+// Usage : node scripts/reference-v7.cjs [rapport.json]
+// Depuis le moteur 1.0.7, la comparaison porte sur la photographie v7 figée (le moteur actuel suit
+// la v8, voir scripts/reference-v8.cjs) ; aucune photographie n'est écrite.
 const fs=require('node:fs');
 const path=require('node:path');
 const assert=require('node:assert/strict');
@@ -83,10 +85,8 @@ function compare(before,after){
   regle:DECISION,notes:CHANGES,resultats:changed};
 }
 if(require.main===module){
- const args=process.argv.slice(2),i=args.indexOf('--fixture');
- const fixturePath=i>=0?args.splice(i,2)[1]:null;
- const next=snapshot(),report=compare(v6,next);
- if(fixturePath)fs.writeFileSync(path.resolve(fixturePath),JSON.stringify(next,null,2)+'\n');
+ const args=process.argv.slice(2);
+ const report=compare(v6,require('../tests/fixtures/moteur-reference-v7.json'));
  if(args[0])fs.writeFileSync(args[0],JSON.stringify(report,null,2)+'\n');
  console.log(JSON.stringify({version:report.version,cas:report.cas,cas_modifies:report.cas_modifies,
   premiere_classe_modifiee:report.premiere_classe_modifiee,premiere_configuration_modifiee:report.premiere_configuration_modifiee}));

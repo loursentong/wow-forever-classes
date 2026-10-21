@@ -158,3 +158,61 @@ test('Une égalité en tête ne reçoit pas de carte gagnante ; la variante sans
  assert.match(h.results.innerHTML,/Difficulté de cette spécialisation/);
  assert.equal(h.profile().pet.strict,true);
 });
+
+test('Façon de soigner : sous-question facultative du rôle Soin, deux choix au plus, ignorée sans ce rôle',()=>{
+ const h=createHarness();
+ assert.doesNotMatch(h.form.innerHTML,/Quelle façon de soigner/);
+ h.press('multi','roles','dps');
+ assert.doesNotMatch(h.form.innerHTML,/Quelle façon de soigner/);
+ h.press('multi','roles','soin');
+ assert.match(h.form.innerHTML,/Quelle façon de soigner t’attire/);
+ assert.match(h.form.innerHTML,/0 sur 2 choix possibles/);
+ assert.match(h.form.innerHTML,/data-multi="healStyles" data-key="prevention" aria-pressed="false"/);
+ for(const k of ['groupe','duree','cible'])h.press('multi','healStyles',k);
+ assert.deepEqual(Object.keys(h.profile().healStyles),['groupe','duree']);
+ assert.match(h.form.innerHTML,/2 sur 2 choix possibles/);
+ assert.match(h.form.innerHTML,/Certitude pour « Soigner tout le groupe »/);
+ h.certainty('healStyles','duree',1);
+ assert.equal(h.profile().healStyles.duree,1);
+ assert.match(h.form.innerHTML,/DPS · Soin \(soins de groupe, soins sur la durée\)/);
+ assert.match(h.results.innerHTML,/Voir un aperçu/);
+ h.reveal();
+ assert.match(h.results.innerHTML,/Ta façon de soigner \(soins sur la durée, soigner tout le groupe\) départage/);
+ // Retirer le rôle Soin masque la sous-question ; la façon de soigner ne compte plus.
+ h.step(0);h.press('multi','roles','soin');
+ assert.doesNotMatch(h.form.innerHTML,/Quelle façon de soigner/);
+ assert.doesNotMatch(h.form.innerHTML,/soins de groupe/);
+ assert.doesNotMatch(h.results.innerHTML,/façon de soigner/);
+ // Le reprendre retrouve les choix de la session.
+ h.press('multi','roles','soin');
+ assert.match(h.form.innerHTML,/2 sur 2 choix possibles/);
+ // Une sauvegarde sans rôle Soin ne conserve pas de façon de soigner.
+ const saved=createHarness({'wf-recommend-v1':JSON.stringify({roles:{dps:3},healStyles:{groupe:3}})});
+ assert.deepEqual(saved.profile().healStyles,{});
+});
+
+test('Fiche d’une piste de soin : façon de soigner décrite, sans score supplémentaire',()=>{
+ const h=createHarness();
+ h.press('multi','roles','soin');h.strict('roles',true);
+ h.press('multi','healStyles','cible');h.certainty('healStyles','cible',5);
+ h.reveal();
+ assert.match(h.results.innerHTML,/PISTE PRINCIPALE/);
+ assert.match(h.results.innerHTML,/<strong>Sacré<\/strong>/);
+ assert.match(h.results.innerHTML,/Façon de soigner :<\/b> Gros soins ciblés : son point fort/);
+ assert.match(h.results.innerHTML,/2 dimensions prises en compte/);
+ assert.match(h.results.innerHTML,/Rôles · Façon de soigner/);
+});
+
+test('Sauvegarde de la façon de soigner : aller-retour, et une ancienne sauvegarde reste valide',()=>{
+ const h=createHarness();
+ h.press('multi','roles','soin');
+ h.press('multi','healStyles','prevention');h.certainty('healStyles','prevention',4);
+ const saved=createHarness(h.store);
+ assert.deepEqual(saved.profile().healStyles,{prevention:4});
+ assert.match(saved.form.innerHTML,/data-multi="healStyles" data-key="prevention" aria-pressed="true"/);
+ const old=createHarness({'wf-recommend-v1':JSON.stringify({roles:{soin:4},activities:{raid:3},mastery:1})});
+ assert.deepEqual(old.profile().healStyles,{});
+ assert.deepEqual(old.profile().roles,{soin:4});
+ assert.equal(old.profile().mastery,1);
+ assert.match(old.form.innerHTML,/0 sur 2 choix possibles/);
+});

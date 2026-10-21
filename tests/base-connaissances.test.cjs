@@ -13,7 +13,7 @@ const registre=lire('sources.json');
 const classes=fs.readdirSync(path.join(dir,'classes')).filter(f=>f.endsWith('.json')).map(f=>lire('classes/'+f));
 const ecarts=lire('ecarts.json');
 const CRITERES=['raid','bg','world','solo','burst','zone','ctrl','surv','mob','support','charge_pve','charge_pvp'];
-const CATEGORIES=new Set(['role','ressource','mobilite','interruption','ralentissement','controle','defense','zone','burst',
+const CATEGORIES=new Set(['role','ressource','mobilite','interruption','ralentissement','controle','defense','zone','burst','soin',
  'pvp','soutien','limite','performance','solo','familier']);
 // Catégories de faits qui peuvent fonder une note de style de 4 ou plus.
 const REGLES={burst:['burst'],zone:['zone'],ctrl:['controle','interruption','ralentissement'],surv:['defense'],mob:['mobilite'],support:['soutien']};
@@ -94,6 +94,24 @@ test('Variantes sans familier : alignées sur le moteur, justifiées, et seuleme
    for(const a of n.appuis)assert.ok(faits.has(a)&&applique(faits.get(a),s.id),s.id+'/'+c+' : '+a);
   }
   assert.ok(v.synthese&&v.appuis.length&&v.appuis.every(a=>faits.has(a)&&applique(faits.get(a),s.id)),s.id);
+ }
+});
+
+test('Façon de soigner : un profil justifié pour chaque configuration de soin, identique au moteur',()=>{
+ const STYLES=['prevention','duree','cible','groupe'];
+ assert.deepEqual([...E.healStyles],STYLES);
+ for(const k of classes)for(const s of k.specialisations){
+  const m=E.specs.find(x=>x.id===s.id);
+  assert.equal(!!s.profil_soin,m.role==='soin',s.id+' : profil de soin si et seulement si la configuration soigne');
+  if(!s.profil_soin)continue;
+  assert.deepEqual(Object.keys(s.profil_soin).sort(),[...STYLES].sort(),s.id);
+  for(const h of STYLES){
+   const n=s.profil_soin[h],id=s.id+'/'+h;
+   assert.equal(n.valeur,m.heal[h],id);
+   assert.ok(n.raison&&n.raison.length>=15&&['haute','moyenne','faible'].includes(n.confiance),id);
+   assert.ok(n.appuis.length&&n.appuis.every(a=>faits.has(a)&&applique(faits.get(a),s.id)),id);
+   if(n.valeur>=4)assert.ok(n.appuis.some(a=>faits.get(a).categorie==='soin'),id+' : une note de 4 ou plus s’appuie sur un fait de soin');
+  }
  }
 });
 

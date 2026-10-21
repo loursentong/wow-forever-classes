@@ -8,7 +8,8 @@ const abilities=['inv_sword_04','inv_shield_05','spell_holy_greaterheal',
  'spell_fire_fireball02','spell_frost_frostnova','ability_rogue_sprint',
  'spell_holy_powerwordshield','inv_misc_map_01','ability_hunter_beastcall',
  'spell_holy_devotionaura','inv_misc_book_09','spell_nature_lightning',
- 'ability_warrior_battleshout'].map(x=>base+x+'.jpg');
+ 'ability_warrior_battleshout','spell_nature_rejuvenation','spell_holy_flashheal',
+ 'spell_nature_healingwavegreater'].map(x=>base+x+'.jpg');
 (async()=>{
  let checked=0,missing=[];
  for(const url of [...classes,...abilities]){

@@ -366,7 +366,29 @@ async function check(){
   assert.match(await page.locator('#reco-results .reco-tie-note').textContent(),/Chaman, Druide, Paladin, Prêtre/);
   assert.equal(await page.locator('#reco-results .reco-featured').count(),0);
   assert.equal(await page.locator('#reco-results .reco-result-card').count(),3);
-  assert.match(await page.locator('#reco-results').textContent(),/styles de soin ne sont pas encore départagés/);
+  assert.match(await page.locator('#reco-results').textContent(),/préciser ta façon de soigner à la question 1/);
+  // Lot 3 : la façon de soigner, sous-question facultative du rôle Soin, départage les soigneurs.
+  await page.locator('[data-step="0"]').click();
+  const healQuestion=page.locator('#reco-form .reco-subquestion');
+  assert.match(await healQuestion.textContent(),/Quelle façon de soigner t’attire/);
+  await page.locator('[data-multi="healStyles"][data-key="cible"]').click();
+  await page.locator('#rc-healStyles-cible').fill('5');
+  assert.match(await page.locator('#reco-form').textContent(),/1 sur 2 choix possibles/);
+  assert.equal(await page.locator('#reco-results .reco-tie-note').count(),0);
+  assert.equal(await page.locator('#reco-results .reco-featured h4').textContent(),'Paladin');
+  assert.match(await page.locator('#reco-results').textContent(),/Ta façon de soigner \(gros soins ciblés\) départage/);
+  const sacre=page.locator('[data-config-id="paladin-sacre"]');
+  await sacre.locator('summary').click();
+  assert.match(await sacre.textContent(),/Façon de soigner : Gros soins ciblés : son point fort/);
+  assert.match(await page.locator('.reco-summary-row').first().textContent(),/Soin \(soins ciblés\)/);
+  await healQuestion.screenshot({path:path.join(__dirname,'screenshots','lot3-facon-de-soigner.png'),animations:'disabled'});
+  await page.locator('#reco-results .reco-featured').screenshot({path:path.join(__dirname,'screenshots','lot3-piste-soin.png'),animations:'disabled'});
+  for(const width of [320,390,768]){
+   await page.setViewportSize({width,height:900});
+   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth+2),'Façon de soigner à '+width+'px');
+  }
+  await page.setViewportSize({width:390,height:844});
+  await healQuestion.screenshot({path:path.join(__dirname,'screenshots','lot3-facon-de-soigner-mobile.png'),animations:'disabled'});
   assert.deepEqual(errors,[],'Erreurs JavaScript navigateur');
   process.stdout.write('Chromium : deux parcours, 14 poids, 15 presets, neuf rangs, maîtrise partagée, mobile et clavier — OK\n');
  }finally{

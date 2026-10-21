@@ -9,6 +9,7 @@ var KEY='wf-recommend-v1',state=E.sanitize(null),step=0,revealed=false;
 try{state=E.sanitize(JSON.parse(localStorage.getItem(KEY)||'null'));}catch(e){state=E.sanitize(null);}
 var names={
  roles:{dps:'DPS',tank:'Tank',soin:'Soin'},
+ healStyles:{prevention:'Prévenir les dégâts',duree:'Soins sur la durée',cible:'Gros soins ciblés',groupe:'Soigner tout le groupe'},
  activities:{raid:'Donjons et raids',bg:'Champs de bataille',world:'PvP sauvage et duel',solo:'Solo et farm'},
  range:{distance:'À distance',melee:'Au corps-à-corps',mixte:'Pouvoir alterner'},
  styles:{burst:'Dégâts explosifs',zone:'Dégâts de zone',ctrl:'Contrôle',surv:'Résistance',mob:'Mobilité',support:'Soutien'},
@@ -17,6 +18,7 @@ var names={
 };
 var descriptions={
  roles:{dps:'Infliger des dégâts',tank:'Protéger et encaisser',soin:'Soigner et soutenir'},
+ healStyles:{prevention:'Boucliers et absorptions avant les coups',duree:'Des soins qui agissent dans le temps',cible:'Garder une cible en vie, souvent le tank',groupe:'Des soins qui touchent plusieurs alliés'},
  activities:{raid:'Jouer en groupe en PvE',bg:'Affrontements en équipe',world:'Combats imprévus et duels',solo:'Explorer et progresser seul'},
  range:{distance:'Combattre sans être au contact',melee:'Combattre au plus près',mixte:'Changer selon la configuration'},
  styles:{burst:'Frapper très fort en peu de temps',zone:'Toucher plusieurs cibles',ctrl:'Ralentir, immobiliser, interrompre ou neutraliser',surv:'Tenir sous pression',mob:'Se déplacer et poursuivre',support:'Renforcer les alliés'},
@@ -24,8 +26,9 @@ var descriptions={
  difficulty:{simple:'Prise en main confortable',complex:'Gameplay à approfondir'}
 };
 var short=['Rôles','Activités','Portée','Gameplay','Familiers','Maîtrise'];
-var labels={roles:'Rôles',activities:'Activités',range:'Portée',styles:'Gameplay',pet:'Familiers',difficulty:'Complexité'};
+var labels={roles:'Rôles',healStyles:'Façon de soigner',activities:'Activités',range:'Portée',styles:'Gameplay',pet:'Familiers',difficulty:'Complexité'};
 var roleNames={dps:'DPS',tank:'Tank',soin:'Soin'};
+var healShort={prevention:'prévention',duree:'soins sur la durée',cible:'soins ciblés',groupe:'soins de groupe'};
 var mastery=['Débutant','Intermédiaire','Confirmé','Expert'];
 var certWords=['Intuition','Très hésitant','Hésitant','Assez sûr','Très sûr','Certain'];
 function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
@@ -36,11 +39,13 @@ function answered(){
   state.pet.value!=='any',state.difficulty.value!=='any'||state.mastery!==2
  ];
 }
+function healKeys(){return E.selected(state.roles).includes('soin')?E.selected(state.healStyles):[];}
 function summaryText(){
  var parts=[];
  ['roles','activities','styles'].forEach(function(k){
   E.selected(state[k]).forEach(function(v){parts.push((names[k]||{})[v]);});
  });
+ healKeys().forEach(function(v){parts.push(names.healStyles[v]);});
  ['range','pet','difficulty'].forEach(function(k){
   if(state[k].value!=='any')parts.push((names[k]||{})[state[k].value]);
  });
@@ -58,6 +63,7 @@ function certaintyControl(group,key,n){
 var WOW_ICON_BASE='https://render.worldofwarcraft.com/us/icons/56/';
 var wowChoiceIcons={
  roles:{dps:'inv_sword_04',tank:'inv_shield_05',soin:'spell_holy_greaterheal'},
+ healStyles:{prevention:'spell_holy_powerwordshield',duree:'spell_nature_rejuvenation',cible:'spell_holy_flashheal',groupe:'spell_nature_healingwavegreater'},
  activities:{raid:'inv_misc_map_01',bg:'ability_warrior_battleshout',world:'spell_nature_lightning',solo:'ability_hunter_beastcall'},
  range:{distance:'spell_fire_fireball02',melee:'inv_sword_04',mixte:'ability_rogue_sprint'},
  styles:{burst:'spell_fire_fireball02',zone:'spell_nature_lightning',ctrl:'spell_frost_frostnova',surv:'spell_holy_devotionaura',mob:'ability_rogue_sprint',support:'spell_holy_powerwordshield'},
@@ -84,7 +90,7 @@ function multi(group,limit){
   chosen.forEach(function(k){html+=certaintyControl(group,k,state[group][k]);});
   html+='</div>';
  }
- if(limit)html+='<p class="reco-selection-count">'+chosen.length+' sur '+limit+' styles possibles</p>';
+ if(limit)html+='<p class="reco-selection-count">'+chosen.length+' sur '+limit+(group==='styles'?' styles':' choix')+' possibles</p>';
  return html;
 }
 function single(group){
@@ -112,9 +118,17 @@ function question(n,title,hint,content){
  return '<fieldset class="reco-question" aria-describedby="reco-hint-'+n+'"><legend tabindex="-1"><span class="reco-question-index">QUESTION '+n+' / 6</span><span class="reco-question-title">'+title+'</span></legend>'+
    '<p id="reco-hint-'+n+'" class="reco-hint">'+hint+'</p>'+content+'</fieldset>';
 }
+/* Sous-question facultative du rôle Soin (référence v8) : départage les configurations de soin. */
+function healQuestion(){
+ if(!E.selected(state.roles).includes('soin'))return '';
+ return '<div class="reco-subquestion" role="group" aria-labelledby="reco-heal-title" aria-describedby="reco-heal-hint">'+
+  '<p class="reco-subquestion-title" id="reco-heal-title">Quelle façon de soigner t’attire ?</p>'+
+  '<p class="reco-subquestion-hint" id="reco-heal-hint">Facultatif · jusqu’à deux choix. Départage les spécialisations de soin ; le score des autres pistes ne change pas.</p>'+
+  multi('healStyles',2)+'</div>';
+}
 function currentQuestion(){
  if(step===0)return question(1,'Quel rôle voudrais-tu jouer ?','Tu peux choisir plusieurs rôles ou simplement explorer ce qui t’attire.',
-  multi('roles')+(E.selected(state.roles).length?'<label class="reco-strict"><input type="checkbox" data-roles-strict '+(state.rolesStrict?'checked':'')+'><span><strong>'+ (E.selected(state.roles).length>1?'Je veux pouvoir exercer tous ces rôles':'Ce rôle est indispensable pour moi')+'</strong><small>Une préférence seule ne bloque jamais les alternatives.</small></span></label>':''));
+  multi('roles')+(E.selected(state.roles).length?'<label class="reco-strict"><input type="checkbox" data-roles-strict '+(state.rolesStrict?'checked':'')+'><span><strong>'+ (E.selected(state.roles).length>1?'Je veux pouvoir exercer tous ces rôles':'Ce rôle est indispensable pour moi')+'</strong><small>Une préférence seule ne bloque jamais les alternatives.</small></span></label>':'')+healQuestion());
  if(step===1)return question(2,'Où passeras-tu le plus de temps ?','Tu peux sélectionner plusieurs activités. Aucune obligation de te décider tout de suite.',multi('activities'));
  if(step===2)return question(3,'Comment aimes-tu combattre ?','Une préférence peut rester souple. Coche une exigence uniquement si elle est non négociable.',single('range'));
  if(step===3)return question(4,'Quel style te ressemble ?','Choisis jusqu’à trois qualités qui t’attirent. Tes hésitations sont normales.',multi('styles',3));
@@ -140,7 +154,7 @@ function renderForm(){
  var tags=summaryText(),form=root.querySelector('#reco-form'),summaryPanel=root.querySelector('#reco-summary-panel');
  var roleKeys=E.selected(state.roles),activityKeys=E.selected(state.activities),styleKeys=E.selected(state.styles);
  var summaryRows=[
-  {title:'Rôles',value:roleKeys.map(function(k){return names.roles[k];}).join(' · ')},
+  {title:'Rôles',value:roleKeys.map(function(k){var h=k==='soin'?healKeys():[];return names.roles[k]+(h.length?' ('+h.map(function(x){return healShort[x];}).join(', ')+')':'');}).join(' · ')},
   {title:'Activités',value:activityKeys.map(function(k){return names.activities[k];}).join(' · ')},
   {title:'Portée',value:state.range.value==='any'?'':names.range[state.range.value]+' · '+state.range.certainty+'/5'},
   {title:'Gameplay',value:styleKeys.map(function(k){return names.styles[k];}).join(' · ')},
@@ -274,6 +288,7 @@ form.addEventListener('click',function(ev){
   if(Object.prototype.hasOwnProperty.call(state[group],key))delete state[group][key];
   else{
    if(group==='styles'&&E.selected(state.styles).length>=3)return;
+   if(group==='healStyles'&&E.selected(state.healStyles).length>=2)return;
    state[group][key]=3;
   }
   renderForm();renderResults();return;
@@ -289,7 +304,7 @@ form.addEventListener('input',function(ev){
  var el=ev.target,group=el.dataset.certgroup,key=el.dataset.certkey;
  if(!group)return;
  var n=Number(el.value);
- if(group==='roles'||group==='activities'||group==='styles')state[group][key]=n;
+ if(group==='roles'||group==='healStyles'||group==='activities'||group==='styles')state[group][key]=n;
  else state[group].certainty=n;
  var output=form.querySelector('[data-certout="'+group+'/'+key+'"]');
  if(output)output.textContent=n+'/5 · '+certWords[n];

@@ -21,7 +21,8 @@ test('Les égalités des soigneurs incluent la quatrième classe au-delà des tr
  const note=X.tieNote(r.results);
  for(const row of r.results)assert.ok(note.includes(row.spec.className));
  assert.ok(X.ranks(r.results).every(p=>p.tied&&p.rank===1));
- assert.match(X.contextNotes({profile:r.profile}).join(' '),/styles de soin/);
+ // Sans façon de soigner précisée, l'explication invite à la préciser (référence v8).
+ assert.match(X.contextNotes({profile:r.profile}).join(' '),/préciser ta façon de soigner/);
 });
 
 test('Familier : la limite dépend du profil demandé et de la configuration, sans modifier les scores',()=>{

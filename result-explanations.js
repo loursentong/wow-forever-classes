@@ -36,6 +36,14 @@
   if(spec.pet!=='optional')return '';
   return petless[spec.id]||'Évaluée sans familier.';
  }
+ // Façon de soigner (référence v8) : mêmes règles que le moteur, deux choix au plus, comptés seulement
+ // avec le rôle Soin, et pour les seules configurations de soin.
+ var healNames={prevention:'prévenir les dégâts',duree:'soins sur la durée',cible:'gros soins ciblés',groupe:'soigner tout le groupe'};
+ function healChoices(p){
+  var valid=function(v){return Number.isInteger(v)&&v>=0&&v<=5;};
+  if(!p||!valid((p.roles||{}).soin))return [];
+  return Object.keys(healNames).filter(function(k){return valid((p.healStyles||{})[k]);}).slice(0,2);
+ }
  function contextNotes(context){
   var out=[],p=context.profile,w=context.weights;
   if((p&&Object.hasOwn(p.styles||{},'ctrl'))||(w&&w.ctrl>0))
@@ -47,9 +55,13 @@
     pvp&&!pve?'Ton rapport à la difficulté est comparé à la difficulté PvP de chaque spécialisation, puisque tes activités sont en PvP.':
     'Ton rapport à la difficulté est comparé à la moyenne PvE et PvP de chaque spécialisation, faute d’activités d’un seul type.');
   }
-  if((p&&Object.hasOwn(p.roles||{},'soin'))||(w&&w.soin>0))
-   out.push('Les styles de soin ne sont pas encore départagés par tes réponses. Consulte les fiches des spécialisations pour comparer leur façon de soigner.');
+  if(p&&Object.hasOwn(p.roles||{},'soin')){
+   var heal=healChoices(p);
+   out.push(heal.length?'Ta façon de soigner ('+heal.map(function(k){return healNames[k];}).join(', ')+') départage les spécialisations de soin ; elle ne compte pas pour les autres rôles.':
+    'Tu peux préciser ta façon de soigner à la question 1 : elle départage les spécialisations de soin.');
+  }else if(w&&w.soin>0)
+   out.push('Ce comparateur ne départage pas les façons de soigner : le parcours guidé le fait à la question 1, et la fiche de chaque spécialisation de soin les décrit.');
   return out;
  }
- return {criteria:criteria,ranks:ranks,tieNote:tieNote,petNotice:petNotice,contextNotes:contextNotes};
+ return {criteria:criteria,ranks:ranks,tieNote:tieNote,petNotice:petNotice,contextNotes:contextNotes,healChoices:healChoices};
 });
