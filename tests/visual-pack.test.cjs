@@ -24,10 +24,21 @@ test('Le bandeau reprend le logo officiel et un décor du kit de presse, héberg
  assert.match(html,/<img class="wow-hero-logo" src="assets\/img\/logo-wow-forever\.webp"/);
  assert.match(html,/Outil de fan · non officiel/);
  assert.match(refonte,/url\("assets\/img\/hero-arbre-monde\.webp"\)/);
- for(const f of ['logo-wow-forever.webp','hero-arbre-monde.webp','bandeau-gantelet.webp','bandeau-darkspear.webp','grain.png'])
+ for(const f of ['logo-wow-forever.webp','hero-arbre-monde.webp','hero-vallee-nuit.webp','bandeau-gantelet.webp','bandeau-darkspear.webp','grain.png'])
   assert.ok(fs.statSync(path.join(__dirname,'..','assets','img',f)).size>1000,f);
  assert.match(html,/warcraft-visual-pack\.css/);
  assert.ok(html.indexOf('href="refonte-forever.css"')>html.indexOf('href="wow-ui-rework.css"'),'La refonte doit être la dernière feuille de style');
+});
+test('Un bandeau commun aux deux parcours, sans décalage au changement',()=>{
+ assert.equal((html.match(/class="rf-band"/g)||[]).length,1);
+ assert.match(html,/<div class="rf-band-copy rf-band-copy-guide">\s*<p class="rf-band-kicker">Parcours 1<\/p>\s*<h3 class="rf-band-title">Être guidé<\/h3>/);
+ assert.match(html,/<div class="rf-band-copy rf-band-copy-priorites">\s*<p class="rf-band-kicker">Parcours 2<\/p>\s*<h3 class="rf-band-title">Régler mes priorités<\/h3>/);
+ assert.ok(html.indexOf('class="rf-band"')<html.indexOf('id="reco-guided"'),'Le bandeau précède les deux panneaux');
+ // Les deux textes occupent la même cellule : la hauteur ne dépend pas du parcours affiché.
+ assert.match(refonte,/\.rf-band-copy\{grid-area:1\/1/);
+ assert.match(refonte,/#reco-app:has\(#reco-priorities:not\(\[hidden\]\)\) \.rf-band-copy-priorites\{visibility:visible\}/);
+ assert.match(refonte,/url\("assets\/img\/hero-vallee-nuit\.webp"\)/);
+ assert.match(refonte,/url\("assets\/img\/bandeau-gantelet\.webp"\)/);
 });
 test('La refonte reste une couche de présentation accessible',()=>{
  assert.match(refonte,/prefers-reduced-motion:reduce/);

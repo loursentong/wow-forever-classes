@@ -29,7 +29,8 @@ La page applique la maquette validée ([design/README.md](design/README.md)) par
 - décor plein cadre de l'Arbre-monde, avec voiles de lecture et braises fixes ;
 - logo officiel toujours accompagné de la mention « Outil de fan · non officiel » ;
 - portails dorés pour les deux parcours, cadres héroïques (question, classement) et nobles (étapes, « Mes choix », aperçu) ;
-- bandeaux du gantelet pour « Régler mes priorités » et de Darkspear Islands pour le tableau des notes ;
+- un bandeau commun aux deux parcours, dont le texte et l'image suivent le parcours choisi (vallée de nuit pour « Être guidé », gantelet pour « Régler mes priorités ») : en changer ne décale pas la page ; Darkspear Islands illustre le tableau des notes ;
+- dans le parcours guidé, les résultats révélés s'affichent sous la question, à la même largeur, les trois pistes côte à côte ; fermé, l'aperçu reste sous « Mes choix » ;
 - médaillons des neuf classes et couleurs de rareté des objets pour les notes.
 
 Ces visuels viennent du kit de presse officiel et sont publiés avec le site (`assets/img`, provenance et droits dans [assets/README.md](assets/README.md)). Le thème clair garde sa page claire et l'en-tête y devient un encadré illustré. Aucun calcul, aucune donnée et aucune sauvegarde ne changent ; les icônes de classes et de compétences restent chargées depuis le serveur de Blizzard.

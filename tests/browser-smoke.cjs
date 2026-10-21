@@ -12,7 +12,7 @@ const {chromium}=require('playwright');
 const base=path.resolve(__dirname,'..');
 const allowed={'/':'index.html','/index.html':'index.html','/questionnaire.js':'questionnaire.js','/recommendation-engine.js':'recommendation-engine.js','/priorities-ui.js':'priorities-ui.js','/ux-polish.css':'ux-polish.css','/warcraft-visual-pack.css':'warcraft-visual-pack.css','/wow-ui-rework.css':'wow-ui-rework.css','/refonte-forever.css':'refonte-forever.css','/assets/hero-landscape.svg':'assets/hero-landscape.svg'};
 // Visuels de la refonte (kit de presse officiel), servis comme sur GitHub Pages.
-for(const f of ['logo-wow-forever.webp','hero-arbre-monde.webp','bandeau-gantelet.webp','bandeau-darkspear.webp','grain.png'])allowed['/assets/img/'+f]='assets/img/'+f;
+for(const f of ['logo-wow-forever.webp','hero-arbre-monde.webp','hero-vallee-nuit.webp','bandeau-gantelet.webp','bandeau-darkspear.webp','grain.png'])allowed['/assets/img/'+f]='assets/img/'+f;
 const types={'.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml; charset=utf-8','.webp':'image/webp','.png':'image/png'};
 const server=http.createServer((req,res)=>{
   const pathname=new URL(req.url,'http://localhost').pathname;
@@ -89,10 +89,20 @@ async function check(){
   await page.locator('[data-single="range"][data-key="distance"]').click();
   assert.match(await page.locator('#reco-results').textContent(),/Voir un aperçu/);
   assert.equal(await page.locator('#reco-results .reco-result-card').count(),0);
+  const place=()=>page.evaluate(()=>{const r=s=>{const b=document.querySelector(s).getBoundingClientRect();return {top:Math.round(b.top),bottom:Math.round(b.bottom),left:Math.round(b.left),width:Math.round(b.width)};};
+   return {form:r('#reco-guided .reco-workspace'),results:r('#reco-results'),summary:r('#reco-summary-panel')};});
+  let placed=await place();
+  assert.ok(placed.results.left>=placed.summary.left-2&&placed.results.top>=placed.summary.bottom-2,'Aperçu fermé sous « Mes choix » : '+JSON.stringify(placed));
   await page.locator('[data-reco-reveal]').click();
   assert.equal(await page.locator('#reco-results .reco-result-card').count(),3);
+  // Révélés, les résultats passent sous la question, à la même largeur.
+  placed=await place();
+  assert.ok(placed.results.top>=placed.form.bottom-2&&Math.abs(placed.results.left-placed.form.left)<=2&&Math.abs(placed.results.width-placed.form.width)<=2,
+    'Résultats sous la question, même largeur : '+JSON.stringify(placed));
   await page.locator('[data-reco-hide]').click();
   assert.equal(await page.locator('#reco-results .reco-result-card').count(),0);
+  placed=await place();
+  assert.ok(placed.results.left>=placed.summary.left-2,'Résultats masqués : retour sous « Mes choix » '+JSON.stringify(placed));
   await page.locator('[data-reco-reveal]').click();
   assert.equal(await page.locator('#reco-results .reco-result-card').count(),3);
   await page.locator('[data-step="4"]').click();
@@ -114,9 +124,22 @@ async function check(){
   await page.locator('[data-reco-reveal]').click();
   assert.match(await page.locator('#reco-results').textContent(),/Ces exigences ne vont pas ensemble/);
 
+  // Bandeaux homogènes : passer d'un parcours à l'autre ne décale pas la page.
+  const bandBox=sel=>page.locator(sel).evaluate(el=>{const r=el.getBoundingClientRect();return {top:Math.round(r.top+window.scrollY),height:Math.round(r.height)};});
+  const sameBand=(a,b)=>Math.abs(a.top-b.top)<=2&&Math.abs(a.height-b.height)<=2;
+  assert.equal(await page.locator('#reco-app .rf-band').count(),1);
+  assert.equal(await page.locator('.rf-band-copy-guide').isVisible(),true);
+  assert.equal(await page.locator('.rf-band-copy-priorites').isVisible(),false);
+  assert.match(await page.locator('.rf-band-copy-guide').textContent(),/Parcours 1[\s\S]*Être guidé/);
+  const guideBand=await bandBox('#reco-app .rf-band');
+
   // Second parcours : poids classiques réutilisés, mêmes 15 profils, top neuf classes.
   await page.locator('[data-reco-mode="priorities"]').click();
   assert.equal(await page.locator('#reco-priorities').isVisible(),true);
+  assert.equal(await page.locator('.rf-band-copy-priorites').isVisible(),true);
+  assert.equal(await page.locator('.rf-band-copy-guide').isVisible(),false);
+  const prioBand=await bandBox('#reco-app .rf-band');
+  assert.ok(sameBand(guideBand,prioBand),'Bandeau décalé entre les parcours : '+JSON.stringify({guideBand,prioBand}));
   assert.equal(await page.locator('#reco-guided').isVisible(),false);
   assert.equal(await page.locator('[data-prio-preset]').count(),8);
   assert.equal(await page.locator('.reco-more-presets').count(),0);
@@ -168,6 +191,7 @@ async function check(){
   assert.ok(measurements.document<=measurements.viewport+2,'Débordement horizontal '+JSON.stringify(measurements));
   assert.equal(await page.locator('#reco-priority-results .reco-priority-class').count(),9);
   await page.locator('[data-reco-mode="guided"]').click();
+  const guideBandMobile=await bandBox('#reco-app .rf-band');
   const vertical=await page.evaluate(()=>{
    const a=document.querySelector('#reco-rail').getBoundingClientRect();
    const b=document.querySelector('#reco-guided .reco-workspace').getBoundingClientRect();
@@ -188,6 +212,8 @@ async function check(){
   await page.waitForTimeout(280);
   await page.screenshot({path:path.join(__dirname,'screenshots','questionnaire-mobile.png'),fullPage:false});
   await page.locator('[data-reco-mode="priorities"]').click();
+  const prioBandMobile=await bandBox('#reco-app .rf-band');
+  assert.ok(sameBand(guideBandMobile,prioBandMobile),'Bandeau décalé sur mobile : '+JSON.stringify({guideBandMobile,prioBandMobile}));
   await page.locator('#reco-priority-form').scrollIntoViewIfNeeded();
   await page.waitForTimeout(280);
   await page.screenshot({path:path.join(__dirname,'screenshots','priorites-mobile.png'),fullPage:false});
@@ -228,7 +254,7 @@ async function check(){
   assert.ok(typeof glowAfter==='string');
   // Contrôles des ressources graphiques et de l’accessibilité des animations.
   const assets=await page.evaluate(async()=>Promise.all(['ux-polish.css','warcraft-visual-pack.css','wow-ui-rework.css','refonte-forever.css','assets/hero-landscape.svg',
-   'assets/img/hero-arbre-monde.webp','assets/img/bandeau-gantelet.webp','assets/img/bandeau-darkspear.webp','assets/img/grain.png'].map(async p=>{
+   'assets/img/hero-arbre-monde.webp','assets/img/hero-vallee-nuit.webp','assets/img/bandeau-gantelet.webp','assets/img/bandeau-darkspear.webp','assets/img/grain.png'].map(async p=>{
     const r=await fetch(p);return {url:p,status:r.status,ok:r.ok};
   })));
   assert.ok(assets.every(x=>x.ok),'CSS et illustration manquants : '+JSON.stringify(assets));

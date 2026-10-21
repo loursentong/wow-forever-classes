@@ -485,6 +485,18 @@ footer.end{font-size:.9rem;color:var(--muted)}
         <button id="reco-tab-priorities" type="button" role="tab" aria-controls="reco-priorities" aria-selected="false" data-reco-mode="priorities"><span class="reco-mode-symbol" aria-hidden="true"><img src="https://render.worldofwarcraft.com/us/icons/56/inv_misc_book_09.jpg" width="40" height="40" loading="eager" alt=""></span><span class="reco-mode-title"><strong>Régler mes priorités</strong><small>Je sais ce qui compte</small></span></button>
       </div>
     </div>
+    <div class="rf-band">
+      <div class="rf-band-copy rf-band-copy-guide">
+        <p class="rf-band-kicker">Parcours 1</p>
+        <h3 class="rf-band-title">Être guidé</h3>
+        <p class="rf-band-text">Six questions à ton rythme, une certitude pour chaque envie, puis un aperçu quand tu le décides.</p>
+      </div>
+      <div class="rf-band-copy rf-band-copy-priorites">
+        <p class="rf-band-kicker">Parcours 2</p>
+        <h3 class="rf-band-title">Régler mes priorités</h3>
+        <p class="rf-band-text">Un profil de départ, tes propres critères, ton niveau, puis le classement des neuf classes.</p>
+      </div>
+    </div>
     <div id="reco-guided" role="tabpanel" aria-labelledby="reco-tab-guided">
       <div class="reco-guided-layout">
         <div id="reco-rail" class="reco-step-rail"></div>
@@ -492,18 +504,13 @@ footer.end{font-size:.9rem;color:var(--muted)}
           <div class="reco-topline"><p class="reco-hint">Réponds librement. Chaque étape est facultative.</p><button id="reco-reset" class="reco-reset" type="button">Recommencer ↺</button></div>
           <div id="reco-form"><p class="reco-hint">Préparation du questionnaire…</p></div>
         </div>
-        <aside class="reco-sidebar" aria-label="Synthèse et recommandations">
+        <aside class="reco-sidebar" aria-label="Synthèse de mes choix">
           <div id="reco-summary-panel" class="reco-summary-panel"></div>
-          <div id="reco-results" class="reco-results" aria-live="polite" aria-label="Résultats du parcours guidé"><p class="reco-hint">Ton aperçu sera disponible sur demande.</p></div>
         </aside>
+        <div id="reco-results" class="reco-results" aria-live="polite" aria-label="Résultats du parcours guidé"><p class="reco-hint">Ton aperçu sera disponible sur demande.</p></div>
       </div>
     </div>
     <div id="reco-priorities" role="tabpanel" aria-labelledby="reco-tab-priorities" hidden>
-      <div class="rf-band">
-        <p class="rf-band-kicker">Parcours 2</p>
-        <h3 class="rf-band-title">Régler mes priorités</h3>
-        <p class="rf-band-text">Un profil de départ, tes propres critères, ton niveau, puis le classement des neuf classes.</p>
-      </div>
       <div class="reco-guided-layout reco-priorities-layout">
         <div class="reco-workspace" id="reco-priority-form"></div>
         <aside id="reco-priority-results" class="reco-results" aria-live="polite" aria-label="Classement selon les priorités"></aside>
