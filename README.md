@@ -1,9 +1,9 @@
 # Les classes de WoW Forever
 
-**Révision éditoriale locale du 21 octobre 2026 — moteur 1.0.1-exploratoire.** Trois notes révisées après revue : soin Chaman et Paladin 4→5, contrôle Discipline 4→3. Les formules, la maîtrise et la refonte graphique sont conservées. Les 28 configurations disposent de repères courts dans les résultats des deux parcours. Voir [le détail et les effets](REVISION-EDITORIALE-V2.md). Cette révision n'est pas publiée.
+**Révision du moteur du 21 octobre 2026 — moteur 1.0.2-exploratoire.** Trois notes révisées après revue : soin Chaman et Paladin 4→5, contrôle Discipline 4→3. À score égal, une classe est représentée par sa spécialisation au plus haut potentiel compte tenu de la maîtrise. Les formules de score, la maîtrise et la refonte graphique sont conservées. Les 28 configurations disposent de repères courts dans les résultats des deux parcours. Voir [le détail et les effets](REVISION-EDITORIALE-V2.md).
 
 
-> **Référentiel du moteur logique :** [CODEX-MOTEUR-LOGIQUE.md](CODEX-MOTEUR-LOGIQUE.md). Ce document spécifie les entrées, formules, filtres, interprétations, sauvegardes et règles de changement. Les tests de contrat comparent la version actuelle à [la photographie v2](tests/fixtures/moteur-reference-v2.json) couvrant les 28 configurations, les 126 notes historiques, 60 classements par préréglage et maîtrise et douze scénarios guidés. La [v1](tests/fixtures/moteur-reference-v1.json) est conservée intacte.
+> **Référentiel du moteur logique :** [CODEX-MOTEUR-LOGIQUE.md](CODEX-MOTEUR-LOGIQUE.md). Ce document spécifie les entrées, formules, filtres, interprétations, sauvegardes et règles de changement. Les tests de contrat comparent la version actuelle à [la photographie v3](tests/fixtures/moteur-reference-v3.json) couvrant les 28 configurations, les 126 notes historiques, 60 classements par préréglage et maîtrise et douze scénarios guidés. La [v1](tests/fixtures/moteur-reference-v1.json) et la [v2](tests/fixtures/moteur-reference-v2.json) sont conservées intactes.
 >
 > **Important :** un échec de ces tests peut signaler une évolution intentionnelle ou une régression. Ne jamais régénérer automatiquement la photographie pour rétablir une CI verte. Examiner les écarts, obtenir l'accord sur le nouveau comportement et versionner le référentiel.
 

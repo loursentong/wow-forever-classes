@@ -1,6 +1,8 @@
 'use strict';
-// Comparaison reproductible, sans écrire de fixture ni modifier le moteur.
+// Comparaison reproductible v1 → v2, sans écrire de fixture ni modifier le moteur.
 // Usage : node scripts/compare-editorial-v2.cjs [rapport.json]
+// Depuis le moteur 1.0.2, la comparaison porte sur la photographie v2 figée : le moteur actuel
+// suit la référence v3 (configuration affichée à score égal, voir scripts/reference-v3.cjs).
 const fs=require('node:fs');
 const path=require('node:path');
 const assert=require('node:assert/strict');
@@ -63,7 +65,7 @@ function compare(next){
   scenarios_guides:next.guide.map((g,i)=>({id:g.id,avant:v1.guide[i].scenarios,apres:g.scenarios}))};
 }
 if(require.main===module){
- const report=compare(snapshot());
+ const report=compare(require('../tests/fixtures/moteur-reference-v2.json'));
  if(process.argv[2])fs.writeFileSync(process.argv[2],JSON.stringify(report,null,2)+'\n');
  console.log(JSON.stringify({version:report.version,cas:report.cas,cas_modifies:report.cas_modifies}));
 }

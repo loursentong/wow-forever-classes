@@ -40,9 +40,14 @@ test('Soin seul : Paladin et Chaman à 100 au niveau Confirmé, seuls leurs soig
   const guide=E.ranking({roles:{soin:5},activities:{raid:5},mastery:2}).results.find(r=>r.spec.classId===id);
   assert.equal(guide.score,100);
  }
+ // Tank et DPS : classes et scores identiques à la v1. Depuis la v3, la configuration
+ // affichée à score égal suit le plus haut potentiel ; les lignes complètes suivent la v3.
+ const v3=require('./fixtures/moteur-reference-v3.json');
  for(const role of ['tank','dps']){
+  const rows=E.priorityRanking({[role]:3},2).results.map(r=>[r.classId,r.spec.id,r.score]);
   const expected=v1.isolatedRoles.find(x=>x.mastery===2).axes.find(x=>x.axis===role).results;
-  assert.deepEqual(E.priorityRanking({[role]:3},2).results.map(r=>[r.classId,r.spec.id,r.score]),expected);
+  assert.deepEqual(rows.map(r=>[r[0],r[2]]),expected.map(r=>[r[0],r[2]]));
+  assert.deepEqual(rows,v3.isolatedRoles.find(x=>x.mastery===2).axes.find(x=>x.axis===role).results);
  }
 });
 

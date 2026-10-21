@@ -1,6 +1,6 @@
-# Révision éditoriale v2 — 21 octobre 2026
+# Révision éditoriale v2 et référence v3 — 21 octobre 2026
 
-Changement de **données et d'explications**, approuvé par le responsable du projet après la revue pratique des 28 configurations. Version locale `1.0.1-exploratoire`, basée sur `71f81ec53bc3023e5fd8e8428de1267ff5df2d4a`. Aucune publication GitHub.
+Changement de **données et d'explications**, approuvé par le responsable du projet après la revue pratique des 28 configurations : moteur `1.0.1-exploratoire`, référence v2. Il est complété le même jour par la règle d'affichage à score égal : moteur `1.0.2-exploratoire`, référence v3, [voir plus bas](#version-102--configuration-affichée-à-score-égal). Base commune : `71f81ec53bc3023e5fd8e8428de1267ff5df2d4a`.
 
 ## Décisions appliquées
 
@@ -42,7 +42,7 @@ Quatre profils simples ont été comparés en Débutant et en Confirmé, avec de
 
 | Profil | Guide : Confirmé → Débutant | Priorités : Confirmé → Débutant |
 |---|---|---|
-| Solo | Chasseur Maîtrise des bêtes, Démonologie, Paladin Protection à 100 → Maîtrise des bêtes 100, Paladin Protection 85,5, Démonologie 78,3 | Démonologie 100, Paladin Protection 100, Chasseur Survie 87,5 → Paladin Protection 87,1, Chasseur Maîtrise des bêtes 85,5, Démonologie 79,7 |
+| Solo | Chasseur, Démonologie, Paladin Protection à 100 → Chasseur 100, Paladin Protection 85,5, Démonologie 78,3 | Démonologie 100, Paladin Protection 100, Chasseur Survie 87,5 → Paladin Protection 87,1, Chasseur Maîtrise des bêtes 85,5, Démonologie 79,7 |
 | Soin | Chaman, Druide, Paladin, Prêtre (Discipline) à 100 → Chaman, Paladin, Prêtre (Sacré) 95,1, Druide 92,7 | Mêmes classes à 100 → Chaman, Paladin, Prêtre (Sacré) 93,1, Druide 89,7 |
 | Tank | Guerrier 100, Druide ours 81,3, Paladin 81,3 → Guerrier 92,7, Paladin 76,4, Druide ours 71,5 | Guerrier 100, Druide ours 80,9, Paladin 80,9 → Guerrier 88,8, Paladin 74,1, Druide ours 67,1 |
 | DPS | Chasseur Survie et Guerrier Fureur 100, Démoniste Affliction 81,3 → Fureur 92,7, Survie 90,2, Paladin Vindicte 76,4 | Survie et Fureur 100, Affliction 75 → Fureur 90,2, Survie 87,0, Vindicte 68,5 |
@@ -54,25 +54,43 @@ Quatre profils simples ont été comparés en Débutant et en Confirmé, avec de
 - **Choix explicites respectés.** Un débutant qui demande un gameplay « Exigeant » garde des pistes exigeantes : Survie, Fureur, Démonologie en DPS. « Accessible » place la Maîtrise des bêtes en tête.
 - **Goût et maîtrise distincts.** La Technicité des priorités et la difficulté recherchée dans le guide reposent sur la charge d'exécution brute, sans effet de la maîtrise. L'interface sépare déjà les deux notions.
 
-Deux observations ne relèvent pas de la maîtrise. Ce lot ne les modifie pas.
+Deux observations ne relèvent pas de la maîtrise.
 
 - **DPS seul, en Débutant.** Chasseur Survie, configuration de mêlée exigeante, devance de peu la Maîtrise des bêtes : 90,2 contre 89,1. Le volet « Jouer Survie » signale l'exigence, et le choix « Accessible » inverse l'ordre.
-- **Égalités dans les priorités.** Entre deux spécialisations de même score d'une même classe, l'arrondi des nombres décide de celle qui est affichée.
-  - Exemple : profil Solo en Confirmé. Le Chasseur apparaît en Survie, alors que Maîtrise des bêtes obtient exactement le même score.
-  - Une règle explicite changerait la spécialisation affichée dans 33 à 39 des 87 cas de priorités de la référence, sans changer de score. Par exemple : à égalité, la configuration la plus accessible.
-  - Cette règle demande une décision et une nouvelle version de référence.
+- **Égalités dans les priorités.** Entre deux spécialisations de même score d'une même classe, l'arrondi des nombres décidait de celle qui était affichée. Exemple : profil Solo en Confirmé, Chasseur en Survie alors que Maîtrise des bêtes obtient exactement le même score. Réglé par la version 1.0.2 ci-dessous.
+
+## Version 1.0.2 : configuration affichée à score égal
+
+Le responsable du projet a choisi la règle le 21 octobre 2026. Quand plusieurs configurations d'une même classe obtiennent le même score, on affiche celle qui a **le plus haut potentiel compte tenu de la maîtrise**.
+
+- **Potentiel retenu :** celui du codex (§ 3.4), c'est-à-dire l'adéquation PvE éditoriale de la configuration (activité « raid ») après effet de la maîtrise.
+- **À potentiel égal :** l'identifiant départage.
+- **Portée :** la règle vaut pour les deux parcours. Elle ne change ni les scores ni l'ordre des classes.
+- **Avant :** les priorités laissaient un arrondi flottant choisir ; le guide prenait l'ordre alphabétique.
+
+Sur les 99 cas de référence, **41 changent de configuration affichée** : 38 dans les priorités, 3 dans le guide. Cela fait 82 lignes, dont 29 de classes à 0 point. Aucun score ni aucun rang ne bouge.
+
+| Cas | Avant | Après |
+|---|---|---|
+| Guide, solo seul, Débutant et Confirmé : 1ʳᵉ piste à 100 | Chasseur Maîtrise des bêtes | Chasseur Survie |
+| Guide, solo sans familier obligatoire, Confirmé : 2ᵉ à 83 | Chasseur Précision | Chasseur Survie |
+| Priorités, Soutien et mobilité : 1ʳᵉ place | Druide Équilibre | Druide Restauration |
+| Priorités, DPS en raid, Débutant : 4ᵉ | Démoniste Destruction | Démoniste Affliction |
+
+**Limite connue.** Le Chasseur n'est pas pénalisé en solo, quelle que soit sa spécialisation : c'est une exception existante du moteur. Survie et Maîtrise des bêtes restent donc à égalité en solo même en Débutant. Survie l'emporte alors par son potentiel PvE : 3,84 contre 3,71 sur 5. Réserver l'exception aux spécialisations à familier changerait des scores : ce serait une décision distincte.
 
 ## Références et reproduction
 
-La fixture v1 et `tests/reference-notes.json` sont conservés. La nouvelle fixture v2 fige les mêmes entrées, après vérification des trois seuls écarts de notes. Les tests protègent aussi l'empreinte de la v1. Le code des formules et les données de maîtrise sont inchangés.
+La fixture v1 et `tests/reference-notes.json` sont conservés. La fixture v2 fige les mêmes entrées, après vérification des trois seuls écarts de notes. La fixture v3, active, ne diffère de la v2 que par les configurations affichées à score égal. Les tests protègent les empreintes de la v1 et de la v2. Le code des formules de score et les données de maîtrise sont inchangés.
 
 ```text
 node --test tests/*.test.cjs
 node scripts/compare-editorial-v2.cjs comparaison-v1-v2.json
+node scripts/reference-v3.cjs comparaison-v2-v3.json
 bash scripts/prepare-pages.sh
 node tests/browser-smoke.cjs
 ```
 
-La comparaison produit les scores, rangs et spécialisations avant/après avec la cause de chaque écart. Elle ne réécrit aucune fixture. Le test navigateur utilise Playwright ; `FRV_CHROMIUM_EXECUTABLE` permet de sélectionner un Chrome/Chromium déjà installé.
+Les comparaisons produisent les scores, rangs et spécialisations avant/après avec la cause de chaque écart. Elles ne réécrivent aucune fixture : `scripts/reference-v3.cjs` n'écrit la photographie qu'avec l'option explicite `--fixture`. Le test navigateur utilise Playwright ; `FRV_CHROMIUM_EXECUTABLE` permet de sélectionner un Chrome/Chromium déjà installé.
 
 Les tests et les 99 cas vérifient la cohérence de l'implémentation, pas la justesse scientifique au niveau 60. Cette étape ne revoit ni les coefficients de maîtrise ni les formules et ne lance pas de nouvel audit exhaustif.

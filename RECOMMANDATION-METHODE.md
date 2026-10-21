@@ -2,7 +2,7 @@
 
 **État : 20 octobre 2026. Modèle exploratoire, non calibré au niveau 60.**
 
-**Révision éditoriale du 21 octobre 2026 :** soins Paladin et Chaman portés de 4 à 5 ; contrôle de Discipline de 4 à 3. Les formules et les coefficients de maîtrise sont conservés. Il s'agit de jugements d'aide au choix, pas de mesures de performance. Les repères « Jouer cette spécialisation » présentent le style, deux atouts et un point d'attention ; ils ne participent pas au score. Voir [la révision v2 et ses limites](REVISION-EDITORIALE-V2.md).
+**Révision éditoriale du 21 octobre 2026 :** soins Paladin et Chaman portés de 4 à 5 ; contrôle de Discipline de 4 à 3. Les formules et les coefficients de maîtrise sont conservés. Il s'agit de jugements d'aide au choix, pas de mesures de performance. Les repères « Jouer cette spécialisation » présentent le style, deux atouts et un point d'attention ; ils ne participent pas au score. Quand plusieurs spécialisations d'une classe obtiennent le même score, la classe est représentée par celle qui a le plus haut potentiel compte tenu de ta maîtrise (adéquation PvE estimée, ajustée à ton niveau). Voir [la révision et ses limites](REVISION-EDITORIALE-V2.md).
 
 Le nouveau parcours de six questions est distinct du comparatif historique à 14 critères. Ce dernier, ses 15 préréglages, les 9 classes et les notes existantes restent accessibles. Le nouveau moteur ne prend jamais les meilleures notes de toutes les spécialisations d'une classe pour les additionner.
 
