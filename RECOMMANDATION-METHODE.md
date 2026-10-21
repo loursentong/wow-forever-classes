@@ -113,3 +113,13 @@ Le protocole automatisé vérifie les 14 axes sur les quatre niveaux de maîtris
 Les tests Chromium valident les interactions des deux parcours, l'enregistrement puis la restauration d'une pondération personnelle, le passage entre les modes, la persistance après rechargement, et les mises en page mobile/ordinateur sur plusieurs largeurs.
 
 Ces simulations et tests de comportement ne constituent **pas une validation scientifique du modèle**. La qualité de la recommandation dépend des évaluations éditoriales ; il faudra les confronter à des données réelles, détaillées par spécialisation, équipement, contexte et niveau de maîtrise.
+
+## Lire les résultats — précisions du 21 octobre 2026
+
+Chaque classe est représentée par une seule spécialisation adaptée à l'ensemble des réponses. Ajouter un critère peut changer la spécialisation retenue. Les égalités exactes partagent un rang ; l'ordre d'affichage ne démontre aucune supériorité. Les scores principaux sont arrondis à l'entier : un même entier affiché ne signifie pas nécessairement une égalité exacte.
+
+Le contrôle recouvre immobilisations, ralentissements, neutralisations et interruptions, dont les contraintes diffèrent selon les talents et le familier. Les repères de difficulté PvE/PvP concernent la spécialisation affichée, sans mesurer précisément l'apprentissage d'un joueur ni sa capacité à optimiser.
+
+Un familier « facultatif » ne signifie pas un résultat identique sans compagnon. Le calcul actuel ne distingue pas encore ces variantes ; les résultats concernés le signalent lorsque le joueur préfère éviter les familiers. Les contrôles propres à un démon invoqué ne sont pas disponibles sans lui. Les variantes du Chasseur alternant mêlée et distance nécessitent aussi un alignement de leurs hypothèses de performance et de difficulté.
+
+Les types de soins ne sont pas encore des préférences du questionnaire. Une égalité entre soigneurs ne signifie donc pas qu'ils se jouent de la même façon ou fournissent exactement les mêmes soins. Voir [le périmètre du lot d'explications](LOT-1-EXPLICATIONS.md).

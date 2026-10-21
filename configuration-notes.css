@@ -4,3 +4,5 @@
 .reco-config-details summary{cursor:pointer;color:inherit}
 .reco-config-details p{line-height:1.6;overflow-wrap:anywhere}
 .reco-config-details p b{font-weight:600}
+.reco-config-notice{line-height:1.6;font-size:.875rem;padding:.75rem;border-inline-start:2px solid currentColor;overflow-wrap:anywhere}
+.reco-priority-label small{display:block;font-size:.8rem;line-height:1.5;margin-top:.3rem}

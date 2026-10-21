@@ -14,6 +14,7 @@ const expected={
  'refonte-forever.css':'rf-band',
  'configuration-notes.js':'guerrier-armes',
  'configuration-details.js':'reco-config-details',
+ 'result-explanations.js':'WFResultExplanations',
  'configuration-notes.css':'reco-config-details',
  'assets/hero-landscape.svg':'<svg',
  'assets/img/hero-arbre-monde.webp':'WEBP',

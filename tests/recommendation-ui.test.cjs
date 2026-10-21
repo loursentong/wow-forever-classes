@@ -17,7 +17,7 @@ function createHarness(initial={}){
  const root={querySelector(s){return {'#reco-form':form,'#reco-results':results,'#reco-reset':reset}[s]||null;}};
  const document={getElementById(id){return id==='reco-app'?root:null;}};
  const localStorage={getItem(k){return Object.hasOwn(store,k)?store[k]:null;},setItem(k,v){store[k]=v;}};
- const window={WFRecommend:engine,WFConfigurationDetails:require('../configuration-details.js')};
+ const window={WFRecommend:engine,WFConfigurationDetails:require('../configuration-details.js'),WFResultExplanations:require('../result-explanations.js')};
  vm.runInNewContext(ui,{window,document,localStorage},{timeout:2000});
  function button(dataset,attrs=[]){
   return {dataset,hasAttribute(k){return attrs.includes(k);},closest(){return this;}};
@@ -141,4 +141,18 @@ test('Les résultats attendent deux dimensions et un geste explicite avant d’a
  assert.match(h.results.innerHTML,/Voir un aperçu/);
  h.reset.click();
  assert.match(h.results.innerHTML,/Tout commence par tes envies/);
+});
+
+test('Une égalité en tête ne reçoit pas de carte gagnante ; la limite sans familier est visible',()=>{
+ const h=createHarness({'wf-recommend-v1':JSON.stringify({styles:{ctrl:5},range:{value:'distance',certainty:5},mastery:2})});
+ h.reveal();
+ assert.match(h.results.innerHTML,/À égalité en tête : Démoniste, Mage/);
+ assert.doesNotMatch(h.results.innerHTML,/reco-featured/);
+ assert.doesNotMatch(h.results.innerHTML,/PISTE PRINCIPALE/);
+ h.step(4);h.single('pet','avoid');h.certainty('pet','avoid',5);h.strict('pet',true);
+ assert.match(h.results.innerHTML,/score ne distingue pas encore/);
+ assert.match(h.results.innerHTML,/Sans démon invoqué/);
+ assert.match(h.results.innerHTML,/<strong>Givre<\/strong>/);
+ assert.match(h.results.innerHTML,/Difficulté de cette spécialisation/);
+ assert.equal(h.profile().pet.strict,true);
 });

@@ -130,6 +130,8 @@ score_affiché = arrondi(100 × score_brut, 2 décimales)
 - `compatible` = nombre de **configurations** admissibles avant dédoublonnage, **pas** nombre de classes.
 - `recommend()` propose **au plus trois classes distinctes** avec points forts/compromis, et des scénarios de sensibilité.
 
+**Restitution des égalités (lot d'explications du 21 octobre 2026) :** l'interface partage le rang des scores exactement égaux et leur mise en avant. Le guide cite toutes les classes à égalité en tête, y compris au-delà de ses trois cartes. Cette présentation ne modifie ni le tri déterministe, ni les scores, ni le choix de la configuration représentative. Les scores affichés à l'entier peuvent masquer un petit écart ; ils ne définissent pas l'égalité.
+
 ### 2.6. Sensibilité (et ce qu'elle ne signifie pas)
 
 Les choix de certitude **≤ 2** sont successivement retirés **un par un** et les classements recalculés. La stabilité exprimée est un décompte interne d'apparitions dans le top 3 des scénarios admissibles ; **ce n'est pas une probabilité statistique**. Ne pas annoncer « 90 % de chances d'aimer cette classe » à partir de ce dispositif.
