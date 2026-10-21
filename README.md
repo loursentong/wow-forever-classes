@@ -20,7 +20,7 @@ Cette métrique **n'est pas** une mesure de DPS, HPS, menace ou performance rée
 
 Dans « Régler mes priorités », seuls **huit profils clairs** sont affichés, les quinze anciens restent présents dans les données historiques. « Enregistrer mes critères » sauvegarde explicitement pondérations et maîtrise dans `wf-priority-custom-v1`, sans remplacer les autres sauvegardes ; « Reprendre mes critères » restaure exactement la sélection après exploration. Migration automatique depuis l'ancien « Mes critères » si disponible.
 
-L'interface guidée a une navigation verticale en six étapes, une zone centrale de réponses, et une synthèse éditable à droite sur grand écran. Les animations sont facultatives et respectent `prefers-reduced-motion`. La couche `wow-ui-rework.css` restitue les grandes lignes du visuel fantasy de référence sans figer les contrôles dans une image.
+L'interface guidée a une navigation verticale en six étapes, une zone centrale de réponses, et une synthèse éditable à droite sur grand écran. Sous la question, à la même largeur, un bloc mène aux résultats : il montre la progression vers un premier aperçu, puis le bouton « Voir mes résultats », et accueille les résultats à la même place. Les animations sont facultatives et respectent `prefers-reduced-motion`. La couche `wow-ui-rework.css` restitue les grandes lignes du visuel fantasy de référence sans figer les contrôles dans une image.
 
 **Régression :** tests unitaires pour 14 axes × 4 maîtrises × 3 forces, 24 000 pondérations aléatoires, indépendance des classes, intégrité des 126 notes historiques, cas guidés, persistence des favoris et tests de navigateur mobile/ordinateur. Ces épreuves ne remplacent pas la vérification du modèle contre des données réelles de joueurs.
 
@@ -34,7 +34,8 @@ La page applique la maquette validée ([design/README.md](design/README.md)) par
 - logo officiel toujours accompagné de la mention « Outil de fan · non officiel » ;
 - portails dorés pour les deux parcours, cadres héroïques (question, classement) et nobles (étapes, « Mes choix », aperçu) ;
 - un bandeau commun aux deux parcours, dont le texte et l'image suivent le parcours choisi (vallée de nuit pour « Être guidé », gantelet pour « Régler mes priorités ») : en changer ne décale pas la page ; Darkspear Islands illustre le tableau des notes ;
-- dans le parcours guidé, les résultats révélés s'affichent sous la question, à la même largeur, les trois pistes côte à côte ; fermé, l'aperçu reste sous « Mes choix » ;
+- dans le parcours guidé, l'aperçu et les résultats occupent la même place, sous la question et à la même largeur ; les trois pistes s'empilent en pleine largeur, la principale d'abord (évolution du 21 octobre 2026) ;
+- les blocs déroulants des résultats (« Jouer … », « Fiabilité et incertitude ») sont encadrés en or avec un chevron, et prennent la forme d'une pastille dans le classement à neuf classes ; ce classement nomme les égalités (« à égalité avec le Paladin ») et chiffre les écarts serrés (« 0,4 point derrière le Prêtre ») ;
 - médaillons des neuf classes et couleurs de rareté des objets pour les notes.
 
 Ces visuels viennent du kit de presse officiel et sont publiés avec le site (`assets/img`, provenance et droits dans [assets/README.md](assets/README.md)). Le site n'a plus qu'un thème, sombre : le thème clair et le choix d'apparence ont été retirés le même jour. Aucun calcul, aucune donnée et aucune sauvegarde ne changent ; les icônes de classes et de compétences restent chargées depuis le serveur de Blizzard.

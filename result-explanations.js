@@ -16,6 +16,25 @@
     close:i>0&&row.score!==results[i-1].score&&Math.abs(row.score-results[i-1].score)<2.01};
   });
  }
+ // Repère affiché à côté d'une classe classée : l'égalité nomme les classes concernées ; un écart
+ // de 2 points au plus est chiffré par rapport à la classe juste au-dessus (scores au centième,
+ // affichés arrondis à l'entier). Toutes les classes sont au masculin : « le », « du ».
+ function names(rows){
+  var n=rows.map(function(r){return 'le '+(r.className||r.spec.className);});
+  return n.length>1?n.slice(0,-1).join(', ')+' et '+n[n.length-1]:n[0];
+ }
+ function rankHint(results,i){
+  var row=results[i];
+  if(!row)return '';
+  var same=results.filter(function(r,j){return j!==i&&r.score===row.score;});
+  if(same.length)return 'à égalité avec '+(same.length>2?same.length+' autres classes':names(same));
+  if(i===0)return '';
+  var gap=results[i-1].score-row.score;
+  if(!(gap<2.01))return '';
+  var above=results.filter(function(r){return r.score===results[i-1].score;});
+  var v=Math.round(gap*10)/10,points=v<0.1?'moins de 0,1 point':String(v).replace('.',',')+(v>=2?' points':' point');
+  return points+' derrière '+(above.length>2?'les '+above.length+' classes à égalité au-dessus':names(above));
+ }
  function tieNote(results){
   if(!results.length)return '';
   var top=results.filter(function(r){return r.score===results[0].score;});
@@ -63,5 +82,5 @@
    out.push('Ce comparateur ne départage pas les façons de soigner : le parcours guidé le fait à la question 1, et la fiche de chaque spécialisation de soin les décrit.');
   return out;
  }
- return {criteria:criteria,ranks:ranks,tieNote:tieNote,petNotice:petNotice,contextNotes:contextNotes,healChoices:healChoices};
+ return {criteria:criteria,ranks:ranks,rankHint:rankHint,tieNote:tieNote,petNotice:petNotice,contextNotes:contextNotes,healChoices:healChoices};
 });

@@ -150,7 +150,9 @@ function renderForm(){
  html+=currentQuestion();
  html+='<div class="reco-form-footer"><button type="button" class="reco-back" data-prev '+(step===0?'disabled':'')+'>← Précédent</button>'+
   '<span class="reco-form-help">Tu peux passer une question.</span>'+
-  (step===5?'<button type="button" class="reco-next" data-show-results>Voir mes résultats ↓</button>':'<button type="button" class="reco-next" data-next>Question suivante →</button>')+'</div>';
+  // À la dernière question, le bouton n'est pas répété quand le bloc juste en dessous propose déjà « Voir mes résultats ».
+  (step===5?(canReveal(E.recommend(state))?'':'<button type="button" class="reco-next" data-show-results>Voir mes résultats ↓</button>'):
+   '<button type="button" class="reco-next" data-next>Question suivante →</button>')+'</div>';
  var tags=summaryText(),form=root.querySelector('#reco-form'),summaryPanel=root.querySelector('#reco-summary-panel');
  var roleKeys=E.selected(state.roles),activityKeys=E.selected(state.activities),styleKeys=E.selected(state.styles);
  var summaryRows=[
@@ -216,25 +218,37 @@ function resultCard(r,i,position){
   '<details class="reco-evidence"><summary>Fiabilité et incertitude</summary><p>'+esc(stability)+'. Évaluation des qualités de gameplay encore exploratoire au niveau 60.</p>'+
   '<a href="'+esc(r.spec.source)+'" target="_blank" rel="noopener noreferrer">Source officielle de la classe ↗</a></details></article>';
 }
+/* Avant les résultats, un bloc en pleine largeur sous la question : le texte, puis l'action
+ * (progression vers un premier aperçu, ou bouton des résultats). */
+function waiting(kind,kicker,title,text,action){
+ return '<div class="reco-empty '+kind+'"><div class="reco-empty-copy"><span class="reco-kicker">'+kicker+'</span><h3>'+title+'</h3>'+
+  '<p>'+text+'</p></div><div class="reco-empty-action">'+action+'</div></div>';
+}
+function discovery(n){
+ return '<div class="reco-discovery-progress" role="img" aria-label="'+n+' préférence'+(n>1?'s':'')+' sur 2 pour un premier aperçu">'+
+  '<span'+(n>=1?' class="is-done"':'')+'></span><span'+(n>=2?' class="is-done"':'')+'></span></div>'+
+  '<small>'+(n?'Encore une préférence pour un premier aperçu.':'Deux préférences suffisent pour un premier aperçu.')+'</small>';
+}
+function canReveal(report){return !revealed&&report.status==='ok'&&report.used.length>=2;}
 function renderResults(){
  var report=E.recommend(state),out=root.querySelector('#reco-results'),h='';
+ var ready=canReveal(report);
  if(report.status==='unanswered'){
-  h='<div class="reco-empty"><span class="reco-kicker">Ta prochaine aventure</span><h3>Tout commence par tes envies.</h3>'+
-   '<p>Choisis ce qui t’attire : nous construirons ta sélection étape par étape, sans favoriser de classe au départ.</p></div>';
+  h=waiting('reco-intro','Ta prochaine aventure','Tout commence par tes envies.',
+   'Choisis ce qui t’attire : nous construirons ta sélection étape par étape, sans favoriser de classe au départ.',discovery(0));
  }else if(!revealed){
   if(report.used.length<2&&report.status==='ok'){
-   h='<div class="reco-empty reco-awaiting"><span class="reco-kicker">Une première piste</span><h3>Encore un peu de contexte…</h3>'+
-    '<p>Un seul choix ne définit pas ton style. Continue à ton rythme : une autre préférence rendra l’aperçu plus pertinent.</p>'+
-    '<div class="reco-discovery-progress"><span></span><span></span><span></span></div></div>';
+   h=waiting('reco-awaiting','Une première piste','Encore un peu de contexte…',
+    'Un seul choix ne définit pas ton style. Continue à ton rythme : une autre préférence rendra l’aperçu plus pertinent.',discovery(1));
   }else{
-   h='<div class="reco-empty reco-ready"><span class="reco-kicker">Une sélection prend forme</span><h3>Prêt à découvrir tes pistes ?</h3>'+
-    '<p>Tes réponses permettent de commencer une comparaison. Tu peux continuer les questions ou demander un aperçu dès maintenant.</p>'+
-    '<button type="button" class="reco-reveal-button" data-reco-reveal>Voir un aperçu <span aria-hidden="true">→</span></button></div>';
+   h=waiting('reco-ready','Une sélection prend forme','Prêt à découvrir tes pistes ?',
+    'Tes réponses permettent de commencer une comparaison. Tu peux continuer les questions ou voir tes résultats dès maintenant.',
+    '<button type="button" class="reco-reveal-button" data-reco-reveal>Voir mes résultats <span aria-hidden="true">→</span></button>');
   }
  }else if(report.status==='no-match'){
-  h='<div class="reco-empty reco-no-match"><span class="reco-kicker">Aucune correspondance stricte</span><h3>Ces exigences ne vont pas ensemble</h3>'+
-   '<p>Aucune configuration ne remplit toutes tes contraintes. Tu peux rendre un rôle, la portée ou le familier non obligatoire.</p>'+
-   '<button type="button" class="reco-hide-results" data-reco-hide>Revenir à mes réponses</button></div>';
+  h=waiting('reco-no-match','Aucune correspondance stricte','Ces exigences ne vont pas ensemble',
+   'Aucune configuration ne remplit toutes tes contraintes. Tu peux rendre un rôle, la portée ou le familier non obligatoire.',
+   '<button type="button" class="reco-hide-results" data-reco-hide>Revenir à mes réponses</button>');
  }else{
   h='<div class="reco-results-head"><div><span class="reco-kicker">Sélection personnalisée</span><h3>Tes meilleures pistes</h3></div>'+
    '<button type="button" class="reco-hide-results" data-reco-hide>Masquer les résultats</button></div>';
@@ -249,7 +263,10 @@ function renderResults(){
  }
  if(out.innerHTML!==h){
   out.innerHTML=h;
-  if(out.classList)out.classList.toggle('is-revealed',!!revealed&&report.status==='ok');
+ }
+ if(out.classList){
+  out.classList.toggle('is-revealed',!!revealed&&report.status==='ok');
+  out.classList.toggle('is-ready',ready);
  }
  try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}
 }
@@ -276,7 +293,7 @@ if(stepRail)stepRail.addEventListener('click',function(ev){
  var b=ev.target.closest('button[data-step]');
  if(b&&stepRail.contains(b))navigate(Number(b.dataset.step));
 });
-resultsArea.addEventListener('click',function(ev){var b=ev.target.closest('button');if(!b)return;if(b.hasAttribute('data-reco-reveal'))showResults();else if(b.hasAttribute('data-reco-hide')){revealed=false;renderResults();}});
+resultsArea.addEventListener('click',function(ev){var b=ev.target.closest('button');if(!b)return;if(b.hasAttribute('data-reco-reveal')){showResults();renderForm();}else if(b.hasAttribute('data-reco-hide')){revealed=false;renderResults();renderForm();}});
 form.addEventListener('click',function(ev){
  var b=ev.target.closest('button');if(!b||!form.contains(b))return;
  if(b.dataset.step!==undefined){navigate(Number(b.dataset.step));return;}

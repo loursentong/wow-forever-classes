@@ -113,13 +113,13 @@ function results(){
   if(X)X.contextNotes({weights:w}).forEach(function(note){h+='<p class="reco-note">'+esc(note)+'</p>';});
   h+='<ol class="reco-priority-ranking">';
   r.results.forEach(function(x,i){
-    var rounded=Math.round(x.score),close=i>0&&Math.abs(x.score-r.results[i-1].score)<2.01;
+    var rounded=Math.round(x.score),hint=X?X.rankHint(r.results,i):'';
     var position=positions[i]||{rank:i+1,tied:false,leader:i===0};
     h+='<li class="reco-priority-class'+(position.leader?' is-leading':'')+'" value="'+position.rank+'" style="--reco-class:var(--k-'+esc(x.classId)+')">'+
-     '<span class="reco-priority-place" aria-label="Rang '+position.rank+(position.tied?', ex æquo':'')+'">'+position.rank+'</span>'+
+     '<span class="reco-priority-place" aria-label="Rang '+position.rank+(position.tied?', à égalité':'')+'">'+position.rank+'</span>'+
      '<span class="reco-priority-class-icon" aria-hidden="true"><img src="'+WOW_ICON_BASE+wowClassIcons[x.classId]+'.jpg" width="30" height="30" alt="" loading="lazy" decoding="async"></span>'+
      '<span class="reco-priority-class-info"><b>'+esc(x.className)+'</b><small>'+
-     '<strong>'+esc(x.spec.label)+'</strong> · '+(x.spec.range==='distance'?'Distance':'Mêlée')+(position.tied?' · ex æquo':close?' · résultat proche':'')+'</small></span>'+
+     '<strong>'+esc(x.spec.label)+'</strong> · '+(x.spec.range==='distance'?'Distance':'Mêlée')+(hint?' · '+esc(hint):'')+'</small></span>'+
      '<span class="reco-priority-score">'+rounded+'<small>/100</small></span>'+
      '<span class="reco-priority-line" aria-hidden="true"><i style="width:'+Math.max(0,Math.min(100,rounded))+'%"></i></span>'+
      (window.WFConfigurationDetails?window.WFConfigurationDetails(x.spec):'')+'</li>';
