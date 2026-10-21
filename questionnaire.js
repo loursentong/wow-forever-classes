@@ -7,6 +7,13 @@ var root=document.getElementById('reco-app');
 if(!E||!root)return;
 var KEY='wf-recommend-v1',state=E.sanitize(null),step=0,revealed=false;
 try{state=E.sanitize(JSON.parse(localStorage.getItem(KEY)||'null'));}catch(e){state=E.sanitize(null);}
+/* Une exigence absolue n'est pas une hésitation : la certitude du choix exigé passe à 5/5 et son
+ * curseur est verrouillé (rôles indispensables, portée exigée, uniquement sans familier). */
+function lockStrict(){
+ if(state.rolesStrict)E.selected(state.roles).forEach(function(k){state.roles[k]=5;});
+ ['range','pet'].forEach(function(f){if(state[f].strict)state[f].certainty=5;});
+}
+lockStrict();
 var names={
  roles:{dps:'DPS',tank:'Tank',soin:'Soin'},
  healStyles:{prevention:'Prévenir les dégâts',duree:'Soins sur la durée',cible:'Gros soins ciblés',groupe:'Soigner tout le groupe'},
@@ -53,11 +60,12 @@ function summaryText(){
  return parts;
 }
 function certaintyControl(group,key,n){
- var name=(names[group]||{})[key]||key;
+ var name=(names[group]||{})[key]||key,locked=group==='roles'?state.rolesStrict:(group==='range'||group==='pet')&&state[group].strict;
  return '<div class="reco-cert"><div class="reco-cert-head"><label for="rc-'+group+'-'+key+'">Certitude pour « '+esc(name)+' »</label>'+
    '<output data-certout="'+group+'/'+key+'">'+n+'/5 · '+certWords[n]+'</output></div>'+
-   '<input id="rc-'+group+'-'+key+'" type="range" min="0" max="5" step="1" value="'+n+'" data-certgroup="'+group+'" data-certkey="'+key+'" aria-label="Certitude pour '+esc(name)+' (0 intuition, 5 certain)" aria-valuetext="'+esc(certWords[n])+'"/>'+
-   '<div class="reco-cert-scale"><span>0 · Intuition</span><span>5 · Certain</span></div></div>';
+   '<input id="rc-'+group+'-'+key+'" type="range" min="0" max="5" step="1" value="'+n+'" data-certgroup="'+group+'" data-certkey="'+key+'" aria-label="Certitude pour '+esc(name)+' (0 intuition, 5 certain)" aria-valuetext="'+esc(certWords[n])+'"'+(locked?' disabled':'')+'/>'+
+   '<div class="reco-cert-scale"><span>0 · Intuition</span><span>5 · Certain</span></div>'+
+   (locked?'<p class="reco-cert-locked">Exigence absolue : certitude maximale.</p>':'')+'</div>';
 }
 /* Icônes de compétences issues du CDN officiel World of Warcraft (Blizzard). */
 var WOW_ICON_BASE='https://render.worldofwarcraft.com/us/icons/56/';
@@ -366,7 +374,7 @@ form.addEventListener('click',function(ev){
   else{
    if(group==='styles'&&E.selected(state.styles).length>=3)return;
    if(group==='healStyles'&&E.selected(state.healStyles).length>=2)return;
-   state[group][key]=3;
+   state[group][key]=group==='roles'&&state.rolesStrict?5:3;
   }
   renderForm();renderResults();return;
  }
@@ -389,9 +397,14 @@ form.addEventListener('input',function(ev){
  renderResults();
 });
 form.addEventListener('change',function(ev){
- var el=ev.target;
- if(el.hasAttribute('data-roles-strict'))state.rolesStrict=el.checked;
+ var el=ev.target,roles=el.hasAttribute('data-roles-strict');
+ if(roles)state.rolesStrict=el.checked;
  if(el.dataset.strict)state[el.dataset.strict].strict=el.checked;
+ if(roles||el.dataset.strict){
+  lockStrict();renderForm();
+  var again=form.querySelector&&form.querySelector(roles?'[data-roles-strict]':'[data-strict="'+el.dataset.strict+'"]');
+  if(again&&again.focus)again.focus();
+ }
  renderResults();
 });
 root.querySelector('#reco-reset').addEventListener('click',function(){

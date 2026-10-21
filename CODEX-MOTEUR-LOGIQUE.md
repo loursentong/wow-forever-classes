@@ -101,6 +101,7 @@ préférence(a,c) = 0,5 + intensité(c) × (a − 0,5)
 - Portée `mixte` stricte : la classe doit posséder au moins deux portées dans le périmètre des rôles demandés.
 - Familier `avoid` strict : les configurations à familier **obligatoire** (`core`) sont exclues ; un familier `optional` reste autorisé, évalué dans sa variante sans familier (§2.4).
 - Les préférences souples, même très affirmées, **n'excluent jamais**.
+- **Interface (21 octobre 2026) :** une exigence absolue n'est pas une hésitation. Cocher « indispensable », « exigence absolue » ou « uniquement sans familier » fixe la certitude du choix exigé à **5/5** et verrouille son curseur ; une sauvegarde stricte et hésitante est relue à 5/5. Le moteur et ses formules sont inchangés : pour la portée et le familier, toutes les configurations admises y répondent pleinement, l'ordre ne change donc pas, seuls les scores affichés montent.
 
 Les contraintes contradictoires renvoient `status='no-match'`, **sans inventer de classe de remplacement**.
 
