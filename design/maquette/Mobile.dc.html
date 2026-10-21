@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Trouve la classe qui te ressemble · mobile</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&amp;family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&amp;family=JetBrains+Mono:wght@500&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 390px; min-height: 8600px; background: #0A1725; color: #E2EAF2; font-family: 'Source Sans 3', system-ui, sans-serif">
+  <dc-import name="Main" intensite="{{intensite}}" decor="{{decor}}" apercu-ouvert="{{apercuOuvert}}" hint-size="390px,8600px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"intensite":{"editor":"enum","options":["Sobre","Équilibré","Épique"],"default":"Équilibré","section":"Direction artistique"},"decor":{"editor":"enum","options":["Arbre-monde","Vallée de nuit"],"default":"Arbre-monde","section":"Direction artistique"},"apercuOuvert":{"editor":"boolean","default":false,"section":"Direction artistique"},"$preview":{"width":390,"height":8600}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      intensite: this.props.intensite ?? "Équilibré",
+      decor: this.props.decor ?? "Arbre-monde",
+      apercuOuvert: this.props.apercuOuvert ?? false
+    };
+  }
+}
+</script>
+</body>
+</html>
