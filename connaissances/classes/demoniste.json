@@ -158,10 +158,28 @@
   {
    "id": "d-solo",
    "categorie": "solo",
-   "texte": "Réussit seul des contenus que la plupart des classes ne peuvent pas faire (certaines quêtes élites) ; classé A au leveling par Mobalytics.",
+   "texte": "Réussit seul des contenus que la plupart des classes ne peuvent pas faire (Warcraft Tavern), reste un « excellent personnage solo » (Icy Veins) ; classé S dans la liste de leveling de la bêta (Mobalytics), Affliction conseillée.",
    "sources": [
     "wt-demoniste",
-    "mobalytics-leveling"
+    "mobalytics-leveling",
+    "iv-choisir",
+    "mobalytics-leveling-beta"
+   ]
+  },
+  {
+   "id": "d-pvp-duel",
+   "categorie": "pvp",
+   "texte": "Duel niveau 30 : rang S, Démonologie parmi les configurations les plus fortes (« Soul Link », « Seduction », bouclier du Voidwalker, « Fear », « Drain Life ») ; pas d’interruption fiable avant « Spell Lock » au 36 (Crix).",
+   "sources": [
+    "crix-pvp-duel"
+   ]
+  },
+  {
+   "id": "d-rotation",
+   "categorie": "ressource",
+   "texte": "Rotations simulées moyennes : 9 à 10 sorts.",
+   "sources": [
+    "wowsims-forever"
    ]
   }
  ],
@@ -199,18 +217,19 @@
     },
     "world": {
      "valeur": 5,
-     "raison": "Tournoi niveau 30 : vainqueur et finaliste Démonistes ; drains et contrôles pour tenir un duel.",
+     "raison": "Rang S en duel niveau 30 (Crix), vainqueur et finaliste Démonistes au tournoi ; drains et contrôles pour tenir un duel.",
      "appuis": [
       "d-tournoi",
       "d-controle",
       "d-defense",
-      "d-bg-kami"
+      "d-bg-kami",
+      "d-pvp-duel"
      ],
      "confiance": "moyenne"
     },
     "solo": {
      "valeur": 4,
-     "raison": "Réussit seul certaines quêtes élites (Warcraft Tavern) ; classé A au leveling par Mobalytics (base Vanilla).",
+     "raison": "Spécialisation conseillée pour le leveling dans une classe classée S (Mobalytics, bêta), « excellent personnage solo » (Icy Veins).",
      "appuis": [
       "d-solo",
       "d-defense"
@@ -270,9 +289,10 @@
      "valeur": 3,
      "raison": "Montée en puissance lente, « Life Tap » et affaiblissements à entretenir plutôt qu’un seul sort à répéter.",
      "appuis": [
-      "d-ressource"
+      "d-ressource",
+      "d-rotation"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     },
     "charge_pvp": {
      "valeur": 3,
@@ -319,23 +339,24 @@
     },
     "world": {
      "valeur": 4,
-     "raison": "Démon central et défenses solides. Tournoi niveau 30 : vainqueur et finaliste Démonistes.",
+     "raison": "Démon central et défenses solides : Crix la cite parmi les configurations les plus fortes en duel au niveau 30 (rang S).",
      "appuis": [
       "d-demono",
       "d-defense",
-      "d-tournoi"
+      "d-tournoi",
+      "d-pvp-duel"
      ],
      "confiance": "moyenne"
     },
     "solo": {
      "valeur": 5,
-     "raison": "Réussit seul des contenus que la plupart des classes ne peuvent pas faire ; démon central qui encaisse (« Soul Link »). Classé A par Mobalytics (base Vanilla).",
+     "raison": "Réussit seul des contenus que la plupart des classes ne peuvent pas faire, « excellent personnage solo » (Icy Veins), classe S dans la liste de la bêta ; démon central qui encaisse.",
      "appuis": [
       "d-solo",
       "d-demono",
       "d-defense"
      ],
-     "confiance": "moyenne"
+     "confiance": "haute"
     },
     "burst": {
      "valeur": 4,
@@ -391,9 +412,10 @@
      "raison": "Démon à piloter, « Life Tap » et éclats d’âme à gérer. Aucune mesure de difficulté.",
      "appuis": [
       "d-ressource",
-      "d-demono"
+      "d-demono",
+      "d-rotation"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     },
     "charge_pvp": {
      "valeur": 4,
@@ -438,17 +460,18 @@
     },
     "world": {
      "valeur": 5,
-     "raison": "Burst et contrôles ; tournoi niveau 30 : vainqueur et finaliste Démonistes.",
+     "raison": "Burst et contrôles ; rang S de la classe en duel niveau 30 (Crix), vainqueur et finaliste Démonistes au tournoi.",
      "appuis": [
       "d-destru",
       "d-controle",
-      "d-tournoi"
+      "d-tournoi",
+      "d-pvp-duel"
      ],
      "confiance": "moyenne"
     },
     "solo": {
      "valeur": 4,
-     "raison": "Réussit seul certaines quêtes élites (Warcraft Tavern) ; classé A au leveling par Mobalytics (base Vanilla).",
+     "raison": "« Excellent personnage solo » (Icy Veins) qui réussit seul certaines quêtes élites (Warcraft Tavern) ; classe S dans la liste de la bêta.",
      "appuis": [
       "d-solo",
       "d-defense"
@@ -508,9 +531,10 @@
      "valeur": 3,
      "raison": "Montée en puissance lente, « Life Tap » et affaiblissements à entretenir plutôt qu’un seul sort à répéter.",
      "appuis": [
-      "d-ressource"
+      "d-ressource",
+      "d-rotation"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     },
     "charge_pvp": {
      "valeur": 4,

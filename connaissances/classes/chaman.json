@@ -161,7 +161,8 @@
    "sources": [
     "bz-dd-mage-chaman",
     "wt-chaman",
-    "crix-niv30"
+    "crix-niv30",
+    "mobalytics-tanking"
    ],
    "specs": [
     "chaman-amelioration"
@@ -170,10 +171,39 @@
   {
    "id": "ch-leveling",
    "categorie": "solo",
-   "texte": "Amélioration est la spécialisation préférée pour le leveling en monde ouvert ; Chaman classé B par Mobalytics.",
+   "texte": "Chaman classé A dans la liste de leveling de la bêta (Mobalytics), Amélioration conseillée, B dans celle fondée sur Vanilla ; Amélioration est aussi la spécialisation préférée en monde ouvert (Warcraft Tavern).",
    "sources": [
     "wt-chaman",
-    "mobalytics-leveling"
+    "mobalytics-leveling",
+    "mobalytics-leveling-beta"
+   ]
+  },
+  {
+   "id": "ch-pvp-duel",
+   "categorie": "pvp",
+   "texte": "Duel niveau 30 : rang A grâce à Amélioration (burst de « Stormstrike », « Purge », totems, soins) ; Élémentaire et Restauration en retrait (Crix).",
+   "sources": [
+    "crix-pvp-duel"
+   ]
+  },
+  {
+   "id": "ch-twisting",
+   "categorie": "ressource",
+   "texte": "Le « totem twisting » est retiré, trop difficile à comprendre pour les nouveaux joueurs (développeurs).",
+   "sources": [
+    "kami-podcast-2"
+   ]
+  },
+  {
+   "id": "ch-rotation",
+   "categorie": "ressource",
+   "texte": "Rotations simulées moyennes : 9 sorts pour Amélioration, 13 pour Élémentaire.",
+   "sources": [
+    "wowsims-forever"
+   ],
+   "specs": [
+    "chaman-amelioration",
+    "chaman-elementaire"
    ]
   }
  ],
@@ -209,18 +239,19 @@
     },
     "world": {
      "valeur": 4,
-     "raison": "« Earth Shock », « Frost Shock », « Ghost Wolf » et burst élémentaire. Tournoi niveau 30 : Chamans 3e et 4e.",
+     "raison": "« Earth Shock », « Frost Shock », « Ghost Wolf » et burst élémentaire ; mais Crix juge Élémentaire en retrait en duel au niveau 30.",
      "appuis": [
       "ch-interruption",
       "ch-mobilite",
       "ch-elem-burst",
-      "ch-tournoi"
+      "ch-tournoi",
+      "ch-pvp-duel"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "solo": {
      "valeur": 3,
-     "raison": "Chaman classé B au leveling par Mobalytics (base Vanilla) ; Amélioration est la spécialisation préférée pour le leveling.",
+     "raison": "Chaman classé A dans la liste de leveling de la bêta, mais c’est Amélioration qui y est conseillée.",
      "appuis": [
       "ch-leveling"
      ],
@@ -280,9 +311,11 @@
      "valeur": 3,
      "raison": "Totems à placer, mana limité sur les longs combats, très dépendant de la puissance des sorts. Aucune mesure de difficulté.",
      "appuis": [
-      "ch-mana"
+      "ch-mana",
+      "ch-twisting",
+      "ch-rotation"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     },
     "charge_pvp": {
      "valeur": 3,
@@ -325,21 +358,23 @@
     },
     "world": {
      "valeur": 4,
-     "raison": "« Ghost Wolf » instantané, « Earth Shock » et burst de « Stormstrike ». Tournoi niveau 30 : Chamans 3e et 4e.",
+     "raison": "« Ghost Wolf » instantané, « Earth Shock », burst de « Stormstrike » : rang A en duel niveau 30 grâce à Amélioration (Crix), Chamans 3e et 4e du tournoi.",
      "appuis": [
       "ch-mobilite",
       "ch-interruption",
       "ch-amelio-burst",
-      "ch-tournoi"
+      "ch-tournoi",
+      "ch-pvp-duel"
      ],
      "confiance": "moyenne"
     },
     "solo": {
      "valeur": 3,
-     "raison": "Spécialisation préférée pour le leveling en monde ouvert (Warcraft Tavern) ; Chaman classé B par Mobalytics (base Vanilla).",
+     "raison": "Spécialisation conseillée pour le leveling (Mobalytics, bêta) et préférée en monde ouvert (Warcraft Tavern), dans une classe classée A, avec la meilleure mobilité du jeu selon Kami.",
      "appuis": [
       "ch-leveling",
-      "ch-tank"
+      "ch-tank",
+      "ch-mobilite"
      ],
      "confiance": "faible"
     },
@@ -397,9 +432,11 @@
      "raison": "Totems à placer et à relancer, procs à exploiter. Aucune mesure de difficulté.",
      "appuis": [
       "ch-mana",
-      "ch-amelio-burst"
+      "ch-amelio-burst",
+      "ch-twisting",
+      "ch-rotation"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     },
     "charge_pvp": {
      "valeur": 3,
@@ -444,19 +481,20 @@
     },
     "world": {
      "valeur": 4,
-     "raison": "Maille, bouclier et « Water Shield », « Earth Shock » et « Ghost Wolf » ; peu de sorts instantanés. Tournoi niveau 30 : Chamans 3e et 4e.",
+     "raison": "Maille, bouclier et « Water Shield », « Earth Shock » et « Ghost Wolf » ; Crix juge Restauration en retrait en duel au niveau 30.",
      "appuis": [
       "ch-defense",
       "ch-interruption",
       "ch-mobilite",
       "ch-resto",
-      "ch-tournoi"
+      "ch-tournoi",
+      "ch-pvp-duel"
      ],
      "confiance": "faible"
     },
     "solo": {
      "valeur": 3,
-     "raison": "Chaman classé B au leveling par Mobalytics (base Vanilla) ; Amélioration est la spécialisation préférée pour le leveling.",
+     "raison": "Chaman classé A dans la liste de leveling de la bêta, mais c’est Amélioration qui y est conseillée.",
      "appuis": [
       "ch-leveling"
      ],
@@ -519,7 +557,8 @@
      "raison": "« Chain Heal » et « Riptide » lisibles ; placement des totems et mana à gérer. Aucune mesure de difficulté.",
      "appuis": [
       "ch-resto",
-      "ch-mana"
+      "ch-mana",
+      "ch-twisting"
      ],
      "confiance": "faible"
     },

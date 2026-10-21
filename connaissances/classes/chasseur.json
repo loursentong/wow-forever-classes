@@ -18,7 +18,8 @@
    "texte": "Zone morte de 8 m : aucune attaque à distance au contact.",
    "sources": [
     "bz-dd-chasseur-druide",
-    "wt-chasseur"
+    "wt-chasseur",
+    "kami-podcast-2"
    ],
    "contre": [
     "bg",
@@ -215,12 +216,14 @@
   {
    "id": "c-leveling",
    "categorie": "solo",
-   "texte": "En tête des listes de leveling ; Maîtrise des bêtes est le choix naturel en monde ouvert ; la classe jugée la plus simple.",
+   "texte": "En tête des listes de leveling (S dans celle de la bêta) et « idéal pour explorer seul » (Icy Veins) ; Maîtrise des bêtes est le choix naturel en monde ouvert ; la classe jugée la plus simple.",
    "sources": [
     "wt-chasseur",
     "kami-video",
     "crix-niv30",
-    "mobalytics-leveling"
+    "mobalytics-leveling",
+    "iv-choisir",
+    "mobalytics-leveling-beta"
    ]
   },
   {
@@ -240,6 +243,26 @@
    ],
    "specs": [
     "chasseur-survie"
+   ]
+  },
+  {
+   "id": "c-pvp-duel",
+   "categorie": "pvp",
+   "texte": "Duel niveau 30 : rang S ; Précision pour le burst, Maîtrise des bêtes pour des familiers durables ; kiting, « Concussive Shot » et pièges (Crix).",
+   "sources": [
+    "crix-pvp-duel"
+   ],
+   "specs": [
+    "chasseur-precision",
+    "chasseur-maitrise-betes"
+   ]
+  },
+  {
+   "id": "c-rotation",
+   "categorie": "ressource",
+   "texte": "Rotations simulées : 6 à 7 sorts en tir statique, 9 à 11 sorts et plus de 200 conditions en tissage distance-mêlée.",
+   "sources": [
+    "wowsims-forever"
    ]
   }
  ],
@@ -280,16 +303,17 @@
     },
     "world": {
      "valeur": 4,
-     "raison": "Familier, pièges en combat, « Feign Death » et « Disengage » ; mais zone morte de 8 m, ni étourdissement ni interruption de base. Tournoi niveau 30 : meilleur Chasseur au top 16.",
+     "raison": "Familiers durables, pièges, « Feign Death » et « Disengage » : rang S en duel niveau 30 (Crix), malgré la zone morte de 8 m et un meilleur Chasseur sorti au top 16 du tournoi.",
      "appuis": [
       "c-familier-mdb",
       "c-pieges",
       "c-mobilite",
       "c-zone-morte",
       "c-pas-stun",
-      "c-tournoi"
+      "c-tournoi",
+      "c-pvp-duel"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     },
     "solo": {
      "valeur": 5,
@@ -356,12 +380,13 @@
     },
     "charge_pve": {
      "valeur": 1,
-     "raison": "La classe jugée la plus simple ; le familier demande toutefois de la pratique et de l’entretien.",
+     "raison": "La classe jugée la plus simple et une rotation simulée courte (6 sorts en tir statique) ; le familier demande toutefois de la pratique.",
      "appuis": [
       "c-leveling",
-      "c-familier-gestion"
+      "c-familier-gestion",
+      "c-rotation"
      ],
-     "confiance": "moyenne"
+     "confiance": "haute"
     },
     "charge_pvp": {
      "valeur": 2,
@@ -410,16 +435,17 @@
     },
     "world": {
      "valeur": 4,
-     "raison": "Burst à très longue portée et « Scatter Shot » ; mais zone morte de 8 m et pas de familier pour encaisser. Tournoi niveau 30 : meilleur Chasseur au top 16.",
+     "raison": "Burst à très longue portée et kiting : rang S en duel niveau 30 (Crix), malgré la zone morte de 8 m, l’absence de familier pour encaisser et un meilleur Chasseur sorti au top 16 du tournoi.",
      "appuis": [
       "c-portee",
       "c-burst",
       "c-scatter",
       "c-zone-morte",
       "c-familier-precision",
-      "c-tournoi"
+      "c-tournoi",
+      "c-pvp-duel"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     },
     "solo": {
      "valeur": 5,
@@ -485,12 +511,13 @@
     },
     "charge_pve": {
      "valeur": 2,
-     "raison": "Rotation à distance et zone morte de 8 m à respecter ; le tissage supposé par la simulation est plus exigeant.",
+     "raison": "Rotation simulée courte en tir statique (7 sorts) ; zone morte de 8 m à respecter, tissage plus exigeant.",
      "appuis": [
       "c-zone-morte",
-      "c-tissage"
+      "c-tissage",
+      "c-rotation"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     },
     "charge_pvp": {
      "valeur": 3,
@@ -613,11 +640,12 @@
     },
     "charge_pve": {
      "valeur": 4,
-     "raison": "Alterner distance et mêlée est au cœur de la spécialisation et de son résultat simulé.",
+     "raison": "Alterner distance et mêlée est au cœur de la spécialisation : 9 à 11 sorts et plus de 200 conditions en simulation, talents de tissage à investir.",
      "appuis": [
-      "c-tissage"
+      "c-tissage",
+      "c-rotation"
      ],
-     "confiance": "moyenne"
+     "confiance": "haute"
     },
     "charge_pvp": {
      "valeur": 3,

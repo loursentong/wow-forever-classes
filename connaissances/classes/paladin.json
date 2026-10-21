@@ -66,7 +66,8 @@
    "categorie": "defense",
    "texte": "Protection : « Templar’s Bulwark » (bouclier de 100 % des PV pendant 8 s, 5 min), « Seal of Fury » (bouclier de 50 % des dégâts, provocation par Judgement), « Sacred Duty », « Iron Creed ».",
    "sources": [
-    "bz-dd-paladin"
+    "bz-dd-paladin",
+    "iv-choisir"
    ],
    "specs": [
     "paladin-protection"
@@ -166,9 +167,10 @@
   {
    "id": "p-facile",
    "categorie": "ressource",
-   "texte": "Facile à prendre en main.",
+   "texte": "Facile à prendre en main (Kami) ; Blizzard assume une Vindicte « robot d’attaques automatiques », réactive.",
    "sources": [
-    "kami-video"
+    "kami-video",
+    "kami-podcast-2"
    ]
   },
   {
@@ -209,9 +211,41 @@
   {
    "id": "p-solo-mobalytics",
    "categorie": "solo",
-   "texte": "Paladin classé D (dernier) pour le leveling par Mobalytics (base Vanilla).",
+   "texte": "Paladin classé A dans la liste de leveling de la bêta (Mobalytics, niveaux 1 à 20), Vindicte conseillée ; D dans celle fondée sur Vanilla.",
    "sources": [
-    "mobalytics-leveling"
+    "mobalytics-leveling",
+    "mobalytics-leveling-beta"
+   ]
+  },
+  {
+   "id": "p-pvp-duel",
+   "categorie": "pvp",
+   "texte": "Duel niveau 30 : rang C ; Vindicte facile à garder à distance par Mage et Chasseur, Sacré (Shockadin) prometteur à distance ; peu de pression offensive constante (Crix).",
+   "sources": [
+    "crix-pvp-duel"
+   ]
+  },
+  {
+   "id": "p-tank-a",
+   "categorie": "performance",
+   "texte": "Protection classée A des tanks (Mobalytics) : provocation par « Seal of Fury », « Templar’s Bulwark » ; mana et absence de réduction de dégâts classique en points faibles.",
+   "sources": [
+    "mobalytics-tanking"
+   ],
+   "specs": [
+    "paladin-protection"
+   ]
+  },
+  {
+   "id": "p-rotation",
+   "categorie": "ressource",
+   "texte": "Rotations simulées courtes : 7 à 8 sorts pour Vindicte et Protection.",
+   "sources": [
+    "wowsims-forever"
+   ],
+   "specs": [
+    "paladin-vindicte",
+    "paladin-protection"
    ]
   }
  ],
@@ -247,17 +281,18 @@
     },
     "world": {
      "valeur": 4,
-     "raison": "Plaques, « Divine Shield » et « Hammer of Justice » : difficile à tuer, peu de dégâts. Tournoi niveau 30 : les quatre Paladins invaincus en qualification.",
+     "raison": "Plaques, « Divine Shield » et « Hammer of Justice » : difficile à tuer ; tournoi niveau 30 favorable aux Paladins et Shockadin prometteur à distance selon Crix.",
      "appuis": [
       "p-defense",
       "p-hoj",
-      "p-tournoi"
+      "p-tournoi",
+      "p-pvp-duel"
      ],
      "confiance": "moyenne"
     },
     "solo": {
      "valeur": 3,
-     "raison": "Survit sans peine mais tue lentement en soin ; Paladin classé D au leveling par Mobalytics (base Vanilla).",
+     "raison": "Survit sans peine mais tue lentement en soin ; Paladin classé A dans la liste de leveling de la bêta, avec Vindicte conseillée.",
      "appuis": [
       "p-solo-mobalytics",
       "p-defense"
@@ -349,10 +384,11 @@
    "notes": {
     "raid": {
      "valeur": 4,
-     "raison": "Tank complet sur le papier (« Templar’s Bulwark », « Seal of Fury »), mais menace simulée la plus faible des trois tanks (67 % de l’ours, groupe C) ; survie non simulée.",
+     "raison": "Classé A des tanks par Mobalytics (provocation de « Seal of Fury », « Templar’s Bulwark »), mais menace simulée la plus faible des trois (67 % de l’ours, groupe C) ; survie non simulée.",
      "appuis": [
       "p-prot-defense",
-      "p-sim"
+      "p-sim",
+      "p-tank-a"
      ],
      "confiance": "faible"
     },
@@ -376,13 +412,13 @@
     },
     "solo": {
      "valeur": 5,
-     "raison": "Farme en zone et monte de niveau sans difficulté selon Kami ; mais Mobalytics classe le Paladin D (base Vanilla) et « Consecration » a été réduite le 16 octobre.",
+     "raison": "Farme en zone et monte de niveau sans difficulté selon Kami, après la réduction de « Consecration » du 16 octobre ; Paladin classé A dans la liste de la bêta.",
      "appuis": [
       "p-solo-kami",
       "p-solo-mobalytics",
       "p-nerf"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     },
     "burst": {
      "valeur": 3,
@@ -439,12 +475,13 @@
     },
     "charge_pve": {
      "valeur": 2,
-     "raison": "Facile à prendre en main selon Kami ; le « Seal Twisting » n’existe plus de base. Aucune mesure de difficulté.",
+     "raison": "Facile à prendre en main (Kami), rotation simulée courte (7 à 8 sorts) et Vindicte assumée comme « robot d’attaques automatiques » par Blizzard.",
      "appuis": [
       "p-facile",
-      "p-mana"
+      "p-mana",
+      "p-rotation"
      ],
-     "confiance": "moyenne"
+     "confiance": "haute"
     },
     "charge_pvp": {
      "valeur": 2,
@@ -490,23 +527,24 @@
     },
     "world": {
      "valeur": 4,
-     "raison": "Plaques, « Divine Shield », « Hammer of Justice » et « Repentance », avec du burst. Tournoi niveau 30 : deux Paladins dans les huit derniers.",
+     "raison": "Plaques, « Divine Shield », « Hammer of Justice » et « Repentance » ; deux Paladins dans les huit derniers du tournoi niveau 30, mais Crix la juge facile à garder à distance (rang C).",
      "appuis": [
       "p-defense",
       "p-hoj",
       "p-burst",
-      "p-tournoi"
+      "p-tournoi",
+      "p-pvp-duel"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "solo": {
      "valeur": 4,
-     "raison": "Sceaux, Judgements et défenses de plaques pour enchaîner seul ; Paladin classé D au leveling par Mobalytics (base Vanilla).",
+     "raison": "Spécialisation conseillée pour le leveling du Paladin, classé A dans la liste de la bêta (Mobalytics, niveaux 1 à 20).",
      "appuis": [
       "p-defense",
       "p-solo-mobalytics"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     },
     "burst": {
      "valeur": 4,
@@ -564,12 +602,13 @@
     },
     "charge_pve": {
      "valeur": 2,
-     "raison": "Facile à prendre en main selon Kami ; le « Seal Twisting » n’existe plus de base. Aucune mesure de difficulté.",
+     "raison": "Facile à prendre en main (Kami), rotation simulée courte (7 à 8 sorts) et Vindicte assumée comme « robot d’attaques automatiques » par Blizzard.",
      "appuis": [
       "p-facile",
-      "p-mana"
+      "p-mana",
+      "p-rotation"
      ],
-     "confiance": "moyenne"
+     "confiance": "haute"
     },
     "charge_pvp": {
      "valeur": 2,

@@ -225,10 +225,12 @@
   {
    "id": "g-leveling",
    "categorie": "solo",
-   "texte": "Leveling lent, sans soin ; classé D par Mobalytics (base Vanilla).",
+   "texte": "Leveling lent et sans soin, moins indulgent en solo que Chasseur ou Démoniste (Icy Veins) ; classé C dans la liste de leveling de la bêta (Mobalytics), D dans celle fondée sur Vanilla.",
    "sources": [
     "crix-niv30",
-    "mobalytics-leveling"
+    "mobalytics-leveling",
+    "iv-choisir",
+    "mobalytics-leveling-beta"
    ]
   },
   {
@@ -240,6 +242,45 @@
    ],
    "specs": [
     "guerrier-protection"
+   ]
+  },
+  {
+   "id": "g-leveling-armes",
+   "categorie": "solo",
+   "texte": "Armes est la spécialisation conseillée pour le leveling du Guerrier (Mobalytics, bêta).",
+   "sources": [
+    "mobalytics-leveling-beta"
+   ],
+   "specs": [
+    "guerrier-armes"
+   ]
+  },
+  {
+   "id": "g-pvp-duel",
+   "categorie": "pvp",
+   "texte": "Duel niveau 30 : rang C ; peine à rejoindre sa cible face aux ralentissements, racines et contrôles ; Protection un peu mieux grâce à sa survie (Crix).",
+   "sources": [
+    "crix-pvp-duel"
+   ]
+  },
+  {
+   "id": "g-tank-s",
+   "categorie": "performance",
+   "texte": "Protection classée S des tanks (Mobalytics) : esquive et blocage, « Shield Block », Rage gagnée sur blocage, esquive et parade.",
+   "sources": [
+    "mobalytics-tanking",
+    "iv-choisir"
+   ],
+   "specs": [
+    "guerrier-protection"
+   ]
+  },
+  {
+   "id": "g-rotation",
+   "categorie": "ressource",
+   "texte": "Rotations simulées parmi les plus chargées : 22 à 25 sorts et environ 240 à 250 conditions pour Armes, Fureur et Protection, danse des postures comprise.",
+   "sources": [
+    "wowsims-forever"
    ]
   }
  ],
@@ -274,21 +315,23 @@
     },
     "world": {
      "valeur": 3,
-     "raison": "Seul, il manque de soins et d’échappatoires et dépend de l’équipement ; « Mortal Strike » l’aide en duel. Tournoi niveau 30 : dernière classe, à ne pas surinterpréter.",
+     "raison": "Seul, il manque de soins et d’échappatoires et peine à rejoindre sa cible : dernière classe du tournoi de duel niveau 30 et rang C chez Crix.",
      "appuis": [
       "g-equipement",
       "g-limite-burst",
       "g-mortal",
-      "g-tournoi"
+      "g-tournoi",
+      "g-pvp-duel"
      ],
      "confiance": "moyenne"
     },
     "solo": {
      "valeur": 2,
-     "raison": "Leveling lent et sans soin pour la classe (D chez Mobalytics, base Vanilla) ; aucune source ne sépare Armes et Fureur en solo.",
+     "raison": "Classe lente et sans soin en solo (C dans la liste de la bêta) ; Armes y est pourtant la spécialisation conseillée, ce qui ne justifie pas de la placer sous Fureur.",
      "appuis": [
       "g-leveling",
-      "g-equipement"
+      "g-equipement",
+      "g-leveling-armes"
      ],
      "confiance": "faible"
     },
@@ -348,10 +391,11 @@
     },
     "charge_pve": {
      "valeur": 2,
-     "raison": "Rotation PvE simple autour de « Mortal Strike » ; Rage et postures communes à la classe. Aucune mesure de difficulté.",
+     "raison": "Rotation PvE autour de « Mortal Strike » ; la rotation simulée est pourtant parmi les plus chargées (23 sorts), danse des postures comprise.",
      "appuis": [
       "g-rage",
-      "g-postures"
+      "g-postures",
+      "g-rotation"
      ],
      "confiance": "faible"
     },
@@ -398,18 +442,19 @@
     },
     "world": {
      "valeur": 3,
-     "raison": "Seul, il manque de soins et d’échappatoires ; Rage berserker et « Bloodthirst » l’aident à coller sa cible. Tournoi niveau 30 : dernière classe, à ne pas surinterpréter.",
+     "raison": "Seul, il manque de soins et d’échappatoires et peine à rejoindre sa cible : dernière classe du tournoi de duel niveau 30 et rang C chez Crix.",
      "appuis": [
       "g-equipement",
       "g-limite-burst",
       "g-fureur-mobilite",
-      "g-tournoi"
+      "g-tournoi",
+      "g-pvp-duel"
      ],
      "confiance": "moyenne"
     },
     "solo": {
      "valeur": 3,
-     "raison": "Leveling lent et sans soin pour la classe (D chez Mobalytics, base Vanilla) ; le multicible et la vitesse de « Bloodthirst » aident au farm.",
+     "raison": "Classe lente et sans soin en solo (C dans la liste de la bêta) ; le multicible et la vitesse de « Bloodthirst » aident au farm ; aucune source propre à Fureur.",
      "appuis": [
       "g-leveling",
       "g-zone",
@@ -475,7 +520,8 @@
      "raison": "Rotation plus chargée qu’Armes (« Bloodthirst », « Whirlwind », gestion de la Rage). Aucune mesure de difficulté.",
      "appuis": [
       "g-rage",
-      "g-postures"
+      "g-postures",
+      "g-rotation"
      ],
      "confiance": "faible"
     },
@@ -501,14 +547,15 @@
    "notes": {
     "raid": {
      "valeur": 5,
-     "raison": "Tank de référence : la boîte à outils défensive la plus complète des trois tanks (blocage, « Shield Wall » amélioré, « Last Stand ») ; menace simulée à 85 % de l’ours, survie non simulée.",
+     "raison": "Tank de référence : classé S par Mobalytics, la défense la plus complète des trois tanks (blocage, « Shield Wall » amélioré, « Last Stand ») et une menace simulée à 85 % de l’ours.",
      "appuis": [
       "g-prot-defense",
       "g-mur",
       "g-defiance",
-      "g-sim"
+      "g-sim",
+      "g-tank-s"
      ],
-     "confiance": "moyenne"
+     "confiance": "haute"
     },
     "bg": {
      "valeur": 4,
@@ -522,17 +569,18 @@
     },
     "world": {
      "valeur": 2,
-     "raison": "Peu de dégâts pour gagner un duel seul ; la défense ne compense pas l’absence de soins.",
+     "raison": "Peu de dégâts pour gagner un duel seul ; Crix la juge pourtant un peu meilleure qu’Armes et Fureur au niveau 30, grâce à sa survie.",
      "appuis": [
       "g-equipement",
       "g-prot-defense",
-      "g-tournoi"
+      "g-tournoi",
+      "g-pvp-duel"
      ],
      "confiance": "faible"
     },
     "solo": {
      "valeur": 3,
-     "raison": "Farme des packs grâce aux soins passifs de l’héritage selon Kami ; leveling de classe lent (D chez Mobalytics, base Vanilla).",
+     "raison": "Farme des packs grâce aux soins passifs de l’héritage selon Kami ; classe lente et sans soin en solo (C dans la liste de la bêta).",
      "appuis": [
       "g-farm-prot",
       "g-leveling"
@@ -599,7 +647,8 @@
      "raison": "Menace et Rage à gérer, défenses à placer au bon moment. Aucune mesure de difficulté.",
      "appuis": [
       "g-rage",
-      "g-prot-defense"
+      "g-prot-defense",
+      "g-rotation"
      ],
      "confiance": "faible"
     },

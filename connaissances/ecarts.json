@@ -46,21 +46,6 @@
   },
   {
    "id": "e4",
-   "spec": "paladin-protection",
-   "critere": "raid",
-   "valeur": 4,
-   "proposition": 3,
-   "priorite": "moyenne",
-   "constat": "Menace simulée la plus faible des trois tanks (67 % de l’ours, groupe C), alors que Guerrier (85 %) est à 5 et l’ours (100 %) à 4. Survie non simulée.",
-   "appuis": [
-    "p-sim",
-    "g-sim",
-    "dr-sim"
-   ],
-   "decision": null
-  },
-  {
-   "id": "e5",
    "spec": "druide-farouche-chat",
    "critere": "ctrl",
    "valeur": 3,
@@ -71,6 +56,20 @@
     "dr-ours-controle",
     "dr-limites",
     "p-limites"
+   ],
+   "decision": null
+  },
+  {
+   "id": "e5",
+   "spec": "druide-farouche-chat",
+   "critere": "zone",
+   "valeur": 3,
+   "proposition": 2,
+   "priorite": "moyenne",
+   "constat": "Aucun outil de zone en félin : « Swipe » est réservé à l’ours, ce que les développeurs citent eux-mêmes pour faire du Guerrier le roi du multicible.",
+   "appuis": [
+    "dr-zone-chat",
+    "dr-ours"
    ],
    "decision": null
   },
@@ -92,29 +91,32 @@
   },
   {
    "id": "e7",
-   "spec": "druide-farouche-chat",
-   "critere": "zone",
-   "valeur": 3,
-   "proposition": 2,
-   "priorite": "basse",
-   "constat": "Aucun outil de zone cité en félin : « Swipe » est réservé à l’ours.",
-   "appuis": [
-    "dr-zone-chat",
-    "dr-ours"
-   ],
-   "decision": null
-  },
-  {
-   "id": "e8",
    "spec": "mage-givre",
    "critere": "world",
    "valeur": 5,
    "proposition": 4,
    "priorite": "basse",
-   "constat": "Les quatre meilleurs Mages sont sortis au top 32 du tournoi de duel niveau 30, et Kami juge le Mage plus technique face à des classes plus mobiles. Preuve faible : niveau 30, format que Blizzard dit ne pas équilibrer.",
+   "constat": "Meilleure spécialisation du Mage en duel, mais la classe est classée A, derrière Démoniste et Chasseur (S), et les quatre meilleurs Mages sont sortis au top 32 du tournoi. Preuves au niveau 30 seulement.",
    "appuis": [
+    "m-pvp-duel",
     "m-tournoi",
-    "m-technique"
+    "m-technique",
+    "c-pvp-duel",
+    "d-pvp-duel"
+   ],
+   "decision": null
+  },
+  {
+   "id": "e8",
+   "spec": "mage-feu",
+   "critere": "world",
+   "valeur": 4,
+   "proposition": 3,
+   "priorite": "basse",
+   "constat": "Feu jugé très faible en duel au niveau 30 (Crix) et en peine contre tout selon Sodapoppin ; Arcane, jugé aussi faible, est à 3.",
+   "appuis": [
+    "m-feu-pvp",
+    "m-tournoi"
    ],
    "decision": null
   },
@@ -131,43 +133,66 @@
     "m-zone"
    ],
    "decision": null
+  },
+  {
+   "id": "e10",
+   "spec": "guerrier-armes",
+   "critere": "solo",
+   "valeur": 2,
+   "proposition": 3,
+   "priorite": "basse",
+   "constat": "Armes est la spécialisation conseillée pour le leveling du Guerrier (Mobalytics, bêta), alors qu’elle est notée sous Fureur (3) sans source qui les sépare.",
+   "appuis": [
+    "g-leveling-armes",
+    "g-leveling"
+   ],
+   "decision": null
+  },
+  {
+   "id": "e11",
+   "spec": "mage-givre",
+   "critere": "solo",
+   "valeur": 3,
+   "proposition": 4,
+   "priorite": "basse",
+   "constat": "Spécialisation conseillée pour le leveling dans une classe classée A (bêta) et S (Vanilla), réputée forte en leveling ; le farm de zone a toutefois été réduit.",
+   "appuis": [
+    "m-givre-leveling",
+    "m-leveling"
+   ],
+   "decision": null
+  },
+  {
+   "id": "e12",
+   "spec": "chaman-amelioration",
+   "critere": "solo",
+   "valeur": 3,
+   "proposition": 4,
+   "priorite": "basse",
+   "constat": "Spécialisation conseillée pour le leveling dans une classe classée A (bêta), préférée en monde ouvert (Warcraft Tavern), avec la meilleure mobilité du jeu selon Kami ; Paladin Vindicte, conseillé dans une classe A, est à 4.",
+   "appuis": [
+    "ch-leveling",
+    "ch-mobilite",
+    "p-solo-mobalytics"
+   ],
+   "decision": null
   }
  ],
  "surveiller": [
   {
-   "spec": "paladin-protection",
-   "critere": "solo",
-   "constat": "Kami la voit farmer sans difficulté ; Mobalytics classe le Paladin dernier (base Vanilla) et « Consecration » a été réduite le 16 octobre."
-  },
-  {
-   "spec": "mage-*",
-   "critere": "solo",
-   "constat": "Mobalytics classe le Mage S (base Vanilla), mais Blizzard a volontairement réduit le farm de zone en solo."
-  },
-  {
-   "spec": "voleur-*",
-   "critere": "solo",
-   "constat": "Classé A par Mobalytics (base Vanilla), sans soin personnel ; aucune source propre à Forever."
-  },
-  {
-   "spec": "voleur-assassinat",
-   "critere": "world",
-   "constat": "Noté 5 comme Finesse, mais Kami réserve son avis le plus fort à Finesse et le meilleur Voleur sort au top 16 du tournoi niveau 30."
-  },
-  {
-   "spec": "voleur-combat",
-   "critere": "surv",
-   "constat": "Noté au-dessus d’Assassinat et Finesse grâce à « Deflection », alors que Kami juge sa survie la plus limitée une fois découvert."
-  },
-  {
-   "spec": "druide-farouche-ours",
+   "spec": "soigneurs",
    "critere": "raid",
-   "constat": "Menace simulée la plus haute (100 %), mais ne bloque ni ne pare ; survie non simulée."
+   "constat": "Convention : les cinq soigneurs sont à 5. Aucune donnée ne les départage avant le lancement : pas de raid dans la bêta et aucune simulation de soin (le simulateur communautaire ne modélise pas les sorts de soin)."
   },
   {
    "spec": "druide-restauration",
    "critere": "raid",
-   "constat": "Blizzard juge sa boîte à outils plus limitée que celle du Prêtre ; aucun comparatif chiffré entre soigneurs."
+   "constat": "Blizzard juge sa boîte à outils plus limitée que celle du Prêtre."
+  },
+  {
+   "spec": "paladin-protection",
+   "critere": "raid",
+   "constat": "Classée A des tanks par Mobalytics, devant l’ours, mais menace simulée la plus faible des trois (67 %) ; survie non simulée."
   },
   {
    "spec": "chaman-amelioration",
@@ -175,14 +200,54 @@
    "constat": "68 % en simulation comme la Destruction ; gardé à 4 pour ses totems de raid."
   },
   {
-   "spec": "guerrier-armes",
-   "critere": "solo",
-   "constat": "Noté sous Fureur sans qu’aucune source ne les sépare en solo."
+   "spec": "paladin-vindicte",
+   "critere": "world",
+   "constat": "Tournoi niveau 30 favorable aux Paladins, mais Crix juge la Vindicte facile à garder à distance (rang C)."
   },
   {
-   "spec": "soigneurs",
-   "critere": "raid",
-   "constat": "Convention : les cinq soigneurs sont à 5 ; aucune donnée ne les départage encore."
+   "spec": "voleur-assassinat",
+   "critere": "world",
+   "constat": "Noté 5 comme Finesse, mais le Voleur est rang B en duel au niveau 30 et Kami réserve son avis le plus fort à Finesse."
+  },
+  {
+   "spec": "guerrier-protection",
+   "critere": "world",
+   "constat": "Notée sous Armes et Fureur, alors que Crix la juge un peu meilleure en duel au niveau 30 grâce à sa survie."
+  },
+  {
+   "spec": "chaman-elementaire",
+   "critere": "world",
+   "constat": "Noté 4, mais Crix juge Élémentaire et Restauration en retrait en duel au niveau 30."
+  },
+  {
+   "spec": "demoniste-demonologie",
+   "critere": "world",
+   "constat": "Notée 4 sous Affliction et Destruction (5), alors que Crix la cite parmi les configurations les plus fortes en duel au niveau 30."
+  },
+  {
+   "spec": "demoniste-affliction",
+   "critere": "solo",
+   "constat": "Spécialisation conseillée pour le leveling, mais notée 4 sous Démonologie (5)."
+  },
+  {
+   "spec": "voleur-combat",
+   "critere": "surv",
+   "constat": "Noté au-dessus d’Assassinat et Finesse grâce à « Deflection », alors que Kami juge sa survie la plus limitée une fois découvert."
+  },
+  {
+   "spec": "pretre-ombre",
+   "critere": "support",
+   "constat": "Les développeurs ont réduit son utilité de raid (batterie de mana retirée) avant d’ajouter « Dark Inspiration » le 15 octobre."
+  },
+  {
+   "spec": "guerrier-armes",
+   "critere": "charge_pve",
+   "constat": "Notée 2, alors que la rotation simulée est parmi les plus chargées (23 sorts, environ 250 conditions) ; la simulation compte les optimisations d’un jeu parfait."
+  },
+  {
+   "spec": "voleur-*",
+   "critere": "charge_pve",
+   "constat": "Notes de 2 à 3, alors que la rotation simulée est la plus chargée en décisions (21 sorts, plus de 500 conditions, une seule liste pour les trois spécialisations)."
   }
  ]
 }

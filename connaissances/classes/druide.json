@@ -122,10 +122,11 @@
   {
    "id": "dr-zone-chat",
    "categorie": "limite",
-   "texte": "Aucun outil de zone cité en félin : « Swipe » est réservé à l’ours.",
+   "texte": "Aucun outil de zone en félin : « Swipe » est réservé à l’ours, ce que les développeurs citent pour faire du Guerrier le roi du multicible.",
    "sources": [
     "bz-dd-chasseur-druide",
-    "wt-druide"
+    "wt-druide",
+    "kami-podcast-2"
    ],
    "specs": [
     "druide-farouche-chat"
@@ -170,10 +171,44 @@
   {
    "id": "dr-leveling",
    "categorie": "solo",
-   "texte": "Leveling lent au début ; Druide classé B par Mobalytics.",
+   "texte": "Leveling lent au début (Crix) ; Druide classé B dans la liste de la bêta (Mobalytics), Farouche conseillé, comme dans celle fondée sur Vanilla ; parmi les meilleurs outils pour explorer (Icy Veins).",
    "sources": [
     "crix-niv30",
-    "mobalytics-leveling"
+    "mobalytics-leveling",
+    "mobalytics-leveling-beta",
+    "iv-choisir"
+   ]
+  },
+  {
+   "id": "dr-pvp-duel",
+   "categorie": "pvp",
+   "texte": "Duel niveau 30 : rang B ; Farouche et Restauration solides (formes, ours contre les dégâts physiques, « Swiftmend », formes qui libèrent des entraves), mana très sollicité (Crix).",
+   "sources": [
+    "crix-pvp-duel"
+   ]
+  },
+  {
+   "id": "dr-tank-b",
+   "categorie": "performance",
+   "texte": "Ours classé B des tanks (Mobalytics) : gros PV, armure et esquive, mais ni bouclier ni blocage, inquiétant pour les combats les plus durs ; très dépendant de son soigneur.",
+   "sources": [
+    "mobalytics-tanking"
+   ],
+   "specs": [
+    "druide-farouche-ours"
+   ]
+  },
+  {
+   "id": "dr-rotation",
+   "categorie": "ressource",
+   "texte": "Rotations simulées : 11 sorts pour le félin, 7 pour l’ours, 6 pour Équilibre.",
+   "sources": [
+    "wowsims-forever"
+   ],
+   "specs": [
+    "druide-farouche-chat",
+    "druide-farouche-ours",
+    "druide-equilibre"
    ]
   }
  ],
@@ -221,11 +256,11 @@
     },
     "solo": {
      "valeur": 3,
-     "raison": "Leveling lent au début (Crix) ; Druide classé B par Mobalytics (base Vanilla) ; aucune source propre à cette configuration.",
+     "raison": "Druide classé B dans la liste de la bêta, Farouche conseillé ; leveling lent au début (Crix).",
      "appuis": [
       "dr-leveling"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     },
     "burst": {
      "valeur": 4,
@@ -282,7 +317,8 @@
      "raison": "Nombreux sorts et barres, gestion d’« Eclipse » ; complexité jugée élevée pour la classe.",
      "appuis": [
       "dr-complexite",
-      "dr-equilibre"
+      "dr-equilibre",
+      "dr-rotation"
      ],
      "confiance": "moyenne"
     },
@@ -332,17 +368,18 @@
      "appuis": [
       "dr-mobilite",
       "dr-chat",
-      "dr-tournoi"
+      "dr-tournoi",
+      "dr-pvp-duel"
      ],
      "confiance": "moyenne"
     },
     "solo": {
      "valeur": 4,
-     "raison": "Leveling lent au début (Crix) ; Druide classé B par Mobalytics (base Vanilla) ; aucune source propre à cette configuration.",
+     "raison": "Farouche est la spécialisation conseillée pour le leveling du Druide (classé B, Mobalytics) ; leveling lent au début (Crix).",
      "appuis": [
       "dr-leveling"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     },
     "burst": {
      "valeur": 5,
@@ -354,7 +391,7 @@
     },
     "zone": {
      "valeur": 3,
-     "raison": "Aucun outil de zone cité en félin : « Swipe » est réservé à l’ours.",
+     "raison": "Aucun outil de zone en félin : « Swipe » est réservé à l’ours, ce que les développeurs citent eux-mêmes.",
      "appuis": [
       "dr-zone-chat"
      ],
@@ -399,7 +436,8 @@
      "raison": "Énergie, saignements et changements de forme ; complexité jugée élevée pour la classe.",
      "appuis": [
       "dr-complexite",
-      "dr-chat"
+      "dr-chat",
+      "dr-rotation"
      ],
      "confiance": "moyenne"
     },
@@ -425,13 +463,14 @@
    "notes": {
     "raid": {
      "valeur": 4,
-     "raison": "Menace simulée la plus haute des trois tanks (100 %), à vérifier en jeu ; ne bloque ni ne pare et compte sur l’esquive et l’armure ; survie non simulée.",
+     "raison": "Menace simulée la plus haute des trois tanks (100 %), mais classé B par Mobalytics : ni bouclier ni blocage, très dépendant de son soigneur.",
      "appuis": [
       "dr-sim",
       "dr-ours",
-      "dr-defense"
+      "dr-defense",
+      "dr-tank-b"
      ],
-     "confiance": "moyenne"
+     "confiance": "haute"
     },
     "bg": {
      "valeur": 4,
@@ -453,7 +492,7 @@
     },
     "solo": {
      "valeur": 4,
-     "raison": "Très résistant (« Frenzied Regeneration ») ; leveling de classe lent au début (Crix), B chez Mobalytics (base Vanilla).",
+     "raison": "Très résistant (« Frenzied Regeneration ») ; Druide classé B dans la liste de la bêta, leveling lent au début (Crix).",
      "appuis": [
       "dr-defense",
       "dr-leveling"
@@ -514,7 +553,8 @@
      "raison": "Rage, menace et défenses à gérer ; complexité jugée élevée pour la classe.",
      "appuis": [
       "dr-complexite",
-      "dr-ours"
+      "dr-ours",
+      "dr-rotation"
      ],
      "confiance": "moyenne"
     },
@@ -563,17 +603,18 @@
      "appuis": [
       "dr-mobilite",
       "dr-resto",
-      "dr-tournoi"
+      "dr-tournoi",
+      "dr-pvp-duel"
      ],
      "confiance": "moyenne"
     },
     "solo": {
      "valeur": 3,
-     "raison": "Leveling lent au début (Crix) ; Druide classé B par Mobalytics (base Vanilla) ; aucune source propre à cette configuration.",
+     "raison": "Druide classé B dans la liste de la bêta, Farouche conseillé ; leveling lent au début (Crix).",
      "appuis": [
       "dr-leveling"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     },
     "burst": {
      "valeur": 2,

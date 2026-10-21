@@ -110,7 +110,8 @@
    "texte": "« Blizzard », « Flamestrike », « Arcane Explosion », « Cone of Cold » ; le farm de zone en solo est volontairement réduit.",
    "sources": [
     "wt-mage",
-    "bz-podcast-2"
+    "bz-podcast-2",
+    "kami-podcast-2"
    ]
   },
   {
@@ -165,11 +166,58 @@
   {
    "id": "m-leveling",
    "categorie": "solo",
-   "texte": "Leveling pratique (nourriture, téléportation, contrôle) ; classé S par Mobalytics (base Vanilla), mais farm de zone réduit dans Forever.",
+   "texte": "Leveling pratique (nourriture, téléportation, contrôle) ; classé A dans la liste de la bêta (Mobalytics), Givre conseillé, S dans celle fondée sur Vanilla ; mais farm de zone volontairement réduit dans Forever.",
    "sources": [
     "wt-mage",
     "mobalytics-leveling",
-    "bz-podcast-2"
+    "bz-podcast-2",
+    "mobalytics-leveling-beta",
+    "iv-choisir",
+    "kami-podcast-2"
+   ]
+  },
+  {
+   "id": "m-pvp-duel",
+   "categorie": "pvp",
+   "texte": "Duel niveau 30 : rang A ; Givre la plus forte (« Frost Nova », « Ice Lance », « Ice Block »), derrière Démoniste et Chasseur (S) (Crix).",
+   "sources": [
+    "crix-pvp-duel"
+   ],
+   "specs": [
+    "mage-givre"
+   ]
+  },
+  {
+   "id": "m-feu-pvp",
+   "categorie": "pvp",
+   "texte": "Feu et Arcane jugés très faibles en duel au niveau 30 (Crix) ; Sodapoppin trouve que le Feu peine contre tout (avis exprimé dans le podcast officiel).",
+   "sources": [
+    "crix-pvp-duel",
+    "kami-podcast-2"
+   ],
+   "specs": [
+    "mage-feu",
+    "mage-arcane"
+   ]
+  },
+  {
+   "id": "m-givre-leveling",
+   "categorie": "solo",
+   "texte": "Givre est la spécialisation conseillée pour le leveling du Mage (Mobalytics, bêta), réputée forte en leveling (Icy Veins).",
+   "sources": [
+    "mobalytics-leveling-beta",
+    "iv-choisir"
+   ],
+   "specs": [
+    "mage-givre"
+   ]
+  },
+  {
+   "id": "m-rotation",
+   "categorie": "ressource",
+   "texte": "Rotations simulées courtes : 6 à 8 sorts.",
+   "sources": [
+    "wowsims-forever"
    ]
   }
  ],
@@ -205,18 +253,19 @@
     },
     "world": {
      "valeur": 3,
-     "raison": "Burst et contrôle, mais très fragile et sans « Ice Block » hors Givre ; Kami le juge plus technique face à des classes plus mobiles. Tournoi niveau 30 : Mages éliminés au top 32.",
+     "raison": "Burst et contrôle, mais très fragile ; Arcane jugé très faible en duel au niveau 30 (Crix).",
      "appuis": [
       "m-fragile",
       "m-defense",
       "m-technique",
-      "m-tournoi"
+      "m-tournoi",
+      "m-feu-pvp"
      ],
      "confiance": "moyenne"
     },
     "solo": {
      "valeur": 3,
-     "raison": "Leveling pratique (nourriture, téléportation, contrôle), mais Blizzard a réduit le farm de zone en solo ; le S de Mobalytics repose sur Vanilla.",
+     "raison": "Mage classé A dans la liste de leveling de la bêta, mais c’est Givre qui y est conseillé ; Blizzard a réduit le farm de zone en solo.",
      "appuis": [
       "m-leveling",
       "m-zone"
@@ -280,7 +329,8 @@
      "raison": "Coût croissant d’« Arcane Blast » : le mana est la ressource à piloter. Aucune mesure de difficulté.",
      "appuis": [
       "m-arcane",
-      "m-technique"
+      "m-technique",
+      "m-rotation"
      ],
      "confiance": "faible"
     },
@@ -325,18 +375,19 @@
     },
     "world": {
      "valeur": 4,
-     "raison": "Burst de « Combustion » et étourdissements d’« Impact », mais très fragile ; Kami le juge plus technique face à des classes plus mobiles. Tournoi niveau 30 : Mages éliminés au top 32.",
+     "raison": "Burst de « Combustion » et étourdissements d’« Impact », mais Feu jugé très faible en duel au niveau 30 (Crix) et en peine contre tout selon Sodapoppin.",
      "appuis": [
       "m-feu",
       "m-fragile",
       "m-technique",
-      "m-tournoi"
+      "m-tournoi",
+      "m-feu-pvp"
      ],
      "confiance": "faible"
     },
     "solo": {
      "valeur": 3,
-     "raison": "Leveling pratique (nourriture, téléportation, contrôle), mais Blizzard a réduit le farm de zone en solo ; le S de Mobalytics repose sur Vanilla.",
+     "raison": "Mage classé A dans la liste de leveling de la bêta, mais c’est Givre qui y est conseillé ; Blizzard a réduit le farm de zone en solo.",
      "appuis": [
       "m-leveling",
       "m-zone"
@@ -401,7 +452,8 @@
      "raison": "Procs de « Heating Up » et fenêtres de « Combustion » à exploiter. Aucune mesure de difficulté.",
      "appuis": [
       "m-feu",
-      "m-technique"
+      "m-technique",
+      "m-rotation"
      ],
      "confiance": "faible"
     },
@@ -445,21 +497,23 @@
     },
     "world": {
      "valeur": 5,
-     "raison": "Contrôle inégalé et « Ice Lance » sur cible gelée ; mais tous les Mages sont sortis tôt du tournoi niveau 30 et Kami le juge plus technique face à des classes plus mobiles.",
+     "raison": "Contrôle inégalé et « Ice Lance » : la meilleure spécialisation du Mage en duel, mais la classe est classée A, derrière Démoniste et Chasseur, et tous les Mages sont sortis tôt du tournoi niveau 30.",
      "appuis": [
       "m-givre-controle",
       "m-givre-burst",
       "m-tournoi",
-      "m-technique"
+      "m-technique",
+      "m-pvp-duel"
      ],
      "confiance": "faible"
     },
     "solo": {
      "valeur": 3,
-     "raison": "Leveling pratique (nourriture, téléportation, contrôle), mais Blizzard a réduit le farm de zone en solo ; le S de Mobalytics repose sur Vanilla.",
+     "raison": "Spécialisation conseillée pour le leveling (Mobalytics, bêta) dans une classe classée A, réputée forte en leveling (Icy Veins) ; Blizzard a toutefois réduit le farm de zone.",
      "appuis": [
       "m-leveling",
-      "m-zone"
+      "m-zone",
+      "m-givre-leveling"
      ],
      "confiance": "faible"
     },
@@ -518,11 +572,12 @@
     },
     "charge_pve": {
      "valeur": 2,
-     "raison": "Rotation de « Frostbolt » et « Ice Lance » lisible. Aucune mesure de difficulté.",
+     "raison": "Rotation simulée courte (6 sorts) autour de « Frostbolt » et « Ice Lance ».",
      "appuis": [
-      "m-givre-burst"
+      "m-givre-burst",
+      "m-rotation"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     },
     "charge_pvp": {
      "valeur": 4,

@@ -162,10 +162,40 @@
   {
    "id": "v-leveling",
    "categorie": "solo",
-   "texte": "Classé A pour le leveling par Mobalytics (base Vanilla) ; aucun soin personnel.",
+   "texte": "Classé B dans la liste de leveling de la bêta (Mobalytics), Combat conseillé, A dans celle fondée sur Vanilla ; les développeurs reconnaissent un leveling « pénible » après le retrait d’énergie et de « Combat Potency ».",
    "sources": [
     "mobalytics-leveling",
-    "wt-voleur"
+    "wt-voleur",
+    "mobalytics-leveling-beta",
+    "kami-podcast-2"
+   ]
+  },
+  {
+   "id": "v-pvp-duel",
+   "categorie": "pvp",
+   "texte": "Duel niveau 30 : rang B ; contrôle les combats (« Cheap Shot », « Kidney Shot », « Gouge », « Vanish ») mais peu de dégâts contre les classes résistantes, pas encore de « Blind » ; classe exigeante (Crix).",
+   "sources": [
+    "crix-pvp-duel"
+   ]
+  },
+  {
+   "id": "v-finesse-pvp",
+   "categorie": "pvp",
+   "texte": "Finesse rend le Voleur particulièrement dangereux en PvP (Icy Veins) et porte ses talents PvP (Crix).",
+   "sources": [
+    "iv-choisir",
+    "crix-pvp-duel"
+   ],
+   "specs": [
+    "voleur-finesse"
+   ]
+  },
+  {
+   "id": "v-rotation",
+   "categorie": "ressource",
+   "texte": "Rotation simulée la plus chargée en décisions : 21 sorts et plus de 500 conditions, dans une seule liste pour les trois spécialisations.",
+   "sources": [
+    "wowsims-forever"
    ]
   }
  ],
@@ -201,24 +231,25 @@
     },
     "world": {
      "valeur": 5,
-     "raison": "Discrétion, chaîne de contrôles et burst d’ouverture pour choisir ses combats. Tournoi niveau 30 : meilleur Voleur éliminé au top 16.",
+     "raison": "Discrétion, chaîne de contrôles et burst d’ouverture ; mais rang B en duel niveau 30 (Crix) et meilleur Voleur sorti au top 16 du tournoi.",
      "appuis": [
       "v-controle",
       "v-assa",
       "v-mobilite",
       "v-pvp-kami",
-      "v-tournoi"
+      "v-tournoi",
+      "v-pvp-duel"
      ],
      "confiance": "faible"
     },
     "solo": {
      "valeur": 3,
-     "raison": "Classé A au leveling par Mobalytics (base Vanilla), mais aucun soin personnel ; aucune source propre à Forever.",
+     "raison": "Classé B dans la liste de leveling de la bêta, sans soin personnel ; les développeurs reconnaissent un leveling « pénible ».",
      "appuis": [
       "v-leveling",
       "v-defense"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     },
     "burst": {
      "valeur": 5,
@@ -276,7 +307,8 @@
      "raison": "Énergie, points de combo et poisons à entretenir ; début difficile, montée en puissance rapide. Aucune mesure de difficulté.",
      "appuis": [
       "v-ressource",
-      "v-poisons"
+      "v-poisons",
+      "v-rotation"
      ],
      "confiance": "faible"
     },
@@ -327,18 +359,19 @@
       "v-controle",
       "v-combat",
       "v-pvp-kami",
-      "v-tournoi"
+      "v-tournoi",
+      "v-pvp-duel"
      ],
      "confiance": "faible"
     },
     "solo": {
      "valeur": 3,
-     "raison": "Classé A au leveling par Mobalytics (base Vanilla), mais aucun soin personnel ; aucune source propre à Forever.",
+     "raison": "Classé B dans la liste de leveling de la bêta, sans soin personnel ; les développeurs reconnaissent un leveling « pénible ».",
      "appuis": [
       "v-leveling",
       "v-defense"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     },
     "burst": {
      "valeur": 4,
@@ -396,7 +429,8 @@
      "raison": "Rotation la plus directe des trois, centrée sur « Slice and Dice ». Aucune mesure de difficulté.",
      "appuis": [
       "v-combat",
-      "v-ressource"
+      "v-ressource",
+      "v-rotation"
      ],
      "confiance": "faible"
     },
@@ -435,29 +469,32 @@
      "appuis": [
       "v-finesse-controle",
       "v-finesse",
-      "v-pvp-kami"
+      "v-pvp-kami",
+      "v-finesse-pvp"
      ],
      "confiance": "faible"
     },
     "world": {
      "valeur": 5,
-     "raison": "De quoi gagner ou fuir la plupart des combats sauvages, surtout en Finesse (Kami) : « Cutthroat », « Camouflage », « Master of Deception ».",
+     "raison": "De quoi gagner ou fuir la plupart des combats sauvages, surtout en Finesse (Kami), particulièrement dangereuse en PvP (Icy Veins) ; rang B de la classe en duel au niveau 30.",
      "appuis": [
       "v-pvp-kami",
       "v-finesse",
       "v-finesse-controle",
-      "v-tournoi"
+      "v-tournoi",
+      "v-finesse-pvp",
+      "v-pvp-duel"
      ],
      "confiance": "moyenne"
     },
     "solo": {
      "valeur": 3,
-     "raison": "Classé A au leveling par Mobalytics (base Vanilla), mais aucun soin personnel ; aucune source propre à Forever.",
+     "raison": "Classé B dans la liste de leveling de la bêta, sans soin personnel ; les développeurs reconnaissent un leveling « pénible ».",
      "appuis": [
       "v-leveling",
       "v-defense"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     },
     "burst": {
      "valeur": 5,
@@ -516,7 +553,8 @@
      "raison": "Énergie, points de combo et poisons à entretenir ; début difficile, montée en puissance rapide. Aucune mesure de difficulté.",
      "appuis": [
       "v-ressource",
-      "v-poisons"
+      "v-poisons",
+      "v-rotation"
      ],
      "confiance": "faible"
     },

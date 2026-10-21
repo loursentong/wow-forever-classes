@@ -153,9 +153,65 @@
   {
    "id": "pr-leveling",
    "categorie": "solo",
-   "texte": "Prêtre classé C pour le leveling par Mobalytics (base Vanilla).",
+   "texte": "Prêtre classé C dans la liste de leveling de la bêta comme dans celle fondée sur Vanilla (Mobalytics) ; Ombre conseillée.",
    "sources": [
-    "mobalytics-leveling"
+    "mobalytics-leveling",
+    "mobalytics-leveling-beta"
+   ]
+  },
+  {
+   "id": "pr-pvp-duel",
+   "categorie": "pvp",
+   "texte": "Duel niveau 30 : rang A, Discipline mise en avant (« Power Word: Shield », « Psychic Scream », dissipations, efficacité du mana), malgré la réduction de « Penance » (Crix).",
+   "sources": [
+    "crix-pvp-duel"
+   ],
+   "specs": [
+    "pretre-discipline"
+   ]
+  },
+  {
+   "id": "pr-soin-dev",
+   "categorie": "role",
+   "texte": "Selon les développeurs, les boucliers de Discipline sont plus forts et propres au Prêtre ; Sacré soigne mieux un groupe, Discipline garde mieux un tank en vie.",
+   "sources": [
+    "kami-podcast-2"
+   ],
+   "specs": [
+    "pretre-discipline",
+    "pretre-sacre"
+   ]
+  },
+  {
+   "id": "pr-reputation",
+   "categorie": "role",
+   "texte": "Réputé être le soigneur le plus puissant (Warcraft Tavern) ; Discipline fait nettement plus de dégâts que les autres soigneurs (Icy Veins).",
+   "sources": [
+    "wt-classes",
+    "iv-choisir"
+   ]
+  },
+  {
+   "id": "pr-ombre-raid-dev",
+   "categorie": "soutien",
+   "texte": "Ombre a gagné en dégâts mais perdu en utilité de raid : batterie de mana retirée exprès, « Vampiric Embrace » sur recharge (développeurs, 1er octobre), avant l’ajout de « Dark Inspiration » le 15 octobre.",
+   "sources": [
+    "kami-podcast-2",
+    "bz-notes-15-oct"
+   ],
+   "specs": [
+    "pretre-ombre"
+   ]
+  },
+  {
+   "id": "pr-rotation",
+   "categorie": "ressource",
+   "texte": "Rotation simulée d’Ombre simple : 10 sorts, peu de conditions.",
+   "sources": [
+    "wowsims-forever"
+   ],
+   "specs": [
+    "pretre-ombre"
    ]
   }
  ],
@@ -172,13 +228,15 @@
    "notes": {
     "raid": {
      "valeur": 5,
-     "raison": "Le soigneur le plus polyvalent selon Blizzard : boucliers d’absorption, « Penance », « Power Infusion ». Aucune donnée comparative entre soigneurs.",
+     "raison": "Le soigneur le plus polyvalent selon Blizzard, réputé le plus puissant (Warcraft Tavern) ; ses boucliers gardent le mieux un tank en vie (développeurs). Aucun comparatif chiffré entre soigneurs.",
      "appuis": [
       "pr-role",
       "pr-disc",
-      "pr-bg"
+      "pr-bg",
+      "pr-soin-dev",
+      "pr-reputation"
      ],
-     "confiance": "moyenne"
+     "confiance": "haute"
     },
     "bg": {
      "valeur": 5,
@@ -192,15 +250,16 @@
     },
     "world": {
      "valeur": 4,
-     "raison": "Boucliers, « Divine Aegis » et « Psychic Scream » pour tenir un duel ; tissu et peu d’échappatoires. Tournoi niveau 30 : meilleur Prêtre au top 12.",
+     "raison": "Boucliers, « Psychic Scream » et dissipations : rang A en duel niveau 30, Discipline mise en avant (Crix) ; tissu et peu d’échappatoires.",
      "appuis": [
       "pr-disc",
       "pr-defense",
       "pr-controle",
       "pr-limites",
-      "pr-tournoi"
+      "pr-tournoi",
+      "pr-pvp-duel"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     },
     "solo": {
      "valeur": 3,
@@ -293,13 +352,15 @@
    "notes": {
     "raid": {
      "valeur": 5,
-     "raison": "Domine le soin de zone (Kami) : « Binding Heal », « Prayer of Mending », « Litany of Light ». Aucune donnée comparative entre soigneurs.",
+     "raison": "Domine le soin de groupe (Kami, développeurs) et réputé le soigneur le plus puissant (Warcraft Tavern). Aucun comparatif chiffré entre soigneurs.",
      "appuis": [
       "pr-sacre",
       "pr-role",
-      "pr-bg"
+      "pr-bg",
+      "pr-soin-dev",
+      "pr-reputation"
      ],
-     "confiance": "moyenne"
+     "confiance": "haute"
     },
     "bg": {
      "valeur": 5,
@@ -442,11 +503,11 @@
     },
     "solo": {
      "valeur": 3,
-     "raison": "Prêtre classé C au leveling par Mobalytics (base Vanilla) ; aucune source propre à Forever.",
+     "raison": "Ombre est la spécialisation conseillée pour le leveling, mais le Prêtre est classé C (Mobalytics, bêta comme Vanilla).",
      "appuis": [
       "pr-leveling"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     },
     "burst": {
      "valeur": 3,
@@ -493,19 +554,21 @@
     },
     "support": {
      "valeur": 4,
-     "raison": "« Vampiric Embrace » et « Dark Inspiration » (jusqu’à 15 % d’Esprit pour le groupe), en plus de « Divine Spirit » et « Fear Ward ».",
+     "raison": "« Dark Inspiration » (jusqu’à 15 % d’Esprit pour le groupe, ajoutée le 15 octobre) et « Vampiric Embrace » ; les développeurs avaient pourtant réduit son utilité de raid (batterie de mana retirée).",
      "appuis": [
       "pr-ombre-soutien",
-      "pr-soutien"
+      "pr-soutien",
+      "pr-ombre-raid-dev"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "charge_pve": {
      "valeur": 3,
      "raison": "Sorts sur la durée et mana à gérer sur les longs combats. Aucune mesure de difficulté.",
      "appuis": [
       "pr-mana",
-      "pr-ombre"
+      "pr-ombre",
+      "pr-rotation"
      ],
      "confiance": "faible"
     },
