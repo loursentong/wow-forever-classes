@@ -143,15 +143,17 @@ test('Les résultats attendent deux dimensions et un geste explicite avant d’a
  assert.match(h.results.innerHTML,/Tout commence par tes envies/);
 });
 
-test('Une égalité en tête ne reçoit pas de carte gagnante ; la limite sans familier est visible',()=>{
+test('Une égalité en tête ne reçoit pas de carte gagnante ; la variante sans familier est annoncée',()=>{
  const h=createHarness({'wf-recommend-v1':JSON.stringify({styles:{ctrl:5},range:{value:'distance',certainty:5},mastery:2})});
  h.reveal();
  assert.match(h.results.innerHTML,/À égalité en tête : Démoniste, Mage/);
  assert.doesNotMatch(h.results.innerHTML,/reco-featured/);
  assert.doesNotMatch(h.results.innerHTML,/PISTE PRINCIPALE/);
  h.step(4);h.single('pet','avoid');h.certainty('pet','avoid',5);h.strict('pet',true);
- assert.match(h.results.innerHTML,/score ne distingue pas encore/);
- assert.match(h.results.innerHTML,/Sans démon invoqué/);
+ // Depuis la v5, le Démoniste est évalué sans démon : le Mage passe seul en tête.
+ assert.match(h.results.innerHTML,/PISTE PRINCIPALE<\/span><h4>Mage/);
+ assert.match(h.results.innerHTML,/<strong>Affliction<\/strong> · sans familier/);
+ assert.match(h.results.innerHTML,/Évaluée sans démon : sans Séduction ni Verrou magique/);
  assert.match(h.results.innerHTML,/<strong>Givre<\/strong>/);
  assert.match(h.results.innerHTML,/Difficulté de cette spécialisation/);
  assert.equal(h.profile().pet.strict,true);

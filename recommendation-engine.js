@@ -24,6 +24,8 @@ var names={guerrier:'Guerrier',paladin:'Paladin',chasseur:'Chasseur',voleur:'Vol
 /* Format : id;classe;spécialisation;role;portée;familier; activités(raid,bg,sauvage,solo); styles(burst,zone,controle,survie,mobilite,soutien); charge d'exécution PvE,PvP.
  * "optionnel" signifie configuration sans familier théoriquement viable, PAS rendement égal.
  * Tous les chiffres d'activité et style sont des hypothèses, à remplacer par télémétrie par spécialisation.
+ * Activité raid d'un DPS (référence v7) : dégâts simulés seuls, barèmes 5 ≥ 86 %, 4 de 72 à 85 %, 3 de 55 à 71 %,
+ * 2 en dessous ; l'utilité de groupe est notée dans le style Soutien.
  * Source pour rôles/portée : présentation officielle de la classe (sources).
  */
 var rows=[
@@ -37,22 +39,22 @@ var rows=[
 ['precision','chasseur','Précision','dps','distance','optional',[4,5,4,5],[5,3,3,2,3,2],[2,3]],
 ['survie','chasseur','Survie','dps','melee','optional',[5,4,4,5],[4,3,4,3,3,2],[4,3]],
 ['assassinat','voleur','Assassinat','dps','melee','none',[3,3,5,3],[5,2,5,2,4,1],[3,4]],
-['combat','voleur','Combat','dps','melee','none',[4,3,4,3],[4,3,4,3,4,1],[2,3]],
+['combat','voleur','Combat','dps','melee','none',[3,3,4,3],[4,3,4,3,4,1],[2,3]],
 ['finesse','voleur','Finesse','dps','melee','none',[3,4,5,3],[5,2,5,2,5,1],[3,5]],
 ['discipline','pretre','Discipline','soin','distance','none',[5,5,4,3],[2,2,3,4,2,5],[3,4]],
 ['sacre','pretre','Sacré','soin','distance','none',[5,5,3,3],[2,2,3,4,2,5],[2,3]],
 ['ombre','pretre','Ombre','dps','distance','none',[3,4,4,3],[3,2,4,3,2,4],[3,4]],
-['elementaire','chaman','Élémentaire','dps','distance','none',[3,4,4,3],[5,4,3,3,4,4],[3,3]],
-['amelioration','chaman','Amélioration','dps','melee','none',[4,4,4,3],[5,3,2,3,5,4],[3,3]],
+['elementaire','chaman','Élémentaire','dps','distance','none',[2,4,4,3],[5,4,3,3,4,4],[3,3]],
+['amelioration','chaman','Amélioration','dps','melee','none',[3,4,4,3],[5,3,2,3,5,4],[3,3]],
 ['restauration','chaman','Restauration','soin','distance','none',[5,5,4,3],[2,2,2,4,4,5],[2,3]],
 ['arcane','mage','Arcane','dps','distance','none',[4,4,3,3],[5,4,4,2,3,3],[3,4]],
 ['feu','mage','Feu','dps','distance','none',[4,4,4,3],[5,5,3,2,3,3],[3,4]],
 ['givre','mage','Givre','dps','distance','none',[3,5,5,3],[4,5,5,3,3,3],[2,4]],
 ['affliction','demoniste','Affliction','dps','distance','optional',[4,5,5,4],[3,4,5,4,2,3],[3,3]],
 ['demonologie','demoniste','Démonologie','dps','distance','core',[4,5,4,5],[4,4,4,5,2,3],[3,4]],
-['destruction','demoniste','Destruction','dps','distance','optional',[4,5,5,4],[5,4,4,3,2,2],[3,4]],
+['destruction','demoniste','Destruction','dps','distance','optional',[3,5,5,4],[5,4,4,3,2,2],[3,4]],
 ['equilibre','druide','Équilibre','dps','distance','none',[3,4,4,3],[4,3,3,3,5,5],[3,4]],
-['farouche-chat','druide','Farouche (félin)','dps','melee','none',[4,4,4,4],[5,3,3,4,5,3],[4,5]],
+['farouche-chat','druide','Farouche (félin)','dps','melee','none',[4,4,4,4],[5,2,3,4,5,3],[4,5]],
 ['farouche-ours','druide','Farouche (ours)','tank','melee','none',[4,4,3,4],[2,3,3,5,4,4],[4,5]],
 ['restauration','druide','Restauration','soin','distance','none',[5,5,4,3],[2,2,3,4,5,5],[3,4]]
 ];
@@ -63,6 +65,25 @@ var specs=rows.map(function(r){
   styles.forEach(function(k,i){st[k]=r[7][i];});
   return {id:r[1]+'-'+r[0],classId:r[1],className:names[r[1]],label:r[2],role:r[3],range:r[4],pet:r[5],activity:a,style:st,load:{pve:r[8][0],pvp:r[8][1]},source:sources[r[1]],dataQuality:{officialKit:true,activity:'éditoriale',style:'éditoriale'}};
 });
+/* Variantes sans familier (référence v5) : pour chaque configuration à familier facultatif, notes
+ * du build joué sans compagnon, uniquement là où le familier compte (base de connaissances).
+ * Elles s'appliquent quand le joueur préfère jouer sans compagnon ; la variante répond alors
+ * pleinement à ce souhait, et son compromis est porté par ses notes, plus par la préférence.
+ * Précision est déjà évaluée en « Loup solitaire » : aucune note ne change. */
+var PETLESS={
+ 'chasseur-precision':{},
+ 'chasseur-survie':{activity:{solo:4}},
+ 'demoniste-affliction':{activity:{world:4,solo:3},style:{ctrl:4}},
+ 'demoniste-destruction':{activity:{world:4,solo:3},style:{ctrl:3}}
+};
+var petless={};
+specs.forEach(function(s){
+  if(s.pet!=='optional'||!PETLESS[s.id])return;
+  var d=PETLESS[s.id];
+  petless[s.id]=Object.assign({},s,{variant:'sans-familier',
+    activity:Object.assign({},s.activity,d.activity||{}),style:Object.assign({},s.style,d.style||{})});
+});
+function profileSpec(s,p){return p.pet.value==='avoid'&&petless[s.id]?petless[s.id]:s;}
 var ROLE=['tank','soin','dps'];
 var DEFAULT={roles:{},rolesStrict:false,activities:{},range:{value:'any',certainty:3,strict:false},styles:{},pet:{value:'any',certainty:3,strict:false},difficulty:{value:'any',certainty:3},mastery:2};
 function validCert(v){return Number.isInteger(v)&&v>=0&&v<=5;}
@@ -132,6 +153,18 @@ function adjustedStyle(s,k,m){
   var domain=pvp?'world':'raid';
   return clamp(s.style[k]+execution(s,domain,m)*0.55,1,5);
 }
+/* Difficulté selon les activités (référence v6) : la préférence de difficulté juge la charge PvE si
+ * le joueur n'a choisi que des activités PvE (donjons et raids, solo), la charge PvP s'il n'a choisi
+ * que du PvP (champs de bataille, PvP sauvage), sinon la moyenne des deux. */
+function difficultyContext(p){
+  var a=selected(p.activities);
+  var pve=a.some(function(k){return k==='raid'||k==='solo';}),pvp=a.some(function(k){return k==='bg'||k==='world';});
+  return pve&&!pvp?'pve':pvp&&!pve?'pvp':'mixte';
+}
+function difficultyLoad(s,p){
+  var c=difficultyContext(p);
+  return c==='pve'?s.load.pve:c==='pvp'?s.load.pvp:(s.load.pve+s.load.pvp)/2;
+}
 function intensity(cert){return .25+.75*cert/5;}
 function preferenceFit(raw,cert){return .5+intensity(cert)*(raw-.5);}
 function aggregate(keys,answers,rawFn){
@@ -159,11 +192,11 @@ function specFit(s,p){
   if(sty.length)parts.styles={value:aggregate(sty,p.styles,function(k){return (adjustedStyle(s,k,p.mastery)-1)/4;}),weight:.20};
   if(p.pet.value!=='any'){
     var v=p.pet.value==='like'?(s.pet==='core'?1:s.pet==='optional'?.76:.1):
-      (s.pet==='none'?1:s.pet==='optional'?.78:.05);
+      (s.pet==='none'||s.variant==='sans-familier'?1:s.pet==='optional'?.78:.05);
     parts.pet={value:preferenceFit(v,p.pet.certainty),weight:.10};
   }
   if(p.difficulty.value!=='any'){
-    var load=(s.load.pve+s.load.pvp)/2;var v=p.difficulty.value==='simple'?(5-load)/4:(load-1)/4;
+    var load=difficultyLoad(s,p);var v=p.difficulty.value==='simple'?(5-load)/4:(load-1)/4;
     parts.difficulty={value:preferenceFit(v,p.difficulty.certainty),weight:.05};
   }
   var denom=Object.keys(parts).reduce(function(t,k){return t+parts[k].weight;},0);
@@ -185,8 +218,8 @@ function ranking(profile){
   var p=sanitize(profile),used=domains(p);
   if(!used.length)return {status:'unanswered',profile:p,used:used,results:[],compatible:0};
   var candidates=specs.filter(function(s){return eligible(s,p);}).map(function(s){
-    var fit=specFit(s,p);
-    return {spec:s,score:Math.round(10000*fit.value)/100,fit:fit.parts};
+    var v=profileSpec(s,p),fit=specFit(v,p);
+    return {spec:v,score:Math.round(10000*fit.value)/100,fit:fit.parts};
   }).sort(stableSort);
   if(!candidates.length)return {status:'no-match',profile:p,used:used,results:[],compatible:0};
   var best={};
@@ -317,10 +350,19 @@ function checkData(){
   if(!sources[s.classId]||ROLE.indexOf(s.role)<0||['distance','melee'].indexOf(s.range)<0||['none','optional','core'].indexOf(s.pet)<0)errors.push('structure '+s.id);
   for(var k of acts)if(!Number.isInteger(s.activity[k])||s.activity[k]<1||s.activity[k]>5)errors.push('activité '+s.id+':'+k);
   for(var k of styles)if(!Number.isInteger(s.style[k])||s.style[k]<1||s.style[k]>5)errors.push('style '+s.id+':'+k);
+  if(s.pet==='optional'&&!petless[s.id])errors.push('variante sans familier manquante '+s.id);
+ }
+ for(var id in PETLESS){
+  var base=specs.find(function(x){return x.id===id;});
+  if(!base||base.pet!=='optional')errors.push('variante sans familier sans objet '+id);
+  else for(var part of ['activity','style'])for(var k in PETLESS[id][part]||{}){
+   var v=PETLESS[id][part][k];
+   if(!(k in base[part])||!Number.isInteger(v)||v<1||v>5)errors.push('variante '+id+':'+k);
+  }
  }
  return errors;
 }
-return {version:'1.0.3-exploratoire',sources:sources,specs:specs,roles:ROLE,activities:acts,styles:styles,
+return {version:'1.0.6-exploratoire',sources:sources,specs:specs,petless:petless,difficultyContext:difficultyContext,difficultyLoad:difficultyLoad,roles:ROLE,activities:acts,styles:styles,
  defaultProfile:copy(DEFAULT),sanitize:sanitize,selected:selected,domains:domains,eligible:eligible,
  ranking:ranking,recommend:recommend,checkData:checkData,intensity:intensity,preferenceFit:preferenceFit,
  rolePool:rolePool,adjustedActivity:adjustedActivity,potential:potential,roleSuitability:roleSuitability,roleReference:ROLE_REFERENCE,priorityAxes:PRIORITY_AXES,priorityRanking:priorityRanking,sanitizeWeights:sanitizeWeights};

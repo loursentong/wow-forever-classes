@@ -27,7 +27,8 @@ test('Révision éditoriale : seules les trois notes approuvées changent',()=>{
  assert.deepEqual(D.classes.map(c=>({id:c.id,r:c.r})),matrix);
  const specs=structuredClone(v1.specs);
  specs.find(s=>s.id==='pretre-discipline').style.ctrl=3;
- assert.deepEqual(E.specs,specs);
+ // La révision v2 est vérifiée sur sa photographie ; les révisions suivantes ont leurs propres tests (v7 : notes raid).
+ assert.deepEqual(require('./fixtures/moteur-reference-v2.json').specs,specs);
  for(const c of matrix)for(const role of E.roles)assert.equal(E.roleReference[c.id][role],c.r[role]);
 });
 
@@ -42,13 +43,16 @@ test('Soin seul : Paladin et Chaman à 100 au niveau Confirmé, seuls leurs soig
  }
  // Tank et DPS : classes et scores identiques à la v1. Depuis la v3, la configuration
  // affichée à score égal suit le plus haut potentiel ; les lignes complètes suivent la v3.
+ // Vérifié sur la photographie v3. Le moteur actuel garde les classes et scores du classement Tank
+ // (seule la configuration affichée d'une classe sans tank, à 0, peut suivre le potentiel) ; les DPS suivent la v7.
  const v3=require('./fixtures/moteur-reference-v3.json');
  for(const role of ['tank','dps']){
-  const rows=E.priorityRanking({[role]:3},2).results.map(r=>[r.classId,r.spec.id,r.score]);
+  const rows=v3.isolatedRoles.find(x=>x.mastery===2).axes.find(x=>x.axis===role).results;
   const expected=v1.isolatedRoles.find(x=>x.mastery===2).axes.find(x=>x.axis===role).results;
   assert.deepEqual(rows.map(r=>[r[0],r[2]]),expected.map(r=>[r[0],r[2]]));
-  assert.deepEqual(rows,v3.isolatedRoles.find(x=>x.mastery===2).axes.find(x=>x.axis===role).results);
  }
+ assert.deepEqual(E.priorityRanking({tank:3},2).results.map(r=>[r.classId,r.score]),
+  v3.isolatedRoles.find(x=>x.mastery===2).axes.find(x=>x.axis==='tank').results.map(r=>[r[0],r[2]]));
 });
 
 test('Discipline : protection et soutien inchangés, contrôle infligé au même palier que Sacré',()=>{

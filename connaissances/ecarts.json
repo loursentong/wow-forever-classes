@@ -1,6 +1,6 @@
 {
  "date": "2026-10-21",
- "moteur": "1.0.3-exploratoire",
+ "moteur": "1.0.6-exploratoire",
  "ecarts": [
   {
    "id": "e1",
@@ -13,7 +13,12 @@
    "appuis": [
     "ch-sim"
    ],
-   "decision": null
+   "decision": {
+    "choix": "changer",
+    "date": "2026-10-21",
+    "motif": "Note raid des DPS = dégâts seuls : 49 %, sous 55 %.",
+    "valeur": 2
+   }
   },
   {
    "id": "e2",
@@ -28,7 +33,12 @@
     "pr-sim",
     "ch-sim"
    ],
-   "decision": null
+   "decision": {
+    "choix": "changer",
+    "date": "2026-10-21",
+    "motif": "Note raid des DPS = dégâts seuls : 68 %, entre 55 et 71 %.",
+    "valeur": 3
+   }
   },
   {
    "id": "e3",
@@ -42,7 +52,12 @@
     "v-sim",
     "v-intention"
    ],
-   "decision": null
+   "decision": {
+    "choix": "changer",
+    "date": "2026-10-21",
+    "motif": "Note raid des DPS = dégâts seuls : 65 %, entre 55 et 71 % ; à revoir si Blizzard renforce le Voleur.",
+    "valeur": 3
+   }
   },
   {
    "id": "e4",
@@ -57,7 +72,11 @@
     "dr-limites",
     "p-limites"
    ],
-   "decision": null
+   "decision": {
+    "choix": "garder",
+    "date": "2026-10-21",
+    "motif": "Définition du contrôle : « Pounce » (données du jeu) et les outils accessibles par changement de forme justifient 3."
+   }
   },
   {
    "id": "e5",
@@ -71,7 +90,12 @@
     "dr-zone-chat",
     "dr-ours"
    ],
-   "decision": null
+   "decision": {
+    "choix": "changer",
+    "date": "2026-10-21",
+    "motif": "« Swipe » réservé à l’ours, d’après Blizzard et les développeurs.",
+    "valeur": 2
+   }
   },
   {
    "id": "e6",
@@ -87,7 +111,11 @@
     "ch-pas-controle",
     "p-hoj"
    ],
-   "decision": null
+   "decision": {
+    "choix": "garder",
+    "date": "2026-10-21",
+    "motif": "« Racines seulement » était réducteur : « Nature’s Grasp » et « Bash » en ours s’y ajoutent."
+   }
   },
   {
    "id": "e7",
@@ -104,7 +132,8 @@
     "c-pvp-duel",
     "d-pvp-duel"
    ],
-   "decision": null
+   "decision": null,
+   "attente": "Données du lancement : un duel au niveau 30 n’est pas le PvP sauvage au 60."
   },
   {
    "id": "e8",
@@ -118,7 +147,8 @@
     "m-feu-pvp",
     "m-tournoi"
    ],
-   "decision": null
+   "decision": null,
+   "attente": "Données du lancement : un duel au niveau 30 n’est pas le PvP sauvage au 60."
   },
   {
    "id": "e9",
@@ -132,7 +162,8 @@
     "dr-equilibre",
     "m-zone"
    ],
-   "decision": null
+   "decision": null,
+   "attente": "Données du lancement : « Hurricane » sans recharge ne prouve pas à lui seul une intensité de 4."
   },
   {
    "id": "e10",
@@ -146,7 +177,8 @@
     "g-leveling-armes",
     "g-leveling"
    ],
-   "decision": null
+   "decision": null,
+   "attente": "Données du lancement : un conseil de leveling 1–20 ne donne pas la note solo et farm au 60."
   },
   {
    "id": "e11",
@@ -160,7 +192,8 @@
     "m-givre-leveling",
     "m-leveling"
    ],
-   "decision": null
+   "decision": null,
+   "attente": "Données du lancement : un conseil de leveling 1–20 ne donne pas la note solo et farm au 60."
   },
   {
    "id": "e12",
@@ -175,7 +208,27 @@
     "ch-mobilite",
     "p-solo-mobalytics"
    ],
-   "decision": null
+   "decision": null,
+   "attente": "Données du lancement : un conseil de leveling 1–20 ne donne pas la note solo et farm au 60."
+  },
+  {
+   "id": "e13",
+   "spec": "chaman-amelioration",
+   "critere": "raid",
+   "valeur": 4,
+   "proposition": 3,
+   "priorite": "moyenne",
+   "constat": "68 % en simulation, comme la Destruction ; gardée à 4 pour ses totems de raid, qui relèvent pourtant du Soutien.",
+   "appuis": [
+    "ch-sim",
+    "ch-soutien"
+   ],
+   "decision": {
+    "choix": "changer",
+    "date": "2026-10-21",
+    "valeur": 3,
+    "motif": "Note raid des DPS = dégâts seuls : 68 %, entre 55 et 71 % ; les totems restent notés dans Soutien."
+   }
   }
  ],
  "surveiller": [
@@ -193,11 +246,6 @@
    "spec": "paladin-protection",
    "critere": "raid",
    "constat": "Classée A des tanks par Mobalytics, devant l’ours, mais menace simulée la plus faible des trois (67 %) ; survie non simulée."
-  },
-  {
-   "spec": "chaman-amelioration",
-   "critere": "raid",
-   "constat": "68 % en simulation comme la Destruction ; gardé à 4 pour ses totems de raid."
   },
   {
    "spec": "paladin-vindicte",

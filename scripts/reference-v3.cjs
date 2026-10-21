@@ -30,7 +30,8 @@ function snapshot(){
  return next;
 }
 function v2Presets(id){return v2.matrix.presets[id];}
-const specById=Object.fromEntries(E.specs.map(s=>[s.id,s]));
+// Potentiels calculés sur les notes figées de la v2 (identiques en v3), pas sur le moteur actuel.
+const specById=Object.fromEntries(v2.specs.map(s=>[s.id,s]));
 // Contrôle des écarts v2 → v3 : même classe au même rang, même score ; une configuration
 // différente n'est admise qu'à égalité, avec un potentiel plus élevé (ou égal et identifiant antérieur).
 function compare(before,after){

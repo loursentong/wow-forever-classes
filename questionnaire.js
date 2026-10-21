@@ -191,7 +191,7 @@ function resultCard(r,i,position){
  return '<article class="reco-result-card '+(leader&&!tied?'reco-featured':'')+'" style="--reco-class:var(--k-'+esc(cls)+')">'+
   '<div class="reco-result-top"><span class="reco-emblem" aria-hidden="true"><img src="'+wowClassIcon(cls)+'" alt="" width="42" height="42" loading="lazy" decoding="async"></span>'+
   '<div class="reco-result-main"><span class="reco-result-label">'+(tied?(leader?'PISTE À ÉGALITÉ':'ALTERNATIVE À ÉGALITÉ'):(leader?'PISTE PRINCIPALE':'ALTERNATIVE '+i))+'</span><h4>'+esc(r.className)+'</h4>'+
-  '<p><strong>'+esc(r.spec.label)+'</strong> · '+esc(roleNames[r.spec.role])+' · '+(r.spec.range==='distance'?'Distance':'Mêlée')+'</p></div>'+
+  '<p><strong>'+esc(r.spec.label)+'</strong>'+(r.spec.variant==='sans-familier'?' · sans familier':'')+' · '+esc(roleNames[r.spec.role])+' · '+(r.spec.range==='distance'?'Distance':'Mêlée')+'</p></div>'+
   '<div class="reco-score"><strong>'+Math.round(r.score)+'</strong><small>/100</small></div></div>'+
   '<div class="reco-fit"><span>'+fitLabel(r.score/100)+'</span><small>Indice estimé, pas une probabilité</small></div>'+
   '<div class="reco-bars"><div class="reco-bar" style="width:'+Math.min(100,Math.max(0,r.score))+'%"></div></div>'+

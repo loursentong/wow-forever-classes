@@ -19,7 +19,7 @@ test('La photographie v3 reste intacte ; la v4 en dérive explicitement',()=>{
  assert.equal(hash,'011919e1777828fbe667bd9c7434a7b9cb36432a');
  assert.equal(v4.info.revision,4);
  assert.equal(v4.info.previousReference,'moteur-reference-v3.json');
- assert.equal(v4.info.engineVersion,E.version);
+ assert.equal(v4.info.engineVersion,'1.0.3-exploratoire');
 });
 
 test('v3 → v4 : seul le Chasseur change, en solo, en Débutant ou Intermédiaire, et seulement à la baisse',()=>{

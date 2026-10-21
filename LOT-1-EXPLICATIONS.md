@@ -14,7 +14,7 @@
 
 ## Portée et limites
 
-Ce lot corrige la présentation trompeuse des égalités et clarifie les résultats. **Il ne corrige pas encore la modélisation des variantes avec/sans familier ni des rotations du Chasseur.** Aucun nouveau chiffre n'a été introduit pour masquer cette incertitude.
+Ce lot corrige la présentation trompeuse des égalités et clarifie les résultats. **Il ne corrige pas encore la modélisation des variantes avec/sans familier ni des rotations du Chasseur.** (Les variantes sans familier sont traitées depuis le moteur 1.0.4.) Aucun nouveau chiffre n'a été introduit pour masquer cette incertitude.
 
 La structure des sauvegardes, les poids, les notes, les formules et les quatre photographies de référence sont conservés. Le nouveau module `result-explanations.js` lit les résultats sans les trier ou les modifier. Une égalité correspond au même score au centième dans le moteur ; deux nombres identiques après arrondi à l'entier peuvent seulement être proches.
 

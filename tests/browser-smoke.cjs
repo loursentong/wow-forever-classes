@@ -322,7 +322,8 @@ async function check(){
   await page.locator('#rc-pet-avoid').fill('5');
   await page.locator('[data-strict="pet"]').check();
   const warlock=page.locator('#reco-results .reco-result-card').filter({has:page.locator('h4', {hasText:'Démoniste'})});
-  assert.match(await warlock.locator('.reco-config-notice').textContent(),/Sans démon invoqué/);
+  assert.match(await warlock.locator('.reco-config-notice').textContent(),/Évaluée sans démon/);
+  assert.match(await warlock.locator('.reco-result-main p').textContent(),/sans familier/);
   assert.equal(await page.locator('#reco-results .reco-result-card').first().locator('h4').textContent(),'Mage');
   await page.setViewportSize({width:390,height:844});
   await warlock.screenshot({path:path.join(__dirname,'screenshots','lot1-familier-mobile.png'),animations:'disabled'});
@@ -330,6 +331,12 @@ async function check(){
    await page.setViewportSize({width,height:900});
    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth+2),'Résultats sans familier à '+width+'px');
   }
+  // Difficulté selon les activités (v6) : les résultats annoncent la difficulté comparée.
+  await page.setViewportSize({width:1300,height:900});
+  await page.evaluate(()=>localStorage.setItem('wf-recommend-v1',JSON.stringify({activities:{raid:5},difficulty:{value:'simple',certainty:5},mastery:2})));
+  await page.reload({waitUntil:'domcontentloaded'});
+  await page.locator('[data-reco-reveal]').click();
+  assert.match(await page.locator('#reco-results').textContent(),/comparé à la difficulté PvE/);
   await page.locator('[data-reco-mode="priorities"]').click();
   await page.locator('[data-prio-preset="controle"]').click();
   const rankRows=page.locator('#reco-priority-results .reco-priority-class');

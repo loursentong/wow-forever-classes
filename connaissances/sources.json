@@ -107,7 +107,7 @@
    "portee": "Dégâts et menace au niveau 60 théorique.",
    "date": "2026-10-21",
    "consultee": "2026-10-21",
-   "note": "wowsims Forever (commit 62b7445), client 1.60.1.70425 ; boss unique statique 2 min, 10 000 itérations, équipement de donjon, tissage supposé pour les Chasseurs ; ni soigneurs ni survie. La FAQ annonce un Quick Sim en HPS, sans classement des soigneurs ; son implémentation n’a pas été validée ici.",
+   "note": "wowsims Forever (commit 62b7445), client 1.60.1.70425 ; boss unique statique 2 min, 10 000 itérations, équipement de donjon. Chasseurs simulés en tissage, avec l’écart au tir seul indiqué par spécialisation. La FAQ précise que les soigneurs ne sont pas classés : leur Quick Sim mesure les soins par seconde, que ce tableau ne compare pas. Ni survie des tanks.",
    "statut": "utilisee",
    "raison_statut": null
   },

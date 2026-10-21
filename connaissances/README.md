@@ -9,11 +9,16 @@ Elle relie chaque note du moteur à des **faits sourcés**, avec une **raison** 
 | Fichier | Rôle |
 |---|---|
 | `sources.json` | Registre : type, fiabilité, portée, date, statut (utilisée, repérée, écartée) de chaque source. |
-| `classes/<classe>.json` | Faits de kit (catégorie, texte, sources, configurations concernées ; critères contredits pour une limite), puis, pour chaque configuration, son profil et ses 12 notes `{valeur, raison, appuis, confiance}`. |
+| `classes/<classe>.json` | Faits de kit (catégorie, texte, sources, configurations concernées ; critères contredits pour une limite), puis, pour chaque configuration, son profil et ses 12 notes `{valeur, raison, appuis, confiance}`. Une configuration à familier facultatif porte aussi sa `variante_sans_familier` : les seules notes qui changent sans compagnon, utilisées par le moteur depuis la v5. |
 | `ecarts.json` | Propositions de réévaluation, avec leurs arguments et une décision à prendre ; notes à surveiller. |
-| `ecarts-a-arbitrer.md` | La même chose, à lire. |
+| `ecarts-a-arbitrer.md` | La même chose, à lire, régénérée par `node scripts/synthese-ecarts.cjs`. Un écart tranché porte sa décision ; un écart ouvert, ce qu’il attend. |
 
 Les 12 critères reprennent les clés du moteur : `raid`, `bg`, `world`, `solo` (activités), `burst`, `zone`, `ctrl`, `surv`, `mob`, `support` (styles), `charge_pve`, `charge_pvp` (difficulté d’exécution).
+
+## Définitions des critères
+
+- **Donjons et raids, pour un DPS** : ses dégâts simulés seuls, en pourcentage du meilleur DPS simulé au niveau 60 (5 à partir de 86 %, 4 de 72 à 85 %, 3 de 55 à 71 %, 2 en dessous), dans la rotation évaluée. L’utilité de groupe est notée dans « Soutien ». Les soigneurs et les tanks gardent leur convention.
+- **Contrôle** : neutraliser, interrompre, ralentir ou immobiliser, avec les seuls outils du build évalué. Un outil accessible par changement de forme ou par un familier compte avec sa contrainte ; des outils de familiers différents ne sont jamais disponibles ensemble.
 
 ## Échelles
 
@@ -37,6 +42,7 @@ Une reprise ne compte pas comme une preuve indépendante. La tier list Kami dér
 - la base couvre exactement les configurations du moteur, avec les mêmes valeurs, le même profil et la même version ;
 - chaque note a une raison, au moins un appui, et que chaque appui concerne bien sa configuration ;
 - une note de style à 4 ou plus s’appuie sur un fait de son domaine (un contrôle pour `ctrl`, une défense pour `surv`…) et cite toute limite de sa classe qui pèse contre ce critère, sauf si elle figure dans un écart ouvert ;
+- une variante sans familier existe pour chaque familier facultatif, et seulement pour eux ; elle porte exactement les notes que le moteur change, chacune justifiée ;
 - une source « utilisée » est citée par au moins un fait, et réciproquement ;
 - un écart ouvert porte la valeur actuelle du moteur et une note en confiance faible ; un écart tranché porte sa décision, appliquée au moteur.
 
@@ -46,7 +52,7 @@ Une reprise ne compte pas comme une preuve indépendante. La tier list Kami dér
 - Aucun classement comparatif de soin exploitable n'a été établi dans cette base. La FAQ MythicSim annonce un Quick Sim en HPS, mais exclut les soigneurs de sa tier list : son existence annoncée ne valide ni son implémentation ni un classement en raid. Les cinq soigneurs restent à 5 en raid par convention, sans égalité de performance démontrée.
 - Aucun retour comparatif par classe sur les champs de bataille suffisamment étayé n'a été retenu dans le corpus consulté. Cela ne démontre pas l'absence de tels retours ailleurs.
 - La taille d'une rotation simulée est un indice qualitatif dépendant de son auteur et des optimisations retenues, pas une mesure de difficulté pour un joueur. Chez le Chasseur, la performance issue d'une rotation alternant mêlée et distance ne justifie pas en même temps la simplicité d'une rotation statique.
-- Le moteur ne réévalue pas les contrôles du Démoniste lorsque le joueur demande à éviter le familier. Les sources décrivent pourtant des outils conditionnés au démon invoqué ; cette limite doit être traitée avant d'interpréter le score comme celui d'un build sans familier.
+- Depuis le moteur 1.0.4, une préférence sans familier fait évaluer Affliction, Destruction, Survie et Précision dans leur variante sans familier. L’ampleur des baisses (un point par critère concerné) est un jugement éditorial, non une mesure.
 - Beaucoup de tier lists de sites commerciaux se recopient entre elles : elles ne sont pas retenues.
 
 Après le lancement du 4 novembre, journaux de combat, statistiques de champs de bataille et retours au niveau 60 permettront de mesurer. Les notes en confiance faible sont à relire en premier.

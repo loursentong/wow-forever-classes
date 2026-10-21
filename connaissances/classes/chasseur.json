@@ -2,7 +2,7 @@
  "classe": "chasseur",
  "libelle": "Chasseur",
  "date": "2026-10-21",
- "moteur": "1.0.3-exploratoire",
+ "moteur": "1.0.6-exploratoire",
  "faits": [
   {
    "id": "c-role",
@@ -183,7 +183,7 @@
   {
    "id": "c-tissage",
    "categorie": "ressource",
-   "texte": "Survie alterne distance et mêlée, au cœur de la spécialisation ; la simulation suppose ce tissage pour les trois spécialisations.",
+   "texte": "Les références simulées des trois spécialisations alternent tirs à 12 m et attaques au contact quand le prochain Auto Shot est loin ; au cœur de Survie, c’est une optimisation pour Maîtrise des bêtes et Précision.",
    "sources": [
     "wt-chasseur",
     "mythicsim"
@@ -200,7 +200,7 @@
   {
    "id": "c-sim",
    "categorie": "performance",
-   "texte": "Simulation 60 avec tissage : Survie 1re (100 %, seule en S), Précision 3e (85 %), Maîtrise des bêtes 8e (77 %).",
+   "texte": "Simulation 60, références en tissage : Survie 1re (100 %), Précision 3e (85 %), Maîtrise des bêtes 8e (77 %). En tir seul, Maîtrise des bêtes perd environ 9 % sur un combat de 2 minutes (3 % sur 5 minutes) et Précision environ 3 % (elle gagne 2 % sur 5 minutes) ; Survie jouée en mêlée seule est environ 21 % plus bas. La tenue du tissage en raid réel n’est pas confirmée.",
    "sources": [
     "mythicsim"
    ]
@@ -281,7 +281,7 @@
    "notes": {
     "raid": {
      "valeur": 4,
-     "raison": "Simulation 60 : 8e DPS (77 %), en supposant le tissage distance-mêlée ; capacités de familiers réduites le 15 octobre.",
+     "raison": "Évaluée en tir statique, familier central : environ 71 à 75 % du meilleur DPS simulé selon la durée du combat (77 % en tissage), au niveau des DPS notés 4 ; capacités de familiers réduites le 15 octobre.",
      "appuis": [
       "c-sim",
       "c-tissage",
@@ -380,13 +380,14 @@
     },
     "charge_pve": {
      "valeur": 1,
-     "raison": "La classe jugée la plus simple et une rotation simulée courte (6 sorts en tir statique) ; le familier demande toutefois de la pratique. Cette appréciation statique ne décrit pas la rotation alternant distance et mêlée citée pour la performance en raid ; les deux hypothèses restent à aligner.",
+     "raison": "Tir statique : rotation courte (6 sorts) et classe jugée la plus simple ; le tissage, plus exigeant, n’apporte que 3 à 9 % de dégâts. Le familier demande de la pratique.",
      "appuis": [
       "c-leveling",
       "c-familier-gestion",
-      "c-rotation"
+      "c-rotation",
+      "c-sim"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     },
     "charge_pvp": {
      "valeur": 2,
@@ -414,11 +415,12 @@
    "notes": {
     "raid": {
      "valeur": 4,
-     "raison": "Simulation 60 : 3e DPS (85 %), en supposant le tissage distance-mêlée ; « Trueshot Aura » pour le groupe.",
+     "raison": "Évaluée en tir statique, en « Loup solitaire » : environ 82 à 87 % du meilleur DPS simulé selon la durée du combat (85 % en tissage) ; « Trueshot Aura » pour le groupe.",
      "appuis": [
       "c-sim",
       "c-tissage",
-      "c-soutien"
+      "c-soutien",
+      "c-familier-precision"
      ],
      "confiance": "moyenne"
     },
@@ -511,13 +513,13 @@
     },
     "charge_pve": {
      "valeur": 2,
-     "raison": "Rotation simulée courte en tir statique (7 sorts) ; zone morte de 8 m à respecter, tissage plus exigeant. Cette appréciation statique ne décrit pas la rotation alternant distance et mêlée citée pour la performance en raid ; les deux hypothèses restent à aligner.",
+     "raison": "Tir statique : rotation courte (7 sorts) et zone morte de 8 m à respecter ; le tissage n’apporte presque rien (−3 % à +2 % selon la durée).",
      "appuis": [
       "c-zone-morte",
-      "c-tissage",
-      "c-rotation"
+      "c-rotation",
+      "c-sim"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     },
     "charge_pvp": {
      "valeur": 3,
@@ -528,6 +530,13 @@
      ],
      "confiance": "faible"
     }
+   },
+   "variante_sans_familier": {
+    "synthese": "Déjà évaluée en « Loup solitaire » (+20 % de dégâts sans familier) : aucune note ne change.",
+    "appuis": [
+     "c-familier-precision"
+    ],
+    "notes": {}
    }
   },
   {
@@ -544,7 +553,7 @@
    "notes": {
     "raid": {
      "valeur": 5,
-     "raison": "Simulation 60 : 1re (100 %, seule en S), en tissant distance et mêlée comme le veut la spécialisation.",
+     "raison": "Évaluée en alternance tirs et mêlée, comme le veut la spécialisation : 1re en simulation (100 %), mais la tenue du tissage en raid réel n’est pas confirmée ; jouée en mêlée seule, environ 83 %.",
      "appuis": [
       "c-sim",
       "c-tissage",
@@ -640,10 +649,11 @@
     },
     "charge_pve": {
      "valeur": 4,
-     "raison": "La rotation optimisée alternant distance et mêlée comporte 9 à 11 sorts et plus de 200 conditions dans le modèle consulté. Cela suggère des décisions supplémentaires, sans mesurer la difficulté d’apprentissage ; le profil mêlée simple ne doit pas hériter automatiquement de cette estimation.",
+     "raison": "Évaluée en alternance tirs et mêlée : 9 à 11 sorts et plus de 200 conditions dans le modèle, contre 7 sorts en mêlée seule. La note vaut pour l’alternance, pas pour le jeu en mêlée seule, plus simple mais environ 21 % moins efficace.",
      "appuis": [
       "c-tissage",
-      "c-rotation"
+      "c-rotation",
+      "c-sim"
      ],
      "confiance": "moyenne"
     },
@@ -655,6 +665,25 @@
       "c-pieges"
      ],
      "confiance": "faible"
+    }
+   },
+   "variante_sans_familier": {
+    "synthese": "Sans familier pour encaisser, seule l’aisance en solo baisse ; pièges, contrôles et défenses lui appartiennent.",
+    "appuis": [
+     "c-familier-survie",
+     "c-role"
+    ],
+    "notes": {
+     "solo": {
+      "valeur": 4,
+      "raison": "Sans familier pour encaisser en solo, la mêlée de Survie prend les coups elle-même ; « Deflection » et « Counterattack » limitent la perte.",
+      "appuis": [
+       "c-role",
+       "c-defense",
+       "c-familier-survie"
+      ],
+      "confiance": "faible"
+     }
     }
    }
   }

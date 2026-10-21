@@ -22,17 +22,31 @@
   if(top.length<2)return '';
   return 'À égalité en tête : '+top.map(function(r){return r.className||r.spec.className;}).join(', ')+'. L’ordre d’affichage ne les départage pas.';
  }
+ // Depuis la référence v5, une configuration à familier facultatif est évaluée sans familier quand le
+ // joueur préfère jouer sans compagnon : le texte décrit ce que cette variante perd ou garde.
+ var petless={
+  'chasseur-precision':'Évaluée en « Loup solitaire », sans familier : ses notes supposent déjà ce choix.',
+  'chasseur-survie':'Évaluée sans familier : un peu moins à l’aise en solo ; ses pièges, ses contrôles et ses défenses restent les siens.',
+  'demoniste-affliction':'Évaluée sans démon : sans Séduction ni Verrou magique, et sans démon pour encaisser en solo. Peur, Voile mortel et malédictions restent.',
+  'demoniste-destruction':'Évaluée sans démon : sans Séduction ni Verrou magique, et sans démon pour encaisser en solo. Peur, Voile mortel et le ralentissement de Conflagration restent.'
+ };
  function petNotice(spec,profile){
   if(!profile||!profile.pet||profile.pet.value!=='avoid')return '';
   if(spec.pet==='core')return 'Le familier est central dans cette spécialisation : cette piste répond moins bien à ton envie de jouer sans compagnon.';
   if(spec.pet!=='optional')return '';
-  return 'Le familier est facultatif selon le build, mais ce score ne distingue pas encore les variantes avec et sans compagnon.'+
-   (spec.classId==='demoniste'?' Sans démon invoqué, tu perds ses contrôles, notamment Séduction ou l’interruption du Chasseur corrompu.':' Les outils et le confort en solo peuvent changer sans lui.');
+  return petless[spec.id]||'Évaluée sans familier.';
  }
  function contextNotes(context){
   var out=[],p=context.profile,w=context.weights;
   if((p&&Object.hasOwn(p.styles||{},'ctrl'))||(w&&w.ctrl>0))
    out.push('Le contrôle regroupe plusieurs usages. La maîtrise choisie tient aussi compte de la difficulté estimée à utiliser ces outils.');
+  if(p&&p.difficulty&&p.difficulty.value&&p.difficulty.value!=='any'){
+   // Même règle que le moteur (difficultyContext) : PvE seul, PvP seul, sinon moyenne.
+   var acts=Object.keys(p.activities||{}),pve=acts.some(function(k){return k==='raid'||k==='solo';}),pvp=acts.some(function(k){return k==='bg'||k==='world';});
+   out.push(pve&&!pvp?'Ton rapport à la difficulté est comparé à la difficulté PvE de chaque spécialisation, puisque tes activités sont en PvE.':
+    pvp&&!pve?'Ton rapport à la difficulté est comparé à la difficulté PvP de chaque spécialisation, puisque tes activités sont en PvP.':
+    'Ton rapport à la difficulté est comparé à la moyenne PvE et PvP de chaque spécialisation, faute d’activités d’un seul type.');
+  }
   if((p&&Object.hasOwn(p.roles||{},'soin'))||(w&&w.soin>0))
    out.push('Les styles de soin ne sont pas encore départagés par tes réponses. Consulte les fiches des spécialisations pour comparer leur façon de soigner.');
   return out;

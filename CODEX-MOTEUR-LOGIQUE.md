@@ -1,8 +1,8 @@
 # CODEX — Contrat du moteur logique de WoW Forever Classes
 
-> **Statut : référentiel normatif v4 — 21 octobre 2026.** v2 : révision des données ; v3 : configuration qui représente une classe à score égal ; v4 : exception solo du Chasseur réservée à Maîtrise des bêtes.
+> **Statut : référentiel normatif v7 — 21 octobre 2026.** v2 : révision des données ; v3 : configuration qui représente une classe à score égal ; v4 : exception solo du Chasseur réservée à Maîtrise des bêtes ; v5 : variantes sans familier ; v6 : difficulté selon les activités ; v7 : note raid des DPS alignée sur leurs dégâts simulés.
 > **Base figée :** commit de production `470fc92b607327ba7573307d1c00577ffc887208`, après la correction « DPS PvE = 100 partout ».
-> **Base des révisions v2 à v4 :** `71f81ec53bc3023e5fd8e8428de1267ff5df2d4a`. Moteur `1.0.3-exploratoire` : soin Chaman et Paladin 4→5, contrôle Discipline 4→3 (v2) ; à score égal, une classe est représentée par sa configuration au plus haut potentiel ajusté à la maîtrise (v3) ; seule Maîtrise des bêtes garde l'exception solo du Chasseur (v4). Formules de score et coefficients de maîtrise inchangés. Décisions et effets dans [REVISION-EDITORIALE-V2.md](REVISION-EDITORIALE-V2.md).
+> **Base des révisions v2 à v7 :** `71f81ec53bc3023e5fd8e8428de1267ff5df2d4a`. Moteur `1.0.6-exploratoire` : soin Chaman et Paladin 4→5, contrôle Discipline 4→3 (v2) ; à score égal, une classe est représentée par sa configuration au plus haut potentiel ajusté à la maîtrise (v3) ; seule Maîtrise des bêtes garde l'exception solo du Chasseur (v4) ; quand le joueur préfère jouer sans compagnon, une configuration à familier facultatif est évaluée avec les notes de son build sans familier (v5) ; la préférence de difficulté juge la charge PvE ou PvP selon les activités choisies (v6) ; la note raid d'un DPS suit ses dégâts simulés (Élémentaire 3→2, Destruction, Combat et Amélioration 4→3) et Farouche (félin) passe à 2 en zone (v7). Formules de score et coefficients de maîtrise inchangés. Décisions et effets dans [REVISION-EDITORIALE-V2.md](REVISION-EDITORIALE-V2.md).
 > **Périmètre :** algorithmes, hypothèses, données, sauvegardes, tests et gouvernance des évolutions.
 > **Non-objectif :** déclarer le modèle scientifiquement validé, équilibrer arbitrairement les classes, garantir des performances en jeu ou figer à jamais les valeurs éditoriales.
 
@@ -14,7 +14,7 @@ Les trois sources de vérité techniques sont :
 
 1. `recommendation-engine.js` : moteur partagé, exécutable dans Node.js et dans le navigateur.
 2. `index.html` → `window.__WF` : matrice historique **9 classes × 14 notes = 126 notes**, 15 préréglages et calcul historique conservé séparément.
-3. `tests/fixtures/moteur-reference-v4.json` : **photographie active de la version de référence**, vérifiée par `tests/codex-contract.test.cjs`. Les photographies v1 à v3 restent immuables : l'empreinte de la v1 et les trois seuls écarts de notes sont protégés par `tests/editorial-update.test.cjs`, l'empreinte de la v2 et les seuls écarts admis de la v3 par `tests/egalites-v3.test.cjs`, l'empreinte de la v3 et les seuls écarts admis de la v4 par `tests/chasseur-solo-v4.test.cjs`.
+3. `tests/fixtures/moteur-reference-v7.json` : **photographie active de la version de référence**, vérifiée par `tests/codex-contract.test.cjs`. Les photographies v1 à v6 restent immuables : l'empreinte de la v1 et les trois seuls écarts de notes sont protégés par `tests/editorial-update.test.cjs`, l'empreinte de la v2 et les seuls écarts admis de la v3 par `tests/egalites-v3.test.cjs`, l'empreinte de la v3 et les seuls écarts admis de la v4 par `tests/chasseur-solo-v4.test.cjs`, l'empreinte de la v4 et les seuls écarts admis de la v5 par `tests/sans-familier-v5.test.cjs`, l'empreinte de la v5 et l'absence d'écart de la v6 par `tests/difficulte-contexte-v6.test.cjs`, l'empreinte de la v6 et les seules cinq notes changées de la v7 par `tests/raid-degats-v7.test.cjs`.
 
 `questionnaire.js` et `priorities-ui.js` gèrent **l'affichage et les préférences**, mais ne doivent pas constituer des moteurs de scoring concurrents. `RECOMMANDATION-METHODE.md` apporte les explications destinées aux utilisateurs. En cas de contradiction entre l'intention de ce codex et le code, **arrêter la modification, caractériser l'écart, puis décider explicitement du contrat voulu** : ne pas réécrire silencieusement le codex pour justifier un résultat accidentel.
 
@@ -31,6 +31,8 @@ Les mots **DOIT**, **INTERDIT**, **REQUIERT** et **NON GARANTI** sont à prendre
 - Styles : `burst`, `zone`, `ctrl`, `surv`, `mob`, `support`.
 - Les notes d'activité et de style sont des **évaluations éditoriales entières de 1 à 5**, non de la télémétrie observée.
 - Les catégories rôle/portée/familier proviennent des kits et descriptions de classes ; les URL Blizzard attestent ces éléments structurels, **pas la véracité des notes éditoriales**.
+- **Définitions (v7) :** pour un DPS, l'activité `raid` mesure ses **dégâts simulés seuls**, en pourcentage du meilleur DPS simulé au niveau 60 : 5 à partir de 86 %, 4 de 72 à 85 %, 3 de 55 à 71 %, 2 en dessous ; l'utilité de groupe est notée dans le style `support`. Le style `ctrl` couvre trois usages, neutraliser, interrompre, ralentir ou immobiliser, avec les seuls outils du build évalué ; ceux accessibles par changement de forme comptent avec leur contrainte. Les soigneurs et les tanks gardent leur convention.
+- **Variantes sans familier (v5) :** chaque configuration à familier `optional` a une variante « sans familier » (`E.petless`) qui ne modifie que les notes où le familier compte : Affliction (contrôle 5→4, PvP sauvage 5→4, solo 4→3), Destruction (contrôle 4→3, PvP sauvage 5→4, solo 4→3), Survie (solo 5→4) ; Précision, déjà évaluée en « Loup solitaire », est inchangée. Raisons et appuis dans la base de connaissances.
 - **Justifications :** la [base de connaissances](connaissances/README.md) relie chaque note à des faits sourcés, avec une raison et un niveau de confiance, et liste les notes que les faits contredisent. Elle ne change aucun calcul ; `tests/base-connaissances.test.cjs` vérifie qu'elle reste alignée sur le moteur (mêmes configurations, valeurs et version).
 
 **Invariants :** aucun doublon d'identifiant de configuration, aucune configuration sans classe, aucune note non finie/hors plage, aucun mélange des attributs de deux spécialisations dans une même évaluation, aucune modification silencieuse des 126 notes historiques.
@@ -92,7 +94,7 @@ préférence(a,c) = 0,5 + intensité(c) × (a − 0,5)
 - Rôles stricts : la classe doit pouvoir exercer **tous les rôles demandés** ; la configuration évaluée doit elle-même exercer l'un d'eux.
 - Portée `distance` ou `melee` stricte : la configuration doit avoir cette portée.
 - Portée `mixte` stricte : la classe doit posséder au moins deux portées dans le périmètre des rôles demandés.
-- Familier `avoid` strict : les configurations à familier **obligatoire** (`core`) sont exclues ; un familier `optional` reste autorisé.
+- Familier `avoid` strict : les configurations à familier **obligatoire** (`core`) sont exclues ; un familier `optional` reste autorisé, évalué dans sa variante sans familier (§2.4).
 - Les préférences souples, même très affirmées, **n'excluent jamais**.
 
 Les contraintes contradictoires renvoient `status='no-match'`, **sans inventer de classe de remplacement**.
@@ -111,9 +113,11 @@ Chaque dimension activée produit un `parts[dimension] = {value, weight}`. Coeff
 
 **Portée :** adéquation brute `1` pour le type souhaité, `0,12` pour l'autre ; le choix `mixte` vaut `1` si la classe peut alterner selon les rôles demandés, sinon `0,28`.
 
-**Familier :** `like` donne `1` pour `core`, `0,76` pour `optional`, `0,1` pour `none`. `avoid` donne `1` pour `none`, `0,78` pour `optional`, `0,05` pour `core` avant tout veto strict.
+**Familier :** `like` donne `1` pour `core`, `0,76` pour `optional`, `0,1` pour `none`. `avoid` donne `1` pour `none`, `0,05` pour `core` avant tout veto strict, et `1` pour la variante sans familier d'une configuration `optional`.
 
-**Difficulté souhaitée :** la charge moyenne `L = (charge_pve + charge_pvp)/2` devient `(5−L)/4` pour `simple` et `(L−1)/4` pour `complex`.
+**Variantes sans familier (v5) :** dès que le joueur choisit `avoid`, quelle que soit sa certitude, une configuration `optional` est remplacée par sa variante sans familier, pour tous les domaines du score. La variante répond pleinement au souhait ; son compromis passe dans ses notes et non plus dans une pénalité forfaitaire (l'ancien `0,78`, conservé seulement pour une configuration de base évaluée hors de ce cas). Elle garde l'identifiant, le rôle, la portée et la charge de sa configuration ; le résultat la signale par `spec.variant = 'sans-familier'`. Un scénario de sensibilité qui retire la préférence de familier revient à la configuration de base. Le parcours « Régler mes priorités », sans préférence de familier, n'utilise jamais ces variantes.
+
+**Difficulté souhaitée (v6) :** la charge retenue `L` dépend des activités choisies (`difficultyContext`) : `charge_pve` si toutes sont PvE (donjons et raids, solo), `charge_pvp` si toutes sont PvP (champs de bataille, PvP sauvage), sinon la moyenne `(charge_pve + charge_pvp)/2`, comme avant la v6. Elle devient `(5−L)/4` pour `simple` et `(L−1)/4` pour `complex`. Le parcours « Régler mes priorités » garde la moyenne pour l'axe Technicité.
 
 Le score **par spécialisation** normalise les **seuls domaines renseignés** :
 
@@ -253,7 +257,7 @@ Le fichier `tests/fixtures/moteur-reference-v1.json` contient :
 - les **3 rôles isolés × 4 maîtrises** ;
 - **5 mélanges d'axes × 3 maîtrises**.
 
-Les photographies v1 à v3 restent conservées. `tests/codex-contract.test.cjs` compare désormais le moteur et les données **directement** à la photographie v4 des mêmes 99 cas. `scripts/compare-editorial-v2.cjs` (v1→v2, 39 cas sur 99) et `scripts/reference-v3.cjs` (v2→v3, 41 cas : seules changent, à score égal, les configurations affichées) comparent des photographies figées. `scripts/reference-v4.cjs` rejoue la v3 avec le moteur actuel et vérifie que seul le Chasseur change, en solo, en Débutant ou Intermédiaire, et à la baisse (5 cas sur 99). Aucun script n'écrit de fixture sans l'option explicite `--fixture`. Ces photographies ne sont **pas un jeu d'entraînement**, ni une preuve de justesse du gameplay : elles détectent les changements.
+Les photographies v1 à v4 restent conservées. `tests/codex-contract.test.cjs` compare désormais le moteur et les données **directement** à la photographie v7 : les mêmes 99 cas, plus quatre scénarios guidés sans familier (v5) et quatre qui combinent difficulté et activités (v6). `scripts/compare-editorial-v2.cjs` (v1→v2, 39 cas sur 99) et `scripts/reference-v3.cjs` (v2→v3, 41 cas : seules changent, à score égal, les configurations affichées) comparent des photographies figées. `scripts/reference-v4.cjs` compare les photographies v3 et v4 : seul le Chasseur change, en solo, en Débutant ou Intermédiaire, et à la baisse (5 cas sur 99). `scripts/reference-v5.cjs` compare les photographies v4 et v5 : seuls les profils qui évitent les familiers changent, et seulement pour le Chasseur et le Démoniste (1 cas sur 99). `scripts/reference-v6.cjs` compare les photographies v5 et v6 : aucun des 103 cas ne change, quatre scénarios de difficulté s'ajoutent. `scripts/reference-v7.cjs` rejoue la v6 avec le moteur actuel : seules les cinq notes décidées changent, et les classes qui ne les portent pas gardent configuration et score dans chaque classement (45 cas sur 107 bougent, aucune première classe). Aucun script n'écrit de fixture sans l'option explicite `--fixture`. Ces photographies ne sont **pas un jeu d'entraînement**, ni une preuve de justesse du gameplay : elles détectent les changements.
 
 La v2 accepte une égalité des quatre classes soigneuses sur le seul axe Soin aux maîtrises Confirmé et Expert. Cette convention éditoriale ne dit pas que leurs soins réels sont égaux. Les classes sans configuration de soin restent à zéro sur cet axe ; les axes Tank et DPS restent différenciés.
 
