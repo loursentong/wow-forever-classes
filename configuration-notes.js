@@ -42,17 +42,17 @@
   'chasseur-maitrise-betes':{
    fit:'Tu veux jouer à distance avec un compagnon au centre de ton jeu.',
    strengths:['Compagnon protecteur','Confort en solo'],
-   caution:'Une entrée accessible, avec un familier à diriger et à garder en vie. Les rotations optimisées alternant tirs et mêlée demandent un apprentissage supplémentaire ; elles ne décrivent pas la même simplicité que le tir statique.'
+   caution:'Une entrée accessible en tir statique, avec un familier à diriger et à garder en vie. Alterner tirs et mêlée rapporte environ 3 à 9 % de dégâts, au prix d’un apprentissage supplémentaire.'
   },
   'chasseur-precision':{
    fit:'Tu préfères les tirs puissants et le placement à distance.',
    strengths:['Tirs puissants','Combat à distance'],
-   caution:'Le jeu sans familier dépend du build et change le confort en solo. Alterner tirs et mêlée pour optimiser les dégâts demande davantage de coordination que le tir statique ; le score actuel ne distingue pas ces variantes.'
+   caution:'Évaluée en « Loup solitaire », sans familier : moins de confort en solo. Le tir statique suffit ; alterner tirs et mêlée n’apporte presque rien.'
   },
   'chasseur-survie':{
    fit:'Tu aimes les pièges et une approche active au corps à corps.',
    strengths:['Pièges','Outils de mêlée'],
-   caution:'Les variantes alternant tirs et mêlée demandent davantage de coordination. Le score actuel ne distingue pas encore ces variantes du jeu principalement en mêlée, ni le confort avec et sans familier.'
+   caution:'Évaluée en alternance tirs et mêlée, la façon la plus efficace mais la plus exigeante de la jouer ; en mêlée seule, plus simple mais environ 21 % moins efficace. Sans familier, un peu moins à l’aise en solo.'
   },
   'voleur-assassinat':{
    fit:'Tu aimes les dagues, les poisons et les effets à entretenir.',
