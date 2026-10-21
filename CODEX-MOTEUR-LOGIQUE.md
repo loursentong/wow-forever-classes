@@ -330,7 +330,7 @@ bash scripts/prepare-pages.sh
 node tests/browser-smoke.cjs
 ```
 
-Le test navigateur requiert ses dépendances et Chromium (installés dans GitHub Actions). Les contrôles de production Pages sont définis par `.github/workflows/pages.yml`.
+`scripts/prepare-pages.sh` numérote aussi, dans l'artefact publié, les scripts et feuilles de style locaux avec l'identifiant du commit (`?v=…`) : un navigateur qui reçoit le nouveau HTML charge tous les nouveaux fichiers, sans mélanger deux versions pendant la durée du cache ; `scripts/verify-pages-live.cjs` vérifie cette numérotation en ligne. Le test navigateur requiert ses dépendances et Chromium (installés dans GitHub Actions). Les contrôles de production Pages sont définis par `.github/workflows/pages.yml`.
 
 ---
 
