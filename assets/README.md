@@ -1,6 +1,6 @@
 # Visuels sources de la refonte graphique
 
-Images prêtes pour le web, réunies pour la refonte graphique (maquette dans [`design/`](../design/README.md)). Le site ne les charge pas encore : `scripts/prepare-pages.sh` ne publie que les SVG placés à la racine de ce dossier, donc rien de `img/` ni de `icons/` n'est en ligne.
+Images prêtes pour le web, réunies pour la refonte graphique (maquette dans [`design/`](../design/README.md)). Depuis le 21 octobre 2026, le site charge `img/` (en-tête et `refonte-forever.css`) et `scripts/prepare-pages.sh` publie ce dossier. `icons/` n'est pas encore utilisé : le site charge toujours ses icônes depuis le serveur de Blizzard.
 
 ## Droits et usage
 
@@ -15,7 +15,7 @@ World of Warcraft, Forever, leurs logos, illustrations et icônes appartiennent 
 | Fichier | Usage dans la maquette | Format | Poids | Origine |
 | --- | --- | --- | --- | --- |
 | `img/hero-arbre-monde.webp` | Décor d'accueil, par défaut | 2400 × 1000 | 68 Ko | kit : `WoW_Forever_Cinematic_Still_5.jpeg` |
-| `img/hero-vallee-nuit.webp` | Décor d'accueil, variante | 2400 × 1000 | 77 Ko | kit : `WoW_Forever_Cinematic_Still_2.jpeg` |
+| `img/hero-vallee-nuit.webp` | Décor d'accueil, variante de la maquette (non utilisée par le site) | 2400 × 1000 | 77 Ko | kit : `WoW_Forever_Cinematic_Still_2.jpeg` |
 | `img/bandeau-gantelet.webp` | Bandeau « Régler mes priorités » | 1920 × 800 | 58 Ko | kit : `WoW_Forever_Cinematic_Still_11.jpeg` |
 | `img/bandeau-darkspear.webp` | Bandeau « Comparer » | 1920 × 1080 | 132 Ko | kit : `WoW_Forever_Announce_BG_DarkspearIslands_090.jpg` |
 | `img/logo-wow-forever.webp` | Logo de l'en-tête | 520 × 424, fond transparent | 49 Ko | kit : `WoW_Forever_Logo.png`, marges vides retirées |

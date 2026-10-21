@@ -5,6 +5,7 @@ const html=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
 const css=fs.readFileSync(path.join(__dirname,'..','warcraft-visual-pack.css'),'utf8');
 const questionnaire=fs.readFileSync(path.join(__dirname,'..','questionnaire.js'),'utf8');
 const priority=fs.readFileSync(path.join(__dirname,'..','priorities-ui.js'),'utf8');
+const refonte=fs.readFileSync(path.join(__dirname,'..','refonte-forever.css'),'utf8');
 const ids=['guerrier','paladin','chasseur','voleur','pretre','chaman','mage','demoniste','druide'];
 test('Les neuf classes pointent vers des icônes originales validées chez Blizzard',()=>{
  assert.equal((html.match(/class="wow-card-class-icon"/g)||[]).length,9);
@@ -18,10 +19,20 @@ test('Les neuf classes pointent vers des icônes originales validées chez Blizz
  assert.match(questionnaire,/function wowClassIcon/);
  assert.match(priority,/var wowClassIcons/);
 });
-test('Le bandeau reprend un vrai logo Forever et un paysage WoW hébergés par Blizzard',()=>{
- assert.match(html,/bnetcmsus-a\.akamaihd\.net\/cms\/gallery\/j3\/J3RLTCKOODJ51789169243964\.png/);
- assert.match(css,/bnetcmsus-a\.akamaihd\.net\/cms\/blog_header\/to\/TO55V6TRR1RW1790054798721\.png/);
+test('Le bandeau reprend le logo officiel et un décor du kit de presse, hébergés avec le site',()=>{
+ // Refonte du 21 octobre 2026 : logo et décors viennent du kit de presse officiel (assets/README.md).
+ assert.match(html,/<img class="wow-hero-logo" src="assets\/img\/logo-wow-forever\.webp"/);
+ assert.match(html,/Outil de fan · non officiel/);
+ assert.match(refonte,/url\("assets\/img\/hero-arbre-monde\.webp"\)/);
+ for(const f of ['logo-wow-forever.webp','hero-arbre-monde.webp','bandeau-gantelet.webp','bandeau-darkspear.webp','grain.png'])
+  assert.ok(fs.statSync(path.join(__dirname,'..','assets','img',f)).size>1000,f);
  assert.match(html,/warcraft-visual-pack\.css/);
+ assert.ok(html.indexOf('href="refonte-forever.css"')>html.indexOf('href="wow-ui-rework.css"'),'La refonte doit être la dernière feuille de style');
+});
+test('La refonte reste une couche de présentation accessible',()=>{
+ assert.match(refonte,/prefers-reduced-motion:reduce/);
+ assert.match(refonte,/:focus-visible\{outline:2px solid/);
+ assert.ok(!/script|expression\s*\(/i.test(refonte));
 });
 test('Le guide emploie des pictogrammes de véritables compétences, pas des substituts SVG inventés',()=>{
  for(const icon of ['inv_sword_04','inv_shield_05','spell_holy_greaterheal',
