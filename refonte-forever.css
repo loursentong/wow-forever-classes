@@ -451,6 +451,8 @@ details.reco-evidence p b{color:var(--rf-ivory)}
 .reco-answer-list{grid-column:1/-1;border-left:2px solid #405065;padding-left:12px;margin:0 0 10px;min-width:0}
 /* Chaque choix en trois temps : la note de la spécialisation, ton choix, puis le résultat (en clair). */
 .reco-answer{margin:8px 0 10px}
+/* Groupe de plusieurs critères : comment ils se partagent ses points. */
+.reco-answer-list .reco-why-note{margin:6px 0 2px;font-size:13px;line-height:1.45;color:var(--rf-faint);font-style:italic}
 .reco-answer-title{display:block;margin-bottom:3px;color:var(--rf-ivory);font-size:14px;font-weight:700}
 .reco-answer-steps{display:grid;gap:2px;margin:0}
 .reco-answer-steps>div{display:grid;grid-template-columns:122px minmax(0,1fr);gap:10px;font-size:13.5px;line-height:1.5}

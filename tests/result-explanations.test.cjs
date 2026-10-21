@@ -70,10 +70,9 @@ test('Pourquoi cette piste : la part de chaque critère fait exactement le score
  assert.deepEqual(X.scoreParts({},0),[]);
 });
 
-/* Révision du 21 octobre 2026 : chaque choix se lit en trois temps, avec les mots du questionnaire.
- * « Repère de la spécialisation » ne disait pas qu'il s'agit de la note de référence, et la
- * certitude choisie n'était pas rappelée. */
-test('Pourquoi cette piste : note de référence, ton choix, puis le résultat chiffré de chaque réponse',()=>{
+/* Révisions du 21 octobre 2026 : chaque choix se lit en trois lignes, avec les mots du questionnaire,
+ * le nom de la spécialisation et des mots avant les chiffres ; en tête, le bilan des points manquants. */
+test('Pourquoi cette piste : la spécialisation nommée et sa note, ton choix en mots, puis le constat',()=>{
  const fs=require('node:fs'),path=require('node:path');
  const ui=fs.readFileSync(path.join(__dirname,'..','questionnaire.js'),'utf8');
  // Mêmes mots que le curseur de certitude et que les options du questionnaire.
@@ -81,53 +80,86 @@ test('Pourquoi cette piste : note de référence, ton choix, puis le résultat c
  assert.deepEqual(X.certaintyWords,certWords.map(w=>w.toLowerCase()));
  for(const [key,label] of Object.entries({burst:'Dégâts explosifs',surv:'Résistance',world:'PvP sauvage et duel',solo:'Solo et farm',groupe:'Soigner tout le groupe'}))
   assert.ok(ui.includes(label),label+' figure dans le questionnaire'),assert.equal(X.answerLabel({domain:'x',key},{}),label);
+ const where={activities:'pour cette activité',styles:'pour ce style',healStyles:'pour cette façon de soigner'};
  const profiles=[{roles:{soin:5},activities:{bg:0,solo:3},range:{value:'distance',certainty:0},styles:{zone:4,surv:5,support:4},mastery:3},
   {roles:{tank:4,soin:2},rolesStrict:true,healStyles:{groupe:3},pet:{value:'avoid',certainty:5,strict:true},difficulty:{value:'simple',certainty:3},activities:{raid:4},range:{value:'mixte',certainty:4},mastery:0}];
  for(const p of profiles)for(const row of E.ranking(p).results){
-  const ex=E.explain(row.spec.id,p);
+  const ex=E.explain(row.spec.id,p),parts=X.pisteParts(ex,row.fit,row.score);
   for(const a of ex.answers){
    const lines=X.answerLines(a,ex),[spec,choice,result]=lines.map(l=>l.text);
-   assert.deepEqual(lines.map(l=>l.lead),['La spécialisation','Ton choix','Donc']);
+   assert.deepEqual(lines.map(l=>l.lead),['La spécialisation','Ton choix','Constat']);
    if(a.note!==undefined){
-    assert.match(spec,new RegExp('^'+X.number(a.note)+'/5 \\(note de référence\\)'));
+    assert.ok(spec.startsWith(ex.spec.label+' est notée '+X.number(a.note)+'/5 '+where[a.domain]),spec);
     assert.equal(spec.includes('avec ta maîtrise'),Math.abs(a.note-a.adjusted)>.001,spec);
    }
-   assert.match(choice,new RegExp('^certitude (moyenne )?'+X.number(a.certainty)+'/5 \\('+X.certaintyWords[Math.round(a.certainty)]+'\\)'));
-   // Le résultat final est l'adéquation du moteur, certitude comprise.
-   assert.match(result,new RegExp((Math.abs(a.fit-a.raw)<.005?' : ':', ')+Math.round(a.fit*100)+'\u00a0%\\.'),result);
-   assert.doesNotMatch(lines.map(l=>l.text).join(' '),/Repère|undefined|NaN/);
+   const word=X.certaintyWords[Math.round(a.certainty)];
+   assert.ok(choice.startsWith(word[0].toUpperCase()+word.slice(1)+' (certitude '),choice);
+   // Le constat : à quel point elle répond, puis la valeur retenue après certitude, celle du moteur.
+   assert.match(result,new RegExp('^Elle (y répond|n’y répond pas)'));
+   assert.match(result,new RegExp((Math.abs(a.fit-a.raw)<.005?'\\('+Math.round(a.raw*100)+'\u00a0%\\)\\.':'adouci à '+Math.round(a.fit*100)+'\u00a0% par ta certitude\\.')),result);
+   assert.doesNotMatch(lines.map(l=>l.text).join(' '),/Repère|undefined|NaN|note de référence/);
+  }
+  // Une ligne par groupe de plusieurs réponses, avec leurs valeurs retenues.
+  for(const g of parts){
+   const answers=ex.answers.filter(a=>a.domain===g.key);
+   assert.equal(g.answers.length,answers.length);
+   assert.equal(g.note,answers.length>1?'Moyenne de tes '+answers.length+' choix : '+answers.map(a=>Math.round(a.fit*100)+'\u00a0%').join(answers.length>2?', ':' et ').replace(/, ([^,]+)$/,' et $1')+'.':'');
+  }
+  // En tête : les points manquants, groupe par groupe, font exactement l'écart à 100.
+  const summary=X.pisteMissing(ex,row.fit,row.score),missing=100-Math.round(row.score);
+  if(missing<=0)assert.equal(summary,'Elle répond pleinement à tes choix.');
+  else{
+   assert.ok(summary.startsWith('Il lui manque '+missing+' point'),summary);
+   assert.equal([...summary.matchAll(/(\d+) sur (les|la|le) /g)].reduce((n,m)=>n+Number(m[1]),0),missing,summary);
   }
  }
  const ex=E.explain('druide-restauration',profiles[0]),bg=ex.answers.find(a=>a.key==='bg'),solo=ex.answers.find(a=>a.key==='solo');
- assert.deepEqual(X.answerLines(bg,ex).map(l=>l.text),['5/5 (note de référence)','certitude 0/5 (intuition)','elle y répond pleinement (100\u00a0%) ; compte tenu de ta certitude, 63\u00a0%.']);
- assert.equal(X.answerLines(solo,ex)[0].text,'3/5 (note de référence) · 3,3/5 avec ta maîtrise (expert)');
+ assert.deepEqual(X.answerLines(bg,ex).map(l=>l.text),['Restauration est notée 5/5 pour cette activité.','Intuition (certitude 0/5)','Elle y répond pleinement (100\u00a0%), adouci à 63\u00a0% par ta certitude.']);
+ assert.equal(X.answerLines(solo,ex)[0].text,'Restauration est notée 3/5 pour cette activité, 3,3/5 avec ta maîtrise (expert).');
  const strict=E.explain('druide-restauration',profiles[1]),roles=X.answerLines(strict.answers.find(a=>a.domain==='roles'),strict);
- assert.match(roles[0].text,/^sa classe propose Tank et Soin ; cette spécialisation joue Soin · aisance estimée en PvE : \d+\u00a0%$/);
- assert.match(roles[1].text,/^certitude moyenne 3\/5 \(assez sûr\) · tous ces rôles indispensables$/);
- assert.match(roles[2].text,/Ce que propose sa classe compte pour 65 %, la spécialisation retenue pour 35 %\.$/);
- assert.match(X.answerLines(strict.answers.find(a=>a.domain==='pet'),strict)[1].text,/uniquement sans familier$/);
+ assert.match(roles[0].text,/^La classe Druide propose Tank et Soin ; Restauration joue Soin \(aisance estimée en PvE : \d+\u00a0%\)\.$/);
+ assert.equal(roles[1].text,'Assez sûr (certitude moyenne 3/5) · tous ces rôles indispensables');
+ assert.match(roles[2].text,/Les rôles que propose sa classe comptent pour 65\u00a0%, la spécialisation retenue pour 35\u00a0%\.$/);
+ assert.equal(X.answerLines(strict.answers.find(a=>a.domain==='pet'),strict)[1].text,'Certain (certitude 5/5) · uniquement sans familier');
  const partial=E.explain('guerrier-protection',{...profiles[1],rolesStrict:false});
- assert.match(X.answerLines(partial.answers.find(a=>a.domain==='roles'),partial)[0].text,/^sa classe propose Tank, pas Soin ; cette spécialisation joue Tank/);
+ assert.match(X.answerLines(partial.answers.find(a=>a.domain==='roles'),partial)[0].text,/^La classe Guerrier propose Tank, pas Soin ; Protection joue Tank/);
  const none=E.explain('mage-givre',{...profiles[1],rolesStrict:false});
- assert.match(X.answerLines(none.answers.find(a=>a.domain==='roles'),none)[0].text,/^sa classe ne propose aucun de ces rôles ; cette spécialisation joue DPS/);
- assert.equal(X.mainTradeoff(none),'Tes rôles Tank + Soin : 0 % de correspondance. C’est le principal compromis avec tes envies.');
- // Le rendu échappe le texte et marque la ligne du résultat.
- assert.equal(X.answerHtml('A & B',[{lead:'La spécialisation',text:'<b>'},{lead:'Donc',text:'ok'}]),
-  '<div class="reco-answer"><b class="reco-answer-title">A &amp; B</b><dl class="reco-answer-steps"><div><dt>La spécialisation</dt><dd>&lt;b&gt;</dd></div><div class="is-result"><dt>Donc</dt><dd>ok</dd></div></dl></div>');
+ assert.match(X.answerLines(none.answers.find(a=>a.domain==='roles'),none)[0].text,/^La classe Mage ne propose aucun de ces rôles ; Givre joue DPS/);
+ assert.equal(X.mainTradeoff(none),'Le Mage Givre ne joue aucun de tes rôles (Tank + Soin) : c’est ce qui lui coûte le plus de points.');
+ // « À garder en tête » situe la classe, la spécialisation et le critère, en une phrase.
+ const hunter=E.explain('chasseur-maitrise-betes',{styles:{surv:5},activities:{bg:5},mastery:2});
+ assert.match(X.mainTradeoff(hunter),/^Le Chasseur Maîtrise des bêtes est noté \d\/5 en (résistance|champs de bataille) : c’est ce qui lui coûte le plus de points\.$/);
+ const role=E.explain('demoniste-demonologie',{roles:{dps:5},activities:{bg:5},range:{value:'distance',certainty:5},mastery:2});
+ assert.match(X.mainTradeoff(role),/^(En DPS, le Démoniste Démonologie a une aisance estimée à \d+\u00a0% en PvE|Le Démoniste Démonologie est noté \d\/5 en champs de bataille) : c’est ce qui lui coûte le plus de points\.$/);
+ const armes=E.explain('guerrier-armes',{range:{value:'distance',certainty:5},styles:{ctrl:5}});
+ assert.match(X.mainTradeoff(armes),/le Guerrier Armes|Le Guerrier Armes/);
+ assert.equal(X.of('Affliction'),'d’Affliction');assert.equal(X.of('Élémentaire'),'d’Élémentaire');assert.equal(X.of('Finesse'),'de Finesse');
+ // Le rendu échappe le texte et marque la ligne du constat.
+ assert.equal(X.answerHtml('A & B',[{lead:'La spécialisation',text:'<b>'},{lead:'Constat',text:'ok'}]),
+  '<div class="reco-answer"><b class="reco-answer-title">A &amp; B</b><dl class="reco-answer-steps"><div><dt>La spécialisation</dt><dd>&lt;b&gt;</dd></div><div class="is-result"><dt>Constat</dt><dd>ok</dd></div></dl></div>');
 });
 
-test('Pourquoi cette place : même lecture en trois temps, avec le poids et sa part dans le groupe',()=>{
- const w={ctrl:2,surv:3,tank:3,soin:1,poly:1,tech:2,bg:1},ex=E.priorityExplain('paladin-protection',w,3);
+test('Pourquoi cette place : priorité en mots, part de chaque critère dans son groupe, points manquants',()=>{
+ // L'exemple du Voleur : Champ de bataille et PvP sauvage essentiels, Contrôle, Mobilité et Technicité importants, maîtrise Expert.
+ const w={bg:3,sauv:3,ctrl:2,mob:2,tech:2},ex=E.priorityExplain('voleur-finesse',w,3);
  const groups=X.priorityParts(ex,ex.score),axes=groups.flatMap(g=>g.axes);
- assert.equal(axes.length,7);
+ assert.equal(Math.round(ex.score),92);
  for(const a of axes){
-  assert.deepEqual(a.lines.map(l=>l.lead),['La spécialisation','Ton choix','Donc']);
-  assert.match(a.lines[1].text,/^poids [123] sur 3/);
-  assert.doesNotMatch(a.lines.map(l=>l.text).join(' '),/Repère|undefined|NaN/);
+  assert.deepEqual(a.lines.map(l=>l.lead),['La spécialisation','Ton choix','Constat']);
+  assert.match(a.lines[1].text,/^Priorité (secondaire \(1\)|importante \(2\)|essentielle \(3\))$/);
+  assert.doesNotMatch(a.lines.map(l=>l.text).join(' '),/Repère|undefined|NaN|poids/);
  }
- const ctrl=axes.find(a=>a.key==='ctrl');
- assert.deepEqual(ctrl.lines.map(l=>l.text),['2/5 (note de référence) · 2,1/5 avec ta maîtrise (expert)','poids 2 sur 3 · 40\u00a0% du groupe « Style de combat »','elle y répond peu : 27\u00a0%.']);
- assert.equal(axes.find(a=>a.key==='bg').lines[1].text,'poids 1 sur 3','un critère seul dans son groupe n’en indique pas la part');
- assert.equal(axes.find(a=>a.key==='soin').lines[0].text,'ne joue pas ce rôle (rôle Tank)');
- assert.equal(X.priorityTradeoff(ex),'Contrôle (poids 2) : 2/5 (note de référence) · 2,1/5 avec ta maîtrise (expert). C’est le principal écart avec tes critères.');
+ assert.deepEqual(axes.find(a=>a.key==='bg').lines.map(l=>l.text),
+  ['Finesse est notée 4/5 pour cette activité, 4,4/5 avec ta maîtrise (expert).','Priorité essentielle (3)','Elle y répond bien (84\u00a0%).']);
+ assert.equal(axes.find(a=>a.key==='tech').lines[0].text,'Finesse est notée 4/5 en difficulté (moyenne PvE et PvP).');
+ assert.deepEqual(groups.map(g=>g.note),['Tes 2 critères ont la même priorité : ils comptent autant.','Tes 2 critères ont la même priorité : ils comptent autant.','']);
+ assert.equal(X.priorityMissing(ex,ex.score),'Il lui manque 8 points : 4 sur les activités (Champ de bataille) et 4 sur les affinités (Technicité).');
+ // Priorités différentes dans un groupe ; rôle non joué ; polyvalence ; aucun point manquant.
+ const tank=E.priorityExplain('paladin-protection',{tank:3,soin:1,poly:1},3),roles=X.priorityParts(tank,tank.score)[0];
+ assert.equal(roles.note,'Chaque critère compte selon ta priorité : Tank 75\u00a0% et Soin 25\u00a0%.');
+ assert.equal(roles.axes.find(a=>a.key==='soin').lines[0].text,'Protection ne joue pas ce rôle (spécialisation Tank).');
+ assert.equal(X.priorityParts(tank,tank.score)[1].axes[0].lines[0].text,'La classe Paladin propose 3 rôles.');
+ const full=E.priorityExplain('voleur-finesse',{ctrl:3},2);
+ assert.equal(X.priorityMissing(full,full.score),'Elle répond pleinement à tes critères.');
+ assert.deepEqual(X.priorityWords,['sans importance','secondaire','importante','essentielle']);
 });

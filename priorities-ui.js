@@ -10,6 +10,8 @@ var modes=Array.prototype.slice.call(root.querySelectorAll('[data-reco-mode]'));
 var guided=root.querySelector('#reco-guided'),priority=root.querySelector('#reco-priorities');
 var form=root.querySelector('#reco-priority-form'),output=root.querySelector('#reco-priority-results');
 var KEY='wf-reco-mode-v1',CUSTOM_KEY='wf-priority-custom-v1',STATE_KEY='wf-overview-v3';
+// Mots de l'échelle 0 à 3, repris dans les explications (« Priorité essentielle (3) »).
+var words=X&&X.priorityWords||['sans importance','secondaire','importante','essentielle'];
 // État du mode personnalisé. Les champs hérités (hl, c) d'une ancienne sauvegarde sont conservés tels quels.
 var S={w:Object.assign({},D.presets.egal),m:2,extra:{}},hasMastery=false;
 function validW(o){return !!o&&typeof o==='object'&&!Array.isArray(o)&&E.priorityAxes.every(function(k){return Number.isInteger(o[k])&&o[k]>=0&&o[k]<=3;});}
@@ -100,13 +102,13 @@ function controls(){
    html+='<div class="reco-priority-row"><span class="reco-priority-label">'+it[1]+
     (help?'<small id="prio-help-'+it[0]+'">'+esc(help)+'</small>':'')+'</span>'+
     '<div class="reco-weights" role="group" aria-label="Importance de '+esc(it[1])+'"'+(help?' aria-describedby="prio-help-'+it[0]+'"':'')+'>'+[0,1,2,3].map(function(n){
-      return '<button type="button" data-prio-axis="'+it[0]+'" data-prio-weight="'+n+'" aria-pressed="'+(val===n)+'" aria-label="'+it[1]+' : poids '+n+'">'+n+'</button>';
+      return '<button type="button" data-prio-axis="'+it[0]+'" data-prio-weight="'+n+'" aria-pressed="'+(val===n)+'" aria-label="'+it[1]+' : '+(n?'priorité '+words[n]:words[0])+' ('+n+')">'+n+'</button>';
     }).join('')+'</div></div>';
   });
   html+='</section>';
  });
  html+='</div>';
- html+='<div class="reco-priority-footer"><p><strong>0</strong> = sans importance · <strong>3</strong> = priorité essentielle. Les critères ignorés ne procurent aucun avantage.</p>'+
+ html+='<div class="reco-priority-footer"><p><strong>0</strong> = sans importance · <strong>1</strong> = secondaire · <strong>2</strong> = importante · <strong>3</strong> = essentielle. Les critères ignorés ne procurent aucun avantage.</p>'+
   '<button type="button" data-prio-clear>Tout remettre à zéro</button></div>';
  form.innerHTML=html;
 }
@@ -121,12 +123,13 @@ function whyPlace(x,w,m){
  var rows=X.priorityParts(ex,x.score).map(function(g){
   return '<li><span class="reco-why-name">'+esc(g.label)+'</span><span class="reco-why-bar" aria-hidden="true"><i style="width:'+g.fit+'%"></i></span>'+
    '<span class="reco-why-fit" title="Correspondance avec tes critères">'+g.fit+' %</span><span class="reco-why-points">'+g.points+' / '+g.max+' pts</span>'+
-   '<div class="reco-answer-list">'+g.axes.map(function(a){return X.answerHtml(a.label,a.lines);}).join('')+'</div></li>';
+   '<div class="reco-answer-list">'+(g.note?'<p class="reco-why-note">'+esc(g.note)+'</p>':'')+
+   g.axes.map(function(a){return X.answerHtml(a.label,a.lines);}).join('')+'</div></li>';
  }).join('');
  return '<details class="reco-evidence reco-why"><summary>Pourquoi cette place</summary>'+
-  '<p><b>Pourquoi '+Math.round(x.score)+' sur 100 ?</b> '+esc(X.priorityTradeoff(ex))+'</p>'+
-  '<p>Pour chacun de tes critères : la note de référence de la spécialisation, ton poids, puis ce que cela donne (une note de 1/5 vaut 0&nbsp;%, 3/5 vaut 50&nbsp;% et 5/5 vaut 100&nbsp;%). '+
-  'Dans un groupe, les critères comptent selon leur poids ; chaque groupe pèse selon le poids le plus fort que tu lui donnes. Les points forment le score sur 100.</p>'+
+  '<p><b>Pourquoi '+Math.round(x.score)+' sur 100 ?</b> '+esc(X.priorityMissing(ex,x.score))+'</p>'+
+  '<p>Pour chaque critère : la note '+esc(X.of(x.spec.label))+', ta priorité, puis le constat. Une note de 1/5 compte pour 0&nbsp;% et 5/5 pour 100&nbsp;% ; '+
+  'ces notes sont des estimations, pas des mesures de puissance, et ta maîtrise en ajuste certaines. Chaque groupe pèse selon ta priorité la plus forte, et ses points forment le score.</p>'+
   '<ul class="reco-why-parts" aria-label="Part de chaque groupe de critères dans le score">'+rows+'</ul>'+
   '<p><a href="fiches-sources/'+esc(x.classId)+'.html#'+esc(x.spec.id)+(x.spec.variant==='sans-familier'?'-sans-familier':'')+'">Comprendre les notes et voir les sources du '+esc(x.className)+'</a></p>'+
   '</details>';

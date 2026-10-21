@@ -63,62 +63,83 @@
   return keys.map(function(k,i){return {key:k,label:names[k],fit:Math.round(100*fit[k].value),points:points[i],max:max[i]};});
  }
  // Mode personnalisé : mêmes règles de lecture, sur les groupes et critères du classement à 14 priorités
- // (priorityExplain du moteur). Le poids 1 à 3 est l'importance donnée au critère.
+ // (priorityExplain du moteur). La priorité 1 à 3 est l'importance donnée au critère.
  var priorityGroups=['roles','activities','style','affinity'];
  var priorityGroupNames={roles:'Rôles',activities:'Activités',style:'Style de combat',affinity:'Affinités'};
  var priorityAxisNames={tank:'Tank',soin:'Soin',dps:'DPS PvE',bg:'Champ de bataille',sauv:'PvP sauvage',solo:'Solo / leveling',
   burst:'Burst',zone:'Dégâts de zone',ctrl:'Contrôle',surv:'Résistance',mob:'Mobilité',util:'Soutien',poly:'Polyvalence',tech:'Technicité'};
- var roleVerbs={tank:'ne tank pas',soin:'ne soigne pas',dps:'n’est pas une spécialisation de dégâts'};
- /* Lecture d'un critère ou d'une réponse en trois temps (révision du 21 octobre 2026) :
-  * « La spécialisation » (sa note de référence, sur 5, et l'effet de ta maîtrise), « Ton choix »
-  * (ta certitude ou ton poids), puis « Donc » (ce que cela donne). Une note de 1 à 5 vaut 0 à 100 % ;
-  * une certitude inférieure à 5 rapproche le résultat de 50 % (preferenceFit du moteur). */
+ var priorityWords=['sans importance','secondaire','importante','essentielle'];
+ /* « Pourquoi cette piste » et « Pourquoi cette place » (révision du 21 octobre 2026, soir) : chaque
+  * critère se lit en trois lignes, avec le nom de la spécialisation et des mots avant les chiffres.
+  * « La spécialisation » : sa note pour ce critère, puis l'effet de ta maîtrise ; « Ton choix » : ta
+  * certitude ou ta priorité ; « Constat » : à quel point elle y répond. Une note de 1 à 5 vaut 0 à
+  * 100 % ; une certitude inférieure à 5 adoucit le résultat vers 50 % (preferenceFit du moteur).
+  * En tête, le bilan des points qui manquent, groupe par groupe. */
  var masteryNames=['Débutant','Intermédiaire','Confirmé','Expert'];
  var certaintyWords=['intuition','très hésitant','hésitant','assez sûr','très sûr','certain'];
- function percent(v){return Math.round(v*100)+'\u00a0%';}
+ var roleNames={tank:'Tank',soin:'Soin',dps:'DPS'};
+ var noteWhere={activities:'pour cette activité',styles:'pour ce style',style:'pour ce style',healStyles:'pour cette façon de soigner'};
+ function number(v){return String(Math.round(v*10)/10).replace('.',',');}
+ function percent(v){return Math.round(v*100)+' %';}
+ function capital(t){return t.charAt(0).toUpperCase()+t.slice(1);}
+ function list(items){return items.length>1?items.slice(0,-1).join(', ')+' et '+items[items.length-1]:items[0]||'';}
+ // « la note de Finesse », « la note d’Affliction ».
+ function of(name){return (/^[aeiouyàâéèêëîïôûh]/i.test(name)?'d’':'de ')+name;}
  function verdict(v){
   // Même arrondi que le pourcentage affiché à côté.
   var raw=Math.round(v*100)/100;
   return raw>=.9?'elle y répond pleinement':raw>=.7?'elle y répond bien':raw>=.45?'elle y répond en partie':raw>=.15?'elle y répond peu':'elle n’y répond pas';
  }
- function noteLine(a,mastery){
-  var t=number(a.note)+'/5 (note de référence)';
-  if(a.adjusted!==undefined&&Math.abs(a.note-a.adjusted)>.001)t+=' · '+number(a.adjusted)+'/5 avec ta maîtrise ('+(masteryNames[mastery]||'').toLowerCase()+')';
-  return t;
+ function lines(spec,choice,result){return [{lead:'La spécialisation',text:spec},{lead:'Ton choix',text:choice},{lead:'Constat',text:result}];}
+ function specNames(s){return {spec:s&&s.label||'Cette spécialisation',cls:s&&s.className?'La classe '+s.className:'Sa classe'};}
+ function noted(name,a,where,mastery){
+  return name+' est notée '+number(a.note)+'/5 '+where+
+   (a.adjusted!==undefined&&Math.abs(a.note-a.adjusted)>.001?', '+number(a.adjusted)+'/5 avec ta maîtrise ('+(masteryNames[mastery]||'').toLowerCase()+')':'')+'.';
  }
- function lines(spec,choice,conclusion){return [{lead:'La spécialisation',text:spec},{lead:'Ton choix',text:choice},{lead:'Donc',text:conclusion}];}
  function priorityAxisLines(a,ex){
-  var s=ex&&ex.spec||{},spec;
-  if(a.group==='roles')spec=a.raw>0?'joue ce rôle · aisance estimée en PvE : '+percent(a.raw):
-   'ne joue pas ce rôle'+(roleNames[s.role]?' (rôle '+roleNames[s.role]+')':'');
-  else if(a.note!==undefined)spec=noteLine(a,ex&&ex.mastery);
-  else if(a.key==='poly')spec='sa classe propose '+a.roles+' rôle'+(a.roles>1?'s':'');
-  else spec='difficulté '+number(a.load)+'/5 en moyenne PvE et PvP (note de référence)';
-  var choice='poids '+a.weight+' sur 3'+(a.share<1?' · '+percent(a.share)+' du groupe « '+priorityGroupNames[a.group]+' »':'');
-  return lines(spec,choice,verdict(a.raw)+' : '+percent(a.raw)+'.');
+  var s=ex&&ex.spec||{},n=specNames(s),spec;
+  if(a.group==='roles')spec=a.raw>0?n.spec+' joue ce rôle ; aisance estimée en PvE : '+percent(a.raw)+'.':
+   n.spec+' ne joue pas ce rôle'+(roleNames[s.role]?' (spécialisation '+roleNames[s.role]+')':'')+'.';
+  else if(a.note!==undefined)spec=noted(n.spec,a,noteWhere[a.group],ex&&ex.mastery);
+  else if(a.key==='poly')spec=n.cls+(a.roles>1?' propose '+a.roles+' rôles.':' ne propose qu’un rôle.');
+  else spec=n.spec+' est notée '+number(a.load)+'/5 en difficulté (moyenne PvE et PvP).';
+  return lines(spec,'Priorité '+priorityWords[a.weight]+' ('+a.weight+')',capital(verdict(a.raw))+' ('+percent(a.raw)+').');
+ }
+ // Une ligne par groupe de plusieurs critères : comment ils se partagent ses points.
+ function priorityGroupNote(axes){
+  if(axes.length<2)return '';
+  if(axes.every(function(a){return a.weight===axes[0].weight;}))return 'Tes '+axes.length+' critères ont la même priorité : ils comptent autant.';
+  return 'Chaque critère compte selon ta priorité : '+list(axes.map(function(a){return priorityAxisNames[a.key]+' '+percent(a.share);}))+'.';
  }
  function priorityParts(ex,score){
   if(!ex)return [];
   return scoreParts(ex.parts,score,priorityGroups,priorityGroupNames).map(function(g){
-   g.axes=ex.axes.filter(function(a){return a.group===g.key;}).map(function(a){
+   var axes=ex.axes.filter(function(a){return a.group===g.key;});
+   g.note=priorityGroupNote(axes);
+   g.axes=axes.map(function(a){
     var l=priorityAxisLines(a,ex);
     return {key:a.key,label:priorityAxisNames[a.key],lines:l,text:l.map(function(x){return x.lead+' : '+x.text;}).join(' ')};
    });
    return g;
   });
  }
- function priorityTradeoff(ex){
+ // « Pourquoi N sur 100 ? » : les points qui manquent, groupe par groupe, avec le critère qui en coûte le plus.
+ // Un groupe pleinement satisfait peut perdre un point à l'arrondi : il est alors signalé comme tel.
+ var groupOn={roles:'les rôles',healStyles:'la façon de soigner',activities:'les activités',range:'la portée',styles:'le gameplay',
+  pet:'les familiers',difficulty:'la complexité',style:'le style de combat',affinity:'les affinités'};
+ function missingSummary(parts,score,full,culprit){
+  var total=100-Math.round(score);
+  if(total<=0)return full;
+  return 'Il lui manque '+total+' point'+(total>1?'s':'')+' : '+list(parts.filter(function(g){return g.max>g.points;}).map(function(g){
+   return (g.max-g.points)+' sur '+groupOn[g.key]+' ('+(g.fit>=100?'arrondi':culprit(g))+')';
+  }))+'.';
+ }
+ function priorityMissing(ex,score){
   if(!ex)return '';
-  var denom=Object.keys(ex.parts).reduce(function(t,k){return t+ex.parts[k].weight;},0);
-  var worst=null;
-  ex.axes.forEach(function(a){
-   var loss=100*ex.parts[a.group].weight/denom*a.share*(1-a.raw);
-   if(!worst||loss>worst.loss)worst={a:a,loss:loss};
+  return missingSummary(priorityParts(ex,score),score,'Elle répond pleinement à tes critères.',function(g){
+   var axes=ex.axes.filter(function(a){return a.group===g.key;}).sort(function(x,y){return y.share*(1-y.raw)-x.share*(1-x.raw);});
+   return priorityAxisNames[axes[0].key];
   });
-  if(!worst||worst.loss<.5)return 'Elle répond à presque tous tes critères dans nos estimations.';
-  var a=worst.a,label=priorityAxisNames[a.key];
-  if(a.group==='roles'&&a.raw===0)return label+' (poids '+a.weight+') : cette spécialisation '+roleVerbs[a.key]+'. C’est ce qui retient le plus son score.';
-  return label+' (poids '+a.weight+') : '+priorityAxisLines(a,ex)[0].text+'. C’est le principal écart avec tes critères.';
  }
  // Intitulés des réponses : ceux du questionnaire, pour que le joueur retrouve ce qu'il a choisi.
  var answerNames={raid:'Donjons et raids',bg:'Champs de bataille',world:'PvP sauvage et duel',solo:'Solo et farm',
@@ -126,8 +147,6 @@
   prevention:'Prévenir les dégâts',duree:'Soins sur la durée',cible:'Gros soins ciblés',groupe:'Soigner tout le groupe',
   distance:'À distance',melee:'Au corps-à-corps',mixte:'Pouvoir alterner distance et mêlée',
   like:'J’aime les familiers',avoid:'Je préfère éviter les familiers',simple:'Type de difficulté : accessible',complex:'Type de difficulté : exigeant'};
- var roleNames={tank:'Tank',soin:'Soin',dps:'DPS'};
- function number(v){return String(Math.round(v*10)/10).replace('.',',');}
  function answerLabel(a,p){
   var keys=Object.keys(p&&p.roles||{});
   return a.domain==='roles'?(keys.length>1?'Rôles : ':'Rôle : ')+keys.map(function(k){return roleNames[k];}).join(' + '):answerNames[a.key];
@@ -138,44 +157,45 @@
   return pve&&!pvp?'pve':pvp&&!pve?'pvp':'mixte';
  }
  function roleSpecLine(a,p,s){
-  var keys=Object.keys(p&&p.roles||{}),aptitude=a.aptitude!==undefined?' · aisance estimée en PvE : '+percent(a.aptitude):'';
-  var other=roleNames[s.role]?' (rôle '+roleNames[s.role]+')':'';
-  if(keys.length<2)return a.raw>0?'joue ce rôle'+aptitude:'ne joue pas ce rôle'+other;
+  var n=specNames(s),keys=Object.keys(p&&p.roles||{});
+  if(keys.length<2)return a.raw>0?n.spec+' joue ce rôle'+(a.aptitude!==undefined?' ; aisance estimée en PvE : '+percent(a.aptitude):'')+'.':
+   n.spec+' ne joue pas ce rôle'+(roleNames[s.role]?' (spécialisation '+roleNames[s.role]+')':'')+'.';
   var covered=a.covered||[],missing=keys.filter(function(k){return covered.indexOf(k)<0;});
-  return 'sa classe '+(covered.length?'propose '+covered.map(function(k){return roleNames[k];}).join(' et '):'ne propose aucun de ces rôles')+
+  return n.cls+(covered.length?' propose '+list(covered.map(function(k){return roleNames[k];})):' ne propose aucun de ces rôles')+
    (missing.length&&covered.length?', pas '+missing.map(function(k){return roleNames[k];}).join(' ni '):'')+
-   ' ; cette spécialisation joue '+(roleNames[s.role]||'son rôle')+aptitude;
+   ' ; '+n.spec+' joue '+(roleNames[s.role]||'son rôle')+(a.aptitude!==undefined?' (aisance estimée en PvE : '+percent(a.aptitude)+')':'')+'.';
  }
  // Familier : d'après la configuration évaluée ; à défaut, d'après l'adéquation du moteur.
  function petLine(a,s){
-  if(s.pet==='none')return 'se joue sans familier';
-  if(s.variant==='sans-familier')return 'évaluée sans son familier, facultatif';
-  if(s.pet==='core')return 'le familier est au cœur de son jeu';
-  if(s.pet==='optional')return 'joue avec un familier, facultatif';
-  return a.key==='like'?(a.raw>=1?'le familier est au cœur de son jeu':a.raw>.5?'joue avec un familier, facultatif':'se joue sans familier'):
-   (a.raw>=1?'se joue sans familier':'joue avec un familier');
+  var name=specNames(s).spec;
+  if(s.pet==='none')return name+' se joue sans familier.';
+  if(s.variant==='sans-familier')return name+' est évaluée sans son familier, facultatif.';
+  if(s.pet==='core')return name+' repose sur son familier.';
+  if(s.pet==='optional')return name+' joue avec un familier, facultatif.';
+  return a.key==='like'?(a.raw>=1?name+' repose sur son familier.':a.raw>.5?name+' joue avec un familier, facultatif.':name+' se joue sans familier.'):
+   (a.raw>=1?name+' se joue sans familier.':name+' joue avec un familier.');
  }
  function answerLines(a,ex){
-  var p=ex&&ex.profile||{},s=ex&&ex.spec||{},spec;
-  if(a.domain==='healStyles'&&a.note===undefined)spec='ne soigne pas';
-  else if(a.note!==undefined)spec=noteLine(a,p.mastery);
+  var p=ex&&ex.profile||{},s=ex&&ex.spec||{},n=specNames(s),spec;
+  if(a.domain==='healStyles'&&a.note===undefined)spec=n.spec+' ne soigne pas.';
+  else if(a.note!==undefined)spec=noted(n.spec,a,noteWhere[a.domain],p.mastery);
   else if(a.domain==='roles')spec=roleSpecLine(a,p,s);
-  else if(a.domain==='range')spec=a.key==='mixte'?(a.raw>=1?'sa classe propose distance et mêlée pour tes rôles':'sa classe ne propose qu’une seule portée pour tes rôles'):
-   'se joue '+((a.raw>=1)===(a.key==='distance')?'à distance':'en mêlée');
+  else if(a.domain==='range')spec=a.key==='mixte'?n.cls+(a.raw>=1?' propose distance et mêlée pour tes rôles.':' ne propose qu’une seule portée pour tes rôles.'):
+   n.spec+' se joue '+((a.raw>=1)===(a.key==='distance')?'à distance':'en mêlée')+'.';
   else if(a.domain==='pet')spec=petLine(a,s);
   else{
    var load=a.key==='simple'?5-4*a.raw:1+4*a.raw,ctx=difficultyContext(p);
-   spec='difficulté '+number(load)+'/5 '+(ctx==='pve'?'en PvE':ctx==='pvp'?'en PvP':'en moyenne PvE et PvP')+' (note de référence)';
+   spec=n.spec+' est notée '+number(load)+'/5 en difficulté '+(ctx==='pve'?'PvE':ctx==='pvp'?'PvP':'(moyenne PvE et PvP)')+'.';
   }
   var multi=a.domain==='roles'&&Object.keys(p.roles||{}).length>1;
-  var choice='certitude '+(multi?'moyenne ':'')+number(a.certainty)+'/5 ('+certaintyWords[Math.round(a.certainty)]+')';
+  var choice=capital(certaintyWords[Math.round(a.certainty)])+' (certitude '+(multi?'moyenne ':'')+number(a.certainty)+'/5)';
   if(a.domain==='roles'&&p.rolesStrict)choice+=multi?' · tous ces rôles indispensables':' · rôle indispensable';
   if(a.domain==='range'&&p.range&&p.range.strict)choice+=' · exigence absolue';
   if(a.domain==='pet'&&p.pet&&p.pet.strict)choice+=' · uniquement sans familier';
-  var conclusion=verdict(a.raw)+(Math.abs(a.fit-a.raw)<.005?' : '+percent(a.raw)+'.':' ('+percent(a.raw)+') ; compte tenu de ta certitude, '+percent(a.fit)+'.');
-  if(a.domain==='roles'&&a.aptitude!==undefined&&a.raw>0)conclusion+=multi?' Ce que propose sa classe compte pour 65 %, la spécialisation retenue pour 35 %.':
-   Math.abs(a.raw-a.aptitude)>.005?' Jouer ce rôle compte pour un quart, son aisance pour le reste.':'';
-  return lines(spec,choice,conclusion);
+  var result=capital(verdict(a.raw))+' ('+percent(a.raw)+')'+(Math.abs(a.fit-a.raw)<.005?'.':', adouci à '+percent(a.fit)+' par ta certitude.');
+  if(a.domain==='roles'&&a.aptitude!==undefined&&a.raw>0)result+=multi?' Les rôles que propose sa classe comptent pour '+percent(.65)+', la spécialisation retenue pour '+percent(.35)+'.':
+   Math.abs(a.raw-a.aptitude)>.005?' Le rôle compte pour un quart, l’aisance pour le reste.':'';
+  return lines(spec,choice,result);
  }
  function escape(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
  function answerHtml(title,steps){
@@ -186,23 +206,55 @@
  function answerText(a,p,spec){
   return answerLines(a,{profile:p,spec:spec}).map(function(x){return x.lead+' : '+x.text;}).join(' ');
  }
+ // Parcours guidé : groupes de « Pourquoi cette piste », avec leurs réponses et, s'il y en a plusieurs, leur moyenne.
+ function pisteParts(ex,fit,score){
+  if(!ex)return [];
+  return scoreParts(fit,score).map(function(g){
+   var answers=ex.answers.filter(function(a){return a.domain===g.key;});
+   g.note=answers.length>1?'Moyenne de tes '+answers.length+' choix : '+list(answers.map(function(a){return percent(a.fit);}))+'.':'';
+   g.answers=answers.map(function(a){return {label:answerLabel(a,ex.profile),lines:answerLines(a,ex)};});
+   return g;
+  });
+ }
+ function pisteMissing(ex,fit,score){
+  if(!ex)return '';
+  return missingSummary(scoreParts(fit,score),score,'Elle répond pleinement à tes choix.',function(g){
+   var a=ex.answers.filter(function(x){return x.domain===g.key;}).sort(function(x,y){return y.loss-x.loss;})[0];
+   return answerLabel(a,ex.profile).replace(/^Rôles? : /,'')+(mainCause(a)==='certainty'?' : certitude '+number(a.certainty)+'/5':'');
+  });
+ }
+ // « À garder en tête » : la réponse qui coûte le plus de points, en une phrase qui situe la classe, la
+ // spécialisation et le critère : « Le Chasseur Maîtrise des bêtes est noté 3/5 en résistance : c'est ce
+ // qui lui coûte le plus de points. » Les classes sont toutes au masculin (le, au, du).
+ var criterionIn={raid:'en donjons et raids',bg:'en champs de bataille',world:'en PvP sauvage et duel',solo:'en solo et farm',
+  burst:'en dégâts explosifs',zone:'en dégâts de zone',ctrl:'en contrôle',surv:'en résistance',mob:'en mobilité',support:'en soutien',
+  prevention:'pour prévenir les dégâts',duree:'en soins sur la durée',cible:'en gros soins ciblés',groupe:'pour soigner tout le groupe'};
  function mainTradeoff(explanation){
   if(!explanation||!explanation.answers.length)return '';
-  var a=explanation.answers.slice().sort(function(x,y){return y.loss-x.loss;})[0],p=explanation.profile;
-  if(a.loss<.05)return 'Tes choix correspondent pleinement à cette piste dans nos estimations. Regarde si son style de jeu te plaît.';
+  var a=explanation.answers.slice().sort(function(x,y){return y.loss-x.loss;})[0],p=explanation.profile,s=explanation.spec||{};
+  var full=s.className&&s.label?s.className+' '+s.label:'',le=full?'le '+full:'cette spécialisation',Le=capital(le);
+  var noted=full?' est noté ':' est notée ',he=full?'il':'elle',cost=' : c’est ce qui lui coûte le plus de points.';
+  var level=(masteryNames[p.mastery]||'').toLowerCase(),roles=Object.keys(p.roles||{}).map(function(k){return roleNames[k];}),multi=roles.length>1;
+  if(a.loss<.05)return Le+' répond pleinement à tes choix dans nos estimations : regarde si son style de jeu te plaît.';
   var label=answerLabel(a,p),cause=mainCause(a);
-  var named=a.domain==='roles'?(Object.keys(p.roles).length>1?'Tes rôles ':'Ton rôle ')+Object.keys(p.roles).map(function(k){return roleNames[k];}).join(' + '):label;
-  if(cause==='certainty')return 'Tu hésites sur « '+label+' » ('+number(a.certainty)+'/5 de certitude). C’est ce qui retient le plus son score.';
-  if(a.domain==='healStyles'&&a.note===undefined)return 'Ton envie « '+label+' » n’est pas remplie : cette spécialisation ne soigne pas.';
-  if(cause==='mastery')return named+' : '+(a.note!==undefined?number(a.note)+'/5 en note de référence, '+number(a.adjusted)+'/5 avec ta maîtrise ('+(masteryNames[p.mastery]||'').toLowerCase()+'). Cette':'cette')+
-   ' spécialisation demande de la pratique pour en profiter pleinement.';
-  if(a.note!==undefined)return label+' : '+number(a.note)+'/5 pour cette spécialisation (note de référence). C’est le principal compromis avec tes envies.';
-  if(a.domain==='roles')return named+' : '+Math.round(a.raw*100)+' % de correspondance. C’est le principal compromis avec tes envies.';
-  if(a.domain==='pet')return a.key==='like'?'Tu veux un familier. '+(explanation.spec.pet==='none'||explanation.spec.variant==='sans-familier'?'Le build présenté ici se joue sans compagnon.':'Il n’est pas au centre de cette spécialisation.'):
-   'Tu préfères jouer sans familier, mais le build présenté ici en utilise un.';
-  if(a.domain==='range')return a.key==='mixte'?'Tu veux alterner distance et mêlée. Cette classe ne propose pas les deux pour tes rôles.':
-   'Tu veux jouer '+(a.key==='distance'?'à distance':'en mêlée')+', mais cette spécialisation se joue '+(explanation.spec.range==='distance'?'à distance.':'en mêlée.');
-  return a.key==='simple'?'Tu veux un jeu simple. Cette spécialisation demande davantage de pratique.':'Tu cherches un jeu exigeant. Cette spécialisation est plutôt accessible.';
+  if(cause==='certainty')return 'Tu hésites sur « '+label+' » (certitude '+number(a.certainty)+'/5) : c’est ce qui coûte le plus de points '+(full?'au '+full:'à cette spécialisation')+'.';
+  if(a.domain==='healStyles'&&a.note===undefined)return Le+' ne soigne pas : ton envie « '+label+' » n’est pas remplie.';
+  if(a.note!==undefined)return Le+noted+number(a.note)+'/5 '+criterionIn[a.key]+
+   (cause==='mastery'?', '+number(a.adjusted)+'/5 avec ta maîtrise ('+level+') : '+he+' demande de la pratique pour en profiter pleinement.':cost);
+  if(a.domain==='roles'){
+   if(cause==='mastery')return Le+' demande de la pratique pour bien jouer '+(multi?'tes rôles '+roles.join(' + '):'le rôle '+roles[0])+' à ton niveau ('+level+')'+cost;
+   if(a.raw<.005)return Le+(multi?' ne joue aucun de tes rôles ('+roles.join(' + ')+')':' ne joue pas le rôle '+roles[0])+cost;
+   if(!multi)return 'En '+roles[0]+', '+le+' a une aisance estimée à '+percent(a.aptitude!==undefined?a.aptitude:a.raw)+' en PvE'+cost;
+   return 'Pour tes rôles '+roles.join(' + ')+', '+le+' obtient '+percent(a.raw)+' de correspondance'+cost;
+  }
+  if(a.domain==='pet')return a.key==='like'?(s.pet==='none'||s.variant==='sans-familier'?'Tu veux un familier, mais '+le+' est évalué ici sans compagnon.':
+   'Tu veux un familier, mais il n’est pas au centre du jeu '+(full?'du '+full:'de cette spécialisation')+'.'):
+   'Tu préfères jouer sans familier, mais '+le+' présenté ici en utilise un.';
+  if(a.domain==='range')return a.key==='mixte'?'Tu veux alterner distance et mêlée, mais '+(s.className?'la classe '+s.className:'cette classe')+' ne propose pas les deux pour tes rôles.':
+   'Tu veux jouer '+(a.key==='distance'?'à distance':'en mêlée')+', mais '+le+' se joue '+(s.range==='distance'?'à distance.':'en mêlée.');
+  var load=a.key==='simple'?5-4*a.raw:1+4*a.raw,ctx=difficultyContext(p),where=ctx==='pve'?' en PvE':ctx==='pvp'?' en PvP':' en moyenne PvE et PvP';
+  return a.key==='simple'?'Tu veux un jeu accessible, mais '+le+' demande davantage de pratique : difficulté '+number(load)+'/5'+where+'.':
+   'Tu cherches un jeu exigeant, mais '+le+' est plutôt accessible : difficulté '+number(load)+'/5'+where+'.';
  }
  function tieNote(results){
   if(!results.length)return '';
@@ -253,5 +305,5 @@
    out.push('Ce comparateur ne départage pas les façons de soigner : le parcours guidé le fait à la question 1, et la fiche de chaque spécialisation de soin les décrit.');
   return out;
  }
- return {criteria:criteria,ranks:ranks,rankHint:rankHint,scoreParts:scoreParts,priorityParts:priorityParts,priorityTradeoff:priorityTradeoff,answerLabel:answerLabel,answerLines:answerLines,answerHtml:answerHtml,answerText:answerText,certaintyWords:certaintyWords,mainTradeoff:mainTradeoff,number:number,tieNote:tieNote,petNotice:petNotice,contextNotes:contextNotes,healChoices:healChoices};
+ return {criteria:criteria,ranks:ranks,rankHint:rankHint,scoreParts:scoreParts,priorityParts:priorityParts,priorityMissing:priorityMissing,pisteParts:pisteParts,pisteMissing:pisteMissing,of:of,priorityWords:priorityWords,answerLabel:answerLabel,answerLines:answerLines,answerHtml:answerHtml,answerText:answerText,certaintyWords:certaintyWords,mainTradeoff:mainTradeoff,number:number,tieNote:tieNote,petNotice:petNotice,contextNotes:contextNotes,healChoices:healChoices};
 });

@@ -208,23 +208,21 @@ function hesitations(report){
  }).filter(Boolean);
 }
 function whyBlock(r,hesitant){
- var parts=X?X.scoreParts(r.fit,r.score):[];
  var explanation=E.explain(r.spec.id,state);
+ var parts=X?X.pisteParts(explanation,r.fit,r.score):[];
  var rows=parts.map(function(p){
-  var answers=explanation.answers.filter(function(a){return a.domain===p.key;}).map(function(a){
-   return X.answerHtml(X.answerLabel(a,explanation.profile),X.answerLines(a,explanation));
-  }).join('');
   return '<li><span class="reco-why-name">'+esc(p.label)+'</span><span class="reco-why-bar" aria-hidden="true"><i style="width:'+p.fit+'%"></i></span>'+
    '<span class="reco-why-fit" title="Correspondance avec tes réponses, certitude comprise">'+p.fit+' %</span><span class="reco-why-points">'+p.points+' / '+p.max+' pts</span>'+
-   '<div class="reco-answer-list">'+answers+'</div></li>';
+   '<div class="reco-answer-list">'+(p.note?'<p class="reco-why-note">'+esc(p.note)+'</p>':'')+
+   p.answers.map(function(a){return X.answerHtml(a.label,a.lines);}).join('')+'</div></li>';
  }).join('');
  var stability=r.scenarioCount<=1?'Tes choix sont assez affirmés : nous n’avons pas testé de variante sans eux.':
   'Cette classe reste dans tes trois premières pistes dans '+r.scenarioAppearances+' cas sur '+r.scenarioCount+'. Nous avons comparé tes réponses actuelles, puis retiré chacune de tes réponses les plus hésitantes'+
   (hesitant.length?' ('+hesitant.join(', ')+')':'')+'.';
  return '<details class="reco-evidence reco-why"><summary>Pourquoi cette piste</summary>'+
-  '<p><b>Pourquoi '+Math.round(r.score)+' sur 100 ?</b> '+esc(X.mainTradeoff(explanation))+'</p>'+
-  '<p>Pour chacun de tes choix : la note de référence de la spécialisation, ton choix, puis ce que cela donne. Une note de 1/5 vaut 0&nbsp;%, 3/5 vaut 50&nbsp;% et 5/5 vaut 100&nbsp;% ; '+
-  'moins tu es sûr d’un choix, plus son résultat se rapproche de 50&nbsp;%. Les points des critères forment ton score sur 100 : des estimations pour t’aider à choisir, pas des mesures de puissance.</p>'+
+  '<p><b>Pourquoi '+Math.round(r.score)+' sur 100 ?</b> '+esc(X.pisteMissing(explanation,r.fit,r.score))+'</p>'+
+  '<p>Pour chaque réponse : la note '+esc(X.of(r.spec.label))+', ta certitude, puis le constat. Une note de 1/5 compte pour 0&nbsp;% et 5/5 pour 100&nbsp;% ; '+
+  'ces notes sont des estimations, pas des mesures de puissance, et ta maîtrise en ajuste certaines. Moins tu es sûr d’un choix, plus son effet est adouci.</p>'+
   (rows?'<ul class="reco-why-parts" aria-label="Part de chaque critère dans le score">'+rows+'</ul>':'')+
   '<p><b>Si tu changes d’avis :</b> '+esc(stability)+'</p>'+
   '<p><a href="fiches-sources/'+esc(r.classId)+'.html#'+esc(r.spec.id)+(r.spec.variant==='sans-familier'?'-sans-familier':'')+'">Comprendre les notes et voir les sources du '+esc(r.className)+'</a></p>'+
