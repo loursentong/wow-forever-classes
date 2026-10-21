@@ -87,7 +87,7 @@ test('Rôle, portée et familiaux stricts sont explicites',()=>{
  h.step(2);h.single('range','distance');
  assert.match(h.form.innerHTML,/C’est une exigence absolue/);
  h.strict('range',true);
- assert.match(h.results.innerHTML,/Voir un aperçu/);
+ assert.match(h.results.innerHTML,/Voir mes résultats/);
  h.reveal();
  assert.match(h.results.innerHTML,/Ces exigences ne vont pas ensemble/);
  h.strict('range',false);
@@ -126,19 +126,23 @@ test('Les poids historiques ne changent pas le guide et l’API de synchronisati
 
 test('Les résultats attendent deux dimensions et un geste explicite avant d’apparaître',()=>{
  const h=createHarness();
+ // Avant toute préférence : invitation et progression vers un premier aperçu.
+ assert.match(h.results.innerHTML,/reco-empty-action[\s\S]*0 préférence sur 2 pour un premier aperçu/);
+ assert.match(h.results.innerHTML,/Deux préférences suffisent/);
  h.press('multi','roles','dps');
  assert.match(h.results.innerHTML,/Encore un peu de contexte/);
+ assert.match(h.results.innerHTML,/1 préférence sur 2[\s\S]*class="is-done"[\s\S]*Encore une préférence/);
  assert.doesNotMatch(h.results.innerHTML,/reco-result-card/);
  h.step(1);
  h.press('multi','activities','solo');
- assert.match(h.results.innerHTML,/Voir un aperçu/);
+ assert.match(h.results.innerHTML,/Voir mes résultats/);
  assert.doesNotMatch(h.results.innerHTML,/reco-result-card/);
  h.reveal();
  assert.match(h.results.innerHTML,/reco-result-card/);
  h.step(3);h.press('multi','styles','ctrl');
  assert.match(h.results.innerHTML,/reco-result-card/);
  h.hide();
- assert.match(h.results.innerHTML,/Voir un aperçu/);
+ assert.match(h.results.innerHTML,/Voir mes résultats/);
  h.reset.click();
  assert.match(h.results.innerHTML,/Tout commence par tes envies/);
 });
@@ -175,7 +179,7 @@ test('Façon de soigner : sous-question facultative du rôle Soin, deux choix au
  h.certainty('healStyles','duree',1);
  assert.equal(h.profile().healStyles.duree,1);
  assert.match(h.form.innerHTML,/DPS · Soin \(soins de groupe, soins sur la durée\)/);
- assert.match(h.results.innerHTML,/Voir un aperçu/);
+ assert.match(h.results.innerHTML,/Voir mes résultats/);
  h.reveal();
  assert.match(h.results.innerHTML,/Ta façon de soigner \(soins sur la durée, soigner tout le groupe\) départage/);
  // Retirer le rôle Soin masque la sous-question ; la façon de soigner ne compte plus.
@@ -215,4 +219,22 @@ test('Sauvegarde de la façon de soigner : aller-retour, et une ancienne sauvega
  assert.deepEqual(old.profile().roles,{soin:4});
  assert.equal(old.profile().mastery,1);
  assert.match(old.form.innerHTML,/0 sur 2 choix possibles/);
+});
+
+test('Dernière question : un seul bouton « Voir mes résultats » à l’écran',()=>{
+ const h=createHarness();
+ h.press('multi','roles','dps');
+ h.step(5);
+ // Une seule préférence : le bloc des résultats n'offre pas encore de bouton, la question le garde.
+ assert.match(h.form.innerHTML,/data-show-results/);
+ assert.doesNotMatch(h.results.innerHTML,/data-reco-reveal/);
+ h.step(1);h.press('multi','activities','raid');h.step(5);
+ // Deux préférences : le bouton est dans le bloc juste en dessous, pas répété dans la question.
+ assert.match(h.results.innerHTML,/data-reco-reveal[\s\S]*Voir mes résultats/);
+ assert.doesNotMatch(h.form.innerHTML,/data-show-results/);
+ h.reveal();
+ assert.match(h.results.innerHTML,/reco-result-card/);
+ assert.match(h.form.innerHTML,/data-show-results/);
+ h.hide();
+ assert.doesNotMatch(h.form.innerHTML,/data-show-results/);
 });

@@ -112,30 +112,25 @@ header.top{position:absolute;min-height:0}
 #reco-guided .reco-results::before,#reco-guided .reco-results::after{content:none!important}
 #reco-guided .reco-guided-layout{gap:18px;align-items:start}
 
-/* Résultats du parcours guidé (hors de la colonne « Mes choix » dans le HTML) :
- * fermés, ils restent sous « Mes choix » ; révélés, ils passent sous la question,
- * à la même largeur, et les pistes s'alignent côte à côte. */
-#reco-guided .reco-results{position:static;max-height:none;overflow:visible;min-width:0;padding:16px}
+/* Résultats du parcours guidé : toujours sous la question, à la même largeur, qu'ils soient
+ * fermés (invitation, bouton des résultats) ou révélés ; « Mes choix » garde la colonne de droite.
+ * Dans le HTML, ils suivent la question : sur mobile, l'ordre visuel et celui du clavier coïncident. */
+#reco-guided .reco-results{position:static;max-height:none;overflow:visible;min-width:0;padding:18px clamp(16px,2vw,24px)}
 #reco-guided .reco-results.is-revealed{border-color:rgba(233,179,79,.6)!important;box-shadow:0 0 26px rgba(233,179,79,.12),var(--rf-b-shadow)}
 #reco-guided .reco-results.is-revealed .reco-results-head{flex-direction:row;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:6px 16px}
-#reco-guided .reco-results.is-revealed .reco-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;align-items:start}
 @media (min-width:1061px){
  #reco-guided .reco-guided-layout{grid-template-rows:auto 1fr}
  #reco-guided .reco-step-rail{grid-column:1;grid-row:1/span 2}
- #reco-guided .reco-workspace{grid-column:2;grid-row:1/span 2}
- #reco-guided .reco-sidebar{grid-column:3;grid-row:1}
- #reco-guided .reco-results{grid-column:3;grid-row:2}
- #reco-guided .reco-guided-layout:has(.reco-results.is-revealed) .reco-workspace{grid-row:1}
- #reco-guided .reco-results.is-revealed{grid-column:2;grid-row:2}
+ #reco-guided .reco-workspace{grid-column:2;grid-row:1}
+ #reco-guided .reco-results{grid-column:2;grid-row:2}
+ #reco-guided .reco-sidebar{grid-column:3;grid-row:1/span 2}
 }
 @media (min-width:821px) and (max-width:1060px){
  #reco-guided .reco-guided-layout{grid-template-rows:auto auto 1fr}
  #reco-guided .reco-step-rail{grid-column:1/-1;grid-row:1}
- #reco-guided .reco-workspace{grid-column:1;grid-row:2/span 2}
- #reco-guided .reco-sidebar{grid-column:2;grid-row:2}
- #reco-guided .reco-results{grid-column:2;grid-row:3}
- #reco-guided .reco-guided-layout:has(.reco-results.is-revealed) .reco-workspace{grid-row:2}
- #reco-guided .reco-results.is-revealed{grid-column:1;grid-row:3}
+ #reco-guided .reco-workspace{grid-column:1;grid-row:2}
+ #reco-guided .reco-results{grid-column:1;grid-row:3}
+ #reco-guided .reco-sidebar{grid-column:2;grid-row:2/span 2}
 }
 
 /* 5. Étapes : faite (émeraude), en cours (or lumineux), à venir (numéro). */
@@ -265,9 +260,92 @@ header.top{position:absolute;min-height:0}
 .reco-reasons p{flex-direction:row;flex-wrap:wrap;gap:0 6px}
 .reco-reasons b{font-size:13px;font-weight:600;color:var(--rf-soft)}
 .reco-reasons span{font-size:13px;color:var(--rf-muted)}
-.reco-evidence{border-top:1px solid var(--rf-line-soft);font-size:12.5px;color:var(--rf-faint)}
 .reco-evidence a{color:var(--rf-gold-light)}
 .reco-note,.reco-disclaimer{color:var(--rf-faint)}
+
+/* 7 bis. Résultats en pleine largeur (21 octobre 2026).
+ * a. Avant les résultats : invitation sous la question, texte à gauche, action à droite.
+ *    Le bouton des résultats reprend l'or plein des boutons principaux ; le bloc s'illumine
+ *    dès qu'un aperçu est possible. */
+#reco-guided .reco-results .reco-empty{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:14px 32px;
+ min-height:0;padding:4px 2px;border:0}
+.reco-empty-copy{display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-width:0}
+#reco-guided .reco-results .reco-empty h3{font-size:clamp(19px,1.6vw,23px);margin:0}
+#reco-guided .reco-results .reco-empty p{font-size:15px;line-height:1.5;margin:0;max-width:62ch}
+.reco-empty-action{display:flex;flex-direction:column;align-items:flex-end;gap:8px;min-width:0;text-align:right}
+.reco-empty-action small{font-size:13px;line-height:1.4;color:var(--rf-muted)}
+#reco-guided .reco-discovery-progress{display:flex;gap:6px;margin:0}
+#reco-guided .reco-discovery-progress span{width:56px;height:6px;border-radius:3px;background:#22344B;box-shadow:none}
+#reco-guided .reco-discovery-progress span.is-done{background:var(--rf-gold);box-shadow:0 0 10px rgba(233,179,79,.45)}
+#reco-guided .reco-results.is-ready{border-color:rgba(233,179,79,.6)!important;box-shadow:0 0 26px rgba(233,179,79,.14),var(--rf-b-shadow)}
+.reco-reveal-button{min-height:52px;padding:0 30px;gap:10px;border-radius:9px;border:1px solid var(--rf-gold-light);background:var(--rf-cta);
+ color:var(--rf-bg);font-size:16.5px;font-weight:700;box-shadow:0 6px 22px rgba(233,179,79,.3)}
+.reco-reveal-button:hover{background:var(--rf-cta);filter:brightness(1.06);box-shadow:0 0 28px rgba(233,179,79,.5)}
+#reco-guided .reco-results .reco-no-match .reco-hide-results{min-height:44px;padding:0 18px;border:1px solid var(--rf-gold);border-radius:8px;
+ background:rgba(233,179,79,.12);color:var(--rf-gold-light);font-size:14.5px;font-weight:700;text-decoration:none}
+@media (max-width:640px){
+ #reco-guided .reco-results .reco-empty{grid-template-columns:minmax(0,1fr)}
+ .reco-empty-action{align-items:stretch;text-align:left}
+ .reco-reveal-button{width:100%}
+}
+/* b. Les pistes s'empilent en pleine largeur : la principale, puis les deux alternatives. */
+#reco-guided .reco-results.is-revealed .reco-cards{display:flex;flex-direction:column;gap:14px}
+#reco-results .reco-result-card{padding:18px clamp(16px,2.2vw,26px);gap:12px;border-radius:12px}
+#reco-results .reco-result-top{grid-template-columns:52px minmax(0,1fr) auto;column-gap:14px;row-gap:3px}
+#reco-results .reco-emblem{width:52px;height:52px;border-radius:9px}
+#reco-results .reco-result-label{font-size:12px;margin-bottom:6px}
+#reco-results .reco-result-main h4{font-size:21px;line-height:1.2}
+#reco-results .reco-result-main p{font-size:15px}
+#reco-results .reco-score strong{font-size:32px}
+#reco-results .reco-score small{font-size:13px}
+#reco-results .reco-fit{justify-content:flex-start;align-items:baseline;gap:4px 14px}
+#reco-results .reco-fit span{font-size:15px}
+#reco-results .reco-fit small{font-size:13px}
+#reco-results .reco-bars{height:6px;border-radius:3px}
+#reco-results .reco-reasons{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#reco-results .reco-reasons p{flex-direction:column;flex-wrap:nowrap;gap:4px;padding:10px 14px;border:1px solid var(--rf-line-soft);border-radius:9px;background:rgba(5,12,21,.4)}
+#reco-results .reco-reasons b{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--rf-muted)}
+#reco-results .reco-reasons span{font-size:15.5px;line-height:1.4;color:var(--rf-ivory)}
+#reco-results .reco-config-notice{font-size:14.5px;line-height:1.5}
+#reco-results .reco-note{font-size:14px}
+@media (max-width:600px){
+ #reco-results .reco-reasons{grid-template-columns:minmax(0,1fr)}
+ #reco-results .reco-score strong{font-size:26px}
+ #reco-results .reco-result-top{grid-template-columns:44px minmax(0,1fr) auto}
+ #reco-results .reco-emblem{width:44px;height:44px}
+}
+/* c. Blocs déroulants des résultats (« Jouer … », « Fiabilité et incertitude »), dans les deux
+ *    parcours : cadre or, bandeau teinté et chevron, pour les repérer d'un coup d'œil. */
+details.reco-evidence{margin:0;padding:0;border:1px solid rgba(233,179,79,.5);border-radius:10px;background:rgba(5,12,21,.45);
+ font-size:14px;line-height:1.55;color:var(--rf-soft);overflow:hidden}
+details.reco-evidence>summary{display:flex;align-items:center;gap:10px;min-height:44px;padding:10px 14px;list-style:none;cursor:pointer;
+ background:rgba(233,179,79,.1);color:var(--rf-gold-light);font-size:14.5px;font-weight:700;line-height:1.3;
+ transition:background-color .15s ease,box-shadow .15s ease}
+details.reco-evidence>summary::-webkit-details-marker{display:none}
+details.reco-evidence>summary::after{content:"";flex:none;margin-left:auto;width:8px;height:8px;
+ border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:translateY(-2px) rotate(45deg);transition:transform .18s ease}
+details.reco-evidence[open]>summary::after{transform:translateY(2px) rotate(-135deg)}
+details.reco-evidence>summary:hover{background:rgba(233,179,79,.2);box-shadow:inset 0 0 0 1px rgba(233,179,79,.45)}
+details.reco-evidence>summary:focus-visible{outline:2px solid var(--rf-gold-light);outline-offset:-3px}
+details.reco-evidence[open]>summary{border-bottom:1px solid rgba(233,179,79,.3)}
+details.reco-evidence>p{margin:10px 14px}
+details.reco-evidence>p:last-child{margin-bottom:14px}
+details.reco-evidence>a{display:inline-block;margin:0 14px 14px}
+details.reco-evidence p b{color:var(--rf-ivory)}
+/* Dans le classement à neuf classes, plus dense : une pastille encadrée, puis le contenu ouvert
+ * dans un cadre, pour ne pas écraser les lignes du classement. */
+#reco-priority-results details.reco-evidence{justify-self:start;max-width:100%;border:0;border-radius:10px;background:none;overflow:visible}
+#reco-priority-results details.reco-evidence>summary{display:inline-flex;min-height:32px;padding:5px 12px;gap:8px;border:1px solid rgba(233,179,79,.55);
+ border-radius:999px;font-size:13px}
+#reco-priority-results details.reco-evidence>summary::after{margin-left:2px;width:6px;height:6px}
+#reco-priority-results details.reco-evidence[open]{justify-self:stretch;padding:8px 10px 2px;border:1px solid rgba(233,179,79,.3);background:rgba(5,12,21,.45)}
+#reco-priority-results details.reco-evidence[open]>summary{border-bottom:1px solid rgba(233,179,79,.55)}
+#reco-priority-results details.reco-evidence>p{margin:9px 4px}
+#reco-priority-results details.reco-evidence>p:last-child{margin-bottom:10px}
+#reco-guided .reco-results.is-revealed .reco-cards{margin-top:16px}
+@media (prefers-reduced-motion:reduce){
+ details.reco-evidence>summary,details.reco-evidence>summary::after{transition:none}
+}
 
 /* 8. Bandeau commun aux deux parcours : un seul bloc, posé entre les onglets et les panneaux.
  * Ses deux textes partagent la même cellule de grille, donc sa hauteur est celle du plus long

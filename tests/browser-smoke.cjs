@@ -88,12 +88,15 @@ async function check(){
   // Une seconde dimension rend un aperçu possible sans l'imposer.
   await page.locator('[data-step="2"]').click();
   await page.locator('[data-single="range"][data-key="distance"]').click();
-  assert.match(await page.locator('#reco-results').textContent(),/Voir un aperçu/);
+  assert.match(await page.locator('#reco-results').textContent(),/Voir mes résultats/);
   assert.equal(await page.locator('#reco-results .reco-result-card').count(),0);
   const place=()=>page.evaluate(()=>{const r=s=>{const b=document.querySelector(s).getBoundingClientRect();return {top:Math.round(b.top),bottom:Math.round(b.bottom),left:Math.round(b.left),width:Math.round(b.width)};};
    return {form:r('#reco-guided .reco-workspace'),results:r('#reco-results'),summary:r('#reco-summary-panel')};});
   let placed=await place();
-  assert.ok(placed.results.left>=placed.summary.left-2&&placed.results.top>=placed.summary.bottom-2,'Aperçu fermé sous « Mes choix » : '+JSON.stringify(placed));
+  // Fermés comme révélés, les résultats occupent la même place : sous la question, à la même largeur.
+  const sous=p=>p.results.top>=p.form.bottom-2&&Math.abs(p.results.left-p.form.left)<=2&&Math.abs(p.results.width-p.form.width)<=2;
+  assert.ok(sous(placed),'Aperçu fermé sous la question, même largeur : '+JSON.stringify(placed));
+  assert.ok(placed.summary.left>=placed.form.left+placed.form.width-2,'« Mes choix » reste à droite : '+JSON.stringify(placed));
   await page.locator('[data-reco-reveal]').click();
   assert.equal(await page.locator('#reco-results .reco-result-card').count(),3);
   assert.equal(await page.locator('#reco-results .reco-config-details').count(),3);
@@ -107,12 +110,23 @@ async function check(){
   await page.keyboard.press('Enter');
   // Révélés, les résultats passent sous la question, à la même largeur.
   placed=await place();
-  assert.ok(placed.results.top>=placed.form.bottom-2&&Math.abs(placed.results.left-placed.form.left)<=2&&Math.abs(placed.results.width-placed.form.width)<=2,
-    'Résultats sous la question, même largeur : '+JSON.stringify(placed));
+  assert.ok(sous(placed),'Résultats sous la question, même largeur : '+JSON.stringify(placed));
+  // Les pistes s'empilent en pleine largeur.
+  const cardBoxes=await page.locator('#reco-results .reco-result-card').evaluateAll(cards=>cards.map(c=>{const b=c.getBoundingClientRect();return {top:b.top,left:b.left,width:b.width};}));
+  assert.ok(cardBoxes.every((c,i)=>i===0||(c.top>cardBoxes[i-1].top+20&&Math.abs(c.left-cardBoxes[0].left)<=1&&Math.abs(c.width-cardBoxes[0].width)<=1)),
+    'Pistes empilées : '+JSON.stringify(cardBoxes));
+  assert.ok(cardBoxes[0].width>=placed.form.width-60,'Pistes en pleine largeur : '+JSON.stringify({cardBoxes,placed}));
+  // Les blocs déroulants sont encadrés et repérables : bordure dorée, chevron, pas de marqueur natif.
+  const summaryLook=await page.locator('#reco-results details.reco-evidence').first().evaluate(d=>{const s=getComputedStyle(d),m=getComputedStyle(d.querySelector('summary'));
+   return {border:s.borderTopWidth,borderColor:s.borderTopColor,summaryColor:m.color,chevron:getComputedStyle(d.querySelector('summary'),'::after').content};});
+  assert.equal(summaryLook.border,'1px');
+  assert.match(summaryLook.borderColor,/rgba\(233, 179, 79/);
+  assert.equal(summaryLook.summaryColor,'rgb(255, 215, 140)');
+  assert.equal(summaryLook.chevron,'""');
   await page.locator('[data-reco-hide]').click();
   assert.equal(await page.locator('#reco-results .reco-result-card').count(),0);
   placed=await place();
-  assert.ok(placed.results.left>=placed.summary.left-2,'Résultats masqués : retour sous « Mes choix » '+JSON.stringify(placed));
+  assert.ok(sous(placed),'Résultats masqués : même place, sous la question '+JSON.stringify(placed));
   await page.locator('[data-reco-reveal]').click();
   assert.equal(await page.locator('#reco-results .reco-result-card').count(),3);
   await page.locator('[data-step="4"]').click();
@@ -130,7 +144,7 @@ async function check(){
   await page.locator('[data-step="2"]').click();
   await page.locator('[data-single="range"][data-key="distance"]').click();
   await page.locator('[data-strict="range"]').check();
-  assert.match(await page.locator('#reco-results').textContent(),/Voir un aperçu/);
+  assert.match(await page.locator('#reco-results').textContent(),/Voir mes résultats/);
   await page.locator('[data-reco-reveal]').click();
   assert.match(await page.locator('#reco-results').textContent(),/Ces exigences ne vont pas ensemble/);
 
@@ -212,9 +226,11 @@ async function check(){
    const a=document.querySelector('#reco-rail').getBoundingClientRect();
    const b=document.querySelector('#reco-guided .reco-workspace').getBoundingClientRect();
    const c=document.querySelector('.reco-sidebar').getBoundingClientRect();
-   return {railBottom:a.bottom,formTop:b.top,formBottom:b.bottom,sidebarTop:c.top};
+   const d=document.querySelector('#reco-results').getBoundingClientRect();
+   return {railBottom:a.bottom,formTop:b.top,formBottom:b.bottom,sidebarTop:c.top,resultsTop:d.top,resultsBottom:d.bottom};
   });
-  assert.ok(vertical.railBottom<=vertical.formTop+2&&vertical.formBottom<=vertical.sidebarTop+2,
+  // Sur mobile : étapes, question, résultats, puis « Mes choix ».
+  assert.ok(vertical.railBottom<=vertical.formTop+2&&vertical.formBottom<=vertical.resultsTop+2&&vertical.resultsBottom<=vertical.sidebarTop+2,
     'Empilement mobile : '+JSON.stringify(vertical));
   await page.locator('[data-step="2"]').click();
   await page.locator('[data-single="range"][data-key="melee"]').focus();
@@ -343,7 +359,8 @@ async function check(){
   assert.equal(await rankRows.nth(0).getAttribute('value'),'1');
   assert.equal(await rankRows.nth(1).getAttribute('value'),'1');
   assert.equal(await rankRows.nth(2).getAttribute('value'),'1');
-  assert.match(await rankRows.nth(1).textContent(),/ex æquo/);
+  assert.match(await rankRows.nth(1).textContent(),/à égalité avec le /);
+  assert.doesNotMatch(await page.locator('#reco-priority-results').textContent(),/ex æquo|résultat proche/);
   const leadBorders=await page.locator('#reco-priority-results .is-leading').evaluateAll(rows=>rows.map(row=>getComputedStyle(row).borderColor));
   assert.equal(leadBorders.length,3);
   assert.equal(new Set(leadBorders).size,1,'Les trois classes à égalité doivent recevoir la même mise en avant');

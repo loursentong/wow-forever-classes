@@ -15,6 +15,18 @@ test('Égalités : rang partagé exact, sans transformer un arrondi commun en é
  assert.equal(X.tieNote(rows.slice(2,3)),'');
 });
 
+test('Repères de rang explicites : égalité nommée, écart chiffré avec la classe juste au-dessus',()=>{
+ const rows=[['Démoniste',100],['Paladin',100],['Druide',95],['Prêtre',95],['Chaman',94.62],['Mage',89.2],['Guerrier',88.4],['Chasseur',82],['Voleur',80],['Rogue',70]]
+  .map(([className,score])=>({className,score}));
+ const hints=rows.map((r,i)=>X.rankHint(rows,i));
+ assert.deepEqual(hints,['à égalité avec le Paladin','à égalité avec le Démoniste','à égalité avec le Prêtre','à égalité avec le Druide',
+  '0,4 point derrière le Druide et le Prêtre','','0,8 point derrière le Mage','','2 points derrière le Chasseur','']);
+ const four=[100,100,100,100,99.98].map((score,i)=>({className:'C'+i,score}));
+ assert.equal(X.rankHint(four,0),'à égalité avec 3 autres classes');
+ assert.equal(X.rankHint(four,4),'moins de 0,1 point derrière les 4 classes à égalité au-dessus');
+ assert.equal(X.rankHint([],0),'');
+});
+
 test('Les égalités des soigneurs incluent la quatrième classe au-delà des trois cartes',()=>{
  const r=E.recommend({roles:{soin:5},rolesStrict:true,mastery:2});
  assert.equal(r.results.length,4);
