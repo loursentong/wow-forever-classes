@@ -2,7 +2,7 @@
  "classe": "paladin",
  "libelle": "Paladin",
  "date": "2026-10-21",
- "moteur": "1.0.7-exploratoire",
+ "moteur": "1.0.8-exploratoire",
  "faits": [
   {
    "id": "p-role",

@@ -48,10 +48,10 @@ test('Notes sans familier : seules celles qui dépendent du familier changent',(
  assert.deepEqual(E.checkData(),[]);
 });
 
-test('La variante ne s’applique que si le joueur préfère jouer sans compagnon',()=>{
+test('Hors souhait sans compagnon, seule Précision conserve sa référence Loup solitaire depuis v9',()=>{
  for(const pet of [undefined,{value:'like',certainty:5},{value:'any'}]){
   const r=E.ranking({styles:{ctrl:5},pet});
-  assert.ok(r.results.every(x=>!x.spec.variant),JSON.stringify(pet));
+  assert.ok(r.results.every(x=>!x.spec.variant||x.spec.id==='chasseur-precision'),JSON.stringify(pet));
  }
  const r=E.ranking({styles:{ctrl:5},pet:avoid});
  const aff=r.results.find(x=>x.spec.classId==='demoniste');

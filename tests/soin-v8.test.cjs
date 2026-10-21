@@ -23,7 +23,7 @@ test('La photographie v7 reste intacte ; la v8 en dérive explicitement',()=>{
  assert.equal(v7.info.engineVersion,'1.0.6-exploratoire');
  assert.equal(v8.info.revision,8);
  assert.equal(v8.info.previousReference,'moteur-reference-v7.json');
- assert.equal(v8.info.engineVersion,E.version);
+ assert.equal(v8.info.engineVersion,'1.0.7-exploratoire');
 });
 
 test('v7 → v8 : aucun des 107 cas ne change ; sept scénarios de soin s’ajoutent',()=>{
@@ -47,15 +47,15 @@ test('Chaque façon de soigner désigne la configuration dont c’est le point f
  assert.ok(none.every(r=>r.score===none[0].score));
 });
 
-test('Seules les configurations de soin sont jugées sur la façon de soigner',()=>{
+test('Depuis v9, une envie de soin compte aussi pour les configurations qui ne soignent pas',()=>{
  const base={roles:{soin:4,dps:3},activities:{raid:3}};
  const before=E.ranking(base),after=E.ranking({...base,healStyles:{prevention:5}});
  assert.deepEqual(after.used,['roles','activities','healStyles']);
- for(const r of after.results)assert.equal('healStyles' in r.fit,r.spec.role==='soin',r.spec.id);
- // Les classes sans soigneur gardent configuration et score.
+ for(const r of after.results)assert.ok('healStyles' in r.fit,r.spec.id);
+ // Une envie de prévention certaine n'est pas satisfaite par un rôle sans soin.
  for(const c of ['guerrier','chasseur','voleur','mage','demoniste']){
   const a=before.results.find(r=>r.spec.classId===c),b=after.results.find(r=>r.spec.classId===c);
-  assert.deepEqual([b.spec.id,b.score],[a.spec.id,a.score],c);
+  assert.equal(b.spec.id,a.spec.id,c);assert.ok(b.score<a.score,c);assert.equal(b.fit.healStyles.value,0,c);
  }
  // Valeur et poids de la composante : profil 1 à 5 ramené sur 0…1, nuancé par la certitude.
  const druide=E.ranking({roles:{soin:5},rolesStrict:true,healStyles:{groupe:3}}).results.find(r=>r.spec.id==='druide-restauration');

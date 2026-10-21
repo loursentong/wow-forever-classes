@@ -4,6 +4,8 @@ set -euo pipefail
 # Le site GitHub Pages utilise un artefact statique : il faut copier tous les
 # scripts locaux avec index.html, pas seulement le HTML.
 mkdir -p _site
+node scripts/build-source-pages.cjs
+cp -r -- fiches-sources _site/
 cp -- index.html .nojekyll ./*.js ./*.css RECOMMANDATION-METHODE.md REVISION-EDITORIALE-V2.md LOT-1-EXPLICATIONS.md _site/
 mkdir -p _site/assets
 cp -- assets/*.svg _site/assets/

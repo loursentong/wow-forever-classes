@@ -11,9 +11,10 @@ Elle relie chaque note du moteur à des **faits sourcés**, avec une **raison** 
 | Fichier | Rôle |
 |---|---|
 | `sources.json` | Registre : type, fiabilité, portée, date, statut (utilisée, repérée, écartée) de chaque source. |
-| `classes/<classe>.json` | Faits de kit (catégorie, texte, sources, configurations concernées ; critères contredits pour une limite), puis, pour chaque configuration, son profil et ses 12 notes `{valeur, raison, appuis, confiance}`. Une configuration à familier facultatif porte aussi sa `variante_sans_familier` : les seules notes qui changent sans compagnon, utilisées par le moteur depuis la v5. Une configuration de soin porte son `profil_soin` : quatre notes `{valeur, raison, appuis, confiance}` sur les façons de soigner, utilisées par le moteur depuis la v8. |
+| `classes/<classe>.json` | Faits de kit (catégorie, texte, sources, configurations concernées ; critères contredits pour une limite), puis, pour chaque configuration, son profil et ses 12 notes `{valeur, raison, appuis, confiance}`. Une configuration à familier facultatif porte aussi sa `variante_sans_familier` : les seules notes qui changent sans compagnon, utilisées par le moteur depuis la v5. Une configuration de soin porte son `profil_soin` : quatre notes `{valeur, raison, appuis, confiance}` sur les façons de soigner, utilisées par le moteur depuis la v8. `variante_reference` désigne un build de référence sans compagnon : Précision est toujours évaluée en Loup solitaire depuis la v9. |
 | `ecarts.json` | Propositions de réévaluation, avec leurs arguments et une décision à prendre ; notes à surveiller. |
 | `ecarts-a-arbitrer.md` | La même chose, à lire, régénérée par `node scripts/synthese-ecarts.cjs`. Un écart tranché porte sa décision ; un écart ouvert, ce qu’il attend. |
+| `../fiches-sources/` | Les mêmes données, lisibles par classe : notes, raisons, confiance, faits, variantes et sources datées. Pages générées par `node scripts/build-source-pages.cjs` (aussi lors de la préparation de Pages), liées depuis les résultats des deux parcours. |
 
 Les 12 critères reprennent les clés du moteur : `raid`, `bg`, `world`, `solo` (activités), `burst`, `zone`, `ctrl`, `surv`, `mob`, `support` (styles), `charge_pve`, `charge_pvp` (difficulté d’exécution).
 

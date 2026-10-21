@@ -12,6 +12,7 @@ const {chromium}=require('playwright');
 const base=path.resolve(__dirname,'..');
 const allowed={'/':'index.html','/index.html':'index.html','/questionnaire.js':'questionnaire.js','/recommendation-engine.js':'recommendation-engine.js','/priorities-ui.js':'priorities-ui.js','/ux-polish.css':'ux-polish.css','/warcraft-visual-pack.css':'warcraft-visual-pack.css','/wow-ui-rework.css':'wow-ui-rework.css','/refonte-forever.css':'refonte-forever.css','/assets/hero-landscape.svg':'assets/hero-landscape.svg'};
 for(const f of ['configuration-notes.js','configuration-details.js','configuration-notes.css','result-explanations.js'])allowed['/'+f]=f;
+for(const f of fs.readdirSync(path.join(base,'fiches-sources')).filter(f=>f.endsWith('.html')))allowed['/fiches-sources/'+f]='fiches-sources/'+f;
 // Visuels de la refonte (kit de presse officiel), servis comme sur GitHub Pages.
 for(const f of ['logo-wow-forever.webp','hero-arbre-monde.webp','hero-vallee-nuit.webp','bandeau-gantelet.webp','bandeau-darkspear.webp','grain.png'])allowed['/assets/img/'+f]='assets/img/'+f;
 const types={'.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml; charset=utf-8','.webp':'image/webp','.png':'image/png'};
@@ -411,6 +412,43 @@ async function check(){
   }
   await page.setViewportSize({width:390,height:844});
   await healQuestion.screenshot({path:path.join(__dirname,'screenshots','lot3-facon-de-soigner-mobile.png'),animations:'disabled'});
+  // Détail par réponse et arrondis bornés, y compris le cas autrefois affiché « 30 / 29 ».
+  await page.evaluate(()=>{
+   localStorage.clear();localStorage.setItem('wf-recommend-v1',JSON.stringify({roles:{soin:5},activities:{bg:0,solo:3},range:{value:'distance',certainty:0},styles:{zone:4,surv:5,support:4},mastery:3}));
+  });
+  await page.reload({waitUntil:'domcontentloaded'});await page.locator('[data-reco-reveal]').click();
+  const detailsWhy=page.locator('#reco-results .reco-why').nth(1);
+  await detailsWhy.locator('summary').focus();await page.keyboard.press('Enter');
+  assert.equal(await detailsWhy.evaluate(d=>d.open),true);
+  assert.match(await detailsWhy.locator('.reco-answer-list').allTextContents().then(x=>x.join(' ')),/Soutien[\s\S]*Repère de la spécialisation/);
+  const totals=await page.locator('#reco-results .reco-result-card').evaluateAll(cards=>cards.map(c=>({score:Number(c.querySelector('.reco-score strong').textContent),parts:[...c.querySelectorAll('.reco-why-points')].map(x=>x.textContent.match(/\d+/g).map(Number))})));
+  for(const t of totals){assert.equal(t.parts.reduce((n,p)=>n+p[0],0),t.score);assert.ok(t.parts.every(p=>p[0]<=p[1]));}
+  for(const width of [320,390,768,1300]){
+   await page.setViewportSize({width,height:900});
+   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth+2),'Explications ouvertes à '+width+'px');
+   if(width===390||width===1300)await detailsWhy.screenshot({path:path.join(__dirname,'screenshots','explications-'+width+'.png'),animations:'disabled'});
+  }
+  const destination=await detailsWhy.locator('a').getAttribute('href');
+  await detailsWhy.locator('a').click();
+  assert.ok(page.url().endsWith(destination));
+  assert.equal(await page.locator(page.url().slice(page.url().indexOf('#'))).count(),1,'Lien vers la bonne configuration');
+  await page.locator('main > nav a').first().click();
+  await page.locator('[data-reco-reveal]').click();
+  assert.equal(await page.locator('#reco-results .reco-score strong').nth(1).textContent(),String(totals[1].score),'Préférences conservées après consultation des sources');
+  // Chaque fiche fonctionne au clavier et aux quatre largeurs, notes dépliées.
+  for(const cls of ['chaman','chasseur','demoniste','druide','guerrier','mage','paladin','pretre','voleur']){
+   await page.goto('http://127.0.0.1:'+server.address().port+'/fiches-sources/'+cls+'.html');
+   await page.locator('section.config details > summary').first().focus();await page.keyboard.press('Enter');
+   assert.equal(await page.locator('section.config details').first().evaluate(d=>d.open),true);
+   for(const width of [320,390,768,1300]){
+    await page.setViewportSize({width,height:900});
+    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth+2),'Fiche '+cls+' à '+width+'px');
+   }
+   if(cls==='mage'){
+    await page.screenshot({path:path.join(__dirname,'screenshots','sources-desktop.png'),animations:'disabled'});
+    await page.setViewportSize({width:390,height:844});await page.screenshot({path:path.join(__dirname,'screenshots','sources-mobile.png'),animations:'disabled'});
+   }
+  }
   assert.deepEqual(errors,[],'Erreurs JavaScript navigateur');
   process.stdout.write('Chromium : deux parcours, 14 poids, 15 presets, neuf rangs, maîtrise partagée, mobile et clavier — OK\n');
  }finally{

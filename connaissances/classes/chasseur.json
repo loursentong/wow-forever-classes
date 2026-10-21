@@ -2,7 +2,7 @@
  "classe": "chasseur",
  "libelle": "Chasseur",
  "date": "2026-10-21",
- "moteur": "1.0.7-exploratoire",
+ "moteur": "1.0.8-exploratoire",
  "faits": [
   {
    "id": "c-role",
@@ -410,7 +410,8 @@
     "familier": "optional",
     "appuis_familier": [
      "c-familier-precision"
-    ]
+    ],
+    "variante_reference": "sans-familier"
    },
    "notes": {
     "raid": {

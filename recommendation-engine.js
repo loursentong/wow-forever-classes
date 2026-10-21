@@ -95,7 +95,24 @@ specs.forEach(function(s){
   petless[s.id]=Object.assign({},s,{variant:'sans-familier',
     activity:Object.assign({},s.activity,d.activity||{}),style:Object.assign({},s.style,d.style||{})});
 });
-function profileSpec(s,p){return p.pet.value==='avoid'&&petless[s.id]?petless[s.id]:s;}
+// Le build de référence de Précision est déjà Loup solitaire. Aucun build avec
+// compagnon n'est inventé à partir de ces notes (référence v9).
+var REFERENCE_VARIANTS={'chasseur-precision':'sans-familier'};
+function referenceSpec(s){return REFERENCE_VARIANTS[s.id]==='sans-familier'?petless[s.id]:s;}
+function candidateSpecs(s,p){
+  if(REFERENCE_VARIANTS[s.id])return [referenceSpec(s)];
+  if(p.pet.value==='avoid'&&petless[s.id])return p.pet.strict?[petless[s.id]]:[s,petless[s.id]];
+  return [s];
+}
+function bestCandidate(s,p){
+  var best;
+  candidateSpecs(s,p).forEach(function(v){
+    var fit=specFit(v,p),row={spec:v,score:Math.round(10000*fit.value)/100,fit:fit.parts};
+    // À score égal au centième, le build sans compagnon respecte mieux le souhait.
+    if(!best||row.score>best.score||row.score===best.score&&v.variant==='sans-familier')best=row;
+  });
+  return best;
+}
 var ROLE=['tank','soin','dps'];
 var DEFAULT={roles:{},rolesStrict:false,healStyles:{},activities:{},range:{value:'any',certainty:3,strict:false},styles:{},pet:{value:'any',certainty:3,strict:false},difficulty:{value:'any',certainty:3},mastery:2};
 function validCert(v){return Number.isInteger(v)&&v>=0&&v<=5;}
@@ -188,8 +205,14 @@ function aggregate(keys,answers,rawFn){
   if(!keys.length)return null;
   return keys.reduce(function(t,k){return t+preferenceFit(rawFn(k),answers[k]);},0)/keys.length;
 }
-function specFit(s,p){
+function specFit(s,p,trace){
   var parts={};
+  // La trace lit les valeurs du calcul lui-même ; elle ne participe pas au classement.
+  function record(domain,key,base,raw,certainty,note,adjusted){
+    if(trace)trace.push({domain:domain,key:key,base:base,raw:raw,certainty:certainty,
+      fit:preferenceFit(raw,certainty),note:note,adjusted:adjusted});
+    return raw;
+  }
   var roles=selected(p.roles),activities=selected(p.activities),sty=selected(p.styles);
   if(roles.length){
     var coverage=roles.filter(function(k){return rolePool(s.classId).includes(k);}).length/roles.length;
@@ -200,26 +223,48 @@ function specFit(s,p){
     var rolePve=roleSuitability(s,p.mastery);
     var raw=roles.length===1?(s.role===roles[0]?(.25+.75*rolePve):0):.65*coverage+.35*mainWeight*rolePve;
     parts.roles={value:preferenceFit(raw,certainty),weight:0.25};
+    var referenceRole=roleSuitability(s,2);
+    record('roles','roles',roles.length===1?(s.role===roles[0]?(.25+.75*referenceRole):0):.65*coverage+.35*mainWeight*referenceRole,raw,certainty);
   }
-  if(activities.length)parts.activities={value:aggregate(activities,p.activities,function(k){return (adjustedActivity(s,k,p.mastery)-1)/4;}),weight:.25};
+  if(activities.length)parts.activities={value:aggregate(activities,p.activities,function(k){var a=adjustedActivity(s,k,p.mastery);return record('activities',k,(s.activity[k]-1)/4,(a-1)/4,p.activities[k],s.activity[k],a);}),weight:.25};
   if(p.range.value!=='any'){
     var v=p.range.value==='mixte'?(distPool(s.classId,p).length>=2?1:.28):s.range===p.range.value?1:.12;
     parts.range={value:preferenceFit(v,p.range.certainty),weight:.15};
+    record('range',p.range.value,v,v,p.range.certainty);
   }
-  if(sty.length)parts.styles={value:aggregate(sty,p.styles,function(k){return (adjustedStyle(s,k,p.mastery)-1)/4;}),weight:.20};
-  if(healActive(p)&&s.heal)parts.healStyles={value:aggregate(selected(p.healStyles),p.healStyles,function(k){return (s.heal[k]-1)/4;}),weight:.15};
+  if(sty.length)parts.styles={value:aggregate(sty,p.styles,function(k){var a=adjustedStyle(s,k,p.mastery);return record('styles',k,(s.style[k]-1)/4,(a-1)/4,p.styles[k],s.style[k],a);}),weight:.20};
+  // Une envie de soin s'applique à toutes les pistes : un autre rôle n'y répond pas.
+  // Même dénominateur, aucun veto implicite et aucune note de soin inventée hors rôle.
+  if(healActive(p))parts.healStyles={value:aggregate(selected(p.healStyles),p.healStyles,function(k){var note=s.heal?s.heal[k]:undefined,v=s.heal?(note-1)/4:0;return record('healStyles',k,v,v,p.healStyles[k],note,note);}),weight:.15};
   if(p.pet.value!=='any'){
-    var v=p.pet.value==='like'?(s.pet==='core'?1:s.pet==='optional'?.76:.1):
-      (s.pet==='none'||s.variant==='sans-familier'?1:s.pet==='optional'?.78:.05);
+    var without=s.pet==='none'||s.variant==='sans-familier';
+    var v=p.pet.value==='like'?(without?.1:s.pet==='core'?1:.76):(without?1:.05);
     parts.pet={value:preferenceFit(v,p.pet.certainty),weight:.10};
+    record('pet',p.pet.value,v,v,p.pet.certainty);
   }
   if(p.difficulty.value!=='any'){
     var load=difficultyLoad(s,p);var v=p.difficulty.value==='simple'?(5-load)/4:(load-1)/4;
     parts.difficulty={value:preferenceFit(v,p.difficulty.certainty),weight:.05};
+    record('difficulty',p.difficulty.value,v,v,p.difficulty.certainty);
   }
   var denom=Object.keys(parts).reduce(function(t,k){return t+parts[k].weight;},0);
   var value=denom?Object.keys(parts).reduce(function(t,k){return t+parts[k].value*parts[k].weight;},0)/denom:null;
   return {value:value,parts:parts};
+}
+// Détail explicatif du parcours guidé. Les rôles multiples restent une réponse groupée :
+// leur couverture et la spécialisation principale interagissent dans la formule du codex.
+function explain(id,profile){
+  var p=sanitize(profile),original=specs.find(function(s){return s.id===id;});
+  if(!original||!eligible(original,p)||!domains(p).length)return null;
+  var s=bestCandidate(original,p).spec,answers=[],result=specFit(s,p,answers);
+  var denom=Object.keys(result.parts).reduce(function(t,k){return t+result.parts[k].weight;},0);
+  answers.forEach(function(a){
+    var count=answers.filter(function(b){return b.domain===a.domain;}).length;
+    a.max=100*result.parts[a.domain].weight/denom/count;
+    a.points=a.max*a.fit;a.loss=a.max-a.points;
+    a.causes={aptitude:(1-a.base)*a.max,mastery:(a.base-a.raw)*a.max,certainty:(a.raw-a.fit)*a.max};
+  });
+  return {spec:s,profile:p,score:Math.round(10000*result.value)/100,rawScore:100*result.value,answers:answers};
 }
 function stableSort(a,b){return b.score-a.score||a.spec.id.localeCompare(b.spec.id);}
 /* Potentiel d'une configuration ajusté à la maîtrise (codex § 3.4) : adéquation PvE
@@ -235,10 +280,7 @@ function representsClassBetter(a,b,m){
 function ranking(profile){
   var p=sanitize(profile),used=domains(p);
   if(!used.length)return {status:'unanswered',profile:p,used:used,results:[],compatible:0};
-  var candidates=specs.filter(function(s){return eligible(s,p);}).map(function(s){
-    var v=profileSpec(s,p),fit=specFit(v,p);
-    return {spec:v,score:Math.round(10000*fit.value)/100,fit:fit.parts};
-  }).sort(stableSort);
+  var candidates=specs.filter(function(s){return eligible(s,p);}).map(function(s){return bestCandidate(s,p);}).sort(stableSort);
   if(!candidates.length)return {status:'no-match',profile:p,used:used,results:[],compatible:0};
   var best={};
   for(var r of candidates)if(!best[r.spec.classId]||representsClassBetter(r,best[r.spec.classId],p.mastery))best[r.spec.classId]=r;
@@ -351,7 +393,8 @@ function priorityRanking(input,mastery){
     return {score:active.length===1?100*raw(s,active[0]):(denom?100*numer/denom:0),parts:parts};
   }
   var byClass={};
-  for(var sp of specs){
+  for(var original of specs){
+    var sp=referenceSpec(original);
     var r=fit(sp),row={spec:sp,classId:sp.classId,className:sp.className,
       score:Math.round(r.score*100)/100,parts:r.parts};
     if(!byClass[sp.classId]||representsClassBetter(row,byClass[sp.classId],m))byClass[sp.classId]=row;
@@ -382,8 +425,8 @@ function checkData(){
  }
  return errors;
 }
-return {version:'1.0.7-exploratoire',healStyles:HEAL_STYLES,sources:sources,specs:specs,petless:petless,difficultyContext:difficultyContext,difficultyLoad:difficultyLoad,roles:ROLE,activities:acts,styles:styles,
+return {version:'1.0.8-exploratoire',referenceVariants:REFERENCE_VARIANTS,healStyles:HEAL_STYLES,sources:sources,specs:specs,petless:petless,difficultyContext:difficultyContext,difficultyLoad:difficultyLoad,roles:ROLE,activities:acts,styles:styles,
  defaultProfile:copy(DEFAULT),sanitize:sanitize,selected:selected,domains:domains,eligible:eligible,
- ranking:ranking,recommend:recommend,checkData:checkData,intensity:intensity,preferenceFit:preferenceFit,
+ ranking:ranking,recommend:recommend,explain:explain,checkData:checkData,intensity:intensity,preferenceFit:preferenceFit,
  rolePool:rolePool,adjustedActivity:adjustedActivity,potential:potential,roleSuitability:roleSuitability,roleReference:ROLE_REFERENCE,priorityAxes:PRIORITY_AXES,priorityRanking:priorityRanking,sanitizeWeights:sanitizeWeights};
 });
