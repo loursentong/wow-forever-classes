@@ -14,7 +14,8 @@ function createHarness(initial={}){
   contains(){return true;},
   querySelector(){return null;}};
  const reset={addEventListener(k,fn){listeners[k]=fn;},click(){listeners.click();}};
- const root={querySelector(s){return {'#reco-form':form,'#reco-results':results,'#reco-reset':reset}[s]||null;}};
+ const live={innerHTML:''};
+ const root={querySelector(s){return {'#reco-form':form,'#reco-results':results,'#reco-reset':reset,'#reco-live-body':live}[s]||null;}};
  const document={getElementById(id){return id==='reco-app'?root:null;}};
  const localStorage={getItem(k){return Object.hasOwn(store,k)?store[k]:null;},setItem(k,v){store[k]=v;}};
  const window={WFRecommend:engine,WFConfigurationDetails:require('../configuration-details.js'),WFResultExplanations:require('../result-explanations.js')};
@@ -23,7 +24,7 @@ function createHarness(initial={}){
   return {dataset,hasAttribute(k){return attrs.includes(k);},closest(){return this;}};
  }
  function press(dataset,attrs=[]){form.listeners.click({target:button(dataset,attrs)});}
- return {form,results,reset,store,window,
+ return {form,results,reset,store,window,live,
   step(n){press({step:String(n)});},
   next(){press({},['data-next']);},
   back(){press({},['data-prev']);},
@@ -87,7 +88,7 @@ test('Rôle, portée et familiaux stricts sont explicites',()=>{
  h.step(2);h.single('range','distance');
  assert.match(h.form.innerHTML,/C’est une exigence absolue/);
  h.strict('range',true);
- assert.match(h.results.innerHTML,/Voir mes résultats/);
+ assert.match(h.results.innerHTML,/Prévisualiser mes résultats/);
  h.reveal();
  assert.match(h.results.innerHTML,/Ces exigences ne vont pas ensemble/);
  h.strict('range',false);
@@ -135,14 +136,14 @@ test('Les résultats attendent deux dimensions et un geste explicite avant d’a
  assert.doesNotMatch(h.results.innerHTML,/reco-result-card/);
  h.step(1);
  h.press('multi','activities','solo');
- assert.match(h.results.innerHTML,/Voir mes résultats/);
+ assert.match(h.results.innerHTML,/Prévisualiser mes résultats/);
  assert.doesNotMatch(h.results.innerHTML,/reco-result-card/);
  h.reveal();
  assert.match(h.results.innerHTML,/reco-result-card/);
  h.step(3);h.press('multi','styles','ctrl');
  assert.match(h.results.innerHTML,/reco-result-card/);
  h.hide();
- assert.match(h.results.innerHTML,/Voir mes résultats/);
+ assert.match(h.results.innerHTML,/Prévisualiser mes résultats/);
  h.reset.click();
  assert.match(h.results.innerHTML,/Tout commence par tes envies/);
 });
@@ -179,7 +180,7 @@ test('Façon de soigner : sous-question facultative du rôle Soin, deux choix au
  h.certainty('healStyles','duree',1);
  assert.equal(h.profile().healStyles.duree,1);
  assert.match(h.form.innerHTML,/DPS · Soin \(soins de groupe, soins sur la durée\)/);
- assert.match(h.results.innerHTML,/Voir mes résultats/);
+ assert.match(h.results.innerHTML,/Prévisualiser mes résultats/);
  h.reveal();
  assert.match(h.results.innerHTML,/Ta façon de soigner \(soins sur la durée, soigner tout le groupe\) départage/);
  // Retirer le rôle Soin masque la sous-question ; la façon de soigner ne compte plus.
@@ -203,7 +204,7 @@ test('Fiche d’une piste de soin : façon de soigner décrite, sans score suppl
  assert.match(h.results.innerHTML,/PISTE PRINCIPALE/);
  assert.match(h.results.innerHTML,/<strong>Sacré<\/strong>/);
  assert.match(h.results.innerHTML,/Façon de soigner :<\/b> Gros soins ciblés : son point fort/);
- assert.match(h.results.innerHTML,/2 dimensions prises en compte/);
+ assert.doesNotMatch(h.results.innerHTML,/configurations compatibles|dimensions prises en compte/);
  assert.match(h.results.innerHTML,/Rôles · Façon de soigner/);
 });
 
@@ -221,22 +222,43 @@ test('Sauvegarde de la façon de soigner : aller-retour, et une ancienne sauvega
  assert.match(old.form.innerHTML,/0 sur 2 choix possibles/);
 });
 
-test('Dernière question : un seul bouton « Voir mes résultats » à l’écran',()=>{
+test('Dernière question : « Voir mes résultats » remplace « Question suivante », le bloc d’aperçu s’efface',()=>{
+ const showButton=h=>(h.form.innerHTML.match(/<button[^>]*data-show-results[^>]*>[^<]*<\/button>/)||[''])[0];
  const h=createHarness();
- h.press('multi','roles','dps');
+ // Sans préférence, le bouton est là mais inactif, et la question dit pourquoi.
  h.step(5);
- // Une seule préférence : le bloc des résultats n'offre pas encore de bouton, la question le garde.
- assert.match(h.form.innerHTML,/data-show-results/);
- assert.doesNotMatch(h.results.innerHTML,/data-reco-reveal/);
- h.step(1);h.press('multi','activities','raid');h.step(5);
- // Deux préférences : le bouton est dans le bloc juste en dessous, pas répété dans la question.
- assert.match(h.results.innerHTML,/data-reco-reveal[\s\S]*Voir mes résultats/);
+ assert.match(showButton(h),/disabled>Voir mes résultats ↓/);
+ assert.match(h.form.innerHTML,/Choisis au moins une préférence pour voir tes résultats/);
+ assert.doesNotMatch(h.form.innerHTML,/data-next/);
+ // La maîtrise seule n'est pas une préférence de jeu.
+ h.mastery(0);
+ assert.match(showButton(h),/disabled/);
+ // Une préférence : le bouton s'active, le bloc rappelle qu'une seconde affinerait l'aperçu.
+ h.step(0);h.press('multi','roles','dps');h.step(5);
+ assert.doesNotMatch(showButton(h),/disabled/);
+ assert.match(h.form.innerHTML,/Dernière question : tu peux la passer/);
+ assert.match(h.results.innerHTML,/Encore un peu de contexte/);
+ assert.equal(h.results.hidden,false);
+ // Aux questions 1 à 5, le bloc sous la question propose de prévisualiser les résultats.
+ h.step(1);h.press('multi','activities','raid');
+ assert.match(h.results.innerHTML,/data-reco-reveal>Prévisualiser mes résultats/);
+ assert.doesNotMatch(h.results.innerHTML,/Voir mes résultats/);
+ assert.match(h.form.innerHTML,/data-next>Question suivante/);
  assert.doesNotMatch(h.form.innerHTML,/data-show-results/);
- h.reveal();
+ // À la question 6, un seul bouton : celui du questionnaire. Le bloc d'aperçu disparaît.
+ h.step(5);
+ assert.match(showButton(h),/>Voir mes résultats ↓/);
+ assert.equal(h.results.innerHTML,'');
+ assert.equal(h.results.hidden,true);
+ h.form.listeners.click({target:{dataset:{},hasAttribute:k=>k==='data-show-results',closest(){return this;}}});
  assert.match(h.results.innerHTML,/reco-result-card/);
- assert.match(h.form.innerHTML,/data-show-results/);
+ assert.equal(h.results.hidden,false);
+ // Masquer les résultats : retour à la question, sans bloc vide.
  h.hide();
- assert.doesNotMatch(h.form.innerHTML,/data-show-results/);
+ assert.equal(h.results.hidden,true);
+ assert.match(showButton(h),/>Voir mes résultats ↓/);
+ h.step(4);
+ assert.match(h.results.innerHTML,/Prévisualiser mes résultats/);
 });
 
 test('Pourquoi cette piste remplace « Fiabilité et incertitude » : critères, hésitations nommées, sources',()=>{
@@ -252,4 +274,20 @@ test('Pourquoi cette piste remplace « Fiabilité et incertitude » : critères,
  assert.match(h.results.innerHTML,/Tu hésites sur « Rôle : Soin » \(2\/5 de certitude\)/);
  h.certainty('roles','soin',5);
  assert.match(h.results.innerHTML,/Tes choix sont assez affirmés/);
+});
+
+test('Aperçu du classement : les neuf classes suivent chaque réponse, sans attendre le bouton des résultats',()=>{
+ const h=createHarness();
+ assert.match(h.live.innerHTML,/Réponds à une question/);
+ h.press('multi','roles','dps');
+ assert.match(h.live.innerHTML,/Avec une seule préférence, ce classement est encore peu parlant/);
+ assert.equal((h.live.innerHTML.match(/<li /g)||[]).length,9);
+ h.step(1);h.press('multi','activities','bg');
+ assert.doesNotMatch(h.live.innerHTML,/une seule préférence/);
+ // L'aperçu reprend le classement du moteur, dans le même ordre.
+ const order=[...h.live.innerHTML.matchAll(/<b>([^<]+)<\/b>/g)].map(m=>m[1]);
+ assert.deepEqual(order,engine.recommend(h.profile()).results.map(r=>r.spec.className));
+ assert.doesNotMatch(h.results.innerHTML,/reco-result-card/);
+ h.strict('roles',true);h.step(2);h.single('range','distance');h.strict('range',true);h.press('multi','roles','dps');h.press('multi','roles','tank');h.strict('roles',true);
+ assert.match(h.live.innerHTML,/Aucune configuration ne remplit toutes tes exigences/);
 });

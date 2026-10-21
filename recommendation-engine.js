@@ -225,6 +225,8 @@ function specFit(s,p,trace){
     parts.roles={value:preferenceFit(raw,certainty),weight:0.25};
     var referenceRole=roleSuitability(s,2);
     record('roles','roles',roles.length===1?(s.role===roles[0]?(.25+.75*referenceRole):0):.65*coverage+.35*mainWeight*referenceRole,raw,certainty);
+    // Pour l'explication seulement : rôles demandés que propose la classe, aisance estimée de la spécialisation.
+    if(trace){trace[trace.length-1].covered=roles.filter(function(k){return rolePool(s.classId).includes(k);});trace[trace.length-1].aptitude=rolePve;}
   }
   if(activities.length)parts.activities={value:aggregate(activities,p.activities,function(k){var a=adjustedActivity(s,k,p.mastery);return record('activities',k,(s.activity[k]-1)/4,(a-1)/4,p.activities[k],s.activity[k],a);}),weight:.25};
   if(p.range.value!=='any'){
@@ -351,51 +353,64 @@ function roleSuitability(s,m){
  var baseline=(ROLE_REFERENCE[s.classId][s.role]-1)/4;
  return clamp(.55*baseline+.45*potential(s,m),0,1);
 }
-function priorityRanking(input,mastery){
+/* Classement à 14 priorités : groupes, adéquations et score, partagés par le classement et son
+ * explication (priorityExplain), pour qu'ils ne puissent pas diverger. */
+var PRIORITY_GROUPS=[
+  {id:'roles',axes:['tank','soin','dps'],factor:.30},
+  {id:'activities',axes:['bg','sauv','solo'],factor:.28},
+  {id:'style',axes:['burst','zone','ctrl','surv','mob','util'],factor:.28},
+  {id:'affinity',axes:['poly','tech'],factor:.14}
+];
+var PRIORITY_ACTIVITY={bg:'bg',sauv:'world',solo:'solo'};
+var PRIORITY_STYLE={burst:'burst',zone:'zone',ctrl:'ctrl',surv:'surv',mob:'mob',util:'support'};
+function priorityRaw(s,k,m){
+  // Un rôle n'est pas une note de performance : les spécialisations d'un même
+  // rôle reçoivent une adéquation PvE distincte (proxy éditorial 'raid').
+  // Le rôle inadéquat vaut 0 ; impossible d'agréger les meilleures spés d'une classe.
+  if(k==='tank'||k==='soin'||k==='dps')return s.role===k?roleSuitability(s,m):0;
+  if(PRIORITY_ACTIVITY[k])return (adjustedActivity(s,PRIORITY_ACTIVITY[k],m)-1)/4;
+  if(PRIORITY_STYLE[k])return (adjustedStyle(s,PRIORITY_STYLE[k],m)-1)/4;
+  if(k==='poly')return (rolePool(s.classId).length-1)/2;
+  if(k==='tech')return clamp(((s.load.pve+s.load.pvp)/2-1)/4,0,1);
+  return .5;
+}
+function priorityFit(s,w,m,active,trace){
+  var parts={},numer=0,denom=0;
+  for(var g of PRIORITY_GROUPS){
+    var axes=g.axes.filter(function(k){return w[k]>0;});
+    if(!axes.length)continue;
+    // Rôles exprimés : l'aptitude à exercer la spécialisation préférée
+    // est une seule dimension ; les autres groupes sont moyens, pas additionnés.
+    var weighted=axes.reduce(function(t,k){return t+w[k]*priorityRaw(s,k,m);},0);
+    var total=axes.reduce(function(t,k){return t+w[k];},0);
+    var value=weighted/total;
+    var importance=g.factor*Math.max.apply(null,axes.map(function(k){return w[k];}))/3;
+    parts[g.id]={value:value,weight:importance};
+    numer+=value*importance;denom+=importance;
+    if(trace)axes.forEach(function(k){
+      var row={group:g.id,key:k,weight:w[k],share:w[k]/total,raw:priorityRaw(s,k,m)};
+      if(PRIORITY_ACTIVITY[k]){row.note=s.activity[PRIORITY_ACTIVITY[k]];row.adjusted=adjustedActivity(s,PRIORITY_ACTIVITY[k],m);}
+      if(PRIORITY_STYLE[k]){row.note=s.style[PRIORITY_STYLE[k]];row.adjusted=adjustedStyle(s,PRIORITY_STYLE[k],m);}
+      if(k==='poly')row.roles=rolePool(s.classId).length;
+      if(k==='tech')row.load=(s.load.pve+s.load.pvp)/2;
+      trace.push(row);
+    });
+  }
+  // Un critère unique doit donner le même score quel que soit son poids :
+  // éviter la dérive d'arrondi des divisions flottantes normalisées.
+  return {score:active.length===1?100*priorityRaw(s,active[0],m):(denom?100*numer/denom:0),parts:parts};
+}
+function priorityInput(input,mastery){
   var w=sanitizeWeights(input),m=Number.isInteger(mastery)&&mastery>=0&&mastery<=3?mastery:2;
-  var active=PRIORITY_AXES.filter(function(k){return w[k]>0;});
+  return {w:w,m:m,active:PRIORITY_AXES.filter(function(k){return w[k]>0;})};
+}
+function priorityRanking(input,mastery){
+  var q=priorityInput(input,mastery),w=q.w,m=q.m,active=q.active;
   if(!active.length)return {status:'unanswered',results:[],active:[],weights:w,mastery:m};
-  var groups=[
-    {id:'roles',axes:['tank','soin','dps'],factor:.30},
-    {id:'activities',axes:['bg','sauv','solo'],factor:.28},
-    {id:'style',axes:['burst','zone','ctrl','surv','mob','util'],factor:.28},
-    {id:'affinity',axes:['poly','tech'],factor:.14}
-  ];
-  var activityMap={bg:'bg',sauv:'world',solo:'solo'};
-  var styleMap={burst:'burst',zone:'zone',ctrl:'ctrl',surv:'surv',mob:'mob',util:'support'};
-  function raw(s,k){
-    // Un rôle n'est pas une note de performance : les spécialisations d'un même
-    // rôle reçoivent une adéquation PvE distincte (proxy éditorial 'raid').
-    // Le rôle inadéquat vaut 0 ; impossible d'agréger les meilleures spés d'une classe.
-    if(k==='tank'||k==='soin'||k==='dps')return s.role===k?roleSuitability(s,m):0;
-    if(activityMap[k])return (adjustedActivity(s,activityMap[k],m)-1)/4;
-    if(styleMap[k])return (adjustedStyle(s,styleMap[k],m)-1)/4;
-    if(k==='poly')return (rolePool(s.classId).length-1)/2;
-    if(k==='tech')return clamp(((s.load.pve+s.load.pvp)/2-1)/4,0,1);
-    return .5;
-  }
-  function fit(s){
-    var parts={},numer=0,denom=0;
-    for(var g of groups){
-      var axes=g.axes.filter(function(k){return w[k]>0;});
-      if(!axes.length)continue;
-      // Rôles exprimés : l'aptitude à exercer la spécialisation préférée
-      // est une seule dimension ; les autres groupes sont moyens, pas additionnés.
-      var weighted=axes.reduce(function(t,k){return t+w[k]*raw(s,k);},0);
-      var total=axes.reduce(function(t,k){return t+w[k];},0);
-      var value=weighted/total;
-      var importance=g.factor*Math.max.apply(null,axes.map(function(k){return w[k];}))/3;
-      parts[g.id]={value:value,weight:importance};
-      numer+=value*importance;denom+=importance;
-    }
-    // Un critère unique doit donner le même score quel que soit son poids :
-    // éviter la dérive d'arrondi des divisions flottantes normalisées.
-    return {score:active.length===1?100*raw(s,active[0]):(denom?100*numer/denom:0),parts:parts};
-  }
   var byClass={};
   for(var original of specs){
     var sp=referenceSpec(original);
-    var r=fit(sp),row={spec:sp,classId:sp.classId,className:sp.className,
+    var r=priorityFit(sp,w,m,active),row={spec:sp,classId:sp.classId,className:sp.className,
       score:Math.round(r.score*100)/100,parts:r.parts};
     if(!byClass[sp.classId]||representsClassBetter(row,byClass[sp.classId],m))byClass[sp.classId]=row;
   }
@@ -403,6 +418,14 @@ function priorityRanking(input,mastery){
     .sort(function(a,b){return b.score-a.score||a.className.localeCompare(b.className,'fr');});
   return {status:'ok',results:results,active:active,weights:w,mastery:m,
     caveat:'Indice heuristique par spécialisation. Les égalités et faibles écarts ne sont pas des mesures de supériorité.'};
+}
+/* Détail explicatif du mode personnalisé : les valeurs du calcul lui-même, critère par critère.
+ * N'intervient pas dans le classement. */
+function priorityExplain(id,input,mastery){
+  var q=priorityInput(input,mastery),original=specs.find(function(s){return s.id===id;});
+  if(!q.active.length||!original)return null;
+  var s=referenceSpec(original),axes=[],r=priorityFit(s,q.w,q.m,q.active,axes);
+  return {spec:s,score:Math.round(r.score*100)/100,parts:r.parts,axes:axes,weights:q.w,mastery:q.m};
 }
 function checkData(){
  var errors=[],ids=new Set();
@@ -427,6 +450,6 @@ function checkData(){
 }
 return {version:'1.0.8-exploratoire',referenceVariants:REFERENCE_VARIANTS,healStyles:HEAL_STYLES,sources:sources,specs:specs,petless:petless,difficultyContext:difficultyContext,difficultyLoad:difficultyLoad,roles:ROLE,activities:acts,styles:styles,
  defaultProfile:copy(DEFAULT),sanitize:sanitize,selected:selected,domains:domains,eligible:eligible,
- ranking:ranking,recommend:recommend,explain:explain,checkData:checkData,intensity:intensity,preferenceFit:preferenceFit,
+ ranking:ranking,recommend:recommend,explain:explain,priorityExplain:priorityExplain,checkData:checkData,intensity:intensity,preferenceFit:preferenceFit,
  rolePool:rolePool,adjustedActivity:adjustedActivity,potential:potential,roleSuitability:roleSuitability,roleReference:ROLE_REFERENCE,priorityAxes:PRIORITY_AXES,priorityRanking:priorityRanking,sanitizeWeights:sanitizeWeights};
 });

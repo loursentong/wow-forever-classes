@@ -6,7 +6,7 @@ const path=require('node:path');
 const E=require('../recommendation-engine.js');
 const v1=require('./fixtures/moteur-reference-v1.json');
 const html=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
-const D=JSON.parse(html.match(/window\.__WF = (\{.*?\});\s*\(function\(\)/s)[1]);
+const D=JSON.parse(html.match(/window\.__WF = (\{.*?\});\s*<\/script>/s)[1]);
 
 test('La photographie v1 et les notes d’origine restent intactes',()=>{
  const crypto=require('node:crypto');

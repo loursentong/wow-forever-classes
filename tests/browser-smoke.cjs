@@ -35,18 +35,39 @@ async function check(){
   const errors=[];
   page.on('pageerror',err=>errors.push(String(err)));
   await page.goto('http://127.0.0.1:'+server.address().port+'/',{waitUntil:'domcontentloaded'});
+  // Arrivée : deux cartes pour choisir son parcours, aucune question ouverte d'emblée.
+  await page.waitForSelector('#reco-app.is-choosing .reco-modes');
+  assert.equal(await page.locator('#reco-guided').isVisible(),false);
+  assert.equal(await page.locator('#reco-priorities').isVisible(),false);
+  assert.equal(await page.locator('#reco-app .rf-band').isVisible(),false);
+  assert.deepEqual(await page.locator('[data-reco-mode]').evaluateAll(b=>b.map(x=>x.getAttribute('aria-selected'))),['false','false']);
+  assert.match(await page.locator('.reco-mode-heading').textContent(),/Comment veux-tu trouver ta classe/);
+  const arrival=await page.evaluate(()=>{const r=s=>{const b=document.querySelector(s).getBoundingClientRect();return {left:Math.round(b.left),right:Math.round(b.right),width:Math.round(b.width)};};
+   return {modes:r('.reco-modes'),guided:r('[data-reco-mode="guided"]'),priorities:r('[data-reco-mode="priorities"]')};});
+  assert.ok(Math.abs(arrival.guided.width-arrival.priorities.width)<=2&&arrival.guided.left<=arrival.modes.left+2&&arrival.priorities.right>=arrival.modes.right-2,
+    'Deux cartes de même largeur sur toute la ligne : '+JSON.stringify(arrival));
+  await page.screenshot({path:path.join(__dirname,'screenshots','arrivee-desktop.png'),fullPage:false});
+  await page.locator('[data-reco-mode="guided"]').click();
   await page.waitForSelector('#reco-form .reco-question');
+  assert.equal(await page.locator('#reco-app').evaluate(el=>el.classList.contains('is-choosing')),false);
+  // Les onglets prennent toute la largeur du bandeau « Parcours 1 / 2 ».
+  const tabsWidth=await page.evaluate(()=>{const a=document.querySelector('.reco-modes').getBoundingClientRect(),b=document.querySelector('#reco-app .rf-band').getBoundingClientRect();
+   return {tabs:[Math.round(a.left),Math.round(a.right)],band:[Math.round(b.left),Math.round(b.right)]};});
+  assert.ok(Math.abs(tabsWidth.tabs[0]-tabsWidth.band[0])<=2&&Math.abs(tabsWidth.tabs[1]-tabsWidth.band[1])<=2,'Onglets alignés sur le bandeau : '+JSON.stringify(tabsWidth));
   assert.equal(await page.locator('#reco-form .reco-question').count(),1,'Une question seulement à la fois');
   assert.equal(await page.locator('[data-step]').count(),6);
   assert.equal(await page.locator('.reco-step-rail .reco-step').count(),6);
   assert.equal(await page.locator('.reco-summary-row').count(),6);
   const geometry=await page.evaluate(()=>{
-   const rect=x=>{const b=document.querySelector(x).getBoundingClientRect();return {left:b.left,right:b.right,width:b.width};};
-   return {rail:rect('#reco-rail'),form:rect('#reco-guided .reco-workspace'),sidebar:rect('.reco-sidebar')};
+   const rect=x=>{const b=document.querySelector(x).getBoundingClientRect();return {left:b.left,right:b.right,top:b.top,bottom:b.bottom,width:b.width};};
+   return {rail:rect('#reco-rail'),form:rect('#reco-guided .reco-workspace'),sidebar:rect('.reco-sidebar'),live:rect('#reco-guided .reco-live'),panel:rect('#reco-live')};
   });
-  assert.ok(geometry.rail.right<=geometry.form.left&&geometry.form.right<=geometry.sidebar.left,
-    'Trois colonnes sans recouvrement : '+JSON.stringify(geometry));
-  assert.ok(geometry.form.width>350&&geometry.sidebar.width>=240);
+  assert.ok(geometry.rail.right<=geometry.form.left&&geometry.sidebar.right<=geometry.form.left&&geometry.sidebar.top>=geometry.rail.bottom-2&&geometry.form.right<=geometry.live.left,
+    'Étapes puis « Mes choix » à gauche, question au centre, aperçu à droite : '+JSON.stringify(geometry));
+  assert.ok(geometry.form.width>350&&geometry.sidebar.width>=200&&geometry.live.width>=220);
+  // L'aperçu du classement, fermé par défaut, ne dépasse jamais la hauteur de la question.
+  assert.equal(await page.locator('#reco-live').evaluate(d=>d.open),false);
+  assert.ok(Math.abs(geometry.live.top-geometry.form.top)<=2&&geometry.live.bottom<=geometry.form.bottom+2,'Aperçu borné à la question : '+JSON.stringify(geometry));
 
   await page.locator('[data-summary-step="2"]').click();
   assert.match(await page.locator('#reco-form').textContent(),/Comment aimes-tu combattre/);
@@ -55,8 +76,9 @@ async function check(){
   assert.equal(await page.locator('#reco-hero-facts').count(),0);
   assert.equal(await page.locator('link[href="ux-polish.css"]').count(),1);
 
-  // Le comparatif historique reste intact sous ses réglages avancés.
-  assert.equal(await page.locator('#rank').count(),1);
+  // Le comparatif historique, dépassé, a été retiré ; la matrice des 126 notes reste.
+  assert.equal(await page.locator('#rank,#legacy-advanced').count(),0);
+  assert.doesNotMatch(await page.locator('main').textContent(),/Explorer le comparatif historique/);
   assert.equal(await page.locator('td.cell[data-k]').count(),126);
   assert.equal(await page.locator('.wow-class-index img').count(),9,'Les neuf icônes de classe doivent figurer dans la navigation');
   assert.equal(await page.locator('.wow-card-class-icon').count(),9,'Les neuf fiches doivent utiliser l’iconographie officielle');
@@ -67,10 +89,8 @@ async function check(){
   assert.match(await page.locator('.wow-fan-mention').textContent(),/Outil de fan · non officiel/);
   assert.match(await page.locator('footer.end').textContent(),/non affilié à Blizzard Entertainment/);
 
-  assert.equal(await page.locator('#legacy-advanced').evaluate(el=>el.open),false);
-  await page.locator('#legacy-advanced > summary').click();
-  assert.equal(await page.locator('#legacy-advanced').evaluate(el=>el.open),true);
-  await page.locator('#legacy-advanced > summary').click();
+  // Méthode de maîtrise : après le détail des classes, juste avant les sources.
+  assert.deepEqual(await page.evaluate(()=>[...document.querySelectorAll('main section[id^="h-"],main [id^="h-"]')].map(x=>x.id).filter((v,i,a)=>a.indexOf(v)===i).slice(-3)),['h-rules','h-model','h-src']);
 
   // Étapes accessibles sans répondre à toutes les questions.
   await page.locator('[data-step="3"]').click();
@@ -89,15 +109,22 @@ async function check(){
   // Une seconde dimension rend un aperçu possible sans l'imposer.
   await page.locator('[data-step="2"]').click();
   await page.locator('[data-single="range"][data-key="distance"]').click();
-  assert.match(await page.locator('#reco-results').textContent(),/Voir mes résultats/);
+  assert.match(await page.locator('#reco-results').textContent(),/Prévisualiser mes résultats/);
   assert.equal(await page.locator('#reco-results .reco-result-card').count(),0);
+  // L'aperçu du classement suit les réponses : neuf classes, dans l'ordre du moteur.
+  await page.locator('#reco-live > summary').click();
+  assert.equal(await page.locator('#reco-live-body li').count(),9);
+  const liveBox=await page.evaluate(()=>{const a=document.querySelector('#reco-guided .reco-live').getBoundingClientRect(),b=document.querySelector('#reco-guided .reco-workspace').getBoundingClientRect(),
+   c=document.querySelector('#reco-live-body');return {liveBottom:Math.round(a.bottom),formBottom:Math.round(b.bottom),scrolls:c.scrollHeight>=c.clientHeight};});
+  assert.ok(liveBox.liveBottom<=liveBox.formBottom+2,'Aperçu ouvert, toujours borné à la question : '+JSON.stringify(liveBox));
+  await page.locator('#reco-live > summary').click();
   const place=()=>page.evaluate(()=>{const r=s=>{const b=document.querySelector(s).getBoundingClientRect();return {top:Math.round(b.top),bottom:Math.round(b.bottom),left:Math.round(b.left),width:Math.round(b.width)};};
    return {form:r('#reco-guided .reco-workspace'),results:r('#reco-results'),summary:r('#reco-summary-panel')};});
   let placed=await place();
   // Fermés comme révélés, les résultats occupent la même place : sous la question, à la même largeur.
   const sous=p=>p.results.top>=p.form.bottom-2&&Math.abs(p.results.left-p.form.left)<=2&&Math.abs(p.results.width-p.form.width)<=2;
   assert.ok(sous(placed),'Aperçu fermé sous la question, même largeur : '+JSON.stringify(placed));
-  assert.ok(placed.summary.left>=placed.form.left+placed.form.width-2,'« Mes choix » reste à droite : '+JSON.stringify(placed));
+  assert.ok(placed.summary.left+placed.summary.width<=placed.form.left+2,'« Mes choix » à gauche : '+JSON.stringify(placed));
   await page.locator('[data-reco-reveal]').click();
   assert.equal(await page.locator('#reco-results .reco-result-card').count(),3);
   assert.equal(await page.locator('#reco-results .reco-config-details').count(),3);
@@ -140,6 +167,8 @@ async function check(){
   await page.locator('[data-prev]').click();
   assert.match(await page.locator('#reco-form').textContent(),/Quel style te ressemble/);
   await page.reload({waitUntil:'domcontentloaded'});
+  assert.equal(await page.locator('[data-reco-mode="guided"]').getAttribute('data-last'),'true','Dernier parcours signalé');
+  await page.locator('[data-reco-mode="guided"]').click();
   await page.locator('[data-step="3"]').click();
   assert.equal(await page.locator('[data-multi="styles"][data-key="ctrl"]').getAttribute('aria-pressed'),'true');
 
@@ -150,7 +179,7 @@ async function check(){
   await page.locator('[data-step="2"]').click();
   await page.locator('[data-single="range"][data-key="distance"]').click();
   await page.locator('[data-strict="range"]').check();
-  assert.match(await page.locator('#reco-results').textContent(),/Voir mes résultats/);
+  assert.match(await page.locator('#reco-results').textContent(),/Prévisualiser mes résultats/);
   await page.locator('[data-reco-reveal]').click();
   assert.match(await page.locator('#reco-results').textContent(),/Ces exigences ne vont pas ensemble/);
 
@@ -183,12 +212,23 @@ async function check(){
   assert.equal(await page.locator('#reco-priority-results .reco-priority-class').count(),9);
   assert.equal(await page.locator('#reco-priority-results .reco-config-details').count(),9);
   await page.locator('[data-prio-preset="pvp"]').click();
-  assert.equal(await page.locator('.seg button[data-ax="bg"][data-v="3"]').getAttribute('aria-pressed'),'true');
+  const weight=(axis,v)=>page.locator('[data-prio-axis="'+axis+'"][data-prio-weight="'+v+'"]').getAttribute('aria-pressed');
+  assert.equal(await weight('bg',3),'true');
   await page.locator('[data-prio-mastery="3"]').click();
-  assert.equal(await page.locator('.mbtn[data-m="3"]').getAttribute('aria-pressed'),'true');
+  assert.equal(await page.locator('[data-prio-mastery="3"]').getAttribute('aria-pressed'),'true');
   assert.equal(await page.locator('#reco-priority-results .reco-priority-class').count(),9);
+  // « Pourquoi cette place » : neuf explications ; les points des critères font le score affiché.
+  assert.equal(await page.locator('#reco-priority-results .reco-why > summary').count(),9);
+  const place1=page.locator('#reco-priority-results .reco-priority-class').first();
+  await place1.locator('.reco-why > summary').click();
+  const placeWhy=await place1.evaluate(li=>({score:parseInt(li.querySelector('.reco-priority-score').textContent,10),
+   points:[...li.querySelectorAll('.reco-why-points')].map(x=>parseInt(x.textContent,10)),text:li.querySelector('.reco-why').textContent}));
+  assert.equal(placeWhy.points.reduce((a,b)=>a+b,0),placeWhy.score,JSON.stringify(placeWhy));
+  assert.match(placeWhy.text,/Pourquoi \d+ sur 100/);
+  await place1.screenshot({path:path.join(__dirname,'screenshots','priorites-pourquoi-cette-place.png'),animations:'disabled'});
+  await place1.locator('.reco-why > summary').click();
   await page.locator('[data-prio-axis="poly"][data-prio-weight="0"]').click();
-  assert.equal(await page.locator('.seg button[data-ax="poly"][data-v="0"]').getAttribute('aria-pressed'),'true');
+  assert.equal(await weight('poly',0),'true');
   const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('wf-overview-v3')));
   assert.equal(saved.w.bg,3);assert.equal(saved.m,3);
   // Sauvegarde explicite : modifier, sauvegarder, tester un preset, restaurer.
@@ -196,15 +236,20 @@ async function check(){
   const custom=await page.evaluate(()=>JSON.parse(localStorage.getItem('wf-priority-custom-v1')));
   assert.equal(custom.mastery,3);assert.equal(custom.weights.bg,3);assert.equal(custom.weights.poly,0);
   await page.locator('[data-prio-preset="solo"]').click();
-  assert.equal(await page.locator('.seg button[data-ax="solo"][data-v="3"]').getAttribute('aria-pressed'),'true');
+  assert.equal(await weight('solo',3),'true');
   await page.locator('[data-prio-restore]').click();
-  assert.equal(await page.locator('.seg button[data-ax="bg"][data-v="3"]').getAttribute('aria-pressed'),'true');
-  assert.equal(await page.locator('.seg button[data-ax="poly"][data-v="0"]').getAttribute('aria-pressed'),'true');
+  assert.equal(await weight('bg',3),'true');
+  assert.equal(await weight('poly',0),'true');
   assert.equal(await page.locator('[data-prio-restore]').isDisabled(),true);
   assert.equal(await page.locator('[data-reco-mode="priorities"]').getAttribute('aria-selected'),'true');
   await page.reload({waitUntil:'domcontentloaded'});
+  // Au retour, le choix du parcours est reproposé ; le dernier utilisé est signalé, l'état est repris.
+  assert.equal(await page.locator('#reco-priorities').isVisible(),false);
+  assert.equal(await page.locator('[data-reco-mode="priorities"]').getAttribute('data-last'),'true');
+  await page.locator('[data-reco-mode="priorities"]').click();
   assert.equal(await page.locator('#reco-priorities').isVisible(),true);
   assert.equal(await page.locator('[data-prio-mastery="3"]').getAttribute('aria-pressed'),'true');
+  assert.equal(await weight('poly',0),'true');
 
   // Maîtrise commune aux deux modes.
   await page.locator('[data-reco-mode="guided"]').click();
@@ -228,15 +273,17 @@ async function check(){
   assert.equal(await page.locator('#reco-priority-results .reco-priority-class').count(),9);
   await page.locator('[data-reco-mode="guided"]').click();
   const guideBandMobile=await bandBox('#reco-app .rf-band');
+  await page.locator('[data-step="2"]').click();
   const vertical=await page.evaluate(()=>{
    const a=document.querySelector('#reco-rail').getBoundingClientRect();
    const b=document.querySelector('#reco-guided .reco-workspace').getBoundingClientRect();
    const c=document.querySelector('.reco-sidebar').getBoundingClientRect();
    const d=document.querySelector('#reco-results').getBoundingClientRect();
-   return {railBottom:a.bottom,formTop:b.top,formBottom:b.bottom,sidebarTop:c.top,resultsTop:d.top,resultsBottom:d.bottom};
+   const e=document.querySelector('#reco-guided .reco-live').getBoundingClientRect();
+   return {railBottom:a.bottom,formTop:b.top,formBottom:b.bottom,sidebarTop:c.top,resultsTop:d.top,resultsBottom:d.bottom,liveTop:e.top,liveBottom:e.bottom};
   });
-  // Sur mobile : étapes, question, résultats, puis « Mes choix ».
-  assert.ok(vertical.railBottom<=vertical.formTop+2&&vertical.formBottom<=vertical.resultsTop+2&&vertical.resultsBottom<=vertical.sidebarTop+2,
+  // Sur mobile : étapes, question, résultats, aperçu du classement, puis « Mes choix ».
+  assert.ok(vertical.railBottom<=vertical.formTop+2&&vertical.formBottom<=vertical.resultsTop+2&&vertical.resultsBottom<=vertical.liveTop+2&&vertical.liveBottom<=vertical.sidebarTop+2,
     'Empilement mobile : '+JSON.stringify(vertical));
   await page.locator('[data-step="2"]').click();
   await page.locator('[data-single="range"][data-key="melee"]').focus();
@@ -312,7 +359,7 @@ async function check(){
   lightPage.on('pageerror',err=>errors.push(String(err)));
   await lightPage.addInitScript(()=>{try{localStorage.setItem('wf-overview-theme','light');}catch(e){}});
   await lightPage.goto('http://127.0.0.1:'+server.address().port+'/',{waitUntil:'domcontentloaded'});
-  await lightPage.waitForSelector('#reco-form .reco-question');
+  await lightPage.waitForSelector('#reco-app .reco-modes');
   const dark=await lightPage.evaluate(()=>({
     theme:document.documentElement.getAttribute('data-theme'),
     background:getComputedStyle(document.body).backgroundColor,
@@ -332,6 +379,7 @@ async function check(){
    localStorage.setItem('wf-recommend-v1',JSON.stringify({styles:{ctrl:5},range:{value:'distance',certainty:5},mastery:2}));
   });
   await page.reload({waitUntil:'domcontentloaded'});
+  await page.locator('[data-reco-mode="guided"]').click();
   await page.locator('[data-reco-reveal]').click();
   assert.match(await page.locator('#reco-results .reco-tie-note').textContent(),/Démoniste, Mage/);
   assert.equal(await page.locator('#reco-results .reco-featured').count(),0);
@@ -357,6 +405,7 @@ async function check(){
   await page.setViewportSize({width:1300,height:900});
   await page.evaluate(()=>localStorage.setItem('wf-recommend-v1',JSON.stringify({activities:{raid:5},difficulty:{value:'simple',certainty:5},mastery:2})));
   await page.reload({waitUntil:'domcontentloaded'});
+  await page.locator('[data-reco-mode="guided"]').click();
   await page.locator('[data-reco-reveal]').click();
   assert.match(await page.locator('#reco-results').textContent(),/comparé à la difficulté PvE/);
   await page.locator('[data-reco-mode="priorities"]').click();
@@ -384,6 +433,20 @@ async function check(){
    localStorage.setItem('wf-recommend-v1',JSON.stringify({roles:{soin:5},rolesStrict:true,mastery:2}));
   });
   await page.reload({waitUntil:'domcontentloaded'});
+  await page.locator('[data-reco-mode="guided"]').click();
+  // Questions 1 à 5 : le bloc sous la question propose de prévisualiser les résultats.
+  await page.locator('[data-step="1"]').click();
+  await page.locator('[data-multi="activities"][data-key="raid"]').click();
+  assert.match(await page.locator('[data-reco-reveal]').textContent(),/Prévisualiser mes résultats/);
+  // Question 6 : « Voir mes résultats » remplace « Question suivante » ; le bloc d'aperçu s'efface.
+  await page.locator('[data-step="5"]').click();
+  assert.equal(await page.locator('[data-next]').count(),0);
+  assert.equal(await page.locator('[data-show-results]').isEnabled(),true);
+  assert.equal(await page.locator('#reco-results').isVisible(),false);
+  assert.match(await page.locator('#reco-form .reco-form-footer').textContent(),/Dernière question : tu peux la passer[\s\S]*Voir mes résultats/);
+  await page.locator('#reco-guided .reco-guided-layout').screenshot({path:path.join(__dirname,'screenshots','derniere-question.png'),animations:'disabled'});
+  await page.locator('[data-step="1"]').click();
+  await page.locator('[data-multi="activities"][data-key="raid"]').click();
   await page.locator('[data-step="5"]').click();
   await page.locator('[data-show-results]').click();
   assert.match(await page.locator('#reco-results .reco-tie-note').textContent(),/Chaman, Druide, Paladin, Prêtre/);
@@ -416,11 +479,13 @@ async function check(){
   await page.evaluate(()=>{
    localStorage.clear();localStorage.setItem('wf-recommend-v1',JSON.stringify({roles:{soin:5},activities:{bg:0,solo:3},range:{value:'distance',certainty:0},styles:{zone:4,surv:5,support:4},mastery:3}));
   });
-  await page.reload({waitUntil:'domcontentloaded'});await page.locator('[data-reco-reveal]').click();
+  await page.reload({waitUntil:'domcontentloaded'});await page.locator('[data-reco-mode="guided"]').click();await page.locator('[data-reco-reveal]').click();
   const detailsWhy=page.locator('#reco-results .reco-why').nth(1);
   await detailsWhy.locator('summary').focus();await page.keyboard.press('Enter');
   assert.equal(await detailsWhy.evaluate(d=>d.open),true);
-  assert.match(await detailsWhy.locator('.reco-answer-list').allTextContents().then(x=>x.join(' ')),/Soutien[\s\S]*Repère de la spécialisation/);
+  // Chaque choix se lit en trois temps : note de référence de la spécialisation, ton choix, résultat.
+  assert.match(await detailsWhy.locator('.reco-answer-list').allTextContents().then(x=>x.join(' ')),/Soutien\s*La spécialisation\s*5\/5 \(note de référence\)\s*Ton choix\s*certitude 4\/5 \(très sûr\)\s*Donc/);
+  assert.deepEqual(await detailsWhy.locator('.reco-answer').first().locator('dt').allTextContents(),['La spécialisation','Ton choix','Donc']);
   const totals=await page.locator('#reco-results .reco-result-card').evaluateAll(cards=>cards.map(c=>({score:Number(c.querySelector('.reco-score strong').textContent),parts:[...c.querySelectorAll('.reco-why-points')].map(x=>x.textContent.match(/\d+/g).map(Number))})));
   for(const t of totals){assert.equal(t.parts.reduce((n,p)=>n+p[0],0),t.score);assert.ok(t.parts.every(p=>p[0]<=p[1]));}
   for(const width of [320,390,768,1300]){
@@ -433,6 +498,7 @@ async function check(){
   assert.ok(page.url().endsWith(destination));
   assert.equal(await page.locator(page.url().slice(page.url().indexOf('#'))).count(),1,'Lien vers la bonne configuration');
   await page.locator('main > nav a').first().click();
+  await page.locator('[data-reco-mode="guided"]').click();
   await page.locator('[data-reco-reveal]').click();
   assert.equal(await page.locator('#reco-results .reco-score strong').nth(1).textContent(),String(totals[1].score),'Préférences conservées après consultation des sources');
   // Chaque fiche fonctionne au clavier et aux quatre largeurs, notes dépliées.

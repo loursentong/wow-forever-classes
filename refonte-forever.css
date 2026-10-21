@@ -73,7 +73,7 @@ header.top{position:absolute;min-height:0}
 .wow-value-strip img{width:20px;height:20px;border-radius:5px;border:1px solid rgba(233,179,79,.55);box-shadow:0 0 10px rgba(233,179,79,.3)}
 
 /* 3. Deux parcours : portails dorés. */
-.reco-modes{gap:14px;max-width:1040px}
+.reco-modes{gap:14px;max-width:none;width:100%;grid-template-columns:repeat(2,minmax(0,1fr))}
 .reco-modes button{min-height:90px;padding:14px 50px 14px 18px;gap:16px;border-radius:12px;border:1px solid transparent;
  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 6l6 6-6 6' stroke='%23A2B7CC' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") right 18px center/20px no-repeat padding-box,
   linear-gradient(rgba(14,27,44,.92),rgba(14,27,44,.92)) padding-box,linear-gradient(#745025,#745025) border-box;
@@ -116,22 +116,115 @@ header.top{position:absolute;min-height:0}
  * fermés (invitation, bouton des résultats) ou révélés ; « Mes choix » garde la colonne de droite.
  * Dans le HTML, ils suivent la question : sur mobile, l'ordre visuel et celui du clavier coïncident. */
 #reco-guided .reco-results{position:static;max-height:none;overflow:visible;min-width:0;padding:18px clamp(16px,2vw,24px)}
+/* À la dernière question, avant les résultats, le bloc s'efface : « Voir mes résultats » est dans la question. */
+#reco-guided .reco-results[hidden]{display:none!important}
 #reco-guided .reco-results.is-revealed{border-color:rgba(233,179,79,.6)!important;box-shadow:0 0 26px rgba(233,179,79,.12),var(--rf-b-shadow)}
 #reco-guided .reco-results.is-revealed .reco-results-head{flex-direction:row;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:6px 16px}
+/* Trois colonnes sur grand écran : étapes puis « Mes choix » à gauche ; question puis résultats au
+ * centre ; aperçu du classement à droite, borné à la hauteur de la question (il défile dans son cadre
+ * et ne décale jamais la suite). Sur tablette et mobile, la colonne de gauche se défait. */
+.reco-guided-left{display:flex;flex-direction:column;gap:18px;min-width:0}
+#reco-guided .reco-live{position:relative;min-width:0;min-height:0}
+#reco-guided .reco-live-inner{position:absolute;inset:0;display:flex;flex-direction:column}
 @media (min-width:1061px){
- #reco-guided .reco-guided-layout{grid-template-rows:auto 1fr}
- #reco-guided .reco-step-rail{grid-column:1;grid-row:1/span 2}
+ #reco-guided .reco-guided-layout{grid-template-columns:clamp(220px,17vw,262px) minmax(0,1fr) clamp(236px,19vw,292px);grid-template-rows:auto 1fr}
+ #reco-guided .reco-guided-left{grid-column:1;grid-row:1/span 2;align-self:start}
  #reco-guided .reco-workspace{grid-column:2;grid-row:1}
  #reco-guided .reco-results{grid-column:2;grid-row:2}
- #reco-guided .reco-sidebar{grid-column:3;grid-row:1/span 2}
+ #reco-guided .reco-live{grid-column:3;grid-row:1;align-self:stretch}
+ /* « Mes choix » dans une colonne étroite : l'intitulé au-dessus de la réponse. */
+ .reco-guided-left .reco-summary-row{grid-template-columns:22px minmax(0,1fr) 18px;grid-template-areas:"index name edit" "index value edit";row-gap:1px;padding:5px 0}
+ .reco-guided-left .reco-summary-index{grid-area:index}
+ .reco-guided-left .reco-summary-name{grid-area:name;font-size:12.5px}
+ .reco-guided-left .reco-summary-value{grid-area:value}
+ .reco-guided-left .reco-summary-edit{grid-area:edit}
+}
+@media (max-width:1060px){
+ #reco-guided .reco-guided-left{display:contents}
 }
 @media (min-width:821px) and (max-width:1060px){
- #reco-guided .reco-guided-layout{grid-template-rows:auto auto 1fr}
+ #reco-guided .reco-guided-layout{grid-template-rows:auto auto auto 1fr}
  #reco-guided .reco-step-rail{grid-column:1/-1;grid-row:1}
  #reco-guided .reco-workspace{grid-column:1;grid-row:2}
- #reco-guided .reco-results{grid-column:1;grid-row:3}
- #reco-guided .reco-sidebar{grid-column:2;grid-row:2/span 2}
+ #reco-guided .reco-live{grid-column:2;grid-row:2;align-self:stretch}
+ #reco-guided .reco-results{grid-column:1;grid-row:3/span 2}
+ #reco-guided .reco-sidebar{grid-column:2;grid-row:3;align-self:start}
 }
+@media (max-width:820px){
+ #reco-guided .reco-step-rail{grid-row:1}
+ #reco-guided .reco-workspace{grid-row:2}
+ #reco-guided .reco-results{grid-row:3}
+ #reco-guided .reco-live{grid-row:4}
+ #reco-guided .reco-sidebar{grid-row:5}
+ #reco-guided .reco-live-inner{position:static}
+ #reco-guided .reco-live-body{max-height:65vh}
+}
+/* Aperçu du classement : fermé par défaut, ouvert il suit chaque réponse. */
+.reco-live-panel{display:flex;flex-direction:column;max-height:100%;min-height:0;border:1px solid var(--rf-b-border);border-radius:12px;
+ background:var(--rf-b-bg);box-shadow:var(--rf-b-shadow);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);overflow:hidden}
+.reco-live-panel>summary{position:relative;display:flex;flex-direction:column;gap:5px;padding:14px 40px 14px 16px;list-style:none;cursor:pointer}
+.reco-live-panel>summary::-webkit-details-marker{display:none}
+.reco-live-panel>summary::after{content:"";position:absolute;right:18px;top:20px;width:8px;height:8px;border-right:2px solid var(--rf-gold-light);
+ border-bottom:2px solid var(--rf-gold-light);transform:rotate(45deg);transition:transform .18s ease}
+.reco-live-panel[open]>summary::after{transform:translateY(4px) rotate(-135deg)}
+.reco-live-panel>summary:hover{background:rgba(233,179,79,.08)}
+.reco-live-panel>summary:focus-visible{outline:2px solid var(--rf-gold-light);outline-offset:-3px}
+.reco-live-title{font-family:var(--font-display);font-weight:600;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--rf-gold)}
+.reco-live-panel>summary small{font-size:13px;line-height:1.4;color:var(--rf-muted)}
+.reco-live-panel[open]>summary{border-bottom:1px solid var(--rf-line-soft)}
+.reco-live-body{flex:1 1 auto;min-height:0;overflow:auto;padding:10px 12px 12px;scrollbar-width:thin}
+.reco-live-empty,.reco-live-note{margin:0 0 8px;font-size:13px;line-height:1.45;color:var(--rf-muted)}
+.reco-live-list{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.reco-live-list li{display:grid;grid-template-columns:20px 28px minmax(0,1fr) auto;grid-template-rows:auto 3px;column-gap:8px;row-gap:5px;align-items:center;
+ padding:7px 9px;border:1px solid var(--rf-line-soft);border-radius:8px;background:rgba(5,12,21,.35)}
+.reco-live-rank{font-family:var(--font-display);font-weight:700;font-size:14px;color:var(--rf-gold);text-align:center}
+.reco-live-list img{width:28px;height:28px;border-radius:6px;border:1px solid #000;box-shadow:0 0 0 1px var(--reco-class)}
+.reco-live-name{display:flex;flex-direction:column;min-width:0}
+.reco-live-name b{font-size:14px;color:var(--rf-ivory)}
+.reco-live-name small{font-size:12px;color:var(--rf-muted);overflow-wrap:anywhere}
+.reco-live-score{font-family:var(--font-mono);font-size:14px;color:var(--rf-gold-light)}
+.reco-live-bar{grid-column:2/-1;height:3px;border-radius:2px;background:#1C2E45;overflow:hidden}
+.reco-live-bar i{display:block;height:100%;border-radius:2px;background:var(--rf-bar)}
+@media (prefers-reduced-motion:reduce){.reco-live-panel>summary::after{transition:none}}
+
+/* Choix du parcours : à l'arrivée, deux grandes cartes illustrées sur toute la largeur ;
+ * après le choix, deux onglets sur toute la largeur, au-dessus du bandeau du parcours. */
+.reco-mode-kicker,.reco-mode-desc,.reco-mode-go{display:none}
+#reco-app.is-choosing .rf-band{display:none}
+#reco-app.is-choosing .reco-mode-heading{display:flex;flex-direction:column;gap:6px;margin-bottom:4px}
+#reco-app.is-choosing .reco-mode-heading h3{margin:0;font-family:var(--font-display);font-size:clamp(22px,2.2vw,30px);line-height:1.2;color:var(--rf-ivory)}
+#reco-app.is-choosing .reco-mode-heading p{margin:0;font-size:15.5px;color:var(--rf-muted)}
+#reco-tab-guided{--rf-card-img:url("assets/img/hero-vallee-nuit.webp") 50% 48%/cover no-repeat}
+#reco-tab-priorities{--rf-card-img:url("assets/img/bandeau-gantelet.webp") 30% 32%/cover no-repeat}
+#reco-app.is-choosing .reco-modes button{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-areas:"symbol title" "desc desc" "go go";
+ align-content:end;align-items:center;gap:12px 16px;min-height:clamp(240px,21vw,300px);padding:24px clamp(18px,2.4vw,32px);border-radius:14px;
+ border:1px solid transparent;text-align:left;
+ background:linear-gradient(0deg,rgba(5,12,21,.95) 0%,rgba(5,12,21,.62) 55%,rgba(5,12,21,.18) 100%) padding-box,var(--rf-card-img) padding-box,
+  linear-gradient(135deg,#745025,#FFD78C 40%,#E9B34F 65%,#745025) border-box;
+ box-shadow:0 12px 30px rgba(0,0,0,.45);transition:box-shadow .18s ease,transform .18s ease}
+#reco-app.is-choosing .reco-modes button:hover,#reco-app.is-choosing .reco-modes button:focus-visible{box-shadow:0 0 30px rgba(233,179,79,.3),0 12px 30px rgba(0,0,0,.5);transform:translateY(-2px)}
+#reco-app.is-choosing .reco-mode-symbol{grid-area:symbol}
+#reco-app.is-choosing .reco-mode-title{grid-area:title;display:flex;flex-direction:column;gap:2px}
+#reco-app.is-choosing .reco-mode-kicker{display:block;font-family:var(--font-display);font-weight:600;font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--rf-gold)}
+#reco-app.is-choosing .reco-mode-title strong{font-size:clamp(20px,1.8vw,26px)}
+#reco-app.is-choosing .reco-mode-desc{display:block;grid-area:desc;max-width:56ch;font-size:15.5px;line-height:1.5;color:#D6E0EA;white-space:normal}
+#reco-app.is-choosing .reco-mode-go{display:inline-flex;grid-area:go;justify-self:start;align-items:center;min-height:42px;padding:0 20px;border-radius:999px;
+ border:1px solid var(--rf-gold-light);background:var(--rf-cta);color:var(--rf-bg);font-weight:700;font-size:15px}
+#reco-app.is-choosing .reco-modes button[data-last="true"] .reco-mode-kicker::after{content:" · dernier parcours utilisé";letter-spacing:.08em;text-transform:none;color:var(--rf-gold-light)}
+/* Côte à côte, les deux cartes partagent leurs lignes : titres, textes et boutons s'alignent
+ * même quand un texte est plus long que l'autre. */
+@media (min-width:821px){
+ #reco-app.is-choosing .reco-modes{grid-template-rows:1fr auto auto auto;row-gap:12px}
+ #reco-app.is-choosing .reco-modes button{grid-row:span 4;grid-template-rows:subgrid;grid-template-areas:"space space" "symbol title" "desc desc" "go go";row-gap:12px}
+}
+@media (max-width:820px){
+ #reco-app.is-choosing .reco-modes button{min-height:210px;padding:20px 18px}
+}
+@media (prefers-reduced-motion:reduce){#reco-app.is-choosing .reco-modes button{transition:none;transform:none}}
+
+/* Mode personnalisé : « Jouer … » et « Pourquoi cette place » côte à côte, ouverts sur toute la ligne. */
+.reco-priority-more{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:flex-start;gap:8px;min-width:0}
+#reco-priority-results .reco-priority-more details.reco-evidence[open]{flex:1 1 100%}
 
 /* 5. Étapes : faite (émeraude), en cours (or lumineux), à venir (numéro). */
 .reco-step-rail .reco-step-no{background:#0D1B2C;border:1.5px solid #3A5170;color:var(--rf-muted);font-family:var(--font-body);font-weight:600;box-shadow:none}
@@ -207,6 +300,8 @@ header.top{position:absolute;min-height:0}
 .reco-next{min-height:44px;padding:0 22px;border-radius:8px;border:1px solid var(--rf-gold-light);background:var(--rf-cta);color:var(--rf-bg);font-weight:700;font-size:15px;
  box-shadow:0 6px 22px rgba(233,179,79,.3)}
 .reco-next:hover{box-shadow:0 0 26px rgba(233,179,79,.45)}
+/* « Voir mes résultats » à la dernière question, tant qu'aucune préférence n'est choisie. */
+.reco-next:disabled,.reco-next:disabled:hover{opacity:.45;cursor:not-allowed;box-shadow:none;filter:none;transform:none}
 .reco-topline .reco-reset{border-radius:6px;border:1px solid var(--rf-line);color:var(--rf-soft);font-size:12.5px}
 
 /* 7. Mes choix et aperçu. */
@@ -290,7 +385,7 @@ header.top{position:absolute;min-height:0}
 }
 /* b. Les pistes s'empilent en pleine largeur : la principale, puis les deux alternatives. */
 #reco-guided .reco-results.is-revealed .reco-cards{display:flex;flex-direction:column;gap:14px}
-#reco-results .reco-result-card{padding:18px clamp(16px,2.2vw,26px);gap:12px;border-radius:12px}
+#reco-results .reco-result-card{padding:15px clamp(14px,2vw,22px);gap:10px;border-radius:12px}
 #reco-results .reco-result-top{grid-template-columns:52px minmax(0,1fr) auto;column-gap:14px;row-gap:3px}
 #reco-results .reco-emblem{width:52px;height:52px;border-radius:9px}
 #reco-results .reco-result-label{font-size:12px;margin-bottom:6px}
@@ -303,11 +398,11 @@ header.top{position:absolute;min-height:0}
 #reco-results .reco-fit small{font-size:13px}
 #reco-results .reco-bars{height:6px;border-radius:3px}
 #reco-results .reco-reasons{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-#reco-results .reco-reasons p{flex-direction:column;flex-wrap:nowrap;gap:4px;padding:10px 14px;border:1px solid var(--rf-line-soft);border-radius:9px;background:rgba(5,12,21,.4)}
+#reco-results .reco-reasons p{flex-direction:column;flex-wrap:nowrap;gap:4px;padding:8px 12px;border:1px solid var(--rf-line-soft);border-radius:9px;background:rgba(5,12,21,.4)}
 #reco-results .reco-reasons b{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--rf-muted)}
 #reco-results .reco-reasons span{font-size:15.5px;line-height:1.4;color:var(--rf-ivory)}
 #reco-results .reco-config-notice{font-size:14.5px;line-height:1.5}
-#reco-results .reco-note{font-size:14px}
+#reco-results .reco-note{margin:5px 0 0;font-size:13.5px;line-height:1.45}
 @media (max-width:600px){
  #reco-results .reco-reasons{grid-template-columns:minmax(0,1fr)}
  #reco-results .reco-score strong{font-size:26px}
@@ -342,7 +437,8 @@ details.reco-evidence p b{color:var(--rf-ivory)}
 #reco-priority-results details.reco-evidence[open]>summary{border-bottom:1px solid rgba(233,179,79,.55)}
 #reco-priority-results details.reco-evidence>p{margin:9px 4px}
 #reco-priority-results details.reco-evidence>p:last-child{margin-bottom:10px}
-#reco-guided .reco-results.is-revealed .reco-cards{margin-top:16px}
+#reco-guided .reco-results.is-revealed .reco-cards{margin-top:12px;gap:12px}
+#reco-results .reco-results-head{margin-bottom:4px}
 /* d. « Pourquoi cette piste » : une ligne par critère (nom, adéquation, points obtenus sur possibles). */
 .reco-why-parts{list-style:none;margin:4px 14px 12px;padding:0;display:grid;gap:7px}
 .reco-why-parts li{display:grid;grid-template-columns:minmax(110px,150px) minmax(0,1fr) 46px 78px;align-items:center;gap:10px;font-size:14px}
@@ -353,13 +449,22 @@ details.reco-evidence p b{color:var(--rf-ivory)}
 .reco-why-fit{color:var(--rf-muted)}
 .reco-why-points{color:var(--rf-gold-light)}
 .reco-answer-list{grid-column:1/-1;border-left:2px solid #405065;padding-left:12px;margin:0 0 10px;min-width:0}
-.reco-answer-list p{margin:7px 0!important;line-height:1.55;font-size:14px}
-.reco-answer-list b,.reco-answer-list span{display:block}
-.reco-answer-list b{color:var(--rf-ivory)}
-.reco-answer-list span{color:var(--rf-muted)}
+/* Chaque choix en trois temps : la note de la spécialisation, ton choix, puis le résultat (en clair). */
+.reco-answer{margin:8px 0 10px}
+.reco-answer-title{display:block;margin-bottom:3px;color:var(--rf-ivory);font-size:14px;font-weight:700}
+.reco-answer-steps{display:grid;gap:2px;margin:0}
+.reco-answer-steps>div{display:grid;grid-template-columns:122px minmax(0,1fr);gap:10px;font-size:13.5px;line-height:1.5}
+.reco-answer-steps dt{color:var(--rf-faint)}
+.reco-answer-steps dd{margin:0;color:var(--rf-muted)}
+.reco-answer-steps .is-result dt{color:var(--rf-gold)}
+.reco-answer-steps .is-result dd{color:var(--rf-ivory)}
 @media (max-width:600px){
  .reco-why-parts li{grid-template-columns:minmax(0,1fr) 46px 78px;row-gap:5px}
  .reco-why-bar{grid-column:1/-1;grid-row:2}
+}
+@media (max-width:480px){
+ .reco-answer-steps>div{grid-template-columns:minmax(0,1fr);gap:0}
+ .reco-answer-steps>div+div{margin-top:3px}
 }
 @media (prefers-reduced-motion:reduce){
  details.reco-evidence>summary,details.reco-evidence>summary::after{transition:none}
@@ -488,7 +593,7 @@ details.reco-evidence p b{color:var(--rf-ivory)}
 
 /* 11. Titres de section, fiches, pied de page. */
 .sec-head h2,.card h3{color:var(--fg)}
-:root[data-theme="dark"] .card,:root[data-theme="dark"] .legacy-advanced,:root[data-theme="dark"] .panel{border-color:#24364D}
+:root[data-theme="dark"] .card,:root[data-theme="dark"] .panel{border-color:#24364D}
 footer.end{border-top:1px solid var(--line);padding-top:22px;font-size:13.5px;line-height:1.6}
 
 /* 12. Focus clavier (anneau or clair) et responsive. */

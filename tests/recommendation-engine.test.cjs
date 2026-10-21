@@ -150,9 +150,11 @@ test('Extraits HTML : formulaire accessible, charte existante conservée, JS val
  assert.match(html,/src="recommendation-engine\.js"/);
  assert.match(html,/src="questionnaire\.js"/);
  assert.match(html,/id="h-matrix"/);
- assert.match(html,/id="rank"/);
- assert.match(html,/<details class="legacy-advanced" id="legacy-advanced">/);
- assert.match(html,/Explorer le comparatif historique/);
+ // Le comparatif historique, dépassé, est retiré de la page ; ses données restent dans window.__WF.
+ assert.doesNotMatch(html,/id="rank"|legacy-advanced|Explorer le comparatif historique/);
+ // À l'arrivée, aucun parcours n'est ouvert : le visiteur choisit.
+ assert.match(html,/id="reco-app" class="reco-panel is-choosing"/);
+ assert.match(html,/id="reco-guided" role="tabpanel" aria-labelledby="reco-tab-guided" hidden/);
  assert.match(ui,/aria-pressed/);
  assert.match(ui,/type="range" min="0" max="5"/);
  assert.match(ui,/type="checkbox"/);

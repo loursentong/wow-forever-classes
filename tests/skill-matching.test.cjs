@@ -1,92 +1,35 @@
 'use strict';
+/* Données historiques de la page et état du mode personnalisé.
+ * Le comparatif historique (tableau de bord, courbes de maîtrise) a été retiré de la page le
+ * 21 octobre 2026 : dépassé, il pouvait induire en erreur. Ses données restent dans window.__WF
+ * (126 notes, 14 axes, 15 profils) et le mode personnalisé garde son propre état, sauvegardé dans
+ * wf-overview-v3 avec le même schéma ; les anciennes sauvegardes sont reprises. */
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
+const E = require('../recommendation-engine.js');
+const X = require('../result-explanations.js');
 
 const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8').replace(/\r\n/g, '\n');
-// L'ancienne matrice reste conservée dans reference-notes.json et la fixture v1.
 const referenceNotes = Object.fromEntries(require('./fixtures/moteur-reference-v2.json').matrix.classes.map(c=>[c.id,c.r]));
-const match = html.match(/window\.__WF = (\{.*?\});\s*\(function\(\)/s);
-const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>/);
-assert.ok(match && scriptMatch, 'modèle et script présents');
+const match = html.match(/window\.__WF = (\{.*?\});\s*<\/script>/s);
+assert.ok(match, 'données historiques présentes');
 const config = JSON.parse(match[1]);
-const script = scriptMatch[1];
+const ui = fs.readFileSync(path.join(__dirname, '..', 'priorities-ui.js'), 'utf8');
 
-function elem(dataset = {}) {
-  const listeners = {};
-  const baseNode = { textContent: '', after(_node) {} };
-  const classes = new Set(['cell']);
-  return {
-    dataset,
-    attrs: {},
-    listeners,
-    innerHTML: '',
-    textContent: '',
-    value: '',
-    clientWidth: 640,
-    classList: {
-      add(x) { classes.add(x); },
-      remove(...names) { for (const name of names) classes.delete(name); }
-    },
-    querySelector(selector) { return selector === 'b' ? baseNode : null; },
-    addEventListener(name, fn) { (listeners[name] ||= []).push(fn); },
-    setAttribute(name, value) { this.attrs[name] = value; },
-    getAttribute(name) { return this.attrs[name]; },
-    trigger(name = 'click') { for (const fn of (listeners[name] || [])) fn(); },
-    b: baseNode
-  };
-}
-function boot(initial = {}, storageDisabled = false) {
-  const ids = ['mdesc','mlabel','rank','rank-status','curves','curves-values','mine','reset-w'];
-  const elements = Object.fromEntries(ids.map(id => [id, elem()]));
-  const groups = {
-    '.mbtn': config.levels.map((_, i) => elem({m: String(i)})),
-    '.seg button[data-ax]': config.axes.flatMap(ax => [0,1,2,3].map(v => elem({ax, v: String(v)}))),
-    '.presets button[data-preset]': Object.keys(config.presets).map(preset => elem({preset})),
-    '.hl-chips button': config.classes.map(c => elem({id: c.id}))
-  };
-  const document = {
-    documentElement: elem(),
-    getElementById(id) { assert.ok(elements[id], 'élément absent : '+id); return elements[id]; },
-    querySelectorAll(selector) {
-      assert.ok(groups[selector], 'sélecteur inattendu : '+selector);
-      return groups[selector];
-    },
-    createElement() { return {className: '', title: '', textContent: ''}; }
-  };
-  document.documentElement.setAttribute('data-theme', 'dark');
-  const storage = {...initial};
-  const localStorage = {
-    getItem(k) { if(storageDisabled) throw Error('storage disabled'); return Object.hasOwn(storage,k) ? storage[k] : null; },
-    setItem(k,v) { if(storageDisabled) throw Error('storage disabled'); storage[k]=v; }
-  };
-  const window = {addEventListener() {}};
-  const needle = '  renderAll();\n})();';
-  assert.ok(script.includes(needle), 'insertion API de test impossible');
-  const augmented = script.replace(needle,
-    '  __test.api = {S:S,D:D,eff:eff,score:score,tw:tw,renderAll:renderAll};\n' + needle);
-  const holder = {};
-  const context = {window,document,localStorage,__test:holder,console};
-  vm.runInNewContext(augmented, context, {timeout:3000});
-  return {config:holder.api.D, api:holder.api, elements, groups, storage, document};
-}
-const ranking = html => [...html.matchAll(/class="bname">[\s\S]*?<\/span>([^<]+)<\/span>[\s\S]*?class="bval mono">(\d+)<\/span>/g)]
-  .map(m=>[m[1],Number(m[2])]);
-
-test('Le comparatif conserve neuf classes, quatorze axes et quatre niveaux avec quinze profils',()=>{
+test('Les données historiques gardent neuf classes, quatorze axes, quatre niveaux et quinze profils',()=>{
   assert.equal(config.classes.length,9);
   assert.equal(config.axes.length,14);
   assert.deepEqual(Object.keys(config.presets),['egal','polyvalence','pve','pvp','tank','soin','dps','zone','soutien','bg','soinbg','sauvage','burst','controle','solo']);
   assert.equal(config.levels.length,4);
-  assert.ok(html.includes('id="curves-values"'));
   assert.equal((html.match(/<span class="tag you">Pour toi<\/span>/g)||[]).length,0);
   assert.equal((html.match(/<span class="tag you">Style de jeu<\/span>/g)||[]).length,9);
   assert.ok(!/Ton profil|Spiritualiste d'Aion|tu l'as écarté|Tu te décris/i.test(html));
 });
 
-test('Les 126 notes source et les 126 cases restent identiques à la référence',()=>{
+test('Les 126 notes source et les 126 cases du tableau restent identiques à la référence',()=>{
   assert.deepEqual(Object.fromEntries(config.classes.map(c=>[c.id,c.r])),referenceNotes);
   const cells=[...html.matchAll(/<td class="cell [^"]+" data-c="(\d+)" data-k="([^"]+)" data-v="(\d)"><b>(\d)<\/b>/g)];
   assert.equal(cells.length,126);
@@ -100,315 +43,121 @@ test('Les 126 notes source et les 126 cases restent identiques à la référence
   assert.equal(seen.size,126);
 });
 
-test('La maîtrise est dans le panneau des pondérations ; le tableau et le duel ne sont plus pilotés',()=>{
-  const tool=html.match(/<section class="sec" aria-labelledby="h-tool">([\s\S]*?)<\/section>/)[1];
-  assert.match(tool,/<div class="wrows">\s*<div class="wrow mastery-row">/);
-  assert.equal((tool.match(/class="mbtn"/g)||[]).length,4);
-  assert.equal((tool.match(/data-ax=/g)||[]).length,56);
-  assert.ok(!/Réglage global|Duel de classes|id="duel|renderDuel|renderMatrix|\.delta/.test(html));
-  const matrix=html.match(/aria-labelledby="h-matrix">([\s\S]*?)<\/section>/)[1];
-  assert.ok(!/mlabel|data-m=|Notes au niveau/.test(matrix));
-  // An attempt to update the matrix also fails through the strict mock selectors in boot().
-  const h=boot();
-  const before=h.elements.rank.innerHTML;
-  h.groups['.mbtn'][0].trigger();
-  assert.notEqual(h.elements.rank.innerHTML,before);
-  assert.equal(h.api.tw(),14);
-  assert.deepEqual(Object.keys(h.api.S.w),config.axes);
-});
-
-test('Chaque préréglage définit les quatorze poids, sans écraser la maîtrise',()=>{
-  const h=boot();
-  h.groups['.mbtn'][0].trigger();
-  const signatures=new Set();
-  for(const [id,weights] of Object.entries(config.presets)){
-    assert.deepEqual(Object.keys(weights),config.axes);
-    assert.ok(Object.values(weights).every(v=>Number.isInteger(v)&&v>=0&&v<=3));
-    assert.ok(Object.values(weights).some(v=>v>0));
-    signatures.add(JSON.stringify(weights));
-    const button=h.groups['.presets button[data-preset]'].find(b=>b.dataset.preset===id);
-    button.trigger();
-    assert.equal(JSON.stringify(h.api.S.w),JSON.stringify(weights));
-    assert.equal(h.api.S.m,0);
-    assert.equal(button.attrs['aria-pressed'],'true');
-    assert.equal(h.groups['.presets button[data-preset]'].filter(b=>b.attrs['aria-pressed']==='true').length,1);
-  }
-  assert.equal(signatures.size,Object.keys(config.presets).length);
-  // Modifier un poids qu'aucun profil n'utilise à 3 désélectionne tous les profils.
-  h.groups['.seg button[data-ax]'].find(b=>b.dataset.ax==='tech'&&b.dataset.v==='3').trigger();
-  assert.equal(h.api.S.w.tech,3);
-  assert.ok(h.groups['.presets button[data-preset]'].every(b=>b.attrs['aria-pressed']==='false'));
-});
-
-test('Les neuf raisons du modèle sont concises et renvoient à la bibliographie',()=>{
-  const reasons=[...html.matchAll(/<td class="why">([\s\S]*?)<\/td>/g)];
-  assert.equal(reasons.length,9);
-  for(const [,reason] of reasons){
-    assert.ok(reason.replace(/<[^>]+>/g,'').length<150);
-    const refs=[...reason.matchAll(/href="#src-(\d+)">\[\1\]<\/a>/g)];
-    assert.ok(refs.length>0);
-    for(const [,id] of refs) assert.ok(html.includes('id="src-'+id+'"'));
-  }
-});
-
-test('La référence Confirmé applique les notes telles quelles et fige les scores de « Tout à égalité »',()=>{
-  // Depuis l'ajout de Burst et Dégâts de zone (20 octobre), « Tout à égalité » porte sur quatorze critères.
-  // Sur les douze critères d'origine, ces scores étaient 82, 77, 70, 67, 67, 65, 62, 58 et 57.
-  const historical = {
-    // v2 : Paladin 76→77 et Chaman 73→74, uniquement par le soin 4→5.
-    egal: [80,77,74,70,69,64,63,63,60]
-  };
-  const h=boot();
-  for(const [preset,scores] of Object.entries(historical)){
-    h.groups['.presets button[data-preset]'].find(x=>x.dataset.preset===preset).trigger();
-    assert.deepEqual(ranking(h.elements.rank.innerHTML).map(x=>x[1]),scores,preset);
-  }
-  for(const c of config.classes) for(const k of config.axes) assert.equal(h.api.eff(c,k,2),c.r[k]);
-});
-
-test('Débutant → Intermédiaire → Confirmé → Expert est monotone, 0 à 100',()=>{
-  const h=boot();
-  for(const preset of Object.keys(config.presets)){
-    h.groups['.presets button[data-preset]'].find(x=>x.dataset.preset===preset).trigger();
-    for(const c of config.classes){
-      const v=[0,1,2,3].map(m=>h.api.score(c,m));
-      assert.ok(v.every((x,i)=>x>=0 && x<=100 && (!i||x>=v[i-1])),c.name+'/'+preset+'/'+v);
-    }
-  }
-});
-
-test('Les rôles absents, la mobilité, la technicité, la polyvalence et l’utilité restent intacts',()=>{
-  const h=boot();
-  for(const c of config.classes){
-    for(const k of ['poly','mob','util','tech']){
-      assert.equal(h.api.eff(c,k,0),c.r[k]);
-      assert.equal(h.api.eff(c,k,3),c.r[k]);
-    }
-    for(const k of config.axes) if(c.r[k]===1) assert.equal(h.api.eff(c,k,3),1);
-  }
-});
-
-test('Le Chasseur reste accessible en solo, mais son DPS optimise des rotations plus exigeantes',()=>{
-  const h=boot(),c=config.classes.find(x=>x.id==='chasseur');
-  assert.equal(h.api.eff(c,'solo',0),c.r.solo);
-  assert.ok(h.api.eff(c,'dps',0)<c.r.dps);
-  assert.equal(h.api.eff(c,'dps',3),5);
-});
-
-test('Les graphiques contiennent les neuf classes et la lecture chiffrée accessible',()=>{
-  const h=boot();
-  assert.ok(h.elements.curves.innerHTML.includes('<svg'));
-  assert.equal((h.elements['curves-values'].innerHTML.match(/<tr>/g)||[]).length,9);
-  assert.ok(h.elements['curves-values'].innerHTML.includes('Chasseur'));
-  h.groups['.mbtn'][0].trigger();
-  assert.equal(h.api.S.m,0);
-  assert.equal(h.groups['.mbtn'][0].attrs['aria-pressed'],'true');
-  assert.match(h.elements.curves.innerHTML,/<svg/);
-  assert.equal((h.elements['curves-values'].innerHTML.match(/<tr>/g)||[]).length,9);
-});
-
-test('Tous les poids nuls sont gérés et expliqués',()=>{
-  const h=boot({'wf-overview-v3':JSON.stringify({w:Object.fromEntries(config.axes.map(k=>[k,0]))})});
-  assert.deepEqual(ranking(h.elements.rank.innerHTML).map(x=>x[1]),Array(9).fill(0));
-  assert.match(h.elements['rank-status'].textContent,/aucun ne départage/);
-  assert.equal((h.elements['curves-values'].innerHTML.match(/<tr>/g)||[]).length,9);
-});
-
-test('Persistance et migration des anciennes préférences',()=>{
-  const h=boot();
-  h.groups['.mbtn'][0].trigger();
-  h.groups['.presets button[data-preset]'].find(x=>x.dataset.preset==='pvp').trigger();
-  const saved=boot(h.storage);
-  assert.equal(saved.api.S.m,0);
-  assert.equal(saved.api.S.w.bg,3);
-  assert.equal(saved.api.S.w.soin,0);
-  const legacy=boot({'wf-overview-weights':JSON.stringify({ctrl:3,poly:0}),
-    'wf-overview-skill':'debutant'});
-  assert.equal(legacy.api.S.m,0);
-  assert.equal(legacy.api.S.w.ctrl,3);
-  assert.equal(legacy.api.S.w.poly,0);
-  const broken=boot({'wf-overview-v3':JSON.stringify({m:7,w:{ctrl:55,soin:-1,mob:2.5}})});
-  assert.equal(broken.api.S.m,2);
-  assert.equal(broken.api.S.w.ctrl,1);
-  assert.equal(broken.api.S.w.soin,1);
-  assert.equal(broken.api.S.w.mob,1);
-  const v2=boot({'wf-overview-v2':JSON.stringify({m:1,w:{tank:3},hl:['mage','mage','invalid'],a:'druide',b:'paladin'})});
-  assert.equal(v2.api.S.m,1);
-  assert.equal(v2.api.S.w.tank,3);
-  assert.equal(JSON.stringify(v2.api.S.hl),'["mage"]');
-  assert.ok(!Object.hasOwn(v2.api.S,'a')&&!Object.hasOwn(v2.api.S,'b'));
-});
-
-test('La mise en avant des courbes se modifie et persiste',()=>{
-  const h=boot();
-  const mage=h.groups['.hl-chips button'].find(b=>b.dataset.id==='mage');
-  mage.trigger();
-  assert.equal(mage.attrs['aria-pressed'],'true');
-  assert.ok(boot(h.storage).api.S.hl.includes('mage'));
-  mage.trigger();
-  assert.equal(mage.attrs['aria-pressed'],'false');
-});
-
-test('Thème sombre unique : plus de choix d’apparence, une ancienne préférence est ignorée sans être effacée',()=>{
+test('Thème sombre unique et comparatif historique retiré, méthode de maîtrise placée avant les sources',()=>{
   assert.match(html,/^<!doctype html>\n<html lang="fr" data-theme="dark">\n/);
-  assert.ok(!/wf-overview-theme|data-theme-init|theme-choice|id="theme"|prefers-color-scheme/.test(html),
-    'aucun sélecteur, script ni règle de thème ne doit subsister');
-  const before=boot().elements.rank.innerHTML;
-  for(const theme of ['light','system','dark','invalid']){
-    const h=boot({'wf-overview-theme':theme});
-    assert.equal(h.document.documentElement.getAttribute('data-theme'),'dark');
-    assert.equal(h.storage['wf-overview-theme'],theme);
-    assert.equal(h.elements.rank.innerHTML,before);
+  assert.ok(!/wf-overview-theme|data-theme-init|theme-choice|id="theme"|prefers-color-scheme/.test(html));
+  assert.ok(!/id="rank"|id="curves"|class="mbtn"|data-preset=/.test(html),'plus aucun contrôle du comparatif historique');
+  const order=['h-reco','h-matrix','h-cards','h-rules','h-model','h-src'].map(id=>html.indexOf('id="'+id+'"'));
+  assert.ok(order.every((v,i)=>v>0&&(i===0||v>order[i-1])),'ordre des sections : '+order);
+  // La méthode décrit le modèle du moteur (difficulté d'exécution), plus l'ancien plancher/plafond.
+  const model=html.slice(order[4],order[5]);
+  assert.match(model,/0,29 point par point de difficulté/);
+  assert.doesNotMatch(model,/plancher|plafond PvE/);
+});
+
+/* Harnais du mode personnalisé : priorities-ui.js tourne seul, avec le moteur et ses données. */
+function boot(storage={},guide){
+  const store={...storage},calls=[];
+  const localStorage={getItem:k=>Object.hasOwn(store,k)?store[k]:null,setItem:(k,v)=>{store[k]=String(v);}};
+  const el=id=>({id,hidden:false,innerHTML:'',dataset:{},attrs:{},listeners:{},tabIndex:-1,
+    setAttribute(n,v){this.attrs[n]=String(v);},getAttribute(n){return this.attrs[n];},removeAttribute(n){delete this.attrs[n];},
+    hasAttribute(n){return Object.hasOwn(this.attrs,n);},addEventListener(t,f){(this.listeners[t]||=[]).push(f);},
+    contains(){return true;},closest(){return this;},scrollIntoView(){calls.push('scroll');}});
+  const tabs=['guided','priorities'].map(m=>{const b=el('tab-'+m);b.dataset.recoMode=m;return b;});
+  const guided=el('reco-guided'),priority=el('reco-priorities'),form=el('reco-priority-form'),output=el('reco-priority-results'),bar=el('modes');
+  const classes=new Set(['reco-panel']);
+  const root={classList:{contains:c=>classes.has(c),remove:c=>classes.delete(c),add:c=>classes.add(c)},
+    querySelectorAll:s=>s==='[data-reco-mode]'?tabs:[],
+    querySelector:s=>({'#reco-guided':guided,'#reco-priorities':priority,'#reco-priority-form':form,'#reco-priority-results':output,'.reco-modes':bar})[s]||null};
+  const window={WFRecommend:E,__WF:config,WFResultExplanations:X,WFConfigurationDetails:require('../configuration-details.js'),
+    WFGuide:guide,matchMedia:()=>({matches:true})};
+  vm.runInNewContext(ui,{window,document:{getElementById:id=>id==='reco-app'?root:null},localStorage},{timeout:3000});
+  const press=(dataset,attrs=[])=>form.listeners.click[0]({target:{dataset,hasAttribute:k=>attrs.includes(k),closest(){return this;}}});
+  return {store,tabs,guided,priority,form,output,classes,window,calls,press,
+    choose(m){tabs.find(t=>t.dataset.recoMode===m).listeners.click[0]();},
+    saved(){return JSON.parse(store['wf-overview-v3']||'null');},
+    pressed(axis){const m=form.innerHTML.match(new RegExp('data-prio-axis="'+axis+'" data-prio-weight="(\\d)" aria-pressed="true"'));return m&&Number(m[1]);}};
+}
+
+test('Arrivée : aucun parcours ouvert, le dernier parcours utilisé est signalé, le choix ouvre son panneau',()=>{
+  const h=boot({'wf-reco-mode-v1':'priorities'});
+  assert.ok(h.classes.has('is-choosing'));
+  assert.equal(h.guided.hidden,true);assert.equal(h.priority.hidden,true);
+  assert.deepEqual(h.tabs.map(t=>t.attrs['aria-selected']),['false','false']);
+  assert.deepEqual(h.tabs.map(t=>t.attrs['data-last']),[undefined,'true']);
+  h.choose('guided');
+  assert.ok(!h.classes.has('is-choosing'));
+  assert.equal(h.guided.hidden,false);assert.equal(h.priority.hidden,true);
+  assert.equal(h.store['wf-reco-mode-v1'],'guided');
+  assert.deepEqual(h.calls,['scroll'],'le parcours choisi reste en vue');
+  h.choose('priorities');
+  assert.equal(h.priority.hidden,false);assert.equal(h.guided.hidden,true);
+  assert.deepEqual(h.calls,['scroll'],'changer ensuite d’onglet ne fait pas défiler');
+  assert.match(h.output.innerHTML,/Les neuf classes selon tes critères/);
+});
+
+test('Profils, poids, maîtrise partagée et remise à zéro : l’état est sauvegardé, la maîtrise suit le guide',()=>{
+  const levels=[];
+  const h=boot({},{getMastery:()=>1,setMastery:m=>levels.push(m)});
+  h.choose('priorities');
+  assert.equal(h.pressed('ctrl'),config.presets.egal.ctrl,'profil de départ : Tous les critères');
+  assert.equal(h.saved(),null,'rien n’est écrit sans action');
+  h.press({prioPreset:'solo'});
+  assert.deepEqual(h.saved().w,config.presets.solo);
+  assert.equal(h.saved().m,1,'sans maîtrise sauvegardée ici, celle du parcours guidé est reprise');
+  // Une maîtrise sauvegardée ici n'est pas écrasée par celle du parcours guidé.
+  const own=boot({'wf-overview-v3':JSON.stringify({w:config.presets.pvp,m:0})},{getMastery:()=>3,setMastery(){}});
+  own.choose('priorities');
+  assert.match(own.form.innerHTML,/data-prio-mastery="0" aria-pressed="true"/);
+  assert.equal(own.saved().m,0);
+  h.press({prioAxis:'ctrl',prioWeight:'3'});
+  assert.equal(h.saved().w.ctrl,3);assert.equal(h.pressed('ctrl'),3);
+  h.press({prioMastery:'0'});
+  assert.equal(h.saved().m,0);assert.deepEqual(levels,[0]);
+  h.window.WFPriorities.setMastery(3);
+  assert.equal(h.saved().m,3);assert.deepEqual(levels,[0],'une maîtrise venue du guide ne lui est pas renvoyée');
+  h.press({},['data-prio-clear']);
+  assert.ok(Object.values(h.saved().w).every(v=>v===0));
+  assert.match(h.output.innerHTML,/Aucune priorité définie/);
+});
+
+test('Sauvegardes : reprise, anciennes clés, critères apparus le 20 octobre, sauvegarde invalide ou absente',()=>{
+  const before=w=>Object.fromEntries(config.axes.filter(k=>!['burst','zone'].includes(k)).map(k=>[k,w[k]]));
+  // Reprise exacte, champs hérités conservés.
+  const h=boot({'wf-overview-v3':JSON.stringify({w:config.presets.pvp,m:1,hl:['mage'],c:config.presets.pvp})});
+  h.choose('priorities');h.press({prioAxis:'tank',prioWeight:'2'});
+  assert.equal(h.saved().m,1);assert.deepEqual(h.saved().hl,['mage']);assert.deepEqual(h.saved().c,config.presets.pvp);
+  // Avant Burst et Dégâts de zone : 0, sauf si tous les critères avaient le même poids.
+  for(const [preset,expected] of [['egal',config.presets.egal.burst],['tank',0]]){
+    const old=boot({'wf-overview-v3':JSON.stringify({m:2,w:before(config.presets[preset])})});old.choose('priorities');
+    assert.equal(old.pressed('burst'),expected,preset);assert.equal(old.pressed('zone'),expected,preset);
+  }
+  // Anciennes clés : wf-overview-v2, puis poids et niveau séparés.
+  const v2=boot({'wf-overview-v2':JSON.stringify({w:config.presets.solo,m:0})});v2.choose('priorities');
+  assert.equal(v2.pressed('solo'),config.presets.solo.solo);
+  const split=boot({'wf-overview-weights':JSON.stringify(config.presets.controle),'wf-overview-skill':'expert'});split.choose('priorities');
+  assert.equal(split.pressed('ctrl'),config.presets.controle.ctrl);
+  assert.match(split.form.innerHTML,/data-prio-mastery="3" aria-pressed="true"/);
+  // Sauvegarde illisible : profil de référence, maîtrise Confirmé, aucune erreur.
+  const broken=boot({'wf-overview-v3':'{broken'});broken.choose('priorities');
+  assert.equal(broken.pressed('ctrl'),config.presets.egal.ctrl);
+  assert.match(broken.form.innerHTML,/data-prio-mastery="2" aria-pressed="true"/);
+  // Une pondération personnelle d'avant « Mes critères » devient une sauvegarde reprenable.
+  const custom={...config.presets.egal,tank:3,mob:0};
+  const mine=boot({'wf-overview-v3':JSON.stringify({w:custom,m:2})});mine.choose('priorities');
+  assert.match(mine.form.innerHTML,/data-prio-restore/);
+});
+
+test('Pourquoi cette place : chaque classe explique son score, les points font le score affiché',()=>{
+  const h=boot();h.choose('priorities');h.press({prioPreset:'pvp'});
+  const rows=h.output.innerHTML.split('<li class="reco-priority-class').slice(1);
+  assert.equal(rows.length,9);
+  for(const row of rows){
+    assert.match(row,/<summary>Pourquoi cette place<\/summary>/);
+    const score=Number(row.match(/<span class="reco-priority-score">(\d+)/)[1]);
+    const points=[...row.matchAll(/reco-why-points">(\d+) \/ (\d+) pts/g)];
+    assert.equal(points.reduce((t,m)=>t+Number(m[1]),0),score);
+    assert.equal(points.reduce((t,m)=>t+Number(m[2]),0),100);
+    assert.match(row,/href="fiches-sources\/[a-z]+\.html#[a-z-]+"/);
   }
 });
-
-test('La page reste utilisable sans stockage local et avec une sauvegarde invalide',()=>{
-  const h=boot({},true);
-  h.groups['.mbtn'][0].trigger();
-  h.groups['.presets button[data-preset]'].find(b=>b.dataset.preset==='solo').trigger();
-  assert.equal(h.api.S.m,0);
-  assert.equal(h.api.S.w.solo,3);
-  assert.equal(ranking(h.elements.rank.innerHTML).length,9);
-  assert.equal(boot({'wf-overview-v3':'{broken'}).api.S.m,2);
-});
-
-test('Profils homogènes : chaque classe mène ou partage la tête d’au moins un profil au niveau Confirmé',()=>{
-  const h=boot();
-  const leaders=new Set();
-  for(const preset of Object.keys(config.presets)){
-    h.groups['.presets button[data-preset]'].find(x=>x.dataset.preset===preset).trigger();
-    const scores=config.classes.map(c=>[c.id,Math.round(h.api.score(c,2))]);
-    const top=Math.max(...scores.map(x=>x[1]));
-    scores.filter(x=>x[1]===top).forEach(x=>leaders.add(x[0]));
-  }
-  assert.deepEqual([...leaders].sort(),config.classes.map(c=>c.id).sort());
-});
-
-test('Profils homogènes : le nom annonce le critère dominant, sans Technicité ni Polyvalence ajoutées',()=>{
-  const headline={tank:'tank',soin:'soin',dps:'dps',zone:'zone',soutien:'util',bg:'bg',soinbg:'soin',sauvage:'sauv',burst:'burst',controle:'ctrl',solo:'solo',polyvalence:'poly'};
-  for(const [preset,weights] of Object.entries(config.presets)){
-    if(preset==='egal') continue;
-    assert.equal(weights.tech,0,preset+' ne doit pas pondérer la Technicité');
-    if(preset!=='polyvalence') assert.equal(weights.poly,0,preset+' ne doit pas pondérer la Polyvalence');
-    const k=headline[preset]; if(!k) continue;
-    const total=Object.values(weights).reduce((a,b)=>a+b,0);
-    assert.ok(weights[k]===3 && weights[k]/total>=0.5, preset+' : '+k+' doit peser au moins la moitié');
-  }
-});
-
-test('Burst suit le paramètre PvP et Dégâts de zone le paramètre PvE',()=>{
-  const h=boot();
-  assert.ok(config.pvpAx.includes('burst')&&!config.pveAx.includes('burst'));
-  assert.ok(config.pveAx.includes('zone')&&!config.pvpAx.includes('zone'));
-  const mage=config.classes.find(c=>c.id==='mage');
-  // Mage : plancher PvP 5, plancher PvE 3, plafonds 2 et 1.
-  assert.equal(h.api.eff(mage,'burst',0),3.4);
-  assert.equal(h.api.eff(mage,'zone',0),4.2);
-  assert.equal(h.api.eff(mage,'burst',3),5);
-  assert.equal(h.api.eff(mage,'zone',3),5);
-  const voleur=config.classes.find(c=>c.id==='voleur');
-  assert.equal(h.api.eff(voleur,'zone',0),1.6);
-});
-
-test('Une sauvegarde antérieure à Burst et Dégâts de zone garde son profil et son classement',()=>{
-  const added=['burst','zone'];
-  const before=w=>Object.fromEntries(config.axes.filter(k=>!added.includes(k)).map(k=>[k,w[k]]));
-  for(const preset of Object.keys(config.presets)){
-    if(added.some(k=>config.presets[preset][k]>0) && preset!=='egal') continue; // profils créés le 20 octobre
-    const h=boot({'wf-overview-v3':JSON.stringify({m:1,w:before(config.presets[preset])})});
-    assert.equal(JSON.stringify(h.api.S.w),JSON.stringify(config.presets[preset]),preset);
-    assert.equal(h.groups['.presets button[data-preset]'].find(b=>b.dataset.preset===preset).attrs['aria-pressed'],'true',preset);
-    assert.equal(h.api.S.m,1);
-  }
-  // Pondération personnelle : Burst et Dégâts de zone à 0, donc classement inchangé.
-  const custom={...before(config.presets.egal),tank:3,tech:0,mob:2};
-  const h=boot({'wf-overview-v3':JSON.stringify({w:custom})});
-  assert.equal(h.api.S.w.burst,0);
-  assert.equal(h.api.S.w.zone,0);
-  for(const c of config.classes){
-    const keys=Object.keys(custom), total=keys.reduce((a,k)=>a+custom[k],0);
-    const expected=100*keys.reduce((a,k)=>a+custom[k]*c.r[k],0)/(5*total);
-    assert.ok(Math.abs(h.api.score(c,2)-expected)<1e-9,c.id);
-  }
-  // Une sauvegarde qui contient déjà les nouveaux critères est reprise telle quelle.
-  const zero=boot({'wf-overview-v3':JSON.stringify({w:{...before(config.presets.egal),burst:0,zone:3}})});
-  assert.equal(zero.api.S.w.burst,0);
-  assert.equal(zero.api.S.w.zone,3);
-});
-
-test('« Mes critères » garde la pondération personnelle et la réaffiche en un clic',()=>{
-  const h=boot();
-  const mine=h.elements.mine;
-  const presets=h.groups['.presets button[data-preset]'];
-  const preset=id=>presets.find(b=>b.dataset.preset===id).trigger();
-  const weight=(ax,v)=>h.groups['.seg button[data-ax]'].find(b=>b.dataset.ax===ax&&b.dataset.v===String(v)).trigger();
-  assert.equal(mine.hidden,true);
-  h.groups['.mbtn'][1].trigger();
-  weight('tank',3); weight('tech',0);
-  const custom=JSON.stringify(h.api.S.w);
-  assert.equal(mine.hidden,false);
-  assert.equal(mine.attrs['aria-pressed'],'true');
-  preset('pvp'); preset('zone');
-  assert.equal(mine.hidden,false);
-  assert.equal(mine.attrs['aria-pressed'],'false');
-  mine.trigger();
-  assert.equal(JSON.stringify(h.api.S.w),custom);
-  assert.equal(mine.attrs['aria-pressed'],'true');
-  assert.ok(presets.every(b=>b.attrs['aria-pressed']==='false'));
-  assert.equal(h.api.S.m,1,'le niveau de maîtrise ne change pas');
-  // Un réglage qui retombe exactement sur un profil ne remplace pas « Mes critères ».
-  preset('dps');
-  weight('dps',2);
-  const latest=JSON.stringify(h.api.S.w);
-  weight('dps',3);
-  assert.equal(presets.find(b=>b.dataset.preset==='dps').attrs['aria-pressed'],'true');
-  mine.trigger();
-  assert.equal(JSON.stringify(h.api.S.w),latest);
-  // Conservé au rechargement de la page.
-  const again=boot(h.storage);
-  assert.equal(JSON.stringify(again.api.S.c),latest);
-  assert.equal(again.elements.mine.hidden,false);
-});
-
-test('« Mes critères » reprend une pondération personnelle déjà enregistrée et ignore une sauvegarde invalide',()=>{
-  const custom={...config.presets.egal,tank:3};
-  const old=boot({'wf-overview-v3':JSON.stringify({w:custom,m:2})});
-  assert.equal(JSON.stringify(old.api.S.c),JSON.stringify(custom));
-  assert.equal(old.elements.mine.attrs['aria-pressed'],'true');
-  const bad=boot({'wf-overview-v3':JSON.stringify({w:config.presets.pvp,c:{tank:9}})});
-  assert.equal(bad.api.S.c,null);
-  assert.equal(bad.elements.mine.hidden,true);
-  const none=boot({},true);
-  assert.equal(none.elements.mine.hidden,true);
-});
-
-test('« Tout remettre à 0 » vide les quatorze poids sans toucher à la maîtrise ni à « Mes critères »',()=>{
-  const h=boot();
-  const reset=h.elements['reset-w'], mine=h.elements.mine;
-  const weight=(ax,v)=>h.groups['.seg button[data-ax]'].find(b=>b.dataset.ax===ax&&b.dataset.v===String(v)).trigger();
-  assert.match(html,/<div class="wrow wtools">[\s\S]*?id="reset-w"[\s\S]*?Tout remettre à 0<\/button><\/div>\s*<div class="wrow"><span class="wlab">Polyvalence/);
-  assert.equal(reset.disabled,false);
-  h.groups['.mbtn'][3].trigger();
-  weight('tank',3);
-  const custom=JSON.stringify(h.api.S.c);
-  reset.trigger();
-  assert.ok(config.axes.every(k=>h.api.S.w[k]===0));
-  assert.equal(h.api.S.m,3,'le niveau de maîtrise ne change pas');
-  assert.equal(reset.disabled,true);
-  assert.match(h.elements['rank-status'].textContent,/aucun ne départage/);
-  assert.deepEqual(ranking(h.elements.rank.innerHTML).map(x=>x[1]),Array(9).fill(0));
-  assert.ok(h.groups['.presets button[data-preset]'].every(b=>b.attrs['aria-pressed']==='false'));
-  assert.equal(JSON.stringify(h.api.S.c),custom,'la remise à 0 ne remplace pas « Mes critères »');
-  assert.equal(mine.attrs['aria-pressed'],'false');
-  // Repartir de zéro : le premier réglage devient la nouvelle pondération personnelle.
-  weight('soin',3);
-  assert.equal(reset.disabled,false);
-  assert.equal(h.api.S.w.soin,3);
-  assert.equal(h.api.S.w.tank,0);
-  assert.equal(JSON.stringify(h.api.S.c),JSON.stringify(h.api.S.w));
-  // Un clic sur un profil réactive le bouton.
-  reset.trigger();
-  h.groups['.presets button[data-preset]'].find(b=>b.dataset.preset==='egal').trigger();
-  assert.equal(reset.disabled,false);
-});
-

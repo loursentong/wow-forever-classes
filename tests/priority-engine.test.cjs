@@ -54,7 +54,7 @@ test('La technicité reste un goût et ne récompense pas automatiquement les ex
  assert.ok(loveChallenge.results[0].score>loveChallenge.results[8].score);
 });
 test('Le même joueur peut explorer les 15 presets historiques sans modifier les notes sources',()=>{
- const D=JSON.parse(html.match(/window\.__WF = (\{.*?\});\s*\(function\(\)/s)[1]);
+ const D=JSON.parse(html.match(/window\.__WF = (\{.*?\});\s*<\/script>/s)[1]);
  assert.equal(Object.keys(D.presets).length,15);
  for(const name of Object.keys(D.presets)){
   const r=E.priorityRanking(D.presets[name],2);
@@ -116,7 +116,7 @@ test('Régression DPS PvE : jamais 100% pour les neuf classes, quel que soit le 
  }
 });
 test('Les notes des trois rôles sont ancrées dans les 126 notes historiques et la spé PvE',()=>{
- const d=JSON.parse(html.match(/window\.__WF = (\{.*?\});\s*\(function\(\)/s)[1]);
+ const d=JSON.parse(html.match(/window\.__WF = (\{.*?\});\s*<\/script>/s)[1]);
  for(const cls of d.classes)for(const k of ['dps','tank','soin']){
   assert.equal(E.roleReference[cls.id][k],cls.r[k],cls.id+' '+k);
  }
