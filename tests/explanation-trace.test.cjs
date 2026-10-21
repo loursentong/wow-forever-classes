@@ -29,15 +29,15 @@ test('La trace reconstitue le score et ses causes, y compris lorsque la certitud
 });
 test('Le compromis retient la perte pondérée, et distingue capacité, maîtrise et certitude',()=>{
  const uncertain=E.explain('mage-givre',{styles:{ctrl:0},mastery:2});
- assert.match(X.mainTradeoff(uncertain),/Tu hésites.*Contrôle.*0\/5 de certitude/);
+ assert.equal(X.mainTradeoff(uncertain),'Tu hésites sur « Contrôle » (certitude 0/5) : c’est ce qui coûte le plus de points au Mage Givre.');
  const novice=E.explain('mage-givre',{styles:{ctrl:5},mastery:0});
- assert.match(X.mainTradeoff(novice),/maîtrise.*pratique/);
+ assert.equal(X.mainTradeoff(novice),'Le Mage Givre est noté 5/5 en contrôle, 4,4/5 avec ta maîtrise (débutant) : il demande de la pratique pour en profiter pleinement.');
  const fit=E.explain('mage-givre',{styles:{ctrl:5},mastery:2});
- assert.match(X.mainTradeoff(fit),/correspondent pleinement/);
+ assert.equal(X.mainTradeoff(fit),'Le Mage Givre répond pleinement à tes choix dans nos estimations : regarde si son style de jeu te plaît.');
  const weighted={profile:E.sanitize({styles:{ctrl:5},activities:{raid:5}}),answers:[
   {domain:'styles',key:'ctrl',note:2,loss:2,causes:{aptitude:2,mastery:0,certainty:0}},
   {domain:'activities',key:'raid',note:4,loss:6,causes:{aptitude:6,mastery:0,certainty:0}}]};
- assert.match(X.mainTradeoff(weighted),/^Donjons et raids : 4\/5/);
+ assert.equal(X.mainTradeoff(weighted),'Cette spécialisation est notée 4/5 en donjons et raids : c’est ce qui lui coûte le plus de points.');
 });
 test('Les réponses sans objet sont absentes de la trace ; les contraintes restent prioritaires',()=>{
  assert.equal(E.explain('absent',{styles:{ctrl:5}}),null);

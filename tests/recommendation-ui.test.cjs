@@ -271,7 +271,9 @@ test('Pourquoi cette piste remplace « Fiabilité et incertitude » : critères,
  assert.match(h.results.innerHTML,/reco-why-parts[\s\S]*Rôles[\s\S]*Activités/);
  assert.match(h.results.innerHTML,/retiré chacune de tes réponses les plus hésitantes \(Soin\)/);
  assert.match(h.results.innerHTML,/fiches-sources\/chaman\.html#chaman-restauration/);
- assert.match(h.results.innerHTML,/Tu hésites sur « Rôle : Soin » \(2\/5 de certitude\)/);
+ assert.match(h.results.innerHTML,/Tu hésites sur « Rôle : Soin » \(certitude 2\/5\)/);
+ assert.match(h.results.innerHTML,/Pourquoi \d+ sur 100 \?<\/b> Il lui manque \d+ points : \d+ sur les rôles \(Soin : certitude 2\/5\)/);
+ assert.match(h.results.innerHTML,/<dt>Ton choix<\/dt><dd>Hésitant \(certitude 2\/5\)<\/dd>/);
  h.certainty('roles','soin',5);
  assert.match(h.results.innerHTML,/Tes choix sont assez affirmés/);
 });

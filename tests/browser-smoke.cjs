@@ -224,7 +224,8 @@ async function check(){
   const placeWhy=await place1.evaluate(li=>({score:parseInt(li.querySelector('.reco-priority-score').textContent,10),
    points:[...li.querySelectorAll('.reco-why-points')].map(x=>parseInt(x.textContent,10)),text:li.querySelector('.reco-why').textContent}));
   assert.equal(placeWhy.points.reduce((a,b)=>a+b,0),placeWhy.score,JSON.stringify(placeWhy));
-  assert.match(placeWhy.text,/Pourquoi \d+ sur 100/);
+  assert.match(placeWhy.text,/Pourquoi \d+ sur 100 \? (Il lui manque \d+ points? : |Elle répond pleinement)/);
+  assert.match(placeWhy.text,/Ton choix\s*Priorité (secondaire|importante|essentielle) \([123]\)/);
   await place1.screenshot({path:path.join(__dirname,'screenshots','priorites-pourquoi-cette-place.png'),animations:'disabled'});
   await place1.locator('.reco-why > summary').click();
   await page.locator('[data-prio-axis="poly"][data-prio-weight="0"]').click();
@@ -484,8 +485,8 @@ async function check(){
   await detailsWhy.locator('summary').focus();await page.keyboard.press('Enter');
   assert.equal(await detailsWhy.evaluate(d=>d.open),true);
   // Chaque choix se lit en trois temps : note de référence de la spécialisation, ton choix, résultat.
-  assert.match(await detailsWhy.locator('.reco-answer-list').allTextContents().then(x=>x.join(' ')),/Soutien\s*La spécialisation\s*5\/5 \(note de référence\)\s*Ton choix\s*certitude 4\/5 \(très sûr\)\s*Donc/);
-  assert.deepEqual(await detailsWhy.locator('.reco-answer').first().locator('dt').allTextContents(),['La spécialisation','Ton choix','Donc']);
+  assert.match(await detailsWhy.locator('.reco-answer-list').allTextContents().then(x=>x.join(' ')),/Soutien\s*La spécialisation\s*[^.]+ est notée 5\/5 pour ce style\.\s*Ton choix\s*Très sûr \(certitude 4\/5\)\s*Constat\s*Elle y répond/);
+  assert.deepEqual(await detailsWhy.locator('.reco-answer').first().locator('dt').allTextContents(),['La spécialisation','Ton choix','Constat']);
   const totals=await page.locator('#reco-results .reco-result-card').evaluateAll(cards=>cards.map(c=>({score:Number(c.querySelector('.reco-score strong').textContent),parts:[...c.querySelectorAll('.reco-why-points')].map(x=>x.textContent.match(/\d+/g).map(Number))})));
   for(const t of totals){assert.equal(t.parts.reduce((n,p)=>n+p[0],0),t.score);assert.ok(t.parts.every(p=>p[0]<=p[1]));}
   for(const width of [320,390,768,1300]){
