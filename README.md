@@ -1,5 +1,7 @@
 # Les classes de WoW Forever
 
+**Lot local du 21 octobre 2026 :** [explications des résultats](LOT-1-EXPLICATIONS.md) — égalités explicites, spécialisation visible, difficulté PvE/PvP et limites des variantes sans familier. Aucun changement de scoring ; les évolutions des profils et les préférences de soin sont réservées aux lots suivants.
+
 **Révision du moteur du 21 octobre 2026 — moteur 1.0.3-exploratoire.** Trois notes révisées après revue : soin Chaman et Paladin 4→5, contrôle Discipline 4→3. À score égal, une classe est représentée par sa spécialisation au plus haut potentiel compte tenu de la maîtrise. En solo, seul le Chasseur Maîtrise des bêtes, porté par son familier, échappe à l'effet de la maîtrise. Les formules de score, la maîtrise et la refonte graphique sont conservées. Les 28 configurations disposent de repères courts dans les résultats des deux parcours. Voir [le détail et les effets](REVISION-EDITORIALE-V2.md).
 
 
@@ -92,6 +94,7 @@ Consulter [la méthodologie et ses limites](RECOMMANDATION-METHODE.md). Les quat
 
 ## Documentation
 
+- [Base de connaissances : sources, faits de kit et justification des notes](connaissances/README.md), avec [les écarts à arbitrer](connaissances/ecarts-a-arbitrer.md)
 - [Audit documentaire](AUDIT-2026-10-20.md)
 - [Modèle de maîtrise et validation](MODELE-MAITRISE.md)
 - [Refonte graphique : maquette validée et règles d'intégration](design/README.md)

@@ -1,0 +1,253 @@
+{
+ "date": "2026-10-21",
+ "moteur": "1.0.3-exploratoire",
+ "ecarts": [
+  {
+   "id": "e1",
+   "spec": "chaman-elementaire",
+   "critere": "raid",
+   "valeur": 3,
+   "proposition": 2,
+   "priorite": "haute",
+   "constat": "Dernier DPS simulé au niveau 60 (49 %), 13 points sous la configuration suivante.",
+   "appuis": [
+    "ch-sim"
+   ],
+   "decision": null
+  },
+  {
+   "id": "e2",
+   "spec": "demoniste-destruction",
+   "critere": "raid",
+   "valeur": 4,
+   "proposition": 3,
+   "priorite": "moyenne",
+   "constat": "68 % en simulation, sous l’Ombre (71 %) notée 3. Amélioration, à 68 % aussi, reste à 4 grâce à ses totems de raid ; la Destruction n’a pas cet argument.",
+   "appuis": [
+    "d-sim",
+    "pr-sim",
+    "ch-sim"
+   ],
+   "decision": null
+  },
+  {
+   "id": "e3",
+   "spec": "voleur-combat",
+   "critere": "raid",
+   "valeur": 4,
+   "proposition": 3,
+   "priorite": "moyenne",
+   "constat": "65 % en simulation (17e), sous l’Ombre notée 3. Seule l’intention de Blizzard de faire du Voleur le meilleur DPS monocible soutient le 4 : à garder si tu veux parier sur les ajustements annoncés.",
+   "appuis": [
+    "v-sim",
+    "v-intention"
+   ],
+   "decision": null
+  },
+  {
+   "id": "e4",
+   "spec": "druide-farouche-chat",
+   "critere": "ctrl",
+   "valeur": 3,
+   "proposition": 2,
+   "priorite": "moyenne",
+   "constat": "Ni interruption ni ralentissement en félin ; Blizzard décrit un contrôle plus faible et moins fiable. Le Paladin, sans interruption ni ralentissement non plus, est à 2.",
+   "appuis": [
+    "dr-ours-controle",
+    "dr-limites",
+    "p-limites"
+   ],
+   "decision": null
+  },
+  {
+   "id": "e5",
+   "spec": "druide-farouche-chat",
+   "critere": "zone",
+   "valeur": 3,
+   "proposition": 2,
+   "priorite": "moyenne",
+   "constat": "Aucun outil de zone en félin : « Swipe » est réservé à l’ours, ce que les développeurs citent eux-mêmes pour faire du Guerrier le roi du multicible.",
+   "appuis": [
+    "dr-zone-chat",
+    "dr-ours"
+   ],
+   "decision": null
+  },
+  {
+   "id": "e6",
+   "spec": "druide-restauration",
+   "critere": "ctrl",
+   "valeur": 3,
+   "proposition": 2,
+   "priorite": "basse",
+   "constat": "Entangling Roots et Nature’s Grasp sont présents. Avant de proposer 2, préciser les changements de forme et talents retenus, ainsi que la distinction entre immobiliser, ralentir et interrompre ; la comparaison avec Chaman et Paladin ne suffit pas seule.",
+   "appuis": [
+    "dr-racines",
+    "dr-limites",
+    "ch-pas-controle",
+    "p-hoj"
+   ],
+   "decision": null
+  },
+  {
+   "id": "e7",
+   "spec": "mage-givre",
+   "critere": "world",
+   "valeur": 5,
+   "proposition": 4,
+   "priorite": "basse",
+   "constat": "Meilleure spécialisation du Mage en duel, mais la classe est classée A, derrière Démoniste et Chasseur (S), et les quatre meilleurs Mages sont sortis au top 32 du tournoi. Preuves au niveau 30 seulement.",
+   "appuis": [
+    "m-pvp-duel",
+    "m-tournoi",
+    "m-technique",
+    "c-pvp-duel",
+    "d-pvp-duel"
+   ],
+   "decision": null
+  },
+  {
+   "id": "e8",
+   "spec": "mage-feu",
+   "critere": "world",
+   "valeur": 4,
+   "proposition": 3,
+   "priorite": "basse",
+   "constat": "Feu jugé très faible en duel au niveau 30 (Crix) et en peine contre tout selon Sodapoppin ; Arcane, jugé aussi faible, est à 3.",
+   "appuis": [
+    "m-feu-pvp",
+    "m-tournoi"
+   ],
+   "decision": null
+  },
+  {
+   "id": "e9",
+   "spec": "druide-equilibre",
+   "critere": "zone",
+   "valeur": 3,
+   "proposition": 4,
+   "priorite": "basse",
+   "constat": "« Hurricane » n’a plus de recharge : un sort de zone répétable, comme le « Blizzard » du Mage (Givre et Feu à 5). Aucune mesure des dégâts de zone.",
+   "appuis": [
+    "dr-equilibre",
+    "m-zone"
+   ],
+   "decision": null
+  },
+  {
+   "id": "e10",
+   "spec": "guerrier-armes",
+   "critere": "solo",
+   "valeur": 2,
+   "proposition": 3,
+   "priorite": "basse",
+   "constat": "Armes est la spécialisation conseillée pour le leveling du Guerrier (Mobalytics, bêta), alors qu’elle est notée sous Fureur (3) sans source qui les sépare.",
+   "appuis": [
+    "g-leveling-armes",
+    "g-leveling"
+   ],
+   "decision": null
+  },
+  {
+   "id": "e11",
+   "spec": "mage-givre",
+   "critere": "solo",
+   "valeur": 3,
+   "proposition": 4,
+   "priorite": "basse",
+   "constat": "Spécialisation conseillée pour le leveling dans une classe classée A (bêta) et S (Vanilla), réputée forte en leveling ; le farm de zone a toutefois été réduit.",
+   "appuis": [
+    "m-givre-leveling",
+    "m-leveling"
+   ],
+   "decision": null
+  },
+  {
+   "id": "e12",
+   "spec": "chaman-amelioration",
+   "critere": "solo",
+   "valeur": 3,
+   "proposition": 4,
+   "priorite": "basse",
+   "constat": "Spécialisation conseillée pour le leveling dans une classe classée A (bêta), préférée en monde ouvert (Warcraft Tavern), avec la meilleure mobilité du jeu selon Kami ; Paladin Vindicte, conseillé dans une classe A, est à 4.",
+   "appuis": [
+    "ch-leveling",
+    "ch-mobilite",
+    "p-solo-mobalytics"
+   ],
+   "decision": null
+  }
+ ],
+ "surveiller": [
+  {
+   "spec": "soigneurs",
+   "critere": "raid",
+   "constat": "Convention : les cinq soigneurs sont à 5. Aucun classement comparatif de soin validé dans ce corpus. MythicSim annonce un Quick Sim en HPS mais exclut les soigneurs de sa tier list ; ce point ne prouve ni égalité de performance ni absence de simulation."
+  },
+  {
+   "spec": "druide-restauration",
+   "critere": "raid",
+   "constat": "Blizzard juge sa boîte à outils plus limitée que celle du Prêtre."
+  },
+  {
+   "spec": "paladin-protection",
+   "critere": "raid",
+   "constat": "Classée A des tanks par Mobalytics, devant l’ours, mais menace simulée la plus faible des trois (67 %) ; survie non simulée."
+  },
+  {
+   "spec": "chaman-amelioration",
+   "critere": "raid",
+   "constat": "68 % en simulation comme la Destruction ; gardé à 4 pour ses totems de raid."
+  },
+  {
+   "spec": "paladin-vindicte",
+   "critere": "world",
+   "constat": "Tournoi niveau 30 favorable aux Paladins, mais Crix juge la Vindicte facile à garder à distance (rang C)."
+  },
+  {
+   "spec": "voleur-assassinat",
+   "critere": "world",
+   "constat": "Noté 5 comme Finesse, mais le Voleur est rang B en duel au niveau 30 et Kami réserve son avis le plus fort à Finesse."
+  },
+  {
+   "spec": "guerrier-protection",
+   "critere": "world",
+   "constat": "Notée sous Armes et Fureur, alors que Crix la juge un peu meilleure en duel au niveau 30 grâce à sa survie."
+  },
+  {
+   "spec": "chaman-elementaire",
+   "critere": "world",
+   "constat": "Noté 4, mais Crix juge Élémentaire et Restauration en retrait en duel au niveau 30."
+  },
+  {
+   "spec": "demoniste-demonologie",
+   "critere": "world",
+   "constat": "Notée 4 sous Affliction et Destruction (5), alors que Crix la cite parmi les configurations les plus fortes en duel au niveau 30."
+  },
+  {
+   "spec": "demoniste-affliction",
+   "critere": "solo",
+   "constat": "Spécialisation conseillée pour le leveling, mais notée 4 sous Démonologie (5)."
+  },
+  {
+   "spec": "voleur-combat",
+   "critere": "surv",
+   "constat": "Noté au-dessus d’Assassinat et Finesse grâce à « Deflection », alors que Kami juge sa survie la plus limitée une fois découvert."
+  },
+  {
+   "spec": "pretre-ombre",
+   "critere": "support",
+   "constat": "Les développeurs ont réduit son utilité de raid (batterie de mana retirée) avant d’ajouter « Dark Inspiration » le 15 octobre."
+  },
+  {
+   "spec": "guerrier-armes",
+   "critere": "charge_pve",
+   "constat": "Notée 2, alors que la rotation simulée est parmi les plus chargées (23 sorts, environ 250 conditions) ; la simulation compte les optimisations d’un jeu parfait."
+  },
+  {
+   "spec": "voleur-*",
+   "critere": "charge_pve",
+   "constat": "Notes de 2 à 3, alors que la rotation simulée est la plus chargée en décisions (21 sorts, plus de 500 conditions, une seule liste pour les trois spécialisations)."
+  }
+ ]
+}

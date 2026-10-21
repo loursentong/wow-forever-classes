@@ -31,6 +31,7 @@ Les mots **DOIT**, **INTERDIT**, **REQUIERT** et **NON GARANTI** sont à prendre
 - Styles : `burst`, `zone`, `ctrl`, `surv`, `mob`, `support`.
 - Les notes d'activité et de style sont des **évaluations éditoriales entières de 1 à 5**, non de la télémétrie observée.
 - Les catégories rôle/portée/familier proviennent des kits et descriptions de classes ; les URL Blizzard attestent ces éléments structurels, **pas la véracité des notes éditoriales**.
+- **Justifications :** la [base de connaissances](connaissances/README.md) relie chaque note à des faits sourcés, avec une raison et un niveau de confiance, et liste les notes que les faits contredisent. Elle ne change aucun calcul ; `tests/base-connaissances.test.cjs` vérifie qu'elle reste alignée sur le moteur (mêmes configurations, valeurs et version).
 
 **Invariants :** aucun doublon d'identifiant de configuration, aucune configuration sans classe, aucune note non finie/hors plage, aucun mélange des attributs de deux spécialisations dans une même évaluation, aucune modification silencieuse des 126 notes historiques.
 
@@ -128,6 +129,8 @@ score_affiché = arrondi(100 × score_brut, 2 décimales)
 - `ok` : configurations admissibles triées par score décroissant, puis identifiant de spécialisation pour stabiliser les égalités ; **une seule meilleure configuration par classe** ; jusqu'à neuf classes. À score égal entre configurations d'une même classe, la classe est représentée par celle dont le **potentiel ajusté à la maîtrise** (§ 3.4) est le plus élevé, puis par identifiant ; l'ordre des classes reste celui du score, puis de l'identifiant.
 - `compatible` = nombre de **configurations** admissibles avant dédoublonnage, **pas** nombre de classes.
 - `recommend()` propose **au plus trois classes distinctes** avec points forts/compromis, et des scénarios de sensibilité.
+
+**Restitution des égalités (lot d'explications du 21 octobre 2026) :** l'interface partage le rang des scores exactement égaux et leur mise en avant. Le guide cite toutes les classes à égalité en tête, y compris au-delà de ses trois cartes. Cette présentation ne modifie ni le tri déterministe, ni les scores, ni le choix de la configuration représentative. Les scores affichés à l'entier peuvent masquer un petit écart ; ils ne définissent pas l'égalité.
 
 ### 2.6. Sensibilité (et ce qu'elle ne signifie pas)
 
@@ -307,7 +310,7 @@ En cas de divergence inexpliquée, **bloquer la fusion** ; aucun ajustement « c
 
 Les coefficients (0,55/0,45 pour rôle, poids des domaines, facteurs de maîtrise, notes 1…5) sont des **choix éditoriaux susceptibles d'être révisés** avec preuves. Ne pas utiliser des indicateurs de distribution des vainqueurs comme objectifs à atteindre ; s'en servir seulement pour rechercher des anomalies de modélisation.
 
-À chaque patch significatif du jeu : vérifier les descriptions officielles, inventorier les changements de spécialisations, citer les données disponibles et distinguer faits vérifiés / simulations / opinions ; ne mettre à jour les notes qu'avec un motif vérifiable.
+À chaque patch significatif du jeu : vérifier les descriptions officielles, inventorier les changements de spécialisations, citer les données disponibles et distinguer faits vérifiés / simulations / opinions ; ne mettre à jour les notes qu'avec un motif vérifiable. Ce travail se consigne dans la [base de connaissances](connaissances/README.md) : faits et sources datés, justification et confiance des notes, écarts à arbitrer.
 
 ### Commandes de validation
 

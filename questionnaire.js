@@ -2,6 +2,7 @@
 (function(){
 'use strict';
 var E=window.WFRecommend;
+var X=window.WFResultExplanations;
 var root=document.getElementById('reco-app');
 if(!E||!root)return;
 var KEY='wf-recommend-v1',state=E.sanitize(null),step=0,revealed=false;
@@ -18,7 +19,7 @@ var descriptions={
  roles:{dps:'Infliger des dégâts',tank:'Protéger et encaisser',soin:'Soigner et soutenir'},
  activities:{raid:'Jouer en groupe en PvE',bg:'Affrontements en équipe',world:'Combats imprévus et duels',solo:'Explorer et progresser seul'},
  range:{distance:'Combattre sans être au contact',melee:'Combattre au plus près',mixte:'Changer selon la configuration'},
- styles:{burst:'Frapper très fort en peu de temps',zone:'Toucher plusieurs cibles',ctrl:'Gêner les actions adverses',surv:'Tenir sous pression',mob:'Se déplacer et poursuivre',support:'Renforcer les alliés'},
+ styles:{burst:'Frapper très fort en peu de temps',zone:'Toucher plusieurs cibles',ctrl:'Ralentir, immobiliser, interrompre ou neutraliser',surv:'Tenir sous pression',mob:'Se déplacer et poursuivre',support:'Renforcer les alliés'},
  pet:{like:'Un compagnon fait partie du plaisir',avoid:'Je préfère jouer sans compagnon'},
  difficulty:{simple:'Prise en main confortable',complex:'Gameplay à approfondir'}
 };
@@ -117,11 +118,11 @@ function currentQuestion(){
  if(step===1)return question(2,'Où passeras-tu le plus de temps ?','Tu peux sélectionner plusieurs activités. Aucune obligation de te décider tout de suite.',multi('activities'));
  if(step===2)return question(3,'Comment aimes-tu combattre ?','Une préférence peut rester souple. Coche une exigence uniquement si elle est non négociable.',single('range'));
  if(step===3)return question(4,'Quel style te ressemble ?','Choisis jusqu’à trois qualités qui t’attirent. Tes hésitations sont normales.',multi('styles',3));
- if(step===4)return question(5,'Quelle place pour les familiers ?','Une configuration sans familier permanent peut être envisageable selon la spécialisation.',single('pet'));
+ if(step===4)return question(5,'Quelle place pour les familiers ?','Un familier facultatif peut apporter des outils que tu perds en jouant sans lui.',single('pet'));
  var controls='<div class="reco-mastery"><span class="reco-label">Ton expérience actuelle</span><div class="reco-mastery-choices" role="group" aria-label="Maîtrise actuelle">'+
   mastery.map(function(v,i){return '<button type="button" data-mastery="'+i+'" aria-pressed="'+(i===state.mastery)+'">'+v+'</button>';}).join('')+
   '</div></div><div class="reco-difficulty"><span class="reco-label">Le type de difficulté que tu recherches</span>'+single('difficulty')+'</div>';
- return question(6,'Quel est ton rapport à la difficulté ?','Être débutant ne t’empêche pas de vouloir apprendre une classe exigeante.',controls);
+ return question(6,'Quel est ton rapport à la difficulté ?','Être débutant ne t’empêche pas de vouloir apprendre une classe exigeante. La difficulté dépend de la spécialisation et de l’activité.',controls);
 }
 function renderForm(){
  var done=answered(),count=done.filter(Boolean).length;
@@ -179,21 +180,24 @@ function fitLabel(v){
  if(v>=.68)return 'Bonne correspondance';
  return 'À explorer';
 }
-function resultCard(r,i){
+function resultCard(r,i,position){
  var strong=r.strengths.length?r.strengths.map(pointsName).join(' · '):'Plusieurs pistes possibles';
- var weak=r.tradeoffs.length?r.tradeoffs.map(pointsName).join(' · '):'Pas de réserve majeure sur les dimensions retenues';
+ var weak=r.tradeoffs.length?r.tradeoffs.map(pointsName).join(' · '):'Consulte les repères de cette spécialisation ci-dessous';
  var cls=r.classId;
+ var tied=position&&position.tied,leader=position?position.leader:i===0;
+ var petNotice=X?X.petNotice(r.spec,state):'';
  var stability=r.scenarioCount<=1?'Pas assez de réponses hésitantes pour comparer plusieurs scénarios':
   'Présente dans '+r.scenarioAppearances+' des '+r.scenarioCount+' variantes de tes réponses hésitantes';
- return '<article class="reco-result-card '+(i===0?'reco-featured':'')+'" style="--reco-class:var(--k-'+esc(cls)+')">'+
+ return '<article class="reco-result-card '+(leader&&!tied?'reco-featured':'')+'" style="--reco-class:var(--k-'+esc(cls)+')">'+
   '<div class="reco-result-top"><span class="reco-emblem" aria-hidden="true"><img src="'+wowClassIcon(cls)+'" alt="" width="42" height="42" loading="lazy" decoding="async"></span>'+
-  '<div class="reco-result-main"><span class="reco-result-label">'+(i===0?'PISTE PRINCIPALE':'ALTERNATIVE '+i)+'</span><h4>'+esc(r.className)+'</h4>'+
-  '<p>'+esc(r.spec.label)+' · '+esc(roleNames[r.spec.role])+' · '+(r.spec.range==='distance'?'Distance':'Mêlée')+'</p></div>'+
+  '<div class="reco-result-main"><span class="reco-result-label">'+(tied?(leader?'PISTE À ÉGALITÉ':'ALTERNATIVE À ÉGALITÉ'):(leader?'PISTE PRINCIPALE':'ALTERNATIVE '+i))+'</span><h4>'+esc(r.className)+'</h4>'+
+  '<p><strong>'+esc(r.spec.label)+'</strong> · '+esc(roleNames[r.spec.role])+' · '+(r.spec.range==='distance'?'Distance':'Mêlée')+'</p></div>'+
   '<div class="reco-score"><strong>'+Math.round(r.score)+'</strong><small>/100</small></div></div>'+
   '<div class="reco-fit"><span>'+fitLabel(r.score/100)+'</span><small>Indice estimé, pas une probabilité</small></div>'+
   '<div class="reco-bars"><div class="reco-bar" style="width:'+Math.min(100,Math.max(0,r.score))+'%"></div></div>'+
   '<div class="reco-reasons"><p><b>Correspond à tes envies</b><span>'+esc(strong)+'</span></p>'+
   '<p><b>À garder en tête</b><span>'+esc(weak)+'</span></p></div>'+
+  (petNotice?'<p class="reco-config-notice">'+esc(petNotice)+'</p>':'')+
   (window.WFConfigurationDetails?window.WFConfigurationDetails(r.spec):'')+
   '<details class="reco-evidence"><summary>Fiabilité et incertitude</summary><p>'+esc(stability)+'. Évaluation des qualités de gameplay encore exploratoire au niveau 60.</p>'+
   '<a href="'+esc(r.spec.source)+'" target="_blank" rel="noopener noreferrer">Source officielle de la classe ↗</a></details></article>';
@@ -221,7 +225,11 @@ function renderResults(){
   h='<div class="reco-results-head"><div><span class="reco-kicker">Sélection personnalisée</span><h3>Tes meilleures pistes</h3></div>'+
    '<button type="button" class="reco-hide-results" data-reco-hide>Masquer les résultats</button></div>';
   h+='<p class="reco-results-meta">'+report.compatible+' configurations compatibles · '+report.used.length+' dimensions prises en compte</p>';
-  h+='<div class="reco-cards">'+report.top.map(resultCard).join('')+'</div>';
+  h+='<p class="reco-note">Chaque piste retient une spécialisation pour l’ensemble de tes réponses. Ajouter une activité peut changer celle qui est proposée.</p>';
+  var positions=X?X.ranks(report.results):[],tie=X?X.tieNote(report.results):'';
+  if(tie)h+='<p class="reco-note reco-tie-note">'+esc(tie)+'</p>';
+  if(X)X.contextNotes({profile:state}).forEach(function(note){h+='<p class="reco-note">'+esc(note)+'</p>';});
+  h+='<div class="reco-cards">'+report.top.map(function(r,i){return resultCard(r,i,positions[i]);}).join('')+'</div>';
   if(report.uncertain.length)h+='<p class="reco-note">Sensibilité : '+report.uncertain.length+' préférence(s) hésitante(s) explorée(s). Ces scénarios ne sont pas des probabilités.</p>';
   else h+='<p class="reco-note">Ces scores sont des estimations de correspondance, pas des probabilités de satisfaction.</p>';
  }

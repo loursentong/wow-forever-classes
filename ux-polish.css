@@ -111,7 +111,7 @@ header.top .lede{max-width:67ch;font-size:clamp(1rem,1.25vw,1.09rem);line-height
 .reco-priority-row{margin-top:6px}
 .reco-priority-ranking{gap:5px}
 .reco-priority-class{padding:7px 9px;transition:background-color .2s ease,border-color .2s ease}
-.reco-priority-class:first-child{box-shadow:inset 2px 0 0 var(--accent)}
+.reco-priority-class.is-leading{box-shadow:inset 2px 0 0 var(--accent)}
 @keyframes ux-fade{from{opacity:.4;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
 @keyframes ux-reveal{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:850px){

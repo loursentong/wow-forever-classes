@@ -4,6 +4,7 @@
 (function(){
 'use strict';
 var E=window.WFRecommend,D=window.__WF,root=document.getElementById('reco-app');
+var X=window.WFResultExplanations;
 if(!E||!D||!root||typeof E.priorityRanking!=='function')return;
 var modes=Array.prototype.slice.call(root.querySelectorAll('[data-reco-mode]'));
 var guided=root.querySelector('#reco-guided'),priority=root.querySelector('#reco-priorities');
@@ -78,8 +79,10 @@ function controls(){
   html+='<section class="reco-priority-group"><div class="reco-priority-group-head"><h4>'+g.name+'</h4><p>'+g.hint+'</p></div>';
   g.items.forEach(function(it){
    var val=w[it[0]];
-   html+='<div class="reco-priority-row"><span class="reco-priority-label">'+it[1]+'</span>'+
-    '<div class="reco-weights" role="group" aria-label="Importance de '+esc(it[1])+'">'+[0,1,2,3].map(function(n){
+   var help=X&&X.criteria[it[0]];
+   html+='<div class="reco-priority-row"><span class="reco-priority-label">'+it[1]+
+    (help?'<small id="prio-help-'+it[0]+'">'+esc(help)+'</small>':'')+'</span>'+
+    '<div class="reco-weights" role="group" aria-label="Importance de '+esc(it[1])+'"'+(help?' aria-describedby="prio-help-'+it[0]+'"':'')+'>'+[0,1,2,3].map(function(n){
       return '<button type="button" data-prio-axis="'+it[0]+'" data-prio-weight="'+n+'" aria-pressed="'+(val===n)+'" aria-label="'+it[1]+' : poids '+n+'">'+n+'</button>';
     }).join('')+'</div></div>';
   });
@@ -104,14 +107,19 @@ function results(){
   var described=r.active.length;
   h='<div class="reco-results-head"><div><span class="reco-kicker">Classement personnalisé</span><h3>Les neuf classes selon tes critères</h3></div>'+
     '<p>'+described+' critère'+(described>1?'s':'')+' actif'+(described>1?'s':'')+' · maîtrise '+mastery[currentMastery()]+'</p></div>';
+  h+='<p class="reco-note">La spécialisation affichée est retenue pour l’ensemble de tes critères. Le classement peut proposer une autre spécialisation lorsque tu modifies tes priorités.</p>';
+  var positions=X?X.ranks(r.results):[],tie=X?X.tieNote(r.results):'';
+  if(tie)h+='<p class="reco-note reco-tie-note">'+esc(tie)+'</p>';
+  if(X)X.contextNotes({weights:w}).forEach(function(note){h+='<p class="reco-note">'+esc(note)+'</p>';});
   h+='<ol class="reco-priority-ranking">';
   r.results.forEach(function(x,i){
     var rounded=Math.round(x.score),close=i>0&&Math.abs(x.score-r.results[i-1].score)<2.01;
-    h+='<li class="reco-priority-class" style="--reco-class:var(--k-'+esc(x.classId)+')">'+
-     '<span class="reco-priority-place">'+(i+1)+'</span>'+
+    var position=positions[i]||{rank:i+1,tied:false,leader:i===0};
+    h+='<li class="reco-priority-class'+(position.leader?' is-leading':'')+'" value="'+position.rank+'" style="--reco-class:var(--k-'+esc(x.classId)+')">'+
+     '<span class="reco-priority-place" aria-label="Rang '+position.rank+(position.tied?', ex æquo':'')+'">'+position.rank+'</span>'+
      '<span class="reco-priority-class-icon" aria-hidden="true"><img src="'+WOW_ICON_BASE+wowClassIcons[x.classId]+'.jpg" width="30" height="30" alt="" loading="lazy" decoding="async"></span>'+
      '<span class="reco-priority-class-info"><b>'+esc(x.className)+'</b><small>'+
-     esc(x.spec.label)+' · '+(x.spec.range==='distance'?'Distance':'Mêlée')+(close?' · résultat proche':'')+'</small></span>'+
+     '<strong>'+esc(x.spec.label)+'</strong> · '+(x.spec.range==='distance'?'Distance':'Mêlée')+(position.tied?' · ex æquo':close?' · résultat proche':'')+'</small></span>'+
      '<span class="reco-priority-score">'+rounded+'<small>/100</small></span>'+
      '<span class="reco-priority-line" aria-hidden="true"><i style="width:'+Math.max(0,Math.min(100,rounded))+'%"></i></span>'+
      (window.WFConfigurationDetails?window.WFConfigurationDetails(x.spec):'')+'</li>';

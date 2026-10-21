@@ -1,0 +1,594 @@
+{
+ "classe": "mage",
+ "libelle": "Mage",
+ "date": "2026-10-21",
+ "moteur": "1.0.3-exploratoire",
+ "faits": [
+  {
+   "id": "m-role",
+   "categorie": "role",
+   "texte": "Parmi les plus puissants dégâts à distance et les meilleurs dégâts de zone à distance ; buffs, nourriture, eau et contrôle.",
+   "sources": [
+    "bz-dd-mage-chaman"
+   ]
+  },
+  {
+   "id": "m-fragile",
+   "categorie": "limite",
+   "texte": "Très fragile, il meurt facilement au corps à corps.",
+   "sources": [
+    "bz-dd-mage-chaman",
+    "kami-video"
+   ],
+   "contre": [
+    "surv"
+   ]
+  },
+  {
+   "id": "m-controle",
+   "categorie": "controle",
+   "texte": "« Polymorph », l’un des meilleurs contrôles ; « Counterspell » (silence garanti avec « Improved Counterspell ») ; « Frost Nova ».",
+   "sources": [
+    "bz-dd-mage-chaman",
+    "wt-mage",
+    "kami-video"
+   ]
+  },
+  {
+   "id": "m-ralentissements",
+   "categorie": "ralentissement",
+   "texte": "« Cone of Cold », « Frostfire Bolt » et « Frostbolt » ralentissent ; « Improved Blizzard » jusqu’à 40 %.",
+   "sources": [
+    "bz-dd-mage-chaman",
+    "wt-mage"
+   ]
+  },
+  {
+   "id": "m-givre-controle",
+   "categorie": "controle",
+   "texte": "Givre : contrôle présenté comme inégalé par Blizzard ; « Permafrost » allonge les effets de froid.",
+   "sources": [
+    "bz-dd-mage-chaman"
+   ],
+   "specs": [
+    "mage-givre"
+   ]
+  },
+  {
+   "id": "m-givre-burst",
+   "categorie": "burst",
+   "texte": "Givre : « Ice Lance » (+300 % sur cible gelée) et « Fingers of Frost ».",
+   "sources": [
+    "bz-dd-mage-chaman",
+    "wt-mage"
+   ],
+   "specs": [
+    "mage-givre"
+   ]
+  },
+  {
+   "id": "m-givre-defense",
+   "categorie": "defense",
+   "texte": "Givre : « Ice Block » (16 points) et « Cold Snap » (21 points).",
+   "sources": [
+    "bz-dd-mage-chaman"
+   ],
+   "specs": [
+    "mage-givre"
+   ]
+  },
+  {
+   "id": "m-blink",
+   "categorie": "mobilite",
+   "texte": "« Blink » pour s’échapper et se libérer des étourdissements et immobilisations ; téléportations et portails.",
+   "sources": [
+    "wt-mage"
+   ]
+  },
+  {
+   "id": "m-defense",
+   "categorie": "defense",
+   "texte": "« Mana Shield » avec « Evocation » ; pas de « Ice Block » hors de l’arbre Givre.",
+   "sources": [
+    "wt-mage",
+    "bz-dd-mage-chaman",
+    "kami-video"
+   ]
+  },
+  {
+   "id": "m-soutien",
+   "categorie": "soutien",
+   "texte": "Nourriture et eau, portails, « Remove Lesser Curse », bonus d’Intelligence du groupe.",
+   "sources": [
+    "bz-dd-mage-chaman",
+    "wt-mage"
+   ]
+  },
+  {
+   "id": "m-zone",
+   "categorie": "zone",
+   "texte": "« Blizzard », « Flamestrike », « Arcane Explosion », « Cone of Cold » ; le farm de zone en solo est volontairement réduit.",
+   "sources": [
+    "wt-mage",
+    "bz-podcast-2",
+    "kami-podcast-2"
+   ]
+  },
+  {
+   "id": "m-arcane",
+   "categorie": "burst",
+   "texte": "Arcane : « Arcane Blast » (coût croissant), « Arcane Power », « Missile Barrage », « Presence of Mind » ; mana très exposé.",
+   "sources": [
+    "bz-dd-mage-chaman",
+    "wt-mage"
+   ],
+   "specs": [
+    "mage-arcane"
+   ]
+  },
+  {
+   "id": "m-feu",
+   "categorie": "burst",
+   "texte": "Feu : « Heating Up » (Pyroblast plus rapide), « Combustion » (4 critiques), « Wake of Fire » ; « Impact » étourdit parfois.",
+   "sources": [
+    "bz-dd-mage-chaman",
+    "wt-mage"
+   ],
+   "specs": [
+    "mage-feu"
+   ]
+  },
+  {
+   "id": "m-sim",
+   "categorie": "performance",
+   "texte": "Simulation 60 : Feu 6e (80 %), Arcane 10e (74 %), Givre 20e (62 %).",
+   "sources": [
+    "mythicsim"
+   ]
+  },
+  {
+   "id": "m-tournoi",
+   "categorie": "performance",
+   "texte": "Duel niveau 30 : les quatre meilleurs Mages éliminés au top 32.",
+   "sources": [
+    "forever-open"
+   ]
+  },
+  {
+   "id": "m-technique",
+   "categorie": "ressource",
+   "texte": "Plus technique qu’avant face à des classes plus mobiles, sans résilience annoncée ; incantations longues et mana à gérer.",
+   "sources": [
+    "kami-video",
+    "wt-mage"
+   ]
+  },
+  {
+   "id": "m-leveling",
+   "categorie": "solo",
+   "texte": "Leveling pratique (nourriture, téléportation, contrôle) ; classé A dans la liste de la bêta (Mobalytics), Givre conseillé, S dans celle fondée sur Vanilla ; mais farm de zone volontairement réduit dans Forever.",
+   "sources": [
+    "wt-mage",
+    "mobalytics-leveling",
+    "bz-podcast-2",
+    "mobalytics-leveling-beta",
+    "iv-choisir",
+    "kami-podcast-2"
+   ]
+  },
+  {
+   "id": "m-pvp-duel",
+   "categorie": "pvp",
+   "texte": "Duel niveau 30 : rang A ; Givre la plus forte (« Frost Nova », « Ice Lance », « Ice Block »), derrière Démoniste et Chasseur (S) (Crix).",
+   "sources": [
+    "crix-pvp-duel"
+   ],
+   "specs": [
+    "mage-givre"
+   ]
+  },
+  {
+   "id": "m-feu-pvp",
+   "categorie": "pvp",
+   "texte": "Feu et Arcane jugés très faibles en duel au niveau 30 (Crix) ; Sodapoppin trouve que le Feu peine contre tout (avis exprimé dans le podcast officiel).",
+   "sources": [
+    "crix-pvp-duel",
+    "kami-podcast-2"
+   ],
+   "specs": [
+    "mage-feu",
+    "mage-arcane"
+   ]
+  },
+  {
+   "id": "m-givre-leveling",
+   "categorie": "solo",
+   "texte": "Givre est la spécialisation conseillée pour le leveling du Mage (Mobalytics, bêta), réputée forte en leveling (Icy Veins).",
+   "sources": [
+    "mobalytics-leveling-beta",
+    "iv-choisir"
+   ],
+   "specs": [
+    "mage-givre"
+   ]
+  },
+  {
+   "id": "m-rotation",
+   "categorie": "ressource",
+   "texte": "Rotations simulées courtes : 6 à 8 sorts.",
+   "sources": [
+    "wowsims-forever"
+   ]
+  }
+ ],
+ "specialisations": [
+  {
+   "id": "mage-arcane",
+   "libelle": "Arcane",
+   "profil": {
+    "role": "dps",
+    "portee": "distance",
+    "familier": "none",
+    "appuis_familier": []
+   },
+   "notes": {
+    "raid": {
+     "valeur": 4,
+     "raison": "Simulation 60 : 10e DPS (74 %) ; mana très exposé sur les longs combats.",
+     "appuis": [
+      "m-sim",
+      "m-arcane"
+     ],
+     "confiance": "moyenne"
+    },
+    "bg": {
+     "valeur": 4,
+     "raison": "Gros burst à distance, « Polymorph » et « Counterspell » ; très fragile au contact.",
+     "appuis": [
+      "m-arcane",
+      "m-controle",
+      "m-fragile"
+     ],
+     "confiance": "faible"
+    },
+    "world": {
+     "valeur": 3,
+     "raison": "Burst et contrôle, mais très fragile ; Arcane jugé très faible en duel au niveau 30 (Crix).",
+     "appuis": [
+      "m-fragile",
+      "m-defense",
+      "m-technique",
+      "m-tournoi",
+      "m-feu-pvp"
+     ],
+     "confiance": "moyenne"
+    },
+    "solo": {
+     "valeur": 3,
+     "raison": "Mage classé A dans la liste de leveling de la bêta, mais c’est Givre qui y est conseillé ; Blizzard a réduit le farm de zone en solo.",
+     "appuis": [
+      "m-leveling",
+      "m-zone"
+     ],
+     "confiance": "faible"
+    },
+    "burst": {
+     "valeur": 5,
+     "raison": "« Arcane Power », « Presence of Mind », « Arcane Blast » et « Missile Barrage ».",
+     "appuis": [
+      "m-arcane"
+     ],
+     "confiance": "moyenne"
+    },
+    "zone": {
+     "valeur": 4,
+     "raison": "« Arcane Explosion », « Blizzard », « Flamestrike » et « Cone of Cold » de base.",
+     "appuis": [
+      "m-zone",
+      "m-role"
+     ],
+     "confiance": "moyenne"
+    },
+    "ctrl": {
+     "valeur": 4,
+     "raison": "« Polymorph », « Counterspell » (silence garanti avec « Improved Counterspell ») et « Frost Nova ».",
+     "appuis": [
+      "m-controle",
+      "m-ralentissements"
+     ],
+     "confiance": "moyenne"
+    },
+    "surv": {
+     "valeur": 2,
+     "raison": "Très fragile au contact ; « Mana Shield » et « Blink », sans « Ice Block » hors Givre.",
+     "appuis": [
+      "m-fragile",
+      "m-defense",
+      "m-blink"
+     ],
+     "confiance": "haute"
+    },
+    "mob": {
+     "valeur": 3,
+     "raison": "« Blink » pour s’échapper et se libérer des étourdissements et immobilisations ; téléportations.",
+     "appuis": [
+      "m-blink"
+     ],
+     "confiance": "moyenne"
+    },
+    "support": {
+     "valeur": 3,
+     "raison": "Nourriture et eau, portails, « Remove Lesser Curse » et bonus d’Intelligence.",
+     "appuis": [
+      "m-soutien"
+     ],
+     "confiance": "moyenne"
+    },
+    "charge_pve": {
+     "valeur": 3,
+     "raison": "Coût croissant d’« Arcane Blast » : le mana est la ressource à piloter. Aucune mesure de difficulté.",
+     "appuis": [
+      "m-arcane",
+      "m-technique",
+      "m-rotation"
+     ],
+     "confiance": "faible"
+    },
+    "charge_pvp": {
+     "valeur": 4,
+     "raison": "Plus technique qu’avant face à des classes plus mobiles (Kami) ; incantations à protéger.",
+     "appuis": [
+      "m-technique"
+     ],
+     "confiance": "moyenne"
+    }
+   }
+  },
+  {
+   "id": "mage-feu",
+   "libelle": "Feu",
+   "profil": {
+    "role": "dps",
+    "portee": "distance",
+    "familier": "none",
+    "appuis_familier": []
+   },
+   "notes": {
+    "raid": {
+     "valeur": 4,
+     "raison": "Simulation 60 : 6e DPS (80 %).",
+     "appuis": [
+      "m-sim",
+      "m-feu"
+     ],
+     "confiance": "moyenne"
+    },
+    "bg": {
+     "valeur": 4,
+     "raison": "« Combustion », « Pyroblast » accéléré et dégâts de zone ; très fragile au contact.",
+     "appuis": [
+      "m-feu",
+      "m-zone",
+      "m-fragile"
+     ],
+     "confiance": "faible"
+    },
+    "world": {
+     "valeur": 4,
+     "raison": "Burst de « Combustion » et étourdissements d’« Impact », mais Feu jugé très faible en duel au niveau 30 (Crix) et en peine contre tout selon Sodapoppin.",
+     "appuis": [
+      "m-feu",
+      "m-fragile",
+      "m-technique",
+      "m-tournoi",
+      "m-feu-pvp"
+     ],
+     "confiance": "faible"
+    },
+    "solo": {
+     "valeur": 3,
+     "raison": "Mage classé A dans la liste de leveling de la bêta, mais c’est Givre qui y est conseillé ; Blizzard a réduit le farm de zone en solo.",
+     "appuis": [
+      "m-leveling",
+      "m-zone"
+     ],
+     "confiance": "faible"
+    },
+    "burst": {
+     "valeur": 5,
+     "raison": "« Heating Up » (Pyroblast plus rapide) et « Combustion » (4 critiques).",
+     "appuis": [
+      "m-feu"
+     ],
+     "confiance": "moyenne"
+    },
+    "zone": {
+     "valeur": 5,
+     "raison": "« Flamestrike » et « Wake of Fire » en plus des sorts de zone du Mage, parmi les meilleurs dégâts de zone à distance selon Blizzard.",
+     "appuis": [
+      "m-zone",
+      "m-feu",
+      "m-role"
+     ],
+     "confiance": "haute"
+    },
+    "ctrl": {
+     "valeur": 3,
+     "raison": "« Polymorph », « Counterspell » et « Frost Nova » de base ; « Impact » étourdit parfois.",
+     "appuis": [
+      "m-controle",
+      "m-feu"
+     ],
+     "confiance": "moyenne"
+    },
+    "surv": {
+     "valeur": 2,
+     "raison": "Très fragile au contact ; « Mana Shield » et « Blink », sans « Ice Block » hors Givre.",
+     "appuis": [
+      "m-fragile",
+      "m-defense",
+      "m-blink"
+     ],
+     "confiance": "haute"
+    },
+    "mob": {
+     "valeur": 3,
+     "raison": "« Blink » pour s’échapper et se libérer des étourdissements et immobilisations ; téléportations.",
+     "appuis": [
+      "m-blink"
+     ],
+     "confiance": "moyenne"
+    },
+    "support": {
+     "valeur": 3,
+     "raison": "Nourriture et eau, portails, « Remove Lesser Curse » et bonus d’Intelligence.",
+     "appuis": [
+      "m-soutien"
+     ],
+     "confiance": "moyenne"
+    },
+    "charge_pve": {
+     "valeur": 3,
+     "raison": "Procs de « Heating Up » et fenêtres de « Combustion » à exploiter. Aucune mesure de difficulté.",
+     "appuis": [
+      "m-feu",
+      "m-technique",
+      "m-rotation"
+     ],
+     "confiance": "faible"
+    },
+    "charge_pvp": {
+     "valeur": 4,
+     "raison": "Plus technique qu’avant face à des classes plus mobiles (Kami) ; incantations à protéger.",
+     "appuis": [
+      "m-technique"
+     ],
+     "confiance": "moyenne"
+    }
+   }
+  },
+  {
+   "id": "mage-givre",
+   "libelle": "Givre",
+   "profil": {
+    "role": "dps",
+    "portee": "distance",
+    "familier": "none",
+    "appuis_familier": []
+   },
+   "notes": {
+    "raid": {
+     "valeur": 3,
+     "raison": "Simulation 60 : 20e DPS (62 %).",
+     "appuis": [
+      "m-sim"
+     ],
+     "confiance": "moyenne"
+    },
+    "bg": {
+     "valeur": 5,
+     "raison": "Contrôle présenté comme inégalé par Blizzard, ralentissements de zone (« Improved Blizzard », « Cone of Cold ») et « Ice Block ».",
+     "appuis": [
+      "m-givre-controle",
+      "m-ralentissements",
+      "m-givre-defense"
+     ],
+     "confiance": "moyenne"
+    },
+    "world": {
+     "valeur": 5,
+     "raison": "Contrôle inégalé et « Ice Lance » : la meilleure spécialisation du Mage en duel, mais la classe est classée A, derrière Démoniste et Chasseur, et tous les Mages sont sortis tôt du tournoi niveau 30.",
+     "appuis": [
+      "m-givre-controle",
+      "m-givre-burst",
+      "m-tournoi",
+      "m-technique",
+      "m-pvp-duel"
+     ],
+     "confiance": "faible"
+    },
+    "solo": {
+     "valeur": 3,
+     "raison": "Spécialisation conseillée pour le leveling (Mobalytics, bêta) dans une classe classée A, réputée forte en leveling (Icy Veins) ; Blizzard a toutefois réduit le farm de zone.",
+     "appuis": [
+      "m-leveling",
+      "m-zone",
+      "m-givre-leveling"
+     ],
+     "confiance": "faible"
+    },
+    "burst": {
+     "valeur": 4,
+     "raison": "« Ice Lance » (+300 % sur cible gelée) et « Fingers of Frost ».",
+     "appuis": [
+      "m-givre-burst"
+     ],
+     "confiance": "moyenne"
+    },
+    "zone": {
+     "valeur": 5,
+     "raison": "« Blizzard » (ralentissement jusqu’à 40 % avec talent) et « Cone of Cold » ; parmi les meilleurs dégâts de zone à distance selon Blizzard.",
+     "appuis": [
+      "m-zone",
+      "m-ralentissements",
+      "m-role"
+     ],
+     "confiance": "haute"
+    },
+    "ctrl": {
+     "valeur": 5,
+     "raison": "Contrôle présenté comme inégalé par Blizzard ; « Permafrost » allonge les effets de froid, en plus de « Polymorph », « Counterspell » et « Frost Nova ».",
+     "appuis": [
+      "m-givre-controle",
+      "m-controle",
+      "m-ralentissements"
+     ],
+     "confiance": "haute"
+    },
+    "surv": {
+     "valeur": 3,
+     "raison": "« Ice Block » (16 points) et « Cold Snap » (21 points), mais tissu et fragile au contact.",
+     "appuis": [
+      "m-givre-defense",
+      "m-fragile"
+     ],
+     "confiance": "haute"
+    },
+    "mob": {
+     "valeur": 3,
+     "raison": "« Blink » pour s’échapper et se libérer des étourdissements et immobilisations ; téléportations.",
+     "appuis": [
+      "m-blink"
+     ],
+     "confiance": "moyenne"
+    },
+    "support": {
+     "valeur": 3,
+     "raison": "Nourriture et eau, portails, « Remove Lesser Curse » et bonus d’Intelligence.",
+     "appuis": [
+      "m-soutien"
+     ],
+     "confiance": "moyenne"
+    },
+    "charge_pve": {
+     "valeur": 2,
+     "raison": "Rotation simulée courte (6 sorts) autour de « Frostbolt » et « Ice Lance ».",
+     "appuis": [
+      "m-givre-burst",
+      "m-rotation"
+     ],
+     "confiance": "moyenne"
+    },
+    "charge_pvp": {
+     "valeur": 4,
+     "raison": "Gel, « Ice Lance » et contrôle à enchaîner ; plus technique qu’avant selon Kami.",
+     "appuis": [
+      "m-technique",
+      "m-givre-controle"
+     ],
+     "confiance": "moyenne"
+    }
+   }
+  }
+ ]
+}

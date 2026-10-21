@@ -343,10 +343,10 @@ header.top{position:absolute;min-height:0}
 .reco-priority-ranking{gap:6px}
 .reco-priority-class{grid-template-columns:22px 36px minmax(0,1fr) auto;gap:6px 10px;min-height:56px;padding:6px 10px;border-radius:10px;
  border:1px solid rgba(42,61,86,.8);background:rgba(9,18,31,.8);box-shadow:none}
-.reco-priority-class:first-child{border-color:rgba(233,179,79,.6);background:linear-gradient(90deg,rgba(233,179,79,.14),rgba(9,18,31,.85) 70%);
+.reco-priority-class.is-leading{border-color:rgba(233,179,79,.6);background:linear-gradient(90deg,rgba(233,179,79,.14),rgba(9,18,31,.85) 70%);
  box-shadow:0 0 18px color-mix(in srgb,var(--reco-class) 25%,transparent)}
 .reco-priority-place{font-family:var(--font-display);font-weight:700;font-size:15px;color:var(--rf-muted)}
-.reco-priority-class:first-child .reco-priority-place{color:var(--rf-gold-light)}
+.reco-priority-class.is-leading .reco-priority-place{color:var(--rf-gold-light)}
 .reco-priority-class-icon{width:36px;height:36px;border-radius:7px;border:1px solid #000;box-shadow:0 0 0 1px var(--reco-class)}
 .reco-priority-class-info b{font-size:15px;color:var(--rf-ivory)}
 .reco-priority-class-info small{font-size:13px;color:var(--rf-muted)}

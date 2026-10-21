@@ -11,7 +11,7 @@ const {chromium}=require('playwright');
 
 const base=path.resolve(__dirname,'..');
 const allowed={'/':'index.html','/index.html':'index.html','/questionnaire.js':'questionnaire.js','/recommendation-engine.js':'recommendation-engine.js','/priorities-ui.js':'priorities-ui.js','/ux-polish.css':'ux-polish.css','/warcraft-visual-pack.css':'warcraft-visual-pack.css','/wow-ui-rework.css':'wow-ui-rework.css','/refonte-forever.css':'refonte-forever.css','/assets/hero-landscape.svg':'assets/hero-landscape.svg'};
-for(const f of ['configuration-notes.js','configuration-details.js','configuration-notes.css'])allowed['/'+f]=f;
+for(const f of ['configuration-notes.js','configuration-details.js','configuration-notes.css','result-explanations.js'])allowed['/'+f]=f;
 // Visuels de la refonte (kit de presse officiel), servis comme sur GitHub Pages.
 for(const f of ['logo-wow-forever.webp','hero-arbre-monde.webp','hero-vallee-nuit.webp','bandeau-gantelet.webp','bandeau-darkspear.webp','grain.png'])allowed['/assets/img/'+f]='assets/img/'+f;
 const types={'.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml; charset=utf-8','.webp':'image/webp','.png':'image/png'};
@@ -302,6 +302,64 @@ async function check(){
     {theme:'dark',background:'rgb(10, 23, 37)',themeControls:0,stored:'light'},'Thème sombre unique : '+JSON.stringify(dark));
   assert.ok(dark.heroTop<=20,'L’en-tête de page ne réserve plus de place au-dessus du logo : '+JSON.stringify(dark));
   await lightContext.close();
+
+  // Retours de guilde : égalités, profils sans familier et difficulté par spécialisation.
+  await page.setViewportSize({width:1300,height:900});
+  await page.evaluate(()=>{
+   localStorage.clear();
+   localStorage.setItem('wf-recommend-v1',JSON.stringify({styles:{ctrl:5},range:{value:'distance',certainty:5},mastery:2}));
+  });
+  await page.reload({waitUntil:'domcontentloaded'});
+  await page.locator('[data-reco-reveal]').click();
+  assert.match(await page.locator('#reco-results .reco-tie-note').textContent(),/Démoniste, Mage/);
+  assert.equal(await page.locator('#reco-results .reco-featured').count(),0);
+  const givre=page.locator('[data-config-id="mage-givre"]');
+  await givre.locator('summary').click();
+  assert.match(await givre.textContent(),/PvE : Assez accessible · PvP : Exigeant/);
+  await page.locator('#reco-results').screenshot({path:path.join(__dirname,'screenshots','lot1-egalite-guide.png'),animations:'disabled'});
+  await page.locator('[data-step="4"]').click();
+  await page.locator('[data-single="pet"][data-key="avoid"]').click();
+  await page.locator('#rc-pet-avoid').fill('5');
+  await page.locator('[data-strict="pet"]').check();
+  const warlock=page.locator('#reco-results .reco-result-card').filter({has:page.locator('h4', {hasText:'Démoniste'})});
+  assert.match(await warlock.locator('.reco-config-notice').textContent(),/Sans démon invoqué/);
+  assert.equal(await page.locator('#reco-results .reco-result-card').first().locator('h4').textContent(),'Mage');
+  await page.setViewportSize({width:390,height:844});
+  await warlock.screenshot({path:path.join(__dirname,'screenshots','lot1-familier-mobile.png'),animations:'disabled'});
+  for(const width of [320,390,768]){
+   await page.setViewportSize({width,height:900});
+   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth+2),'Résultats sans familier à '+width+'px');
+  }
+  await page.locator('[data-reco-mode="priorities"]').click();
+  await page.locator('[data-prio-preset="controle"]').click();
+  const rankRows=page.locator('#reco-priority-results .reco-priority-class');
+  assert.equal(await rankRows.nth(0).getAttribute('value'),'1');
+  assert.equal(await rankRows.nth(1).getAttribute('value'),'1');
+  assert.equal(await rankRows.nth(2).getAttribute('value'),'1');
+  assert.match(await rankRows.nth(1).textContent(),/ex æquo/);
+  const leadBorders=await page.locator('#reco-priority-results .is-leading').evaluateAll(rows=>rows.map(row=>getComputedStyle(row).borderColor));
+  assert.equal(leadBorders.length,3);
+  assert.equal(new Set(leadBorders).size,1,'Les trois classes à égalité doivent recevoir la même mise en avant');
+  const weightsControl=page.locator('[aria-describedby="prio-help-ctrl"]');
+  assert.equal(await weightsControl.count(),1);
+  await weightsControl.locator('button').first().focus();
+  assert.equal(await page.evaluate(()=>document.activeElement.dataset.prioAxis),'ctrl');
+  for(const width of [320,390,768,1300]){
+   await page.setViewportSize({width,height:900});
+   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth+2),'Définitions des critères à '+width+'px');
+  }
+  await page.locator('#reco-priority-results').screenshot({path:path.join(__dirname,'screenshots','lot1-egalite-priorites.png'),animations:'disabled'});
+  await page.evaluate(()=>{
+   localStorage.clear();
+   localStorage.setItem('wf-recommend-v1',JSON.stringify({roles:{soin:5},rolesStrict:true,mastery:2}));
+  });
+  await page.reload({waitUntil:'domcontentloaded'});
+  await page.locator('[data-step="5"]').click();
+  await page.locator('[data-show-results]').click();
+  assert.match(await page.locator('#reco-results .reco-tie-note').textContent(),/Chaman, Druide, Paladin, Prêtre/);
+  assert.equal(await page.locator('#reco-results .reco-featured').count(),0);
+  assert.equal(await page.locator('#reco-results .reco-result-card').count(),3);
+  assert.match(await page.locator('#reco-results').textContent(),/styles de soin ne sont pas encore départagés/);
   assert.deepEqual(errors,[],'Erreurs JavaScript navigateur');
   process.stdout.write('Chromium : deux parcours, 14 poids, 15 presets, neuf rangs, maîtrise partagée, mobile et clavier — OK\n');
  }finally{

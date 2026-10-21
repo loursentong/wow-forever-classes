@@ -42,17 +42,17 @@
   'chasseur-maitrise-betes':{
    fit:'Tu veux jouer à distance avec un compagnon au centre de ton jeu.',
    strengths:['Compagnon protecteur','Confort en solo'],
-   caution:'Une entrée accessible, avec un familier à diriger et à garder en vie. Le confort dépend aussi de sa présence et de ton équipement.'
+   caution:'Une entrée accessible, avec un familier à diriger et à garder en vie. Les rotations optimisées alternant tirs et mêlée demandent un apprentissage supplémentaire ; elles ne décrivent pas la même simplicité que le tir statique.'
   },
   'chasseur-precision':{
    fit:'Tu préfères les tirs puissants et le placement à distance.',
    strengths:['Tirs puissants','Combat à distance'],
-   caution:'Le jeu sans familier dépend des talents choisis ; il ne promet pas le même confort en solo. Ton arme et ton placement comptent.'
+   caution:'Le jeu sans familier dépend du build et change le confort en solo. Alterner tirs et mêlée pour optimiser les dégâts demande davantage de coordination que le tir statique ; le score actuel ne distingue pas ces variantes.'
   },
   'chasseur-survie':{
    fit:'Tu aimes les pièges et une approche active au corps à corps.',
    strengths:['Pièges','Outils de mêlée'],
-   caution:'La configuration évaluée ici vise la mêlée et demande davantage de coordination. Les variantes hybrides et le confort sans familier peuvent différer.'
+   caution:'Les variantes alternant tirs et mêlée demandent davantage de coordination. Le score actuel ne distingue pas encore ces variantes du jeu principalement en mêlée, ni le confort avec et sans familier.'
   },
   'voleur-assassinat':{
    fit:'Tu aimes les dagues, les poisons et les effets à entretenir.',
