@@ -8,51 +8,26 @@
 <meta property="og:title" content="Les classes de WoW Forever">
 <meta property="og:description" content="Quel personnage choisir dans WoW Forever ? Parcours guidé ou 14 priorités personnalisables, maîtrise, classement de neuf classes par spécialisation, sources et comparatif.">
 <meta name="theme-color" content="#0A1725">
-<script data-theme-init>
-try {
-  var theme = localStorage.getItem('wf-overview-theme');
-  if (['dark','light','system'].indexOf(theme) >= 0) document.documentElement.setAttribute('data-theme', theme);
-} catch (e) {}
-</script>
 <style>html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>Les classes de WoW Forever</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@500&display=swap">
 <style>
-/* Layout : en-tête d'état → tableau des 14 critères → pondération et classement → 9 fiches « peut faire / excelle / faible » → règles communes → sources. Même système visuel que le comparatif niveau 30. */
+/* Layout : en-tête d'état → tableau des 14 critères → pondération et classement → 9 fiches « peut faire / excelle / faible » → règles communes → sources. Même système visuel que le comparatif niveau 30.
+ * Thème sombre unique depuis le 21 octobre 2026 : refonte-forever.css affine cette palette. */
 :root{
-  color-scheme:light;
-  --bg:#F1F3F6; --surface:#FFFFFF; --surface-2:#E8EBF0; --fg:#18202C; --muted:#586374; --line:#D5DBE3;
-  --accent:#94660C; --accent-soft:#F6ECD6;
-  --q5:#A85400; --q5-bg:#FBE6D0; --q4:#7A2DB5; --q4-bg:#EEE2F9; --q3:#0D5DAE; --q3-bg:#DCE9F8;
-  --q2:#2F7A22; --q2-bg:#E0F1DB; --q1:#6A7382; --q1-bg:#E9ECF0;
-  --good:#2F7A22; --bad:#B3261E; --can:#0D5DAE;
-  --k-guerrier:#9C7448; --k-paladin:#C9478A; --k-chasseur:#5E8F2A; --k-voleur:#9C8600; --k-pretre:#77808E;
-  --k-chaman:#0062C4; --k-mage:#178FB5; --k-demoniste:#5F60D0; --k-druide:#D45F00;
-  --font-display:"Cinzel","Trajan Pro",Georgia,serif;
-  --font-body:"Source Sans 3","Segoe UI",system-ui,sans-serif;
-  --font-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#10141B; --surface:#171D26; --surface-2:#202835; --fg:#E5E8EE; --muted:#98A3B3; --line:#2A3341;
-    --accent:#E3B04B; --accent-soft:#2E2614;
-    --q5:#FF9A3D; --q5-bg:#3A2510; --q4:#C68CF6; --q4-bg:#2B1D3C; --q3:#62AEFF; --q3-bg:#132A44;
-    --q2:#72DC5F; --q2-bg:#17311A; --q1:#98A3B3; --q1-bg:#222A36;
-    --good:#72DC5F; --bad:#FF7A70; --can:#62AEFF;
-    --k-guerrier:#C69B6D; --k-paladin:#F48CBA; --k-chasseur:#AAD372; --k-voleur:#FFF468; --k-pretre:#E9EDF2;
-    --k-chaman:#4C9BEA; --k-mage:#3FC7EB; --k-demoniste:#9A9BF2; --k-druide:#FF8A24; color-scheme:dark;
-  }
-}
-:root[data-theme="dark"]{
+  color-scheme:dark;
   --bg:#10141B; --surface:#171D26; --surface-2:#202835; --fg:#E5E8EE; --muted:#98A3B3; --line:#2A3341;
   --accent:#E3B04B; --accent-soft:#2E2614;
   --q5:#FF9A3D; --q5-bg:#3A2510; --q4:#C68CF6; --q4-bg:#2B1D3C; --q3:#62AEFF; --q3-bg:#132A44;
   --q2:#72DC5F; --q2-bg:#17311A; --q1:#98A3B3; --q1-bg:#222A36;
   --good:#72DC5F; --bad:#FF7A70; --can:#62AEFF;
-    --k-guerrier:#C69B6D; --k-paladin:#F48CBA; --k-chasseur:#AAD372; --k-voleur:#FFF468; --k-pretre:#E9EDF2;
-    --k-chaman:#4C9BEA; --k-mage:#3FC7EB; --k-demoniste:#9A9BF2; --k-druide:#FF8A24; color-scheme:dark;
+  --k-guerrier:#C69B6D; --k-paladin:#F48CBA; --k-chasseur:#AAD372; --k-voleur:#FFF468; --k-pretre:#E9EDF2;
+  --k-chaman:#4C9BEA; --k-mage:#3FC7EB; --k-demoniste:#9A9BF2; --k-druide:#FF8A24;
+  --font-display:"Cinzel","Trajan Pro",Georgia,serif;
+  --font-body:"Source Sans 3","Segoe UI",system-ui,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
 }
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:15.5px;line-height:1.5}
@@ -65,8 +40,6 @@ h4{margin:0 0 6px;font-size:.78rem;text-transform:uppercase;letter-spacing:.1em}
 p{margin:0}
 a{color:var(--accent)}
 a:focus-visible,button:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.theme-choice{display:flex;align-items:center;gap:8px;font-size:.86rem;color:var(--muted);align-self:flex-end}
-.theme-choice select{font:inherit;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:5px;padding:5px 8px}
 .eyebrow{font-size:.74rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:600}
 .mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
 .muted{color:var(--muted)}
@@ -444,7 +417,6 @@ footer.end{font-size:.9rem;color:var(--muted)}
 <body>
 <main class="wrap">
 <header class="top">
-  <label class="theme-choice" for="theme">Apparence <select id="theme"><option value="dark" selected>Sombre</option><option value="light">Clair</option><option value="system">Système</option></select></label>
   <span class="eyebrow">World of Warcraft: Forever · niveau 60 projeté</span>
   <h1>WoW Forever : trouve ta classe.</h1>
   <p class="lede">À chacun sa façon de jouer. Découvre les classes qui correspondent à tes envies — même si tu hésites — ou construis ton propre classement.</p>
@@ -907,12 +879,6 @@ window.__WF = {"axes":["poly","tank","soin","dps","bg","sauv","burst","zone","ct
   resetW.addEventListener('click', function(){ D.axes.forEach(function(k){ S.w[k] = 0; }); renderAll(); });
   document.querySelectorAll('.hl-chips button').forEach(function(b){ b.addEventListener('click', function(){
     var id = b.dataset.id, i = S.hl.indexOf(id); if (i >= 0) S.hl.splice(i, 1); else S.hl.push(id); renderCurves(); save(); }); });
-  var themeChoice = document.getElementById('theme');
-  themeChoice.value = document.documentElement.getAttribute('data-theme') || 'dark';
-  themeChoice.addEventListener('change', function(){
-    document.documentElement.setAttribute('data-theme', themeChoice.value);
-    try { localStorage.setItem('wf-overview-theme', themeChoice.value); } catch (e) {}
-  });
   var rt; window.addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(renderCurves, 150); });
   renderAll();
 })();

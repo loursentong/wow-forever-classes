@@ -44,7 +44,7 @@ Pour un Chasseur débutant, note DPS 5 avec plancher PvE 2 donne 4,6, mais sa no
 - Les neuf courbes sont tracées, les utilisateurs choisissent lesquelles mettre en avant. Le tableau repliable restitue les 36 valeurs numériques.
 - Le tableau PvE/PvP plancher/plafond est conservé. Chaque raison est abrégée et renvoie à la bibliographie entre crochets ; les sources décrivent les mécanismes, pas la valeur chiffrée des coefficients, qui reste éditoriale.
 - Le bloc de duel de classes a été retiré. Le critère « Sauvage et duel », qui décrit une activité de jeu, est conservé.
-- Le thème sombre reprend la palette Claude et devient le défaut, indépendamment du thème de l'appareil. Le visiteur peut choisir clair, sombre ou système ; ce choix est enregistré séparément des pondérations.
+- Le thème sombre reprend la palette Claude et devient le défaut, indépendamment du thème de l'appareil. Le visiteur pouvait choisir clair, sombre ou système ; ce choix a été retiré le 21 octobre 2026 et le sombre est désormais le seul thème.
 
 ## Comparaison MythicSim
 
@@ -56,6 +56,6 @@ Claude avait observé d'autres valeurs, non reproduites par cette consultation. 
 
 - Audit des sources : AUDIT-2026-10-20.md.
 - Tests sans dépendance : commande node --test tests/skill-matching.test.cjs ; intégrés à GitHub Actions.
-- La validation en vrai navigateur (responsive, contraste, accessibilité clavier, mode sombre/clair) doit compléter les tests JS simulés.
+- La validation en vrai navigateur (responsive, contraste, accessibilité clavier) doit compléter les tests JS simulés.
 - Après lancement : remplacer les paramètres éditoriaux par mesures réelles par spécialisation, activité, composition et niveau de joueur, avec échantillons et intervalles d'incertitude.
 - Les résultats de tournoi niveau 30 et les simulations statiques à 60 ne suffisent pas pour mesurer les performances réelles de toutes les activités.

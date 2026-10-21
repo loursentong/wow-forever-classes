@@ -38,7 +38,7 @@ function elem(dataset = {}) {
   };
 }
 function boot(initial = {}, storageDisabled = false) {
-  const ids = ['mdesc','mlabel','rank','rank-status','curves','curves-values','theme','mine','reset-w'];
+  const ids = ['mdesc','mlabel','rank','rank-status','curves','curves-values','mine','reset-w'];
   const elements = Object.fromEntries(ids.map(id => [id, elem()]));
   const groups = {
     '.mbtn': config.levels.map((_, i) => elem({m: String(i)})),
@@ -68,7 +68,6 @@ function boot(initial = {}, storageDisabled = false) {
     '  __test.api = {S:S,D:D,eff:eff,score:score,tw:tw,renderAll:renderAll};\n' + needle);
   const holder = {};
   const context = {window,document,localStorage,__test:holder,console};
-  vm.runInNewContext(html.match(/<script data-theme-init>([\s\S]*?)<\/script>/)[1], context);
   vm.runInNewContext(augmented, context, {timeout:3000});
   return {config:holder.api.D, api:holder.api, elements, groups, storage, document};
 }
@@ -248,18 +247,17 @@ test('La mise en avant des courbes se modifie et persiste',()=>{
   assert.equal(mage.attrs['aria-pressed'],'false');
 });
 
-test('Sombre par défaut, choix clair/sombre/système conservé indépendamment du classement',()=>{
-  const h=boot();
-  assert.equal(h.elements.theme.value,'dark');
-  const before=h.elements.rank.innerHTML;
-  for(const theme of ['light','dark','system']){
-    h.elements.theme.value=theme;
-    h.elements.theme.trigger('change');
-    assert.equal(h.document.documentElement.getAttribute('data-theme'),theme);
-    assert.equal(boot(h.storage).elements.theme.value,theme);
+test('Thème sombre unique : plus de choix d’apparence, une ancienne préférence est ignorée sans être effacée',()=>{
+  assert.match(html,/^<!doctype html>\n<html lang="fr" data-theme="dark">\n/);
+  assert.ok(!/wf-overview-theme|data-theme-init|theme-choice|id="theme"|prefers-color-scheme/.test(html),
+    'aucun sélecteur, script ni règle de thème ne doit subsister');
+  const before=boot().elements.rank.innerHTML;
+  for(const theme of ['light','system','dark','invalid']){
+    const h=boot({'wf-overview-theme':theme});
+    assert.equal(h.document.documentElement.getAttribute('data-theme'),'dark');
+    assert.equal(h.storage['wf-overview-theme'],theme);
     assert.equal(h.elements.rank.innerHTML,before);
   }
-  assert.equal(boot({'wf-overview-theme':'invalid'}).elements.theme.value,'dark');
 });
 
 test('La page reste utilisable sans stockage local et avec une sauvegarde invalide',()=>{

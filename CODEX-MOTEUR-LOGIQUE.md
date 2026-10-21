@@ -224,7 +224,7 @@ Les coefficients `penalty`, `bonus`, `mastery` et `masteryOverrides` appartienne
 | `wf-reco-mode-v1` | choix du parcours | `guided` ou `priorities` |
 | `wf-priority-custom-v1` | priorités | sauvegarde **explicite** `{weights, mastery}`, rappel possible |
 | `wf-overview-v3` | comparateur historique | poids actifs `w`, maîtrise `m`, surlignage `hl`, critères personnalisés `c` |
-| `wf-overview-theme` | apparence | choix du thème |
+| `wf-overview-theme` | *(retirée)* | ancien choix du thème. Depuis le 21 octobre 2026, la page est toujours sombre : la clé n'est plus lue ni écrite, et une valeur déjà enregistrée est ignorée sans être effacée. |
 
 Compatibilité historique : le comparateur sait migrer `wf-overview-v2`, `wf-overview-weights` et `wf-overview-skill` ; le parcours priorités sait réimporter `wf-overview-v3.c` si aucune sauvegarde personnalisée moderne n'est disponible.
 

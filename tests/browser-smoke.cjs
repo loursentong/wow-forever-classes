@@ -265,6 +265,27 @@ async function check(){
   const reducedHover=await page.locator('.wow-class-index a').first().evaluate(el=>getComputedStyle(el).transitionDuration);
   assert.match(reducedHover,/^0s(, 0s)*$/,'Les hover doivent respecter reduced-motion');
   await page.emulateMedia({reducedMotion:'no-preference'});
+
+  // Thème sombre unique : ni une ancienne préférence « clair » ni un système réglé en clair ne changent la page.
+  const lightContext=await browser.newContext({viewport:{width:390,height:844},locale:'fr-FR',colorScheme:'light'});
+  const lightPage=await lightContext.newPage();
+  await lightPage.route('https://fonts.googleapis.com/**',route=>route.abort());
+  await lightPage.route('https://fonts.gstatic.com/**',route=>route.abort());
+  lightPage.on('pageerror',err=>errors.push(String(err)));
+  await lightPage.addInitScript(()=>{try{localStorage.setItem('wf-overview-theme','light');}catch(e){}});
+  await lightPage.goto('http://127.0.0.1:'+server.address().port+'/',{waitUntil:'domcontentloaded'});
+  await lightPage.waitForSelector('#reco-form .reco-question');
+  const dark=await lightPage.evaluate(()=>({
+    theme:document.documentElement.getAttribute('data-theme'),
+    background:getComputedStyle(document.body).backgroundColor,
+    themeControls:document.querySelectorAll('#theme,.theme-choice').length,
+    stored:localStorage.getItem('wf-overview-theme'),
+    heroTop:document.querySelector('.reco-hero').getBoundingClientRect().top
+  }));
+  assert.deepEqual({theme:dark.theme,background:dark.background,themeControls:dark.themeControls,stored:dark.stored},
+    {theme:'dark',background:'rgb(10, 23, 37)',themeControls:0,stored:'light'},'Thème sombre unique : '+JSON.stringify(dark));
+  assert.ok(dark.heroTop<=20,'L’en-tête de page ne réserve plus de place au-dessus du logo : '+JSON.stringify(dark));
+  await lightContext.close();
   assert.deepEqual(errors,[],'Erreurs JavaScript navigateur');
   process.stdout.write('Chromium : deux parcours, 14 poids, 15 presets, neuf rangs, maîtrise partagée, mobile et clavier — OK\n');
  }finally{
