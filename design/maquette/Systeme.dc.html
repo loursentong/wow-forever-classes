@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Système visuel · Grimoire interactif</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&amp;family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&amp;family=JetBrains+Mono:wght@500&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 1440px; height: 2200px; box-sizing: border-box; padding: 56px; background: #0A1725; color: #E2EAF2; font-family: 'Source Sans 3', system-ui, sans-serif; font-size: 15px; line-height: 1.45; display: flex; flex-direction: column; gap: 36px; overflow: hidden">
+
+  <header style="display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; border-bottom: 1px solid #1F3149; padding-bottom: 24px">
+    <div style="display: flex; flex-direction: column; gap: 6px">
+      <p style="margin: 0; font-family: Cinzel, serif; font-weight: 600; font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #E9B34F">Système visuel · version équilibrée</p>
+      <h1 style="margin: 0; font-family: Cinzel, serif; font-weight: 700; font-size: 44px; line-height: 1.1; letter-spacing: 0.03em; color: #F6EDDC">Grimoire interactif</h1>
+    </div>
+    <p style="margin: 0; max-width: 520px; color: #A2B7CC; font-size: 16px">Le décor crée l'émotion, les composants assurent la maîtrise. Une seule couleur d'action, l'or ; les couleurs de classe ne servent qu'à l'identité des classes.</p>
+  </header>
+
+  <div style="display: flex; gap: 40px">
+    <section aria-labelledby="s-palette" style="flex: 1.25 1 0; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+      <h2 id="s-palette" style="margin: 0; font-family: Cinzel, serif; font-weight: 700; font-size: 16px; letter-spacing: 0.16em; text-transform: uppercase; color: #F6EDDC">Palette</h2>
+      <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px">
+        <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 64px; border-radius: 8px; background: #050C15; border: 1px solid #1F3149"></span><b style="font-size: 14px">Nuit profonde</b><span style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: #A2B7CC">#050C15 · pieds de page</span></div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 64px; border-radius: 8px; background: #0A1725; border: 1px solid #1F3149"></span><b style="font-size: 14px">Fond</b><span style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: #A2B7CC">#0A1725 · page</span></div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 64px; border-radius: 8px; background: #122235; border: 1px solid #1F3149"></span><b style="font-size: 14px">Panneau</b><span style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: #A2B7CC">#122235 · cadres A et B</span></div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 64px; border-radius: 8px; background: #1A2B40; border: 1px solid #1F3149"></span><b style="font-size: 14px">Panneau secondaire</b><span style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: #A2B7CC">#1A2B40</span></div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 64px; border-radius: 8px; background: #503517"></span><b style="font-size: 14px">Or ombré</b><span style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: #A2B7CC">#503517 · dégradés</span></div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 64px; border-radius: 8px; background: #745025"></span><b style="font-size: 14px">Bronze</b><span style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: #A2B7CC">#745025 · bordures</span></div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 64px; border-radius: 8px; background: #E9B34F"></span><b style="font-size: 14px">Or · action</b><span style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: #A2B7CC">#E9B34F · 8,4:1 sur panneau</span></div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 64px; border-radius: 8px; background: #FFD78C"></span><b style="font-size: 14px">Or clair</b><span style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: #A2B7CC">#FFD78C · reflets</span></div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 64px; border-radius: 8px; background: #F6EDDC"></span><b style="font-size: 14px">Ivoire · titres</b><span style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: #A2B7CC">#F6EDDC · 13,8:1</span></div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 64px; border-radius: 8px; background: #E2EAF2"></span><b style="font-size: 14px">Texte</b><span style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: #A2B7CC">#E2EAF2 · 13,2:1</span></div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 64px; border-radius: 8px; background: #A2B7CC"></span><b style="font-size: 14px">Texte secondaire</b><span style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: #A2B7CC">#A2B7CC · 7,8:1</span></div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 64px; border-radius: 8px; background: #3CC184"></span><b style="font-size: 14px">Émeraude</b><span style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: #A2B7CC">#3CC184 · étape faite</span></div>
+      </div>
+      <p style="margin: 0; font-size: 13.5px; color: #8FA5BC">Contrastes mesurés sur le panneau #122235 (WCAG : 4,5:1 minimum pour le texte courant).</p>
+    </section>
+
+    <section aria-labelledby="s-typo" style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+      <h2 id="s-typo" style="margin: 0; font-family: Cinzel, serif; font-weight: 700; font-size: 16px; letter-spacing: 0.16em; text-transform: uppercase; color: #F6EDDC">Typographie</h2>
+      <div style="display: flex; flex-direction: column; gap: 14px; padding: 20px; border-radius: 12px; border: 1px solid rgba(233,179,79,0.38); background: #122235">
+        <div><p style="margin: 0; font-family: Cinzel, serif; font-weight: 700; font-size: 40px; line-height: 1.1; color: #F6EDDC">Trouve ta classe</p><p style="margin: 2px 0 0; font-size: 13px; color: #8FA5BC">Cinzel 700 · titres 30 à 46 px, capitales romaines, nobles sans être massives</p></div>
+        <div><p style="margin: 0; font-family: Cinzel, serif; font-weight: 600; font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; color: #E9B34F">Question 3 / 6 · Mes choix</p><p style="margin: 2px 0 0; font-size: 13px; color: #8FA5BC">Cinzel 600 · libellés de section 12 à 16 px, interlettrage 0,14 à 0,22 em</p></div>
+        <div><p style="margin: 0; font-size: 17px; color: #E2EAF2">Chaque joueur a sa façon de jouer. Découvre les spécialisations qui te correspondent.</p><p style="margin: 2px 0 0; font-size: 13px; color: #8FA5BC">Source Sans 3 · texte 15 à 18 px, interligne 1,45 à 1,5</p></div>
+        <div><p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 22px; color: #FFD78C">100 · 76 · 73 · 3/5</p><p style="margin: 2px 0 0; font-size: 13px; color: #8FA5BC">JetBrains Mono · scores et notes à chasse fixe, pour comparer d'un coup d'œil</p></div>
+      </div>
+    </section>
+  </div>
+
+  <section aria-labelledby="s-cadres" style="display: flex; flex-direction: column; gap: 14px">
+    <h2 id="s-cadres" style="margin: 0; font-family: Cinzel, serif; font-weight: 700; font-size: 16px; letter-spacing: 0.16em; text-transform: uppercase; color: #F6EDDC">Cadres</h2>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px">
+      <div style="position: relative; height: 210px; box-sizing: border-box; padding: 24px; border-radius: 14px; border: 1px solid transparent; background: linear-gradient(#122235, #122235) padding-box, linear-gradient(135deg, #503517 0%, #FFD78C 24%, #E9B34F 46%, #745025 76%, #503517 100%) border-box; box-shadow: 0 0 24px rgba(233,179,79,0.10), 0 18px 44px rgba(0,0,0,0.5)">
+        <div aria-hidden="true" style="position: absolute; top: 5px; left: 5px; right: 5px; bottom: 5px; border: 1px solid rgba(233,179,79,0.16); border-radius: 10px"></div>
+        <svg aria-hidden="true" viewBox="0 0 18 18" width="18" height="18" style="position: absolute; top: 9px; left: 9px"><path d="M1 11 V1 H11" stroke="#E9B34F" stroke-width="1.2" fill="none"></path><path d="M5 3 L7 5 L5 7 L3 5 Z" fill="#FFD78C"></path></svg>
+        <svg aria-hidden="true" viewBox="0 0 18 18" width="18" height="18" style="position: absolute; top: 9px; right: 9px"><path d="M17 11 V1 H7" stroke="#E9B34F" stroke-width="1.2" fill="none"></path><path d="M13 3 L15 5 L13 7 L11 5 Z" fill="#FFD78C"></path></svg>
+        <svg aria-hidden="true" viewBox="0 0 18 18" width="18" height="18" style="position: absolute; bottom: 9px; left: 9px"><path d="M1 7 V17 H11" stroke="#E9B34F" stroke-width="1.2" fill="none"></path><path d="M5 11 L7 13 L5 15 L3 13 Z" fill="#FFD78C"></path></svg>
+        <svg aria-hidden="true" viewBox="0 0 18 18" width="18" height="18" style="position: absolute; bottom: 9px; right: 9px"><path d="M17 7 V17 H7" stroke="#E9B34F" stroke-width="1.2" fill="none"></path><path d="M13 11 L15 13 L13 15 L11 13 Z" fill="#FFD78C"></path></svg>
+        <p style="position: relative; margin: 0; font-family: Cinzel, serif; font-weight: 700; font-size: 18px; letter-spacing: 0.1em; color: #FFD78C">A · Héroïque</p>
+        <p style="position: relative; margin: 8px 0 0; font-size: 14px; color: #C9D6E3">Questionnaire, classement, parcours actif. Bordure dégradée or ombré → or clair → bronze, filet intérieur, coins fins, halo léger, ombre portée.</p>
+      </div>
+      <div style="height: 210px; box-sizing: border-box; padding: 24px; border-radius: 12px; border: 1px solid rgba(233,179,79,0.38); background: rgba(18,34,53,0.94); box-shadow: 0 12px 30px rgba(0,0,0,0.35)">
+        <p style="margin: 0; font-family: Cinzel, serif; font-weight: 700; font-size: 18px; letter-spacing: 0.1em; color: #F6EDDC">B · Noble</p>
+        <p style="margin: 8px 0 0; font-size: 14px; color: #C9D6E3">Mes choix, aperçu, étapes, sous-panneaux. Même langage, filet or à 38 %, sans ornements d'angle.</p>
+      </div>
+      <div style="height: 210px; box-sizing: border-box; padding: 24px; border-radius: 12px; border: 1px solid #24364D; background: #0F1D2E">
+        <p style="margin: 0; font-family: Cinzel, serif; font-weight: 700; font-size: 18px; letter-spacing: 0.1em; color: #E2EAF2">C · Fonctionnel</p>
+        <p style="margin: 8px 0 0; font-size: 14px; color: #C9D6E3">Cartes de réponse, pastilles, petits réglages. Contour discret ; l'or n'apparaît qu'à la sélection.</p>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="s-etats" style="display: flex; flex-direction: column; gap: 14px">
+    <h2 id="s-etats" style="margin: 0; font-family: Cinzel, serif; font-weight: 700; font-size: 16px; letter-spacing: 0.16em; text-transform: uppercase; color: #F6EDDC">États des composants</h2>
+    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px">
+      <div style="display: flex; flex-direction: column; gap: 8px"><span style="font-size: 13px; color: #8FA5BC">Parcours · neutre</span><span style="display: flex; align-items: center; gap: 12px; min-height: 80px; box-sizing: border-box; padding: 12px 14px; border-radius: 12px; border: 1px solid #745025; background: rgba(18,34,53,0.94)"><span style="width: 44px; height: 44px; border-radius: 50%; border: 1px solid #745025; background: #0A1725"></span><span style="font-family: Cinzel, serif; font-weight: 700; letter-spacing: 0.08em; color: #F6EDDC">Régler</span></span></div>
+      <div style="display: flex; flex-direction: column; gap: 8px"><span style="font-size: 13px; color: #8FA5BC">Parcours · sélectionné</span><span style="display: flex; align-items: center; gap: 12px; min-height: 80px; box-sizing: border-box; padding: 12px 14px; border-radius: 12px; border: 1px solid transparent; background: linear-gradient(#20283A, #1A2436) padding-box, linear-gradient(135deg, #745025, #FFD78C 40%, #E9B34F 65%, #745025) border-box; box-shadow: 0 0 22px rgba(233,179,79,0.18)"><span style="width: 44px; height: 44px; border-radius: 50%; border: 1px solid #E9B34F; background: radial-gradient(circle, rgba(255,215,140,0.32) 0%, rgba(233,179,79,0.08) 70%)"></span><span style="font-family: Cinzel, serif; font-weight: 700; letter-spacing: 0.08em; color: #FFD78C">Être guidé</span></span></div>
+      <div style="display: flex; flex-direction: column; gap: 8px"><span style="font-size: 13px; color: #8FA5BC">Focus clavier · anneau 2 px or clair, décalé de 3 px</span><span style="display: flex; align-items: center; gap: 12px; min-height: 80px; box-sizing: border-box; padding: 12px 14px; border-radius: 12px; border: 1px solid #745025; background: rgba(18,34,53,0.94); outline: 2px solid #FFD78C; outline-offset: 3px"><span style="width: 44px; height: 44px; border-radius: 50%; border: 1px solid #745025; background: #0A1725"></span><span style="font-family: Cinzel, serif; font-weight: 700; letter-spacing: 0.08em; color: #F6EDDC">Régler</span></span></div>
+      <div style="display: flex; flex-direction: column; gap: 8px"><span style="font-size: 13px; color: #8FA5BC">Désactivé · aucune fausse interactivité</span><span style="display: flex; align-items: center; gap: 12px; min-height: 80px; box-sizing: border-box; padding: 12px 14px; border-radius: 12px; border: 1px solid #1F3149; background: #0F1D2E; opacity: 0.55"><span style="width: 44px; height: 44px; border-radius: 50%; border: 1px solid #2B4058"></span><span style="font-family: Cinzel, serif; font-weight: 700; letter-spacing: 0.08em; color: #A2B7CC">Indisponible</span></span></div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px">
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <span style="font-size: 13px; color: #8FA5BC">Étapes · faite, active, à venir</span>
+        <div style="display: flex; flex-direction: column; gap: 6px; padding: 14px; border-radius: 12px; border: 1px solid rgba(233,179,79,0.38); background: #122235">
+          <span style="display: flex; align-items: center; gap: 12px; color: #A2B7CC"><span style="width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(47,163,107,0.18); border: 1.5px solid #3CC184; color: #6EE0A6"><svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12 L10 17 L19 7"></path></svg></span>Activités · coche et texte atténué</span>
+          <span style="display: flex; align-items: center; gap: 12px; color: #F6EDDC; font-weight: 700"><span style="width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #E9B34F; color: #0A1725; box-shadow: 0 0 0 4px rgba(233,179,79,0.18), 0 0 16px rgba(255,215,140,0.45)">3</span>Portée · lumière radiale discrète</span>
+          <span style="display: flex; align-items: center; gap: 12px; color: #A2B7CC"><span style="width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1.5px solid #3A5170">4</span>Gameplay · numéro visible</span>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <span style="font-size: 13px; color: #8FA5BC">Réponse sélectionnée · certitude et exigence dans la même carte</span>
+        <div style="border-radius: 12px; border: 1px solid #E9B34F; background: rgba(233,179,79,0.07); box-shadow: 0 0 22px rgba(233,179,79,0.12)">
+          <div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px"><span style="width: 40px; height: 40px; border-radius: 10px; background: rgba(233,179,79,0.16); box-shadow: 0 0 18px rgba(255,215,140,0.35); border: 1px solid #2B4058"></span><span style="flex: 1 1 auto; display: flex; flex-direction: column"><b style="color: #F6EDDC">À distance</b><span style="font-size: 13.5px; color: #A2B7CC">Combattre sans être au contact</span></span><span style="width: 20px; height: 20px; box-sizing: border-box; border-radius: 50%; border: 2px solid #E9B34F; display: flex; align-items: center; justify-content: center"><span style="width: 10px; height: 10px; border-radius: 50%; background: #E9B34F"></span></span></div>
+          <div style="padding: 10px 14px 12px; border-top: 1px solid rgba(233,179,79,0.22); display: flex; flex-direction: column; gap: 6px">
+            <span style="display: flex; justify-content: space-between; font-size: 13px; color: #C9D6E3"><span>Certitude pour « À distance »</span><span style="font-family: 'JetBrains Mono', monospace; color: #FFD78C">3/5 · Assez sûr</span></span>
+            <span style="display: flex; gap: 4px"><span style="flex: 1 1 0; height: 10px; border-radius: 3px; background: #22344B"></span><span style="flex: 1 1 0; height: 10px; border-radius: 3px; background: #E9B34F"></span><span style="flex: 1 1 0; height: 10px; border-radius: 3px; background: #E9B34F"></span><span style="flex: 1 1 0; height: 10px; border-radius: 3px; background: #E9B34F"></span><span style="flex: 1 1 0; height: 10px; border-radius: 3px; background: #22344B"></span><span style="flex: 1 1 0; height: 10px; border-radius: 3px; background: #22344B"></span></span>
+            <span style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #C9D6E3"><span style="width: 14px; height: 14px; border-radius: 3px; border: 1.5px solid #A2B7CC"></span>C'est une exigence absolue</span>
+          </div>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <span style="font-size: 13px; color: #8FA5BC">Boutons et badges</span>
+        <div style="display: flex; flex-direction: column; gap: 12px; padding: 14px; border-radius: 12px; border: 1px solid #24364D; background: #0F1D2E">
+          <span style="display: flex; gap: 10px">
+            <span style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 8px; border: 1px solid #FFD78C; background: linear-gradient(180deg, #F2C266 0%, #E9B34F 55%, #C9913A 100%); color: #0A1725; font-weight: 700">Question suivante</span>
+            <span style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 8px; border: 1px solid #745025; color: #E2EAF2; font-weight: 600">Précédent</span>
+          </span>
+          <span style="display: flex; gap: 8px; flex-wrap: wrap">
+            <span style="font-size: 12px; padding: 2px 8px; border-radius: 999px; border: 1px solid #3A5170; color: #C9D6E3">Très bonne piste</span>
+            <span style="font-size: 12px; padding: 2px 8px; border-radius: 999px; border: 1px solid #3A5170; color: #C9D6E3">Résultat proche</span>
+            <span style="font-size: 12px; padding: 2px 8px; border-radius: 999px; border: 1px solid #E9B34F; color: #FFD78C">Mes critères</span>
+          </span>
+          <span style="font-size: 13px; color: #8FA5BC">L'état ne repose jamais sur la couleur seule : coche, numéro, libellé ou anneau l'accompagnent.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div style="display: flex; gap: 40px">
+    <section aria-labelledby="s-classes" style="flex: 1.2 1 0; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+      <h2 id="s-classes" style="margin: 0; font-family: Cinzel, serif; font-weight: 700; font-size: 16px; letter-spacing: 0.16em; text-transform: uppercase; color: #F6EDDC">Classes et notes</h2>
+      <div style="display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 8px; text-align: center; font-size: 12.5px; font-weight: 600">
+        <span style="display: flex; flex-direction: column; align-items: center; gap: 6px"><span style="position: relative; width: 46px; height: 46px; border-radius: 50%; overflow: hidden; border: 2px solid #C69B6D; box-shadow: 0 0 0 3px #050C15, 0 0 14px #C69B6D55"><img src="../../assets/icons/classes/guerrier.jpg" alt="" width="46" height="46" style="display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(1.12)"><span style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 50%; box-shadow: inset 0 0 8px rgba(0,0,0,0.7)"></span></span>Guerrier</span>
+        <span style="display: flex; flex-direction: column; align-items: center; gap: 6px"><span style="position: relative; width: 46px; height: 46px; border-radius: 50%; overflow: hidden; border: 2px solid #F48CBA; box-shadow: 0 0 0 3px #050C15, 0 0 14px #F48CBA55"><img src="../../assets/icons/classes/paladin.jpg" alt="" width="46" height="46" style="display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(1.12)"><span style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 50%; box-shadow: inset 0 0 8px rgba(0,0,0,0.7)"></span></span>Paladin</span>
+        <span style="display: flex; flex-direction: column; align-items: center; gap: 6px"><span style="position: relative; width: 46px; height: 46px; border-radius: 50%; overflow: hidden; border: 2px solid #AAD372; box-shadow: 0 0 0 3px #050C15, 0 0 14px #AAD37255"><img src="../../assets/icons/classes/chasseur.jpg" alt="" width="46" height="46" style="display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(1.12)"><span style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 50%; box-shadow: inset 0 0 8px rgba(0,0,0,0.7)"></span></span>Chasseur</span>
+        <span style="display: flex; flex-direction: column; align-items: center; gap: 6px"><span style="position: relative; width: 46px; height: 46px; border-radius: 50%; overflow: hidden; border: 2px solid #FFF468; box-shadow: 0 0 0 3px #050C15, 0 0 14px #FFF46855"><img src="../../assets/icons/classes/voleur.jpg" alt="" width="46" height="46" style="display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(1.12)"><span style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 50%; box-shadow: inset 0 0 8px rgba(0,0,0,0.7)"></span></span>Voleur</span>
+        <span style="display: flex; flex-direction: column; align-items: center; gap: 6px"><span style="position: relative; width: 46px; height: 46px; border-radius: 50%; overflow: hidden; border: 2px solid #F0F0F0; box-shadow: 0 0 0 3px #050C15, 0 0 14px #F0F0F055"><img src="../../assets/icons/classes/pretre.jpg" alt="" width="46" height="46" style="display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(1.12)"><span style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 50%; box-shadow: inset 0 0 8px rgba(0,0,0,0.7)"></span></span>Prêtre</span>
+        <span style="display: flex; flex-direction: column; align-items: center; gap: 6px"><span style="position: relative; width: 46px; height: 46px; border-radius: 50%; overflow: hidden; border: 2px solid #4C9BEA; box-shadow: 0 0 0 3px #050C15, 0 0 14px #4C9BEA55"><img src="../../assets/icons/classes/chaman.jpg" alt="" width="46" height="46" style="display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(1.12)"><span style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 50%; box-shadow: inset 0 0 8px rgba(0,0,0,0.7)"></span></span>Chaman</span>
+        <span style="display: flex; flex-direction: column; align-items: center; gap: 6px"><span style="position: relative; width: 46px; height: 46px; border-radius: 50%; overflow: hidden; border: 2px solid #3FC7EB; box-shadow: 0 0 0 3px #050C15, 0 0 14px #3FC7EB55"><img src="../../assets/icons/classes/mage.jpg" alt="" width="46" height="46" style="display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(1.12)"><span style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 50%; box-shadow: inset 0 0 8px rgba(0,0,0,0.7)"></span></span>Mage</span>
+        <span style="display: flex; flex-direction: column; align-items: center; gap: 6px"><span style="position: relative; width: 46px; height: 46px; border-radius: 50%; overflow: hidden; border: 2px solid #9A9BF2; box-shadow: 0 0 0 3px #050C15, 0 0 14px #9A9BF255"><img src="../../assets/icons/classes/demoniste.jpg" alt="" width="46" height="46" style="display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(1.12)"><span style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 50%; box-shadow: inset 0 0 8px rgba(0,0,0,0.7)"></span></span>Démoniste</span>
+        <span style="display: flex; flex-direction: column; align-items: center; gap: 6px"><span style="position: relative; width: 46px; height: 46px; border-radius: 50%; overflow: hidden; border: 2px solid #FF8A24; box-shadow: 0 0 0 3px #050C15, 0 0 14px #FF8A2455"><img src="../../assets/icons/classes/druide.jpg" alt="" width="46" height="46" style="display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(1.12)"><span style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 50%; box-shadow: inset 0 0 8px rgba(0,0,0,0.7)"></span></span>Druide</span>
+      </div>
+      <p style="margin: 0; font-size: 13.5px; color: #8FA5BC">Icônes officielles de Blizzard (serveur d'icônes du jeu, 56 px) dans un anneau à la couleur de la classe, éclaircie pour le fond sombre ; halo de la même couleur en Équilibré et en Épique.</p>
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font-size: 13.5px; color: #A2B7CC">
+        <img src="../../assets/icons/jeu/inv_misc_questionmark.jpg" alt="" width="32" height="32" style="width: 32px; height: 32px; border-radius: 6px; border: 1px solid #000; box-shadow: 0 0 0 1px #3A5170">
+        <img src="../../assets/icons/jeu/spell_frost_frostbolt02.jpg" alt="" width="32" height="32" style="width: 32px; height: 32px; border-radius: 6px; border: 1px solid #000; box-shadow: 0 0 0 1px #E9B34F, 0 0 14px rgba(255,215,140,0.55)">
+        <img src="../../assets/icons/jeu/ability_warrior_charge.jpg" alt="" width="32" height="32" style="width: 32px; height: 32px; border-radius: 6px; border: 1px solid #000; box-shadow: 0 0 0 1px #3A5170">
+        <img src="../../assets/icons/jeu/ability_druid_catform.jpg" alt="" width="32" height="32" style="width: 32px; height: 32px; border-radius: 6px; border: 1px solid #000; box-shadow: 0 0 0 1px #3A5170">
+        <span>Réponses : une icône du jeu par choix (point d'interrogation, Éclair de givre, Charge, Forme de félin), anneau et halo or à la sélection.</span>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; font-size: 13.5px; color: #A2B7CC">
+        <span style="display: inline-flex; align-items: center; gap: 6px"><b style="display: inline-block; width: 24px; line-height: 24px; text-align: center; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-weight: 500; background: #3A2108; color: #FFC58A; border: 1px solid #FF8000">5</b>légendaire</span>
+        <span style="display: inline-flex; align-items: center; gap: 6px"><b style="display: inline-block; width: 24px; line-height: 24px; text-align: center; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-weight: 500; background: #2C1442; color: #DDB8FB; border: 1px solid #B567F2">4</b>épique</span>
+        <span style="display: inline-flex; align-items: center; gap: 6px"><b style="display: inline-block; width: 24px; line-height: 24px; text-align: center; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-weight: 500; background: #0D2440; color: #B3D4F7; border: 1px solid #3D8FE6">3</b>rare</span>
+        <span style="display: inline-flex; align-items: center; gap: 6px"><b style="display: inline-block; width: 24px; line-height: 24px; text-align: center; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-weight: 500; background: #122A16; color: #A6EBA3; border: 1px solid #3FBF3A">2</b>inhabituel</span>
+        <span style="display: inline-flex; align-items: center; gap: 6px"><b style="display: inline-block; width: 24px; line-height: 24px; text-align: center; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-weight: 500; background: #171C24; color: #B8BEC8; border: 1px solid #5B6574">1</b>médiocre</span>
+        <span>Les notes reprennent la rareté des objets : un code que tout joueur lit sans légende.</span>
+      </div>
+    </section>
+
+    <section aria-labelledby="s-mouvement" style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+      <h2 id="s-mouvement" style="margin: 0; font-family: Cinzel, serif; font-weight: 700; font-size: 16px; letter-spacing: 0.16em; text-transform: uppercase; color: #F6EDDC">Mouvement</h2>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; border-radius: 12px; border: 1px solid #24364D; background: #0F1D2E; overflow: hidden; font-size: 14px">
+        <span style="padding: 9px 14px; border-bottom: 1px solid #1C2E45">Survol</span><span style="padding: 9px 14px; border-bottom: 1px solid #1C2E45; font-family: 'JetBrains Mono', monospace; color: #FFD78C">150–200 ms</span>
+        <span style="padding: 9px 14px; border-bottom: 1px solid #1C2E45">Sélection d'une réponse</span><span style="padding: 9px 14px; border-bottom: 1px solid #1C2E45; font-family: 'JetBrains Mono', monospace; color: #FFD78C">180–220 ms</span>
+        <span style="padding: 9px 14px; border-bottom: 1px solid #1C2E45">Déploiement de la certitude</span><span style="padding: 9px 14px; border-bottom: 1px solid #1C2E45; font-family: 'JetBrains Mono', monospace; color: #FFD78C">200–260 ms</span>
+        <span style="padding: 9px 14px; border-bottom: 1px solid #1C2E45">Changement de question</span><span style="padding: 9px 14px; border-bottom: 1px solid #1C2E45; font-family: 'JetBrains Mono', monospace; color: #FFD78C">180–240 ms</span>
+        <span style="padding: 9px 14px">Révélation de l'aperçu</span><span style="padding: 9px 14px; font-family: 'JetBrains Mono', monospace; color: #FFD78C">220–320 ms</span>
+      </div>
+      <p style="margin: 0; font-size: 13.5px; color: #8FA5BC">Aucune boucle, aucun scintillement. Tout s'éteint avec « Réduire les animations ».</p>
+    </section>
+  </div>
+
+  <section aria-labelledby="s-images" style="display: flex; flex-direction: column; gap: 14px">
+    <h2 id="s-images" style="margin: 0; font-family: Cinzel, serif; font-weight: 700; font-size: 16px; letter-spacing: 0.16em; text-transform: uppercase; color: #F6EDDC">Visuels officiels</h2>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px">
+      <div style="display: flex; flex-direction: column; gap: 10px">
+        <span style="height: 120px; display: flex; gap: 6px"><span style="position: relative; flex: 1 1 0; min-width: 0; border-radius: 10px; overflow: hidden; border: 1px solid rgba(233,179,79,0.55)"><img src="../../assets/img/hero-arbre-monde.webp" alt="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: 58% 38%"><span style="position: absolute; left: 0; right: 0; bottom: 0; padding: 16px 8px 6px; background: linear-gradient(0deg, rgba(5,12,21,0.92), rgba(5,12,21,0)); font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #FFD78C">Arbre-monde · défaut</span></span><span style="position: relative; flex: 1 1 0; min-width: 0; border-radius: 10px; overflow: hidden; border: 1px solid rgba(233,179,79,0.3)"><img src="../../assets/img/hero-vallee-nuit.webp" alt="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: 66% 40%"><span style="position: absolute; left: 0; right: 0; bottom: 0; padding: 16px 8px 6px; background: linear-gradient(0deg, rgba(5,12,21,0.92), rgba(5,12,21,0)); font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #FFD78C">Vallée de nuit</span></span></span>
+        <b style="color: #F6EDDC">Décor d'accueil : deux plans de la cinématique</b>
+        <span style="font-size: 14px; color: #A2B7CC">Cinematic Stills 5 et 2, en 3840 × 1600 au format 2,4:1, réduits sans recadrage en WebP 2400 × 1000, moins de 80 Ko. Voile sombre à gauche pour le texte, fondu vers le fond en bas, braises fixes.</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px">
+        <span style="height: 120px; display: flex; gap: 6px"><span style="position: relative; flex: 1 1 0; min-width: 0; border-radius: 10px; overflow: hidden; border: 1px solid rgba(233,179,79,0.3)"><img src="../../assets/img/bandeau-gantelet.webp" alt="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: 30% 32%"><span style="position: absolute; left: 0; right: 0; bottom: 0; padding: 16px 8px 6px; background: linear-gradient(0deg, rgba(5,12,21,0.92), rgba(5,12,21,0)); font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #FFD78C">Gantelet · priorités</span></span><span style="position: relative; flex: 1 1 0; min-width: 0; border-radius: 10px; overflow: hidden; border: 1px solid rgba(233,179,79,0.3)"><img src="../../assets/img/bandeau-darkspear.webp" alt="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 62%"><span style="position: absolute; left: 0; right: 0; bottom: 0; padding: 16px 8px 6px; background: linear-gradient(0deg, rgba(5,12,21,0.92), rgba(5,12,21,0)); font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #FFD78C">Darkspear · comparer</span></span></span>
+        <b style="color: #F6EDDC">Bandeaux : une image par section</b>
+        <span style="font-size: 14px; color: #A2B7CC">Cinematic Still 11 et Darkspear Islands, en WebP 1920 px. Voile de 70 à 95 % du côté du texte : un titre ne repose jamais sur une zone claire.</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px">
+        <span style="height: 120px; box-sizing: border-box; border-radius: 10px; border: 1px solid rgba(233,179,79,0.45); background: radial-gradient(ellipse at 50% 40%, #1A2B40 0%, #050C15 75%); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px">
+          <img src="../../assets/img/logo-wow-forever.webp" alt="World of Warcraft Forever" width="96" height="78" style="display: block; width: 96px; height: auto; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6))">
+          <span style="font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: #A2B7CC">Outil de fan · non officiel</span>
+        </span>
+        <b style="color: #F6EDDC">Logo officiel, jamais seul</b>
+        <span style="font-size: 14px; color: #A2B7CC">Toujours suivi de « Outil de fan · non officiel ». Ni recoloré, ni déformé, ni favicon, ni image de partage. Crédit Blizzard et non-affiliation en pied de page.</span>
+      </div>
+    </div>
+  </section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2200}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

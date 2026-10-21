@@ -79,6 +79,8 @@ Consulter [la méthodologie et ses limites](RECOMMANDATION-METHODE.md). Les quat
 
 - [Audit documentaire](AUDIT-2026-10-20.md)
 - [Modèle de maîtrise et validation](MODELE-MAITRISE.md)
+- [Refonte graphique : maquette validée et règles d'intégration](design/README.md)
+- [Visuels sources : provenance, droits et inventaire](assets/README.md)
 
 ## Tests
 
