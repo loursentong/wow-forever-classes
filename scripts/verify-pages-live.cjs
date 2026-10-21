@@ -28,7 +28,9 @@ const expected={
    try{
     const res=await fetch(url,{signal:AbortSignal.timeout(12000),headers:{'cache-control':'no-cache'}});
     const text=await res.text();
-    state.push({file:name,http:res.status,valid:res.status===200&&text.includes(signature)});
+    // Le HTML publié appelle ses scripts avec le numéro du commit déployé (scripts/prepare-pages.sh).
+    const versioned=name!=='index.html'||!process.env.GITHUB_SHA||text.includes('questionnaire.js?v='+SHA);
+    state.push({file:name,http:res.status,valid:res.status===200&&text.includes(signature)&&versioned});
    }catch(e){state.push({file:name,error:String(e),valid:false});}
   }
   console.log('Pages verification',attempt,JSON.stringify(state));
