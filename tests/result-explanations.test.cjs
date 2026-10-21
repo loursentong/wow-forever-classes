@@ -55,3 +55,17 @@ test('Familier : la limite dépend du profil demandé et de la configuration, sa
  assert.match(X.petNotice(bm,E.sanitize({pet:{value:'avoid'}})),/familier est central/);
  assert.equal(JSON.stringify(E.recommend(p)),before);
 });
+
+test('Pourquoi cette piste : la part de chaque critère fait exactement le score affiché',()=>{
+ const profiles=[{roles:{soin:4},activities:{raid:4},styles:{support:2},healStyles:{groupe:4}},
+  {roles:{dps:5},range:{value:'distance',certainty:2},pet:{value:'avoid',certainty:5},difficulty:{value:'simple',certainty:3},activities:{bg:3,world:1}},
+  {styles:{ctrl:0,zone:5,burst:3}}];
+ for(const profile of profiles)for(const t of E.recommend(profile).top){
+  const parts=X.scoreParts(t.fit,t.score);
+  assert.deepEqual(parts.map(p=>p.key),['roles','healStyles','activities','range','styles','pet','difficulty'].filter(k=>k in t.fit));
+  assert.equal(parts.reduce((s,p)=>s+p.points,0),Math.round(t.score),t.spec.id);
+  assert.equal(parts.reduce((s,p)=>s+p.max,0),100,t.spec.id);
+  for(const p of parts)assert.ok(p.points<=p.max&&p.fit>=0&&p.fit<=100&&p.label,t.spec.id+'/'+p.key);
+ }
+ assert.deepEqual(X.scoreParts({},0),[]);
+});

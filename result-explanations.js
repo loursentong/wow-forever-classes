@@ -35,6 +35,26 @@
   var v=Math.round(gap*10)/10,points=v<0.1?'moins de 0,1 point':String(v).replace('.',',')+(v>=2?' points':' point');
   return points+' derrière '+(above.length>2?'les '+above.length+' classes à égalité au-dessus':names(above));
  }
+ // « Pourquoi cette piste » : part de chaque critère renseigné dans le score. Son poids est le
+ // coefficient du moteur ramené aux seuls critères renseignés (codex, § 2.4) ; son adéquation est la
+ // valeur après certitude. Arrondi au plus fort reste : les points font exactement le score affiché,
+ // et les maximums 100.
+ var partOrder=['roles','healStyles','activities','range','styles','pet','difficulty'];
+ var partNames={roles:'Rôles',healStyles:'Façon de soigner',activities:'Activités',range:'Portée',styles:'Gameplay',pet:'Familiers',difficulty:'Complexité'};
+ function apportion(raw,total){
+  var out=raw.map(Math.floor),left=total-out.reduce(function(a,b){return a+b;},0);
+  raw.map(function(v,i){return {i:i,r:v-Math.floor(v)};}).sort(function(a,b){return b.r-a.r||a.i-b.i;})
+   .forEach(function(x,n){if(n<left)out[x.i]++;});
+  return out;
+ }
+ function scoreParts(fit,score){
+  var keys=partOrder.filter(function(k){return fit&&fit[k];});
+  var denom=keys.reduce(function(t,k){return t+fit[k].weight;},0);
+  if(!denom)return [];
+  var points=apportion(keys.map(function(k){return 100*fit[k].value*fit[k].weight/denom;}),Math.round(score));
+  var max=apportion(keys.map(function(k){return 100*fit[k].weight/denom;}),100);
+  return keys.map(function(k,i){return {key:k,label:partNames[k],fit:Math.round(100*fit[k].value),points:points[i],max:max[i]};});
+ }
  function tieNote(results){
   if(!results.length)return '';
   var top=results.filter(function(r){return r.score===results[0].score;});
@@ -82,5 +102,5 @@
    out.push('Ce comparateur ne départage pas les façons de soigner : le parcours guidé le fait à la question 1, et la fiche de chaque spécialisation de soin les décrit.');
   return out;
  }
- return {criteria:criteria,ranks:ranks,rankHint:rankHint,tieNote:tieNote,petNotice:petNotice,contextNotes:contextNotes,healChoices:healChoices};
+ return {criteria:criteria,ranks:ranks,rankHint:rankHint,scoreParts:scoreParts,tieNote:tieNote,petNotice:petNotice,contextNotes:contextNotes,healChoices:healChoices};
 });

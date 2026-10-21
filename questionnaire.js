@@ -196,14 +196,38 @@ function fitLabel(v){
  if(v>=.68)return 'Bonne correspondance';
  return 'À explorer';
 }
-function resultCard(r,i,position){
+/* « Pourquoi cette piste » : part de chaque critère dans le score, stabilité face aux réponses
+ * hésitantes (scénarios du moteur), sources. */
+var KB_URL='https://github.com/loursentong/wow-forever-classes/tree/main/connaissances';
+function hesitations(report){
+ return (report.uncertain||[]).map(function(label){
+  var m=/^Sans (\w+)(?:\/(\w+))?$/.exec(label);
+  if(!m)return '';
+  return m[2]?(names[m[1]]||{})[m[2]]||m[2]:labels[m[1]]||m[1];
+ }).filter(Boolean);
+}
+function whyBlock(r,hesitant){
+ var parts=X?X.scoreParts(r.fit,r.score):[];
+ var rows=parts.map(function(p){
+  return '<li><span class="reco-why-name">'+esc(p.label)+'</span><span class="reco-why-bar" aria-hidden="true"><i style="width:'+p.fit+'%"></i></span>'+
+   '<span class="reco-why-fit" title="Adéquation à ta réponse">'+p.fit+' %</span><span class="reco-why-points">'+p.points+' / '+p.max+' pts</span></li>';
+ }).join('');
+ var stability=r.scenarioCount<=1?'aucune de tes réponses n’est hésitante (certitude de 2 ou moins) : il n’y a pas de variante à tester.':
+  'parmi tes trois premières pistes dans '+r.scenarioAppearances+' des '+r.scenarioCount+' scénarios testés : tes réponses actuelles, puis sans chacune de tes réponses hésitantes'+
+  (hesitant.length?' ('+hesitant.join(', ')+')':'')+'.';
+ return '<details class="reco-evidence reco-why"><summary>Pourquoi cette piste</summary>'+
+  '<p><b>Ce qui fait son score de '+Math.round(r.score)+' :</b> pour chaque critère renseigné, son adéquation à ta réponse (la barre) et les points obtenus sur les points possibles. Une réponse hésitante pèse moins : son adéquation est rapprochée de 50 %.</p>'+
+  (rows?'<ul class="reco-why-parts" aria-label="Part de chaque critère dans le score">'+rows+'</ul>':'')+
+  '<p><b>Stabilité face à tes hésitations :</b> '+esc(stability)+'</p>'+
+  '<p><b>Sources :</b> notes éditoriales, non mesurées au niveau 60, justifiées dans la <a href="'+KB_URL+'" target="_blank" rel="noopener noreferrer">base de connaissances du projet ↗</a> · <a href="'+esc(r.spec.source)+'" target="_blank" rel="noopener noreferrer">présentation officielle de la classe ↗</a></p>'+
+  '</details>';
+}
+function resultCard(r,i,position,hesitant){
  var strong=r.strengths.length?r.strengths.map(pointsName).join(' · '):'Plusieurs pistes possibles';
  var weak=r.tradeoffs.length?r.tradeoffs.map(pointsName).join(' · '):'Consulte les repères de cette spécialisation ci-dessous';
  var cls=r.classId;
  var tied=position&&position.tied,leader=position?position.leader:i===0;
  var petNotice=X?X.petNotice(r.spec,state):'';
- var stability=r.scenarioCount<=1?'Pas assez de réponses hésitantes pour comparer plusieurs scénarios':
-  'Présente dans '+r.scenarioAppearances+' des '+r.scenarioCount+' variantes de tes réponses hésitantes';
  return '<article class="reco-result-card '+(leader&&!tied?'reco-featured':'')+'" style="--reco-class:var(--k-'+esc(cls)+')">'+
   '<div class="reco-result-top"><span class="reco-emblem" aria-hidden="true"><img src="'+wowClassIcon(cls)+'" alt="" width="42" height="42" loading="lazy" decoding="async"></span>'+
   '<div class="reco-result-main"><span class="reco-result-label">'+(tied?(leader?'PISTE À ÉGALITÉ':'ALTERNATIVE À ÉGALITÉ'):(leader?'PISTE PRINCIPALE':'ALTERNATIVE '+i))+'</span><h4>'+esc(r.className)+'</h4>'+
@@ -215,8 +239,7 @@ function resultCard(r,i,position){
   '<p><b>À garder en tête</b><span>'+esc(weak)+'</span></p></div>'+
   (petNotice?'<p class="reco-config-notice">'+esc(petNotice)+'</p>':'')+
   (window.WFConfigurationDetails?window.WFConfigurationDetails(r.spec):'')+
-  '<details class="reco-evidence"><summary>Fiabilité et incertitude</summary><p>'+esc(stability)+'. Évaluation des qualités de gameplay encore exploratoire au niveau 60.</p>'+
-  '<a href="'+esc(r.spec.source)+'" target="_blank" rel="noopener noreferrer">Source officielle de la classe ↗</a></details></article>';
+  whyBlock(r,hesitant||[])+'</article>';
 }
 /* Avant les résultats, un bloc en pleine largeur sous la question : le texte, puis l'action
  * (progression vers un premier aperçu, ou bouton des résultats). */
@@ -257,7 +280,7 @@ function renderResults(){
   var positions=X?X.ranks(report.results):[],tie=X?X.tieNote(report.results):'';
   if(tie)h+='<p class="reco-note reco-tie-note">'+esc(tie)+'</p>';
   if(X)X.contextNotes({profile:state}).forEach(function(note){h+='<p class="reco-note">'+esc(note)+'</p>';});
-  h+='<div class="reco-cards">'+report.top.map(function(r,i){return resultCard(r,i,positions[i]);}).join('')+'</div>';
+  h+='<div class="reco-cards">'+report.top.map(function(r,i){return resultCard(r,i,positions[i],hesitations(report));}).join('')+'</div>';
   if(report.uncertain.length)h+='<p class="reco-note">Sensibilité : '+report.uncertain.length+' préférence(s) hésitante(s) explorée(s). Ces scénarios ne sont pas des probabilités.</p>';
   else h+='<p class="reco-note">Ces scores sont des estimations de correspondance, pas des probabilités de satisfaction.</p>';
  }
