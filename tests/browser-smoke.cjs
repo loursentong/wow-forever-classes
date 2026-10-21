@@ -11,6 +11,7 @@ const {chromium}=require('playwright');
 
 const base=path.resolve(__dirname,'..');
 const allowed={'/':'index.html','/index.html':'index.html','/questionnaire.js':'questionnaire.js','/recommendation-engine.js':'recommendation-engine.js','/priorities-ui.js':'priorities-ui.js','/ux-polish.css':'ux-polish.css','/warcraft-visual-pack.css':'warcraft-visual-pack.css','/wow-ui-rework.css':'wow-ui-rework.css','/refonte-forever.css':'refonte-forever.css','/assets/hero-landscape.svg':'assets/hero-landscape.svg'};
+for(const f of ['configuration-notes.js','configuration-details.js','configuration-notes.css'])allowed['/'+f]=f;
 // Visuels de la refonte (kit de presse officiel), servis comme sur GitHub Pages.
 for(const f of ['logo-wow-forever.webp','hero-arbre-monde.webp','hero-vallee-nuit.webp','bandeau-gantelet.webp','bandeau-darkspear.webp','grain.png'])allowed['/assets/img/'+f]='assets/img/'+f;
 const types={'.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml; charset=utf-8','.webp':'image/webp','.png':'image/png'};
@@ -25,7 +26,7 @@ async function check(){
  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
  let browser;
  try{
-  browser=await chromium.launch({headless:true});
+  browser=await chromium.launch({headless:true,...(process.env.FRV_CHROMIUM_EXECUTABLE?{executablePath:process.env.FRV_CHROMIUM_EXECUTABLE}:{})});
   const page=await browser.newPage({viewport:{width:1300,height:900},locale:'fr-FR'});
   // Rendu reproductible sans dépendance réseau aux Google Fonts.
   await page.route('https://fonts.googleapis.com/**',route=>route.abort());
@@ -95,6 +96,15 @@ async function check(){
   assert.ok(placed.results.left>=placed.summary.left-2&&placed.results.top>=placed.summary.bottom-2,'Aperçu fermé sous « Mes choix » : '+JSON.stringify(placed));
   await page.locator('[data-reco-reveal]').click();
   assert.equal(await page.locator('#reco-results .reco-result-card').count(),3);
+  assert.equal(await page.locator('#reco-results .reco-config-details').count(),3);
+  const guideDetails=page.locator('#reco-results .reco-config-details').first();
+  await guideDetails.locator('summary').focus();
+  await page.keyboard.press('Enter');
+  assert.equal(await guideDetails.evaluate(el=>el.open),true);
+  assert.match(await guideDetails.textContent(),/Pour toi si…[\s\S]*Ses atouts :[\s\S]*À prévoir :/);
+  fs.mkdirSync(path.join(__dirname,'screenshots'),{recursive:true});
+  await page.locator('#reco-results .reco-result-card').first().screenshot({path:path.join(__dirname,'screenshots','specialisation-guide.png')});
+  await page.keyboard.press('Enter');
   // Révélés, les résultats passent sous la question, à la même largeur.
   placed=await place();
   assert.ok(placed.results.top>=placed.form.bottom-2&&Math.abs(placed.results.left-placed.form.left)<=2&&Math.abs(placed.results.width-placed.form.width)<=2,
@@ -151,6 +161,7 @@ async function check(){
   assert.ok(dpsScores.some(x=>!x.trim().startsWith('100')));
   assert.equal(await page.locator('[data-prio-axis]').count(),56);
   assert.equal(await page.locator('#reco-priority-results .reco-priority-class').count(),9);
+  assert.equal(await page.locator('#reco-priority-results .reco-config-details').count(),9);
   await page.locator('[data-prio-preset="pvp"]').click();
   assert.equal(await page.locator('.seg button[data-ax="bg"][data-v="3"]').getAttribute('aria-pressed'),'true');
   await page.locator('[data-prio-mastery="3"]').click();
@@ -185,6 +196,11 @@ async function check(){
 
   // Taille mobile, visibilité des navigations et accès clavier.
   await page.setViewportSize({width:390,height:844});
+  const priorityDetails=page.locator('#reco-priority-results .reco-config-details').first();
+  await priorityDetails.locator('summary').click();
+  assert.equal(await priorityDetails.evaluate(el=>el.open),true);
+  assert.match(await priorityDetails.textContent(),/À prévoir :/);
+  await page.locator('#reco-priority-results .reco-priority-class').first().screenshot({path:path.join(__dirname,'screenshots','specialisation-priorites-mobile.png')});
   const measurements=await page.evaluate(()=>({
     document:document.documentElement.scrollWidth,viewport:document.documentElement.clientWidth
   }));

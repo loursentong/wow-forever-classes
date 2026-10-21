@@ -39,7 +39,7 @@ var rows=[
 ['assassinat','voleur','Assassinat','dps','melee','none',[3,3,5,3],[5,2,5,2,4,1],[3,4]],
 ['combat','voleur','Combat','dps','melee','none',[4,3,4,3],[4,3,4,3,4,1],[2,3]],
 ['finesse','voleur','Finesse','dps','melee','none',[3,4,5,3],[5,2,5,2,5,1],[3,5]],
-['discipline','pretre','Discipline','soin','distance','none',[5,5,4,3],[2,2,4,4,2,5],[3,4]],
+['discipline','pretre','Discipline','soin','distance','none',[5,5,4,3],[2,2,3,4,2,5],[3,4]],
 ['sacre','pretre','Sacré','soin','distance','none',[5,5,3,3],[2,2,3,4,2,5],[2,3]],
 ['ombre','pretre','Ombre','dps','distance','none',[3,4,4,3],[3,2,4,3,2,4],[3,4]],
 ['elementaire','chaman','Élémentaire','dps','distance','none',[3,4,4,3],[5,4,3,3,4,4],[3,3]],
@@ -169,6 +169,16 @@ function specFit(s,p){
   return {value:value,parts:parts};
 }
 function stableSort(a,b){return b.score-a.score||a.spec.id.localeCompare(b.spec.id);}
+/* Potentiel d'une configuration ajusté à la maîtrise (codex § 3.4) : adéquation PvE
+ * éditoriale (activité « raid ») après effet de la maîtrise, sur 0…1. */
+function potential(s,m){return (adjustedActivity(s,'raid',m)-1)/4;}
+function potentialKey(s,m){return Math.round(potential(s,m)*1e4);}
+/* Configuration qui représente sa classe : meilleur score au centième ; à égalité, le plus
+ * haut potentiel ajusté à la maîtrise, puis l'identifiant. Jamais un arrondi flottant. */
+function representsClassBetter(a,b,m){
+  return a.score>b.score||a.score===b.score&&(potentialKey(a.spec,m)>potentialKey(b.spec,m)||
+    potentialKey(a.spec,m)===potentialKey(b.spec,m)&&a.spec.id.localeCompare(b.spec.id)<0);
+}
 function ranking(profile){
   var p=sanitize(profile),used=domains(p);
   if(!used.length)return {status:'unanswered',profile:p,used:used,results:[],compatible:0};
@@ -177,8 +187,10 @@ function ranking(profile){
     return {spec:s,score:Math.round(10000*fit.value)/100,fit:fit.parts};
   }).sort(stableSort);
   if(!candidates.length)return {status:'no-match',profile:p,used:used,results:[],compatible:0};
-  var seen=new Set(),unique=[];
-  for(var r of candidates)if(!seen.has(r.spec.classId)){seen.add(r.spec.classId);unique.push(r);}
+  var best={};
+  for(var r of candidates)if(!best[r.spec.classId]||representsClassBetter(r,best[r.spec.classId],p.mastery))best[r.spec.classId]=r;
+  // Ordre des classes inchangé : score, puis identifiant (le préfixe de classe départage).
+  var unique=Object.keys(best).map(function(k){return best[k];}).sort(stableSort);
   return {status:'ok',profile:p,used:used,results:unique,compatible:candidates.length};
 }
 function perturbations(p){
@@ -230,19 +242,19 @@ function sanitizeWeights(input){
 /* Référentiel éditorial historique par classe et rôle (indice 1–5).
  * Conserve le contexte des notes de rôle de index.html, mais évalue en plus
  * la configuration spécialisée en activité raid pour empêcher les 100% universels.
- * Vérification de synchronisation avec les 126 notes d'origine dans les tests.
+ * Révision éditoriale v2 : soins Paladin/Chaman 5, contrôle Discipline 3.
+ * Vérification de synchronisation avec les 126 notes affichées dans les tests.
  */
 var ROLE_REFERENCE={
- guerrier:{tank:5,soin:1,dps:5},paladin:{tank:4,soin:4,dps:4},
+ guerrier:{tank:5,soin:1,dps:5},paladin:{tank:4,soin:5,dps:4},
  chasseur:{tank:1,soin:1,dps:5},voleur:{tank:1,soin:1,dps:3},
- pretre:{tank:1,soin:5,dps:3},chaman:{tank:2,soin:4,dps:3},
+ pretre:{tank:1,soin:5,dps:3},chaman:{tank:2,soin:5,dps:3},
  mage:{tank:1,soin:1,dps:4},demoniste:{tank:1,soin:1,dps:4},
  druide:{tank:4,soin:5,dps:3}
 };
 function roleSuitability(s,m){
  var baseline=(ROLE_REFERENCE[s.classId][s.role]-1)/4;
- var specialized=(adjustedActivity(s,'raid',m)-1)/4;
- return clamp(.55*baseline+.45*specialized,0,1);
+ return clamp(.55*baseline+.45*potential(s,m),0,1);
 }
 function priorityRanking(input,mastery){
   var w=sanitizeWeights(input),m=Number.isInteger(mastery)&&mastery>=0&&mastery<=3?mastery:2;
@@ -287,11 +299,9 @@ function priorityRanking(input,mastery){
   }
   var byClass={};
   for(var sp of specs){
-    var r=fit(sp);
-    if(!byClass[sp.classId]||r.score>byClass[sp.classId].score){
-      byClass[sp.classId]={spec:sp,classId:sp.classId,className:sp.className,
-        score:Math.round(r.score*100)/100,parts:r.parts};
-    }
+    var r=fit(sp),row={spec:sp,classId:sp.classId,className:sp.className,
+      score:Math.round(r.score*100)/100,parts:r.parts};
+    if(!byClass[sp.classId]||representsClassBetter(row,byClass[sp.classId],m))byClass[sp.classId]=row;
   }
   var results=Object.keys(byClass).map(function(k){return byClass[k];})
     .sort(function(a,b){return b.score-a.score||a.className.localeCompare(b.className,'fr');});
@@ -308,8 +318,8 @@ function checkData(){
  }
  return errors;
 }
-return {version:'1.0.0-exploratoire',sources:sources,specs:specs,roles:ROLE,activities:acts,styles:styles,
+return {version:'1.0.2-exploratoire',sources:sources,specs:specs,roles:ROLE,activities:acts,styles:styles,
  defaultProfile:copy(DEFAULT),sanitize:sanitize,selected:selected,domains:domains,eligible:eligible,
  ranking:ranking,recommend:recommend,checkData:checkData,intensity:intensity,preferenceFit:preferenceFit,
- rolePool:rolePool,adjustedActivity:adjustedActivity,roleSuitability:roleSuitability,roleReference:ROLE_REFERENCE,priorityAxes:PRIORITY_AXES,priorityRanking:priorityRanking,sanitizeWeights:sanitizeWeights};
+ rolePool:rolePool,adjustedActivity:adjustedActivity,potential:potential,roleSuitability:roleSuitability,roleReference:ROLE_REFERENCE,priorityAxes:PRIORITY_AXES,priorityRanking:priorityRanking,sanitizeWeights:sanitizeWeights};
 });

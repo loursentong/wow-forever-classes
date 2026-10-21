@@ -1,7 +1,8 @@
 # CODEX — Contrat du moteur logique de WoW Forever Classes
 
-> **Statut : référentiel normatif du comportement existant, v1 — 21 octobre 2026.**
+> **Statut : référentiel normatif v3 — 21 octobre 2026.** v2 : révision des données ; v3 : configuration qui représente une classe à score égal.
 > **Base figée :** commit de production `470fc92b607327ba7573307d1c00577ffc887208`, après la correction « DPS PvE = 100 partout ».
+> **Base des révisions v2 et v3 :** `71f81ec53bc3023e5fd8e8428de1267ff5df2d4a`. Moteur `1.0.2-exploratoire` : soin Chaman et Paladin 4→5, contrôle Discipline 4→3 (v2) ; à score égal, une classe est représentée par sa configuration au plus haut potentiel ajusté à la maîtrise (v3). Formules de score et maîtrise inchangées. Décisions et effets dans [REVISION-EDITORIALE-V2.md](REVISION-EDITORIALE-V2.md).
 > **Périmètre :** algorithmes, hypothèses, données, sauvegardes, tests et gouvernance des évolutions.
 > **Non-objectif :** déclarer le modèle scientifiquement validé, équilibrer arbitrairement les classes, garantir des performances en jeu ou figer à jamais les valeurs éditoriales.
 
@@ -13,7 +14,7 @@ Les trois sources de vérité techniques sont :
 
 1. `recommendation-engine.js` : moteur partagé, exécutable dans Node.js et dans le navigateur.
 2. `index.html` → `window.__WF` : matrice historique **9 classes × 14 notes = 126 notes**, 15 préréglages et calcul historique conservé séparément.
-3. `tests/fixtures/moteur-reference-v1.json` : **photographie immuable de la version de référence** (données et classements observés), vérifiée par `tests/codex-contract.test.cjs`.
+3. `tests/fixtures/moteur-reference-v3.json` : **photographie active de la version de référence**, vérifiée par `tests/codex-contract.test.cjs`. Les photographies `moteur-reference-v1.json` et `moteur-reference-v2.json` restent immuables : l'empreinte de la v1 et les trois seuls écarts de notes sont protégés par `tests/editorial-update.test.cjs`, l'empreinte de la v2 et les seuls écarts admis de la v3 par `tests/egalites-v3.test.cjs`.
 
 `questionnaire.js` et `priorities-ui.js` gèrent **l'affichage et les préférences**, mais ne doivent pas constituer des moteurs de scoring concurrents. `RECOMMANDATION-METHODE.md` apporte les explications destinées aux utilisateurs. En cas de contradiction entre l'intention de ce codex et le code, **arrêter la modification, caractériser l'écart, puis décider explicitement du contrat voulu** : ne pas réécrire silencieusement le codex pour justifier un résultat accidentel.
 
@@ -124,7 +125,7 @@ score_affiché = arrondi(100 × score_brut, 2 décimales)
 
 - `unanswered` : aucune dimension renseignée, **aucun classement**.
 - `no-match` : toutes les configurations sont éliminées, **aucun classement**.
-- `ok` : configurations admissibles triées par score décroissant, puis identifiant de spécialisation pour stabiliser les égalités ; **une seule meilleure configuration par classe** ; jusqu'à neuf classes.
+- `ok` : configurations admissibles triées par score décroissant, puis identifiant de spécialisation pour stabiliser les égalités ; **une seule meilleure configuration par classe** ; jusqu'à neuf classes. À score égal entre configurations d'une même classe, la classe est représentée par celle dont le **potentiel ajusté à la maîtrise** (§ 3.4) est le plus élevé, puis par identifiant ; l'ordre des classes reste celui du score, puis de l'identifiant.
 - `compatible` = nombre de **configurations** admissibles avant dédoublonnage, **pas** nombre de classes.
 - `recommend()` propose **au plus trois classes distinctes** avec points forts/compromis, et des scénarios de sensibilité.
 
@@ -165,7 +166,7 @@ score(s) = 100 × Σ(importance_g × qualité_g(s)) / Σ(importance_g)
 
 **Exception numérique explicite :** si **un seul axe est actif**, `score(s) = 100 × brut(s,k)`. Ainsi, le poids 1, 2 ou 3 ne doit pas changer le score d'un axe isolé : ces poids expriment son importance **relative aux autres critères**.
 
-Le score de classe est celui de **la meilleure configuration cohérente**, sans combiner le tank d'une spé avec le burst d'une autre. **Les neuf classes** figurent au classement (même lorsqu'une classe répond mal aux critères). Les égalités sont stabilisées par nom de classe en locale française.
+Le score de classe est celui de **la meilleure configuration cohérente**, sans combiner le tank d'une spé avec le burst d'une autre. **Les neuf classes** figurent au classement (même lorsqu'une classe répond mal aux critères). Les égalités sont stabilisées par nom de classe en locale française. À score égal au centième entre configurations d'une même classe, la classe est représentée par celle au **plus haut potentiel ajusté à la maîtrise** (§ 3.4), puis par identifiant : jamais par un arrondi flottant.
 
 ### 3.3. Signification du brut par axe
 
@@ -183,10 +184,12 @@ Depuis le correctif du 21 octobre 2026, le moteur utilise deux données éditori
 
 ```text
 référence_classe = (note_historique_classe_pour_le_rôle − 1)/4
-potentiel_spé = (adjustedActivity(spé, 'raid', maîtrise) − 1)/4
+potentiel_spé = potential(spé, maîtrise) = (adjustedActivity(spé, 'raid', maîtrise) − 1)/4
 roleSuitability(spé, maîtrise) =
   clamp(0,55 × référence_classe + 0,45 × potentiel_spé, 0, 1)
 ```
+
+Depuis la v3, `potential` est exposé par l'API et sert aussi à départager les configurations d'une même classe à score égal (§ 2.5 et § 3.2).
 
 Les notes historiques sont issues de `ROLE_REFERENCE`, qui **DOIT rester égal** aux colonnes `tank/soin/dps` de `window.__WF.classes[].r` ; cette égalité est vérifiée par tests. Une configuration hors rôle apporte **0** à cet axe.
 
@@ -247,7 +250,9 @@ Le fichier `tests/fixtures/moteur-reference-v1.json` contient :
 - les **3 rôles isolés × 4 maîtrises** ;
 - **5 mélanges d'axes × 3 maîtrises**.
 
-`tests/codex-contract.test.cjs` compare le moteur et les données **directement** à cette photographie. Elle n'est **pas un jeu d'entraînement**, ni une preuve de justesse du gameplay : c'est un dispositif de **détection de changements**.
+Les photographies v1 et v2 restent conservées. `tests/codex-contract.test.cjs` compare désormais le moteur et les données **directement** à la photographie v3 des mêmes 99 cas. `scripts/compare-editorial-v2.cjs` reproduit la comparaison v1→v2 à partir des photographies figées ; `scripts/reference-v3.cjs` rejoue la v2 avec le moteur actuel et vérifie que seuls changent, à score égal, les configurations affichées (41 cas sur 99). Aucun de ces scripts n'écrit de fixture sans l'option explicite `--fixture`. Ces photographies ne sont **pas un jeu d'entraînement**, ni une preuve de justesse du gameplay : elles détectent les changements.
+
+La v2 accepte une égalité des quatre classes soigneuses sur le seul axe Soin aux maîtrises Confirmé et Expert. Cette convention éditoriale ne dit pas que leurs soins réels sont égaux. Les classes sans configuration de soin restent à zéro sur cet axe ; les axes Tank et DPS restent différenciés.
 
 Les valeurs et les égalités observées dans cette photographie appartiennent à la version de référence. Si une source Blizzard apporte ultérieurement des données vérifiées modifiant une note, il peut être **correct** que les tests échouent : ils exigent alors une décision explicite et une nouvelle version documentée.
 

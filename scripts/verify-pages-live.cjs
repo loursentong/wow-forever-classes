@@ -12,6 +12,9 @@ const expected={
  'warcraft-visual-pack.css':'--wow-gold:#eac061',
  'wow-ui-rework.css':'reco-step-rail',
  'refonte-forever.css':'rf-band',
+ 'configuration-notes.js':'guerrier-armes',
+ 'configuration-details.js':'reco-config-details',
+ 'configuration-notes.css':'reco-config-details',
  'assets/hero-landscape.svg':'<svg',
  'assets/img/hero-arbre-monde.webp':'WEBP',
  'assets/img/logo-wow-forever.webp':'WEBP'

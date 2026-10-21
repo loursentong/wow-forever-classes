@@ -6,7 +6,8 @@ const path = require('node:path');
 const vm = require('node:vm');
 
 const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8').replace(/\r\n/g, '\n');
-const referenceNotes = require('./reference-notes.json');
+// L'ancienne matrice reste conservée dans reference-notes.json et la fixture v1.
+const referenceNotes = Object.fromEntries(require('./fixtures/moteur-reference-v2.json').matrix.classes.map(c=>[c.id,c.r]));
 const match = html.match(/window\.__WF = (\{.*?\});\s*\(function\(\)/s);
 const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>/);
 assert.ok(match && scriptMatch, 'modèle et script présents');
@@ -154,7 +155,8 @@ test('La référence Confirmé applique les notes telles quelles et fige les sco
   // Depuis l'ajout de Burst et Dégâts de zone (20 octobre), « Tout à égalité » porte sur quatorze critères.
   // Sur les douze critères d'origine, ces scores étaient 82, 77, 70, 67, 67, 65, 62, 58 et 57.
   const historical = {
-    egal: [80,76,73,70,69,64,63,63,60]
+    // v2 : Paladin 76→77 et Chaman 73→74, uniquement par le soin 4→5.
+    egal: [80,77,74,70,69,64,63,63,60]
   };
   const h=boot();
   for(const [preset,scores] of Object.entries(historical)){

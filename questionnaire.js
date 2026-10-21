@@ -194,6 +194,7 @@ function resultCard(r,i){
   '<div class="reco-bars"><div class="reco-bar" style="width:'+Math.min(100,Math.max(0,r.score))+'%"></div></div>'+
   '<div class="reco-reasons"><p><b>Correspond à tes envies</b><span>'+esc(strong)+'</span></p>'+
   '<p><b>À garder en tête</b><span>'+esc(weak)+'</span></p></div>'+
+  (window.WFConfigurationDetails?window.WFConfigurationDetails(r.spec):'')+
   '<details class="reco-evidence"><summary>Fiabilité et incertitude</summary><p>'+esc(stability)+'. Évaluation des qualités de gameplay encore exploratoire au niveau 60.</p>'+
   '<a href="'+esc(r.spec.source)+'" target="_blank" rel="noopener noreferrer">Source officielle de la classe ↗</a></details></article>';
 }
