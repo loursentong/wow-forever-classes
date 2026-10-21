@@ -2,7 +2,7 @@
  "classe": "druide",
  "libelle": "Druide",
  "date": "2026-10-21",
- "moteur": "1.0.6-exploratoire",
+ "moteur": "1.0.7-exploratoire",
  "faits": [
   {
    "id": "dr-role",
@@ -217,6 +217,18 @@
    "texte": "Données du jeu lues par le simulateur wowsims : « Pounce » étourdit depuis Prowl, dans le dos de la cible ; « Bash » étourdit en forme d’ours ; « Feral Charge » (talent Farouche) immobilise et interrompt, en forme d’ours seulement.",
    "sources": [
     "wowsims-forever"
+   ]
+  },
+  {
+   "id": "dr-soin-resto",
+   "categorie": "soin",
+   "texte": "Restauration s’appuie sur des soins sur la durée qui demandent plus de préparation ; sa boîte à outils est plus limitée que celle du Prêtre. « Wild Growth » (31 points) pose un soin sur la durée sur tout le groupe ; « Swiftmend » ne consomme plus « Rejuvenation » ni « Regrowth » ; « Regrowth » coûte surtout pour son soin immédiat. Aucune absorption décrite.",
+   "sources": [
+    "bz-dd-chasseur-druide",
+    "wt-classes"
+   ],
+   "specs": [
+    "druide-restauration"
    ]
   }
  ],
@@ -692,6 +704,42 @@
      "raison": "Soigner en changeant de forme sous pression, contre-intuitif selon Kami.",
      "appuis": [
       "dr-complexite"
+     ],
+     "confiance": "moyenne"
+    }
+   },
+   "profil_soin": {
+    "prevention": {
+     "valeur": 1,
+     "raison": "Aucune absorption décrite ; « Barkskin » ne protège que le Druide.",
+     "appuis": [
+      "dr-soin-resto",
+      "dr-defense"
+     ],
+     "confiance": "moyenne"
+    },
+    "duree": {
+     "valeur": 5,
+     "raison": "Le spécialiste des soins sur la durée, cumulables, selon Blizzard et Warcraft Tavern.",
+     "appuis": [
+      "dr-soin-resto",
+      "dr-resto"
+     ],
+     "confiance": "haute"
+    },
+    "cible": {
+     "valeur": 3,
+     "raison": "« Swiftmend » sans consommer ses soins sur la durée et le soin immédiat de « Regrowth » ; boîte à outils plus limitée que celle du Prêtre.",
+     "appuis": [
+      "dr-soin-resto"
+     ],
+     "confiance": "moyenne"
+    },
+    "groupe": {
+     "valeur": 4,
+     "raison": "« Wild Growth » pose un soin sur la durée sur tout le groupe, « Tranquility » plus fréquente avec talent.",
+     "appuis": [
+      "dr-soin-resto"
      ],
      "confiance": "moyenne"
     }

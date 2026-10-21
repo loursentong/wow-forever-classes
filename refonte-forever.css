@@ -198,6 +198,12 @@ header.top{position:absolute;min-height:0}
 .reco-strict input{accent-color:var(--rf-gold);width:18px;height:18px}
 .reco-strict strong,.reco-choice-details .reco-strict strong{font-size:14px;font-weight:600;color:var(--rf-soft)}
 .reco-strict small,.reco-choice-details .reco-strict small{font-size:13px;color:var(--rf-faint)}
+/* Sous-question facultative du rôle Soin : façon de soigner (lot 3). */
+.reco-subquestion{margin-top:18px;padding:14px 16px 16px;border:1px solid var(--rf-line);border-left:3px solid var(--rf-gold);border-radius:12px;
+ background:rgba(9,18,31,.55);animation:ux-reveal .2s ease both}
+.reco-subquestion-title{font-family:var(--font-display);font-size:19px;line-height:1.25;letter-spacing:.02em;color:var(--rf-ivory);margin:0 0 4px}
+.reco-subquestion-hint{color:var(--rf-muted);font-size:14px;line-height:1.45;margin:0 0 12px}
+@media (prefers-reduced-motion:reduce){.reco-subquestion{animation:none}}
 .reco-mastery-choices button{border-radius:6px;border:1px solid #2B4058;background:transparent;color:var(--rf-soft);min-height:40px}
 .reco-mastery-choices button[aria-pressed="true"]{border-color:var(--rf-gold);background:var(--rf-gold);color:var(--rf-bg);font-weight:700}
 .reco-form-footer{border-top:1px solid rgba(233,179,79,.18);padding-top:14px}

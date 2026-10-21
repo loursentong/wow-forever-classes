@@ -2,7 +2,7 @@
  "classe": "chaman",
  "libelle": "Chaman",
  "date": "2026-10-21",
- "moteur": "1.0.6-exploratoire",
+ "moteur": "1.0.7-exploratoire",
  "faits": [
   {
    "id": "ch-role",
@@ -204,6 +204,17 @@
    "specs": [
     "chaman-amelioration",
     "chaman-elementaire"
+   ]
+  },
+  {
+   "id": "ch-soin-resto",
+   "categorie": "soin",
+   "texte": "Restauration : soins en chaîne (« Chain Heal »), « Riptide » (31 points : soin immédiat puis sur la durée pendant 15 s, +25 % à « Chain Heal » sur la cible), « Healing Way » (renforce « Healing Wave »), « Restorative Totems » (double le « Healing Stream Totem »). Aucune absorption décrite.",
+   "sources": [
+    "bz-dd-mage-chaman"
+   ],
+   "specs": [
+    "chaman-restauration"
    ]
   }
  ],
@@ -569,6 +580,41 @@
       "ch-mana"
      ],
      "confiance": "faible"
+    }
+   },
+   "profil_soin": {
+    "prevention": {
+     "valeur": 1,
+     "raison": "Aucune absorption ni prévention décrites ; « Water Shield » rend du mana.",
+     "appuis": [
+      "ch-soin-resto"
+     ],
+     "confiance": "moyenne"
+    },
+    "duree": {
+     "valeur": 3,
+     "raison": "« Riptide » soigne aussi sur 15 s et le « Healing Stream Totem » est doublé, sans en faire une spécialisation de soins sur la durée.",
+     "appuis": [
+      "ch-soin-resto"
+     ],
+     "confiance": "moyenne"
+    },
+    "cible": {
+     "valeur": 4,
+     "raison": "« Healing Wave » renforcé par « Healing Way ».",
+     "appuis": [
+      "ch-soin-resto"
+     ],
+     "confiance": "moyenne"
+    },
+    "groupe": {
+     "valeur": 5,
+     "raison": "Ses soins en chaîne (« Chain Heal », renforcé par « Riptide ») sont sa signature.",
+     "appuis": [
+      "ch-soin-resto",
+      "ch-resto"
+     ],
+     "confiance": "haute"
     }
    }
   }

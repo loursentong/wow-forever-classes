@@ -1,4 +1,4 @@
-# Révision éditoriale v2 et références v3 à v7 — 21 octobre 2026
+# Révision éditoriale v2 et références v3 à v8 — 21 octobre 2026
 
 Changement de **données et d'explications**, approuvé par le responsable du projet après la revue pratique des 28 configurations : moteur `1.0.1-exploratoire`, référence v2. Il est complété le même jour par la règle d'affichage à score égal (moteur `1.0.2-exploratoire`, référence v3) puis par l'exception solo du Chasseur réservée à Maîtrise des bêtes (moteur `1.0.3-exploratoire`, référence v4), voir plus bas. Base commune : `71f81ec53bc3023e5fd8e8428de1267ff5df2d4a`.
 
@@ -143,9 +143,32 @@ Les autres écarts :
 
 Sur les 107 cas de la v6, **45 changent**, mais **la première classe recommandée ne change dans aucun**. Seule la configuration en tête change une fois : « Tout à égalité » en Confirmé, Druide félin 60,08 → Druide Restauration 59,87.
 
+## Version 1.0.7 : façon de soigner
+
+Le responsable du projet l'a décidé le 21 octobre 2026 (lot 3). Jusqu'ici, rien ne départageait les soigneurs : un joueur qui demandait seulement le rôle Soin voyait les quatre classes de soin à égalité. Quand le rôle Soin est choisi, la question 1 propose désormais une sous-question facultative, « Quelle façon de soigner t'attire ? », avec deux choix au plus et leur certitude.
+
+| Façon de soigner | Sacré (Paladin) | Discipline | Sacré (Prêtre) | Restauration (Chaman) | Restauration (Druide) |
+|---|---|---|---|---|---|
+| Prévenir les dégâts (boucliers, absorptions) | 1 | 5 | 3 | 1 | 1 |
+| Soins sur la durée | 1 | 2 | 2 | 3 | 5 |
+| Gros soins ciblés | 5 | 4 | 4 | 4 | 3 |
+| Soigner tout le groupe | 3 | 3 | 5 | 5 | 4 |
+
+Ces profils viennent des présentations officielles des classes par Blizzard ; raisons, appuis et confiance sont dans la [base de connaissances](connaissances/README.md). Ils décrivent une façon de jouer, pas une puissance de soin.
+
+La façon de soigner pèse 0,15 et ne juge que les configurations de soin : les autres gardent exactement leur score. Sans le rôle Soin, elle est ignorée. Une façon de soigner hésitante (certitude 2 ou moins) est explorée comme les autres préférences hésitantes. « Régler mes priorités » ne l'utilise pas.
+
+Aucun des 107 cas de la v7 ne change : aucun ne précise de façon de soigner. La v8 ajoute sept scénarios. Pour un joueur qui veut seulement soigner, avec une certitude maximale :
+- prévenir les dégâts : Prêtre Discipline 100, les trois autres classes à 62,5 ;
+- soins sur la durée : Druide Restauration 100, Chaman 81,25, Prêtre 71,87, Paladin 62,5 ;
+- gros soins ciblés : Paladin Sacré 100, Chaman et Prêtre 90,62, Druide 81,25 ;
+- soigner tout le groupe : Chaman Restauration et Prêtre Sacré à égalité à 100, Druide 90,62, Paladin 81,25.
+
+Le panneau « Jouer … » de chaque configuration de soin décrit aussi sa façon de soigner, dans les deux parcours.
+
 ## Références et reproduction
 
-La fixture v1 et `tests/reference-notes.json` sont conservés. La fixture v2 fige les mêmes entrées, après vérification des trois seuls écarts de notes. La fixture v3 ne diffère de la v2 que par les configurations affichées à score égal. La fixture v4 ne diffère de la v3 que par le Chasseur en solo, en Débutant ou Intermédiaire. La fixture v5 ne diffère de la v4 que par un scénario sans familier ; elle ajoute quatre scénarios. La fixture v6 reprend la v5 à l'identique et ajoute quatre scénarios de difficulté. La fixture v7, active, ne diffère de la v6 que par les cinq notes décidées. Les tests protègent les empreintes des v1 à v6. Le code des formules de score et les données de maîtrise sont inchangés.
+La fixture v1 et `tests/reference-notes.json` sont conservés. La fixture v2 fige les mêmes entrées, après vérification des trois seuls écarts de notes. La fixture v3 ne diffère de la v2 que par les configurations affichées à score égal. La fixture v4 ne diffère de la v3 que par le Chasseur en solo, en Débutant ou Intermédiaire. La fixture v5 ne diffère de la v4 que par un scénario sans familier ; elle ajoute quatre scénarios. La fixture v6 reprend la v5 à l'identique et ajoute quatre scénarios de difficulté. La fixture v7 ne diffère de la v6 que par les cinq notes décidées. La fixture v8, active, reprend la v7 à l'identique, y ajoute les profils de soin et sept scénarios de soin. Les tests protègent les empreintes des v1 à v7. Les formules de score existantes et les données de maîtrise sont inchangées ; la v8 ajoute un domaine, la façon de soigner.
 
 ```text
 node --test tests/*.test.cjs
@@ -155,10 +178,11 @@ node scripts/reference-v4.cjs comparaison-v3-v4.json
 node scripts/reference-v5.cjs comparaison-v4-v5.json
 node scripts/reference-v6.cjs comparaison-v5-v6.json
 node scripts/reference-v7.cjs comparaison-v6-v7.json
+node scripts/reference-v8.cjs comparaison-v7-v8.json
 bash scripts/prepare-pages.sh
 node tests/browser-smoke.cjs
 ```
 
-Les comparaisons produisent les scores, rangs et spécialisations avant/après avec la cause de chaque écart. Elles ne réécrivent aucune fixture : `scripts/reference-v7.cjs` n'écrit la photographie qu'avec l'option explicite `--fixture`. Le test navigateur utilise Playwright ; `FRV_CHROMIUM_EXECUTABLE` permet de sélectionner un Chrome/Chromium déjà installé.
+Les comparaisons produisent les scores, rangs et spécialisations avant/après avec la cause de chaque écart. Elles ne réécrivent aucune fixture : `scripts/reference-v8.cjs` n'écrit la photographie qu'avec l'option explicite `--fixture`. Le test navigateur utilise Playwright ; `FRV_CHROMIUM_EXECUTABLE` permet de sélectionner un Chrome/Chromium déjà installé.
 
 Les tests et les 99 cas vérifient la cohérence de l'implémentation, pas la justesse scientifique au niveau 60. Cette étape ne revoit ni les coefficients de maîtrise ni les formules et ne lance pas de nouvel audit exhaustif.

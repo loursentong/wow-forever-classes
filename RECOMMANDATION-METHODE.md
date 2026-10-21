@@ -14,7 +14,7 @@ Les activités (raids, BG, PvP sauvage, solo), les six qualités de style et la 
 
 ## Saisie
 
-1. Rôles (DPS, tank, soin), plusieurs choix et possibilité explicite d'exiger tous les rôles.
+1. Rôles (DPS, tank, soin), plusieurs choix et possibilité explicite d'exiger tous les rôles. Avec le rôle Soin, une sous-question facultative précise la façon de soigner (prévenir les dégâts, soins sur la durée, gros soins ciblés, soigner tout le groupe), deux choix au plus.
 2. Activités (raids/donjons, BG, PvP sauvage/duel, solo/farm), réponses multiples.
 3. Portée (distance, mêlée, alterner, indifférent), préférence souple ou exigence absolue.
 4. Styles (burst, zone, contrôle, survie, mobilité, soutien), trois choix maximum.
@@ -27,7 +27,7 @@ Les réponses sont enregistrées dans le navigateur sous la clé wf-recommend-v1
 
 ## Calcul explicite
 
-Chaque domaine effectivement répondu contribue au score avec un poids de conception : rôles **0,25**, activités **0,25**, portée **0,15**, styles **0,20**, familiers **0,10**, complexité **0,05**. Les poids sont renormalisés sur les domaines actifs. À l'intérieur des questions multiples, les réponses sont moyennées : trois styles sélectionnés ne triplent donc pas leur importance.
+Chaque domaine effectivement répondu contribue au score avec un poids de conception : rôles **0,25**, activités **0,25**, portée **0,15**, styles **0,20**, façon de soigner **0,15** (configurations de soin seulement), familiers **0,10**, complexité **0,05**. Les poids sont renormalisés sur les domaines actifs. À l'intérieur des questions multiples, les réponses sont moyennées : trois styles sélectionnés ne triplent donc pas leur importance.
 
 Pour une adéquation brute a entre 0 et 1 et une certitude c dans 0…5 :
 
@@ -122,4 +122,4 @@ Le contrôle recouvre immobilisations, ralentissements, neutralisations et inter
 
 Un familier « facultatif » ne signifie pas un résultat identique sans compagnon. Depuis le moteur 1.0.4, quand le joueur préfère éviter les familiers, Affliction, Destruction, Survie et Précision sont évaluées dans leur version sans familier, et le résultat l'annonce : sans démon, le Démoniste perd notamment Séduction et Verrou magique. Les variantes du Chasseur alternant mêlée et distance nécessitent aussi un alignement de leurs hypothèses de performance et de difficulté.
 
-Les types de soins ne sont pas encore des préférences du questionnaire. Une égalité entre soigneurs ne signifie donc pas qu'ils se jouent de la même façon ou fournissent exactement les mêmes soins. Voir [le périmètre du lot d'explications](LOT-1-EXPLICATIONS.md).
+Depuis le moteur 1.0.7, la façon de soigner départage les soigneurs. Chaque configuration de soin porte un profil de 1 à 5 sur les quatre façons, tiré des présentations officielles : un portrait de jeu, pas une puissance de soin. Ce critère ne juge que les configurations de soin ; les autres gardent leur score, et il est ignoré sans le rôle Soin. Sans façon de soigner précisée, une égalité entre soigneurs ne signifie pas qu'ils se jouent de la même façon ou fournissent exactement les mêmes soins. Voir [le détail et les effets](REVISION-EDITORIALE-V2.md).

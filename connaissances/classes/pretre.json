@@ -2,7 +2,7 @@
  "classe": "pretre",
  "libelle": "Prêtre",
  "date": "2026-10-21",
- "moteur": "1.0.6-exploratoire",
+ "moteur": "1.0.7-exploratoire",
  "faits": [
   {
    "id": "pr-role",
@@ -213,6 +213,36 @@
    "specs": [
     "pretre-ombre"
    ]
+  },
+  {
+   "id": "pr-soin-classe",
+   "categorie": "soin",
+   "texte": "Le Prêtre est « le soigneur le plus polyvalent » : soins sur la durée (« Renew », cumulable entre Prêtres), soins directs et boucliers d’absorption, quand les autres soigneurs se concentrent sur l’un d’eux. « Prayer of Healing » soigne tout le groupe de la cible.",
+   "sources": [
+    "bz-dd-pretre-guerrier"
+   ]
+  },
+  {
+   "id": "pr-soin-disc",
+   "categorie": "soin",
+   "texte": "Discipline : « Improved Power Word: Shield », « Soul Warding » (bouclier moins cher et plus fréquent), « Divine Aegis » (un soin critique laisse une absorption de 12 s) ; « Penance » soigne ou frappe, canalisée 2 s ; « Renewed Hope » renforce les soins directs sur une cible protégée.",
+   "sources": [
+    "bz-dd-pretre-guerrier"
+   ],
+   "specs": [
+    "pretre-discipline"
+   ]
+  },
+  {
+   "id": "pr-soin-sacre",
+   "categorie": "soin",
+   "texte": "Sacré : « Prayer of Mending » (31 points) rebondit jusqu’à cinq fois dans le groupe ou le raid ; « Binding Heal » soigne le Prêtre et sa cible, au niveau de « Flash Heal » ; « Litany of Light » rembourse du mana quand les soins alternent.",
+   "sources": [
+    "bz-dd-pretre-guerrier"
+   ],
+   "specs": [
+    "pretre-sacre"
+   ]
   }
  ],
  "specialisations": [
@@ -338,6 +368,43 @@
      ],
      "confiance": "faible"
     }
+   },
+   "profil_soin": {
+    "prevention": {
+     "valeur": 5,
+     "raison": "La spécialisation des boucliers : « Power Word: Shield » amélioré et plus fréquent, absorptions de « Divine Aegis » ; les plus forts du jeu selon les développeurs.",
+     "appuis": [
+      "pr-soin-disc",
+      "pr-soin-dev"
+     ],
+     "confiance": "haute"
+    },
+    "duree": {
+     "valeur": 2,
+     "raison": "« Renew », le seul soin sur la durée de la classe, sans renfort propre à Discipline.",
+     "appuis": [
+      "pr-soin-classe"
+     ],
+     "confiance": "moyenne"
+    },
+    "cible": {
+     "valeur": 4,
+     "raison": "« Penance », « Renewed Hope » et les soins directs de la classe : garde le mieux un tank en vie selon les développeurs.",
+     "appuis": [
+      "pr-soin-disc",
+      "pr-soin-dev"
+     ],
+     "confiance": "moyenne"
+    },
+    "groupe": {
+     "valeur": 3,
+     "raison": "« Prayer of Healing » soigne tout le groupe de la cible, sans les outils de groupe de Sacré.",
+     "appuis": [
+      "pr-soin-classe",
+      "pr-soin-dev"
+     ],
+     "confiance": "moyenne"
+    }
    }
   },
   {
@@ -458,6 +525,44 @@
       "pr-limites"
      ],
      "confiance": "faible"
+    }
+   },
+   "profil_soin": {
+    "prevention": {
+     "valeur": 3,
+     "raison": "« Power Word: Shield » reste disponible, sans les renforts de Discipline.",
+     "appuis": [
+      "pr-soin-classe",
+      "pr-soin-dev"
+     ],
+     "confiance": "moyenne"
+    },
+    "duree": {
+     "valeur": 2,
+     "raison": "« Renew », le seul soin sur la durée de la classe.",
+     "appuis": [
+      "pr-soin-classe"
+     ],
+     "confiance": "moyenne"
+    },
+    "cible": {
+     "valeur": 4,
+     "raison": "« Binding Heal », au niveau de « Flash Heal », et les gros soins directs de la classe.",
+     "appuis": [
+      "pr-soin-sacre",
+      "pr-soin-classe"
+     ],
+     "confiance": "moyenne"
+    },
+    "groupe": {
+     "valeur": 5,
+     "raison": "« Prayer of Mending » rebondit jusqu’à cinq fois, « Prayer of Healing » soigne tout un groupe : soigne mieux un groupe que Discipline selon les développeurs.",
+     "appuis": [
+      "pr-soin-sacre",
+      "pr-soin-classe",
+      "pr-soin-dev"
+     ],
+     "confiance": "haute"
     }
    }
   },

@@ -10,7 +10,7 @@
 - Les fiches donnent séparément les repères de difficulté PvE et PvP de la spécialisation. Contrôle et Technicité sont définis plus clairement ; l'apprentissage et l'optimisation sont distingués.
 - Lorsqu'un joueur préfère éviter les familiers, les pistes concernées indiquent visiblement que leurs variantes sans compagnon ne sont pas encore évaluées séparément. Pour le Démoniste, la perte des contrôles du démon est explicitée.
 - Les fiches Chasseur rendent visible la distinction entre rotation statique et alternance tirs/mêlée, sans prétendre que leurs scores ont été réconciliés.
-- Une demande de soin indique que les styles de soin ne sont pas encore départagés par le questionnaire ; les fiches existantes restent disponibles.
+- Une demande de soin indique que les styles de soin ne sont pas encore départagés par le questionnaire ; les fiches existantes restent disponibles. (Depuis le moteur 1.0.7, la question 1 propose une façon de soigner qui les départage.)
 
 ## Portée et limites
 
@@ -30,6 +30,6 @@ La mise en avant conserve les styles existants de Claude ; leurs sélecteurs rep
 ## Lots suivants
 
 1. **Profils cohérents et scoring** : fixer les configurations avec/sans compagnon, les talents et rotations retenus ; documenter chaque changement de comportement, comparer à la référence et créer une nouvelle version si nécessaire. Ne pas appliquer automatiquement les 12 propositions de Claude.
-2. **Préférences de soin** : définir quelques choix facultatifs utiles et les relier aux styles des cinq configurations, sans transformer une identité de jeu en classement de puissance.
+2. **Préférences de soin** : définir quelques choix facultatifs utiles et les relier aux styles des cinq configurations, sans transformer une identité de jeu en classement de puissance. (Réalisé dans le moteur 1.0.7 : façon de soigner.)
 
 Aucun push, aucune PR et aucune publication pour ce lot. Les corrections documentaires de la reprise de Claude restent présentes dans la branche locale.

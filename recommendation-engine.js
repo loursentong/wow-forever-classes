@@ -65,6 +65,18 @@ var specs=rows.map(function(r){
   styles.forEach(function(k,i){st[k]=r[7][i];});
   return {id:r[1]+'-'+r[0],classId:r[1],className:names[r[1]],label:r[2],role:r[3],range:r[4],pet:r[5],activity:a,style:st,load:{pve:r[8][0],pvp:r[8][1]},source:sources[r[1]],dataQuality:{officialKit:true,activity:'éditoriale',style:'éditoriale'}};
 });
+/* Façon de soigner (référence v8) : profil éditorial 1–5 des cinq configurations de soin, d'après les
+ * présentations officielles (base de connaissances) : prévenir les dégâts (boucliers, absorptions), soins sur
+ * la durée, gros soins ciblés, soins de groupe. Un portrait de jeu, pas un classement de puissance. */
+var HEAL_STYLES=['prevention','duree','cible','groupe'];
+var HEAL={
+ 'paladin-sacre':{prevention:1,duree:1,cible:5,groupe:3},
+ 'pretre-discipline':{prevention:5,duree:2,cible:4,groupe:3},
+ 'pretre-sacre':{prevention:3,duree:2,cible:4,groupe:5},
+ 'chaman-restauration':{prevention:1,duree:3,cible:4,groupe:5},
+ 'druide-restauration':{prevention:1,duree:5,cible:3,groupe:4}
+};
+specs.forEach(function(s){if(HEAL[s.id])s.heal=HEAL[s.id];});
 /* Variantes sans familier (référence v5) : pour chaque configuration à familier facultatif, notes
  * du build joué sans compagnon, uniquement là où le familier compte (base de connaissances).
  * Elles s'appliquent quand le joueur préfère jouer sans compagnon ; la variante répond alors
@@ -85,7 +97,7 @@ specs.forEach(function(s){
 });
 function profileSpec(s,p){return p.pet.value==='avoid'&&petless[s.id]?petless[s.id]:s;}
 var ROLE=['tank','soin','dps'];
-var DEFAULT={roles:{},rolesStrict:false,activities:{},range:{value:'any',certainty:3,strict:false},styles:{},pet:{value:'any',certainty:3,strict:false},difficulty:{value:'any',certainty:3},mastery:2};
+var DEFAULT={roles:{},rolesStrict:false,healStyles:{},activities:{},range:{value:'any',certainty:3,strict:false},styles:{},pet:{value:'any',certainty:3,strict:false},difficulty:{value:'any',certainty:3},mastery:2};
 function validCert(v){return Number.isInteger(v)&&v>=0&&v<=5;}
 function copy(obj){return JSON.parse(JSON.stringify(obj));}
 function sanitize(x){
@@ -94,6 +106,9 @@ function sanitize(x){
   for(var k of ROLE)if(validCert(x.roles&&x.roles[k]))p.roles[k]=x.roles[k];
   for(var k of acts)if(validCert(x.activities&&x.activities[k]))p.activities[k]=x.activities[k];
   for(var k of styles)if(validCert(x.styles&&x.styles[k])&&selected(p.styles).length<3)p.styles[k]=x.styles[k];
+  // Façon de soigner : deux choix au plus, retenus seulement si le rôle Soin est demandé.
+  if(selected(p.roles).indexOf('soin')>=0)
+    for(var k of HEAL_STYLES)if(validCert(x.healStyles&&x.healStyles[k])&&selected(p.healStyles).length<2)p.healStyles[k]=x.healStyles[k];
   for(var field of ['range','pet','difficulty']){
     var v=x[field];if(!v||typeof v!=='object')continue;
     var allowed=field==='range'?['any','distance','melee','mixte']:field==='pet'?['any','like','avoid']:['any','simple','complex'];
@@ -112,10 +127,12 @@ function domains(p){
   if(selected(p.activities).length)q.push('activities');
   if(p.range.value!=='any')q.push('range');
   if(selected(p.styles).length)q.push('styles');
+  if(healActive(p))q.push('healStyles');
   if(p.pet.value!=='any')q.push('pet');
   if(p.difficulty.value!=='any')q.push('difficulty');
   return q;
 }
+function healActive(p){return selected(p.healStyles).length>0&&selected(p.roles).indexOf('soin')>=0;}
 function rolePool(classId){return Array.from(new Set(specs.filter(function(s){return s.classId===classId;}).map(function(s){return s.role;})));}
 function distPool(c,p){
   var requested=selected(p.roles);
@@ -190,6 +207,7 @@ function specFit(s,p){
     parts.range={value:preferenceFit(v,p.range.certainty),weight:.15};
   }
   if(sty.length)parts.styles={value:aggregate(sty,p.styles,function(k){return (adjustedStyle(s,k,p.mastery)-1)/4;}),weight:.20};
+  if(healActive(p)&&s.heal)parts.healStyles={value:aggregate(selected(p.healStyles),p.healStyles,function(k){return (s.heal[k]-1)/4;}),weight:.15};
   if(p.pet.value!=='any'){
     var v=p.pet.value==='like'?(s.pet==='core'?1:s.pet==='optional'?.76:.1):
       (s.pet==='none'||s.variant==='sans-familier'?1:s.pet==='optional'?.78:.05);
@@ -229,7 +247,7 @@ function ranking(profile){
   return {status:'ok',profile:p,used:used,results:unique,compatible:candidates.length};
 }
 function perturbations(p){
-  var out=[{label:'Réponses actuelles',profile:p}],fields=['roles','activities','styles'];
+  var out=[{label:'Réponses actuelles',profile:p}],fields=['roles','activities','styles','healStyles'];
   for(var field of fields)for(var key of selected(p[field])){
     if(p[field][key]<=2){
       var next=copy(p);delete next[field][key];
@@ -351,6 +369,8 @@ function checkData(){
   for(var k of acts)if(!Number.isInteger(s.activity[k])||s.activity[k]<1||s.activity[k]>5)errors.push('activité '+s.id+':'+k);
   for(var k of styles)if(!Number.isInteger(s.style[k])||s.style[k]<1||s.style[k]>5)errors.push('style '+s.id+':'+k);
   if(s.pet==='optional'&&!petless[s.id])errors.push('variante sans familier manquante '+s.id);
+  if((s.role==='soin')!==!!s.heal)errors.push('profil de soin '+s.id);
+  if(s.heal)for(var h of HEAL_STYLES)if(!Number.isInteger(s.heal[h])||s.heal[h]<1||s.heal[h]>5)errors.push('soin '+s.id+':'+h);
  }
  for(var id in PETLESS){
   var base=specs.find(function(x){return x.id===id;});
@@ -362,7 +382,7 @@ function checkData(){
  }
  return errors;
 }
-return {version:'1.0.6-exploratoire',sources:sources,specs:specs,petless:petless,difficultyContext:difficultyContext,difficultyLoad:difficultyLoad,roles:ROLE,activities:acts,styles:styles,
+return {version:'1.0.7-exploratoire',healStyles:HEAL_STYLES,sources:sources,specs:specs,petless:petless,difficultyContext:difficultyContext,difficultyLoad:difficultyLoad,roles:ROLE,activities:acts,styles:styles,
  defaultProfile:copy(DEFAULT),sanitize:sanitize,selected:selected,domains:domains,eligible:eligible,
  ranking:ranking,recommend:recommend,checkData:checkData,intensity:intensity,preferenceFit:preferenceFit,
  rolePool:rolePool,adjustedActivity:adjustedActivity,potential:potential,roleSuitability:roleSuitability,roleReference:ROLE_REFERENCE,priorityAxes:PRIORITY_AXES,priorityRanking:priorityRanking,sanitizeWeights:sanitizeWeights};

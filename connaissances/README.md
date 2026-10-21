@@ -4,12 +4,14 @@ Elle relie chaque note du moteur à des **faits sourcés**, avec une **raison** 
 
 **Étape 1, 21 octobre 2026 (moteur `1.0.3-exploratoire`) :** registre de 34 sources, 202 faits de kit pour les 28 configurations, justification des 336 notes, complétés par une passe de recherche ciblée sur les angles les plus fragiles (soigneurs, PvP et champs de bataille, solo, difficulté, tanks). **Aucune valeur du moteur n’a changé** ; les propositions de réévaluation sont listées dans [les écarts à arbitrer](ecarts-a-arbitrer.md). Une proposition n'établit pas à elle seule que la note actuelle est fausse.
 
+**Lot 3, 21 octobre 2026 (moteur `1.0.7-exploratoire`) :** 8 faits de soin, tirés des présentations officielles des classes (211 faits au total), et le profil de soin des cinq configurations de soin, utilisé par le moteur depuis la v8.
+
 ## Contenu
 
 | Fichier | Rôle |
 |---|---|
 | `sources.json` | Registre : type, fiabilité, portée, date, statut (utilisée, repérée, écartée) de chaque source. |
-| `classes/<classe>.json` | Faits de kit (catégorie, texte, sources, configurations concernées ; critères contredits pour une limite), puis, pour chaque configuration, son profil et ses 12 notes `{valeur, raison, appuis, confiance}`. Une configuration à familier facultatif porte aussi sa `variante_sans_familier` : les seules notes qui changent sans compagnon, utilisées par le moteur depuis la v5. |
+| `classes/<classe>.json` | Faits de kit (catégorie, texte, sources, configurations concernées ; critères contredits pour une limite), puis, pour chaque configuration, son profil et ses 12 notes `{valeur, raison, appuis, confiance}`. Une configuration à familier facultatif porte aussi sa `variante_sans_familier` : les seules notes qui changent sans compagnon, utilisées par le moteur depuis la v5. Une configuration de soin porte son `profil_soin` : quatre notes `{valeur, raison, appuis, confiance}` sur les façons de soigner, utilisées par le moteur depuis la v8. |
 | `ecarts.json` | Propositions de réévaluation, avec leurs arguments et une décision à prendre ; notes à surveiller. |
 | `ecarts-a-arbitrer.md` | La même chose, à lire, régénérée par `node scripts/synthese-ecarts.cjs`. Un écart tranché porte sa décision ; un écart ouvert, ce qu’il attend. |
 
@@ -18,6 +20,7 @@ Les 12 critères reprennent les clés du moteur : `raid`, `bg`, `world`, `solo` 
 ## Définitions des critères
 
 - **Donjons et raids, pour un DPS** : ses dégâts simulés seuls, en pourcentage du meilleur DPS simulé au niveau 60 (5 à partir de 86 %, 4 de 72 à 85 %, 3 de 55 à 71 %, 2 en dessous), dans la rotation évaluée. L’utilité de groupe est notée dans « Soutien ». Les soigneurs et les tanks gardent leur convention.
+- **Façon de soigner** (configurations de soin seulement) : `prevention` (prévenir les dégâts : boucliers et absorptions), `duree` (soins sur la durée), `cible` (gros soins ciblés), `groupe` (soigner tout le groupe). La note dit ce que la présentation officielle met en avant, pas une puissance de soin : 5 pour la signature de la spécialisation, 1 pour un outil absent ou non décrit.
 - **Contrôle** : neutraliser, interrompre, ralentir ou immobiliser, avec les seuls outils du build évalué. Un outil accessible par changement de forme ou par un familier compte avec sa contrainte ; des outils de familiers différents ne sont jamais disponibles ensemble.
 
 ## Échelles
@@ -43,13 +46,14 @@ Une reprise ne compte pas comme une preuve indépendante. La tier list Kami dér
 - chaque note a une raison, au moins un appui, et que chaque appui concerne bien sa configuration ;
 - une note de style à 4 ou plus s’appuie sur un fait de son domaine (un contrôle pour `ctrl`, une défense pour `surv`…) et cite toute limite de sa classe qui pèse contre ce critère, sauf si elle figure dans un écart ouvert ;
 - une variante sans familier existe pour chaque familier facultatif, et seulement pour eux ; elle porte exactement les notes que le moteur change, chacune justifiée ;
+- un profil de soin existe pour chaque configuration de soin, et seulement pour elles ; il porte les valeurs du moteur, chacune justifiée, et une note de 4 ou plus s'appuie sur un fait de soin ;
 - une source « utilisée » est citée par au moins un fait, et réciproquement ;
 - un écart ouvert porte la valeur actuelle du moteur et une note en confiance faible ; un écart tranché porte sa décision, appliquée au moteur.
 
 ## Limites connues (21 octobre 2026)
 
 - La bêta est plafonnée au niveau 30 (20 jusqu’au 1er octobre) et aucun raid n’y est testé : les notes de raid et de PvP au niveau 60 reposent sur des simulations, le kit et des avis, jamais sur des mesures en jeu.
-- Aucun classement comparatif de soin exploitable n'a été établi dans cette base. La FAQ MythicSim annonce un Quick Sim en HPS, mais exclut les soigneurs de sa tier list : son existence annoncée ne valide ni son implémentation ni un classement en raid. Les cinq soigneurs restent à 5 en raid par convention, sans égalité de performance démontrée.
+- Aucun classement comparatif de soin exploitable n'a été établi dans cette base. La FAQ MythicSim annonce un Quick Sim en HPS, mais exclut les soigneurs de sa tier list : son existence annoncée ne valide ni son implémentation ni un classement en raid. Les cinq soigneurs restent à 5 en raid par convention, sans égalité de performance démontrée. Leurs profils de soin décrivent les outils mis en avant par Blizzard ; l'intensité relative (un 4 contre un 5) reste un jugement éditorial.
 - Aucun retour comparatif par classe sur les champs de bataille suffisamment étayé n'a été retenu dans le corpus consulté. Cela ne démontre pas l'absence de tels retours ailleurs.
 - La taille d'une rotation simulée est un indice qualitatif dépendant de son auteur et des optimisations retenues, pas une mesure de difficulté pour un joueur. Chez le Chasseur, la performance issue d'une rotation alternant mêlée et distance ne justifie pas en même temps la simplicité d'une rotation statique.
 - Depuis le moteur 1.0.4, une préférence sans familier fait évaluer Affliction, Destruction, Survie et Précision dans leur variante sans familier. L’ampleur des baisses (un point par critère concerné) est un jugement éditorial, non une mesure.

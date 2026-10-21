@@ -2,7 +2,7 @@
  "classe": "paladin",
  "libelle": "Paladin",
  "date": "2026-10-21",
- "moteur": "1.0.6-exploratoire",
+ "moteur": "1.0.7-exploratoire",
  "faits": [
   {
    "id": "p-role",
@@ -247,6 +247,40 @@
     "paladin-vindicte",
     "paladin-protection"
    ]
+  },
+  {
+   "id": "p-soin-cible",
+   "categorie": "soin",
+   "texte": "Sacré excelle à soutenir une seule cible avec « Flash of Light » : les Paladins peuvent être « les soigneurs monocibles les plus puissants du jeu ». « Infusion of Light » accélère « Holy Light » après un critique.",
+   "sources": [
+    "bz-dd-paladin",
+    "wt-classes"
+   ],
+   "specs": [
+    "paladin-sacre"
+   ]
+  },
+  {
+   "id": "p-soin-groupe",
+   "categorie": "soin",
+   "texte": "Soigner tout un groupe lui demande plus de préparation : « Light’s Vigil » (31 points), posé 30 s sur un allié, soigne instantanément tout son groupe pour un montant modéré, avec une recharge de 6 s.",
+   "sources": [
+    "bz-dd-paladin"
+   ],
+   "specs": [
+    "paladin-sacre"
+   ]
+  },
+  {
+   "id": "p-soin-sans-hot",
+   "categorie": "soin",
+   "texte": "La présentation officielle ne décrit pour Sacré ni soin sur la durée ni absorption ; les boucliers du Paladin (« Seal of Fury », « Templar’s Bulwark ») appartiennent à Protection.",
+   "sources": [
+    "bz-dd-paladin"
+   ],
+   "specs": [
+    "paladin-sacre"
+   ]
   }
  ],
  "specialisations": [
@@ -367,6 +401,41 @@
      "appuis": [
       "p-facile",
       "p-mana"
+     ],
+     "confiance": "moyenne"
+    }
+   },
+   "profil_soin": {
+    "prevention": {
+     "valeur": 1,
+     "raison": "Ni bouclier ni absorption décrits pour Sacré ; ceux du Paladin vont à Protection.",
+     "appuis": [
+      "p-soin-sans-hot"
+     ],
+     "confiance": "moyenne"
+    },
+    "duree": {
+     "valeur": 1,
+     "raison": "Aucun soin sur la durée décrit pour Sacré.",
+     "appuis": [
+      "p-soin-sans-hot"
+     ],
+     "confiance": "moyenne"
+    },
+    "cible": {
+     "valeur": 5,
+     "raison": "Les soigneurs monocibles les plus puissants du jeu selon Blizzard, autour de « Flash of Light » et « Holy Light ».",
+     "appuis": [
+      "p-soin-cible",
+      "p-role"
+     ],
+     "confiance": "haute"
+    },
+    "groupe": {
+     "valeur": 3,
+     "raison": "« Light’s Vigil » soigne tout un groupe, mais demande plus de préparation, d’après Blizzard.",
+     "appuis": [
+      "p-soin-groupe"
      ],
      "confiance": "moyenne"
     }

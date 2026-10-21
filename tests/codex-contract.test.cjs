@@ -7,7 +7,8 @@
  * v4 réserve l'exception solo du Chasseur à Maîtrise des bêtes ; v5 évalue les configurations à
  * familier facultatif avec leurs notes sans familier quand le joueur préfère jouer sans compagnon ;
  * v6 juge la préférence de difficulté sur le contexte (PvE ou PvP) des activités choisies ; v7 aligne la note
- * raid des DPS sur leurs dégâts simulés et passe Farouche (félin) à 2 en zone.
+ * raid des DPS sur leurs dégâts simulés et passe Farouche (félin) à 2 en zone ; v8 ajoute la façon de soigner,
+ * qui compare les configurations de soin quand le joueur demande ce rôle.
  * Ne JAMAIS régénérer ces valeurs sur un échec de CI sans revue explicite des
  * écarts, approbation du changement et nouvelle version documentée.
  */
@@ -16,7 +17,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
 const E=require('../recommendation-engine.js');
-const fixture=require('./fixtures/moteur-reference-v7.json');
+const fixture=require('./fixtures/moteur-reference-v8.json');
 const html=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
 const questionnaire=fs.readFileSync(path.join(__dirname,'..','questionnaire.js'),'utf8');
 const prioritiesUI=fs.readFileSync(path.join(__dirname,'..','priorities-ui.js'),'utf8');
@@ -76,8 +77,8 @@ test('CODEx: référence de rôle toujours liée aux notes historiques',()=>{
   assert.ok(Math.abs(E.roleSuitability(s,2)-(.55*baseline+.45*activity))<1e-12,s.id);
  }
 });
-test('CODEx: 20 scénarios guidés — statut, spécialisation, scores, sensibilité, vétos, variantes sans familier et difficulté',()=>{
- assert.equal(fixture.guide.length,20);
+test('CODEx: 27 scénarios guidés — statut, spécialisation, scores, sensibilité, vétos, variantes sans familier, difficulté et soin',()=>{
+ assert.equal(fixture.guide.length,27);
  for(const ex of fixture.guide){
   const actual=compactGuide(ex.profile);
   assert.deepEqual(actual,{
