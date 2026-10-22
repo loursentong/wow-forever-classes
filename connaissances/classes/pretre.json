@@ -1,8 +1,8 @@
 {
  "classe": "pretre",
  "libelle": "Prêtre",
- "date": "2026-10-21",
- "moteur": "1.0.9-exploratoire",
+ "date": "2026-10-22",
+ "moteur": "1.1.0-exploratoire",
  "faits": [
   {
    "id": "pr-role",
@@ -205,8 +205,8 @@
   },
   {
    "id": "pr-rotation",
-   "categorie": "ressource",
-   "texte": "Rotation simulée d’Ombre simple : 10 sorts, peu de conditions.",
+   "categorie": "complexite",
+   "texte": "Rotation simulée d’Ombre (liste de priorités wowsims, 22 octobre 2026) : 8 sorts et 7 conditions.",
    "sources": [
     "wowsims-forever"
    ],
@@ -242,6 +242,22 @@
    ],
    "specs": [
     "pretre-sacre"
+   ]
+  },
+  {
+   "id": "pr-guides",
+   "categorie": "complexite",
+   "texte": "Guides Icy Veins de la bêta, écrits pour le niveau 30. Discipline : prévenir les dégâts plutôt que les réparer, gérer son mana comme point clé du Prêtre, aucune mobilité (« Zero Horizontal Mobility ») ; plus exigeante que Sacré mais plus gratifiante bien jouée. Sacré : très accessible aux débutants ; trop soigner gaspille le mana. Ombre : une spécialisation « very methodical » à cause de son mana, avec la règle des cinq secondes.",
+   "sources": [
+    "iv-guides-forever"
+   ]
+  },
+  {
+   "id": "pr-sorts-client",
+   "categorie": "complexite",
+   "texte": "Sorts et talents présents dans les données du client lues par wowsims : « Mana Burn », « Blackout », « Fear Ward », « Vampiric Embrace », « Penance ».",
+   "sources": [
+    "wowsims-forever"
    ]
   }
  ],
@@ -351,22 +367,27 @@
      "confiance": "haute"
     },
     "charge_pve": {
-     "valeur": 3,
-     "raison": "Boucliers à anticiper et mana à gérer sur les longs combats. Aucune mesure de difficulté.",
+     "valeur": 4,
+     "raison": "7 points sur 10 sur la grille de complexité : les effets à entretenir et la gestion de la ressource pèsent beaucoup ; la rotation, le placement et le pilotage, un peu.",
      "appuis": [
+      "pr-guides",
+      "pr-soin-disc",
       "pr-mana",
       "pr-disc"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     },
     "charge_pvp": {
      "valeur": 4,
-     "raison": "Boucliers, peur et dissipations à placer sous pression, mana compté. Aucune mesure de difficulté.",
+     "raison": "7 points sur 10 sur la grille de complexité : la défense, le placement et le pilotage pèsent beaucoup ; les contrôles, un peu.",
      "appuis": [
-      "pr-mana",
-      "pr-controle"
+      "pr-controle",
+      "pr-defense",
+      "pr-limites",
+      "pr-pvp-duel",
+      "pr-sorts-client"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     }
    },
    "profil_soin": {
@@ -404,6 +425,76 @@
       "pr-soin-dev"
      ],
      "confiance": "moyenne"
+    }
+   },
+   "complexite": {
+    "pve": {
+     "note": 4,
+     "total": 7,
+     "confiance": "moyenne",
+     "composantes": {
+      "rotation": {
+       "points": 1,
+       "raison": "Power Word: Shield, Penance, Renew, Heal, Flash Heal en urgence, Prayer of Healing, dissipations."
+      },
+      "entretien": {
+       "points": 2,
+       "raison": "Boucliers à anticiper sur plusieurs cibles (« Weakened Soul ») et Renew : prévenir les dégâts plutôt que les réparer (Icy Veins)."
+      },
+      "ressource": {
+       "points": 2,
+       "raison": "Mana : sa gestion est un point clé du Prêtre selon Icy Veins."
+      },
+      "placement": {
+       "points": 1,
+       "raison": "Incantations, « Zero Horizontal Mobility » (Icy Veins)."
+      },
+      "pilotage": {
+       "points": 1,
+       "raison": "Rôle de soigneur."
+      }
+     },
+     "appuis": [
+      "pr-guides",
+      "pr-soin-disc",
+      "pr-mana",
+      "pr-disc"
+     ],
+     "approfondissement": "Icy Veins la juge « more challenging than Holy, but more rewarding when played well »."
+    },
+    "pvp": {
+     "note": 4,
+     "total": 7,
+     "confiance": "moyenne",
+     "composantes": {
+      "controles": {
+       "points": 1,
+       "raison": "« Psychic Scream », « Mind Control », « Mana Burn »."
+      },
+      "defense": {
+       "points": 2,
+       "raison": "« Power Word: Shield », « Fade », « Fear Ward », dissipations sur soi ; raciaux (« Desperate Prayer »…)."
+      },
+      "placement": {
+       "points": 2,
+       "raison": "Tissu et peu d’échappatoires : lignes de vue à gérer."
+      },
+      "ouverture": {
+       "points": 0,
+       "raison": "Pas de fenêtre d’ouverture."
+      },
+      "pilotage": {
+       "points": 2,
+       "raison": "Dissipations offensives et défensives, « Mana Burn » : guerre des ressources."
+      }
+     },
+     "appuis": [
+      "pr-controle",
+      "pr-defense",
+      "pr-limites",
+      "pr-pvp-duel",
+      "pr-sorts-client"
+     ]
     }
    }
   },
@@ -510,19 +601,24 @@
     },
     "charge_pve": {
      "valeur": 2,
-     "raison": "Soins de zone puissants et lisibles ; le mana reste le point à surveiller. Aucune mesure de difficulté.",
+     "raison": "4 points sur 10 sur la grille de complexité : les effets à entretenir, la gestion de la ressource, le placement et le pilotage pèsent un peu.",
      "appuis": [
-      "pr-sacre",
-      "pr-mana"
+      "pr-guides",
+      "pr-soin-sacre",
+      "pr-mana",
+      "pr-limites"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     },
     "charge_pvp": {
      "valeur": 3,
-     "raison": "Soigner sous pression en tissu, mana compté. Aucune mesure de difficulté.",
+     "raison": "6 points sur 10 sur la grille de complexité : le placement et le pilotage pèsent beaucoup ; les contrôles et la défense, un peu.",
      "appuis": [
-      "pr-mana",
-      "pr-limites"
+      "pr-controle",
+      "pr-defense",
+      "pr-bg",
+      "pr-limites",
+      "pr-sorts-client"
      ],
      "confiance": "faible"
     }
@@ -563,6 +659,76 @@
       "pr-soin-dev"
      ],
      "confiance": "haute"
+    }
+   },
+   "complexite": {
+    "pve": {
+     "note": 2,
+     "total": 4,
+     "confiance": "moyenne",
+     "composantes": {
+      "rotation": {
+       "points": 0,
+       "raison": "Heal, Renew, Flash Heal en urgence, Prayer of Healing en groupe ; Prayer of Mending et Binding Heal viennent des talents profonds."
+      },
+      "entretien": {
+       "points": 1,
+       "raison": "Renew et Prayer of Mending."
+      },
+      "ressource": {
+       "points": 1,
+       "raison": "Mana : trop soigner le gaspille (Icy Veins)."
+      },
+      "placement": {
+       "points": 1,
+       "raison": "Incantations, aucune mobilité propre."
+      },
+      "pilotage": {
+       "points": 1,
+       "raison": "Rôle de soigneur, réactif."
+      }
+     },
+     "appuis": [
+      "pr-guides",
+      "pr-soin-sacre",
+      "pr-mana",
+      "pr-limites"
+     ],
+     "approfondissement": "Icy Veins la juge « very beginner-friendly »."
+    },
+    "pvp": {
+     "note": 3,
+     "total": 6,
+     "confiance": "faible",
+     "composantes": {
+      "controles": {
+       "points": 1,
+       "raison": "« Psychic Scream », « Mind Control »."
+      },
+      "defense": {
+       "points": 1,
+       "raison": "« Power Word: Shield », « Fade »."
+      },
+      "placement": {
+       "points": 2,
+       "raison": "Soigner sous pression en tissu, lignes de vue."
+      },
+      "ouverture": {
+       "points": 0,
+       "raison": "Pas de fenêtre d’ouverture."
+      },
+      "pilotage": {
+       "points": 2,
+       "raison": "Dissipations et « Mana Burn »."
+      }
+     },
+     "appuis": [
+      "pr-controle",
+      "pr-defense",
+      "pr-bg",
+      "pr-limites",
+      "pr-sorts-client"
+     ]
     }
    }
   },
@@ -668,23 +834,98 @@
      "confiance": "faible"
     },
     "charge_pve": {
-     "valeur": 3,
-     "raison": "Sorts sur la durée et mana à gérer sur les longs combats. Aucune mesure de difficulté.",
+     "valeur": 2,
+     "raison": "4 points sur 10 sur la grille de complexité : la gestion de la ressource pèse beaucoup ; les effets à entretenir et le placement, un peu.",
      "appuis": [
-      "pr-mana",
+      "pr-rotation",
+      "pr-guides",
       "pr-ombre",
-      "pr-rotation"
+      "pr-mana"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     },
     "charge_pvp": {
      "valeur": 4,
-     "raison": "Contrôles et « Silence » à placer au bon moment, en tissu. Aucune mesure de difficulté.",
+     "raison": "7 points sur 10 sur la grille de complexité : les contrôles et le placement pèsent beaucoup ; la défense, l’ouverture et le pilotage, un peu.",
      "appuis": [
       "pr-controle",
-      "pr-limites"
+      "pr-mind-flay",
+      "pr-defense",
+      "pr-ombre",
+      "pr-limites",
+      "pr-sorts-client"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
+    }
+   },
+   "complexite": {
+    "pve": {
+     "note": 2,
+     "total": 4,
+     "confiance": "moyenne",
+     "composantes": {
+      "rotation": {
+       "points": 0,
+       "raison": "Mind Blast, Devouring Plague, Shadow Word: Pain, Mind Flay, Shadow Word: Death (8 sorts, 7 conditions dans la rotation simulée)."
+      },
+      "entretien": {
+       "points": 1,
+       "raison": "Shadow Word: Pain et Devouring Plague."
+      },
+      "ressource": {
+       "points": 2,
+       "raison": "Spécialisation « very methodical » à cause de son mana selon Icy Veins : grouper ses sorts, règle des cinq secondes."
+      },
+      "placement": {
+       "points": 1,
+       "raison": "Mind Flay canalisé ; se placer pendant les sorts instantanés."
+      },
+      "pilotage": {
+       "points": 0,
+       "raison": "Reste en Shadowform."
+      }
+     },
+     "appuis": [
+      "pr-rotation",
+      "pr-guides",
+      "pr-ombre",
+      "pr-mana"
+     ]
+    },
+    "pvp": {
+     "note": 4,
+     "total": 7,
+     "confiance": "moyenne",
+     "composantes": {
+      "controles": {
+       "points": 2,
+       "raison": "« Psychic Scream », « Silence », « Mind Control », ralentissement de Mind Flay, étourdissements de « Blackout »."
+      },
+      "defense": {
+       "points": 1,
+       "raison": "« Power Word: Shield », « Fade », « Vampiric Embrace »."
+      },
+      "placement": {
+       "points": 2,
+       "raison": "Tissu, canalisations à protéger."
+      },
+      "ouverture": {
+       "points": 1,
+       "raison": "Burst Mind Blast et Shadow Word: Death."
+      },
+      "pilotage": {
+       "points": 1,
+       "raison": "« Mana Burn » et dissipation offensive."
+      }
+     },
+     "appuis": [
+      "pr-controle",
+      "pr-mind-flay",
+      "pr-defense",
+      "pr-ombre",
+      "pr-limites",
+      "pr-sorts-client"
+     ]
     }
    }
   }

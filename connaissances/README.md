@@ -6,22 +6,26 @@ Elle relie chaque note du moteur à des **faits sourcés**, avec une **raison** 
 
 **Lot 3, 21 octobre 2026 (moteur `1.0.7-exploratoire`) :** 8 faits de soin, tirés des présentations officielles des classes (211 faits au total), et le profil de soin des cinq configurations de soin, utilisé par le moteur depuis la v8.
 
+**Référentiel de complexité, 22 octobre 2026 (moteur `1.1.0-exploratoire`, référence v11) :** une grille commune pour la difficulté PvE et PvP (`referentiel-complexite.json`), et pour chaque configuration la `complexite` détaillée, composante par composante. 2 sources (guides de la bêta d'Icy Veins et de wowtbc.gg), 29 faits ajoutés ou mis à jour (catégorie `complexite` : rotations simulées mesurées de la même façon, guides, sorts et talents lus dans le client). Les notes `charge_pve` et `charge_pvp` sont désormais celles de la grille ; les deux points à surveiller sur la difficulté PvE d'Armes et du Voleur sont tranchés.
+
 ## Contenu
 
 | Fichier | Rôle |
 |---|---|
 | `sources.json` | Registre : type, fiabilité, portée, date, statut (utilisée, repérée, écartée) de chaque source. |
-| `classes/<classe>.json` | Faits de kit (catégorie, texte, sources, configurations concernées ; critères contredits pour une limite), puis, pour chaque configuration, son profil et ses 12 notes `{valeur, raison, appuis, confiance}`. Une configuration à familier facultatif porte aussi sa `variante_sans_familier` : les seules notes qui changent sans compagnon, utilisées par le moteur depuis la v5. Une configuration de soin porte son `profil_soin` : quatre notes `{valeur, raison, appuis, confiance}` sur les façons de soigner, utilisées par le moteur depuis la v8. `variante_reference` désigne un build de référence sans compagnon : Précision est toujours évaluée en Loup solitaire depuis la v9. |
+| `classes/<classe>.json` | Faits de kit (catégorie, texte, sources, configurations concernées ; critères contredits pour une limite), puis, pour chaque configuration, son profil et ses 12 notes `{valeur, raison, appuis, confiance}`. Une configuration à familier facultatif porte aussi sa `variante_sans_familier` : les seules notes qui changent sans compagnon, utilisées par le moteur depuis la v5. Une configuration de soin porte son `profil_soin` : quatre notes `{valeur, raison, appuis, confiance}` sur les façons de soigner, utilisées par le moteur depuis la v8. `variante_reference` désigne un build de référence sans compagnon : Précision est toujours évaluée en Loup solitaire depuis la v9. Depuis la v11, chaque configuration porte sa `complexite` : pour `pve` et `pvp`, la `note`, le `total` sur 10, les cinq `composantes` `{points, raison}` dans l'ordre de la grille, la `confiance`, les `appuis`, et selon le cas un `approfondissement` (technique hors note) ou une `variante` (Survie en mêlée seule). |
+| `referentiel-complexite.json` | Le référentiel de complexité (v11) : définition, jeu évalué, les cinq composantes de chaque contexte avec leurs trois niveaux, le barème du total à la note, la méthode de mesure des rotations, les limites et les sources principales. Publié sur la fiche « Comment nous mesurons la complexité ». |
 | `ecarts.json` | Propositions de réévaluation, avec leurs arguments et une décision à prendre ; notes à surveiller. |
 | `ecarts-a-arbitrer.md` | La même chose, à lire, régénérée par `node scripts/synthese-ecarts.cjs`. Un écart tranché porte sa décision ; un écart ouvert, ce qu’il attend. |
 | `../fiches-sources/` | Les mêmes données, lisibles par classe : notes, raisons, confiance, faits, variantes et sources datées. Pages générées par `node scripts/build-source-pages.cjs` (aussi lors de la préparation de Pages), liées depuis les résultats des deux parcours. |
 
-Les 12 critères reprennent les clés du moteur : `raid`, `bg`, `world`, `solo` (activités), `burst`, `zone`, `ctrl`, `surv`, `mob`, `support` (styles), `charge_pve`, `charge_pvp` (difficulté d’exécution).
+Les 12 critères reprennent les clés du moteur : `raid`, `bg`, `world`, `solo` (activités), `burst`, `zone`, `ctrl`, `surv`, `mob`, `support` (styles), `charge_pve`, `charge_pvp` (difficulté d’exécution, note de la grille de complexité depuis la v11).
 
 ## Définitions des critères
 
 - **Donjons et raids, pour un DPS** : ses dégâts simulés seuls, en pourcentage du meilleur DPS simulé au niveau 60 (5 à partir de 86 %, 4 de 72 à 85 %, 3 de 55 à 71 %, 2 en dessous), dans la rotation évaluée. L’utilité de groupe est notée dans « Soutien ». Les soigneurs et les tanks gardent leur convention.
 - **Façon de soigner** (configurations de soin seulement) : `prevention` (prévenir les dégâts : boucliers et absorptions), `duree` (soins sur la durée), `cible` (gros soins ciblés), `groupe` (soigner tout le groupe). La note dit ce que la présentation officielle met en avant, pas une puissance de soin : 5 pour la signature de la spécialisation, 1 pour un outil absent ou non décrit.
+- **Difficulté d'exécution (v11)** : ce qu'une spécialisation demande pour être bien jouée dans un contexte, ni sa puissance ni son confort en leveling. Cinq composantes notées 0, 1 ou 2 : rotation, entretien, ressource, placement et pilotage en PvE ; contrôles, défense, placement, ouverture et pilotage en PvP. Total sur 10 : 0–2 → 1, 3–4 → 2, 5–6 → 3, 7–8 → 4, 9–10 → 5. Le jeu évalué est celui des guides ; une technique avancée ne compte que si les autres notes en dépendent (au moins 10 % de dégâts en simulation). Une rotation simulée se mesure en sorts que la liste peut lancer et en conditions élémentaires (effet actif, temps restant, ressource, recharge, minuteur d'attaque).
 - **Contrôle** : neutraliser, interrompre, ralentir ou immobiliser, avec les seuls outils du build évalué. Un outil accessible par changement de forme ou par un familier compte avec sa contrainte ; des outils de familiers différents ne sont jamais disponibles ensemble.
 
 ## Échelles
@@ -51,12 +55,15 @@ Une reprise ne compte pas comme une preuve indépendante. La tier list Kami dér
 - une source « utilisée » est citée par au moins un fait, et réciproquement ;
 - un écart ouvert porte la valeur actuelle du moteur et une note en confiance faible ; un écart tranché porte sa décision, appliquée au moteur.
 
+`tests/complexite-v11.test.cjs` vérifie que la grille du référentiel a les mêmes composantes, dans le même ordre, que le moteur et l'interface ; que son barème est celui du moteur ; que chaque configuration décrit ses composantes avec les points du moteur et une raison, son total et sa note ; que `charge_pve` et `charge_pvp` en reprennent la valeur, les appuis et la confiance ; que chaque appui existe et concerne la configuration.
+
 ## Limites connues (21 octobre 2026)
 
 - La bêta est plafonnée au niveau 30 (20 jusqu’au 1er octobre) et aucun raid n’y est testé : les notes de raid et de PvP au niveau 60 reposent sur des simulations, le kit et des avis, jamais sur des mesures en jeu.
 - Aucun classement comparatif de soin exploitable n'a été établi dans cette base. La FAQ MythicSim annonce un Quick Sim en HPS, mais exclut les soigneurs de sa tier list : son existence annoncée ne valide ni son implémentation ni un classement en raid. Les cinq soigneurs restent à 5 en raid par convention, sans égalité de performance démontrée. Leurs profils de soin décrivent les outils mis en avant par Blizzard ; l'intensité relative (un 4 contre un 5) reste un jugement éditorial.
 - Aucun retour comparatif par classe sur les champs de bataille suffisamment étayé n'a été retenu dans le corpus consulté. Cela ne démontre pas l'absence de tels retours ailleurs.
-- La taille d'une rotation simulée est un indice qualitatif dépendant de son auteur et des optimisations retenues, pas une mesure de difficulté pour un joueur. Chez le Chasseur, la performance issue d'une rotation alternant mêlée et distance ne justifie pas en même temps la simplicité d'une rotation statique.
+- La taille d'une rotation simulée est un indice qualitatif dépendant de son auteur et des optimisations retenues, pas une mesure de difficulté pour un joueur. Chez le Chasseur, la performance issue d'une rotation alternant mêlée et distance ne justifie pas en même temps la simplicité d'une rotation statique : depuis la v11, Survie est notée sur son jeu en alternance, celui qui fonde sa note de raid.
+- Complexité (v11) : chaque composante est un jugement à un point près ; les guides de la bêta décrivent le niveau 30 ; en PvP, 18 configurations sur 28 sont à 4/5. Les variantes sans familier gardent la complexité de leur configuration ; sans compagnon, Survie passerait de 4 à 3 et Destruction de 3 à 2 en PvE : à arbitrer.
 - Depuis le moteur 1.0.4, une préférence sans familier fait évaluer Affliction, Destruction, Survie et Précision dans leur variante sans familier. L’ampleur des baisses (un point par critère concerné) est un jugement éditorial, non une mesure.
 - Beaucoup de tier lists de sites commerciaux se recopient entre elles : elles ne sont pas retenues.
 

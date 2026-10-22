@@ -27,35 +27,36 @@ var names={guerrier:'Guerrier',paladin:'Paladin',chasseur:'Chasseur',voleur:'Vol
  * Activité raid d'un DPS (référence v7) : dégâts simulés seuls, barèmes 5 ≥ 86 %, 4 de 72 à 85 %, 3 de 55 à 71 %,
  * 2 en dessous ; l'utilité de groupe est notée dans le style Soutien.
  * Source pour rôles/portée : présentation officielle de la classe (sources).
+ * Charge d'exécution (référence v11) : note de complexité PvE et PvP, issue de la grille COMPLEXITY ci-dessous.
  */
 var rows=[
-['armes','guerrier','Armes','dps','melee','none', [4,4,3,2],[5,4,3,3,4,2],[2,4]],
-['fureur','guerrier','Fureur','dps','melee','none',[5,4,3,3],[4,5,2,3,4,2],[3,3]],
-['protection','guerrier','Protection','tank','melee','none',[5,4,2,3],[2,3,3,5,3,3],[3,4]],
+['armes','guerrier','Armes','dps','melee','none', [4,4,3,2],[5,4,3,3,4,2],[4,4]],
+['fureur','guerrier','Fureur','dps','melee','none',[5,4,3,3],[4,5,2,3,4,2],[3,4]],
+['protection','guerrier','Protection','tank','melee','none',[5,4,2,3],[2,3,3,5,3,3],[4,4]],
 ['sacre','paladin','Sacré','soin','distance','none',[5,5,4,3],[2,2,2,5,2,5],[2,2]],
-['protection','paladin','Protection','tank','melee','none',[4,4,3,5],[3,3,2,5,2,5],[2,2]],
-['vindicte','paladin','Vindicte','dps','melee','none',[4,4,4,4],[4,3,2,4,2,4],[2,2]],
-['maitrise-betes','chasseur','Maîtrise des bêtes','dps','distance','core',[4,4,4,5],[3,2,3,3,3,2],[1,2]],
-['precision','chasseur','Précision','dps','distance','optional',[4,5,4,5],[5,3,3,2,3,2],[2,3]],
-['survie','chasseur','Survie','dps','melee','optional',[5,4,4,5],[4,3,4,3,3,2],[4,3]],
-['assassinat','voleur','Assassinat','dps','melee','none',[3,3,5,3],[5,2,5,2,4,1],[3,4]],
-['combat','voleur','Combat','dps','melee','none',[3,3,4,3],[4,3,4,3,4,1],[2,3]],
-['finesse','voleur','Finesse','dps','melee','none',[3,4,5,3],[5,2,5,2,5,1],[3,5]],
-['discipline','pretre','Discipline','soin','distance','none',[5,5,4,3],[2,2,3,4,2,5],[3,4]],
+['protection','paladin','Protection','tank','melee','none',[4,4,3,5],[3,3,2,5,2,5],[3,2]],
+['vindicte','paladin','Vindicte','dps','melee','none',[4,4,4,4],[4,3,2,4,2,4],[1,3]],
+['maitrise-betes','chasseur','Maîtrise des bêtes','dps','distance','core',[4,4,4,5],[3,2,3,3,3,2],[2,4]],
+['precision','chasseur','Précision','dps','distance','optional',[4,5,4,5],[5,3,3,2,3,2],[2,4]],
+['survie','chasseur','Survie','dps','melee','optional',[5,4,4,5],[4,3,4,3,3,2],[4,4]],
+['assassinat','voleur','Assassinat','dps','melee','none',[3,3,5,3],[5,2,5,2,4,1],[2,4]],
+['combat','voleur','Combat','dps','melee','none',[3,3,4,3],[4,3,4,3,4,1],[2,4]],
+['finesse','voleur','Finesse','dps','melee','none',[3,4,5,3],[5,2,5,2,5,1],[4,5]],
+['discipline','pretre','Discipline','soin','distance','none',[5,5,4,3],[2,2,3,4,2,5],[4,4]],
 ['sacre','pretre','Sacré','soin','distance','none',[5,5,3,3],[2,2,3,4,2,5],[2,3]],
-['ombre','pretre','Ombre','dps','distance','none',[3,4,4,3],[3,2,4,3,2,4],[3,4]],
-['elementaire','chaman','Élémentaire','dps','distance','none',[2,4,4,3],[5,4,3,3,4,4],[3,3]],
+['ombre','pretre','Ombre','dps','distance','none',[3,4,4,3],[3,2,4,3,2,4],[2,4]],
+['elementaire','chaman','Élémentaire','dps','distance','none',[2,4,4,3],[5,4,3,3,4,4],[3,4]],
 ['amelioration','chaman','Amélioration','dps','melee','none',[3,4,4,3],[5,3,2,3,5,4],[3,3]],
-['restauration','chaman','Restauration','soin','distance','none',[5,5,4,3],[2,2,2,4,4,5],[2,3]],
-['arcane','mage','Arcane','dps','distance','none',[4,4,3,3],[5,4,4,2,3,3],[3,4]],
-['feu','mage','Feu','dps','distance','none',[4,4,4,3],[5,5,3,2,3,3],[3,4]],
+['restauration','chaman','Restauration','soin','distance','none',[5,5,4,3],[2,2,2,4,4,5],[3,3]],
+['arcane','mage','Arcane','dps','distance','none',[4,4,3,3],[5,4,4,2,3,3],[3,3]],
+['feu','mage','Feu','dps','distance','none',[4,4,4,3],[5,5,3,2,3,3],[2,3]],
 ['givre','mage','Givre','dps','distance','none',[3,5,5,3],[4,5,5,3,3,3],[2,4]],
-['affliction','demoniste','Affliction','dps','distance','optional',[4,5,5,4],[3,4,5,4,2,3],[3,3]],
-['demonologie','demoniste','Démonologie','dps','distance','core',[4,5,4,5],[4,4,4,5,2,3],[3,4]],
+['affliction','demoniste','Affliction','dps','distance','optional',[4,5,5,4],[3,4,5,4,2,3],[3,4]],
+['demonologie','demoniste','Démonologie','dps','distance','core',[4,5,4,5],[4,4,4,5,2,3],[4,4]],
 ['destruction','demoniste','Destruction','dps','distance','optional',[3,5,5,4],[5,4,4,3,2,2],[3,4]],
-['equilibre','druide','Équilibre','dps','distance','none',[3,4,4,3],[4,3,3,3,5,5],[3,4]],
-['farouche-chat','druide','Farouche (félin)','dps','melee','none',[4,4,4,4],[5,2,3,4,5,3],[4,5]],
-['farouche-ours','druide','Farouche (ours)','tank','melee','none',[4,4,3,4],[2,3,3,5,4,4],[4,5]],
+['equilibre','druide','Équilibre','dps','distance','none',[3,4,4,3],[4,3,3,3,5,5],[2,4]],
+['farouche-chat','druide','Farouche (félin)','dps','melee','none',[4,4,4,4],[5,2,3,4,5,3],[4,4]],
+['farouche-ours','druide','Farouche (ours)','tank','melee','none',[4,4,3,4],[2,3,3,5,4,4],[2,3]],
 ['restauration','druide','Restauration','soin','distance','none',[5,5,4,3],[2,2,3,4,5,5],[3,4]]
 ];
 var acts=['raid','bg','world','solo'],styles=['burst','zone','ctrl','surv','mob','support'];
@@ -65,6 +66,45 @@ var specs=rows.map(function(r){
   styles.forEach(function(k,i){st[k]=r[7][i];});
   return {id:r[1]+'-'+r[0],classId:r[1],className:names[r[1]],label:r[2],role:r[3],range:r[4],pet:r[5],activity:a,style:st,load:{pve:r[8][0],pvp:r[8][1]},source:sources[r[1]],dataQuality:{officialKit:true,activity:'éditoriale',style:'éditoriale'}};
 });
+/* Référentiel de complexité (référence v11) : ce qu'une spécialisation demande pour être bien jouée, en PvE
+ * et en PvP. Cinq composantes par contexte, notées 0, 1 ou 2 points (raisons et sources dans la base de
+ * connaissances, connaissances/referentiel-complexite.json). Le total sur 10 donne la charge d'exécution
+ * des rows : 0–2 → 1, 3–4 → 2, 5–6 → 3, 7–8 → 4, 9–10 → 5 ; checkData() vérifie l'accord. Cette charge sert
+ * partout : difficulté souhaitée, technicité et effet de la maîtrise. Survie est notée sur son jeu de
+ * référence, en alternance tir-mêlée. Les variantes sans familier gardent la complexité de leur configuration. */
+var COMPLEXITY_GRID={pve:['rotation','entretien','ressource','placement','pilotage'],pvp:['controles','defense','placement','ouverture','pilotage']};
+var COMPLEXITY={
+ 'guerrier-armes':{pve:[2,2,2,0,1],pvp:[2,1,2,1,2]},
+ 'guerrier-fureur':{pve:[2,1,2,0,0],pvp:[2,1,2,1,1]},
+ 'guerrier-protection':{pve:[2,2,2,0,1],pvp:[2,2,1,0,2]},
+ 'paladin-sacre':{pve:[0,1,1,1,1],pvp:[1,1,1,0,1]},
+ 'paladin-protection':{pve:[1,1,2,0,1],pvp:[1,1,1,0,1]},
+ 'paladin-vindicte':{pve:[0,1,1,0,0],pvp:[1,1,2,1,1]},
+ 'chasseur-maitrise-betes':{pve:[0,1,1,1,1],pvp:[2,1,2,1,2]},
+ 'chasseur-precision':{pve:[1,1,1,1,0],pvp:[2,1,2,1,1]},
+ 'chasseur-survie':{pve:[2,1,1,2,1],pvp:[2,2,2,1,1]},
+ 'voleur-assassinat':{pve:[1,1,2,0,0],pvp:[2,1,1,2,1]},
+ 'voleur-combat':{pve:[0,1,2,0,0],pvp:[2,1,1,2,1]},
+ 'voleur-finesse':{pve:[2,2,2,1,0],pvp:[2,2,2,2,1]},
+ 'pretre-discipline':{pve:[1,2,2,1,1],pvp:[1,2,2,0,2]},
+ 'pretre-sacre':{pve:[0,1,1,1,1],pvp:[1,1,2,0,2]},
+ 'pretre-ombre':{pve:[0,1,2,1,0],pvp:[2,1,2,1,1]},
+ 'chaman-elementaire':{pve:[1,1,1,1,1],pvp:[1,1,2,1,2]},
+ 'chaman-amelioration':{pve:[1,2,2,0,1],pvp:[1,1,1,1,2]},
+ 'chaman-restauration':{pve:[0,1,1,1,2],pvp:[1,1,2,0,2]},
+ 'mage-arcane':{pve:[1,1,2,1,0],pvp:[2,1,2,1,0]},
+ 'mage-feu':{pve:[1,1,1,1,0],pvp:[2,1,2,1,0]},
+ 'mage-givre':{pve:[1,0,1,1,0],pvp:[2,2,2,1,0]},
+ 'demoniste-affliction':{pve:[1,2,1,1,1],pvp:[2,1,2,1,2]},
+ 'demoniste-demonologie':{pve:[1,2,1,1,2],pvp:[2,1,2,1,2]},
+ 'demoniste-destruction':{pve:[1,1,1,1,1],pvp:[2,1,2,1,2]},
+ 'druide-equilibre':{pve:[0,1,1,1,0],pvp:[1,1,2,1,2]},
+ 'druide-farouche-chat':{pve:[2,2,2,1,1],pvp:[1,2,1,2,2]},
+ 'druide-farouche-ours':{pve:[1,1,1,0,1],pvp:[1,2,1,0,2]},
+ 'druide-restauration':{pve:[1,2,1,0,1],pvp:[1,2,2,0,2]}
+};
+function complexityNote(total){return total<=2?1:total<=4?2:total<=6?3:total<=8?4:5;}
+specs.forEach(function(s){var c=COMPLEXITY[s.id];if(c)s.complexity={pve:c.pve.slice(),pvp:c.pvp.slice()};});
 /* Façon de soigner (référence v8) : profil éditorial 1–5 des cinq configurations de soin, d'après les
  * présentations officielles (base de connaissances) : prévenir les dégâts (boucliers, absorptions), soins sur
  * la durée, gros soins ciblés, soins de groupe. Un portrait de jeu, pas un classement de puissance. */
@@ -470,6 +510,11 @@ function checkData(){
   if((s.role==='soin')!==!!s.heal)errors.push('profil de soin '+s.id);
   if(s.heal)for(var h of HEAL_STYLES)if(!Number.isInteger(s.heal[h])||s.heal[h]<1||s.heal[h]>5)errors.push('soin '+s.id+':'+h);
  }
+ for(var s of specs)for(var c of ['pve','pvp']){
+  var cx=s.complexity&&s.complexity[c];
+  if(!Array.isArray(cx)||cx.length!==COMPLEXITY_GRID[c].length||!cx.every(function(p){return p===0||p===1||p===2;}))errors.push('complexité '+s.id+':'+c);
+  else if(s.load[c]!==complexityNote(cx.reduce(function(a,b){return a+b;},0)))errors.push('difficulté '+s.id+':'+c+' différente de la grille');
+ }
  for(var id in PETLESS){
   var base=specs.find(function(x){return x.id===id;});
   if(!base||base.pet!=='optional')errors.push('variante sans familier sans objet '+id);
@@ -480,7 +525,7 @@ function checkData(){
  }
  return errors;
 }
-return {version:'1.0.9-exploratoire',referenceVariants:REFERENCE_VARIANTS,healStyles:HEAL_STYLES,sources:sources,specs:specs,petless:petless,difficultyContext:difficultyContext,difficultyLoad:difficultyLoad,roles:ROLE,activities:acts,styles:styles,
+return {version:'1.1.0-exploratoire',referenceVariants:REFERENCE_VARIANTS,healStyles:HEAL_STYLES,sources:sources,specs:specs,petless:petless,difficultyContext:difficultyContext,difficultyLoad:difficultyLoad,complexityGrid:COMPLEXITY_GRID,complexityNote:complexityNote,roles:ROLE,activities:acts,styles:styles,
  defaultProfile:copy(DEFAULT),sanitize:sanitize,selected:selected,domains:domains,eligible:eligible,
  ranking:ranking,recommend:recommend,topPicks:topPicks,perClass:perClass,techContext:techContext,explain:explain,priorityExplain:priorityExplain,checkData:checkData,intensity:intensity,preferenceFit:preferenceFit,
  rolePool:rolePool,adjustedActivity:adjustedActivity,potential:potential,roleSuitability:roleSuitability,roleReference:ROLE_REFERENCE,priorityAxes:PRIORITY_AXES,priorityRanking:priorityRanking,sanitizeWeights:sanitizeWeights};

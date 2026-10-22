@@ -1,6 +1,6 @@
 {
  "version": 1,
- "date": "2026-10-21",
+ "date": "2026-10-22",
  "fiabilite": {
   "haute": "Donnée officielle ou lue dans le client.",
   "moyenne": "Simulation, guide ou avis argumenté d’un auteur identifié.",
@@ -429,10 +429,10 @@
    "url": "https://github.com/wowsims/forever",
    "type": "donnees-simulateur",
    "fiabilite": "moyenne",
-   "portee": "Rotations modélisées (listes de priorités) des spécialisations de dégâts et de tank.",
+   "portee": "Rotations modélisées (listes de priorités) des spécialisations de dégâts et de tank, et données du client (sorts, talents, conditions d’usage).",
    "date": "2026-10-21",
-   "consultee": "2026-10-21",
-   "note": "Commit 10b0e65 déclaré dans la passation. Les rotations inspectées concernent dégâts et tank. Leur taille dépend des auteurs et des optimisations : ce n’est pas une mesure de difficulté ressentie. Cet échantillon ne démontre pas l’absence générale de simulation de soin.",
+   "consultee": "2026-10-22",
+   "note": "Commit 10b0e65 déclaré dans la passation ; mesures de complexité du 22 octobre 2026 sur le commit d6429b7. Les rotations inspectées concernent dégâts et tank. Leur taille dépend des auteurs et des optimisations : ce n’est pas une mesure de difficulté ressentie. Cet échantillon ne démontre pas l’absence générale de simulation de soin.",
    "statut": "utilisee",
    "raison_statut": null
   },
@@ -448,6 +448,32 @@
    "note": null,
    "statut": "reperee",
    "raison_statut": "Contexte du critère « champs de bataille » ; ne porte sur aucune classe."
+  },
+  {
+   "id": "iv-guides-forever",
+   "titre": "Icy Veins, guides des spécialisations WoW Forever",
+   "url": "https://www.icy-veins.com/wow-forever/all-class-guides",
+   "type": "guide",
+   "fiabilite": "moyenne",
+   "portee": "Un guide PvE par spécialisation : rotation, talents, ressources, forces et faiblesses.",
+   "date": "2026-10-01/2026-10-20",
+   "consultee": "2026-10-22",
+   "note": "Guides de la bêta, écrits pour le niveau 30 (son plafond) ; un auteur identifié par guide. Ils décrivent les rotations et le kit de ce niveau, pas du niveau 60. L’adresse est l’index des guides ; chaque fait nomme le guide cité. Le 22 octobre, plusieurs pages ont refusé la lecture automatique : leurs citations ne sont pas reprises.",
+   "statut": "utilisee",
+   "raison_statut": null
+  },
+  {
+   "id": "wowtbc-guides",
+   "titre": "wowtbc.gg, guides des classes WoW Forever",
+   "url": "https://wowtbc.gg/warcraftforever/class-guides/",
+   "type": "guide",
+   "fiabilite": "faible",
+   "portee": "Un guide PvE par spécialisation : rotation et talents d’un build de niveau 30.",
+   "date": "non précisée",
+   "consultee": "2026-10-22",
+   "note": "Ni auteur ni date affichés ; les rotations sont présentées comme provisoires, en attendant les simulations. Utilisés en complément, ou à la place d’un guide Icy Veins illisible lors de la consultation.",
+   "statut": "utilisee",
+   "raison_statut": null
   }
  ]
 }

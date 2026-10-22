@@ -58,13 +58,14 @@ test('Mode personnalisé : les 28 configurations sont classées',()=>{
 });
 
 test('Technicité : difficulté PvP pour des critères PvP, PvE pour des critères PvE, sinon la moyenne',()=>{
+ // Finesse depuis la v11 (référentiel de complexité) : 4/5 en PvE, 5/5 en PvP (3/5 et 5/5 en v10).
  const load=w=>E.priorityExplain('voleur-finesse',w,2).axes.find(a=>a.key==='tech');
  assert.equal(load({tech:3,bg:3}).load,5);assert.equal(load({tech:3,bg:3}).context,'pvp');
  assert.equal(load({tech:3,sauv:2}).load,5);
- assert.equal(load({tech:3,solo:3}).load,3);assert.equal(load({tech:3,solo:3}).context,'pve');
- assert.equal(load({tech:3,dps:1}).load,3,'les rôles sont évalués en PvE');
- assert.equal(load({tech:3,bg:3,solo:3}).load,4);assert.equal(load({tech:3,bg:3,solo:3}).context,'mixte');
- assert.equal(load({tech:3}).load,4);
+ assert.equal(load({tech:3,solo:3}).load,4);assert.equal(load({tech:3,solo:3}).context,'pve');
+ assert.equal(load({tech:3,dps:1}).load,4,'les rôles sont évalués en PvE');
+ assert.equal(load({tech:3,bg:3,solo:3}).load,4.5);assert.equal(load({tech:3,bg:3,solo:3}).context,'mixte');
+ assert.equal(load({tech:3}).load,4.5);
  // Le score suit : Finesse est plus exigeante en PvP.
  const score=w=>E.priorityRanking(w,2).results.find(x=>x.spec.id==='voleur-finesse').score;
  assert.ok(score({tech:3,bg:3})>score({tech:3,solo:3}));

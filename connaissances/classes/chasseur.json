@@ -1,8 +1,8 @@
 {
  "classe": "chasseur",
  "libelle": "Chasseur",
- "date": "2026-10-21",
- "moteur": "1.0.9-exploratoire",
+ "date": "2026-10-22",
+ "moteur": "1.1.0-exploratoire",
  "faits": [
   {
    "id": "c-role",
@@ -259,8 +259,33 @@
   },
   {
    "id": "c-rotation",
-   "categorie": "ressource",
-   "texte": "Rotations simulées : 6 à 7 sorts en tir statique, 9 à 11 sorts et plus de 200 conditions en tissage distance-mêlée.",
+   "categorie": "complexite",
+   "texte": "Rotations simulées (listes de priorités wowsims, 22 octobre 2026) : Maîtrise des bêtes en tir statique, 6 sorts et 14 conditions ; Précision en tir statique, 7 sorts et 17 conditions ; Survie en alternance tir-mêlée, 11 sorts et 60 conditions, et en mêlée seule, 7 sorts et 3 conditions.",
+   "sources": [
+    "wowsims-forever"
+   ]
+  },
+  {
+   "id": "c-guides",
+   "categorie": "complexite",
+   "texte": "Guides de la bêta, écrits pour le niveau 30. Icy Veins résume Maîtrise des bêtes par « Easy to Learn, Hard to Master » et conseille de jouer Survie en mêlée, en notant que les chasseurs n’ont plus à alterner mêlée et distance. wowtbc.gg donne à Précision une rotation en tir statique : Rapid Fire, Serpent Sting, Sniper Shot, Aimed Shot, Arcane Shot, Auto Shot.",
+   "sources": [
+    "iv-guides-forever",
+    "wowtbc-guides"
+   ]
+  },
+  {
+   "id": "c-alternance",
+   "categorie": "complexite",
+   "texte": "Blizzard : les talents du Chasseur lui permettent de « dance back and forth between ranged and melee combat ».",
+   "sources": [
+    "bz-dd-chasseur-druide"
+   ]
+  },
+  {
+   "id": "c-sorts-client",
+   "categorie": "complexite",
+   "texte": "Sorts et talents présents dans les données du client lues par wowsims : « Viper Sting » (draine le mana), « Scare Beast », « Concussive Shot », « Aspect of the Monkey », « Rapid Fire », « Summon Hawk » (faucon de 18 s), « Bestial Wrath », « Deterrence », « Efficiency », « Rapid Recuperation », et « Expose Prey », qui rend « Mongoose Bite » disponible.",
    "sources": [
     "wowsims-forever"
    ]
@@ -379,25 +404,109 @@
      "confiance": "haute"
     },
     "charge_pve": {
-     "valeur": 1,
-     "raison": "Tir statique : rotation courte (6 sorts) et classe jugée la plus simple ; le tissage, plus exigeant, n’apporte que 3 à 9 % de dégâts. Le familier demande de la pratique.",
+     "valeur": 2,
+     "raison": "4 points sur 10 sur la grille de complexité : les effets à entretenir, la gestion de la ressource, le placement et le pilotage pèsent un peu.",
      "appuis": [
-      "c-leveling",
-      "c-familier-gestion",
       "c-rotation",
+      "c-guides",
+      "c-sorts-client",
+      "c-zone-morte",
+      "c-nerf",
+      "c-familier-gestion",
+      "c-familier-mdb",
       "c-sim"
      ],
      "confiance": "moyenne"
     },
     "charge_pvp": {
-     "valeur": 2,
-     "raison": "Familier et pièges à gérer, zone morte à éviter ; reste la plus accessible des trois.",
+     "valeur": 4,
+     "raison": "8 points sur 10 sur la grille de complexité : les contrôles, le placement et le pilotage pèsent beaucoup ; la défense et l’ouverture, un peu.",
      "appuis": [
-      "c-familier-gestion",
+      "c-sorts-client",
+      "c-pieges",
+      "c-ralentissements",
+      "c-mobilite",
       "c-zone-morte",
-      "c-pieges"
+      "c-pvp-duel",
+      "c-familier-mdb"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
+    }
+   },
+   "complexite": {
+    "pve": {
+     "note": 2,
+     "total": 4,
+     "confiance": "moyenne",
+     "composantes": {
+      "rotation": {
+       "points": 0,
+       "raison": "Priorité courte : Aimed Shot et Summon Hawk à la recharge, Auto Shot, Arcane Shot si le mana déborde (6 sorts, 14 conditions dans la rotation simulée)."
+      },
+      "entretien": {
+       "points": 1,
+       "raison": "Serpent Sting et les faucons de « Summon Hawk » (18 s) à relancer ; Hunter’s Mark et l’aspect se posent avant le combat."
+      },
+      "ressource": {
+       "points": 1,
+       "raison": "Mana à dépenser avec mesure : Arcane Shot seulement si le mana déborde, Mend Pet."
+      },
+      "placement": {
+       "points": 1,
+       "raison": "Zone morte de 8 m et 0,5 s immobile avant chaque Auto Shot (patch du 15 octobre)."
+      },
+      "pilotage": {
+       "points": 1,
+       "raison": "Familier à envoyer en premier, à soigner, à nourrir et à tenir en donjon ; il joue seul ensuite."
+      }
+     },
+     "appuis": [
+      "c-rotation",
+      "c-guides",
+      "c-sorts-client",
+      "c-zone-morte",
+      "c-nerf",
+      "c-familier-gestion",
+      "c-familier-mdb",
+      "c-sim"
+     ],
+     "approfondissement": "Alternance tirs-mêlée : +3 à 9 % dans la simulation, facultative. Icy Veins résume la spécialisation par « Easy to Learn, Hard to Master »."
+    },
+    "pvp": {
+     "note": 4,
+     "total": 8,
+     "confiance": "moyenne",
+     "composantes": {
+      "controles": {
+       "points": 2,
+       "raison": "Pièges (« Freezing Trap », « Frost Trap ») posés à ses pieds, « Concussive Shot », « Wing Clip », étourdissement d’« Intimidation » et immobilisations du familier, « Scare Beast »."
+      },
+      "defense": {
+       "points": 1,
+       "raison": "« Feign Death », « Disengage », « Aspect of the Monkey »."
+      },
+      "placement": {
+       "points": 2,
+       "raison": "Zone morte de 8 m que l’adversaire exploite : il faut garder la distance (kiting)."
+      },
+      "ouverture": {
+       "points": 1,
+       "raison": "« Bestial Wrath » et faucons à aligner."
+      },
+      "pilotage": {
+       "points": 2,
+       "raison": "Familier central (contrôles, « Bestial Wrath »), pièges, « Viper Sting » pour drainer le mana, aspects à alterner."
+      }
+     },
+     "appuis": [
+      "c-sorts-client",
+      "c-pieges",
+      "c-ralentissements",
+      "c-mobilite",
+      "c-zone-morte",
+      "c-pvp-duel",
+      "c-familier-mdb"
+     ]
     }
    }
   },
@@ -514,22 +623,32 @@
     },
     "charge_pve": {
      "valeur": 2,
-     "raison": "Tir statique : rotation courte (7 sorts) et zone morte de 8 m à respecter ; le tissage n’apporte presque rien (−3 % à +2 % selon la durée).",
+     "raison": "4 points sur 10 sur la grille de complexité : la rotation, les effets à entretenir, la gestion de la ressource et le placement pèsent un peu.",
      "appuis": [
-      "c-zone-morte",
       "c-rotation",
+      "c-guides",
+      "c-sorts-client",
+      "c-zone-morte",
+      "c-nerf",
+      "c-familier-precision",
       "c-sim"
      ],
      "confiance": "moyenne"
     },
     "charge_pvp": {
-     "valeur": 3,
-     "raison": "Gestion de la distance et de la zone morte, pièges en combat. Aucune mesure de difficulté.",
+     "valeur": 4,
+     "raison": "7 points sur 10 sur la grille de complexité : les contrôles et le placement pèsent beaucoup ; la défense, l’ouverture et le pilotage, un peu.",
      "appuis": [
+      "c-sorts-client",
+      "c-scatter",
+      "c-pieges",
+      "c-ralentissements",
+      "c-mobilite",
+      "c-portee",
       "c-zone-morte",
-      "c-pieges"
+      "c-pvp-duel"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     }
    },
    "variante_sans_familier": {
@@ -538,6 +657,82 @@
      "c-familier-precision"
     ],
     "notes": {}
+   },
+   "complexite": {
+    "pve": {
+     "note": 2,
+     "total": 4,
+     "confiance": "moyenne",
+     "composantes": {
+      "rotation": {
+       "points": 1,
+       "raison": "Rapid Fire, Serpent Sting, Sniper Shot, Aimed Shot, Arcane Shot et Auto Shot (7 sorts, 17 conditions dans la rotation simulée)."
+      },
+      "entretien": {
+       "points": 1,
+       "raison": "Serpent Sting à rafraîchir ; Hunter’s Mark avant le combat."
+      },
+      "ressource": {
+       "points": 1,
+       "raison": "Mana à surveiller (« Rapid Recuperation », « Efficiency »)."
+      },
+      "placement": {
+       "points": 1,
+       "raison": "Zone morte de 8 m ; immobile 0,5 s avant chaque Auto Shot et pendant les tirs incantés."
+      },
+      "pilotage": {
+       "points": 0,
+       "raison": "Évaluée en Loup solitaire, sans familier."
+      }
+     },
+     "appuis": [
+      "c-rotation",
+      "c-guides",
+      "c-sorts-client",
+      "c-zone-morte",
+      "c-nerf",
+      "c-familier-precision",
+      "c-sim"
+     ],
+     "approfondissement": "L’alternance tirs-mêlée n’apporte presque rien (−3 à +2 % dans la simulation)."
+    },
+    "pvp": {
+     "note": 4,
+     "total": 7,
+     "confiance": "moyenne",
+     "composantes": {
+      "controles": {
+       "points": 2,
+       "raison": "« Scatter Shot » (interruption de fortune) puis piège, « Concussive Shot », « Wing Clip », « Frost Trap »."
+      },
+      "defense": {
+       "points": 1,
+       "raison": "« Feign Death », « Disengage », « Aspect of the Monkey »."
+      },
+      "placement": {
+       "points": 2,
+       "raison": "Zone morte et kiting ; portée de 45 m à exploiter."
+      },
+      "ouverture": {
+       "points": 1,
+       "raison": "Burst à placer : « Aimed Shot », « Sniper Shot », « Rapid Fire »."
+      },
+      "pilotage": {
+       "points": 1,
+       "raison": "Pièges et « Viper Sting » ; pas de familier à piloter."
+      }
+     },
+     "appuis": [
+      "c-sorts-client",
+      "c-scatter",
+      "c-pieges",
+      "c-ralentissements",
+      "c-mobilite",
+      "c-portee",
+      "c-zone-morte",
+      "c-pvp-duel"
+     ]
+    }
    }
   },
   {
@@ -650,22 +845,32 @@
     },
     "charge_pve": {
      "valeur": 4,
-     "raison": "Évaluée en alternance tirs et mêlée : 9 à 11 sorts et plus de 200 conditions dans le modèle, contre 7 sorts en mêlée seule. La note vaut pour l’alternance, pas pour le jeu en mêlée seule, plus simple mais environ 21 % moins efficace.",
+     "raison": "7 points sur 10 sur la grille de complexité : la rotation et le placement pèsent beaucoup ; les effets à entretenir, la gestion de la ressource et le pilotage, un peu. Notée sur son jeu en alternance tir-mêlée ; en mêlée seule, 2/5.",
      "appuis": [
-      "c-tissage",
       "c-rotation",
-      "c-sim"
+      "c-alternance",
+      "c-guides",
+      "c-sorts-client",
+      "c-tissage",
+      "c-sim",
+      "c-zone-morte"
      ],
      "confiance": "moyenne"
     },
     "charge_pvp": {
-     "valeur": 3,
-     "raison": "Placement entre mêlée et distance, pièges en combat. Aucune mesure de difficulté.",
+     "valeur": 4,
+     "raison": "8 points sur 10 sur la grille de complexité : les contrôles, la défense et le placement pèsent beaucoup ; l’ouverture et le pilotage, un peu.",
      "appuis": [
-      "c-tissage",
-      "c-pieges"
+      "c-sorts-client",
+      "c-survie-controle",
+      "c-defense",
+      "c-mobilite",
+      "c-survie-pvp",
+      "c-zone-morte",
+      "c-pieges",
+      "c-alternance"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     }
    },
    "variante_sans_familier": {
@@ -685,6 +890,94 @@
       ],
       "confiance": "faible"
      }
+    }
+   },
+   "complexite": {
+    "pve": {
+     "note": 4,
+     "total": 7,
+     "confiance": "moyenne",
+     "composantes": {
+      "rotation": {
+       "points": 2,
+       "raison": "Jeu de référence en alternance : 11 sorts et 60 conditions dans la rotation simulée, calés sur le prochain Auto Shot (Raptor Strike, Mongoose Bite sous « Expose Prey », Strider Kick, tirs)."
+      },
+      "entretien": {
+       "points": 1,
+       "raison": "Serpent Sting ; Hunter’s Mark avant le combat."
+      },
+      "ressource": {
+       "points": 1,
+       "raison": "Mana à surveiller : tirs, Serpent Sting et pièges."
+      },
+      "placement": {
+       "points": 2,
+       "raison": "Alterne tirs à 12 m et attaques au contact : ses talents lui permettent de « dance back and forth between ranged and melee combat » (Blizzard)."
+      },
+      "pilotage": {
+       "points": 1,
+       "raison": "Familier qui ouvre le combat et tient la menace."
+      }
+     },
+     "appuis": [
+      "c-rotation",
+      "c-alternance",
+      "c-guides",
+      "c-sorts-client",
+      "c-tissage",
+      "c-sim",
+      "c-zone-morte"
+     ],
+     "variante": {
+      "libelle": "mêlée seule",
+      "points": {
+       "rotation": 0,
+       "entretien": 1,
+       "ressource": 1,
+       "placement": 1,
+       "pilotage": 1
+      },
+      "total": 4,
+      "note": 2,
+      "raison": "Raptor Strike, Mongoose Bite et Strider Kick à la recharge (7 sorts, 3 conditions) : plus simple, mais environ 21 % de dégâts en moins dans la simulation. C’est le jeu que conseille Icy Veins au niveau 30, en notant que les chasseurs n’ont plus à alterner mêlée et distance ; la note de raid repose, elle, sur l’alternance."
+     }
+    },
+    "pvp": {
+     "note": 4,
+     "total": 8,
+     "confiance": "moyenne",
+     "composantes": {
+      "controles": {
+       "points": 2,
+       "raison": "Pièges (« Entrapment » immobilise), « Improved Wing Clip », « Counterattack », « Concussive Shot »."
+      },
+      "defense": {
+       "points": 2,
+       "raison": "« Deterrence », « Counterattack », « Feign Death », « Disengage » ; « Surefooted » et « Deflection » en passif."
+      },
+      "placement": {
+       "points": 2,
+       "raison": "Danse entre mêlée et distance autour de la zone morte de 8 m."
+      },
+      "ouverture": {
+       "points": 1,
+       "raison": "Fenêtres de dégâts en mêlée à préparer."
+      },
+      "pilotage": {
+       "points": 1,
+       "raison": "Pièges et « Viper Sting » ; familier facultatif."
+      }
+     },
+     "appuis": [
+      "c-sorts-client",
+      "c-survie-controle",
+      "c-defense",
+      "c-mobilite",
+      "c-survie-pvp",
+      "c-zone-morte",
+      "c-pieges",
+      "c-alternance"
+     ]
     }
    }
   }

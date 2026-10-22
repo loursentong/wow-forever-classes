@@ -1,8 +1,8 @@
 {
  "classe": "mage",
  "libelle": "Mage",
- "date": "2026-10-21",
- "moteur": "1.0.9-exploratoire",
+ "date": "2026-10-22",
+ "moteur": "1.1.0-exploratoire",
  "faits": [
   {
    "id": "m-role",
@@ -214,8 +214,24 @@
   },
   {
    "id": "m-rotation",
-   "categorie": "ressource",
-   "texte": "Rotations simulées courtes : 6 à 8 sorts.",
+   "categorie": "complexite",
+   "texte": "Rotations simulées (listes de priorités wowsims, 22 octobre 2026) : Arcane, 6 à 7 sorts et 10 à 17 conditions ; Feu, 5 à 7 sorts et 6 à 8 conditions. Aucune liste propre au Givre n’a été relevée.",
+   "sources": [
+    "wowsims-forever"
+   ]
+  },
+  {
+   "id": "m-guides",
+   "categorie": "complexite",
+   "texte": "Guides Icy Veins de la bêta, écrits pour le niveau 30. Arcane : une rotation « a balancing act », un jeu « turret-style », et une complexité que les deux autres spécialisations n’ont pas. Feu : Pyroblast en ouverture, Fireball, Fire Blast pour achever et consommer « Wake of Fire ». Givre : peu de spécialisations sont aussi sûres et régulières.",
+   "sources": [
+    "iv-guides-forever"
+   ]
+  },
+  {
+   "id": "m-sorts-client",
+   "categorie": "complexite",
+   "texte": "Sorts et talents présents dans les données du client lues par wowsims : « Arcane Concentration », « Heating Up », « Fire Vulnerability », « Fingers of Frost », « Frostbite », « Missile Barrage », « Blast Wave », « Cone of Cold », « Ice Barrier ».",
    "sources": [
     "wowsims-forever"
    ]
@@ -326,21 +342,98 @@
     },
     "charge_pve": {
      "valeur": 3,
-     "raison": "Coût croissant d’« Arcane Blast » : le mana est la ressource à piloter. Aucune mesure de difficulté.",
+     "raison": "5 points sur 10 sur la grille de complexité : la gestion de la ressource pèse beaucoup ; la rotation, les effets à entretenir et le placement, un peu.",
      "appuis": [
+      "m-rotation",
+      "m-guides",
       "m-arcane",
-      "m-technique",
-      "m-rotation"
-     ],
-     "confiance": "faible"
-    },
-    "charge_pvp": {
-     "valeur": 4,
-     "raison": "Plus technique qu’avant face à des classes plus mobiles (Kami) ; incantations à protéger.",
-     "appuis": [
-      "m-technique"
+      "m-sorts-client"
      ],
      "confiance": "moyenne"
+    },
+    "charge_pvp": {
+     "valeur": 3,
+     "raison": "6 points sur 10 sur la grille de complexité : les contrôles et le placement pèsent beaucoup ; la défense et l’ouverture, un peu.",
+     "appuis": [
+      "m-controle",
+      "m-blink",
+      "m-defense",
+      "m-fragile",
+      "m-arcane",
+      "m-feu-pvp"
+     ],
+     "confiance": "moyenne"
+    }
+   },
+   "complexite": {
+    "pve": {
+     "note": 3,
+     "total": 5,
+     "confiance": "moyenne",
+     "composantes": {
+      "rotation": {
+       "points": 1,
+       "raison": "Arcane Blast deux ou trois fois puis un autre sort pour dépenser les cumuls, Arcane Missiles sous « Missile Barrage », procs d’« Arcane Concentration », « Presence of Mind », « Arcane Power » (6 à 7 sorts dans la rotation simulée)."
+      },
+      "entretien": {
+       "points": 1,
+       "raison": "Cumuls d’Arcane Blast à exploiter avant qu’ils ne retombent."
+      },
+      "ressource": {
+       "points": 2,
+       "raison": "Le mana est la ressource à piloter : la rotation est « a balancing act » (Icy Veins), avec le coût croissant d’Arcane Blast."
+      },
+      "placement": {
+       "points": 1,
+       "raison": "Jeu « turret-style » : incantations immobiles."
+      },
+      "pilotage": {
+       "points": 0,
+       "raison": "Rien d’autre à piloter."
+      }
+     },
+     "appuis": [
+      "m-rotation",
+      "m-guides",
+      "m-arcane",
+      "m-sorts-client"
+     ],
+     "approfondissement": "Icy Veins lui prête « a nice layer of complexity, which the other two Mage specs lack »."
+    },
+    "pvp": {
+     "note": 3,
+     "total": 6,
+     "confiance": "moyenne",
+     "composantes": {
+      "controles": {
+       "points": 2,
+       "raison": "« Polymorph », « Counterspell » (silence avec « Improved Counterspell »), « Frost Nova », « Polymorph » instantané avec « Presence of Mind »."
+      },
+      "defense": {
+       "points": 1,
+       "raison": "« Blink », « Mana Shield » ; pas de « Ice Block » hors de l’arbre Givre."
+      },
+      "placement": {
+       "points": 2,
+       "raison": "Très fragile au contact : distance et incantations à protéger."
+      },
+      "ouverture": {
+       "points": 1,
+       "raison": "« Arcane Power » et « Presence of Mind » à aligner."
+      },
+      "pilotage": {
+       "points": 0,
+       "raison": "Rien d’autre à piloter."
+      }
+     },
+     "appuis": [
+      "m-controle",
+      "m-blink",
+      "m-defense",
+      "m-fragile",
+      "m-arcane",
+      "m-feu-pvp"
+     ]
     }
    }
   },
@@ -448,22 +541,100 @@
      "confiance": "moyenne"
     },
     "charge_pve": {
-     "valeur": 3,
-     "raison": "Procs de « Heating Up » et fenêtres de « Combustion » à exploiter. Aucune mesure de difficulté.",
+     "valeur": 2,
+     "raison": "4 points sur 10 sur la grille de complexité : la rotation, les effets à entretenir, la gestion de la ressource et le placement pèsent un peu.",
      "appuis": [
+      "m-rotation",
+      "m-guides",
       "m-feu",
-      "m-technique",
-      "m-rotation"
-     ],
-     "confiance": "faible"
-    },
-    "charge_pvp": {
-     "valeur": 4,
-     "raison": "Plus technique qu’avant face à des classes plus mobiles (Kami) ; incantations à protéger.",
-     "appuis": [
-      "m-technique"
+      "m-sorts-client"
      ],
      "confiance": "moyenne"
+    },
+    "charge_pvp": {
+     "valeur": 3,
+     "raison": "6 points sur 10 sur la grille de complexité : les contrôles et le placement pèsent beaucoup ; la défense et l’ouverture, un peu.",
+     "appuis": [
+      "m-controle",
+      "m-blink",
+      "m-defense",
+      "m-feu",
+      "m-fragile",
+      "m-feu-pvp",
+      "m-sorts-client"
+     ],
+     "confiance": "moyenne"
+    }
+   },
+   "complexite": {
+    "pve": {
+     "note": 2,
+     "total": 4,
+     "confiance": "moyenne",
+     "composantes": {
+      "rotation": {
+       "points": 1,
+       "raison": "Pyroblast en ouverture, Fireball, Fire Blast pour achever et consommer « Wake of Fire », Pyroblast accéléré par « Heating Up » (5 à 7 sorts dans les rotations simulées)."
+      },
+      "entretien": {
+       "points": 1,
+       "raison": "Cumuls de « Heating Up » et affaiblissement « Fire Vulnerability »."
+      },
+      "ressource": {
+       "points": 1,
+       "raison": "Mana à surveiller."
+      },
+      "placement": {
+       "points": 1,
+       "raison": "Incantations immobiles ; Fire Blast et les effets sur la durée aident en mouvement."
+      },
+      "pilotage": {
+       "points": 0,
+       "raison": "Rien d’autre à piloter."
+      }
+     },
+     "appuis": [
+      "m-rotation",
+      "m-guides",
+      "m-feu",
+      "m-sorts-client"
+     ]
+    },
+    "pvp": {
+     "note": 3,
+     "total": 6,
+     "confiance": "moyenne",
+     "composantes": {
+      "controles": {
+       "points": 2,
+       "raison": "« Polymorph », « Counterspell », « Frost Nova », « Blast Wave », étourdissements d’« Impact »."
+      },
+      "defense": {
+       "points": 1,
+       "raison": "« Blink », « Mana Shield » ; pas de « Ice Block » hors de l’arbre Givre."
+      },
+      "placement": {
+       "points": 2,
+       "raison": "Incantations longues (Pyroblast, Fireball) à protéger, fragile au contact."
+      },
+      "ouverture": {
+       "points": 1,
+       "raison": "Pyroblast accéléré et « Combustion » à placer."
+      },
+      "pilotage": {
+       "points": 0,
+       "raison": "Rien d’autre à piloter."
+      }
+     },
+     "appuis": [
+      "m-controle",
+      "m-blink",
+      "m-defense",
+      "m-feu",
+      "m-fragile",
+      "m-feu-pvp",
+      "m-sorts-client"
+     ]
     }
    }
   },
@@ -572,21 +743,102 @@
     },
     "charge_pve": {
      "valeur": 2,
-     "raison": "Rotation simulée courte (6 sorts) autour de « Frostbolt » et « Ice Lance ».",
+     "raison": "3 points sur 10 sur la grille de complexité : la rotation, la gestion de la ressource et le placement pèsent un peu.",
      "appuis": [
+      "m-guides",
       "m-givre-burst",
-      "m-rotation"
+      "m-sorts-client",
+      "m-defense"
      ],
      "confiance": "moyenne"
     },
     "charge_pvp": {
      "valeur": 4,
-     "raison": "Gel, « Ice Lance » et contrôle à enchaîner ; plus technique qu’avant selon Kami.",
+     "raison": "7 points sur 10 sur la grille de complexité : les contrôles, la défense et le placement pèsent beaucoup ; l’ouverture, un peu.",
      "appuis": [
-      "m-technique",
-      "m-givre-controle"
+      "m-controle",
+      "m-givre-controle",
+      "m-givre-defense",
+      "m-blink",
+      "m-pvp-duel",
+      "m-fragile",
+      "m-givre-burst",
+      "m-sorts-client"
      ],
      "confiance": "moyenne"
+    }
+   },
+   "complexite": {
+    "pve": {
+     "note": 2,
+     "total": 3,
+     "confiance": "moyenne",
+     "composantes": {
+      "rotation": {
+       "points": 1,
+       "raison": "Frostbolt en continu, Ice Lance sous « Fingers of Frost » ou sur cible gelée par « Frostbite », Arcane Missiles sous « Missile Barrage »."
+      },
+      "entretien": {
+       "points": 0,
+       "raison": "Rien à maintenir en combat."
+      },
+      "ressource": {
+       "points": 1,
+       "raison": "Mana à surveiller ; « Evocation » le rend."
+      },
+      "placement": {
+       "points": 1,
+       "raison": "Incantations immobiles ; s’éloigner d’une cible gelée au contact."
+      },
+      "pilotage": {
+       "points": 0,
+       "raison": "Rien d’autre à piloter."
+      }
+     },
+     "appuis": [
+      "m-guides",
+      "m-givre-burst",
+      "m-sorts-client",
+      "m-defense"
+     ],
+     "approfondissement": "Icy Veins : « few specs are as safe or as consistent »."
+    },
+    "pvp": {
+     "note": 4,
+     "total": 7,
+     "confiance": "moyenne",
+     "composantes": {
+      "controles": {
+       "points": 2,
+       "raison": "« Polymorph », « Counterspell », « Frost Nova », « Cone of Cold », Ice Lance sur cible gelée ; « Permafrost »."
+      },
+      "defense": {
+       "points": 2,
+       "raison": "« Ice Block », « Cold Snap », « Ice Barrier », « Blink »."
+      },
+      "placement": {
+       "points": 2,
+       "raison": "Kiting et incantations à protéger ; fragile au contact."
+      },
+      "ouverture": {
+       "points": 1,
+       "raison": "Combinaisons gel puis Ice Lance à préparer."
+      },
+      "pilotage": {
+       "points": 0,
+       "raison": "Rien d’autre à piloter."
+      }
+     },
+     "appuis": [
+      "m-controle",
+      "m-givre-controle",
+      "m-givre-defense",
+      "m-blink",
+      "m-pvp-duel",
+      "m-fragile",
+      "m-givre-burst",
+      "m-sorts-client"
+     ]
     }
    }
   }

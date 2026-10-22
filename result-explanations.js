@@ -1,9 +1,14 @@
 /* Présentation des résultats existants : aucun score, tri ou filtre modifié. */
 (function(root,factory){
- if(typeof module==='object'&&module.exports)module.exports=factory();
- else root.WFResultExplanations=factory();
-})(typeof globalThis==='object'?globalThis:this,function(){
+ if(typeof module==='object'&&module.exports)module.exports=factory(require('./configuration-details.js'));
+ else root.WFResultExplanations=factory(root.WFConfigurationDetails);
+})(typeof globalThis==='object'?globalThis:this,function(details){
  'use strict';
+ // Référentiel de complexité (v11) : ce qui pèse dans la difficulté d'un contexte, mêmes mots que la fiche.
+ function complexityWhy(s,ctx){
+  var w=(ctx==='pve'||ctx==='pvp')&&details&&details.complexity?details.complexity.weighs(s,ctx):'';
+  return w?' : '+w:'';
+ }
  var criteria={
   ctrl:'Ralentir, immobiliser, interrompre ou neutraliser un adversaire. Les outils et leurs contraintes varient selon le build.',
   tech:'Préférence pour un jeu exigeant à maîtriser. La prise en main et l’optimisation peuvent demander des efforts différents.'
@@ -114,7 +119,7 @@
   else if(a.note!==undefined)spec=noted(n.spec,a,noteWhere[a.group],ex&&ex.mastery);
   else if(a.key==='poly')spec=n.cls+(a.roles>1?' propose '+a.roles+' rôles.':' ne propose qu’un rôle.');
   // Technicité (v10) : difficulté PvE, PvP ou moyenne, selon tes critères d'activité.
-  else spec=n.spec+' est notée '+number(a.load)+'/5 en difficulté '+(a.context==='pve'?'PvE':a.context==='pvp'?'PvP':'(moyenne PvE et PvP)')+'.';
+  else spec=n.spec+' est notée '+number(a.load)+'/5 en difficulté '+(a.context==='pve'?'PvE':a.context==='pvp'?'PvP':'(moyenne PvE et PvP)')+complexityWhy(s,a.context)+'.';
   return lines(spec,'Priorité '+priorityWords[a.weight]+' ('+a.weight+')',capital(verdict(a.raw))+' ('+percent(a.raw)+').');
  }
  // Une ligne par groupe de plusieurs critères : comment ils se partagent ses points.
@@ -215,7 +220,7 @@
   else{
    // Difficulté : la note de la trace (contexte PvE, PvP, ou part PvE / PvP d'un contexte mixte).
    var load=a.load!==undefined?a.load:a.key==='simple'?5-4*a.raw:1+4*a.raw,ctx=a.context||difficultyContext(p);
-   spec=n.spec+' est notée '+number(load)+'/5 en difficulté '+(contextNames[ctx]||'(moyenne PvE et PvP)')+'.';
+   spec=n.spec+' est notée '+number(load)+'/5 en difficulté '+(contextNames[ctx]||'(moyenne PvE et PvP)')+complexityWhy(s,ctx)+'.';
   }
   var multi=a.domain==='roles'&&Object.keys(p.roles||{}).length>1;
   var choice=capital(certaintyWords[Math.round(a.certainty)])+' (certitude '+(multi?'moyenne ':'')+number(a.certainty)+'/5)';

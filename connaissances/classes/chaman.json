@@ -1,8 +1,8 @@
 {
  "classe": "chaman",
  "libelle": "Chaman",
- "date": "2026-10-21",
- "moteur": "1.0.9-exploratoire",
+ "date": "2026-10-22",
+ "moteur": "1.1.0-exploratoire",
  "faits": [
   {
    "id": "ch-role",
@@ -196,8 +196,8 @@
   },
   {
    "id": "ch-rotation",
-   "categorie": "ressource",
-   "texte": "Rotations simulées moyennes : 9 sorts pour Amélioration, 13 pour Élémentaire.",
+   "categorie": "complexite",
+   "texte": "Rotations simulées (listes de priorités wowsims, 22 octobre 2026) : Amélioration, 9 sorts et 10 conditions ; Élémentaire, 10 sorts et 15 conditions.",
    "sources": [
     "wowsims-forever"
    ],
@@ -215,6 +215,25 @@
    ],
    "specs": [
     "chaman-restauration"
+   ]
+  },
+  {
+   "id": "ch-guides",
+   "categorie": "complexite",
+   "texte": "Guide Icy Veins de la bêta (niveau 30), Amélioration : sa régénération de mana ne suffit pas à tenir toute la rotation.",
+   "sources": [
+    "iv-guides-forever"
+   ],
+   "specs": [
+    "chaman-amelioration"
+   ]
+  },
+  {
+   "id": "ch-sorts-client",
+   "categorie": "complexite",
+   "texte": "Sorts et talents présents dans les données du client lues par wowsims : « Eye of the Storm », « Totemic Projection », « Call of the Elements », « Improved Stormstrike », « Tremor Totem », « Water Shield », « Windfury Weapon », « Lightning Shield ».",
+   "sources": [
+    "wowsims-forever"
    ]
   }
  ],
@@ -319,22 +338,101 @@
     },
     "charge_pve": {
      "valeur": 3,
-     "raison": "Totems à placer, mana limité sur les longs combats, très dépendant de la puissance des sorts. Aucune mesure de difficulté.",
+     "raison": "5 points sur 10 sur la grille de complexité : la rotation, les effets à entretenir, la gestion de la ressource, le placement et le pilotage pèsent un peu.",
      "appuis": [
+      "ch-rotation",
       "ch-mana",
-      "ch-twisting",
-      "ch-rotation"
+      "ch-elem-burst",
+      "ch-sorts-client"
      ],
      "confiance": "moyenne"
     },
     "charge_pvp": {
-     "valeur": 3,
-     "raison": "Totems et interruptions à placer au bon moment. Aucune mesure de difficulté.",
+     "valeur": 4,
+     "raison": "7 points sur 10 sur la grille de complexité : le placement et le pilotage pèsent beaucoup ; les contrôles, la défense et l’ouverture, un peu.",
      "appuis": [
-      "ch-mana",
-      "ch-interruption"
+      "ch-interruption",
+      "ch-earthbound",
+      "ch-mobilite",
+      "ch-utilite",
+      "ch-pas-controle",
+      "ch-elem-burst",
+      "ch-sorts-client",
+      "ch-soutien"
      ],
      "confiance": "faible"
+    }
+   },
+   "complexite": {
+    "pve": {
+     "note": 3,
+     "total": 5,
+     "confiance": "moyenne",
+     "composantes": {
+      "rotation": {
+       "points": 1,
+       "raison": "Lightning Bolt, Lava Burst à la recharge sur Flame Shock, Fire Nova et Chain Lightning en groupe (10 sorts, 15 conditions dans la rotation simulée)."
+      },
+      "entretien": {
+       "points": 1,
+       "raison": "Flame Shock et totem de feu."
+      },
+      "ressource": {
+       "points": 1,
+       "raison": "Mana qui fond sur les longs combats."
+      },
+      "placement": {
+       "points": 1,
+       "raison": "Incantations ; « Eye of the Storm » limite les reculs."
+      },
+      "pilotage": {
+       "points": 1,
+       "raison": "Totems à poser à l’avance et à replacer : leur placement et leur timing comptent."
+      }
+     },
+     "appuis": [
+      "ch-rotation",
+      "ch-mana",
+      "ch-elem-burst",
+      "ch-sorts-client"
+     ]
+    },
+    "pvp": {
+     "note": 4,
+     "total": 7,
+     "confiance": "faible",
+     "composantes": {
+      "controles": {
+       "points": 1,
+       "raison": "« Earth Shock » interrompt, « Frost Shock » ralentit, « Earthbind Totem » (« Earthbound » immobilise)."
+      },
+      "defense": {
+       "points": 1,
+       "raison": "« Ghost Wolf », « Grounding Totem », boucliers."
+      },
+      "placement": {
+       "points": 2,
+       "raison": "Incantations à protéger, peu d’échappatoires."
+      },
+      "ouverture": {
+       "points": 1,
+       "raison": "Burst « Lava Burst »."
+      },
+      "pilotage": {
+       "points": 2,
+       "raison": "Totems utilitaires (« Grounding », « Tremor », « Earthbind ») et « Purge »."
+      }
+     },
+     "appuis": [
+      "ch-interruption",
+      "ch-earthbound",
+      "ch-mobilite",
+      "ch-utilite",
+      "ch-pas-controle",
+      "ch-elem-burst",
+      "ch-sorts-client",
+      "ch-soutien"
+     ]
     }
    }
   },
@@ -439,23 +537,99 @@
     },
     "charge_pve": {
      "valeur": 3,
-     "raison": "Totems à placer et à relancer, procs à exploiter. Aucune mesure de difficulté.",
+     "raison": "6 points sur 10 sur la grille de complexité : les effets à entretenir et la gestion de la ressource pèsent beaucoup ; la rotation et le pilotage, un peu.",
      "appuis": [
-      "ch-mana",
+      "ch-rotation",
+      "ch-guides",
       "ch-amelio-burst",
-      "ch-twisting",
-      "ch-rotation"
+      "ch-sorts-client",
+      "ch-mana"
      ],
      "confiance": "moyenne"
     },
     "charge_pvp": {
      "valeur": 3,
-     "raison": "Totems et interruptions à placer au bon moment. Aucune mesure de difficulté.",
+     "raison": "6 points sur 10 sur la grille de complexité : le pilotage pèse beaucoup ; les contrôles, la défense, le placement et l’ouverture, un peu.",
      "appuis": [
-      "ch-mana",
-      "ch-interruption"
+      "ch-interruption",
+      "ch-amelio-burst",
+      "ch-mobilite",
+      "ch-pvp-duel",
+      "ch-utilite",
+      "ch-soutien"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
+    }
+   },
+   "complexite": {
+    "pve": {
+     "note": 3,
+     "total": 6,
+     "confiance": "moyenne",
+     "composantes": {
+      "rotation": {
+       "points": 1,
+       "raison": "Stormstrike à la recharge (relancé par « Improved Stormstrike »), Earth Shock et Flame Shock, Fire Nova avec un totem de feu (9 sorts, 10 conditions dans la rotation simulée)."
+      },
+      "entretien": {
+       "points": 2,
+       "raison": "Windfury Weapon, Lightning Shield, Flame Shock, affaiblissement de Stormstrike et totems."
+      },
+      "ressource": {
+       "points": 2,
+       "raison": "Mana très contraint : selon Icy Veins, il ne suffit pas à tenir toute la rotation."
+      },
+      "placement": {
+       "points": 0,
+       "raison": "Mêlée sans contrainte de position."
+      },
+      "pilotage": {
+       "points": 1,
+       "raison": "Totems (« Call of the Elements », « Totemic Projection »)."
+      }
+     },
+     "appuis": [
+      "ch-rotation",
+      "ch-guides",
+      "ch-amelio-burst",
+      "ch-sorts-client",
+      "ch-mana"
+     ]
+    },
+    "pvp": {
+     "note": 3,
+     "total": 6,
+     "confiance": "moyenne",
+     "composantes": {
+      "controles": {
+       "points": 1,
+       "raison": "« Earth Shock », « Frost Shock », « Earthbind Totem »."
+      },
+      "defense": {
+       "points": 1,
+       "raison": "« Ghost Wolf », « Grounding Totem », soins."
+      },
+      "placement": {
+       "points": 1,
+       "raison": "Rester au contact ; « Ghost Wolf »."
+      },
+      "ouverture": {
+       "points": 1,
+       "raison": "Burst « Stormstrike » et « Rage of the Farseer »."
+      },
+      "pilotage": {
+       "points": 2,
+       "raison": "Totems utilitaires et « Purge »."
+      }
+     },
+     "appuis": [
+      "ch-interruption",
+      "ch-amelio-burst",
+      "ch-mobilite",
+      "ch-pvp-duel",
+      "ch-utilite",
+      "ch-soutien"
+     ]
     }
    }
   },
@@ -563,21 +737,26 @@
      "confiance": "haute"
     },
     "charge_pve": {
-     "valeur": 2,
-     "raison": "« Chain Heal » et « Riptide » lisibles ; placement des totems et mana à gérer. Aucune mesure de difficulté.",
+     "valeur": 3,
+     "raison": "5 points sur 10 sur la grille de complexité : le pilotage pèse beaucoup ; les effets à entretenir, la gestion de la ressource et le placement, un peu.",
      "appuis": [
       "ch-resto",
+      "ch-soin-resto",
       "ch-mana",
-      "ch-twisting"
+      "ch-soutien",
+      "ch-sorts-client"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     },
     "charge_pvp": {
      "valeur": 3,
-     "raison": "Peu de sorts instantanés : soigner sous pression demande du placement. Aucune mesure de difficulté.",
+     "raison": "6 points sur 10 sur la grille de complexité : le placement et le pilotage pèsent beaucoup ; les contrôles et la défense, un peu.",
      "appuis": [
+      "ch-interruption",
+      "ch-utilite",
       "ch-resto",
-      "ch-mana"
+      "ch-soutien",
+      "ch-mobilite"
      ],
      "confiance": "faible"
     }
@@ -615,6 +794,76 @@
       "ch-resto"
      ],
      "confiance": "haute"
+    }
+   },
+   "complexite": {
+    "pve": {
+     "note": 3,
+     "total": 5,
+     "confiance": "moyenne",
+     "composantes": {
+      "rotation": {
+       "points": 0,
+       "raison": "Healing Wave en monocible, Chain Heal en groupe, Lesser Healing Wave en urgence, Riptide."
+      },
+      "entretien": {
+       "points": 1,
+       "raison": "Water Shield et Riptide ; totems de groupe."
+      },
+      "ressource": {
+       "points": 1,
+       "raison": "Mana : « Water Shield », « Mana Tide Totem »."
+      },
+      "placement": {
+       "points": 1,
+       "raison": "Incantations : se déplacer coûte du soin."
+      },
+      "pilotage": {
+       "points": 2,
+       "raison": "Rôle de soigneur et totems à placer."
+      }
+     },
+     "appuis": [
+      "ch-resto",
+      "ch-soin-resto",
+      "ch-mana",
+      "ch-soutien",
+      "ch-sorts-client"
+     ]
+    },
+    "pvp": {
+     "note": 3,
+     "total": 6,
+     "confiance": "faible",
+     "composantes": {
+      "controles": {
+       "points": 1,
+       "raison": "« Earth Shock », « Frost Shock », « Earthbind Totem »."
+      },
+      "defense": {
+       "points": 1,
+       "raison": "« Ghost Wolf », « Grounding Totem », « Nature’s Swiftness »."
+      },
+      "placement": {
+       "points": 2,
+       "raison": "Peu de sorts instantanés : soigner sous pression demande du placement."
+      },
+      "ouverture": {
+       "points": 0,
+       "raison": "Pas de fenêtre d’ouverture."
+      },
+      "pilotage": {
+       "points": 2,
+       "raison": "Totems utilitaires, « Purge » et totems de purification."
+      }
+     },
+     "appuis": [
+      "ch-interruption",
+      "ch-utilite",
+      "ch-resto",
+      "ch-soutien",
+      "ch-mobilite"
+     ]
     }
    }
   }

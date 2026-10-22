@@ -13,8 +13,9 @@ const registre=lire('sources.json');
 const classes=fs.readdirSync(path.join(dir,'classes')).filter(f=>f.endsWith('.json')).map(f=>lire('classes/'+f));
 const ecarts=lire('ecarts.json');
 const CRITERES=['raid','bg','world','solo','burst','zone','ctrl','surv','mob','support','charge_pve','charge_pvp'];
+// « complexite » (v11) : faits qui fondent le référentiel de complexité (rotations simulées, guides, kit lu dans le client).
 const CATEGORIES=new Set(['role','ressource','mobilite','interruption','ralentissement','controle','defense','zone','burst','soin',
- 'pvp','soutien','limite','performance','solo','familier']);
+ 'pvp','soutien','limite','performance','solo','familier','complexite']);
 // Catégories de faits qui peuvent fonder une note de style de 4 ou plus.
 const REGLES={burst:['burst'],zone:['zone'],ctrl:['controle','interruption','ralentissement'],surv:['defense'],mob:['mobilite'],support:['soutien']};
 const valeur=(s,c)=>c.startsWith('charge_')?s.load[c.slice(7)]:(c in s.activity?s.activity[c]:s.style[c]);

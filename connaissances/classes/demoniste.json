@@ -1,8 +1,8 @@
 {
  "classe": "demoniste",
  "libelle": "Démoniste",
- "date": "2026-10-21",
- "moteur": "1.0.9-exploratoire",
+ "date": "2026-10-22",
+ "moteur": "1.1.0-exploratoire",
  "faits": [
   {
    "id": "d-role",
@@ -176,8 +176,25 @@
   },
   {
    "id": "d-rotation",
-   "categorie": "ressource",
-   "texte": "Rotations simulées moyennes : 9 à 10 sorts.",
+   "categorie": "complexite",
+   "texte": "Rotations simulées (listes de priorités wowsims, 22 octobre 2026) : Affliction, 8 sorts et 14 à 16 conditions ; Démonologie, 7 à 8 sorts et 26 conditions ; Destruction, 8 sorts et 16 conditions.",
+   "sources": [
+    "wowsims-forever"
+   ]
+  },
+  {
+   "id": "d-guides",
+   "categorie": "complexite",
+   "texte": "Guides de la bêta, écrits pour le niveau 30. Icy Veins, Destruction : Immolate est son seul effet sur la durée à entretenir, et elle « relies heavily on hard casting ». wowtbc.gg, Démonologie : sacrifice d’un démon avec « Demonic Pact » et un autre invoqué, « Soul Link » ; malédiction, Immolate et Corruption maintenues, Bane of Doom sur une cible qui vivra plus d’une minute, Soul Fire sous « Decimation », Searing Pain sinon.",
+   "sources": [
+    "iv-guides-forever",
+    "wowtbc-guides"
+   ]
+  },
+  {
+   "id": "d-sorts-client",
+   "categorie": "complexite",
+   "texte": "Sorts et talents présents dans les données du client lues par wowsims : « Health Funnel », « Drain Mana », « Aftermath », « Nightfall ».",
    "sources": [
     "wowsims-forever"
    ]
@@ -287,21 +304,29 @@
     },
     "charge_pve": {
      "valeur": 3,
-     "raison": "Montée en puissance lente, « Life Tap » et affaiblissements à entretenir plutôt qu’un seul sort à répéter.",
+     "raison": "6 points sur 10 sur la grille de complexité : les effets à entretenir pèsent beaucoup ; la rotation, la gestion de la ressource, le placement et le pilotage, un peu.",
      "appuis": [
+      "d-rotation",
+      "d-affli",
       "d-ressource",
-      "d-rotation"
+      "d-demons",
+      "d-sorts-client"
      ],
      "confiance": "moyenne"
     },
     "charge_pvp": {
-     "valeur": 3,
-     "raison": "Malédictions et peurs à gérer, démon à piloter. Aucune mesure de difficulté.",
+     "valeur": 4,
+     "raison": "8 points sur 10 sur la grille de complexité : les contrôles, le placement et le pilotage pèsent beaucoup ; la défense et l’ouverture, un peu.",
      "appuis": [
-      "d-ressource",
-      "d-demons"
+      "d-controle",
+      "d-ralentissements",
+      "d-mobilite",
+      "d-defense",
+      "d-pvp-duel",
+      "d-demons",
+      "d-sorts-client"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     }
    },
    "variante_sans_familier": {
@@ -339,6 +364,78 @@
       ],
       "confiance": "moyenne"
      }
+    }
+   },
+   "complexite": {
+    "pve": {
+     "note": 3,
+     "total": 6,
+     "confiance": "moyenne",
+     "composantes": {
+      "rotation": {
+       "points": 1,
+       "raison": "Corruption, Bane of Agony, Siphon Life et Immolate selon la durée de vie de la cible, Shadow Bolt instantané sous « Nightfall », Life Tap (8 sorts, 14 conditions dans la rotation simulée)."
+      },
+      "entretien": {
+       "points": 2,
+       "raison": "Corruption, Bane of Agony, Siphon Life, Immolate et malédiction, sans les relancer trop tôt."
+      },
+      "ressource": {
+       "points": 1,
+       "raison": "« Life Tap » sans se mettre en danger, éclats d’âme."
+      },
+      "placement": {
+       "points": 1,
+       "raison": "Les drains canalisés obligent à s’arrêter."
+      },
+      "pilotage": {
+       "points": 1,
+       "raison": "Démon à envoyer, soigner (« Health Funnel ») et tenir en donjon."
+      }
+     },
+     "appuis": [
+      "d-rotation",
+      "d-affli",
+      "d-ressource",
+      "d-demons",
+      "d-sorts-client"
+     ]
+    },
+    "pvp": {
+     "note": 4,
+     "total": 8,
+     "confiance": "moyenne",
+     "composantes": {
+      "controles": {
+       "points": 2,
+       "raison": "« Fear », « Death Coil », « Curse of Exhaustion », contrôles du démon (« Seduction » ou « Spell Lock »)."
+      },
+      "defense": {
+       "points": 1,
+       "raison": "Drains de vie (« Improved Drains », « Soul Siphon »)."
+      },
+      "placement": {
+       "points": 2,
+       "raison": "Aucun sort de mobilité."
+      },
+      "ouverture": {
+       "points": 1,
+       "raison": "Montée en pression des effets sur la durée."
+      },
+      "pilotage": {
+       "points": 2,
+       "raison": "Démon et ses contrôles, « Drain Mana », dissipation du Felhunter."
+      }
+     },
+     "appuis": [
+      "d-controle",
+      "d-ralentissements",
+      "d-mobilite",
+      "d-defense",
+      "d-pvp-duel",
+      "d-demons",
+      "d-sorts-client"
+     ]
     }
    }
   },
@@ -445,23 +542,102 @@
      "confiance": "moyenne"
     },
     "charge_pve": {
-     "valeur": 3,
-     "raison": "Démon à piloter, « Life Tap » et éclats d’âme à gérer. Aucune mesure de difficulté.",
+     "valeur": 4,
+     "raison": "7 points sur 10 sur la grille de complexité : les effets à entretenir et le pilotage pèsent beaucoup ; la rotation, la gestion de la ressource et le placement, un peu.",
      "appuis": [
-      "d-ressource",
+      "d-rotation",
+      "d-guides",
       "d-demono",
-      "d-rotation"
+      "d-demons",
+      "d-ressource"
      ],
      "confiance": "moyenne"
     },
     "charge_pvp": {
      "valeur": 4,
-     "raison": "Démon, peurs et « Spell Lock » à coordonner sous pression. Aucune mesure de difficulté.",
+     "raison": "8 points sur 10 sur la grille de complexité : les contrôles, le placement et le pilotage pèsent beaucoup ; la défense et l’ouverture, un peu.",
      "appuis": [
+      "d-controle",
+      "d-defense",
+      "d-mobilite",
+      "d-pvp-duel",
+      "d-demono",
       "d-demons",
-      "d-controle"
+      "d-sorts-client"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
+    }
+   },
+   "complexite": {
+    "pve": {
+     "note": 4,
+     "total": 7,
+     "confiance": "moyenne",
+     "composantes": {
+      "rotation": {
+       "points": 1,
+       "raison": "Malédiction, Immolate, Corruption, Bane of Doom sur les cibles durables, Soul Fire sous « Decimation », Searing Pain (7 à 8 sorts, 26 conditions dans la rotation simulée)."
+      },
+      "entretien": {
+       "points": 2,
+       "raison": "Malédiction, Immolate, Corruption et Bane of Doom."
+      },
+      "ressource": {
+       "points": 1,
+       "raison": "« Life Tap », éclats d’âme."
+      },
+      "placement": {
+       "points": 1,
+       "raison": "Incantations (Soul Fire, Searing Pain)."
+      },
+      "pilotage": {
+       "points": 2,
+       "raison": "Démon central : sacrifice avec « Demonic Pact », « Soul Link », démon à placer et à garder en vie."
+      }
+     },
+     "appuis": [
+      "d-rotation",
+      "d-guides",
+      "d-demono",
+      "d-demons",
+      "d-ressource"
+     ]
+    },
+    "pvp": {
+     "note": 4,
+     "total": 8,
+     "confiance": "moyenne",
+     "composantes": {
+      "controles": {
+       "points": 2,
+       "raison": "« Fear », « Death Coil », « Seduction » ou « Spell Lock »."
+      },
+      "defense": {
+       "points": 1,
+       "raison": "« Soul Link » et « Demonic Aegis » (surtout passifs), sacrifice du Voidwalker, « Health Funnel »."
+      },
+      "placement": {
+       "points": 2,
+       "raison": "Aucun sort de mobilité."
+      },
+      "ouverture": {
+       "points": 1,
+       "raison": "Burst Soul Fire."
+      },
+      "pilotage": {
+       "points": 2,
+       "raison": "Démon central et ses contrôles, « Drain Mana »."
+      }
+     },
+     "appuis": [
+      "d-controle",
+      "d-defense",
+      "d-mobilite",
+      "d-pvp-duel",
+      "d-demono",
+      "d-demons",
+      "d-sorts-client"
+     ]
     }
    }
   },
@@ -566,21 +742,30 @@
     },
     "charge_pve": {
      "valeur": 3,
-     "raison": "Montée en puissance lente, « Life Tap » et affaiblissements à entretenir plutôt qu’un seul sort à répéter.",
+     "raison": "5 points sur 10 sur la grille de complexité : la rotation, les effets à entretenir, la gestion de la ressource, le placement et le pilotage pèsent un peu.",
      "appuis": [
+      "d-rotation",
+      "d-guides",
+      "d-destru",
       "d-ressource",
-      "d-rotation"
+      "d-demons"
      ],
      "confiance": "moyenne"
     },
     "charge_pvp": {
      "valeur": 4,
-     "raison": "Burst à placer au bon moment, peurs et démon à gérer. Aucune mesure de difficulté.",
+     "raison": "8 points sur 10 sur la grille de complexité : les contrôles, le placement et le pilotage pèsent beaucoup ; la défense et l’ouverture, un peu.",
      "appuis": [
+      "d-controle",
+      "d-ralentissements",
+      "d-mobilite",
       "d-destru",
-      "d-controle"
+      "d-pvp-duel",
+      "d-defense",
+      "d-demons",
+      "d-sorts-client"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     }
    },
    "variante_sans_familier": {
@@ -618,6 +803,79 @@
       ],
       "confiance": "moyenne"
      }
+    }
+   },
+   "complexite": {
+    "pve": {
+     "note": 3,
+     "total": 5,
+     "confiance": "moyenne",
+     "composantes": {
+      "rotation": {
+       "points": 1,
+       "raison": "Immolate, Shadow Bolt, Conflagrate en fin d’Immolate, Shadowburn sur une cible presque morte, Incinerate (8 sorts, 16 conditions dans la rotation simulée)."
+      },
+      "entretien": {
+       "points": 1,
+       "raison": "Immolate, son seul effet sur la durée à entretenir selon Icy Veins, et la malédiction."
+      },
+      "ressource": {
+       "points": 1,
+       "raison": "« Life Tap », éclats pour Shadowburn."
+      },
+      "placement": {
+       "points": 1,
+       "raison": "Elle « relies heavily on hard casting » selon Icy Veins."
+      },
+      "pilotage": {
+       "points": 1,
+       "raison": "Démon à envoyer et soigner."
+      }
+     },
+     "appuis": [
+      "d-rotation",
+      "d-guides",
+      "d-destru",
+      "d-ressource",
+      "d-demons"
+     ]
+    },
+    "pvp": {
+     "note": 4,
+     "total": 8,
+     "confiance": "moyenne",
+     "composantes": {
+      "controles": {
+       "points": 2,
+       "raison": "« Fear », « Death Coil », ralentissement de Conflagrate, « Aftermath », contrôles du démon."
+      },
+      "defense": {
+       "points": 1,
+       "raison": "Drains de vie, « Molten Skin »."
+      },
+      "placement": {
+       "points": 2,
+       "raison": "Incantations longues sans mobilité."
+      },
+      "ouverture": {
+       "points": 1,
+       "raison": "Burst Conflagrate et Shadowburn à placer."
+      },
+      "pilotage": {
+       "points": 2,
+       "raison": "Démon et ses contrôles, « Drain Mana »."
+      }
+     },
+     "appuis": [
+      "d-controle",
+      "d-ralentissements",
+      "d-mobilite",
+      "d-destru",
+      "d-pvp-duel",
+      "d-defense",
+      "d-demons",
+      "d-sorts-client"
+     ]
     }
    }
   }

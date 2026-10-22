@@ -11,7 +11,8 @@ const path=require('node:path');
 const crypto=require('node:crypto');
 const E=require('../recommendation-engine.js');
 const v9=require('./fixtures/moteur-reference-v9.json'),v10=require('./fixtures/moteur-reference-v10.json');
-const {compare,snapshot,NEW_CASES,TECH}=require('../scripts/reference-v10.cjs');
+const {compare,NEW_CASES,TECH}=require('../scripts/reference-v10.cjs');
+// Depuis la v11, la v10 est une photographie figée (empreinte vérifiée dans reference-v11.test.cjs) : on compare des fixtures.
 
 test('La photographie v9 reste intacte ; la v10 en dérive explicitement',()=>{
  const source=fs.readFileSync(path.join(__dirname,'fixtures/moteur-reference-v9.json'),'utf8').replace(/\r\n/g,'\n');
@@ -19,12 +20,10 @@ test('La photographie v9 reste intacte ; la v10 en dérive explicitement',()=>{
  assert.equal(v9.info.engineVersion,'1.0.8-exploratoire');
  assert.equal(v10.info.revision,10);
  assert.equal(v10.info.previousReference,'moteur-reference-v9.json');
- assert.equal(v10.info.engineVersion,E.version);
- assert.equal(E.version,'1.0.9-exploratoire');
+ assert.equal(v10.info.engineVersion,'1.0.9-exploratoire');
 });
 
 test('v9 → v10 : ordre des classes et première piste conservés partout, top 3 plafonné à deux par classe',()=>{
- assert.deepEqual(snapshot(),v10,'le moteur reproduit exactement la v10');
  const report=compare(v9,v10);
  assert.equal(report.existingGuideCases,34);
  // 22 des 34 scénarios guidés voient une deuxième spécialisation d'une classe entrer dans le top 3.
@@ -42,8 +41,8 @@ test('v9 → v10 : ordre des classes et première piste conservés partout, top 
 test('Technicité selon les critères d’activité : PvP, PvE, ou moyenne',()=>{
  assert.equal(v10.technicite.length,TECH.length);
  assert.deepEqual(v10.technicite.map(t=>t.context),['pvp','pvp','pve','pve','mixte']);
- // Finesse : difficulté 3 en PvE, 5 en PvP. Seule, la technicité la place en tête en PvP.
- const rank=(w,id)=>E.priorityRanking(w,2).results.findIndex(x=>x.spec.id===id);
+ // v10 (photographie) : Finesse, difficulté 3 en PvE et 5 en PvP, en tête du critère PvP, plus bas en solo.
+ const rank=(w,id)=>v10.technicite.find(t=>JSON.stringify(t.weights)===JSON.stringify(w)).levels.find(l=>l.mastery===2).results.findIndex(r=>r[1]===id);
  assert.equal(rank({tech:3,sauv:3,ctrl:2},'voleur-finesse'),0);
  assert.ok(rank({tech:3,solo:3},'voleur-finesse')>rank({tech:3,bg:3},'voleur-finesse'));
  // Sans critère d'activité, ou avec les deux, la moyenne de la v9 reste la règle.
