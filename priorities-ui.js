@@ -134,21 +134,23 @@ function whyPlace(x,w,m){
   '<p><a href="fiches-sources/'+esc(x.classId)+'.html#'+esc(x.spec.id)+(x.spec.variant==='sans-familier'?'-sans-familier':'')+'">Comprendre les notes et voir les sources du '+esc(x.className)+'</a></p>'+
   '</details>';
 }
+// Les dix premières spécialisations sont affichées, les autres sur demande (référence v10).
+var VISIBLE=10,showAll=false;
 function results(){
  var w=weights(),r=E.priorityRanking(w,currentMastery()),h='';
  if(r.status==='unanswered'){
   h='<div class="reco-empty"><span class="reco-kicker">À toi de définir les règles</span><h3>Aucune priorité définie</h3>'+
-   '<p>Active un critère pour construire un classement de neuf classes, fondé sur leurs spécialisations et non sur une addition de leurs rôles.</p></div>';
+   '<p>Active un critère pour classer les spécialisations des neuf classes, chacune avec ses propres notes, et non par une addition de leurs rôles.</p></div>';
  }else{
   var described=r.active.length;
-  h='<div class="reco-results-head"><div><span class="reco-kicker">Classement personnalisé</span><h3>Les neuf classes selon tes critères</h3></div>'+
+  h='<div class="reco-results-head"><div><span class="reco-kicker">Classement personnalisé</span><h3>Les spécialisations selon tes critères</h3></div>'+
     '<p>'+described+' critère'+(described>1?'s':'')+' actif'+(described>1?'s':'')+' · maîtrise '+mastery[currentMastery()]+'</p></div>';
-  h+='<p class="reco-note">La spécialisation affichée est retenue pour l’ensemble de tes critères. Le classement peut proposer une autre spécialisation lorsque tu modifies tes priorités.</p>';
+  h+='<p class="reco-note">Chaque spécialisation est classée avec ses propres notes : une même classe peut donc revenir plusieurs fois.</p>';
   var positions=X?X.ranks(r.results):[],tie=X?X.tieNote(r.results):'';
   if(tie)h+='<p class="reco-note reco-tie-note">'+esc(tie)+'</p>';
   if(X)X.contextNotes({weights:w}).forEach(function(note){h+='<p class="reco-note">'+esc(note)+'</p>';});
   h+='<ol class="reco-priority-ranking">';
-  r.results.forEach(function(x,i){
+  r.results.slice(0,showAll?r.results.length:VISIBLE).forEach(function(x,i){
     var rounded=Math.round(x.score),hint=X?X.rankHint(r.results,i):'';
     var position=positions[i]||{rank:i+1,tied:false,leader:i===0};
     h+='<li class="reco-priority-class'+(position.leader?' is-leading':'')+'" value="'+position.rank+'" style="--reco-class:var(--k-'+esc(x.classId)+')">'+
@@ -160,7 +162,9 @@ function results(){
      '<span class="reco-priority-line" aria-hidden="true"><i style="width:'+Math.max(0,Math.min(100,rounded))+'%"></i></span>'+
      '<div class="reco-priority-more">'+(window.WFConfigurationDetails?window.WFConfigurationDetails(x.spec):'')+whyPlace(x,w,currentMastery())+'</div></li>';
   });
-  h+='</ol><p class="reco-note">Le classement est fondé sur les configurations de spécialisation les plus cohérentes avec les critères choisis. Les rôles ne sont comptés qu’une fois ; la polyvalence et la technicité n’interviennent que si tu les actives. Les faibles écarts ne prouvent pas de supériorité.</p>';
+  h+='</ol>'+(r.results.length>VISIBLE?'<button type="button" class="reco-more" data-prio-more aria-expanded="'+showAll+'">'+
+   (showAll?'Afficher les '+VISIBLE+' premières seulement':'Voir les '+(r.results.length-VISIBLE)+' autres spécialisations')+'</button>':'')+
+   '<p class="reco-note">Chaque spécialisation est évaluée avec ses propres notes. Les rôles ne sont comptés qu’une fois ; la polyvalence et la technicité n’interviennent que si tu les actives. Les faibles écarts ne prouvent pas de supériorité.</p>';
   if(r.active.length===1)h+='<p class="reco-note">Avec un seul critère actif, le poids 1, 2 ou 3 ne change pas les proportions du score : il détermine son importance par rapport à d’autres critères si tu en ajoutes.</p>';
   if(presetMatch(w)==='egal')h+='<p class="reco-note">« Tous les critères » est un scénario de référence, pas un profil neutre du joueur : pour une recommandation personnelle, précise ce qui compte vraiment.</p>';
  }
@@ -196,6 +200,11 @@ modes.forEach(function(b){
     (modes.indexOf(b)+(ev.key==='ArrowRight'?1:-1)+modes.length)%modes.length;
   modes[i].focus();setMode(modes[i].dataset.recoMode);
  });
+});
+output.addEventListener('click',function(ev){
+ var b=ev.target.closest&&ev.target.closest('[data-prio-more]');if(!b)return;
+ showAll=!showAll;results();
+ var again=output.querySelector&&output.querySelector('[data-prio-more]');if(again&&again.focus)again.focus();
 });
 form.addEventListener('click',function(ev){
  var b=ev.target.closest('button');if(!b||!form.contains(b))return;

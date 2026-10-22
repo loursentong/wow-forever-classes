@@ -113,7 +113,7 @@ async function check(){
   assert.equal(await page.locator('#reco-results .reco-result-card').count(),0);
   // L'aperçu du classement suit les réponses : neuf classes, dans l'ordre du moteur.
   await page.locator('#reco-live > summary').click();
-  assert.equal(await page.locator('#reco-live-body li').count(),9);
+  assert.equal(await page.locator('#reco-live-body li').count(),10,'dix spécialisations visibles, les autres sur demande');
   const liveBox=await page.evaluate(()=>{const a=document.querySelector('#reco-guided .reco-live').getBoundingClientRect(),b=document.querySelector('#reco-guided .reco-workspace').getBoundingClientRect(),
    c=document.querySelector('#reco-live-body');return {liveBottom:Math.round(a.bottom),formBottom:Math.round(b.bottom),scrolls:c.scrollHeight>=c.clientHeight};});
   assert.ok(liveBox.liveBottom<=liveBox.formBottom+2,'Aperçu ouvert, toujours borné à la question : '+JSON.stringify(liveBox));
@@ -209,16 +209,16 @@ async function check(){
   assert.ok(new Set(dpsScores).size>=3, 'DPS PvE doit différencier les neuf classes');
   assert.ok(dpsScores.some(x=>!x.trim().startsWith('100')));
   assert.equal(await page.locator('[data-prio-axis]').count(),56);
-  assert.equal(await page.locator('#reco-priority-results .reco-priority-class').count(),9);
-  assert.equal(await page.locator('#reco-priority-results .reco-config-details').count(),9);
+  assert.equal(await page.locator('#reco-priority-results .reco-priority-class').count(),10);
+  assert.equal(await page.locator('#reco-priority-results .reco-config-details').count(),10);
   await page.locator('[data-prio-preset="pvp"]').click();
   const weight=(axis,v)=>page.locator('[data-prio-axis="'+axis+'"][data-prio-weight="'+v+'"]').getAttribute('aria-pressed');
   assert.equal(await weight('bg',3),'true');
   await page.locator('[data-prio-mastery="3"]').click();
   assert.equal(await page.locator('[data-prio-mastery="3"]').getAttribute('aria-pressed'),'true');
-  assert.equal(await page.locator('#reco-priority-results .reco-priority-class').count(),9);
+  assert.equal(await page.locator('#reco-priority-results .reco-priority-class').count(),10);
   // « Pourquoi cette place » : neuf explications ; les points des critères font le score affiché.
-  assert.equal(await page.locator('#reco-priority-results .reco-why > summary').count(),9);
+  assert.equal(await page.locator('#reco-priority-results .reco-why > summary').count(),10);
   const place1=page.locator('#reco-priority-results .reco-priority-class').first();
   await place1.locator('.reco-why > summary').click();
   const placeWhy=await place1.evaluate(li=>({score:parseInt(li.querySelector('.reco-priority-score').textContent,10),
@@ -271,7 +271,7 @@ async function check(){
     document:document.documentElement.scrollWidth,viewport:document.documentElement.clientWidth
   }));
   assert.ok(measurements.document<=measurements.viewport+2,'Débordement horizontal '+JSON.stringify(measurements));
-  assert.equal(await page.locator('#reco-priority-results .reco-priority-class').count(),9);
+  assert.equal(await page.locator('#reco-priority-results .reco-priority-class').count(),10);
   await page.locator('[data-reco-mode="guided"]').click();
   const guideBandMobile=await bandBox('#reco-app .rf-band');
   await page.locator('[data-step="2"]').click();
@@ -382,7 +382,7 @@ async function check(){
   await page.reload({waitUntil:'domcontentloaded'});
   await page.locator('[data-reco-mode="guided"]').click();
   await page.locator('[data-reco-reveal]').click();
-  assert.match(await page.locator('#reco-results .reco-tie-note').textContent(),/Démoniste, Mage/);
+  assert.match(await page.locator('#reco-results .reco-tie-note').textContent(),/Démoniste Affliction, Mage Givre/);
   assert.equal(await page.locator('#reco-results .reco-featured').count(),0);
   const givre=page.locator('[data-config-id="mage-givre"]');
   await givre.locator('summary').click();
@@ -409,17 +409,32 @@ async function check(){
   await page.locator('[data-reco-mode="guided"]').click();
   await page.locator('[data-reco-reveal]').click();
   assert.match(await page.locator('#reco-results').textContent(),/comparé à la difficulté PvE/);
+  // Deux spécialisations d'une même classe peuvent partager le top 3, jamais trois (v10).
+  await page.evaluate(()=>localStorage.setItem('wf-recommend-v1',JSON.stringify({styles:{mob:5,surv:5},mastery:2})));
+  await page.reload({waitUntil:'domcontentloaded'});
+  await page.locator('[data-reco-mode="guided"]').click();
+  await page.locator('[data-step="5"]').click();
+  await page.locator('[data-show-results]').click();
+  assert.deepEqual(await page.locator('#reco-results .reco-result-card h4').allTextContents(),['Druide','Druide','Chaman']);
+  await page.locator('#reco-results').screenshot({path:path.join(__dirname,'screenshots','v10-deux-druides.png'),animations:'disabled'});
   await page.locator('[data-reco-mode="priorities"]').click();
   await page.locator('[data-prio-preset="controle"]').click();
   const rankRows=page.locator('#reco-priority-results .reco-priority-class');
   assert.equal(await rankRows.nth(0).getAttribute('value'),'1');
   assert.equal(await rankRows.nth(1).getAttribute('value'),'1');
   assert.equal(await rankRows.nth(2).getAttribute('value'),'1');
-  assert.match(await rankRows.nth(1).textContent(),/à égalité avec le /);
+  assert.equal(await rankRows.nth(3).getAttribute('value'),'1');
+  // Quatre spécialisations à égalité en tête, dont deux du Voleur (v10).
+  assert.match(await rankRows.nth(1).textContent(),/à égalité avec 3 autres spécialisations/);
   assert.doesNotMatch(await page.locator('#reco-priority-results').textContent(),/ex æquo|résultat proche/);
   const leadBorders=await page.locator('#reco-priority-results .is-leading').evaluateAll(rows=>rows.map(row=>getComputedStyle(row).borderColor));
-  assert.equal(leadBorders.length,3);
-  assert.equal(new Set(leadBorders).size,1,'Les trois classes à égalité doivent recevoir la même mise en avant');
+  assert.equal(leadBorders.length,4);
+  assert.equal(new Set(leadBorders).size,1,'Les spécialisations à égalité doivent recevoir la même mise en avant');
+  // Les autres spécialisations s'affichent sur demande.
+  await page.locator('[data-prio-more]').click();
+  assert.equal(await page.locator('#reco-priority-results .reco-priority-class').count(),28);
+  assert.equal(await page.locator('[data-prio-more]').getAttribute('aria-expanded'),'true');
+  await page.locator('[data-prio-more]').click();
   const weightsControl=page.locator('[aria-describedby="prio-help-ctrl"]');
   assert.equal(await weightsControl.count(),1);
   await weightsControl.locator('button').first().focus();
@@ -450,7 +465,7 @@ async function check(){
   await page.locator('[data-multi="activities"][data-key="raid"]').click();
   await page.locator('[data-step="5"]').click();
   await page.locator('[data-show-results]').click();
-  assert.match(await page.locator('#reco-results .reco-tie-note').textContent(),/Chaman, Druide, Paladin, Prêtre/);
+  assert.match(await page.locator('#reco-results .reco-tie-note').textContent(),/Chaman Restauration, Druide Restauration, Paladin Sacré, Prêtre Discipline, Prêtre Sacré/);
   assert.equal(await page.locator('#reco-results .reco-featured').count(),0);
   assert.equal(await page.locator('#reco-results .reco-result-card').count(),3);
   assert.match(await page.locator('#reco-results').textContent(),/préciser ta façon de soigner à la question 1/);
@@ -517,7 +532,7 @@ async function check(){
    }
   }
   assert.deepEqual(errors,[],'Erreurs JavaScript navigateur');
-  process.stdout.write('Chromium : deux parcours, 14 poids, 15 presets, neuf rangs, maîtrise partagée, mobile et clavier — OK\n');
+  process.stdout.write('Chromium : deux parcours, 14 poids, 15 presets, 28 spécialisations classées, maîtrise partagée, mobile et clavier — OK\n');
  }finally{
   if(browser)await browser.close();
   await new Promise(resolve=>server.close(resolve));

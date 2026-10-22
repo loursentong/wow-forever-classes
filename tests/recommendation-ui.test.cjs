@@ -14,7 +14,7 @@ function createHarness(initial={}){
   contains(){return true;},
   querySelector(){return null;}};
  const reset={addEventListener(k,fn){listeners[k]=fn;},click(){listeners.click();}};
- const live={innerHTML:''};
+ const live={innerHTML:'',listeners:{},addEventListener(k,fn){this.listeners[k]=fn;},querySelector(){return null;}};
  const root={querySelector(s){return {'#reco-form':form,'#reco-results':results,'#reco-reset':reset,'#reco-live-body':live}[s]||null;}};
  const document={getElementById(id){return id==='reco-app'?root:null;}};
  const localStorage={getItem(k){return Object.hasOwn(store,k)?store[k]:null;},setItem(k,v){store[k]=v;}};
@@ -151,7 +151,7 @@ test('Les résultats attendent deux dimensions et un geste explicite avant d’a
 test('Une égalité en tête ne reçoit pas de carte gagnante ; la variante sans familier est annoncée',()=>{
  const h=createHarness({'wf-recommend-v1':JSON.stringify({styles:{ctrl:5},range:{value:'distance',certainty:5},mastery:2})});
  h.reveal();
- assert.match(h.results.innerHTML,/À égalité en tête : Démoniste, Mage/);
+ assert.match(h.results.innerHTML,/À égalité en tête : Démoniste Affliction, Mage Givre\./);
  assert.doesNotMatch(h.results.innerHTML,/reco-featured/);
  assert.doesNotMatch(h.results.innerHTML,/PISTE PRINCIPALE/);
  h.step(4);h.single('pet','avoid');h.certainty('pet','avoid',5);h.strict('pet',true);
@@ -278,17 +278,23 @@ test('Pourquoi cette piste remplace « Fiabilité et incertitude » : critères,
  assert.match(h.results.innerHTML,/Tes choix sont assez affirmés/);
 });
 
-test('Aperçu du classement : les neuf classes suivent chaque réponse, sans attendre le bouton des résultats',()=>{
- const h=createHarness();
+test('Aperçu du classement : les spécialisations suivent chaque réponse, dix visibles puis les autres sur demande',()=>{
+ const h=createHarness(),more=()=>h.live.listeners.click({target:{closest:s=>s==='[data-live-more]'?{}:null}});
  assert.match(h.live.innerHTML,/Réponds à une question/);
  h.press('multi','roles','dps');
  assert.match(h.live.innerHTML,/Avec une seule préférence, ce classement est encore peu parlant/);
- assert.equal((h.live.innerHTML.match(/<li /g)||[]).length,9);
+ assert.equal((h.live.innerHTML.match(/<li /g)||[]).length,10);
+ assert.match(h.live.innerHTML,/data-live-more aria-expanded="false">Voir les 18 autres spécialisations</);
+ more();
+ assert.equal((h.live.innerHTML.match(/<li /g)||[]).length,28);
+ assert.match(h.live.innerHTML,/aria-expanded="true">Afficher les 10 premières seulement</);
  h.step(1);h.press('multi','activities','bg');
  assert.doesNotMatch(h.live.innerHTML,/une seule préférence/);
- // L'aperçu reprend le classement du moteur, dans le même ordre.
- const order=[...h.live.innerHTML.matchAll(/<b>([^<]+)<\/b>/g)].map(m=>m[1]);
- assert.deepEqual(order,engine.recommend(h.profile()).results.map(r=>r.spec.className));
+ // L'aperçu reprend le classement du moteur, dans le même ordre : une classe peut revenir.
+ const order=[...h.live.innerHTML.matchAll(/<b>([^<]+)<\/b><small>([^<·]+)/g)].map(m=>m[1]+' '+m[2].trim());
+ assert.deepEqual(order,engine.recommend(h.profile()).results.map(r=>r.spec.className+' '+r.spec.label));
+ assert.ok(new Set(order.map(x=>x.split(' ')[0])).size<order.length);
+ more();assert.equal((h.live.innerHTML.match(/<li /g)||[]).length,10);
  assert.doesNotMatch(h.results.innerHTML,/reco-result-card/);
  h.strict('roles',true);h.step(2);h.single('range','distance');h.strict('range',true);h.press('multi','roles','dps');h.press('multi','roles','tank');h.strict('roles',true);
  assert.match(h.live.innerHTML,/Aucune configuration ne remplit toutes tes exigences/);

@@ -26,9 +26,10 @@ test('Aucun poids, aucune recommandation artificielle',()=>{
  assert.deepEqual(r.results,[]);
  assert.deepEqual(r.active,[]);
 });
+const firstOfEachClass=rows=>rows.filter((r,i)=>rows.findIndex(q=>(q.classId||q.spec.classId)===(r.classId||r.spec.classId))===i);
 test('Le domaine du rôle est compté une seule fois, quelle que soit sa diversité',()=>{
  const tank=E.priorityRanking(withW({tank:3}),2);
- assert.equal(tank.results.length,9);
+ assert.equal(tank.results.length,28,'depuis la v10, une ligne par configuration');
  assert.equal(tank.results[0].score,100);
  assert.equal(tank.results[0].spec.role,'tank');
  assert.equal(tank.results.find(x=>x.classId==='mage').score,0);
@@ -59,7 +60,8 @@ test('Le même joueur peut explorer les 15 presets historiques sans modifier les
  for(const name of Object.keys(D.presets)){
   const r=E.priorityRanking(D.presets[name],2);
   assert.equal(r.status,'ok',name);
-  assert.equal(r.results.length,9,name);
+  assert.equal(r.results.length,28,name);
+  assert.equal(new Set(r.results.map(x=>x.spec.id)).size,28,name);
   assert.equal(new Set(r.results.map(x=>x.classId)).size,9,name);
   assert.ok(r.results.every(x=>x.score>=0&&x.score<=100),name);
  }
@@ -79,7 +81,7 @@ test('Les pondérations 0–3 invalides sont neutralisées et les résultats dé
  assert.deepEqual(a.results,b.results);
  assert.equal(JSON.stringify(input),serialized);
 });
-test('Les classes sont représentées par UNE configuration cohérente et les scores sont finis',()=>{
+test('Chaque configuration est classée une fois, cohérente, avec un score fini (v10)',()=>{
  const profiles=[
   withW({tank:3,soin:2}),withW({dps:3,zone:3}),
   withW({sauv:3,ctrl:3,burst:3}),withW({solo:3}),
@@ -87,7 +89,8 @@ test('Les classes sont représentées par UNE configuration cohérente et les sc
  ];
  for(const w of profiles)for(let level=0;level<4;level++){
   const r=E.priorityRanking(w,level);
-  assert.equal(r.results.length,9);
+  assert.equal(r.results.length,28);
+  assert.equal(new Set(r.results.map(x=>x.spec.id)).size,28);
   assert.ok(r.results.every(x=>E.specs.some(s=>(E.referenceVariants[s.id]?E.petless[s.id]:s)===x.spec)));
   assert.ok(r.results.every(x=>Number.isFinite(x.score)));
   assert.ok(r.results.every((x,i)=>i===0||x.score<=r.results[i-1].score));
@@ -105,10 +108,12 @@ test('Régression DPS PvE : jamais 100% pour les neuf classes, quel que soit le 
  for(let level=0;level<4;level++){
   const results=[1,2,3].map(weight=>E.priorityRanking(withW({dps:weight}),level));
   for(const r of results){
-   assert.equal(r.results.length,9);
-   assert.ok(r.results.filter(x=>x.score===100).length<9,'DPS au niveau '+level+' ne doit jamais donner 100 aux neuf classes');
-   assert.ok(new Set(r.results.map(x=>x.score)).size>=3,'Le rôle DPS distingue plusieurs degrés d’adéquation');
-   assert.ok(r.results.every(x=>x.spec.role==='dps'),'Meilleure spécialisation DPS pour chaque classe');
+   const classes=firstOfEachClass(r.results);
+   assert.equal(r.results.length,28);assert.equal(classes.length,9);
+   assert.ok(classes.filter(x=>x.score===100).length<9,'DPS au niveau '+level+' ne doit jamais donner 100 aux neuf classes');
+   assert.ok(new Set(classes.map(x=>x.score)).size>=3,'Le rôle DPS distingue plusieurs degrés d’adéquation');
+   assert.ok(classes.every(x=>x.spec.role==='dps'),'Meilleure spécialisation DPS pour chaque classe');
+   assert.ok(r.results.every(x=>x.spec.role==='dps'||x.score===0),'une configuration qui n’est pas DPS vaut 0 sur cet axe');
   }
   // Intensité d’un unique axe n’affecte pas les proportions : c’est l’importance relative.
   assert.deepEqual(results[0].results.map(x=>x.score),results[1].results.map(x=>x.score));
@@ -127,10 +132,10 @@ test('Les notes des trois rôles sont ancrées dans les 126 notes historiques et
   assert.ok(Math.abs(quality-expected)<1e-9,spec.id);
  }
 });
-test('14 axes × 4 niveaux × 3 forces : toujours neuf rangs, jamais tous 100',()=>{
+test('14 axes × 4 niveaux × 3 forces : toujours 28 configurations et neuf classes, jamais tous 100',()=>{
  for(const k of E.priorityAxes)for(let level=0;level<4;level++)for(let weight=1;weight<=3;weight++){
   const r=E.priorityRanking(withW({[k]:weight}),level);
-  assert.equal(r.results.length,9,k);
+  assert.equal(r.results.length,28,k);
   assert.equal(r.active.length,1,k);
   assert.equal(new Set(r.results.map(x=>x.classId)).size,9,k);
   assert.ok(r.results.some(x=>x.score<100),'Axe non discriminant : '+k+' niveau '+level);
@@ -161,7 +166,8 @@ test('24 000 combinaisons aléatoires déterministes : bornes, classement, unici
   if(i%23===0)for(const k of E.priorityAxes)w[k]=0;
   const lvl=i%4,r=E.priorityRanking(w,lvl);
   if(!r.active.length){assert.equal(r.status,'unanswered');assert.equal(r.results.length,0);continue;}
-  assert.equal(r.status,'ok');assert.equal(r.results.length,9);
+  assert.equal(r.status,'ok');assert.equal(r.results.length,28);
+  assert.equal(new Set(r.results.map(x=>x.spec.id)).size,28);
   assert.equal(new Set(r.results.map(x=>x.classId)).size,9);
   assert.ok(r.results.every(x=>x.score>=0&&x.score<=100&&Number.isFinite(x.score)));
   assert.ok(r.results.every((x,j)=>j===0||x.score<=r.results[j-1].score));

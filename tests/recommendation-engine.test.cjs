@@ -36,7 +36,7 @@ test('Les contraintes strictes ne peuvent jamais être enfreintes',()=>{
  const noMelee=E.recommend({range:{value:'distance',strict:true,certainty:3}});
  assert.ok(noMelee.results.every(x=>x.spec.range==='distance'));
  const multirole=E.recommend({roles:{tank:5,soin:4},rolesStrict:true});
- assert.deepEqual(names(multirole).sort(),['Druide','Paladin']);
+ assert.deepEqual([...new Set(names(multirole))].sort(),['Druide','Paladin']);
 });
 test('Une préférence de portée souple ne doit pas exclure la mêlée',()=>{
  const p={range:{value:'distance',certainty:4,strict:false}};
@@ -180,7 +180,10 @@ test('12 000 profils synthétiques reproductibles : finitude, déterminisme, con
   if(report.status==='unanswered'){unanswered++;continue;}
   visited++;
   assert.ok(report.top.length>=1 && report.top.length<=3);
-  assert.equal(new Set(report.top.map(v=>v.classId)).size,report.top.length);
+  // Depuis la v10 : au plus deux spécialisations d'une même classe, sinon l'ordre du classement.
+  const perClass={};for(const v of report.top)perClass[v.classId]=(perClass[v.classId]||0)+1;
+  assert.ok(Object.values(perClass).every(n=>n<=2));
+  assert.deepEqual(report.top.map(v=>v.spec.id),E.topPicks(report.results,3).map(v=>v.spec.id));
   assert.ok(report.top.every(v=>Number.isFinite(v.score)&&v.score>=0&&v.score<=100&&E.eligible(v.spec,report.profile)));
   assert.ok(report.top.every(v=>v.scenarioAppearances<=v.scenarioCount));
   winner[report.top[0].classId]=(winner[report.top[0].classId]||0)+1;

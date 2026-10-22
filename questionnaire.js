@@ -225,7 +225,7 @@ function whyBlock(r,hesitant){
    p.answers.map(function(a){return X.answerHtml(a.label,a.lines);}).join('')+'</div></li>';
  }).join('');
  var stability=r.scenarioCount<=1?'Tes choix sont assez affirmés : nous n’avons pas testé de variante sans eux.':
-  'Cette classe reste dans tes trois premières pistes dans '+r.scenarioAppearances+' cas sur '+r.scenarioCount+'. Nous avons comparé tes réponses actuelles, puis retiré chacune de tes réponses les plus hésitantes'+
+  'Cette spécialisation reste dans tes trois premières pistes dans '+r.scenarioAppearances+' cas sur '+r.scenarioCount+'. Nous avons comparé tes réponses actuelles, puis retiré chacune de tes réponses les plus hésitantes'+
   (hesitant.length?' ('+hesitant.join(', ')+')':'')+'.';
  return '<details class="reco-evidence reco-why"><summary>Pourquoi cette piste</summary>'+
   '<p><b>Pourquoi '+Math.round(r.score)+' sur 100 ?</b> '+esc(X.pisteMissing(explanation,r.fit,r.score))+'</p>'+
@@ -266,27 +266,37 @@ function discovery(n){
   '<span'+(n>=1?' class="is-done"':'')+'></span><span'+(n>=2?' class="is-done"':'')+'></span></div>'+
   '<small>'+(n?'Encore une préférence pour un premier aperçu.':'Deux préférences suffisent pour un premier aperçu.')+'</small>';
 }
-/* Aperçu du classement, à droite du questionnaire : les neuf classes selon les réponses actuelles,
- * dans un bloc repliable fermé par défaut (les résultats restent affichés à la demande). */
-var live=root.querySelector('#reco-live-body');
+/* Aperçu du classement, à droite du questionnaire : les spécialisations selon les réponses actuelles,
+ * dans un bloc repliable fermé par défaut (les résultats restent affichés à la demande). Depuis la v10,
+ * une classe peut revenir ; les dix premières sont affichées, les autres sur demande. */
+var live=root.querySelector('#reco-live-body'),LIVE_VISIBLE=10,liveAll=false,lastLive=null;
+function moreButton(attr,total,open){
+ return total>LIVE_VISIBLE?'<button type="button" class="reco-more" '+attr+' aria-expanded="'+open+'">'+
+  (open?'Afficher les '+LIVE_VISIBLE+' premières seulement':'Voir les '+(total-LIVE_VISIBLE)+' autres spécialisations')+'</button>':'';
+}
 function renderLive(report){
  if(!live)return;
- var h;
- if(report.status==='unanswered')h='<p class="reco-live-empty">Réponds à une question : les neuf classes se classeront ici à chaque réponse.</p>';
+ var h;lastLive=report;
+ if(report.status==='unanswered')h='<p class="reco-live-empty">Réponds à une question : les spécialisations se classeront ici à chaque réponse.</p>';
  else if(report.status==='no-match')h='<p class="reco-live-empty">Aucune configuration ne remplit toutes tes exigences.</p>';
  else{
   var positions=X?X.ranks(report.results):[];
   h=(report.used.length<2?'<p class="reco-live-note">Avec une seule préférence, ce classement est encore peu parlant.</p>':'')+
-   '<ol class="reco-live-list">'+report.results.map(function(r,i){
+   '<ol class="reco-live-list">'+report.results.slice(0,liveAll?report.results.length:LIVE_VISIBLE).map(function(r,i){
     var p=positions[i]||{rank:i+1},score=Math.round(r.score);
     return '<li value="'+p.rank+'" style="--reco-class:var(--k-'+esc(r.spec.classId)+')"><span class="reco-live-rank">'+p.rank+'</span>'+
      '<img src="'+wowClassIcon(r.spec.classId)+'" alt="" width="28" height="28" loading="lazy" decoding="async">'+
      '<span class="reco-live-name"><b>'+esc(r.spec.className)+'</b><small>'+esc(r.spec.label)+(r.spec.variant==='sans-familier'?' · sans familier':'')+'</small></span>'+
      '<span class="reco-live-score">'+score+'</span><span class="reco-live-bar" aria-hidden="true"><i style="width:'+Math.max(0,Math.min(100,score))+'%"></i></span></li>';
-   }).join('')+'</ol>';
+   }).join('')+'</ol>'+moreButton('data-live-more',report.results.length,liveAll);
  }
  if(live.innerHTML!==h)live.innerHTML=h;
 }
+if(live&&live.addEventListener)live.addEventListener('click',function(ev){
+ if(!ev.target.closest||!ev.target.closest('[data-live-more]')||!lastLive)return;
+ liveAll=!liveAll;renderLive(lastLive);
+ var again=live.querySelector&&live.querySelector('[data-live-more]');if(again&&again.focus)again.focus();
+});
 function canReveal(report){return !revealed&&report.status==='ok'&&report.used.length>=2;}
 function renderResults(){
  var report=E.recommend(state),out=root.querySelector('#reco-results'),h='';
@@ -311,8 +321,9 @@ function renderResults(){
  }else{
   h='<div class="reco-results-head"><div><span class="reco-kicker">Sélection personnalisée</span><h3>Tes meilleures pistes</h3></div>'+
    '<button type="button" class="reco-hide-results" data-reco-hide>Masquer les résultats</button></div>';
-  h+='<p class="reco-note">Chaque piste retient une spécialisation pour l’ensemble de tes réponses. Ajouter une activité peut changer celle qui est proposée.</p>';
-  var positions=X?X.ranks(report.results):[],tie=X?X.tieNote(report.results):'';
+  h+='<p class="reco-note">Chaque piste est une spécialisation : une même classe peut en proposer deux quand elles te correspondent, la troisième place revenant alors à une autre classe.</p>';
+  // Rangs et égalités entre les pistes affichées (le top 3 peut sauter une troisième spécialisation d'une même classe).
+  var positions=X?X.ranks(report.top):[],tie=X?X.tieNote(report.results):'';
   if(tie)h+='<p class="reco-note reco-tie-note">'+esc(tie)+'</p>';
   if(X)X.contextNotes({profile:state}).forEach(function(note){h+='<p class="reco-note">'+esc(note)+'</p>';});
   h+='<div class="reco-cards">'+report.top.map(function(r,i){return resultCard(r,i,positions[i],hesitations(report));}).join('')+'</div>';

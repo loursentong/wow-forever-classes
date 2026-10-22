@@ -41,9 +41,10 @@ test('Chaque façon de soigner désigne la configuration dont c’est le point f
  assert.equal(results('cible')[0].spec.id,'paladin-sacre');
  const groupe=results('groupe');
  assert.deepEqual(groupe.filter(r=>r.score===groupe[0].score).map(r=>r.spec.id),['chaman-restauration','pretre-sacre']);
- // Sans façon de soigner, les quatre classes de soin restent à égalité, comme en v7.
+ // Sans façon de soigner, les quatre classes de soin restent à égalité, comme en v7 ; depuis la v10,
+ // leurs cinq configurations de soin sont classées (le Prêtre en a deux).
  const none=E.recommend({roles:{soin:5},rolesStrict:true}).results;
- assert.equal(none.length,4);
+ assert.equal(none.length,5);assert.equal(new Set(none.map(r=>r.spec.classId)).size,4);
  assert.ok(none.every(r=>r.score===none[0].score));
 });
 

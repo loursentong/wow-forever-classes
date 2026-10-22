@@ -32,6 +32,7 @@ test('Révision éditoriale : seules les trois notes approuvées changent',()=>{
  for(const c of matrix)for(const role of E.roles)assert.equal(E.roleReference[c.id][role],c.r[role]);
 });
 
+const firstOfEachClass=rows=>rows.filter((r,i)=>rows.findIndex(q=>(q.classId||q.spec.classId)===(r.classId||r.spec.classId))===i);
 test('Soin seul : Paladin et Chaman à 100 au niveau Confirmé, seuls leurs soigneurs en bénéficient',()=>{
  const result=E.priorityRanking({soin:3},2);
  for(const id of ['paladin','chaman']){
@@ -51,7 +52,8 @@ test('Soin seul : Paladin et Chaman à 100 au niveau Confirmé, seuls leurs soig
   const expected=v1.isolatedRoles.find(x=>x.mastery===2).axes.find(x=>x.axis===role).results;
   assert.deepEqual(rows.map(r=>[r[0],r[2]]),expected.map(r=>[r[0],r[2]]));
  }
- assert.deepEqual(E.priorityRanking({tank:3},2).results.map(r=>[r.classId,r.score]),
+ // Depuis la v10, chaque configuration est classée : la première de chaque classe suit la v3.
+ assert.deepEqual(firstOfEachClass(E.priorityRanking({tank:3},2).results).map(r=>[r.classId,r.score]),
   v3.isolatedRoles.find(x=>x.mastery===2).axes.find(x=>x.axis==='tank').results.map(r=>[r[0],r[2]]));
 });
 
