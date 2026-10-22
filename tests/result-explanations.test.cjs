@@ -3,6 +3,7 @@ const test=require('node:test'),assert=require('node:assert/strict');
 const E=require('../recommendation-engine.js');
 const X=require('../result-explanations.js');
 // fit et score d'une piste, tels que le classement les donne à la carte.
+const near=(a,b)=>assert.ok(Math.abs(a-b)<1e-9,a+' ≠ '+b);
 const fitScore=ex=>{const r=E.ranking(ex.profile).results.find(x=>x.spec.id===ex.spec.id);return [r.fit,r.score];};
 
 test('Égalités : rang partagé exact, sans transformer un arrondi commun en égalité',()=>{
@@ -168,7 +169,12 @@ test('Pourquoi cette place : priorité en mots, part de chaque critère dans son
   ['Finesse est notée 4/5 pour cette activité, 4,4/5 avec ta maîtrise (expert).','Priorité essentielle (3)','Elle y répond bien (84\u00a0%).']);
  assert.equal(axes.find(a=>a.key==='tech').lines[0].text,'Finesse est notée 5/5 en difficulté PvP.');
  assert.equal(E.priorityExplain('voleur-finesse',{tech:2,solo:3},3).axes.find(a=>a.key==='tech').context,'pve');
- assert.equal(X.priorityParts(E.priorityExplain('voleur-finesse',{tech:2},3),0)[0].axes[0].lines[0].text,'Finesse est notée 4/5 en difficulté (moyenne PvE et PvP).');
+ // Sans critère d'activité ni de rôle (contexte mixte), la technicité se lit en PvE puis en PvP, chacune pour moitié.
+ const mixte=X.priorityParts(E.priorityExplain('voleur-finesse',{tech:2},3),0)[0];
+ assert.deepEqual(mixte.axes.map(a=>[a.label,a.lines[0].text,a.lines[2].text]),[
+  ['Technicité · PvE','Finesse est notée 3/5 en difficulté PvE.','Elle y répond en partie (50\u00a0%).'],
+  ['Technicité · PvP','Finesse est notée 5/5 en difficulté PvP.','Elle y répond pleinement (100\u00a0%).']]);
+ assert.equal(mixte.note,'Technicité : sans critère d’activité ni de rôle, moyenne des deux (50\u00a0% en PvE, 100\u00a0% en PvP).');
  assert.deepEqual(groups.map(g=>g.note),['Tes 2 critères ont la même priorité : ils comptent autant.','Tes 2 critères ont la même priorité : ils comptent autant.','']);
  assert.equal(X.priorityMissing(ex,ex.score),'Il lui manque 4 points, tous sur les activités (Champ de bataille).');
  // Priorités différentes dans un groupe ; rôle non joué ; polyvalence ; aucun point manquant.
@@ -225,4 +231,39 @@ test('Pourquoi cette place : le bilan va aussi du groupe qui perd le plus à cel
    assert.deepEqual(items,items.slice().sort((a,b)=>b-a),summary);
   }
  }
+});
+
+/* Révision du 22 octobre 2026, soir : quand la difficulté retenue est la moyenne du PvE et du PvP (activités
+ * des deux types, ou aucune), « Complexité » et « Technicité » se lisent en deux blocs, PvE puis PvP. */
+test('Complexité et technicité : PvE et PvP séparés quand la difficulté retenue est leur moyenne',()=>{
+ // La trace du moteur donne la part PvE et la part PvP ; leur moyenne est exactement la valeur du calcul.
+ for(const s of E.specs)for(const value of ['simple','complex'])for(const certainty of [0,3,5])for(const activities of [{},{raid:3,bg:4},{solo:2,world:5}]){
+  const d=E.explain(s.id,{difficulty:{value,certainty},activities}).answers.find(a=>a.domain==='difficulty');
+  assert.equal(d.context,'mixte');
+  near((d.contexts.pve.raw+d.contexts.pvp.raw)/2,d.raw);near((d.contexts.pve.fit+d.contexts.pvp.fit)/2,d.fit);
+  assert.deepEqual([d.contexts.pve.load,d.contexts.pvp.load],[s.load.pve,s.load.pvp]);
+ }
+ // PvE seul ou PvP seul : une seule difficulté, pas de partage.
+ for(const activities of [{raid:4},{bg:3,world:2}]){
+  const d=E.explain('voleur-finesse',{difficulty:{value:'complex',certainty:5},activities}).answers.find(a=>a.domain==='difficulty');
+  assert.equal(d.contexts,undefined);assert.equal(d.context,activities.raid?'pve':'pvp');
+ }
+ // La capture du 22 octobre : Voleur Finesse, difficulté exigeante (certitude 4/5), activités PvE et PvP.
+ const p={roles:{dps:5},activities:{bg:5,raid:3},styles:{ctrl:5},difficulty:{value:'complex',certainty:4},mastery:3};
+ const ex=E.explain('voleur-finesse',p),g=X.pisteParts(ex,...fitScore(ex)).find(x=>x.key==='difficulty');
+ assert.equal(g.fit,71);
+ assert.equal(g.note,'Tes activités mêlent PvE et PvP : moyenne des deux, 50\u00a0% en PvE et 93\u00a0% en PvP.');
+ assert.deepEqual(g.answers.map(a=>[a.label,...a.lines.map(l=>l.text)]),[
+  ['Difficulté exigeante · PvE','Finesse est notée 3/5 en difficulté PvE.','Très sûr (certitude 4/5)','Elle y répond en partie (50\u00a0%).'],
+  ['Difficulté exigeante · PvP','Finesse est notée 5/5 en difficulté PvP.','Très sûr (certitude 4/5)','Elle y répond pleinement (100\u00a0%), adouci à 93\u00a0% par ta certitude.']]);
+ // « À garder en tête » sépare aussi les deux ; sans activité, la note le dit.
+ const alone=E.explain('voleur-finesse',{difficulty:{value:'complex',certainty:5},mastery:2});
+ assert.equal(X.keepInMind(alone),'Le Voleur Finesse répond en partie à ton choix « Difficulté exigeante » en PvE (difficulté notée 3/5) et y répond pleinement en PvP (5/5) : c’est la seule chose qui lui coûte des points (25 sur la complexité).');
+ assert.equal(X.pisteParts(alone,...fitScore(alone))[0].note,'Sans activité choisie : moyenne du PvE et du PvP, 50\u00a0% en PvE et 100\u00a0% en PvP.');
+ // Mode personnalisé : la technicité se partage de même, et sa moyenne est la valeur du calcul.
+ for(const w of [{tech:2},{tech:3,bg:2,solo:1},{tech:1,sauv:2,dps:3}])for(const s of E.specs){
+  const t=E.priorityExplain(s.id,w,2).axes.find(a=>a.key==='tech');
+  assert.equal(t.context,'mixte');near((t.contexts.pve.raw+t.contexts.pvp.raw)/2,t.raw);
+ }
+ assert.equal(E.priorityExplain('voleur-finesse',{tech:2,bg:3},2).axes.find(a=>a.key==='tech').contexts,undefined);
 });

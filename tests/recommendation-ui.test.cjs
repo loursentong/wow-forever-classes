@@ -105,6 +105,17 @@ test('Niveau actuel et complexité souhaitée sont indépendants et persistants'
  assert.match(saved.form.innerHTML,/data-single="difficulty" data-key="complex" aria-pressed="true"/);
  assert.equal(saved.window.WFGuide.getMastery(),0);
 });
+test('Complexité en PvE et en PvP : deux blocs quand les activités mêlent les deux',()=>{
+ const h=createHarness();
+ h.press('multi','roles','dps');
+ h.choose('activities','raid');h.choose('activities','bg');
+ h.step(5);h.single('difficulty','complex');
+ h.step(1);h.reveal();
+ assert.match(h.results.innerHTML,/Tes activités mêlent PvE et PvP : moyenne des deux, \d+\u00a0% en PvE et \d+\u00a0% en PvP\./);
+ assert.match(h.results.innerHTML,/<b class="reco-answer-title">Difficulté exigeante · PvE<\/b><dl class="reco-answer-steps"><div><dt>La spécialisation<\/dt><dd>[^<]+ est notée \d\/5 en difficulté PvE\.<\/dd>/);
+ assert.match(h.results.innerHTML,/<b class="reco-answer-title">Difficulté exigeante · PvP<\/b><dl class="reco-answer-steps"><div><dt>La spécialisation<\/dt><dd>[^<]+ est notée \d\/5 en difficulté PvP\.<\/dd>/);
+ assert.doesNotMatch(h.results.innerHTML,/moyenne PvE et PvP\)\./);
+});
 test('Réinitialisation, navigation et localStorage corrompu',()=>{
  const h=createHarness({'wf-recommend-v1':'INVALID JSON'});
  assert.match(h.results.innerHTML,/Tout commence par tes envies/);

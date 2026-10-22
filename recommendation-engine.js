@@ -248,6 +248,15 @@ function specFit(s,p,trace){
     var load=difficultyLoad(s,p);var v=p.difficulty.value==='simple'?(5-load)/4:(load-1)/4;
     parts.difficulty={value:preferenceFit(v,p.difficulty.certainty),weight:.05};
     record('difficulty',p.difficulty.value,v,v,p.difficulty.certainty);
+    // Pour l'explication seulement : le contexte retenu et, s'il est mixte, la part PvE et la part PvP.
+    // Le calcul étant linéaire, leur moyenne est exactement la valeur ci-dessus ; aucun score ne change.
+    if(trace){
+      var drow=trace[trace.length-1],dctx=difficultyContext(p);drow.context=dctx;
+      if(dctx==='mixte')drow.contexts=['pve','pvp'].reduce(function(o,k){
+        var r=p.difficulty.value==='simple'?(5-s.load[k])/4:(s.load[k]-1)/4;
+        o[k]={load:s.load[k],raw:r,fit:preferenceFit(r,p.difficulty.certainty)};return o;
+      },{});
+    }
   }
   var denom=Object.keys(parts).reduce(function(t,k){return t+parts[k].weight;},0);
   var value=denom?Object.keys(parts).reduce(function(t,k){return t+parts[k].value*parts[k].weight;},0)/denom:null;
@@ -417,7 +426,9 @@ function priorityFit(s,w,m,active,trace){
       if(PRIORITY_ACTIVITY[k]){row.note=s.activity[PRIORITY_ACTIVITY[k]];row.adjusted=adjustedActivity(s,PRIORITY_ACTIVITY[k],m);}
       if(PRIORITY_STYLE[k]){row.note=s.style[PRIORITY_STYLE[k]];row.adjusted=adjustedStyle(s,PRIORITY_STYLE[k],m);}
       if(k==='poly')row.roles=rolePool(s.classId).length;
-      if(k==='tech'){row.load=techLoad(s,ctx);row.context=ctx;}
+      if(k==='tech'){row.load=techLoad(s,ctx);row.context=ctx;
+        // Pour l'explication seulement : en contexte mixte, la part PvE et la part PvP (moyenne exacte de raw).
+        if(ctx==='mixte')row.contexts={pve:{load:s.load.pve,raw:clamp((s.load.pve-1)/4,0,1)},pvp:{load:s.load.pvp,raw:clamp((s.load.pvp-1)/4,0,1)}};}
       trace.push(row);
     });
   }

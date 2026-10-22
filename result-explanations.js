@@ -123,14 +123,28 @@
   if(axes.every(function(a){return a.weight===axes[0].weight;}))return 'Tes '+axes.length+' critères ont la même priorité : ils comptent autant.';
   return 'Chaque critère compte selon ta priorité : '+list(axes.map(function(a){return priorityAxisNames[a.key]+' '+percent(a.share);}))+'.';
  }
+ /* PvE et PvP séparés (révision du 22 octobre 2026, soir) : quand la difficulté retenue est la moyenne des
+  * deux (contexte mixte), l'explication les montre l'une après l'autre, chacune comptant pour moitié ; la
+  * trace du moteur en donne les valeurs (`contexts`), dont la moyenne est exactement celle du calcul. */
+ var contextNames={pve:'PvE',pvp:'PvP'};
+ function priorityTechNote(a,ex){
+  var w=ex&&ex.weights||{},criteria=w.bg>0||w.sauv>0||w.solo>0||w.tank>0||w.soin>0||w.dps>0;
+  return 'Technicité : '+(criteria?'tes critères mêlent PvE et PvP':'sans critère d’activité ni de rôle')+', moyenne des deux ('+
+   percent(a.contexts.pve.raw)+' en PvE, '+percent(a.contexts.pvp.raw)+' en PvP).';
+ }
  function priorityParts(ex,score){
   if(!ex)return [];
   return scoreParts(ex.parts,score,priorityGroups,priorityGroupNames).map(function(g){
    var axes=ex.axes.filter(function(a){return a.group===g.key;});
-   g.note=priorityGroupNote(axes);
-   g.axes=axes.map(function(a){
-    var l=priorityAxisLines(a,ex);
-    return {key:a.key,label:priorityAxisNames[a.key],lines:l,text:l.map(function(x){return x.lead+' : '+x.text;}).join(' ')};
+   g.note=[priorityGroupNote(axes)].concat(axes.filter(function(a){return a.contexts;}).map(function(a){return priorityTechNote(a,ex);})).filter(Boolean).join(' ');
+   g.axes=[];
+   axes.forEach(function(a){
+    (a.contexts?['pve','pvp'].map(function(k){
+     var c=a.contexts[k];return {axis:{group:a.group,key:a.key,weight:a.weight,share:a.share,raw:c.raw,load:c.load,context:k},label:priorityAxisNames[a.key]+' · '+contextNames[k]};
+    }):[{axis:a,label:priorityAxisNames[a.key]}]).forEach(function(x){
+     var l=priorityAxisLines(x.axis,ex);
+     g.axes.push({key:a.key,label:x.label,lines:l,text:l.map(function(y){return y.lead+' : '+y.text;}).join(' ')});
+    });
    });
    return g;
   });
@@ -199,8 +213,9 @@
    n.spec+' se joue '+((a.raw>=1)===(a.key==='distance')?'à distance':'en mêlée')+'.';
   else if(a.domain==='pet')spec=petLine(a,s);
   else{
-   var load=a.key==='simple'?5-4*a.raw:1+4*a.raw,ctx=difficultyContext(p);
-   spec=n.spec+' est notée '+number(load)+'/5 en difficulté '+(ctx==='pve'?'PvE':ctx==='pvp'?'PvP':'(moyenne PvE et PvP)')+'.';
+   // Difficulté : la note de la trace (contexte PvE, PvP, ou part PvE / PvP d'un contexte mixte).
+   var load=a.load!==undefined?a.load:a.key==='simple'?5-4*a.raw:1+4*a.raw,ctx=a.context||difficultyContext(p);
+   spec=n.spec+' est notée '+number(load)+'/5 en difficulté '+(contextNames[ctx]||'(moyenne PvE et PvP)')+'.';
   }
   var multi=a.domain==='roles'&&Object.keys(p.roles||{}).length>1;
   var choice=capital(certaintyWords[Math.round(a.certainty)])+' (certitude '+(multi?'moyenne ':'')+number(a.certainty)+'/5)';
@@ -225,7 +240,19 @@
  function pisteParts(ex,fit,score){
   if(!ex)return [];
   return scoreParts(fit,score).map(function(g){
-   var answers=ex.answers.filter(function(a){return a.domain===g.key;});
+   var answers=ex.answers.filter(function(a){return a.domain===g.key;}),mixed=answers.length===1&&answers[0].contexts;
+   if(mixed){
+    // Complexité en contexte mixte : la part PvE puis la part PvP, chacune avec ses trois lignes.
+    var a=answers[0],acts=Object.keys(ex.profile&&ex.profile.activities||{}).length;
+    g.note=(acts?'Tes activités mêlent PvE et PvP : moyenne des deux, ':'Sans activité choisie : moyenne du PvE et du PvP, ')+
+     percent(a.contexts.pve.fit)+' en PvE et '+percent(a.contexts.pvp.fit)+' en PvP.';
+    g.answers=['pve','pvp'].map(function(k){
+     var c=a.contexts[k];
+     return {label:answerLabel(a,ex.profile)+' · '+contextNames[k],
+      lines:answerLines({domain:a.domain,key:a.key,certainty:a.certainty,raw:c.raw,fit:c.fit,load:c.load,context:k},ex)};
+    });
+    return g;
+   }
    g.note=answers.length>1?'Moyenne de tes '+answers.length+' choix : '+list(answers.map(function(a){return percent(a.fit);}))+'.':'';
    g.answers=answers.map(function(a){return {label:answerLabel(a,ex.profile),lines:answerLines(a,ex)};});
    return g;
@@ -312,8 +339,16 @@
   }
   // Difficulté : une note haute n'est ni bonne ni mauvaise en soi, elle dépend de ton choix ; la phrase dit
   // donc à quel point la spécialisation y répond (le mot du constat), puis sa note de difficulté.
-  var load=a.key==='simple'?5-4*a.raw:1+4*a.raw,ctx=difficultyContext(p);
-  return le+(l==='pas'?' ne répond pas':' répond '+l)+' à ton choix « '+choiceLabel(a,p)+' » (difficulté notée '+number(load)+'/5 '+
+  var choice=' à ton choix « '+choiceLabel(a,p)+' »';
+  if(a.contexts){
+   // Contexte mixte : PvE et PvP séparés, comme dans « Pourquoi cette piste ».
+   var e1=a.contexts.pve,e2=a.contexts.pvp,l1=level(e1.raw),l2=level(e2.raw);
+   if(number(e1.load)===number(e2.load))return le+(l1==='pas'?' ne répond pas':' répond '+l1)+choice+' (difficulté notée '+number(e1.load)+'/5 en PvE comme en PvP)';
+   return le+(l1==='pas'?' ne répond pas':' répond '+l1)+choice+' en PvE (difficulté notée '+number(e1.load)+'/5) et '+
+    (l2==='pas'?'n’y répond pas':'y répond '+l2)+' en PvP ('+number(e2.load)+'/5)';
+  }
+  var load=a.load!==undefined?a.load:a.key==='simple'?5-4*a.raw:1+4*a.raw,ctx=a.context||difficultyContext(p);
+  return le+(l==='pas'?' ne répond pas':' répond '+l)+choice+' (difficulté notée '+number(load)+'/5 '+
    (ctx==='pve'?'en PvE':ctx==='pvp'?'en PvP':'en moyenne PvE et PvP')+')';
  }
  function keepInMind(ex,fit,score){
