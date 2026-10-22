@@ -31,6 +31,21 @@ test('Top 3 : au plus deux spécialisations d’une même classe, la troisième 
  assert.ok(hunters.scenarios.every(s=>s.top.every(id=>E.specs.some(x=>x.id===id))),'les scénarios citent des spécialisations');
 });
 
+test('Nombre de pistes : trois par défaut (référence v10), cinq dans l’interface, toujours deux au plus par classe',()=>{
+ const p={styles:{mob:5,surv:5}};
+ assert.equal(E.recommend(p).top.length,3);
+ const five=E.recommend(p,5);
+ assert.deepEqual(five.top.map(x=>x.spec.id),E.topPicks(five.results,5).map(x=>x.spec.id));
+ assert.equal(five.top.length,5);
+ const count={};for(const t of five.top)count[t.classId]=(count[t.classId]||0)+1;
+ assert.ok(Object.values(count).every(n=>n<=2));
+ // La stabilité se compte parmi les cinq premières pistes de chaque scénario.
+ assert.ok(five.scenarios.every(s=>s.top.length<=5));
+ for(const t of five.top)assert.ok(t.scenarioAppearances<=t.scenarioCount);
+ assert.equal(E.recommend(p,0).top.length,3,'un nombre invalide revient à trois');
+ assert.equal(E.recommend({roles:{tank:5},rolesStrict:true},50).top.length,E.ranking({roles:{tank:5},rolesStrict:true}).results.length);
+});
+
 test('Mode personnalisé : les 28 configurations sont classées',()=>{
  const r=E.priorityRanking({ctrl:3},2);
  assert.equal(r.results.length,28);

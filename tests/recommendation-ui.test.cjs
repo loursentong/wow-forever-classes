@@ -267,7 +267,15 @@ test('Pourquoi cette piste remplace « Fiabilité et incertitude » : critères,
  h.step(1);h.press('multi','activities','raid');
  h.reveal();
  assert.doesNotMatch(h.results.innerHTML,/Fiabilité et incertitude/);
- assert.equal((h.results.innerHTML.match(/<summary>Pourquoi cette piste<\/summary>/g)||[]).length,3);
+ // Cinq pistes détaillées (au plus deux d'une même classe), puis le classement complet sur demande.
+ assert.equal((h.results.innerHTML.match(/<summary>Pourquoi cette piste<\/summary>/g)||[]).length,5);
+ assert.equal((h.results.innerHTML.match(/class="reco-result-card/g)||[]).length,5);
+ assert.match(h.results.innerHTML,/Tes 5 meilleures pistes\./);
+ assert.match(h.results.innerHTML,/data-reco-full>Voir le classement complet des 28 spécialisations</);
+ const classes=[...h.results.innerHTML.matchAll(/<h4>([^<]+)<\/h4>/g)].map(m=>m[1]),count={};
+ for(const c of classes)count[c]=(count[c]||0)+1;
+ assert.ok(Object.values(count).every(n=>n<=2),JSON.stringify(count));
+ assert.match(h.results.innerHTML,/Cette spécialisation reste dans tes cinq premières pistes dans \d+ cas sur \d+/);
  assert.match(h.results.innerHTML,/reco-why-parts[\s\S]*Rôles[\s\S]*Activités/);
  assert.match(h.results.innerHTML,/retiré chacune de tes réponses les plus hésitantes \(Soin\)/);
  assert.match(h.results.innerHTML,/fiches-sources\/chaman\.html#chaman-restauration/);

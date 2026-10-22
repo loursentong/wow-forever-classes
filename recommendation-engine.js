@@ -317,15 +317,18 @@ function perturbations(p){
   }
   return out;
 }
-function recommend(profile){
+/* `count` pistes (3 par défaut, valeur de la photographie de référence) ; l'interface du parcours guidé
+ * en demande cinq. La stabilité d'une piste est sa présence parmi les `count` premières de chaque scénario. */
+function recommend(profile,count){
+  var n=Number.isInteger(count)&&count>=1?Math.min(count,specs.length):3;
   var base=ranking(profile);
   if(base.status!=='ok')return Object.assign({},base,{top:[],scenarios:[],uncertain:[]});
   var scenarios=perturbations(base.profile);
   var probes=scenarios.map(function(s){return {label:s.label,ranking:ranking(s.profile)};});
   var active=probes.filter(function(x){return x.ranking.status==='ok';});
-  var top=topPicks(base.results,3).map(function(r){
-    // Stabilité par spécialisation : sa présence dans le top 3 de chaque scénario admissible.
-    var appearances=active.filter(function(x){return topPicks(x.ranking.results,3).some(function(q){return q.spec.id===r.spec.id;});}).length;
+  var top=topPicks(base.results,n).map(function(r){
+    // Stabilité par spécialisation : sa présence parmi les n premières pistes de chaque scénario admissible.
+    var appearances=active.filter(function(x){return topPicks(x.ranking.results,n).some(function(q){return q.spec.id===r.spec.id;});}).length;
     var sorted=Object.keys(r.fit).sort(function(a,b){return r.fit[b].value-r.fit[a].value;});
     var positives=sorted.filter(function(k){return r.fit[k].value>=.56;}).slice(0,2);
     var negatives=sorted.slice().reverse().filter(function(k){return r.fit[k].value<.55;}).slice(0,2);
@@ -334,7 +337,7 @@ function recommend(profile){
       scenarioAppearances:appearances,reliability:'Estimation éditoriale (niveau 60 non observé)',
       note:'Classe et spécialisation recommandées pour les réponses déclarées, sans probabilité calibrée.'};
   });
-  return Object.assign({},base,{top:top,scenarios:probes.map(function(x){return {name:x.label,status:x.ranking.status,top:topPicks(x.ranking.results,3).map(function(r){return r.spec.id;})};}),
+  return Object.assign({},base,{top:top,scenarios:probes.map(function(x){return {name:x.label,status:x.ranking.status,top:topPicks(x.ranking.results,n).map(function(r){return r.spec.id;})};}),
     uncertain:scenarios.slice(1).map(function(x){return x.label;})});
 }
 /* Classement à 14 priorités : même inventaire de spécialisations que le parcours guidé.

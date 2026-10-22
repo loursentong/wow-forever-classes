@@ -126,8 +126,8 @@ async function check(){
   assert.ok(sous(placed),'Aperçu fermé sous la question, même largeur : '+JSON.stringify(placed));
   assert.ok(placed.summary.left+placed.summary.width<=placed.form.left+2,'« Mes choix » à gauche : '+JSON.stringify(placed));
   await page.locator('[data-reco-reveal]').click();
-  assert.equal(await page.locator('#reco-results .reco-result-card').count(),3);
-  assert.equal(await page.locator('#reco-results .reco-config-details').count(),3);
+  assert.equal(await page.locator('#reco-results .reco-result-card').count(),5);
+  assert.equal(await page.locator('#reco-results .reco-config-details').count(),5);
   const guideDetails=page.locator('#reco-results .reco-config-details').first();
   await guideDetails.locator('summary').focus();
   await page.keyboard.press('Enter');
@@ -161,7 +161,7 @@ async function check(){
   placed=await place();
   assert.ok(sous(placed),'Résultats masqués : même place, sous la question '+JSON.stringify(placed));
   await page.locator('[data-reco-reveal]').click();
-  assert.equal(await page.locator('#reco-results .reco-result-card').count(),3);
+  assert.equal(await page.locator('#reco-results .reco-result-card').count(),5);
   await page.locator('[data-step="4"]').click();
   assert.match(await page.locator('#reco-form').textContent(),/Quelle place pour les familiers/);
   await page.locator('[data-prev]').click();
@@ -415,7 +415,13 @@ async function check(){
   await page.locator('[data-reco-mode="guided"]').click();
   await page.locator('[data-step="5"]').click();
   await page.locator('[data-show-results]').click();
-  assert.deepEqual(await page.locator('#reco-results .reco-result-card h4').allTextContents(),['Druide','Druide','Chaman']);
+  const cards=await page.locator('#reco-results .reco-result-card h4').allTextContents();
+  assert.equal(cards.length,5);assert.deepEqual(cards.slice(0,3),['Druide','Druide','Chaman']);
+  assert.ok(cards.filter(c=>c==='Druide').length===2,'jamais trois Druides : '+cards);
+  // Le classement complet s'ouvre depuis les résultats.
+  await page.locator('[data-reco-full]').click();
+  assert.equal(await page.locator('#reco-live').evaluate(d=>d.open),true);
+  assert.ok(await page.locator('#reco-live-body li').count()>10);
   await page.locator('#reco-results').screenshot({path:path.join(__dirname,'screenshots','v10-deux-druides.png'),animations:'disabled'});
   await page.locator('[data-reco-mode="priorities"]').click();
   await page.locator('[data-prio-preset="controle"]').click();
@@ -467,7 +473,7 @@ async function check(){
   await page.locator('[data-show-results]').click();
   assert.match(await page.locator('#reco-results .reco-tie-note').textContent(),/Chaman Restauration, Druide Restauration, Paladin Sacré, Prêtre Discipline, Prêtre Sacré/);
   assert.equal(await page.locator('#reco-results .reco-featured').count(),0);
-  assert.equal(await page.locator('#reco-results .reco-result-card').count(),3);
+  assert.equal(await page.locator('#reco-results .reco-result-card').count(),5);
   assert.match(await page.locator('#reco-results').textContent(),/préciser ta façon de soigner à la question 1/);
   // Lot 3 : la façon de soigner, sous-question facultative du rôle Soin, départage les soigneurs.
   await page.locator('[data-step="0"]').click();
