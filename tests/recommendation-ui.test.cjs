@@ -112,8 +112,9 @@ test('Complexité en PvE et en PvP : deux blocs quand les activités mêlent les
  h.step(5);h.single('difficulty','complex');
  h.step(1);h.reveal();
  assert.match(h.results.innerHTML,/Tes activités mêlent PvE et PvP : moyenne des deux, \d+\u00a0% en PvE et \d+\u00a0% en PvP\./);
- assert.match(h.results.innerHTML,/<b class="reco-answer-title">Difficulté exigeante · PvE<\/b><dl class="reco-answer-steps"><div><dt>La spécialisation<\/dt><dd>[^<]+ est notée \d\/5 en difficulté PvE\.<\/dd>/);
- assert.match(h.results.innerHTML,/<b class="reco-answer-title">Difficulté exigeante · PvP<\/b><dl class="reco-answer-steps"><div><dt>La spécialisation<\/dt><dd>[^<]+ est notée \d\/5 en difficulté PvP\.<\/dd>/);
+ // Depuis la v11, chaque ligne dit aussi ce qui pèse dans cette difficulté (référentiel de complexité).
+ assert.match(h.results.innerHTML,/<b class="reco-answer-title">Difficulté exigeante · PvE<\/b><dl class="reco-answer-steps"><div><dt>La spécialisation<\/dt><dd>[^<]+ est notée \d\/5 en difficulté PvE : [^<]+ (pèse|pèsent) (beaucoup|un peu)[^<]*\.<\/dd>/);
+ assert.match(h.results.innerHTML,/<b class="reco-answer-title">Difficulté exigeante · PvP<\/b><dl class="reco-answer-steps"><div><dt>La spécialisation<\/dt><dd>[^<]+ est notée \d\/5 en difficulté PvP : [^<]+ (pèse|pèsent) (beaucoup|un peu)[^<]*\.<\/dd>/);
  assert.doesNotMatch(h.results.innerHTML,/moyenne PvE et PvP\)\./);
 });
 test('Réinitialisation, navigation et localStorage corrompu',()=>{

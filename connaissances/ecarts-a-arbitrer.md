@@ -1,6 +1,6 @@
 # Écarts à arbitrer
 
-> Base de connaissances du 2026-10-21, moteur `1.0.7-exploratoire`. Un écart **tranché** porte sa décision, appliquée au moteur ;
+> Base de connaissances du 2026-10-21, moteur `1.1.0-exploratoire`. Un écart **tranché** porte sa décision, appliquée au moteur ;
 > un écart **ouvert** attend des données ou une décision. Les arguments restent à apprécier dans leur contexte : ils ne prouvent pas tous une erreur de note.
 
 ## Tranchés
@@ -39,7 +39,5 @@
 - **Démoniste Affliction** · Solo et farm : Spécialisation conseillée pour le leveling, mais notée 4 sous Démonologie (5).
 - **Voleur Combat** · Résistance : Noté au-dessus d’Assassinat et Finesse grâce à « Deflection », alors que Kami juge sa survie la plus limitée une fois découvert.
 - **Prêtre Ombre** · Soutien : Les développeurs ont réduit son utilité de raid (batterie de mana retirée) avant d’ajouter « Dark Inspiration » le 15 octobre.
-- **Guerrier Armes** · Difficulté PvE : Notée 2, alors que la rotation simulée est parmi les plus chargées (23 sorts, environ 250 conditions) ; la simulation compte les optimisations d’un jeu parfait.
-- **Voleur (les trois)** · Difficulté PvE : Notes de 2 à 3, alors que la rotation simulée est la plus chargée en décisions (21 sorts, plus de 500 conditions, une seule liste pour les trois spécialisations).
 
 Les appuis de chaque écart (identifiants de faits) sont dans `ecarts.json` ; les faits et leurs sources, dans `classes/` et `sources.json`.

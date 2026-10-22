@@ -11,7 +11,8 @@
  * qui compare les configurations de soin quand le joueur demande ce rôle ; v9 compare les builds avec et
  * sans compagnon et applique l'envie de soin à toutes les pistes ; v10 classe les spécialisations (une
  * classe peut revenir, au plus deux fois dans le top 3 guidé) et fait suivre à la technicité les
- * critères d'activité (PvE, PvP ou moyenne).
+ * critères d'activité (PvE, PvP ou moyenne) ; v11 fait suivre à la difficulté d'exécution PvE et PvP le
+ * référentiel de complexité (grille de cinq composantes par contexte), partout où elle sert.
  * Ne JAMAIS régénérer ces valeurs sur un échec de CI sans revue explicite des
  * écarts, approbation du changement et nouvelle version documentée.
  */
@@ -20,7 +21,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
 const E=require('../recommendation-engine.js');
-const fixture=require('./fixtures/moteur-reference-v10.json');
+const fixture=require('./fixtures/moteur-reference-v11.json');
 const html=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
 const questionnaire=fs.readFileSync(path.join(__dirname,'..','questionnaire.js'),'utf8');
 const prioritiesUI=fs.readFileSync(path.join(__dirname,'..','priorities-ui.js'),'utf8');
@@ -81,8 +82,8 @@ test('CODEx: référence de rôle toujours liée aux notes historiques',()=>{
   assert.ok(Math.abs(E.roleSuitability(s,2)-(.55*baseline+.45*activity))<1e-12,s.id);
  }
 });
-test('CODEx: 37 scénarios guidés — statut, spécialisations, scores, top 3, sensibilité, vétos, variantes sans familier, difficulté et soin',()=>{
- assert.equal(fixture.guide.length,37);
+test('CODEx: 41 scénarios guidés — statut, spécialisations, scores, top 3, sensibilité, vétos, variantes sans familier, difficulté et soin',()=>{
+ assert.equal(fixture.guide.length,41);
  for(const ex of fixture.guide){
   const actual=compactGuide(ex.profile);
   assert.deepEqual(actual,{

@@ -156,7 +156,8 @@ test('Pourquoi cette piste : la spécialisation nommée et sa note, ton choix en
 
 test('Pourquoi cette place : priorité en mots, part de chaque critère dans son groupe, points manquants',()=>{
  // L'exemple du Voleur : Champ de bataille et PvP sauvage essentiels, Contrôle, Mobilité et Technicité importants, maîtrise Expert.
- // Depuis la v10, la technicité suit ces critères PvP : Finesse y est notée 5/5 (3/5 en PvE), le score passe de 92 à 96.
+ // Depuis la v10, la technicité suit ces critères PvP : Finesse y est notée 5/5, le score passe de 92 à 96.
+ // Depuis la v11, la ligne dit aussi ce qui pèse dans cette difficulté (référentiel de complexité ; Finesse 4/5 en PvE).
  const w={bg:3,sauv:3,ctrl:2,mob:2,tech:2},ex=E.priorityExplain('voleur-finesse',w,3);
  const groups=X.priorityParts(ex,ex.score),axes=groups.flatMap(g=>g.axes);
  assert.equal(Math.round(ex.score),96);
@@ -167,14 +168,14 @@ test('Pourquoi cette place : priorité en mots, part de chaque critère dans son
  }
  assert.deepEqual(axes.find(a=>a.key==='bg').lines.map(l=>l.text),
   ['Finesse est notée 4/5 pour cette activité, 4,4/5 avec ta maîtrise (expert).','Priorité essentielle (3)','Elle y répond bien (84\u00a0%).']);
- assert.equal(axes.find(a=>a.key==='tech').lines[0].text,'Finesse est notée 5/5 en difficulté PvP.');
+ assert.equal(axes.find(a=>a.key==='tech').lines[0].text,'Finesse est notée 5/5 en difficulté PvP : les contrôles, la défense, le placement et l’ouverture pèsent beaucoup ; le pilotage, un peu.');
  assert.equal(E.priorityExplain('voleur-finesse',{tech:2,solo:3},3).axes.find(a=>a.key==='tech').context,'pve');
  // Sans critère d'activité ni de rôle (contexte mixte), la technicité se lit en PvE puis en PvP, chacune pour moitié.
  const mixte=X.priorityParts(E.priorityExplain('voleur-finesse',{tech:2},3),0)[0];
  assert.deepEqual(mixte.axes.map(a=>[a.label,a.lines[0].text,a.lines[2].text]),[
-  ['Technicité · PvE','Finesse est notée 3/5 en difficulté PvE.','Elle y répond en partie (50\u00a0%).'],
-  ['Technicité · PvP','Finesse est notée 5/5 en difficulté PvP.','Elle y répond pleinement (100\u00a0%).']]);
- assert.equal(mixte.note,'Technicité : sans critère d’activité ni de rôle, moyenne des deux (50\u00a0% en PvE, 100\u00a0% en PvP).');
+  ['Technicité · PvE','Finesse est notée 4/5 en difficulté PvE : la rotation, les effets à entretenir et la gestion de la ressource pèsent beaucoup ; le placement, un peu.','Elle y répond bien (75\u00a0%).'],
+  ['Technicité · PvP','Finesse est notée 5/5 en difficulté PvP : les contrôles, la défense, le placement et l’ouverture pèsent beaucoup ; le pilotage, un peu.','Elle y répond pleinement (100\u00a0%).']]);
+ assert.equal(mixte.note,'Technicité : sans critère d’activité ni de rôle, moyenne des deux (75\u00a0% en PvE, 100\u00a0% en PvP).');
  assert.deepEqual(groups.map(g=>g.note),['Tes 2 critères ont la même priorité : ils comptent autant.','Tes 2 critères ont la même priorité : ils comptent autant.','']);
  assert.equal(X.priorityMissing(ex,ex.score),'Il lui manque 4 points, tous sur les activités (Champ de bataille).');
  // Priorités différentes dans un groupe ; rôle non joué ; polyvalence ; aucun point manquant.
@@ -249,17 +250,18 @@ test('Complexité et technicité : PvE et PvP séparés quand la difficulté ret
   assert.equal(d.contexts,undefined);assert.equal(d.context,activities.raid?'pve':'pvp');
  }
  // La capture du 22 octobre : Voleur Finesse, difficulté exigeante (certitude 4/5), activités PvE et PvP.
+ // Depuis la v11, Finesse est notée 4/5 en PvE (référentiel de complexité) : 71 % au lieu de 50 % en PvE.
  const p={roles:{dps:5},activities:{bg:5,raid:3},styles:{ctrl:5},difficulty:{value:'complex',certainty:4},mastery:3};
  const ex=E.explain('voleur-finesse',p),g=X.pisteParts(ex,...fitScore(ex)).find(x=>x.key==='difficulty');
- assert.equal(g.fit,71);
- assert.equal(g.note,'Tes activités mêlent PvE et PvP : moyenne des deux, 50\u00a0% en PvE et 93\u00a0% en PvP.');
+ assert.equal(g.fit,82);
+ assert.equal(g.note,'Tes activités mêlent PvE et PvP : moyenne des deux, 71\u00a0% en PvE et 93\u00a0% en PvP.');
  assert.deepEqual(g.answers.map(a=>[a.label,...a.lines.map(l=>l.text)]),[
-  ['Difficulté exigeante · PvE','Finesse est notée 3/5 en difficulté PvE.','Très sûr (certitude 4/5)','Elle y répond en partie (50\u00a0%).'],
-  ['Difficulté exigeante · PvP','Finesse est notée 5/5 en difficulté PvP.','Très sûr (certitude 4/5)','Elle y répond pleinement (100\u00a0%), adouci à 93\u00a0% par ta certitude.']]);
+  ['Difficulté exigeante · PvE','Finesse est notée 4/5 en difficulté PvE : la rotation, les effets à entretenir et la gestion de la ressource pèsent beaucoup ; le placement, un peu.','Très sûr (certitude 4/5)','Elle y répond bien (75\u00a0%), adouci à 71\u00a0% par ta certitude.'],
+  ['Difficulté exigeante · PvP','Finesse est notée 5/5 en difficulté PvP : les contrôles, la défense, le placement et l’ouverture pèsent beaucoup ; le pilotage, un peu.','Très sûr (certitude 4/5)','Elle y répond pleinement (100\u00a0%), adouci à 93\u00a0% par ta certitude.']]);
  // « À garder en tête » sépare aussi les deux ; sans activité, la note le dit.
  const alone=E.explain('voleur-finesse',{difficulty:{value:'complex',certainty:5},mastery:2});
- assert.equal(X.keepInMind(alone),'Le Voleur Finesse répond en partie à ton choix « Difficulté exigeante » en PvE (difficulté notée 3/5) et y répond pleinement en PvP (5/5) : c’est la seule chose qui lui coûte des points (25 sur la complexité).');
- assert.equal(X.pisteParts(alone,...fitScore(alone))[0].note,'Sans activité choisie : moyenne du PvE et du PvP, 50\u00a0% en PvE et 100\u00a0% en PvP.');
+ assert.equal(X.keepInMind(alone),'Le Voleur Finesse répond bien à ton choix « Difficulté exigeante » en PvE (difficulté notée 4/5) et y répond pleinement en PvP (5/5) : c’est la seule chose qui lui coûte des points (12 sur la complexité).');
+ assert.equal(X.pisteParts(alone,...fitScore(alone))[0].note,'Sans activité choisie : moyenne du PvE et du PvP, 75\u00a0% en PvE et 100\u00a0% en PvP.');
  // Mode personnalisé : la technicité se partage de même, et sa moyenne est la valeur du calcul.
  for(const w of [{tech:2},{tech:3,bg:2,solo:1},{tech:1,sauv:2,dps:3}])for(const s of E.specs){
   const t=E.priorityExplain(s.id,w,2).axes.find(a=>a.key==='tech');

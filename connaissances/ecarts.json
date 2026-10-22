@@ -1,6 +1,6 @@
 {
  "date": "2026-10-21",
- "moteur": "1.0.9-exploratoire",
+ "moteur": "1.1.0-exploratoire",
  "ecarts": [
   {
    "id": "e1",
@@ -286,16 +286,6 @@
    "spec": "pretre-ombre",
    "critere": "support",
    "constat": "Les développeurs ont réduit son utilité de raid (batterie de mana retirée) avant d’ajouter « Dark Inspiration » le 15 octobre."
-  },
-  {
-   "spec": "guerrier-armes",
-   "critere": "charge_pve",
-   "constat": "Notée 2, alors que la rotation simulée est parmi les plus chargées (23 sorts, environ 250 conditions) ; la simulation compte les optimisations d’un jeu parfait."
-  },
-  {
-   "spec": "voleur-*",
-   "critere": "charge_pve",
-   "constat": "Notes de 2 à 3, alors que la rotation simulée est la plus chargée en décisions (21 sorts, plus de 500 conditions, une seule liste pour les trois spécialisations)."
   }
  ]
 }

@@ -1,0 +1,174 @@
+{
+ "version": 1,
+ "date": "2026-10-22",
+ "moteur": "1.1.0-exploratoire",
+ "definition": "La complexité d’une spécialisation mesure ce qu’elle demande au joueur pour être bien jouée dans un contexte : ce qu’il faut suivre, décider et exécuter en même temps, et ce que coûte une erreur. Ce n’est ni sa puissance ni son confort en leveling.",
+ "jeu_evalue": "Le jeu de base correct, celui des guides de la spécialisation. Une technique avancée n’entre dans la note que si elle conditionne la performance que nos autres notes lui prêtent (au moins 10 % de dégâts en simulation) ; sinon, elle est signalée comme approfondissement. Seul cas aujourd’hui : l’alternance tir-mêlée de Survie, environ 21 % de dégâts en plus.",
+ "contextes": {
+  "pve": {
+   "libelle": "PvE",
+   "portee": "Donjons, raids et solo.",
+   "composantes": [
+    {
+     "cle": "rotation",
+     "libelle": "Rotation",
+     "phrase": "la rotation",
+     "niveaux": [
+      "Priorité courte et fixe : 5 sorts au plus, une condition au plus.",
+      "Priorité à conditions : 6 à 8 sorts, ou des procs à saisir.",
+      "Décisions nombreuses : 9 sorts ou plus, ou des procs, cumuls et fenêtres qui interagissent."
+     ]
+    },
+    {
+     "cle": "entretien",
+     "libelle": "Entretien",
+     "phrase": "les effets à entretenir",
+     "niveaux": [
+      "Rien à suivre en combat, ou un seul effet long.",
+      "Un ou deux effets à rafraîchir.",
+      "Trois effets ou plus à suivre : effets sur la durée, saignements, buffs, totems, boucliers, soins sur la durée."
+     ]
+    },
+    {
+     "cle": "ressource",
+     "libelle": "Ressource",
+     "phrase": "la gestion de la ressource",
+     "niveaux": [
+      "On dépense ce qu’on a.",
+      "À surveiller, comme le mana sur les longs combats.",
+      "Au cœur du jeu : énergie et points de combo, cycle de mana, Rage à arbitrer."
+     ]
+    },
+    {
+     "cle": "placement",
+     "libelle": "Placement",
+     "phrase": "le placement",
+     "niveaux": [
+      "Libre.",
+      "Une contrainte : dans le dos de la cible, incantations immobiles, zone morte.",
+      "Une contrainte qui structure le jeu, comme l’alternance distance-mêlée."
+     ]
+    },
+    {
+     "cle": "pilotage",
+     "libelle": "Pilotage",
+     "phrase": "le pilotage",
+     "niveaux": [
+      "Rien d’autre que soi.",
+      "Un élément : familier, totems, posture, rôle de soigneur ou de tank.",
+      "Un élément central ou plusieurs : démon piloté, danse des postures ou des formes, totems et rôle de soigneur."
+     ]
+    }
+   ]
+  },
+  "pvp": {
+   "libelle": "PvP",
+   "portee": "Champs de bataille, PvP sauvage et duels.",
+   "composantes": [
+    {
+     "cle": "controles",
+     "libelle": "Contrôles",
+     "phrase": "les contrôles",
+     "niveaux": [
+      "Un outil ou aucun.",
+      "Deux ou trois outils à placer.",
+      "Quatre ou plus, avec enchaînements ou combinaisons."
+     ]
+    },
+    {
+     "cle": "defense",
+     "libelle": "Défense",
+     "phrase": "la défense",
+     "niveaux": [
+      "Surtout passive.",
+      "Deux ou trois recharges ou échappatoires.",
+      "Quatre ou plus, décisives au bon moment."
+     ]
+    },
+    {
+     "cle": "placement",
+     "libelle": "Placement",
+     "phrase": "le placement",
+     "niveaux": [
+      "Peu de contraintes.",
+      "Distance ou contact à gérer avec des outils.",
+      "Déterminant : zone morte, incantations longues sans mobilité, kiting permanent, rester au contact sans outil."
+     ]
+    },
+    {
+     "cle": "ouverture",
+     "libelle": "Ouverture",
+     "phrase": "l’ouverture",
+     "niveaux": [
+      "Pas de fenêtre à préparer.",
+      "Burst ou recharges à aligner.",
+      "Ouverture depuis la discrétion, réinitialisations."
+     ]
+    },
+    {
+     "cle": "pilotage",
+     "libelle": "Pilotage",
+     "phrase": "le pilotage",
+     "niveaux": [
+      "Rien.",
+      "Un élément : familier, pièges, totems utilitaires, posture, dissipation offensive, drain de mana.",
+      "Deux éléments ou un central : démon et ses contrôles, danse des formes ou des postures, totems et dissipations."
+     ]
+    }
+   ]
+  }
+ },
+ "bareme": [
+  {
+   "de": 0,
+   "a": 2,
+   "note": 1,
+   "libelle": "Peu exigeant"
+  },
+  {
+   "de": 3,
+   "a": 4,
+   "note": 2,
+   "libelle": "Assez accessible"
+  },
+  {
+   "de": 5,
+   "a": 6,
+   "note": 3,
+   "libelle": "Demande de la pratique"
+  },
+  {
+   "de": 7,
+   "a": 8,
+   "note": 4,
+   "libelle": "Exigeant"
+  },
+  {
+   "de": 9,
+   "a": 10,
+   "note": 5,
+   "libelle": "Très exigeant"
+  }
+ ],
+ "mesures": "Rotations simulées : listes de priorités du simulateur wowsims (commit d6429b7, 22 octobre 2026). Un sort compte s’il peut être lancé par la liste ; une condition est un test élémentaire (effet actif, temps restant, ressource, recharge, minuteur d’attaque). Une liste peut prévoir des sorts d’autres options de talents : c’est un indice qualitatif, qui dépend de son auteur, pas une mesure de difficulté pour un joueur.",
+ "limites": [
+  "Aucune mesure en jeu : la bêta est plafonnée au niveau 30 et le jeu sort le 4 novembre 2026. Les guides consultés décrivent le niveau 30 ; les simulations, le niveau 60.",
+  "Chaque composante est un jugement à un point près : un écart d’un point sur 10 n’est pas significatif. La note sur 5 absorbe une partie de ce bruit.",
+  "En PvP, 18 spécialisations sur 28 sont à 4/5 : le PvP demande beaucoup à presque toutes, et la note y distingue moins.",
+  "Les variantes sans familier gardent la complexité de leur configuration (règle de la v5). Sans compagnon, le pilotage PvE perd un point pour Survie, Affliction et Destruction : Survie passerait de 4 à 3 et Destruction de 3 à 2, Affliction resterait à 3. À arbitrer."
+ ],
+ "sources": [
+  "wowsims-forever",
+  "iv-guides-forever",
+  "wowtbc-guides",
+  "bz-dd-chasseur-druide",
+  "bz-dd-mage-chaman",
+  "bz-dd-paladin",
+  "bz-dd-pretre-guerrier",
+  "bz-dd-voleur-demoniste",
+  "mythicsim",
+  "crix-pvp-duel",
+  "kami-video",
+  "mobalytics-tanking"
+ ]
+}

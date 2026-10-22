@@ -1,8 +1,8 @@
 {
  "classe": "paladin",
  "libelle": "Paladin",
- "date": "2026-10-21",
- "moteur": "1.0.9-exploratoire",
+ "date": "2026-10-22",
+ "moteur": "1.1.0-exploratoire",
  "faits": [
   {
    "id": "p-role",
@@ -238,8 +238,8 @@
   },
   {
    "id": "p-rotation",
-   "categorie": "ressource",
-   "texte": "Rotations simulées courtes : 7 à 8 sorts pour Vindicte et Protection.",
+   "categorie": "complexite",
+   "texte": "Rotations simulées (listes de priorités wowsims, 22 octobre 2026) : Protection, 9 sorts et 5 conditions ; Vindicte, 7 à 8 sorts et 8 à 9 conditions.",
    "sources": [
     "wowsims-forever"
    ],
@@ -280,6 +280,23 @@
    ],
    "specs": [
     "paladin-sacre"
+   ]
+  },
+  {
+   "id": "p-guides",
+   "categorie": "complexite",
+   "texte": "Guides de la bêta, écrits pour le niveau 30. Icy Veins, Vindicte : un sceau toujours actif, Holy Strike et Judgement à la recharge si le mana le permet, Exorcism contre morts-vivants et démons ; Consecration est « fairly Mana expensive ». Icy Veins, Sacré : sa plus grande faiblesse est une mobilité très faible. wowtbc.gg, Protection : Seal of Fury maintenu, Holy Shield, Judgement (provocation avec Seal of Fury), Holy Strike, Consecration, Exorcism.",
+   "sources": [
+    "iv-guides-forever",
+    "wowtbc-guides"
+   ]
+  },
+  {
+   "id": "p-sorts-client",
+   "categorie": "complexite",
+   "texte": "Sorts et talents présents dans les données du client lues par wowsims : « Reverence », « Illumination », « Light’s Vigil ».",
+   "sources": [
+    "wowsims-forever"
    ]
   }
  ],
@@ -388,19 +405,28 @@
     },
     "charge_pve": {
      "valeur": 2,
-     "raison": "Facile à prendre en main selon Kami ; le « Seal Twisting » n’existe plus de base. Aucune mesure de difficulté.",
+     "raison": "4 points sur 10 sur la grille de complexité : les effets à entretenir, la gestion de la ressource, le placement et le pilotage pèsent un peu.",
      "appuis": [
-      "p-facile",
-      "p-mana"
+      "p-guides",
+      "p-sacre",
+      "p-soin-cible",
+      "p-soin-groupe",
+      "p-defense",
+      "p-mana",
+      "p-sorts-client"
      ],
      "confiance": "moyenne"
     },
     "charge_pvp": {
      "valeur": 2,
-     "raison": "Facile à prendre en main selon Kami ; le « Seal Twisting » n’existe plus de base. Aucune mesure de difficulté.",
+     "raison": "4 points sur 10 sur la grille de complexité : les contrôles, la défense, le placement et le pilotage pèsent un peu.",
      "appuis": [
+      "p-hoj",
+      "p-justice",
+      "p-defense",
+      "p-bg",
       "p-facile",
-      "p-mana"
+      "p-mobilite"
      ],
      "confiance": "moyenne"
     }
@@ -438,6 +464,79 @@
       "p-soin-groupe"
      ],
      "confiance": "moyenne"
+    }
+   },
+   "complexite": {
+    "pve": {
+     "note": 2,
+     "total": 4,
+     "confiance": "moyenne",
+     "composantes": {
+      "rotation": {
+       "points": 0,
+       "raison": "Flash of Light d’abord, Holy Light pour les gros soins, Holy Shock en urgence, Lay on Hands."
+      },
+      "entretien": {
+       "points": 1,
+       "raison": "« Light’s Vigil » posé 30 s sur un allié ; bénédictions et aura longues."
+      },
+      "ressource": {
+       "points": 1,
+       "raison": "Mana : « Reverence », « Illumination »."
+      },
+      "placement": {
+       "points": 1,
+       "raison": "Incantations ; mobilité très faible selon Icy Veins."
+      },
+      "pilotage": {
+       "points": 1,
+       "raison": "Rôle de soigneur, surtout monocible."
+      }
+     },
+     "appuis": [
+      "p-guides",
+      "p-sacre",
+      "p-soin-cible",
+      "p-soin-groupe",
+      "p-defense",
+      "p-mana",
+      "p-sorts-client"
+     ]
+    },
+    "pvp": {
+     "note": 2,
+     "total": 4,
+     "confiance": "moyenne",
+     "composantes": {
+      "controles": {
+       "points": 1,
+       "raison": "« Hammer of Justice », « Seal of Justice »."
+      },
+      "defense": {
+       "points": 1,
+       "raison": "« Divine Shield », « Divine Protection », « Lay on Hands »."
+      },
+      "placement": {
+       "points": 1,
+       "raison": "Incantations et lignes de vue, en plaques."
+      },
+      "ouverture": {
+       "points": 0,
+       "raison": "Pas de fenêtre d’ouverture."
+      },
+      "pilotage": {
+       "points": 1,
+       "raison": "« Cleanse », « Blessing of Freedom » et « Blessing of Protection » sur les alliés."
+      }
+     },
+     "appuis": [
+      "p-hoj",
+      "p-justice",
+      "p-defense",
+      "p-bg",
+      "p-facile",
+      "p-mobilite"
+     ]
     }
    }
   },
@@ -543,23 +642,96 @@
      "confiance": "moyenne"
     },
     "charge_pve": {
-     "valeur": 2,
-     "raison": "Facile à prendre en main (Kami), rotation simulée courte (7 à 8 sorts) et Vindicte assumée comme « robot d’attaques automatiques » par Blizzard.",
+     "valeur": 3,
+     "raison": "5 points sur 10 sur la grille de complexité : la gestion de la ressource pèse beaucoup ; la rotation, les effets à entretenir et le pilotage, un peu.",
      "appuis": [
-      "p-facile",
+      "p-rotation",
+      "p-guides",
       "p-mana",
-      "p-rotation"
+      "p-tank-a",
+      "p-prot-defense"
      ],
-     "confiance": "haute"
+     "confiance": "moyenne"
     },
     "charge_pvp": {
      "valeur": 2,
-     "raison": "Facile à prendre en main selon Kami ; le « Seal Twisting » n’existe plus de base. Aucune mesure de difficulté.",
+     "raison": "4 points sur 10 sur la grille de complexité : les contrôles, la défense, le placement et le pilotage pèsent un peu.",
      "appuis": [
-      "p-facile",
-      "p-mana"
+      "p-hoj",
+      "p-defense",
+      "p-prot-defense",
+      "p-mobilite"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
+    }
+   },
+   "complexite": {
+    "pve": {
+     "note": 3,
+     "total": 5,
+     "confiance": "moyenne",
+     "composantes": {
+      "rotation": {
+       "points": 1,
+       "raison": "Seal of Fury, Holy Shield, Judgement (provocation et menace), Holy Strike, Consecration, Exorcism (9 sorts, 5 conditions dans la rotation simulée)."
+      },
+      "entretien": {
+       "points": 1,
+       "raison": "Seal of Fury, Holy Shield et Consecration ; Righteous Fury longue."
+      },
+      "ressource": {
+       "points": 2,
+       "raison": "Mana au cœur du tanking : sceaux, Judgements et Consecration coûtent cher, et le mana compte parmi ses points faibles selon Mobalytics."
+      },
+      "placement": {
+       "points": 0,
+       "raison": "Placement des ennemis compté dans le rôle de tank."
+      },
+      "pilotage": {
+       "points": 1,
+       "raison": "Rôle de tank : menace et défenses."
+      }
+     },
+     "appuis": [
+      "p-rotation",
+      "p-guides",
+      "p-mana",
+      "p-tank-a",
+      "p-prot-defense"
+     ]
+    },
+    "pvp": {
+     "note": 2,
+     "total": 4,
+     "confiance": "faible",
+     "composantes": {
+      "controles": {
+       "points": 1,
+       "raison": "« Hammer of Justice »."
+      },
+      "defense": {
+       "points": 1,
+       "raison": "« Divine Shield », « Lay on Hands », « Templar’s Bulwark »."
+      },
+      "placement": {
+       "points": 1,
+       "raison": "Ni vitesse ni rapprochement : rester au contact est difficile."
+      },
+      "ouverture": {
+       "points": 0,
+       "raison": "Pas de fenêtre d’ouverture."
+      },
+      "pilotage": {
+       "points": 1,
+       "raison": "Bénédictions et « Cleanse » sur les alliés."
+      }
+     },
+     "appuis": [
+      "p-hoj",
+      "p-defense",
+      "p-prot-defense",
+      "p-mobilite"
+     ]
     }
    }
   },
@@ -670,23 +842,97 @@
      "confiance": "moyenne"
     },
     "charge_pve": {
-     "valeur": 2,
-     "raison": "Facile à prendre en main (Kami), rotation simulée courte (7 à 8 sorts) et Vindicte assumée comme « robot d’attaques automatiques » par Blizzard.",
+     "valeur": 1,
+     "raison": "2 points sur 10 sur la grille de complexité : les effets à entretenir et la gestion de la ressource pèsent un peu.",
      "appuis": [
+      "p-rotation",
+      "p-guides",
       "p-facile",
-      "p-mana",
-      "p-rotation"
+      "p-mana"
      ],
      "confiance": "haute"
     },
     "charge_pvp": {
-     "valeur": 2,
-     "raison": "Facile à prendre en main selon Kami ; le « Seal Twisting » n’existe plus de base. Aucune mesure de difficulté.",
+     "valeur": 3,
+     "raison": "6 points sur 10 sur la grille de complexité : le placement pèse beaucoup ; les contrôles, la défense, l’ouverture et le pilotage, un peu.",
      "appuis": [
+      "p-hoj",
+      "p-defense",
+      "p-mobilite",
+      "p-pvp-duel",
+      "p-burst"
+     ],
+     "confiance": "moyenne"
+    }
+   },
+   "complexite": {
+    "pve": {
+     "note": 1,
+     "total": 2,
+     "confiance": "haute",
+     "composantes": {
+      "rotation": {
+       "points": 0,
+       "raison": "Un sceau actif, Holy Strike et Judgement à la recharge, Exorcism contre morts-vivants et démons ; Blizzard assume un « robot d’attaques automatiques »."
+      },
+      "entretien": {
+       "points": 1,
+       "raison": "Sceau et Judgement à garder."
+      },
+      "ressource": {
+       "points": 1,
+       "raison": "Mana : Consecration est « fairly Mana expensive » (Icy Veins)."
+      },
+      "placement": {
+       "points": 0,
+       "raison": "Mêlée sans contrainte de position."
+      },
+      "pilotage": {
+       "points": 0,
+       "raison": "Rien d’autre à piloter."
+      }
+     },
+     "appuis": [
+      "p-rotation",
+      "p-guides",
       "p-facile",
       "p-mana"
      ],
-     "confiance": "moyenne"
+     "approfondissement": "Alterner les sceaux (Croisé avant Judgement) et Hammer of Justice avec Seal of Command."
+    },
+    "pvp": {
+     "note": 3,
+     "total": 6,
+     "confiance": "moyenne",
+     "composantes": {
+      "controles": {
+       "points": 1,
+       "raison": "« Hammer of Justice », « Repentance »."
+      },
+      "defense": {
+       "points": 1,
+       "raison": "« Divine Shield », « Blessing of Freedom », « Blessing of Protection »."
+      },
+      "placement": {
+       "points": 2,
+       "raison": "Sans moyen de rapprochement : facile à garder à distance pour un Mage ou un Chasseur (Crix)."
+      },
+      "ouverture": {
+       "points": 1,
+       "raison": "Burst « Vengeance », Hammer of Wrath, sceaux."
+      },
+      "pilotage": {
+       "points": 1,
+       "raison": "Bénédictions et « Cleanse »."
+      }
+     },
+     "appuis": [
+      "p-hoj",
+      "p-defense",
+      "p-mobilite",
+      "p-pvp-duel",
+      "p-burst"
+     ]
     }
    }
   }

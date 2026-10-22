@@ -395,7 +395,9 @@ async function check(){
   assert.equal(await page.locator('#reco-results .reco-featured').count(),0);
   const givre=page.locator('[data-config-id="mage-givre"]');
   await givre.locator('summary').click();
-  assert.match(await givre.textContent(),/PvE : Assez accessible · PvP : Exigeant/);
+  // Depuis la v11 : la note sur 5, ce qui pèse dans chaque contexte et le lien vers le détail de la grille.
+  assert.match(await givre.textContent(),/PvE : Assez accessible \(2\/5\) · PvP : Exigeant \(4\/5\)\. En PvE, la rotation, la gestion de la ressource et le placement pèsent un peu\. En PvP, les contrôles, la défense et le placement pèsent beaucoup ; l’ouverture, un peu\./);
+  assert.equal(await givre.locator('a[href="fiches-sources/mage.html#mage-givre-complexite"]').count(),1);
   await page.locator('#reco-results').screenshot({path:path.join(__dirname,'screenshots','lot1-egalite-guide.png'),animations:'disabled'});
   await page.locator('[data-step="4"]').click();
   await page.locator('[data-single="pet"][data-key="avoid"]').click();

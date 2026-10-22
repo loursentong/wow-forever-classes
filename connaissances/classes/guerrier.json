@@ -1,8 +1,8 @@
 {
  "classe": "guerrier",
  "libelle": "Guerrier",
- "date": "2026-10-21",
- "moteur": "1.0.9-exploratoire",
+ "date": "2026-10-22",
+ "moteur": "1.1.0-exploratoire",
  "faits": [
   {
    "id": "g-role",
@@ -278,8 +278,25 @@
   },
   {
    "id": "g-rotation",
-   "categorie": "ressource",
-   "texte": "Rotations simulées parmi les plus chargées : 22 à 25 sorts et environ 240 à 250 conditions pour Armes, Fureur et Protection, danse des postures comprise.",
+   "categorie": "complexite",
+   "texte": "Rotations simulées (listes de priorités wowsims, 22 octobre 2026), toutes options de talents comprises : Armes, 21 sorts et 35 conditions ; Fureur, 20 sorts et 40 conditions ; Protection, 20 sorts et 36 conditions.",
+   "sources": [
+    "wowsims-forever"
+   ]
+  },
+  {
+   "id": "g-guides",
+   "categorie": "complexite",
+   "texte": "Guides de la bêta, écrits pour le niveau 30. Icy Veins, Armes : Rend, Overpower après une esquive (parfois offert par « Bloodthrill »), Slam juste après une attaque automatique, Sunder Armor, Demoralizing Shout, Spearing Strike, Victory Rush ; changer de posture fait perdre la Rage. wowtbc.gg : Fureur en posture berserker (Bloodthirst, Whirlwind, Execute, Heroic Strike et Hamstring avec la Rage en trop) ; Protection maintient cinq Sunder Armor, Thunder Clap et Demoralizing Shout, avec Shield Block contre les coups physiques.",
+   "sources": [
+    "iv-guides-forever",
+    "wowtbc-guides"
+   ]
+  },
+  {
+   "id": "g-sorts-client",
+   "categorie": "complexite",
+   "texte": "Sorts et talents présents dans les données du client lues par wowsims : « Piercing Howl », « Berserker Rage », « Intimidating Shout », « Spearing Strike », « Bloodthrill ».",
    "sources": [
     "wowsims-forever"
    ]
@@ -392,24 +409,107 @@
      "confiance": "moyenne"
     },
     "charge_pve": {
-     "valeur": 2,
-     "raison": "Rotation PvE autour de « Mortal Strike » ; la rotation simulée est pourtant parmi les plus chargées (23 sorts), danse des postures comprise.",
+     "valeur": 4,
+     "raison": "7 points sur 10 sur la grille de complexité : la rotation, les effets à entretenir et la gestion de la ressource pèsent beaucoup ; le pilotage, un peu.",
      "appuis": [
+      "g-rotation",
+      "g-guides",
       "g-rage",
       "g-postures",
-      "g-rotation"
+      "g-sorts-client"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     },
     "charge_pvp": {
      "valeur": 4,
-     "raison": "En PvP, danse des postures et timing de « Mortal Strike » et des contrôles. Aucune mesure de difficulté.",
+     "raison": "8 points sur 10 sur la grille de complexité : les contrôles, le placement et le pilotage pèsent beaucoup ; la défense et l’ouverture, un peu.",
      "appuis": [
+      "g-controle",
+      "g-interruption",
+      "g-ralentissement",
+      "g-mortal",
       "g-postures",
-      "g-rage",
-      "g-mortal"
+      "g-pvp-duel",
+      "g-mobilite",
+      "g-sorts-client",
+      "g-rage"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
+    }
+   },
+   "complexite": {
+    "pve": {
+     "note": 4,
+     "total": 7,
+     "confiance": "moyenne",
+     "composantes": {
+      "rotation": {
+       "points": 2,
+       "raison": "Rend, Overpower après une esquive (parfois offert par « Bloodthrill »), Slam juste après une attaque automatique, Sunder Armor, Spearing Strike, Victory Rush (21 sorts et 35 conditions dans la rotation simulée, toutes options de talents comprises)."
+      },
+      "entretien": {
+       "points": 2,
+       "raison": "Battle Shout, Rend, Sunder Armor et Demoralizing Shout."
+      },
+      "ressource": {
+       "points": 2,
+       "raison": "Rage irrégulière ; changer de posture la fait perdre (10 conservés avec « Tactical Mastery »)."
+      },
+      "placement": {
+       "points": 0,
+       "raison": "Mêlée sans contrainte de position."
+      },
+      "pilotage": {
+       "points": 1,
+       "raison": "Postures : combat la plupart du temps, berserker ou défensive selon le besoin."
+      }
+     },
+     "appuis": [
+      "g-rotation",
+      "g-guides",
+      "g-rage",
+      "g-postures",
+      "g-sorts-client"
+     ],
+     "approfondissement": "La rotation simulée danse entre les postures pour Overpower et Whirlwind."
+    },
+    "pvp": {
+     "note": 4,
+     "total": 8,
+     "confiance": "moyenne",
+     "composantes": {
+      "controles": {
+       "points": 2,
+       "raison": "« Hamstring », « Intimidating Shout », « Disarm », « Pummel » ou « Shield Bash », étourdissements de « Charge » et « Intercept »."
+      },
+      "defense": {
+       "points": 1,
+       "raison": "« Retaliation », « Berserker Rage », « Victory Rush »."
+      },
+      "placement": {
+       "points": 2,
+       "raison": "Peine à rejoindre sa cible face aux ralentissements, racines et contrôles (Crix)."
+      },
+      "ouverture": {
+       "points": 1,
+       "raison": "« Mortal Strike » sur les soins, « Recklessness » et « Death Wish »."
+      },
+      "pilotage": {
+       "points": 2,
+       "raison": "Danse des postures : chaque outil exige sa posture, et en changer coûte de la Rage."
+      }
+     },
+     "appuis": [
+      "g-controle",
+      "g-interruption",
+      "g-ralentissement",
+      "g-mortal",
+      "g-postures",
+      "g-pvp-duel",
+      "g-mobilite",
+      "g-sorts-client",
+      "g-rage"
+     ]
     }
    }
   },
@@ -520,21 +620,98 @@
     },
     "charge_pve": {
      "valeur": 3,
-     "raison": "Rotation plus chargée qu’Armes (« Bloodthirst », « Whirlwind », gestion de la Rage). Aucune mesure de difficulté.",
+     "raison": "5 points sur 10 sur la grille de complexité : la rotation et la gestion de la ressource pèsent beaucoup ; les effets à entretenir, un peu.",
      "appuis": [
-      "g-rage",
-      "g-postures",
-      "g-rotation"
+      "g-rotation",
+      "g-guides",
+      "g-rage"
      ],
      "confiance": "faible"
     },
     "charge_pvp": {
-     "valeur": 3,
-     "raison": "Moins de danse des postures qu’Armes en PvP. Aucune mesure de difficulté.",
+     "valeur": 4,
+     "raison": "7 points sur 10 sur la grille de complexité : les contrôles et le placement pèsent beaucoup ; la défense, l’ouverture et le pilotage, un peu.",
      "appuis": [
+      "g-controle",
+      "g-fureur-mobilite",
+      "g-interruption",
+      "g-ralentissement",
+      "g-pvp-duel",
+      "g-sorts-client",
       "g-postures"
      ],
      "confiance": "faible"
+    }
+   },
+   "complexite": {
+    "pve": {
+     "note": 3,
+     "total": 5,
+     "confiance": "faible",
+     "composantes": {
+      "rotation": {
+       "points": 2,
+       "raison": "Bloodthirst, Whirlwind, Execute sous 20 %, Heroic Strike et Hamstring avec la Rage en trop, Bloodrage, Sunder Armor, « Recklessness » et « Death Wish » (20 sorts et 40 conditions dans la rotation simulée, toutes options de talents comprises)."
+      },
+      "entretien": {
+       "points": 1,
+       "raison": "Sunder Armor et Battle Shout."
+      },
+      "ressource": {
+       "points": 2,
+       "raison": "Rage à arbitrer entre attaques et Heroic Strike."
+      },
+      "placement": {
+       "points": 0,
+       "raison": "Mêlée sans contrainte de position."
+      },
+      "pilotage": {
+       "points": 0,
+       "raison": "Reste en posture berserker."
+      }
+     },
+     "appuis": [
+      "g-rotation",
+      "g-guides",
+      "g-rage"
+     ],
+     "approfondissement": "La rotation simulée change de posture pour Overpower."
+    },
+    "pvp": {
+     "note": 4,
+     "total": 7,
+     "confiance": "faible",
+     "composantes": {
+      "controles": {
+       "points": 2,
+       "raison": "« Piercing Howl », « Intimidating Shout », « Hamstring », « Pummel », « Intercept »."
+      },
+      "defense": {
+       "points": 1,
+       "raison": "« Berserker Rage », « Retaliation », « Victory Rush »."
+      },
+      "placement": {
+       "points": 2,
+       "raison": "Rester au contact face au kiting."
+      },
+      "ouverture": {
+       "points": 1,
+       "raison": "« Recklessness » et « Death Wish »."
+      },
+      "pilotage": {
+       "points": 1,
+       "raison": "Moins de danse des postures qu’Armes."
+      }
+     },
+     "appuis": [
+      "g-controle",
+      "g-fureur-mobilite",
+      "g-interruption",
+      "g-ralentissement",
+      "g-pvp-duel",
+      "g-sorts-client",
+      "g-postures"
+     ]
     }
    }
   },
@@ -647,23 +824,102 @@
      "confiance": "moyenne"
     },
     "charge_pve": {
-     "valeur": 3,
-     "raison": "Menace et Rage à gérer, défenses à placer au bon moment. Aucune mesure de difficulté.",
+     "valeur": 4,
+     "raison": "7 points sur 10 sur la grille de complexité : la rotation, les effets à entretenir et la gestion de la ressource pèsent beaucoup ; le pilotage, un peu.",
      "appuis": [
-      "g-rage",
+      "g-rotation",
+      "g-guides",
       "g-prot-defense",
-      "g-rotation"
+      "g-rage"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     },
     "charge_pvp": {
      "valeur": 4,
-     "raison": "Postures, interruptions et défenses à enchaîner en PvP. Aucune mesure de difficulté.",
+     "raison": "7 points sur 10 sur la grille de complexité : les contrôles, la défense et le pilotage pèsent beaucoup ; le placement, un peu.",
      "appuis": [
+      "g-controle",
+      "g-prot-defense",
+      "g-mobilite",
       "g-postures",
-      "g-interruption"
+      "g-pvp-duel",
+      "g-interruption",
+      "g-ralentissement",
+      "g-sorts-client"
      ],
      "confiance": "faible"
+    }
+   },
+   "complexite": {
+    "pve": {
+     "note": 4,
+     "total": 7,
+     "confiance": "moyenne",
+     "composantes": {
+      "rotation": {
+       "points": 2,
+       "raison": "Shield Slam, Revenge, Sunder Armor, Thunder Clap, Demoralizing Shout, Shield Block contre les coups physiques, Heroic Strike avec la Rage en trop (20 sorts et 36 conditions dans la rotation simulée, toutes options de talents comprises)."
+      },
+      "entretien": {
+       "points": 2,
+       "raison": "Cinq Sunder Armor, Thunder Clap, Demoralizing Shout et Battle Shout."
+      },
+      "ressource": {
+       "points": 2,
+       "raison": "Rage gagnée en bloquant et en esquivant, à partager entre menace et défense."
+      },
+      "placement": {
+       "points": 0,
+       "raison": "Placement des ennemis compté dans le rôle de tank."
+      },
+      "pilotage": {
+       "points": 1,
+       "raison": "Rôle de tank : menace sur plusieurs cibles, « Shield Wall » et « Last Stand »."
+      }
+     },
+     "appuis": [
+      "g-rotation",
+      "g-guides",
+      "g-prot-defense",
+      "g-rage"
+     ]
+    },
+    "pvp": {
+     "note": 4,
+     "total": 7,
+     "confiance": "faible",
+     "composantes": {
+      "controles": {
+       "points": 2,
+       "raison": "« Concussion Blow », « Shield Bash », « Disarm », « Hamstring », « Intimidating Shout »."
+      },
+      "defense": {
+       "points": 2,
+       "raison": "« Shield Wall », « Last Stand », « Shield Block », « Retaliation »."
+      },
+      "placement": {
+       "points": 1,
+       "raison": "« Charge » en posture défensive (« Vanguard »)."
+      },
+      "ouverture": {
+       "points": 0,
+       "raison": "Pas de fenêtre d’ouverture."
+      },
+      "pilotage": {
+       "points": 2,
+       "raison": "Postures à alterner selon l’outil."
+      }
+     },
+     "appuis": [
+      "g-controle",
+      "g-prot-defense",
+      "g-mobilite",
+      "g-postures",
+      "g-pvp-duel",
+      "g-interruption",
+      "g-ralentissement",
+      "g-sorts-client"
+     ]
     }
    }
   }

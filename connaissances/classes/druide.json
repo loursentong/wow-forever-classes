@@ -1,8 +1,8 @@
 {
  "classe": "druide",
  "libelle": "Druide",
- "date": "2026-10-21",
- "moteur": "1.0.9-exploratoire",
+ "date": "2026-10-22",
+ "moteur": "1.1.0-exploratoire",
  "faits": [
   {
    "id": "dr-role",
@@ -200,8 +200,8 @@
   },
   {
    "id": "dr-rotation",
-   "categorie": "ressource",
-   "texte": "Rotations simulées : 11 sorts pour le félin, 7 pour l’ours, 6 pour Équilibre.",
+   "categorie": "complexite",
+   "texte": "Rotations simulées (listes de priorités wowsims, 22 octobre 2026) : félin, 10 sorts et 33 conditions (14 et 40 en alternance avec la forme d’ours) ; ours, 6 sorts et 8 conditions ; Équilibre, 6 sorts et 5 conditions.",
    "sources": [
     "wowsims-forever"
    ],
@@ -229,6 +229,31 @@
    ],
    "specs": [
     "druide-restauration"
+   ]
+  },
+  {
+   "id": "dr-guides",
+   "categorie": "complexite",
+   "texte": "Guides de la bêta, écrits pour le niveau 30. wowtbc.gg : Équilibre maintient Moonfire et Insect Swarm, lance Starfire sous « Eclipse », Wrath sinon ; le félin garde Faerie Fire, Rip à 5 points et Rake, lance Shred sous « Omen of Clarity », « Shifting Power » sous 60 d’Énergie, Ferocious Bite s’il ne retarde pas Rip. Icy Veins : l’ours dépense sa Rage en Primal Bite, Maul et Swipe contre plusieurs cibles, avec Enrage et Faerie Fire.",
+   "sources": [
+    "wowtbc-guides",
+    "iv-guides-forever"
+   ]
+  },
+  {
+   "id": "dr-blizzard",
+   "categorie": "complexite",
+   "texte": "Blizzard : « Shifting Power » réintroduit le powershifting « in a much more approachable way » ; Restauration s’appuie sur des soins sur la durée qui « require more planning » ; le Druide a un contrôle « weaker and less reliable ».",
+   "sources": [
+    "bz-dd-chasseur-druide"
+   ]
+  },
+  {
+   "id": "dr-sorts-client",
+   "categorie": "complexite",
+   "texte": "Sorts et talents présents dans les données du client lues par wowsims : « Hibernate », « Ravage », « Overgrowth », « Reflection », « Innervate », « Tranquility » ; « Shred » exige d’être dans le dos de la cible.",
+   "sources": [
+    "wowsims-forever"
    ]
   }
  ],
@@ -333,22 +358,100 @@
      "confiance": "moyenne"
     },
     "charge_pve": {
-     "valeur": 3,
-     "raison": "Nombreux sorts et barres, gestion d’« Eclipse » ; complexité jugée élevée pour la classe.",
+     "valeur": 2,
+     "raison": "3 points sur 10 sur la grille de complexité : les effets à entretenir, la gestion de la ressource et le placement pèsent un peu.",
      "appuis": [
-      "dr-complexite",
-      "dr-equilibre",
-      "dr-rotation"
+      "dr-rotation",
+      "dr-guides",
+      "dr-equilibre"
      ],
      "confiance": "moyenne"
     },
     "charge_pvp": {
      "valeur": 4,
-     "raison": "Changements de forme sous pression, coûteux et contre-intuitifs selon Kami.",
+     "raison": "7 points sur 10 sur la grille de complexité : le placement et le pilotage pèsent beaucoup ; les contrôles, la défense et l’ouverture, un peu.",
      "appuis": [
-      "dr-complexite"
+      "dr-limites",
+      "dr-racines",
+      "dr-defense",
+      "dr-mobilite",
+      "dr-complexite",
+      "dr-sorts-client",
+      "dr-blizzard",
+      "dr-equilibre"
      ],
      "confiance": "moyenne"
+    }
+   },
+   "complexite": {
+    "pve": {
+     "note": 2,
+     "total": 3,
+     "confiance": "moyenne",
+     "composantes": {
+      "rotation": {
+       "points": 0,
+       "raison": "Moonfire et Insect Swarm, Starfire sous « Eclipse », Wrath sinon (6 sorts, 5 conditions dans la rotation simulée)."
+      },
+      "entretien": {
+       "points": 1,
+       "raison": "Moonfire et Insect Swarm."
+      },
+      "ressource": {
+       "points": 1,
+       "raison": "Mana (« Omen of Clarity », « Innervate »)."
+      },
+      "placement": {
+       "points": 1,
+       "raison": "Incantations immobiles (Starfire, Wrath)."
+      },
+      "pilotage": {
+       "points": 0,
+       "raison": "Reste en forme de sélénien."
+      }
+     },
+     "appuis": [
+      "dr-rotation",
+      "dr-guides",
+      "dr-equilibre"
+     ]
+    },
+    "pvp": {
+     "note": 4,
+     "total": 7,
+     "confiance": "moyenne",
+     "composantes": {
+      "controles": {
+       "points": 1,
+       "raison": "Racines (« Entangling Roots », « Nature’s Grasp », « Overgrowth »), « Hibernate » ; ni interruption ni ralentissement."
+      },
+      "defense": {
+       "points": 1,
+       "raison": "« Barkskin », changement de forme qui libère des entraves, forme de voyage."
+      },
+      "placement": {
+       "points": 2,
+       "raison": "Incantations à protéger sans échappatoire hors des formes."
+      },
+      "ouverture": {
+       "points": 1,
+       "raison": "Burst « Eclipse » et « Starfire » à placer."
+      },
+      "pilotage": {
+       "points": 2,
+       "raison": "Changements de forme sous pression, coûteux en temps et en mana, « contre-intuitifs » selon Kami."
+      }
+     },
+     "appuis": [
+      "dr-limites",
+      "dr-racines",
+      "dr-defense",
+      "dr-mobilite",
+      "dr-complexite",
+      "dr-sorts-client",
+      "dr-blizzard",
+      "dr-equilibre"
+     ]
     }
    }
   },
@@ -455,21 +558,106 @@
     },
     "charge_pve": {
      "valeur": 4,
-     "raison": "Énergie, saignements et changements de forme ; complexité jugée élevée pour la classe.",
+     "raison": "8 points sur 10 sur la grille de complexité : la rotation, les effets à entretenir et la gestion de la ressource pèsent beaucoup ; le placement et le pilotage, un peu.",
      "appuis": [
-      "dr-complexite",
+      "dr-rotation",
+      "dr-guides",
+      "dr-blizzard",
       "dr-chat",
-      "dr-rotation"
+      "dr-sorts-client"
      ],
      "confiance": "moyenne"
     },
     "charge_pvp": {
-     "valeur": 5,
-     "raison": "Changements de forme sous pression, coûteux et contre-intuitifs selon Kami.",
+     "valeur": 4,
+     "raison": "8 points sur 10 sur la grille de complexité : la défense, l’ouverture et le pilotage pèsent beaucoup ; les contrôles et le placement, un peu.",
      "appuis": [
-      "dr-complexite"
+      "dr-ours-controle",
+      "dr-donnees-jeu",
+      "dr-defense",
+      "dr-mobilite",
+      "dr-complexite",
+      "dr-pvp-duel",
+      "dr-blizzard",
+      "dr-sorts-client",
+      "dr-chat"
      ],
      "confiance": "moyenne"
+    }
+   },
+   "complexite": {
+    "pve": {
+     "note": 4,
+     "total": 8,
+     "confiance": "moyenne",
+     "composantes": {
+      "rotation": {
+       "points": 2,
+       "raison": "Shred sous « Omen of Clarity », Rake, Rip à 5 points, Ferocious Bite sans retarder Rip, « Shifting Power » sous 60 d’Énergie, « Berserk » (10 sorts, 33 conditions dans la rotation simulée)."
+      },
+      "entretien": {
+       "points": 2,
+       "raison": "Rip, Rake et Faerie Fire."
+      },
+      "ressource": {
+       "points": 2,
+       "raison": "Énergie, points de combo et mana pour « Shifting Power »."
+      },
+      "placement": {
+       "points": 1,
+       "raison": "Shred dans le dos de la cible (Claw sinon, moins fort)."
+      },
+      "pilotage": {
+       "points": 1,
+       "raison": "« Shifting Power » rend le powershifting « in a much more approachable way » (Blizzard)."
+      }
+     },
+     "appuis": [
+      "dr-rotation",
+      "dr-guides",
+      "dr-blizzard",
+      "dr-chat",
+      "dr-sorts-client"
+     ],
+     "approfondissement": "Alternance avec la forme d’ours (« bearweave ») dans une rotation simulée : 14 sorts, 40 conditions."
+    },
+    "pvp": {
+     "note": 4,
+     "total": 8,
+     "confiance": "moyenne",
+     "composantes": {
+      "controles": {
+       "points": 1,
+       "raison": "« Pounce » depuis Prowl, « Bash » et « Feral Charge » en ours ; un contrôle « weaker and less reliable » selon Blizzard."
+      },
+      "defense": {
+       "points": 2,
+       "raison": "« Barkskin », « Frenzied Regeneration » en ours, formes qui libèrent des entraves, « Dash », forme de voyage."
+      },
+      "placement": {
+       "points": 1,
+       "raison": "Rester au contact avec « Feral Charge » et « Dash »."
+      },
+      "ouverture": {
+       "points": 2,
+       "raison": "Ouverture depuis Prowl (« Pounce », « Ravage »), « Berserk »."
+      },
+      "pilotage": {
+       "points": 2,
+       "raison": "Danse des formes (chat, ours, voyage, soins) coûteuse en mana."
+      }
+     },
+     "appuis": [
+      "dr-ours-controle",
+      "dr-donnees-jeu",
+      "dr-defense",
+      "dr-mobilite",
+      "dr-complexite",
+      "dr-pvp-duel",
+      "dr-blizzard",
+      "dr-sorts-client",
+      "dr-chat"
+     ]
     }
    }
   },
@@ -571,22 +759,96 @@
      "confiance": "moyenne"
     },
     "charge_pve": {
-     "valeur": 4,
-     "raison": "Rage, menace et défenses à gérer ; complexité jugée élevée pour la classe.",
+     "valeur": 2,
+     "raison": "4 points sur 10 sur la grille de complexité : la rotation, les effets à entretenir, la gestion de la ressource et le pilotage pèsent un peu.",
      "appuis": [
-      "dr-complexite",
+      "dr-rotation",
+      "dr-guides",
       "dr-ours",
-      "dr-rotation"
+      "dr-defense"
      ],
      "confiance": "moyenne"
     },
     "charge_pvp": {
-     "valeur": 5,
-     "raison": "Changements de forme sous pression, coûteux et contre-intuitifs selon Kami.",
+     "valeur": 3,
+     "raison": "6 points sur 10 sur la grille de complexité : la défense et le pilotage pèsent beaucoup ; les contrôles et le placement, un peu.",
      "appuis": [
+      "dr-donnees-jeu",
+      "dr-ours-controle",
+      "dr-defense",
+      "dr-mobilite",
       "dr-complexite"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
+    }
+   },
+   "complexite": {
+    "pve": {
+     "note": 2,
+     "total": 4,
+     "confiance": "moyenne",
+     "composantes": {
+      "rotation": {
+       "points": 1,
+       "raison": "Primal Bite, Maul pour la Rage en trop, Swipe en multicible, Lacerate cumulé, Demoralizing Roar, Enrage (6 sorts, 8 conditions dans la rotation simulée)."
+      },
+      "entretien": {
+       "points": 1,
+       "raison": "Faerie Fire et cumuls de Lacerate."
+      },
+      "ressource": {
+       "points": 1,
+       "raison": "Rage gagnée en subissant et en frappant ; Enrage en génère."
+      },
+      "placement": {
+       "points": 0,
+       "raison": "Placement des ennemis compté dans le rôle de tank."
+      },
+      "pilotage": {
+       "points": 1,
+       "raison": "Rôle de tank : menace, « Frenzied Regeneration », « Barkskin »."
+      }
+     },
+     "appuis": [
+      "dr-rotation",
+      "dr-guides",
+      "dr-ours",
+      "dr-defense"
+     ]
+    },
+    "pvp": {
+     "note": 3,
+     "total": 6,
+     "confiance": "faible",
+     "composantes": {
+      "controles": {
+       "points": 1,
+       "raison": "« Bash », « Feral Charge » (immobilise et interrompt)."
+      },
+      "defense": {
+       "points": 2,
+       "raison": "« Frenzied Regeneration », « Barkskin », formes qui libèrent des entraves, forme de voyage."
+      },
+      "placement": {
+       "points": 1,
+       "raison": "Encaisser au contact ; « Feral Charge »."
+      },
+      "ouverture": {
+       "points": 0,
+       "raison": "Pas de fenêtre d’ouverture particulière."
+      },
+      "pilotage": {
+       "points": 2,
+       "raison": "Danse des formes : ours pour encaisser, voyage pour fuir, humanoïde pour se soigner."
+      }
+     },
+     "appuis": [
+      "dr-donnees-jeu",
+      "dr-ours-controle",
+      "dr-defense",
+      "dr-mobilite",
+      "dr-complexite"
+     ]
     }
    }
   },
@@ -692,18 +954,26 @@
     },
     "charge_pve": {
      "valeur": 3,
-     "raison": "Soins sur la durée à entretenir sur plusieurs cibles ; complexité jugée élevée pour la classe.",
+     "raison": "5 points sur 10 sur la grille de complexité : les effets à entretenir pèsent beaucoup ; la rotation, la gestion de la ressource et le pilotage, un peu.",
      "appuis": [
-      "dr-complexite",
-      "dr-resto"
+      "dr-blizzard",
+      "dr-resto",
+      "dr-soin-resto",
+      "dr-sorts-client"
      ],
      "confiance": "moyenne"
     },
     "charge_pvp": {
      "valeur": 4,
-     "raison": "Soigner en changeant de forme sous pression, contre-intuitif selon Kami.",
+     "raison": "7 points sur 10 sur la grille de complexité : la défense, le placement et le pilotage pèsent beaucoup ; les contrôles, un peu.",
      "appuis": [
-      "dr-complexite"
+      "dr-racines",
+      "dr-defense",
+      "dr-pvp-duel",
+      "dr-complexite",
+      "dr-sorts-client",
+      "dr-mobilite",
+      "dr-soin-resto"
      ],
      "confiance": "moyenne"
     }
@@ -742,6 +1012,77 @@
       "dr-soin-resto"
      ],
      "confiance": "moyenne"
+    }
+   },
+   "complexite": {
+    "pve": {
+     "note": 3,
+     "total": 5,
+     "confiance": "moyenne",
+     "composantes": {
+      "rotation": {
+       "points": 1,
+       "raison": "Rejuvenation, Regrowth, Healing Touch, Swiftmend sur une cible qui porte déjà un soin sur la durée, Wild Growth, Tranquility, Nature’s Swiftness."
+      },
+      "entretien": {
+       "points": 2,
+       "raison": "Soins sur la durée à tenir sur plusieurs cibles : ils « require more planning » (Blizzard)."
+      },
+      "ressource": {
+       "points": 1,
+       "raison": "Mana : boire entre les combats, « Reflection »."
+      },
+      "placement": {
+       "points": 0,
+       "raison": "Beaucoup de sorts instantanés : soigner en se déplaçant coûte peu."
+      },
+      "pilotage": {
+       "points": 1,
+       "raison": "Rôle de soigneur : choisir qui soigner et quand."
+      }
+     },
+     "appuis": [
+      "dr-blizzard",
+      "dr-resto",
+      "dr-soin-resto",
+      "dr-sorts-client"
+     ]
+    },
+    "pvp": {
+     "note": 4,
+     "total": 7,
+     "confiance": "moyenne",
+     "composantes": {
+      "controles": {
+       "points": 1,
+       "raison": "Racines, « Nature’s Grasp », « Hibernate »."
+      },
+      "defense": {
+       "points": 2,
+       "raison": "« Barkskin », formes qui libèrent des entraves, « Swiftmend », soins sur la durée."
+      },
+      "placement": {
+       "points": 2,
+       "raison": "Soigner sous pression, lignes de vue à gérer."
+      },
+      "ouverture": {
+       "points": 0,
+       "raison": "Pas de fenêtre d’ouverture."
+      },
+      "pilotage": {
+       "points": 2,
+       "raison": "Danse des formes pour fuir et encaisser."
+      }
+     },
+     "appuis": [
+      "dr-racines",
+      "dr-defense",
+      "dr-pvp-duel",
+      "dr-complexite",
+      "dr-sorts-client",
+      "dr-mobilite",
+      "dr-soin-resto"
+     ]
     }
    }
   }

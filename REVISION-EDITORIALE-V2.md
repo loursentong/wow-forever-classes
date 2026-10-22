@@ -1,4 +1,4 @@
-# Révision éditoriale v2 et références v3 à v9 — 21 octobre 2026
+# Révision éditoriale v2 et références v3 à v11 — 21 et 22 octobre 2026
 
 Changement de **données et d'explications**, approuvé par le responsable du projet après la revue pratique des 28 configurations : moteur `1.0.1-exploratoire`, référence v2. Il est complété le même jour par la règle d'affichage à score égal (moteur `1.0.2-exploratoire`, référence v3) puis par l'exception solo du Chasseur réservée à Maîtrise des bêtes (moteur `1.0.3-exploratoire`, référence v4), voir plus bas. Base commune : `71f81ec53bc3023e5fd8e8428de1267ff5df2d4a`.
 
@@ -176,9 +176,57 @@ Proposition d'Astra après un audit des interactions (8 172 profils guidés et 2
 
 Sur les 27 scénarios guidés de la v8, deux changent de scores ou de configuration, sans changement de première classe ; les priorités et le mode personnalisé sont identiques. Sur les 8 172 profils guidés de contrôle, 729 changent, dont 170 de première classe : 99 par la règle du familier, 243 par celle du soin, 387 par les deux ; l'écart maximal est de 21,98 points. La v9 ajoute sept scénarios.
 
+## Version 1.1.0 : référentiel de complexité (référence v11)
+
+Décision du responsable du projet, 22 octobre 2026, après l’étude d’un référentiel de complexité : les notes de difficulté PvE et PvP ne reposaient sur aucune grille commune (le Chasseur était jugé « très simple » en PvE, et sa complexité PvP, pièges et vol de mana compris, sous-estimée). Trois choix validés : la grille et son barème ; Survie notée sur son jeu en alternance tir-mêlée ; la complexité utilisée partout où la difficulté compte (préférence de difficulté, technicité, effet de la maîtrise). Les activités mêlées gardent la moyenne PvE et PvP.
+
+- **Définition.** Ce qu’une spécialisation demande pour être bien jouée dans un contexte : ce qu’il faut suivre, décider et exécuter, et ce que coûte une erreur. Ni sa puissance ni son confort en leveling.
+- **Grille.** Cinq composantes par contexte, de 0 à 2 points : rotation, entretien, ressource, placement et pilotage en PvE ; contrôles, défense, placement, ouverture et pilotage en PvP. Le total sur 10 donne la note : 0–2 → 1, 3–4 → 2, 5–6 → 3, 7–8 → 4, 9–10 → 5.
+- **Jeu évalué.** Celui des guides. Une technique avancée ne compte que si les autres notes en dépendent (au moins 10 % de dégâts en simulation) : seule l’alternance tir-mêlée de Survie, environ 21 %, est dans ce cas. En mêlée seule, Survie serait à 2/5.
+- **Appuis.** Listes de priorités du simulateur wowsims (commit `d6429b7`), sorts et talents lus dans les données du client, guides de la bêta (Icy Veins, wowtbc.gg, niveau 30), présentations de Blizzard et faits déjà sourcés. Chaque composante a sa raison dans la base de connaissances ; les fiches de sources les affichent.
+
+| Spécialisation | PvE (total sur 10) | PvP (total sur 10) |
+|---|---|---|
+| Guerrier Armes | 2 → **4** (7/10) | 4 (8/10) |
+| Guerrier Fureur | 3 (5/10) | 3 → **4** (7/10) |
+| Guerrier Protection | 3 → **4** (7/10) | 4 (7/10) |
+| Paladin Sacré | 2 (4/10) | 2 (4/10) |
+| Paladin Protection | 2 → **3** (5/10) | 2 (4/10) |
+| Paladin Vindicte | 2 → **1** (2/10) | 2 → **3** (6/10) |
+| Chasseur Maîtrise des bêtes | 1 → **2** (4/10) | 2 → **4** (8/10) |
+| Chasseur Précision | 2 (4/10) | 3 → **4** (7/10) |
+| Chasseur Survie | 4 (7/10) | 3 → **4** (8/10) |
+| Voleur Assassinat | 3 → **2** (4/10) | 4 (7/10) |
+| Voleur Combat | 2 (3/10) | 3 → **4** (7/10) |
+| Voleur Finesse | 3 → **4** (7/10) | 5 (9/10) |
+| Prêtre Discipline | 3 → **4** (7/10) | 4 (7/10) |
+| Prêtre Sacré | 2 (4/10) | 3 (6/10) |
+| Prêtre Ombre | 3 → **2** (4/10) | 4 (7/10) |
+| Chaman Élémentaire | 3 (5/10) | 3 → **4** (7/10) |
+| Chaman Amélioration | 3 (6/10) | 3 (6/10) |
+| Chaman Restauration | 2 → **3** (5/10) | 3 (6/10) |
+| Mage Arcane | 3 (5/10) | 4 → **3** (6/10) |
+| Mage Feu | 3 → **2** (4/10) | 4 → **3** (6/10) |
+| Mage Givre | 2 (3/10) | 4 (7/10) |
+| Démoniste Affliction | 3 (6/10) | 3 → **4** (8/10) |
+| Démoniste Démonologie | 3 → **4** (7/10) | 4 (8/10) |
+| Démoniste Destruction | 3 (5/10) | 4 (8/10) |
+| Druide Équilibre | 3 → **2** (3/10) | 4 (7/10) |
+| Druide Farouche (félin) | 4 (8/10) | 5 → **4** (8/10) |
+| Druide Farouche (ours) | 4 → **2** (4/10) | 5 → **3** (6/10) |
+| Druide Restauration | 3 (5/10) | 4 (7/10) |
+
+26 notes changent sur 56, pour 22 spécialisations. Le PvP est plus exigeant que le PvE pour 17 spécialisations, aussi exigeant pour 10, moins pour Paladin Protection seulement ; Vindicte est la seule à 1/5 en PvE.
+
+**Vérifications après l’étude.** La relecture des sources a corrigé une note et plusieurs raisons. Assassinat passe à 2/5 en PvE et non 3/5 : les données du simulateur montrent que Mutilate exige deux dagues mais pas d’être dans le dos de la cible (placement 0). Une citation de la raison PvP de Survie était introuvable dans la source vérifiée : elle est retirée. Les citations d’Icy Veins sont reprises au mot près ; ce qui venait de pages illisibles lors de la relecture (Paladin Protection, Chaman Restauration, Druide Restauration) n’est pas repris, et ces raisons s’appuient sur d’autres faits.
+
+**Effets vérifiés** (`node scripts/reference-v11.cjs`). Sans préférence de difficulté et à la maîtrise Confirmé, rien ne change : 28 des 37 scénarios guidés de la v10 et 21 des 107 classements personnalisés le vérifient. Ailleurs, le top 3 change dans 8 scénarios guidés et la première piste dans 3 : profil complexe très sûr, du Druide Farouche (félin) au Voleur Finesse ; difficulté simple en PvE, du Chaman Restauration au Paladin Sacré ; difficulté exigeante en PvP, du Démoniste Démonologie au Chasseur Précision. Le top 3 change dans 53 classements personnalisés : 24 des 60 préréglages, 6 des 12 rôles isolés, 5 des 15 pondérations croisées et 18 des 20 pondérations de technicité. Un cas de référence indépendant bascule : en Expert, contrôle et zone à distance sans familier, le Démoniste Affliction (4/5 en PvP) devance le Mage Arcane (3/5) de 0,11 point ; en v10, c’était l’inverse, du même écart. La v11 ajoute quatre scénarios : un tank qui veut une difficulté accessible voit l’ours passer devant le Paladin Protection.
+
+**Hypothèses non validées par des mesures.** Aucune mesure en jeu (bêta plafonnée au niveau 30) ; les guides décrivent le niveau 30, les simulations le niveau 60. Chaque composante est un jugement à un point près. En PvP, 18 spécialisations sur 28 sont à 4/5 : la note y distingue moins. Les variantes sans familier gardent la complexité de leur configuration ; sans compagnon, Survie passerait de 4 à 3 et Destruction de 3 à 2 en PvE : à arbitrer.
+
 ## Références et reproduction
 
-La fixture v1 et `tests/reference-notes.json` sont conservés. La fixture v2 fige les mêmes entrées, après vérification des trois seuls écarts de notes. La fixture v3 ne diffère de la v2 que par les configurations affichées à score égal. La fixture v4 ne diffère de la v3 que par le Chasseur en solo, en Débutant ou Intermédiaire. La fixture v5 ne diffère de la v4 que par un scénario sans familier ; elle ajoute quatre scénarios. La fixture v6 reprend la v5 à l'identique et ajoute quatre scénarios de difficulté. La fixture v7 ne diffère de la v6 que par les cinq notes décidées. La fixture v8 reprend la v7 à l'identique, y ajoute les profils de soin et sept scénarios de soin. La fixture v9, active, ne diffère de la v8 que par deux scénarios de soin, le build de référence de Précision et sept scénarios d'interactions. Les tests protègent les empreintes des v1 à v8. Les formules de score existantes et les données de maîtrise sont inchangées ; la v8 ajoute un domaine, la façon de soigner.
+La fixture v1 et `tests/reference-notes.json` sont conservés. La fixture v2 fige les mêmes entrées, après vérification des trois seuls écarts de notes. La fixture v3 ne diffère de la v2 que par les configurations affichées à score égal. La fixture v4 ne diffère de la v3 que par le Chasseur en solo, en Débutant ou Intermédiaire. La fixture v5 ne diffère de la v4 que par un scénario sans familier ; elle ajoute quatre scénarios. La fixture v6 reprend la v5 à l'identique et ajoute quatre scénarios de difficulté. La fixture v7 ne diffère de la v6 que par les cinq notes décidées. La fixture v8 reprend la v7 à l'identique, y ajoute les profils de soin et sept scénarios de soin. La fixture v9 ne diffère de la v8 que par deux scénarios de soin, le build de référence de Précision et sept scénarios d'interactions. La fixture v10 rejoue la v9 avec des classements par spécialisation et la technicité selon les activités ; elle ajoute trois scénarios. La fixture v11, active, ne diffère de la v10 que par les 26 notes de difficulté décidées et la grille qui les fonde ; elle ajoute quatre scénarios. Les tests protègent les empreintes des v1 à v10. Les formules de score existantes et les données de maîtrise sont inchangées ; la v8 ajoute un domaine, la façon de soigner.
 
 ```text
 node --test tests/*.test.cjs
@@ -190,11 +238,13 @@ node scripts/reference-v6.cjs comparaison-v5-v6.json
 node scripts/reference-v7.cjs comparaison-v6-v7.json
 node scripts/reference-v8.cjs comparaison-v7-v8.json
 node scripts/reference-v9.cjs comparaison-v8-v9.json
+node scripts/reference-v10.cjs comparaison-v9-v10.json
+node scripts/reference-v11.cjs comparaison-v10-v11.json
 node scripts/audit-interactions.cjs > audit-interactions.json
 bash scripts/prepare-pages.sh
 node tests/browser-smoke.cjs
 ```
 
-Les comparaisons produisent les scores, rangs et spécialisations avant/après avec la cause de chaque écart. Elles ne réécrivent aucune fixture : `scripts/reference-v9.cjs` n'écrit la photographie qu'avec l'option explicite `--fixture`, et jamais sur un fichier existant. Le test navigateur utilise Playwright ; `FRV_CHROMIUM_EXECUTABLE` permet de sélectionner un Chrome/Chromium déjà installé.
+Les comparaisons produisent les scores, rangs et spécialisations avant/après avec la cause de chaque écart. Elles ne réécrivent aucune fixture : `scripts/reference-v9.cjs` à `scripts/reference-v11.cjs` n'écrivent la photographie qu'avec l'option explicite `--fixture`, et jamais sur un fichier existant. Le test navigateur utilise Playwright ; `FRV_CHROMIUM_EXECUTABLE` permet de sélectionner un Chrome/Chromium déjà installé.
 
 Les tests et les 99 cas vérifient la cohérence de l'implémentation, pas la justesse scientifique au niveau 60. Cette étape ne revoit ni les coefficients de maîtrise ni les formules et ne lance pas de nouvel audit exhaustif.
