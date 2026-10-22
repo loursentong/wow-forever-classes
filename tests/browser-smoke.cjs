@@ -156,6 +156,15 @@ async function check(){
    points:[...card.querySelectorAll('.reco-why-points')].map(x=>Number(x.textContent.split('/')[0])),summary:card.querySelector('.reco-why summary').textContent}));
   assert.equal(why.summary,'Pourquoi cette piste');
   assert.equal(why.points.reduce((a,b)=>a+b,0),why.score,JSON.stringify(why));
+  // Les blocs de chaque carte se répondent : « À garder en tête » nomme la première ligne du bilan, mêmes points.
+  const coherent=await page.locator('#reco-results .reco-result-card').evaluateAll(cards=>cards.map(card=>({
+   keep:[...card.querySelectorAll('.reco-reasons p')].find(p=>p.querySelector('b').textContent==='À garder en tête').querySelector('span').textContent,
+   sum:card.querySelector('.reco-why > p').textContent})));
+  assert.equal(coherent.length,5);
+  for(const c of coherent){
+   const m=c.keep.match(/\((\d+) sur ([^,)]+)/);
+   if(m)assert.match(c.sum,new RegExp('^Pourquoi \\d+ sur 100 \\? Il lui manque \\d+ points(?: : '+m[1]+' sur |, tous sur )'+m[2]),JSON.stringify(c));
+  }
   await page.locator('[data-reco-hide]').click();
   assert.equal(await page.locator('#reco-results .reco-result-card').count(),0);
   placed=await place();
@@ -224,7 +233,7 @@ async function check(){
   const placeWhy=await place1.evaluate(li=>({score:parseInt(li.querySelector('.reco-priority-score').textContent,10),
    points:[...li.querySelectorAll('.reco-why-points')].map(x=>parseInt(x.textContent,10)),text:li.querySelector('.reco-why').textContent}));
   assert.equal(placeWhy.points.reduce((a,b)=>a+b,0),placeWhy.score,JSON.stringify(placeWhy));
-  assert.match(placeWhy.text,/Pourquoi \d+ sur 100 \? (Il lui manque \d+ points? : |Elle répond pleinement)/);
+  assert.match(placeWhy.text,/Pourquoi \d+ sur 100 \? (Il lui manque \d+ points?( : |, (tous )?sur )|Il ne lui manque aucun point)/);
   assert.match(placeWhy.text,/Ton choix\s*Priorité (secondaire|importante|essentielle) \([123]\)/);
   await place1.screenshot({path:path.join(__dirname,'screenshots','priorites-pourquoi-cette-place.png'),animations:'disabled'});
   await place1.locator('.reco-why > summary').click();

@@ -25,19 +25,27 @@ test('La trace reconstitue le score et ses causes, y compris lorsque la certitud
  }
  const poor=E.explain('guerrier-armes',{range:{value:'distance',certainty:0}}).answers[0];
  assert.ok(poor.causes.certainty<0,'Une hésitation peut atténuer un désaccord, pas toujours pénaliser');
- assert.doesNotMatch(X.mainTradeoff(E.explain('guerrier-armes',{range:{value:'distance',certainty:0}})),/Tu hésites/);
+ assert.doesNotMatch(X.keepInMind(E.explain('guerrier-armes',{range:{value:'distance',certainty:0}})),/hésites/);
 });
-test('Le compromis retient la perte pondérée, et distingue capacité, maîtrise et certitude',()=>{
+test('À garder en tête : le groupe qui perd le plus de points, puis sa réponse ; capacité, maîtrise et certitude distinguées',()=>{
  const uncertain=E.explain('mage-givre',{styles:{ctrl:0},mastery:2});
- assert.equal(X.mainTradeoff(uncertain),'Tu hésites sur « Contrôle » (certitude 0/5) : c’est ce qui coûte le plus de points au Mage Givre.');
+ // Une hésitation n'est pas une faiblesse de la spécialisation : la phrase dit qu'elle y répond pleinement.
+ assert.equal(X.keepInMind(uncertain),'Le Mage Givre répond pleinement à ton choix « Contrôle », mais tu hésites (certitude 0/5) : c’est la seule chose qui lui coûte des points (37 sur le gameplay).');
  const novice=E.explain('mage-givre',{styles:{ctrl:5},mastery:0});
- assert.equal(X.mainTradeoff(novice),'Le Mage Givre est noté 5/5 en contrôle, 4,4/5 avec ta maîtrise (débutant) : il demande de la pratique pour en profiter pleinement.');
+ assert.equal(X.keepInMind(novice),'Le Mage Givre est noté 5/5 en contrôle, 4,4/5 avec ta maîtrise (débutant) : c’est la seule chose qui lui coûte des points (16 sur le gameplay).');
  const fit=E.explain('mage-givre',{styles:{ctrl:5},mastery:2});
- assert.equal(X.mainTradeoff(fit),'Le Mage Givre répond pleinement à tes choix dans nos estimations : regarde si son style de jeu te plaît.');
- const weighted={profile:E.sanitize({styles:{ctrl:5},activities:{raid:5}}),answers:[
-  {domain:'styles',key:'ctrl',note:2,loss:2,causes:{aptitude:2,mastery:0,certainty:0}},
-  {domain:'activities',key:'raid',note:4,loss:6,causes:{aptitude:6,mastery:0,certainty:0}}]};
- assert.equal(X.mainTradeoff(weighted),'Cette spécialisation est notée 4/5 en donjons et raids : c’est ce qui lui coûte le plus de points.');
+ assert.equal(X.keepInMind(fit),'Le Mage Givre répond pleinement à tes choix dans nos estimations : regarde si son style de jeu te plaît.');
+ /* Perte pondérée, groupe par groupe (révision du 22 octobre 2026) : le rôle seul perd plus qu'aucune autre
+  * réponse (5,66 points), mais le gameplay en perd davantage à deux réponses (8). « À garder en tête » nomme le
+  * gameplay et sa réponse la plus coûteuse, comme la première ligne du bilan ; avant, il nommait le rôle. */
+ const p={roles:{dps:4},activities:{raid:3,bg:2},styles:{burst:4,surv:3},range:{value:'distance',certainty:3},pet:{value:'like',certainty:4},mastery:3};
+ const ex=E.explain('demoniste-affliction',p),row=E.ranking(p).results.find(r=>r.spec.id==='demoniste-affliction');
+ assert.equal(ex.answers.slice().sort((a,b)=>b.loss-a.loss)[0].domain,'roles');
+ assert.equal(X.keepInMind(ex,row.fit,row.score),'Le Démoniste Affliction est noté 3/5 en dégâts explosifs, 3,1/5 avec ta maîtrise (expert) : c’est ce qui lui coûte le plus de points (8 sur le gameplay).');
+ assert.equal(X.pisteMissing(ex,row.fit,row.score),'Il lui manque 26 points : 8 sur le gameplay (Dégâts explosifs), 6 sur les activités (Donjons et raids), 5 sur les rôles (DPS), 4 sur les familiers (J’aime les familiers) et 3 sur la portée (À distance : certitude 3/5).');
+ assert.equal(X.strengthsText(ex,row.fit,row.score),'Champs de bataille · À distance');
+ // Sans fit ni score, l'analyse les retrouve dans la trace : même phrase.
+ assert.equal(X.keepInMind(ex),X.keepInMind(ex,row.fit,row.score));
 });
 test('Les réponses sans objet sont absentes de la trace ; les contraintes restent prioritaires',()=>{
  assert.equal(E.explain('absent',{styles:{ctrl:5}}),null);
