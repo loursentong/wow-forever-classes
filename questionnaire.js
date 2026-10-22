@@ -6,7 +6,7 @@ var X=window.WFResultExplanations;
 var root=document.getElementById('reco-app');
 if(!E||!root)return;
 var KEY='wf-recommend-v1',state=E.sanitize(null),step=0,revealed=false;
-// Pistes détaillées : cinq, dont au plus deux spécialisations d'une même classe ; le classement complet
+// Pistes détaillées : cinq, dont au plus trois spécialisations d'une même classe ; le classement complet
 // reste dans l'aperçu du classement.
 var PISTES=5,firstWords=['','première','deux premières','trois premières','quatre premières','cinq premières','six premières'];
 try{state=E.sanitize(JSON.parse(localStorage.getItem(KEY)||'null'));}catch(e){state=E.sanitize(null);}
@@ -324,7 +324,7 @@ function renderResults(){
  }else{
   h='<div class="reco-results-head"><div><span class="reco-kicker">Sélection personnalisée</span><h3>Tes meilleures pistes</h3></div>'+
    '<button type="button" class="reco-hide-results" data-reco-hide>Masquer les résultats</button></div>';
-  h+='<p class="reco-note">Tes '+report.top.length+' meilleures pistes. Chaque piste est une spécialisation : une même classe peut en proposer deux au plus, les places suivantes revenant à d’autres classes.</p>';
+  h+='<p class="reco-note">Tes '+report.top.length+' meilleures pistes. Chaque piste est une spécialisation : une même classe peut en proposer '+(E.perClass?['','une','deux','trois','quatre','cinq'][E.perClass(report.top.length)]||E.perClass(report.top.length):'plusieurs')+' au plus, les places suivantes revenant à d’autres classes.</p>';
   // Rangs et égalités entre les pistes affichées (le top 3 peut sauter une troisième spécialisation d'une même classe).
   var positions=X?X.ranks(report.top):[],tie=X?X.tieNote(report.results):'';
   if(tie)h+='<p class="reco-note reco-tie-note">'+esc(tie)+'</p>';

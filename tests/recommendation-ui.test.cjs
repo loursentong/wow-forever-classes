@@ -274,7 +274,8 @@ test('Pourquoi cette piste remplace « Fiabilité et incertitude » : critères,
  assert.match(h.results.innerHTML,/data-reco-full>Voir le classement complet des 28 spécialisations</);
  const classes=[...h.results.innerHTML.matchAll(/<h4>([^<]+)<\/h4>/g)].map(m=>m[1]),count={};
  for(const c of classes)count[c]=(count[c]||0)+1;
- assert.ok(Object.values(count).every(n=>n<=2),JSON.stringify(count));
+ assert.ok(Object.values(count).every(n=>n<=3),JSON.stringify(count));
+ assert.match(h.results.innerHTML,/une même classe peut en proposer trois au plus/);
  assert.match(h.results.innerHTML,/Cette spécialisation reste dans tes cinq premières pistes dans \d+ cas sur \d+/);
  assert.match(h.results.innerHTML,/reco-why-parts[\s\S]*Rôles[\s\S]*Activités/);
  assert.match(h.results.innerHTML,/retiré chacune de tes réponses les plus hésitantes \(Soin\)/);

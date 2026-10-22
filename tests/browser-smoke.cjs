@@ -409,15 +409,16 @@ async function check(){
   await page.locator('[data-reco-mode="guided"]').click();
   await page.locator('[data-reco-reveal]').click();
   assert.match(await page.locator('#reco-results').textContent(),/comparé à la difficulté PvE/);
-  // Deux spécialisations d'une même classe peuvent partager le top 3, jamais trois (v10).
+  // Une même classe peut revenir dans les pistes, au plus trois fois sur cinq.
   await page.evaluate(()=>localStorage.setItem('wf-recommend-v1',JSON.stringify({styles:{mob:5,surv:5},mastery:2})));
   await page.reload({waitUntil:'domcontentloaded'});
   await page.locator('[data-reco-mode="guided"]').click();
   await page.locator('[data-step="5"]').click();
   await page.locator('[data-show-results]').click();
   const cards=await page.locator('#reco-results .reco-result-card h4').allTextContents();
-  assert.equal(cards.length,5);assert.deepEqual(cards.slice(0,3),['Druide','Druide','Chaman']);
-  assert.ok(cards.filter(c=>c==='Druide').length===2,'jamais trois Druides : '+cards);
+  // Cinq pistes : une classe en occupe au plus trois (ici les trois Druides à égalité), puis d'autres classes.
+  assert.equal(cards.length,5);assert.deepEqual(cards.slice(0,3),['Druide','Druide','Druide']);
+  assert.ok(cards.slice(3).every(c=>c!=='Druide'),'les places suivantes vont à d’autres classes : '+cards);
   // Le classement complet s'ouvre depuis les résultats.
   await page.locator('[data-reco-full]').click();
   assert.equal(await page.locator('#reco-live').evaluate(d=>d.open),true);

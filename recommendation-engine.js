@@ -290,14 +290,15 @@ function ranking(profile){
   if(!candidates.length)return {status:'no-match',profile:p,used:used,results:[],compatible:0};
   return {status:'ok',profile:p,used:used,results:candidates,compatible:candidates.length};
 }
-/* Top 3 du parcours guidé : au plus deux spécialisations d'une même classe ; la place suivante va à
- * la meilleure configuration d'une autre classe. */
-var MAX_PER_CLASS=2;
+/* Pistes du parcours guidé : une même classe occupe au plus la moitié des places, arrondie au supérieur
+ * (deux sur trois, trois sur cinq) ; les places suivantes vont aux meilleures configurations des autres
+ * classes. */
+function perClass(n){return Math.ceil(n/2);}
 function topPicks(results,n){
-  var count={},out=[];
+  var count={},out=[],max=perClass(n);
   for(var i=0;i<results.length&&out.length<n;i++){
     var c=results[i].spec.classId;
-    if((count[c]||0)>=MAX_PER_CLASS)continue;
+    if((count[c]||0)>=max)continue;
     count[c]=(count[c]||0)+1;out.push(results[i]);
   }
   return out;
@@ -470,6 +471,6 @@ function checkData(){
 }
 return {version:'1.0.9-exploratoire',referenceVariants:REFERENCE_VARIANTS,healStyles:HEAL_STYLES,sources:sources,specs:specs,petless:petless,difficultyContext:difficultyContext,difficultyLoad:difficultyLoad,roles:ROLE,activities:acts,styles:styles,
  defaultProfile:copy(DEFAULT),sanitize:sanitize,selected:selected,domains:domains,eligible:eligible,
- ranking:ranking,recommend:recommend,topPicks:topPicks,maxPerClass:MAX_PER_CLASS,techContext:techContext,explain:explain,priorityExplain:priorityExplain,checkData:checkData,intensity:intensity,preferenceFit:preferenceFit,
+ ranking:ranking,recommend:recommend,topPicks:topPicks,perClass:perClass,techContext:techContext,explain:explain,priorityExplain:priorityExplain,checkData:checkData,intensity:intensity,preferenceFit:preferenceFit,
  rolePool:rolePool,adjustedActivity:adjustedActivity,potential:potential,roleSuitability:roleSuitability,roleReference:ROLE_REFERENCE,priorityAxes:PRIORITY_AXES,priorityRanking:priorityRanking,sanitizeWeights:sanitizeWeights};
 });
