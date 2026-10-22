@@ -6,6 +6,9 @@ var X=window.WFResultExplanations;
 var root=document.getElementById('reco-app');
 if(!E||!root)return;
 var KEY='wf-recommend-v1',state=E.sanitize(null),step=0,revealed=false;
+// Pistes détaillées : cinq, dont au plus trois spécialisations d'une même classe ; le classement complet
+// reste dans l'aperçu du classement.
+var PISTES=5,firstWords=['','première','deux premières','trois premières','quatre premières','cinq premières','six premières'];
 try{state=E.sanitize(JSON.parse(localStorage.getItem(KEY)||'null'));}catch(e){state=E.sanitize(null);}
 /* Une exigence absolue n'est pas une hésitation : la certitude du choix exigé passe à 5/5 et son
  * curseur est verrouillé (rôles indispensables, portée exigée, uniquement sans familier). */
@@ -225,7 +228,7 @@ function whyBlock(r,hesitant){
    p.answers.map(function(a){return X.answerHtml(a.label,a.lines);}).join('')+'</div></li>';
  }).join('');
  var stability=r.scenarioCount<=1?'Tes choix sont assez affirmés : nous n’avons pas testé de variante sans eux.':
-  'Cette spécialisation reste dans tes trois premières pistes dans '+r.scenarioAppearances+' cas sur '+r.scenarioCount+'. Nous avons comparé tes réponses actuelles, puis retiré chacune de tes réponses les plus hésitantes'+
+  'Cette spécialisation reste dans tes '+firstWords[PISTES]+' pistes dans '+r.scenarioAppearances+' cas sur '+r.scenarioCount+'. Nous avons comparé tes réponses actuelles, puis retiré chacune de tes réponses les plus hésitantes'+
   (hesitant.length?' ('+hesitant.join(', ')+')':'')+'.';
  return '<details class="reco-evidence reco-why"><summary>Pourquoi cette piste</summary>'+
   '<p><b>Pourquoi '+Math.round(r.score)+' sur 100 ?</b> '+esc(X.pisteMissing(explanation,r.fit,r.score))+'</p>'+
@@ -299,7 +302,7 @@ if(live&&live.addEventListener)live.addEventListener('click',function(ev){
 });
 function canReveal(report){return !revealed&&report.status==='ok'&&report.used.length>=2;}
 function renderResults(){
- var report=E.recommend(state),out=root.querySelector('#reco-results'),h='';
+ var report=E.recommend(state,PISTES),out=root.querySelector('#reco-results'),h='';
  var ready=canReveal(report);
  renderLive(report);
  if(report.status==='unanswered'){
@@ -321,12 +324,13 @@ function renderResults(){
  }else{
   h='<div class="reco-results-head"><div><span class="reco-kicker">Sélection personnalisée</span><h3>Tes meilleures pistes</h3></div>'+
    '<button type="button" class="reco-hide-results" data-reco-hide>Masquer les résultats</button></div>';
-  h+='<p class="reco-note">Chaque piste est une spécialisation : une même classe peut en proposer deux quand elles te correspondent, la troisième place revenant alors à une autre classe.</p>';
+  h+='<p class="reco-note">Tes '+report.top.length+' meilleures pistes. Chaque piste est une spécialisation : une même classe peut en proposer '+(E.perClass?['','une','deux','trois','quatre','cinq'][E.perClass(report.top.length)]||E.perClass(report.top.length):'plusieurs')+' au plus, les places suivantes revenant à d’autres classes.</p>';
   // Rangs et égalités entre les pistes affichées (le top 3 peut sauter une troisième spécialisation d'une même classe).
   var positions=X?X.ranks(report.top):[],tie=X?X.tieNote(report.results):'';
   if(tie)h+='<p class="reco-note reco-tie-note">'+esc(tie)+'</p>';
   if(X)X.contextNotes({profile:state}).forEach(function(note){h+='<p class="reco-note">'+esc(note)+'</p>';});
   h+='<div class="reco-cards">'+report.top.map(function(r,i){return resultCard(r,i,positions[i],hesitations(report));}).join('')+'</div>';
+  if(report.results.length>report.top.length)h+='<button type="button" class="reco-more" data-reco-full>Voir le classement complet des '+report.results.length+' spécialisations</button>';
   if(report.uncertain.length)h+='<p class="reco-note">Sensibilité : '+report.uncertain.length+' préférence(s) hésitante(s) explorée(s). Ces scénarios ne sont pas des probabilités.</p>';
   else h+='<p class="reco-note">Ces scores sont des estimations de correspondance, pas des probabilités de satisfaction.</p>';
  }
@@ -365,6 +369,14 @@ if(stepRail)stepRail.addEventListener('click',function(ev){
 });
 resultsArea.addEventListener('click',function(ev){
  var b=ev.target.closest('button');if(!b)return;
+ if(b.hasAttribute('data-reco-full')){
+  // Le classement complet est l'aperçu du classement : on l'ouvre, en entier, et on y conduit le joueur.
+  var panel=root.querySelector('#reco-live');
+  if(panel){panel.open=true;liveAll=true;if(lastLive)renderLive(lastLive);
+   if(panel.scrollIntoView)panel.scrollIntoView({block:'start',behavior:window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+   var summary=panel.querySelector('summary');if(summary&&summary.focus)summary.focus({preventScroll:true});}
+  return;
+ }
  if(b.hasAttribute('data-reco-reveal'))showResults();
  else if(b.hasAttribute('data-reco-hide')){
   revealed=false;renderResults();
