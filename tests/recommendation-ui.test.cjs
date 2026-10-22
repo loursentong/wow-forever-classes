@@ -205,7 +205,11 @@ test('Fiche d’une piste de soin : façon de soigner décrite, sans score suppl
  assert.match(h.results.innerHTML,/<strong>Sacré<\/strong>/);
  assert.match(h.results.innerHTML,/Façon de soigner :<\/b> Gros soins ciblés : son point fort/);
  assert.doesNotMatch(h.results.innerHTML,/configurations compatibles|dimensions prises en compte/);
- assert.match(h.results.innerHTML,/Rôles · Façon de soigner/);
+ // « Correspond à tes envies » nomme les choix pleinement remplis, avec les mots du questionnaire.
+ assert.match(h.results.innerHTML,/<b>Correspond à tes envies<\/b><span>Soin · Gros soins ciblés<\/span>/);
+ // Le Chaman : « À garder en tête » et le bilan nomment le même critère, avec les mêmes points.
+ assert.match(h.results.innerHTML,/<b>À garder en tête<\/b><span>Le Chaman Restauration est noté 4\/5 en gros soins ciblés : c’est la seule chose qui lui coûte des points \(9 sur la façon de soigner\)\.<\/span>/);
+ assert.match(h.results.innerHTML,/Pourquoi 91 sur 100 \?<\/b> Il lui manque 9 points, tous sur la façon de soigner \(Gros soins ciblés\)\./);
 });
 
 test('Sauvegarde de la façon de soigner : aller-retour, et une ancienne sauvegarde reste valide',()=>{
@@ -280,7 +284,8 @@ test('Pourquoi cette piste remplace « Fiabilité et incertitude » : critères,
  assert.match(h.results.innerHTML,/reco-why-parts[\s\S]*Rôles[\s\S]*Activités/);
  assert.match(h.results.innerHTML,/retiré chacune de tes réponses les plus hésitantes \(Soin\)/);
  assert.match(h.results.innerHTML,/fiches-sources\/chaman\.html#chaman-restauration/);
- assert.match(h.results.innerHTML,/Tu hésites sur « Rôle : Soin » \(certitude 2\/5\)/);
+ // Une hésitation n'est pas une faiblesse : la spécialisation y répond pleinement, mais le choix est adouci.
+ assert.match(h.results.innerHTML,/Le Chaman Restauration répond pleinement à ton choix « Soin », mais tu hésites \(certitude 2\/5\) : c’est ce qui lui coûte le plus de points \(11 sur les rôles\)\./);
  assert.match(h.results.innerHTML,/Pourquoi \d+ sur 100 \?<\/b> Il lui manque \d+ points : \d+ sur les rôles \(Soin : certitude 2\/5\)/);
  assert.match(h.results.innerHTML,/<dt>Ton choix<\/dt><dd>Hésitant \(certitude 2\/5\)<\/dd>/);
  h.certainty('roles','soin',5);

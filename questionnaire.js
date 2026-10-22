@@ -203,7 +203,6 @@ function renderForm(){
   }
  }
 }
-function pointsName(k){return labels[k]||k;}
 function fitLabel(v){
  if(v>=.82)return 'Très bonne piste';
  if(v>=.68)return 'Bonne correspondance';
@@ -239,9 +238,12 @@ function whyBlock(r,hesitant){
   '<p><a href="fiches-sources/'+esc(r.classId)+'.html#'+esc(r.spec.id)+(r.spec.variant==='sans-familier'?'-sans-familier':'')+'">Comprendre les notes et voir les sources du '+esc(r.className)+'</a></p>'+
   '</details>';
 }
+/* « Correspond à tes envies » et « À garder en tête » lisent la même analyse que « Pourquoi cette piste »
+ * (fit et score de la piste) : le critère nommé est le premier du bilan des points manquants. */
 function resultCard(r,i,position,hesitant){
- var strong=r.strengths.length?r.strengths.map(pointsName).join(' · '):'Plusieurs pistes possibles';
- var weak=X.mainTradeoff(E.explain(r.spec.id,state));
+ var explanation=E.explain(r.spec.id,state);
+ var strong=X.strengthsText(explanation,r.fit,r.score);
+ var weak=X.keepInMind(explanation,r.fit,r.score);
  var cls=r.classId;
  var tied=position&&position.tied,leader=position?position.leader:i===0;
  var petNotice=X?X.petNotice(r.spec,state):'';
