@@ -93,7 +93,7 @@ test('Arrivée : aucun parcours ouvert, le dernier parcours utilisé est signal�
   h.choose('priorities');
   assert.equal(h.priority.hidden,false);assert.equal(h.guided.hidden,true);
   assert.deepEqual(h.calls,['scroll'],'changer ensuite d’onglet ne fait pas défiler');
-  assert.match(h.output.innerHTML,/Les neuf classes selon tes critères/);
+  assert.match(h.output.innerHTML,/Les spécialisations selon tes critères/);
 });
 
 test('Profils, poids, maîtrise partagée et remise à zéro : l’état est sauvegardé, la maîtrise suit le guide',()=>{
@@ -148,10 +148,14 @@ test('Sauvegardes : reprise, anciennes clés, critères apparus le 20 octobre, s
   assert.match(mine.form.innerHTML,/data-prio-restore/);
 });
 
-test('Pourquoi cette place : chaque classe explique son score, les points font le score affiché',()=>{
+test('Pourquoi cette place : chaque spécialisation explique son score, les points font le score affiché',()=>{
   const h=boot();h.choose('priorities');h.press({prioPreset:'pvp'});
+  // Dix spécialisations visibles, puis les 18 autres sur demande (v10).
+  assert.equal(h.output.innerHTML.split('<li class="reco-priority-class').length-1,10);
+  assert.match(h.output.innerHTML,/data-prio-more aria-expanded="false">Voir les 18 autres spécialisations</);
+  h.output.listeners.click[0]({target:{closest:s=>s==='[data-prio-more]'?{}:null}});
   const rows=h.output.innerHTML.split('<li class="reco-priority-class').slice(1);
-  assert.equal(rows.length,9);
+  assert.equal(rows.length,28);
   for(const row of rows){
     assert.match(row,/<summary>Pourquoi cette place<\/summary>/);
     const score=Number(row.match(/<span class="reco-priority-score">(\d+)/)[1]);

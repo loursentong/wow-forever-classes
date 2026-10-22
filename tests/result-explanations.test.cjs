@@ -22,14 +22,18 @@ test('Repères de rang explicites : égalité nommée, écart chiffré avec la c
  assert.deepEqual(hints,['à égalité avec le Paladin','à égalité avec le Démoniste','à égalité avec le Prêtre','à égalité avec le Druide',
   '0,4 point derrière le Druide et le Prêtre','','0,8 point derrière le Mage','','2 points derrière le Chasseur','']);
  const four=[100,100,100,100,99.98].map((score,i)=>({className:'C'+i,score}));
- assert.equal(X.rankHint(four,0),'à égalité avec 3 autres classes');
- assert.equal(X.rankHint(four,4),'moins de 0,1 point derrière les 4 classes à égalité au-dessus');
+ assert.equal(X.rankHint(four,0),'à égalité avec 3 autres spécialisations');
+ assert.equal(X.rankHint(four,4),'moins de 0,1 point derrière les 4 spécialisations à égalité au-dessus');
+ // Avec une spécialisation, elle est nommée : une même classe peut revenir (v10).
+ assert.equal(X.rankHint([{className:'Mage',spec:{label:'Givre'},score:90},{className:'Mage',spec:{label:'Feu'},score:89}],1),'1 point derrière le Mage Givre');
  assert.equal(X.rankHint([],0),'');
 });
 
 test('Les égalités des soigneurs incluent la quatrième classe au-delà des trois cartes',()=>{
  const r=E.recommend({roles:{soin:5},rolesStrict:true,mastery:2});
- assert.equal(r.results.length,4);
+ // Cinq configurations de soin, quatre classes, toutes à égalité ; la note nomme chaque spécialisation.
+ assert.equal(r.results.length,5);
+ assert.match(X.tieNote(r.results),/^À égalité en tête : Chaman Restauration, Druide Restauration, Paladin Sacré, Prêtre Discipline, Prêtre Sacré\./);
  const note=X.tieNote(r.results);
  for(const row of r.results)assert.ok(note.includes(row.spec.className));
  assert.ok(X.ranks(r.results).every(p=>p.tied&&p.rank===1));
@@ -141,9 +145,10 @@ test('Pourquoi cette piste : la spécialisation nommée et sa note, ton choix en
 
 test('Pourquoi cette place : priorité en mots, part de chaque critère dans son groupe, points manquants',()=>{
  // L'exemple du Voleur : Champ de bataille et PvP sauvage essentiels, Contrôle, Mobilité et Technicité importants, maîtrise Expert.
+ // Depuis la v10, la technicité suit ces critères PvP : Finesse y est notée 5/5 (3/5 en PvE), le score passe de 92 à 96.
  const w={bg:3,sauv:3,ctrl:2,mob:2,tech:2},ex=E.priorityExplain('voleur-finesse',w,3);
  const groups=X.priorityParts(ex,ex.score),axes=groups.flatMap(g=>g.axes);
- assert.equal(Math.round(ex.score),92);
+ assert.equal(Math.round(ex.score),96);
  for(const a of axes){
   assert.deepEqual(a.lines.map(l=>l.lead),['La spécialisation','Ton choix','Constat']);
   assert.match(a.lines[1].text,/^Priorité (secondaire \(1\)|importante \(2\)|essentielle \(3\))$/);
@@ -151,9 +156,11 @@ test('Pourquoi cette place : priorité en mots, part de chaque critère dans son
  }
  assert.deepEqual(axes.find(a=>a.key==='bg').lines.map(l=>l.text),
   ['Finesse est notée 4/5 pour cette activité, 4,4/5 avec ta maîtrise (expert).','Priorité essentielle (3)','Elle y répond bien (84\u00a0%).']);
- assert.equal(axes.find(a=>a.key==='tech').lines[0].text,'Finesse est notée 4/5 en difficulté (moyenne PvE et PvP).');
+ assert.equal(axes.find(a=>a.key==='tech').lines[0].text,'Finesse est notée 5/5 en difficulté PvP.');
+ assert.equal(E.priorityExplain('voleur-finesse',{tech:2,solo:3},3).axes.find(a=>a.key==='tech').context,'pve');
+ assert.equal(X.priorityParts(E.priorityExplain('voleur-finesse',{tech:2},3),0)[0].axes[0].lines[0].text,'Finesse est notée 4/5 en difficulté (moyenne PvE et PvP).');
  assert.deepEqual(groups.map(g=>g.note),['Tes 2 critères ont la même priorité : ils comptent autant.','Tes 2 critères ont la même priorité : ils comptent autant.','']);
- assert.equal(X.priorityMissing(ex,ex.score),'Il lui manque 8 points : 4 sur les activités (Champ de bataille) et 4 sur les affinités (Technicité).');
+ assert.equal(X.priorityMissing(ex,ex.score),'Il lui manque 4 points : 4 sur les activités (Champ de bataille).');
  // Priorités différentes dans un groupe ; rôle non joué ; polyvalence ; aucun point manquant.
  const tank=E.priorityExplain('paladin-protection',{tank:3,soin:1,poly:1},3),roles=X.priorityParts(tank,tank.score)[0];
  assert.equal(roles.note,'Chaque critère compte selon ta priorité : Tank 75\u00a0% et Soin 25\u00a0%.');

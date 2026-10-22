@@ -8,7 +8,10 @@
  * familier facultatif avec leurs notes sans familier quand le joueur préfère jouer sans compagnon ;
  * v6 juge la préférence de difficulté sur le contexte (PvE ou PvP) des activités choisies ; v7 aligne la note
  * raid des DPS sur leurs dégâts simulés et passe Farouche (félin) à 2 en zone ; v8 ajoute la façon de soigner,
- * qui compare les configurations de soin quand le joueur demande ce rôle.
+ * qui compare les configurations de soin quand le joueur demande ce rôle ; v9 compare les builds avec et
+ * sans compagnon et applique l'envie de soin à toutes les pistes ; v10 classe les spécialisations (une
+ * classe peut revenir, au plus deux fois dans le top 3 guidé) et fait suivre à la technicité les
+ * critères d'activité (PvE, PvP ou moyenne).
  * Ne JAMAIS régénérer ces valeurs sur un échec de CI sans revue explicite des
  * écarts, approbation du changement et nouvelle version documentée.
  */
@@ -17,7 +20,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
 const E=require('../recommendation-engine.js');
-const fixture=require('./fixtures/moteur-reference-v9.json');
+const fixture=require('./fixtures/moteur-reference-v10.json');
 const html=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
 const questionnaire=fs.readFileSync(path.join(__dirname,'..','questionnaire.js'),'utf8');
 const prioritiesUI=fs.readFileSync(path.join(__dirname,'..','priorities-ui.js'),'utf8');
@@ -34,6 +37,7 @@ function compactGuide(profile){
   compatible:r.compatible,
   used:r.used,
   results:r.results.map(x=>[x.spec.classId,x.spec.id,x.score]),
+  top:r.top.map(x=>x.spec.id),
   uncertain:r.uncertain,
   scenarios:r.scenarios.map(x=>[x.name,x.status,x.top]),
   sansFamilier:r.results.filter(x=>x.spec.variant==='sans-familier').map(x=>x.spec.id)
@@ -77,17 +81,21 @@ test('CODEx: référence de rôle toujours liée aux notes historiques',()=>{
   assert.ok(Math.abs(E.roleSuitability(s,2)-(.55*baseline+.45*activity))<1e-12,s.id);
  }
 });
-test('CODEx: 34 scénarios guidés — statut, spécialisation, scores, sensibilité, vétos, variantes sans familier, difficulté et soin',()=>{
- assert.equal(fixture.guide.length,34);
+test('CODEx: 37 scénarios guidés — statut, spécialisations, scores, top 3, sensibilité, vétos, variantes sans familier, difficulté et soin',()=>{
+ assert.equal(fixture.guide.length,37);
  for(const ex of fixture.guide){
   const actual=compactGuide(ex.profile);
   assert.deepEqual(actual,{
    status:ex.status,compatible:ex.compatible,used:ex.used,
-   results:ex.results,uncertain:ex.uncertain,scenarios:ex.scenarios,sansFamilier:ex.sansFamilier
+   results:ex.results,top:ex.top,uncertain:ex.uncertain,scenarios:ex.scenarios,sansFamilier:ex.sansFamilier
   },'Régression du guide : '+ex.id);
   if(actual.status==='ok'){
-   assert.ok(actual.results.length<=9,ex.id);
-   assert.equal(new Set(actual.results.map(x=>x[0])).size,actual.results.length,ex.id);
+   // Une ligne par configuration admissible ; au plus trois pistes, dont deux d'une même classe.
+   assert.equal(actual.results.length,actual.compatible,ex.id);
+   assert.equal(new Set(actual.results.map(x=>x[1])).size,actual.results.length,ex.id);
+   assert.ok(actual.top.length<=3,ex.id);
+   const perClass={};for(const id of actual.top){const c=actual.results.find(x=>x[1]===id)[0];perClass[c]=(perClass[c]||0)+1;}
+   assert.ok(Object.values(perClass).every(n=>n<=2),ex.id);
   }else assert.equal(actual.results.length,0,ex.id);
  }
 });
@@ -100,7 +108,8 @@ test('CODEx: 15 préréglages × 4 maîtrises — classe, spé, score et ordre e
    const r=E.priorityRanking(D.presets[preset.id],mastery);
    assert.equal(r.status,'ok');
    assert.deepEqual(compactResults(r),results,preset.id+'/maîtrise='+mastery);
-   assert.equal(r.results.length,9,preset.id);
+   assert.equal(r.results.length,28,preset.id);
+   assert.equal(new Set(r.results.map(x=>x.spec.id)).size,28,preset.id);
    assert.equal(stableIds(r).size,9,preset.id);
   }
  }
@@ -117,8 +126,10 @@ test('CODEx: DPS PvE / Tank / Soin isolés × 4 maîtrises — aucune régressio
    assert.ok(unique.size>=(axis.axis==='soin'?2:3),'Axe rôle non discriminant : '+axis.axis);
    if(axis.axis==='soin'){
     for(const row of r.results){
-     if(!['paladin','chaman','pretre','druide'].includes(row.classId))assert.equal(row.score,0);
-     else if(level.mastery>=2)assert.equal(row.score,100);
+     // Depuis la v10, chaque configuration est classée : seules celles qui soignent obtiennent l'axe Soin,
+     // et la première configuration de chaque classe de soin reste à 100 dès le niveau Confirmé.
+     if(row.spec.role!=='soin')assert.equal(row.score,0);
+     else if(level.mastery>=2&&r.results.find(x=>x.classId===row.classId)===row)assert.equal(row.score,100);
     }
    }
    assert.ok(!r.results.every(x=>x.score===100),axis.axis);
@@ -137,6 +148,13 @@ test('CODEx: cinq pondérations croisées sur trois maîtrises — pas de dériv
   assert.deepEqual(compactResults(r),caseLevel.results,
     'pondérations='+JSON.stringify(example.weights)+'/niveau='+caseLevel.mastery);
   assert.deepEqual(w,example.weights,'Le classement doit laisser son entrée intacte');
+ }
+});
+test('CODEx: technicité selon les critères d’activité — cinq pondérations × quatre maîtrises',()=>{
+ assert.equal(fixture.technicite.length,5);
+ for(const t of fixture.technicite){
+  assert.equal(E.techContext(E.sanitizeWeights(t.weights)),t.context);
+  for(const l of t.levels)assert.deepEqual(compactResults(E.priorityRanking(t.weights,l.mastery)),l.results,JSON.stringify(t.weights)+'/'+l.mastery);
  }
 });
 test('CODEx: filtre dur et statut distinct des préférences souples',()=>{

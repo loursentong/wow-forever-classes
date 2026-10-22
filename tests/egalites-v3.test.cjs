@@ -37,6 +37,7 @@ test('Le potentiel est celui du codex (§ 3.4) et reste la base de l’adéquati
  }
 });
 
+const firstOfEachClass=rows=>rows.filter((r,i)=>rows.findIndex(q=>(q.classId||q.spec.classId)===(r.classId||r.spec.classId))===i);
 test('Exemples : la configuration au plus haut potentiel représente la classe à égalité',()=>{
  // Guide « solo » sans préférence de familier : les trois Chasseurs à 85 ; Survie a le plus haut potentiel.
  // Jusqu'à la v4, « solo sans familier obligatoire » illustrait la même règle (Précision et Survie à 83) ;
@@ -52,6 +53,6 @@ test('Exemples : la configuration au plus haut potentiel représente la classe �
  assert.equal(E.priorityRanking(solo,2).results.find(r=>r.classId==='chasseur').spec.id,'chasseur-survie');
  assert.equal(E.priorityRanking(solo,0).results.find(r=>r.classId==='chasseur').spec.id,'chasseur-maitrise-betes');
  // Ordre des classes inchangé à égalité de score : identifiant de classe, comme avant.
- const tie=E.ranking({activities:{solo:5},mastery:2}).results.slice(0,3).map(r=>r.spec.classId);
+ const tie=firstOfEachClass(E.ranking({activities:{solo:5},mastery:2}).results).slice(0,3).map(r=>r.spec.classId);
  assert.deepEqual(tie,['chasseur','demoniste','paladin']);
 });

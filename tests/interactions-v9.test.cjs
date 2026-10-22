@@ -2,7 +2,7 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const E=require('../recommendation-engine.js'),X=require('../result-explanations.js');
 const v8=require('./fixtures/moteur-reference-v8.json'),v9=require('./fixtures/moteur-reference-v9.json');
-const {compare,snapshot}=require('../scripts/reference-v9.cjs');
+const {compare}=require('../scripts/reference-v9.cjs');
 const control={styles:{ctrl:5},range:{value:'distance',certainty:5},mastery:2};
 test('La photographie v8 reste intacte',()=>{
  const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
@@ -10,8 +10,9 @@ test('La photographie v8 reste intacte',()=>{
  assert.equal(crypto.createHash('sha1').update('blob '+Buffer.byteLength(source)+'\0').update(source).digest('hex'),'ff0b12929d820b9aabf4a7e7d51238f1cebe179e');
 });
 test('v9 : référence distincte, changements relus et limités, toutes les notes conservées',()=>{
- assert.equal(v8.info.engineVersion,'1.0.7-exploratoire');assert.equal(v9.info.engineVersion,E.version);
- assert.equal(v9.info.previousReference,'moteur-reference-v8.json');assert.deepEqual(snapshot(),v9);
+ assert.equal(v8.info.engineVersion,'1.0.7-exploratoire');assert.equal(v9.info.engineVersion,'1.0.8-exploratoire');
+ // Depuis la v10, la v9 est une photographie figée (empreinte vérifiée dans reference-v10.test.cjs) : on compare des fixtures.
+ assert.equal(v9.info.previousReference,'moteur-reference-v8.json');
  const report=compare(v8,v9);assert.equal(report.changedScoresOrSpecs,2);assert.equal(report.changedFirstClasses,0);
  assert.deepEqual(report.changes.filter(c=>c.rows.length).map(c=>c.id),['heal-style-raid-hesitant','heal-style-dps-mixed']);
  assert.deepEqual(v9.specs,v8.specs);assert.deepEqual(v9.matrix,v8.matrix);assert.deepEqual(v9.petless,v8.petless);assert.deepEqual(v9.heal,v8.heal);
@@ -60,7 +61,7 @@ test('Précision : Loup solitaire quel que soit le souhait ; aucune affinité em
 test('Soin : même dénominateur, zéro aptitude hors rôle, certitude conservée et jamais de veto implicite',()=>{
  for(const certainty of [0,2,5]){
   const p={roles:{soin:3,dps:3},healStyles:{prevention:certainty},mastery:2},r=E.ranking(p);
-  assert.equal(r.compatible,28);assert.equal(r.results.length,9);
+  assert.equal(r.compatible,28);assert.equal(r.results.length,28,'depuis la v10, une ligne par configuration');assert.equal(new Set(r.results.map(x=>x.spec.classId)).size,9);
   const sums=r.results.map(r=>Object.values(r.fit).reduce((n,a)=>n+a.weight,0));assert.equal(new Set(sums).size,1);
   const trace=E.explain('mage-givre',p),a=trace.answers.find(a=>a.domain==='healStyles');
   assert.equal(a.raw,0);assert.equal(a.note,undefined);assert.equal(a.fit,E.preferenceFit(0,certainty));

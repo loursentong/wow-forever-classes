@@ -20,20 +20,21 @@
  // de 2 points au plus est chiffré par rapport à la classe juste au-dessus (scores au centième,
  // affichés arrondis à l'entier). Toutes les classes sont au masculin : « le », « du ».
  function names(rows){
-  var n=rows.map(function(r){return 'le '+(r.className||r.spec.className);});
+  // Depuis la v10, une classe peut revenir : la spécialisation est nommée avec elle.
+  var n=rows.map(function(r){return 'le '+(r.className||r.spec.className)+(r.spec&&r.spec.label?' '+r.spec.label:'');});
   return n.length>1?n.slice(0,-1).join(', ')+' et '+n[n.length-1]:n[0];
  }
  function rankHint(results,i){
   var row=results[i];
   if(!row)return '';
   var same=results.filter(function(r,j){return j!==i&&r.score===row.score;});
-  if(same.length)return 'à égalité avec '+(same.length>2?same.length+' autres classes':names(same));
+  if(same.length)return 'à égalité avec '+(same.length>2?same.length+' autres spécialisations':names(same));
   if(i===0)return '';
   var gap=results[i-1].score-row.score;
   if(!(gap<2.01))return '';
   var above=results.filter(function(r){return r.score===results[i-1].score;});
   var v=Math.round(gap*10)/10,points=v<0.1?'moins de 0,1 point':String(v).replace('.',',')+(v>=2?' points':' point');
-  return points+' derrière '+(above.length>2?'les '+above.length+' classes à égalité au-dessus':names(above));
+  return points+' derrière '+(above.length>2?'les '+above.length+' spécialisations à égalité au-dessus':names(above));
  }
  // « Pourquoi cette piste » : part de chaque critère renseigné dans le score. Son poids est le
  // coefficient du moteur ramené aux seuls critères renseignés (codex, § 2.4) ; son adéquation est la
@@ -102,7 +103,8 @@
    n.spec+' ne joue pas ce rôle'+(roleNames[s.role]?' (spécialisation '+roleNames[s.role]+')':'')+'.';
   else if(a.note!==undefined)spec=noted(n.spec,a,noteWhere[a.group],ex&&ex.mastery);
   else if(a.key==='poly')spec=n.cls+(a.roles>1?' propose '+a.roles+' rôles.':' ne propose qu’un rôle.');
-  else spec=n.spec+' est notée '+number(a.load)+'/5 en difficulté (moyenne PvE et PvP).';
+  // Technicité (v10) : difficulté PvE, PvP ou moyenne, selon tes critères d'activité.
+  else spec=n.spec+' est notée '+number(a.load)+'/5 en difficulté '+(a.context==='pve'?'PvE':a.context==='pvp'?'PvP':'(moyenne PvE et PvP)')+'.';
   return lines(spec,'Priorité '+priorityWords[a.weight]+' ('+a.weight+')',capital(verdict(a.raw))+' ('+percent(a.raw)+').');
  }
  // Une ligne par groupe de plusieurs critères : comment ils se partagent ses points.
@@ -260,7 +262,7 @@
   if(!results.length)return '';
   var top=results.filter(function(r){return r.score===results[0].score;});
   if(top.length<2)return '';
-  return 'À égalité en tête : '+top.map(function(r){return r.className||r.spec.className;}).join(', ')+'. L’ordre d’affichage ne les départage pas.';
+  return 'À égalité en tête : '+top.map(function(r){return (r.className||r.spec.className)+(r.spec&&r.spec.label?' '+r.spec.label:'');}).join(', ')+'. L’ordre d’affichage ne les départage pas.';
  }
  // Depuis la référence v5, une configuration à familier facultatif est évaluée sans familier quand le
  // joueur préfère jouer sans compagnon : le texte décrit ce que cette variante perd ou garde.

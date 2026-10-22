@@ -268,27 +268,39 @@ function explain(id,profile){
   });
   return {spec:s,profile:p,score:Math.round(10000*result.value)/100,rawScore:100*result.value,answers:answers};
 }
-function stableSort(a,b){return b.score-a.score||a.spec.id.localeCompare(b.spec.id);}
 /* Potentiel d'une configuration ajusté à la maîtrise (codex § 3.4) : adéquation PvE
  * éditoriale (activité « raid ») après effet de la maîtrise, sur 0…1. */
 function potential(s,m){return (adjustedActivity(s,'raid',m)-1)/4;}
 function potentialKey(s,m){return Math.round(potential(s,m)*1e4);}
-/* Configuration qui représente sa classe : meilleur score au centième ; à égalité, le plus
- * haut potentiel ajusté à la maîtrise, puis l'identifiant. Jamais un arrondi flottant. */
-function representsClassBetter(a,b,m){
-  return a.score>b.score||a.score===b.score&&(potentialKey(a.spec,m)>potentialKey(b.spec,m)||
-    potentialKey(a.spec,m)===potentialKey(b.spec,m)&&a.spec.id.localeCompare(b.spec.id)<0);
+/* Classements par spécialisation (référence v10) : chaque configuration admissible est classée, une
+ * classe peut donc revenir. Ordre : score au centième, puis classe, puis potentiel ajusté à la maîtrise,
+ * puis identifiant. La première configuration de chaque classe est celle que la v3 retenait (à score
+ * égal, le plus haut potentiel) et l'ordre de ces premières configurations est celui de la v9.
+ * Jamais un arrondi flottant : le potentiel est comparé en entiers. */
+function byScore(m){
+  return function(a,b){
+    return b.score-a.score||(a.spec.classId<b.spec.classId?-1:a.spec.classId>b.spec.classId?1:0)||
+      potentialKey(b.spec,m)-potentialKey(a.spec,m)||(a.spec.id<b.spec.id?-1:a.spec.id>b.spec.id?1:0);
+  };
 }
 function ranking(profile){
   var p=sanitize(profile),used=domains(p);
   if(!used.length)return {status:'unanswered',profile:p,used:used,results:[],compatible:0};
-  var candidates=specs.filter(function(s){return eligible(s,p);}).map(function(s){return bestCandidate(s,p);}).sort(stableSort);
+  var candidates=specs.filter(function(s){return eligible(s,p);}).map(function(s){return bestCandidate(s,p);}).sort(byScore(p.mastery));
   if(!candidates.length)return {status:'no-match',profile:p,used:used,results:[],compatible:0};
-  var best={};
-  for(var r of candidates)if(!best[r.spec.classId]||representsClassBetter(r,best[r.spec.classId],p.mastery))best[r.spec.classId]=r;
-  // Ordre des classes inchangé : score, puis identifiant (le préfixe de classe départage).
-  var unique=Object.keys(best).map(function(k){return best[k];}).sort(stableSort);
-  return {status:'ok',profile:p,used:used,results:unique,compatible:candidates.length};
+  return {status:'ok',profile:p,used:used,results:candidates,compatible:candidates.length};
+}
+/* Top 3 du parcours guidé : au plus deux spécialisations d'une même classe ; la place suivante va à
+ * la meilleure configuration d'une autre classe. */
+var MAX_PER_CLASS=2;
+function topPicks(results,n){
+  var count={},out=[];
+  for(var i=0;i<results.length&&out.length<n;i++){
+    var c=results[i].spec.classId;
+    if((count[c]||0)>=MAX_PER_CLASS)continue;
+    count[c]=(count[c]||0)+1;out.push(results[i]);
+  }
+  return out;
 }
 function perturbations(p){
   var out=[{label:'Réponses actuelles',profile:p}],fields=['roles','activities','styles','healStyles'];
@@ -311,8 +323,9 @@ function recommend(profile){
   var scenarios=perturbations(base.profile);
   var probes=scenarios.map(function(s){return {label:s.label,ranking:ranking(s.profile)};});
   var active=probes.filter(function(x){return x.ranking.status==='ok';});
-  var top=base.results.slice(0,3).map(function(r){
-    var appearances=active.filter(function(x){return x.ranking.results.slice(0,3).some(function(q){return q.spec.classId===r.spec.classId;});}).length;
+  var top=topPicks(base.results,3).map(function(r){
+    // Stabilité par spécialisation : sa présence dans le top 3 de chaque scénario admissible.
+    var appearances=active.filter(function(x){return topPicks(x.ranking.results,3).some(function(q){return q.spec.id===r.spec.id;});}).length;
     var sorted=Object.keys(r.fit).sort(function(a,b){return r.fit[b].value-r.fit[a].value;});
     var positives=sorted.filter(function(k){return r.fit[k].value>=.56;}).slice(0,2);
     var negatives=sorted.slice().reverse().filter(function(k){return r.fit[k].value<.55;}).slice(0,2);
@@ -321,7 +334,7 @@ function recommend(profile){
       scenarioAppearances:appearances,reliability:'Estimation éditoriale (niveau 60 non observé)',
       note:'Classe et spécialisation recommandées pour les réponses déclarées, sans probabilité calibrée.'};
   });
-  return Object.assign({},base,{top:top,scenarios:probes.map(function(x){return {name:x.label,status:x.ranking.status,top:x.ranking.results.slice(0,3).map(function(r){return r.spec.classId;})};}),
+  return Object.assign({},base,{top:top,scenarios:probes.map(function(x){return {name:x.label,status:x.ranking.status,top:topPicks(x.ranking.results,3).map(function(r){return r.spec.id;})};}),
     uncertain:scenarios.slice(1).map(function(x){return x.label;})});
 }
 /* Classement à 14 priorités : même inventaire de spécialisations que le parcours guidé.
@@ -363,7 +376,15 @@ var PRIORITY_GROUPS=[
 ];
 var PRIORITY_ACTIVITY={bg:'bg',sauv:'world',solo:'solo'};
 var PRIORITY_STYLE={burst:'burst',zone:'zone',ctrl:'ctrl',surv:'surv',mob:'mob',util:'support'};
-function priorityRaw(s,k,m){
+/* Technicité (référence v10) : comme la difficulté du parcours guidé (v6), elle suit les critères
+ * d'activité. PvP : champ de bataille, PvP sauvage ; PvE : solo et rôles, évalués en PvE ; les deux,
+ * ou aucun : moyenne des difficultés PvE et PvP. */
+function techContext(w){
+  var pvp=w.bg>0||w.sauv>0,pve=w.solo>0||w.tank>0||w.soin>0||w.dps>0;
+  return pvp&&!pve?'pvp':pve&&!pvp?'pve':'mixte';
+}
+function techLoad(s,ctx){return ctx==='pve'?s.load.pve:ctx==='pvp'?s.load.pvp:(s.load.pve+s.load.pvp)/2;}
+function priorityRaw(s,k,m,ctx){
   // Un rôle n'est pas une note de performance : les spécialisations d'un même
   // rôle reçoivent une adéquation PvE distincte (proxy éditorial 'raid').
   // Le rôle inadéquat vaut 0 ; impossible d'agréger les meilleures spés d'une classe.
@@ -371,34 +392,34 @@ function priorityRaw(s,k,m){
   if(PRIORITY_ACTIVITY[k])return (adjustedActivity(s,PRIORITY_ACTIVITY[k],m)-1)/4;
   if(PRIORITY_STYLE[k])return (adjustedStyle(s,PRIORITY_STYLE[k],m)-1)/4;
   if(k==='poly')return (rolePool(s.classId).length-1)/2;
-  if(k==='tech')return clamp(((s.load.pve+s.load.pvp)/2-1)/4,0,1);
+  if(k==='tech')return clamp((techLoad(s,ctx||'mixte')-1)/4,0,1);
   return .5;
 }
 function priorityFit(s,w,m,active,trace){
-  var parts={},numer=0,denom=0;
+  var parts={},numer=0,denom=0,ctx=techContext(w);
   for(var g of PRIORITY_GROUPS){
     var axes=g.axes.filter(function(k){return w[k]>0;});
     if(!axes.length)continue;
     // Rôles exprimés : l'aptitude à exercer la spécialisation préférée
     // est une seule dimension ; les autres groupes sont moyens, pas additionnés.
-    var weighted=axes.reduce(function(t,k){return t+w[k]*priorityRaw(s,k,m);},0);
+    var weighted=axes.reduce(function(t,k){return t+w[k]*priorityRaw(s,k,m,ctx);},0);
     var total=axes.reduce(function(t,k){return t+w[k];},0);
     var value=weighted/total;
     var importance=g.factor*Math.max.apply(null,axes.map(function(k){return w[k];}))/3;
     parts[g.id]={value:value,weight:importance};
     numer+=value*importance;denom+=importance;
     if(trace)axes.forEach(function(k){
-      var row={group:g.id,key:k,weight:w[k],share:w[k]/total,raw:priorityRaw(s,k,m)};
+      var row={group:g.id,key:k,weight:w[k],share:w[k]/total,raw:priorityRaw(s,k,m,ctx)};
       if(PRIORITY_ACTIVITY[k]){row.note=s.activity[PRIORITY_ACTIVITY[k]];row.adjusted=adjustedActivity(s,PRIORITY_ACTIVITY[k],m);}
       if(PRIORITY_STYLE[k]){row.note=s.style[PRIORITY_STYLE[k]];row.adjusted=adjustedStyle(s,PRIORITY_STYLE[k],m);}
       if(k==='poly')row.roles=rolePool(s.classId).length;
-      if(k==='tech')row.load=(s.load.pve+s.load.pvp)/2;
+      if(k==='tech'){row.load=techLoad(s,ctx);row.context=ctx;}
       trace.push(row);
     });
   }
   // Un critère unique doit donner le même score quel que soit son poids :
   // éviter la dérive d'arrondi des divisions flottantes normalisées.
-  return {score:active.length===1?100*priorityRaw(s,active[0],m):(denom?100*numer/denom:0),parts:parts};
+  return {score:active.length===1?100*priorityRaw(s,active[0],m,ctx):(denom?100*numer/denom:0),parts:parts};
 }
 function priorityInput(input,mastery){
   var w=sanitizeWeights(input),m=Number.isInteger(mastery)&&mastery>=0&&mastery<=3?mastery:2;
@@ -407,15 +428,11 @@ function priorityInput(input,mastery){
 function priorityRanking(input,mastery){
   var q=priorityInput(input,mastery),w=q.w,m=q.m,active=q.active;
   if(!active.length)return {status:'unanswered',results:[],active:[],weights:w,mastery:m};
-  var byClass={};
-  for(var original of specs){
-    var sp=referenceSpec(original);
-    var r=priorityFit(sp,w,m,active),row={spec:sp,classId:sp.classId,className:sp.className,
-      score:Math.round(r.score*100)/100,parts:r.parts};
-    if(!byClass[sp.classId]||representsClassBetter(row,byClass[sp.classId],m))byClass[sp.classId]=row;
-  }
-  var results=Object.keys(byClass).map(function(k){return byClass[k];})
-    .sort(function(a,b){return b.score-a.score||a.className.localeCompare(b.className,'fr');});
+  // Les 28 configurations, dans l'ordre commun aux deux parcours (référence v10).
+  var results=specs.map(function(original){
+    var sp=referenceSpec(original),r=priorityFit(sp,w,m,active);
+    return {spec:sp,classId:sp.classId,className:sp.className,score:Math.round(r.score*100)/100,parts:r.parts};
+  }).sort(byScore(m));
   return {status:'ok',results:results,active:active,weights:w,mastery:m,
     caveat:'Indice heuristique par spécialisation. Les égalités et faibles écarts ne sont pas des mesures de supériorité.'};
 }
@@ -448,8 +465,8 @@ function checkData(){
  }
  return errors;
 }
-return {version:'1.0.8-exploratoire',referenceVariants:REFERENCE_VARIANTS,healStyles:HEAL_STYLES,sources:sources,specs:specs,petless:petless,difficultyContext:difficultyContext,difficultyLoad:difficultyLoad,roles:ROLE,activities:acts,styles:styles,
+return {version:'1.0.9-exploratoire',referenceVariants:REFERENCE_VARIANTS,healStyles:HEAL_STYLES,sources:sources,specs:specs,petless:petless,difficultyContext:difficultyContext,difficultyLoad:difficultyLoad,roles:ROLE,activities:acts,styles:styles,
  defaultProfile:copy(DEFAULT),sanitize:sanitize,selected:selected,domains:domains,eligible:eligible,
- ranking:ranking,recommend:recommend,explain:explain,priorityExplain:priorityExplain,checkData:checkData,intensity:intensity,preferenceFit:preferenceFit,
+ ranking:ranking,recommend:recommend,topPicks:topPicks,maxPerClass:MAX_PER_CLASS,techContext:techContext,explain:explain,priorityExplain:priorityExplain,checkData:checkData,intensity:intensity,preferenceFit:preferenceFit,
  rolePool:rolePool,adjustedActivity:adjustedActivity,potential:potential,roleSuitability:roleSuitability,roleReference:ROLE_REFERENCE,priorityAxes:PRIORITY_AXES,priorityRanking:priorityRanking,sanitizeWeights:sanitizeWeights};
 });
