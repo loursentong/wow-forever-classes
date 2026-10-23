@@ -10,7 +10,8 @@ const path=require('node:path');
 const crypto=require('node:crypto');
 const E=require('../recommendation-engine.js');
 const v11=require('./fixtures/moteur-reference-v11.json'),v12=require('./fixtures/moteur-reference-v12.json');
-const {compare,snapshot,NEW_CASES,NEW_TECH}=require('../scripts/reference-v12.cjs');
+const {compare,NEW_CASES,NEW_TECH}=require('../scripts/reference-v12.cjs');
+// Depuis la v13, la v12 est une photographie figée (empreinte vérifiée dans reference-v13.test.cjs) : on compare des fixtures.
 
 test('La photographie v11 reste intacte ; la v12 en dérive explicitement',()=>{
  const source=fs.readFileSync(path.join(__dirname,'fixtures/moteur-reference-v11.json'),'utf8').replace(/\r\n/g,'\n');
@@ -18,12 +19,10 @@ test('La photographie v11 reste intacte ; la v12 en dérive explicitement',()=>{
  assert.equal(v11.info.engineVersion,'1.1.0-exploratoire');
  assert.equal(v12.info.revision,12);
  assert.equal(v12.info.previousReference,'moteur-reference-v11.json');
- assert.equal(v12.info.engineVersion,E.version);
- assert.equal(E.version,'1.2.0-exploratoire');
+ assert.equal(v12.info.engineVersion,'1.2.0-exploratoire');
 });
 
 test('v11 → v12 : aucune note de configuration ne change ; seuls bougent les profils concernés',()=>{
- assert.deepEqual(snapshot(),v12,'le moteur reproduit exactement la v12');
  const report=compare(v11,v12);
  assert.equal(report.existingGuideCases,41);
  assert.equal(report.unchangedNeutralGuideCases,35);

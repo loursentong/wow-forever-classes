@@ -4,7 +4,7 @@
 
 **Révision éditoriale du 21 octobre 2026 :** soins Paladin et Chaman portés de 4 à 5 ; contrôle de Discipline de 4 à 3. Les formules et les coefficients de maîtrise sont conservés. Il s'agit de jugements d'aide au choix, pas de mesures de performance. Les repères « Jouer cette spécialisation » présentent le style, deux atouts et un point d'attention ; ils ne participent pas au score. Depuis le 22 octobre 2026 (moteur 1.0.9), chaque spécialisation est classée : une classe peut revenir, au plus deux fois dans les trois pistes du parcours guidé. Quand plusieurs spécialisations obtiennent le même score, celle qui a le plus haut potentiel compte tenu de ta maîtrise (adéquation PvE estimée, ajustée à ton niveau) passe devant. En solo, le Chasseur Maîtrise des bêtes reste accessible dès le niveau Débutant grâce à son familier ; Précision et Survie suivent l'effet général de la maîtrise. Voir [la révision et ses limites](REVISION-EDITORIALE-V2.md).
 
-Le nouveau parcours de six questions est distinct du comparatif historique à 14 critères, retiré de la page le 21 octobre 2026 : ses 15 préréglages servent au mode personnalisé, et les 126 notes restent affichées dans la matrice. Le nouveau moteur ne prend jamais les meilleures notes de toutes les spécialisations d'une classe pour les additionner.
+Le nouveau parcours de six questions est distinct du comparatif historique à 14 critères, retiré de la page le 21 octobre 2026 : ses 15 préréglages servent au mode personnalisé, et les 126 notes restent affichées dans la matrice. Depuis le 23 octobre 2026 (moteur 1.3.0, référence v13), chaque note de la matrice qui porte sur un critère des spécialisations est celle de la meilleure spécialisation de la classe ; un clic sur une classe déroule les notes de ses spécialisations. Le nouveau moteur ne prend jamais les meilleures notes de toutes les spécialisations d'une classe pour les additionner : il classe chaque spécialisation avec ses propres notes, la note de classe ne servant qu'à la référence de rôle ci-dessous.
 
 ## Données
 
@@ -90,7 +90,7 @@ L'ancienne formule \`priorityRanking\` accordait une valeur brute égale à **1*
 
 ### Nouveau référentiel
 
-Le calcul reste exploratoire, sans données de combat mesurées au niveau 60. Il combine une notation éditoriale historique du rôle, **déjà présente dans la matrice des 126 notes**, avec la notation éditoriale PvE de **la spécialisation précise** sélectionnée :
+Le calcul reste exploratoire, sans données de combat mesurées au niveau 60. Il combine une notation éditoriale du rôle par classe, **présente dans la matrice des 126 notes** (depuis la v13, la meilleure spécialisation de la classe dans ce rôle), avec la notation éditoriale PvE de **la spécialisation précise** sélectionnée :
 
 \`adéquation_rôle(spécialisation) = 0,55 × (note_rôle_classe - 1)/4 + 0,45 × (note_raid_spé_corrigée_maîtrise - 1)/4\`
 

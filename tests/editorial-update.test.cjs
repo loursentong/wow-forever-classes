@@ -24,12 +24,16 @@ test('La photographie v1 et les notes d’origine restent intactes',()=>{
 test('Révision éditoriale : seules les trois notes approuvées changent',()=>{
  const matrix=structuredClone(v1.matrix.classes);
  for(const id of ['chaman','paladin'])matrix.find(c=>c.id===id).r.soin=5;
- assert.deepEqual(D.classes.map(c=>({id:c.id,r:c.r})),matrix);
+ // Depuis la v13, la matrice affichée reprend la meilleure spé de chaque classe (classes-meilleure-spe-v13.test.cjs) :
+ // la révision v2 se vérifie sur la dernière photographie qui la porte seule, la v12.
+ assert.deepEqual(require('./fixtures/moteur-reference-v12.json').matrix.classes,matrix);
+ assert.equal(D.classes.length,matrix.length);
  const specs=structuredClone(v1.specs);
  specs.find(s=>s.id==='pretre-discipline').style.ctrl=3;
  // La révision v2 est vérifiée sur sa photographie ; les révisions suivantes ont leurs propres tests (v7 : notes raid).
  assert.deepEqual(require('./fixtures/moteur-reference-v2.json').specs,specs);
- for(const c of matrix)for(const role of E.roles)assert.equal(E.roleReference[c.id][role],c.r[role]);
+ // La référence de rôle suit la matrice active : vérifié par codex-contract.test.cjs et classes-meilleure-spe-v13.test.cjs.
+ for(const c of D.classes)for(const role of E.roles)assert.equal(E.roleReference[c.id][role],c.r[role]);
 });
 
 const firstOfEachClass=rows=>rows.filter((r,i)=>rows.findIndex(q=>(q.classId||q.spec.classId)===(r.classId||r.spec.classId))===i);

@@ -1,6 +1,6 @@
 # Écarts à arbitrer
 
-> Base de connaissances du 2026-10-21, moteur `1.1.0-exploratoire`. Un écart **tranché** porte sa décision, appliquée au moteur ;
+> Base de connaissances du 2026-10-21, moteur `1.3.0-exploratoire`. Un écart **tranché** porte sa décision, appliquée au moteur ;
 > un écart **ouvert** attend des données ou une décision. Les arguments restent à apprécier dans leur contexte : ils ne prouvent pas tous une erreur de note.
 
 ## Tranchés
