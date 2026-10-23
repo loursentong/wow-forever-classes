@@ -11,7 +11,7 @@ const {chromium}=require('playwright');
 
 const base=path.resolve(__dirname,'..');
 const allowed={'/':'index.html','/index.html':'index.html','/questionnaire.js':'questionnaire.js','/recommendation-engine.js':'recommendation-engine.js','/priorities-ui.js':'priorities-ui.js','/ux-polish.css':'ux-polish.css','/warcraft-visual-pack.css':'warcraft-visual-pack.css','/wow-ui-rework.css':'wow-ui-rework.css','/refonte-forever.css':'refonte-forever.css','/assets/hero-landscape.svg':'assets/hero-landscape.svg'};
-for(const f of ['configuration-notes.js','configuration-details.js','configuration-notes.css','result-explanations.js'])allowed['/'+f]=f;
+for(const f of ['configuration-notes.js','configuration-details.js','configuration-notes.css','result-explanations.js','notes-specialisations.js'])allowed['/'+f]=f;
 for(const f of fs.readdirSync(path.join(base,'fiches-sources')).filter(f=>f.endsWith('.html')))allowed['/fiches-sources/'+f]='fiches-sources/'+f;
 // Visuels de la refonte (kit de presse officiel), servis comme sur GitHub Pages.
 for(const f of ['logo-wow-forever.webp','hero-arbre-monde.webp','hero-vallee-nuit.webp','bandeau-gantelet.webp','bandeau-darkspear.webp','grain.png'])allowed['/assets/img/'+f]='assets/img/'+f;
@@ -535,6 +535,68 @@ async function check(){
   await page.locator('[data-reco-mode="guided"]').click();
   await page.locator('[data-reco-reveal]').click();
   assert.equal(await page.locator('#reco-results .reco-score strong').nth(1).textContent(),String(totals[1].score),'Préférences conservées après consultation des sources');
+  // Tableau des notes : chaque ligne de classe déroule ses spécialisations (notes du moteur), à la souris ou au clavier.
+  await page.setViewportSize({width:1300,height:900});
+  const specRows=page.locator('table.matrix tr.spec-row'),parents=page.locator('table.matrix tr.spec-parent');
+  await page.locator('table.matrix').scrollIntoViewIfNeeded();
+  assert.equal(await parents.count(),9);
+  assert.equal(await specRows.count(),28);
+  assert.equal(await page.locator('table.matrix td.spec-cell[data-k]').count(),28*14);
+  assert.equal(await page.locator('td.cell[data-k]').count(),126,'Les notes historiques restent seules notées « cell »');
+  assert.equal(await page.evaluate(()=>window.WFSpecRows.mount(document)),null,'Un second montage ne duplique rien');
+  assert.equal(await specRows.count(),28);
+  assert.equal(await page.locator('table.matrix tr.spec-row:visible').count(),0,'Spécialisations repliées à l’arrivée');
+  const firstColumn=()=>page.locator('table.matrix thead th.corner').evaluate(th=>Math.round(th.getBoundingClientRect().width));
+  const closedColumn=await firstColumn();
+  const visibleSpecs=()=>page.locator('table.matrix tr.spec-row:visible').evaluateAll(rows=>rows.map(r=>({id:r.dataset.spec,
+   notes:[...r.querySelectorAll('td')].map(td=>td.dataset.k==='tech'?td.dataset.pve+'·'+td.dataset.pvp:(td.dataset.v||'—')).join(' ')})));
+  await parents.first().locator('td[data-k="burst"]').click();
+  assert.equal(await parents.first().locator('.spec-toggle').getAttribute('aria-expanded'),'true');
+  assert.deepEqual(await visibleSpecs(),[
+   {id:'guerrier-armes',notes:'— — — 4 4 3 5 4 3 3 4 2 2 4·4'},
+   {id:'guerrier-fureur',notes:'— — — 5 4 3 4 5 2 3 4 2 3 3·4'},
+   {id:'guerrier-protection',notes:'— 5 — — 4 2 2 3 3 5 3 3 3 4·4'}]);
+  assert.equal(await firstColumn(),closedColumn,'La colonne des noms ne bouge pas à l’ouverture');
+  // Le nom de la classe ouvre toujours sa fiche, sans replier ni déplier.
+  await parents.first().locator('a[href="#c-guerrier"]').click();
+  assert.ok(page.url().endsWith('#c-guerrier'));
+  assert.equal(await page.locator('table.matrix tr.spec-row:visible').count(),3);
+  await page.locator('table.matrix').scrollIntoViewIfNeeded();
+  await parents.first().locator('.spec-toggle').click();
+  assert.equal(await page.locator('table.matrix tr.spec-row:visible').count(),0);
+  assert.equal(await parents.first().locator('.spec-toggle').getAttribute('aria-expanded'),'false');
+  // Clavier : le bouton de la ligne s'active avec Entrée puis Espace.
+  await parents.nth(2).locator('.spec-toggle').focus();
+  await page.keyboard.press('Enter');
+  assert.deepEqual((await visibleSpecs()).map(r=>r.id),['chasseur-maitrise-betes','chasseur-precision','chasseur-survie']);
+  assert.match(await page.locator('#spec-chasseur-precision th').textContent(),/^Précision\s*Loup solitaire$/);
+  await page.keyboard.press('Space');
+  assert.equal(await page.locator('table.matrix tr.spec-row:visible').count(),0);
+  // Tout dérouler, puis tout replier.
+  const allSpecs=page.locator('.spec-all');
+  await allSpecs.click();
+  assert.equal(await page.locator('table.matrix tr.spec-row:visible').count(),28);
+  assert.equal(await allSpecs.getAttribute('aria-expanded'),'true');
+  assert.equal((await allSpecs.textContent()).trim(),'Replier les spécialisations');
+  assert.deepEqual(await page.locator('table.matrix .spec-toggle').evaluateAll(b=>b.map(x=>x.getAttribute('aria-expanded'))),Array(9).fill('true'));
+  await page.waitForTimeout(500);
+  await page.locator('section:has(#h-matrix)').screenshot({path:path.join(__dirname,'screenshots','notes-specialisations-desktop.png'),animations:'disabled'});
+  for(const width of [320,390,768,1024]){
+   await page.setViewportSize({width,height:900});
+   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth+2),'Tableau déroulé à '+width+'px');
+  }
+  await page.setViewportSize({width:390,height:844});
+  const mobileOpen=await firstColumn();
+  await page.locator('table.matrix').scrollIntoViewIfNeeded();
+  await page.locator('.table-box:has(table.matrix)').screenshot({path:path.join(__dirname,'screenshots','notes-specialisations-mobile.png'),animations:'disabled'});
+  await page.emulateMedia({reducedMotion:'reduce'});
+  assert.equal(await page.locator('#spec-guerrier-armes td').first().evaluate(td=>getComputedStyle(td).animationName),'none','Pas d’animation avec reduced-motion');
+  await page.emulateMedia({reducedMotion:'no-preference'});
+  await allSpecs.click();
+  assert.equal(await page.locator('table.matrix tr.spec-row:visible').count(),0);
+  assert.equal(await firstColumn(),mobileOpen,'Colonne des noms stable sur mobile');
+  await page.setViewportSize({width:1300,height:900});
+
   // Chaque fiche fonctionne au clavier et aux quatre largeurs, notes dépliées.
   for(const cls of ['chaman','chasseur','demoniste','druide','guerrier','mage','paladin','pretre','voleur']){
    await page.goto('http://127.0.0.1:'+server.address().port+'/fiches-sources/'+cls+'.html');
