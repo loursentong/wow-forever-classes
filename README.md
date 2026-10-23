@@ -1,6 +1,6 @@
 # Choisir ma classe WoW Forever
 
-**Soutenir cet outil (23 octobre 2026) :** encart RestedXP et coupon de réduction sous le logo, puis rappel après les résultats. La commission est indiquée près des liens. [Intégration et vérifications](AFFILIATION-RESTEDXP.md).
+**Soutenir cet outil (23 octobre 2026) :** encart RestedXP et coupon de réduction en haut à droite sur ordinateur, puis rappel après les résultats. Les deux parcours occupent toute la largeur de la page. La commission est indiquée près des liens. [Intégration et vérifications](AFFILIATION-RESTEDXP.md).
 
 **Moteur 1.3.0, référence v13 (23 octobre 2026) : chaque classe vaut sa meilleure spé.** Sur chaque critère que portent les spécialisations, la note d'une classe est désormais celle de sa meilleure spécialisation, comme l'annonce le tableau : 27 notes changent (25 montent ; l'Utilité du Chasseur et du Voleur baisse). La Polyvalence, la Technicité et les rôles qu'aucune spé ne tient restent des notes de classe. Seule la note DPS du Druide (3→4, Farouche félin) touche le moteur : aucun top 3 guidé existant ne change, et 5 classements personnalisés sur 115 changent de top 3, chaque fois au profit d'un Druide. Détail et effets dans [la révision éditoriale](REVISION-EDITORIALE-V2.md).
 

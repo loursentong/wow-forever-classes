@@ -15,7 +15,7 @@ Les onglets ont été consultés en lecture seule : liens, créations, statistiq
 
 Le nom public devient **Choisir ma classe WoW Forever**, dans le titre, le partage Open Graph, l’accueil et les fiches de sources. L’accroche « Trouve la classe qui te ressemble » reste en place. Les noms techniques et l’historique FRV sont conservés.
 
-L’encart « Tu veux soutenir cet outil ? » apparaît sous le logo sur ordinateur, puis sous l’introduction sur mobile. La mention « Outil de fan · non officiel » reste distincte. Le coupon peut être copié au clavier ou au clic ; si le presse-papiers est indisponible, le texte est sélectionné pour une copie manuelle. Sans JavaScript, le code et le lien restent lisibles et utilisables.
+L’encart « Tu veux soutenir cet outil ? » apparaît en haut à droite de l’introduction sur ordinateur. Les deux parcours occupent toute la largeur de la page en dessous. Sur tablette, l’encart devient un bandeau sous l’introduction ; sur mobile, il s’empile dans la même zone. La mention « Outil de fan · non officiel » reste distincte. Le coupon peut être copié au clavier ou au clic ; si le presse-papiers est indisponible, le texte est sélectionné pour une copie manuelle. Sans JavaScript, le code et le lien restent lisibles et utilisables.
 
 Un rappel discret apparaît après les résultats du parcours actif, uniquement lorsqu’un classement est présent. Il est masqué à l’arrivée, dans les états sans réponse ou sans correspondance, ainsi que lorsque les résultats guidés sont masqués.
 
@@ -23,6 +23,6 @@ Chaque lien commercial indique la commission à proximité et porte `rel="sponso
 
 ## Vérification
 
-Le test navigateur existant couvre les deux parcours, les sauvegardes et le responsive. Il contrôle aussi la destination affiliée, la mention de commission, le placement à 320/390/768/1300 px, la copie du coupon et son repli manuel, et la visibilité du rappel selon les résultats. Les captures `tests/screenshots/soutien-390.png` et `soutien-1300.png` servent à la revue visuelle.
+Le test navigateur existant couvre les deux parcours, les sauvegardes et le responsive. Il contrôle aussi la destination affiliée, la mention de commission, le placement à 320/390/768/820/821/1060/1061/1300/1580 px, la pleine largeur des parcours, la copie du coupon et son repli manuel, et la visibilité du rappel selon les résultats. Les captures `tests/screenshots/soutien-390.png`, `soutien-1060.png`, `soutien-1300.png` et `soutien-1580.png` servent à la revue visuelle.
 
 La suite de contrat du moteur et ses références restent inchangées. Aucun achat de test n’a été effectué : les contrôles ne valident pas l’attribution réelle d’une vente ni l’application du coupon à chaque produit. La réduction est à revérifier dans l’espace affilié si RestedXP change l’offre.

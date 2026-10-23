@@ -45,16 +45,19 @@ async function check(){
    assert.match(await link.getAttribute('rel'),/sponsored/);
    assert.match(await page.locator('#'+await link.getAttribute('aria-describedby')).textContent(),/commission/);
   }
-  for(const width of [320,390,768,1300]){
+  for(const width of [320,390,768,820,821,1060,1061,1300,1580]){
    await page.setViewportSize({width,height:1000});
    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth+2),'Encart sans débordement à '+width);
    const placement=await page.evaluate(()=>{
     const rect=s=>document.querySelector(s).getBoundingClientRect();
-    const card=rect('.support-card'),brand=rect('.wow-hero-brand'),intro=rect('.reco-hero-copy');
-    return {belowLogo:card.top>=brand.bottom,belowIntro:card.top>=intro.bottom};
+    const card=rect('.support-card'),intro=rect('.reco-hero-copy'),section=rect('.reco-section'),modes=rect('.reco-modes');
+    return {rightOfIntro:card.left>=intro.right&&Math.abs(card.top-intro.top)<=2,belowIntro:card.top>=intro.bottom,
+     fullWidth:Math.abs(modes.left-section.left)<=2&&Math.abs(modes.right-section.right)<=2,
+     belowHeader:modes.top>=Math.max(card.bottom,intro.bottom)};
    });
-   assert.ok(width<=820?placement.belowIntro:placement.belowLogo,'Placement de l’encart à '+width);
-   if(width===390||width===1300)await page.locator('.reco-section').screenshot({path:path.join(__dirname,'screenshots','soutien-'+width+'.png'),animations:'disabled'});
+   assert.ok(width<=1060?placement.belowIntro:placement.rightOfIntro,'Placement de l’encart à '+width);
+   assert.ok(placement.fullWidth&&placement.belowHeader,'Parcours sur toute la largeur sous l’en-tête à '+width);
+   if([390,1060,1300,1580].includes(width))await page.locator('.reco-section').screenshot({path:path.join(__dirname,'screenshots','soutien-'+width+'.png'),animations:'disabled'});
   }
   const prefsBefore=await page.evaluate(()=>JSON.stringify(localStorage));
   await page.evaluate(()=>Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async text=>{window.__couponCopied=text;}}}));
