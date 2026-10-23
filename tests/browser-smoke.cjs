@@ -11,7 +11,7 @@ const {chromium}=require('playwright');
 
 const base=path.resolve(__dirname,'..');
 const allowed={'/':'index.html','/index.html':'index.html','/questionnaire.js':'questionnaire.js','/recommendation-engine.js':'recommendation-engine.js','/priorities-ui.js':'priorities-ui.js','/ux-polish.css':'ux-polish.css','/warcraft-visual-pack.css':'warcraft-visual-pack.css','/wow-ui-rework.css':'wow-ui-rework.css','/refonte-forever.css':'refonte-forever.css','/assets/hero-landscape.svg':'assets/hero-landscape.svg'};
-for(const f of ['configuration-notes.js','configuration-details.js','configuration-notes.css','result-explanations.js','notes-specialisations.js'])allowed['/'+f]=f;
+for(const f of ['configuration-notes.js','configuration-details.js','configuration-notes.css','result-explanations.js','notes-specialisations.js','support.js'])allowed['/'+f]=f;
 for(const f of fs.readdirSync(path.join(base,'fiches-sources')).filter(f=>f.endsWith('.html')))allowed['/fiches-sources/'+f]='fiches-sources/'+f;
 // Visuels de la refonte (kit de presse officiel), servis comme sur GitHub Pages.
 for(const f of ['logo-wow-forever.webp','hero-arbre-monde.webp','hero-vallee-nuit.webp','bandeau-gantelet.webp','bandeau-darkspear.webp','grain.png'])allowed['/assets/img/'+f]='assets/img/'+f;
@@ -37,6 +37,37 @@ async function check(){
   await page.goto('http://127.0.0.1:'+server.address().port+'/',{waitUntil:'domcontentloaded'});
   // Arrivée : deux cartes pour choisir son parcours, aucune question ouverte d'emblée.
   await page.waitForSelector('#reco-app.is-choosing .reco-modes');
+  // Soutien : destination exacte, transparence et copie du coupon sans toucher aux préférences.
+  assert.equal(await page.title(),'Choisir ma classe WoW Forever');
+  assert.equal(await page.locator('.support-reminder').isVisible(),false);
+  for(const link of await page.locator('a[href*="restedxp.com/ref/"]').all()){
+   assert.equal(await link.getAttribute('href'),'https://shop.restedxp.com/ref/LoursEnTong/');
+   assert.match(await link.getAttribute('rel'),/sponsored/);
+   assert.match(await page.locator('#'+await link.getAttribute('aria-describedby')).textContent(),/commission/);
+  }
+  for(const width of [320,390,768,1300]){
+   await page.setViewportSize({width,height:1000});
+   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth+2),'Encart sans débordement à '+width);
+   const placement=await page.evaluate(()=>{
+    const rect=s=>document.querySelector(s).getBoundingClientRect();
+    const card=rect('.support-card'),brand=rect('.wow-hero-brand'),intro=rect('.reco-hero-copy');
+    return {belowLogo:card.top>=brand.bottom,belowIntro:card.top>=intro.bottom};
+   });
+   assert.ok(width<=820?placement.belowIntro:placement.belowLogo,'Placement de l’encart à '+width);
+   if(width===390||width===1300)await page.locator('.reco-section').screenshot({path:path.join(__dirname,'screenshots','soutien-'+width+'.png'),animations:'disabled'});
+  }
+  const prefsBefore=await page.evaluate(()=>JSON.stringify(localStorage));
+  await page.evaluate(()=>Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async text=>{window.__couponCopied=text;}}}));
+  await page.locator('[data-support-copy]').focus();await page.keyboard.press('Enter');
+  assert.equal(await page.evaluate(()=>window.__couponCopied),'1K9U6RPCTR');
+  assert.match(await page.locator('.support-copy-status').textContent(),/Code copié/);
+  await page.evaluate(()=>Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async()=>{throw new Error('Presse-papiers indisponible');}}}));
+  await page.locator('[data-support-copy]').click();
+  assert.equal(await page.evaluate(()=>getSelection().toString()),'1K9U6RPCTR');
+  assert.match(await page.locator('.support-copy-status').textContent(),/Code sélectionné/);
+  assert.equal(await page.evaluate(()=>JSON.stringify(localStorage)),prefsBefore);
+  await page.reload();
+  await page.setViewportSize({width:1300,height:900});
   assert.equal(await page.locator('#reco-guided').isVisible(),false);
   assert.equal(await page.locator('#reco-priorities').isVisible(),false);
   assert.equal(await page.locator('#reco-app .rf-band').isVisible(),false);
@@ -127,6 +158,7 @@ async function check(){
   assert.ok(placed.summary.left+placed.summary.width<=placed.form.left+2,'« Mes choix » à gauche : '+JSON.stringify(placed));
   await page.locator('[data-reco-reveal]').click();
   assert.equal(await page.locator('#reco-results .reco-result-card').count(),5);
+  assert.equal(await page.locator('.support-reminder').isVisible(),true);
   assert.equal(await page.locator('#reco-results .reco-config-details').count(),5);
   const guideDetails=page.locator('#reco-results .reco-config-details').first();
   await guideDetails.locator('summary').focus();
@@ -191,6 +223,7 @@ async function check(){
   assert.match(await page.locator('#reco-results').textContent(),/Prévisualiser mes résultats/);
   await page.locator('[data-reco-reveal]').click();
   assert.match(await page.locator('#reco-results').textContent(),/Ces exigences ne vont pas ensemble/);
+  assert.equal(await page.locator('.support-reminder').isVisible(),false);
 
   // Bandeaux homogènes : passer d'un parcours à l'autre ne décale pas la page.
   const bandBox=sel=>page.locator(sel).evaluate(el=>{const r=el.getBoundingClientRect();return {top:Math.round(r.top+window.scrollY),height:Math.round(r.height)};});
@@ -214,6 +247,7 @@ async function check(){
   assert.ok(await page.locator('[data-prio-save]').count()===1);
   // Régression DPS PvE : les neuf classes ne peuvent PAS recevoir toutes 100.
   await page.locator('[data-prio-preset="dps"]').click();
+  assert.equal(await page.locator('.support-reminder').isVisible(),true);
   const dpsScores=await page.locator('#reco-priority-results .reco-priority-score').allTextContents();
   assert.ok(new Set(dpsScores).size>=3, 'DPS PvE doit différencier les neuf classes');
   assert.ok(dpsScores.some(x=>!x.trim().startsWith('100')));
