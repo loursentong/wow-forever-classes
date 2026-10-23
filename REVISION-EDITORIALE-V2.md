@@ -1,4 +1,4 @@
-# Révision éditoriale v2 et références v3 à v12 — 21 au 23 octobre 2026
+# Révision éditoriale v2 et références v3 à v13 — 21 au 23 octobre 2026
 
 Changement de **données et d'explications**, approuvé par le responsable du projet après la revue pratique des 28 configurations : moteur `1.0.1-exploratoire`, référence v2. Il est complété le même jour par la règle d'affichage à score égal (moteur `1.0.2-exploratoire`, référence v3) puis par l'exception solo du Chasseur réservée à Maîtrise des bêtes (moteur `1.0.3-exploratoire`, référence v4), voir plus bas. Base commune : `71f81ec53bc3023e5fd8e8428de1267ff5df2d4a`.
 
@@ -234,9 +234,32 @@ Décision du responsable du projet, 23 octobre 2026, après l’audit de la v11 
 
 **Effets vérifiés** (`node scripts/reference-v12.cjs`). Aucun top 3 des 41 scénarios guidés de la v11 ne change ; les 35 qui ne combinent pas « sans familier » et difficulté, à la maîtrise Confirmé, gardent exactement leurs résultats. En mode personnalisé, 5 classements sur 107 changent de top 3 ; les 21 sans technicité, à la maîtrise Confirmé, sont identiques. La technicité « DPS seul » passe du PvE à la moyenne. Le guerrier débutant en PvP était déjà jugé sur la difficulté PvP : son cas ne change pas (Armes en champ de bataille : 2,8/5 en Débutant, 4/5 en Confirmé, 4,35/5 en Expert). La v12 ajoute trois scénarios guidés et deux pondérations de technicité.
 
+## Version 1.3.0 : chaque classe vaut sa meilleure spé (référence v13)
+
+Décision du responsable du projet, 23 octobre 2026, après l’ajout des lignes de spécialisation au tableau des notes : le tableau annonce que « chaque classe est notée sur sa meilleure spé », mais 27 de ses 97 cases comparables ne valaient pas la meilleure note de leurs spécialisations. Sur chaque critère que portent les spécialisations, la note de classe devient celle de la meilleure d’entre elles ; la Polyvalence, la Technicité et les rôles qu’aucune spécialisation ne tient (le tank du Chaman, par exemple) restent des notes de classe. Aucune note de configuration ne change.
+
+| Classe | Notes qui changent (v12 → v13, et la spé qui donne la note) |
+|---|---|
+| Guerrier | Sauvage et duel 2→3 (Armes, Fureur) ; Burst 4→5 (Armes) ; Survie 3→5 (Protection) |
+| Chasseur | Burst 4→5 (Précision) ; Contrôle 3→4 (Survie) ; Utilité 3→2 (les trois) |
+| Voleur | Champ de bataille 3→4 (Finesse) ; Dégâts de zone 2→3 (Combat) ; Survie 2→3 (Combat) ; Mobilité 4→5 (Finesse) ; Utilité 2→1 (les trois) |
+| Prêtre | Survie 3→4 et Utilité 4→5 (Discipline, Sacré) |
+| Chaman | Champ de bataille 4→5 (Restauration) ; Contrôle 2→3 (Élémentaire) ; Survie 3→4 (Restauration) |
+| Mage | Champ de bataille 4→5 et Sauvage et duel 3→5 (Givre) ; Survie 2→3 (Givre) |
+| Démoniste | Survie 4→5 et Solo et farm 4→5 (Démonologie) |
+| Druide | DPS PvE 3→4 (Farouche félin) ; Champ de bataille 4→5 (Restauration) ; Burst 4→5 (Farouche félin) ; Contrôle 2→3 (les quatre) ; Survie 4→5 (Farouche ours) ; Solo et farm 3→4 (Farouche félin et ours) |
+
+**Moteur.** La note de rôle d’une classe compte pour 55 % dans l’adéquation au rôle : `ROLE_REFERENCE` suit la matrice, et seule la note DPS du Druide change (3→4 : Farouche félin à 73 % du meilleur DPS simulé, palier 4 depuis la v7). Une spécialisation DPS du Druide gagne 0,1375 d’adéquation au rôle DPS.
+
+**Effets vérifiés** (`node scripts/reference-v13.cjs`). Les 33 scénarios guidés sans rôle DPS et les 78 classements personnalisés sans poids DPS gardent exactement leurs résultats. Aucun top 3 guidé existant ne change ; dans 11 scénarios, les scores des Druides DPS montent. En mode personnalisé, 37 classements sur 115 changent, dont 5 de top 3 : avec « Tout à égalité », Équilibre entre dans le top 3 en Intermédiaire et Farouche (félin) passe premier en Expert ; avec « Polyvalence », Farouche (félin) entre dans le top 3 en Confirmé et en Expert ; avec « PvE », Équilibre remplace Chaman Restauration en Débutant. Nouveaux cas : un DPS de mêlée mobile et résistant voit Farouche (félin) passer de la 4e à la 2e piste (81,22 → 85,52) ; en solo, il rejoint la Vindicte à 83,17.
+
+**Textes.** La note sous le tableau dit que la ligne de classe reprend la meilleure spé ; les justifications de Burst et de Dégâts de zone nomment la spé retenue (Voleur : Déluge de lames en Combat, 3/5). Trois formulations des fiches de classe sont nuancées pour ne pas contredire les nouvelles notes : Guerrier (« Hors Protection, peu d’outils pour encaisser un gros burst », comme le dit déjà la base de connaissances), Chaman (contrôle : une interruption, un ralentissement et une immobilisation, mais « pas de contrôle efficace ») et Druide (DPS PvE derrière les meilleurs, Farouche à 73 %).
+
+**À surveiller.** Deux notes de classe reposent sur des notes de spé contestées : Sauvage et duel du Mage (5, Givre : écart ouvert e7, 4 proposé) et Survie du Voleur (3, Combat : confiance faible, Kami juge sa survie la plus limitée une fois découvert). Si ces notes de spé changent, la note de classe suit, et le test de la règle le vérifie.
+
 ## Références et reproduction
 
-La fixture v1 et `tests/reference-notes.json` sont conservés. La fixture v2 fige les mêmes entrées, après vérification des trois seuls écarts de notes. La fixture v3 ne diffère de la v2 que par les configurations affichées à score égal. La fixture v4 ne diffère de la v3 que par le Chasseur en solo, en Débutant ou Intermédiaire. La fixture v5 ne diffère de la v4 que par un scénario sans familier ; elle ajoute quatre scénarios. La fixture v6 reprend la v5 à l'identique et ajoute quatre scénarios de difficulté. La fixture v7 ne diffère de la v6 que par les cinq notes décidées. La fixture v8 reprend la v7 à l'identique, y ajoute les profils de soin et sept scénarios de soin. La fixture v9 ne diffère de la v8 que par deux scénarios de soin, le build de référence de Précision et sept scénarios d'interactions. La fixture v10 rejoue la v9 avec des classements par spécialisation et la technicité selon les activités ; elle ajoute trois scénarios. La fixture v11 ne diffère de la v10 que par les 26 notes de difficulté décidées et la grille qui les fonde ; elle ajoute quatre scénarios. La fixture v12, active, rejoue la v11 avec la difficulté qui suit le contexte et les grilles sans familier ; elle ajoute trois scénarios et deux pondérations de technicité. Les tests protègent les empreintes des v1 à v11. Les formules de score existantes et les données de maîtrise sont inchangées ; la v8 ajoute un domaine, la façon de soigner.
+La fixture v1 et `tests/reference-notes.json` sont conservés. La fixture v2 fige les mêmes entrées, après vérification des trois seuls écarts de notes. La fixture v3 ne diffère de la v2 que par les configurations affichées à score égal. La fixture v4 ne diffère de la v3 que par le Chasseur en solo, en Débutant ou Intermédiaire. La fixture v5 ne diffère de la v4 que par un scénario sans familier ; elle ajoute quatre scénarios. La fixture v6 reprend la v5 à l'identique et ajoute quatre scénarios de difficulté. La fixture v7 ne diffère de la v6 que par les cinq notes décidées. La fixture v8 reprend la v7 à l'identique, y ajoute les profils de soin et sept scénarios de soin. La fixture v9 ne diffère de la v8 que par deux scénarios de soin, le build de référence de Précision et sept scénarios d'interactions. La fixture v10 rejoue la v9 avec des classements par spécialisation et la technicité selon les activités ; elle ajoute trois scénarios. La fixture v11 ne diffère de la v10 que par les 26 notes de difficulté décidées et la grille qui les fonde ; elle ajoute quatre scénarios. La fixture v12 rejoue la v11 avec la difficulté qui suit le contexte et les grilles sans familier ; elle ajoute trois scénarios et deux pondérations de technicité. La fixture v13, active, ne diffère de la v12 que par les 27 notes de classe alignées sur la meilleure spé et les classements qui demandent le rôle DPS ; elle ajoute deux scénarios et une pondération croisée. Les tests protègent les empreintes des v1 à v12. Les formules de score existantes et les données de maîtrise sont inchangées ; la v8 ajoute un domaine, la façon de soigner.
 
 ```text
 node --test tests/*.test.cjs
@@ -251,11 +274,12 @@ node scripts/reference-v9.cjs comparaison-v8-v9.json
 node scripts/reference-v10.cjs comparaison-v9-v10.json
 node scripts/reference-v11.cjs comparaison-v10-v11.json
 node scripts/reference-v12.cjs comparaison-v11-v12.json
+node scripts/reference-v13.cjs comparaison-v12-v13.json
 node scripts/audit-interactions.cjs > audit-interactions.json
 bash scripts/prepare-pages.sh
 node tests/browser-smoke.cjs
 ```
 
-Les comparaisons produisent les scores, rangs et spécialisations avant/après avec la cause de chaque écart. Elles ne réécrivent aucune fixture : `scripts/reference-v9.cjs` à `scripts/reference-v12.cjs` n'écrivent la photographie qu'avec l'option explicite `--fixture`, et jamais sur un fichier existant. Le test navigateur utilise Playwright ; `FRV_CHROMIUM_EXECUTABLE` permet de sélectionner un Chrome/Chromium déjà installé.
+Les comparaisons produisent les scores, rangs et spécialisations avant/après avec la cause de chaque écart. Elles ne réécrivent aucune fixture : `scripts/reference-v9.cjs` à `scripts/reference-v13.cjs` n'écrivent la photographie qu'avec l'option explicite `--fixture`, et jamais sur un fichier existant. Le test navigateur utilise Playwright ; `FRV_CHROMIUM_EXECUTABLE` permet de sélectionner un Chrome/Chromium déjà installé.
 
 Les tests et les 99 cas vérifient la cohérence de l'implémentation, pas la justesse scientifique au niveau 60. Cette étape ne revoit ni les coefficients de maîtrise ni les formules et ne lance pas de nouvel audit exhaustif.

@@ -415,6 +415,8 @@ function sanitizeWeights(input){
  * Conserve le contexte des notes de rôle de index.html, mais évalue en plus
  * la configuration spécialisée en activité raid pour empêcher les 100% universels.
  * Révision éditoriale v2 : soins Paladin/Chaman 5, contrôle Discipline 3.
+ * Référence v13 : la note de rôle d'une classe est celle de sa meilleure spécialisation dans ce rôle
+ * (Druide DPS 3→4, Farouche félin à 4) ; un rôle qu'aucune spécialisation ne tient garde sa note de classe.
  * Vérification de synchronisation avec les 126 notes affichées dans les tests.
  */
 var ROLE_REFERENCE={
@@ -422,7 +424,7 @@ var ROLE_REFERENCE={
  chasseur:{tank:1,soin:1,dps:5},voleur:{tank:1,soin:1,dps:3},
  pretre:{tank:1,soin:5,dps:3},chaman:{tank:2,soin:5,dps:3},
  mage:{tank:1,soin:1,dps:4},demoniste:{tank:1,soin:1,dps:4},
- druide:{tank:4,soin:5,dps:3}
+ druide:{tank:4,soin:5,dps:4}
 };
 function roleSuitability(s,m){
  var baseline=(ROLE_REFERENCE[s.classId][s.role]-1)/4;
@@ -547,7 +549,7 @@ function checkData(){
  }
  return errors;
 }
-return {version:'1.2.0-exploratoire',referenceVariants:REFERENCE_VARIANTS,healStyles:HEAL_STYLES,sources:sources,specs:specs,petless:petless,difficultyContext:difficultyContext,difficultyLoad:difficultyLoad,complexityGrid:COMPLEXITY_GRID,complexityNote:complexityNote,roles:ROLE,activities:acts,styles:styles,
+return {version:'1.3.0-exploratoire',referenceVariants:REFERENCE_VARIANTS,healStyles:HEAL_STYLES,sources:sources,specs:specs,petless:petless,difficultyContext:difficultyContext,difficultyLoad:difficultyLoad,complexityGrid:COMPLEXITY_GRID,complexityNote:complexityNote,roles:ROLE,activities:acts,styles:styles,
  defaultProfile:copy(DEFAULT),sanitize:sanitize,selected:selected,domains:domains,eligible:eligible,
  ranking:ranking,recommend:recommend,topPicks:topPicks,perClass:perClass,techContext:techContext,explain:explain,priorityExplain:priorityExplain,checkData:checkData,intensity:intensity,preferenceFit:preferenceFit,
  rolePool:rolePool,adjustedActivity:adjustedActivity,potential:potential,roleSuitability:roleSuitability,roleReference:ROLE_REFERENCE,priorityAxes:PRIORITY_AXES,priorityRanking:priorityRanking,sanitizeWeights:sanitizeWeights};

@@ -1,7 +1,7 @@
 /* Tableau des notes : chaque ligne de classe déroule ses spécialisations, avec les notes du moteur
  * (WFRecommend.specs) critère par critère. Affichage seul : aucun calcul, aucun score, aucune note modifiée.
- * La ligne de la classe garde la notation d'origine du tableau (window.__WF) ; sans JavaScript, le tableau
- * reste celui des neuf classes. */
+ * Depuis la référence v13, la ligne de la classe reprend la meilleure de ses spés (window.__WF, vérifié par
+ * tests/classes-meilleure-spe-v13.test.cjs) ; sans JavaScript, le tableau reste celui des neuf classes. */
 (function(root,factory){
  if(typeof module==='object'&&module.exports)module.exports=factory(require('./recommendation-engine.js'));
  else{

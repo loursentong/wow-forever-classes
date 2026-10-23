@@ -14,7 +14,8 @@
  * critères d'activité (PvE, PvP ou moyenne) ; v11 fait suivre à la difficulté d'exécution PvE et PvP le
  * référentiel de complexité (grille de cinq composantes par contexte), partout où elle sert ; v12 la fait
  * suivre le contexte des activités partout (technicité, maîtrise sur les styles) et donne leur grille aux
- * variantes sans familier.
+ * variantes sans familier ; v13 donne à chaque classe, sur chaque critère que portent ses spécialisations, la
+ * note de la meilleure d'entre elles (27 notes de la matrice, référence de rôle Druide DPS 3→4).
  * Ne JAMAIS régénérer ces valeurs sur un échec de CI sans revue explicite des
  * écarts, approbation du changement et nouvelle version documentée.
  */
@@ -23,7 +24,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
 const E=require('../recommendation-engine.js');
-const fixture=require('./fixtures/moteur-reference-v12.json');
+const fixture=require('./fixtures/moteur-reference-v13.json');
 const html=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
 const questionnaire=fs.readFileSync(path.join(__dirname,'..','questionnaire.js'),'utf8');
 const prioritiesUI=fs.readFileSync(path.join(__dirname,'..','priorities-ui.js'),'utf8');
@@ -84,8 +85,8 @@ test('CODEx: référence de rôle toujours liée aux notes historiques',()=>{
   assert.ok(Math.abs(E.roleSuitability(s,2)-(.55*baseline+.45*activity))<1e-12,s.id);
  }
 });
-test('CODEx: 44 scénarios guidés — statut, spécialisations, scores, top 3, sensibilité, vétos, variantes sans familier, difficulté et soin',()=>{
- assert.equal(fixture.guide.length,44);
+test('CODEx: 46 scénarios guidés — statut, spécialisations, scores, top 3, sensibilité, vétos, variantes sans familier, difficulté et soin',()=>{
+ assert.equal(fixture.guide.length,46);
  for(const ex of fixture.guide){
   const actual=compactGuide(ex.profile);
   assert.deepEqual(actual,{
@@ -143,8 +144,8 @@ test('CODEx: DPS PvE / Tank / Soin isolés × 4 maîtrises — aucune régressio
   }
  }
 });
-test('CODEx: cinq pondérations croisées sur trois maîtrises — pas de dérive silencieuse',()=>{
- assert.equal(fixture.mixed.length,5);
+test('CODEx: six pondérations croisées sur trois maîtrises — pas de dérive silencieuse',()=>{
+ assert.equal(fixture.mixed.length,6);
  for(const example of fixture.mixed)for(const caseLevel of example.levels){
   const w=structuredClone(example.weights);
   const r=E.priorityRanking(w,caseLevel.mastery);
