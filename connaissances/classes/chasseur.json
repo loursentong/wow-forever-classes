@@ -1,8 +1,8 @@
 {
  "classe": "chasseur",
  "libelle": "Chasseur",
- "date": "2026-10-22",
- "moteur": "1.1.0-exploratoire",
+ "date": "2026-10-23",
+ "moteur": "1.2.0-exploratoire",
  "faits": [
   {
    "id": "c-role",
@@ -874,7 +874,7 @@
     }
    },
    "variante_sans_familier": {
-    "synthese": "Sans familier pour encaisser, seule l’aisance en solo baisse ; pièges, contrôles et défenses lui appartiennent.",
+    "synthese": "Sans familier pour encaisser, seule l’aisance en solo baisse ; pièges, contrôles et défenses lui appartiennent. En PvE, plus de familier à piloter : difficulté 3/5 au lieu de 4/5.",
     "appuis": [
      "c-familier-survie",
      "c-role"
@@ -889,6 +889,16 @@
        "c-familier-survie"
       ],
       "confiance": "faible"
+     },
+     "charge_pve": {
+      "valeur": 3,
+      "raison": "6 points sur 10 sur la grille de complexité : sans familier, plus rien à piloter en PvE ; la rotation et le placement pèsent beaucoup ; les effets à entretenir et la gestion de la ressource, un peu.",
+      "appuis": [
+       "c-familier-survie",
+       "c-alternance",
+       "c-rotation"
+      ],
+      "confiance": "moyenne"
      }
     }
    },

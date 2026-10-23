@@ -12,7 +12,9 @@
  * sans compagnon et applique l'envie de soin à toutes les pistes ; v10 classe les spécialisations (une
  * classe peut revenir, au plus deux fois dans le top 3 guidé) et fait suivre à la technicité les
  * critères d'activité (PvE, PvP ou moyenne) ; v11 fait suivre à la difficulté d'exécution PvE et PvP le
- * référentiel de complexité (grille de cinq composantes par contexte), partout où elle sert.
+ * référentiel de complexité (grille de cinq composantes par contexte), partout où elle sert ; v12 la fait
+ * suivre le contexte des activités partout (technicité, maîtrise sur les styles) et donne leur grille aux
+ * variantes sans familier.
  * Ne JAMAIS régénérer ces valeurs sur un échec de CI sans revue explicite des
  * écarts, approbation du changement et nouvelle version documentée.
  */
@@ -21,7 +23,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
 const E=require('../recommendation-engine.js');
-const fixture=require('./fixtures/moteur-reference-v11.json');
+const fixture=require('./fixtures/moteur-reference-v12.json');
 const html=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
 const questionnaire=fs.readFileSync(path.join(__dirname,'..','questionnaire.js'),'utf8');
 const prioritiesUI=fs.readFileSync(path.join(__dirname,'..','priorities-ui.js'),'utf8');
@@ -82,8 +84,8 @@ test('CODEx: référence de rôle toujours liée aux notes historiques',()=>{
   assert.ok(Math.abs(E.roleSuitability(s,2)-(.55*baseline+.45*activity))<1e-12,s.id);
  }
 });
-test('CODEx: 41 scénarios guidés — statut, spécialisations, scores, top 3, sensibilité, vétos, variantes sans familier, difficulté et soin',()=>{
- assert.equal(fixture.guide.length,41);
+test('CODEx: 44 scénarios guidés — statut, spécialisations, scores, top 3, sensibilité, vétos, variantes sans familier, difficulté et soin',()=>{
+ assert.equal(fixture.guide.length,44);
  for(const ex of fixture.guide){
   const actual=compactGuide(ex.profile);
   assert.deepEqual(actual,{
@@ -151,8 +153,8 @@ test('CODEx: cinq pondérations croisées sur trois maîtrises — pas de dériv
   assert.deepEqual(w,example.weights,'Le classement doit laisser son entrée intacte');
  }
 });
-test('CODEx: technicité selon les critères d’activité — cinq pondérations × quatre maîtrises',()=>{
- assert.equal(fixture.technicite.length,5);
+test('CODEx: technicité selon les critères d’activité — sept pondérations × quatre maîtrises',()=>{
+ assert.equal(fixture.technicite.length,7);
  for(const t of fixture.technicite){
   assert.equal(E.techContext(E.sanitizeWeights(t.weights)),t.context);
   for(const l of t.levels)assert.deepEqual(compactResults(E.priorityRanking(t.weights,l.mastery)),l.results,JSON.stringify(t.weights)+'/'+l.mastery);

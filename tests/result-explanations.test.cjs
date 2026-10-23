@@ -175,7 +175,8 @@ test('Pourquoi cette place : priorité en mots, part de chaque critère dans son
  assert.deepEqual(mixte.axes.map(a=>[a.label,a.lines[0].text,a.lines[2].text]),[
   ['Technicité · PvE','Finesse est notée 4/5 en difficulté PvE : la rotation, les effets à entretenir et la gestion de la ressource pèsent beaucoup ; le placement, un peu.','Elle y répond bien (75\u00a0%).'],
   ['Technicité · PvP','Finesse est notée 5/5 en difficulté PvP : les contrôles, la défense, le placement et l’ouverture pèsent beaucoup ; le pilotage, un peu.','Elle y répond pleinement (100\u00a0%).']]);
- assert.equal(mixte.note,'Technicité : sans critère d’activité ni de rôle, moyenne des deux (75\u00a0% en PvE, 100\u00a0% en PvP).');
+ // Depuis la v12, seules les activités décident du contexte : sans activité, la moyenne des deux.
+ assert.equal(mixte.note,'Technicité : sans critère d’activité, moyenne des deux (75\u00a0% en PvE, 100\u00a0% en PvP).');
  assert.deepEqual(groups.map(g=>g.note),['Tes 2 critères ont la même priorité : ils comptent autant.','Tes 2 critères ont la même priorité : ils comptent autant.','']);
  assert.equal(X.priorityMissing(ex,ex.score),'Il lui manque 4 points, tous sur les activités (Champ de bataille).');
  // Priorités différentes dans un groupe ; rôle non joué ; polyvalence ; aucun point manquant.
@@ -262,10 +263,14 @@ test('Complexité et technicité : PvE et PvP séparés quand la difficulté ret
  const alone=E.explain('voleur-finesse',{difficulty:{value:'complex',certainty:5},mastery:2});
  assert.equal(X.keepInMind(alone),'Le Voleur Finesse répond bien à ton choix « Difficulté exigeante » en PvE (difficulté notée 4/5) et y répond pleinement en PvP (5/5) : c’est la seule chose qui lui coûte des points (12 sur la complexité).');
  assert.equal(X.pisteParts(alone,...fitScore(alone))[0].note,'Sans activité choisie : moyenne du PvE et du PvP, 75\u00a0% en PvE et 100\u00a0% en PvP.');
- // Mode personnalisé : la technicité se partage de même, et sa moyenne est la valeur du calcul.
- for(const w of [{tech:2},{tech:3,bg:2,solo:1},{tech:1,sauv:2,dps:3}])for(const s of E.specs){
-  const t=E.priorityExplain(s.id,w,2).axes.find(a=>a.key==='tech');
-  assert.equal(t.context,'mixte');near((t.contexts.pve.raw+t.contexts.pvp.raw)/2,t.raw);
+ // Mode personnalisé : la technicité se partage de même ; depuis la v12, chaque contexte pèse selon la
+ // priorité de ses activités (moitié-moitié sans activité), et la somme pondérée est la valeur du calcul.
+ for(const w of [{tech:2},{tech:3,bg:2,solo:1}])for(const s of E.specs){
+  const t=E.priorityExplain(s.id,w,2).axes.find(a=>a.key==='tech'),c=t.contexts;
+  assert.equal(t.context,'mixte');near(c.pve.share*c.pve.raw+c.pvp.share*c.pvp.raw,t.raw);
+  near(c.pvp.share,w.bg?2/3:.5);near(c.pve.share+c.pvp.share,1);
  }
+ // Un rôle ne compte plus comme du PvE : PvP sauvage et DPS, c'est du PvP.
+ assert.equal(E.priorityExplain('voleur-finesse',{tech:1,sauv:2,dps:3},2).axes.find(a=>a.key==='tech').context,'pvp');
  assert.equal(E.priorityExplain('voleur-finesse',{tech:2,bg:3},2).axes.find(a=>a.key==='tech').contexts,undefined);
 });

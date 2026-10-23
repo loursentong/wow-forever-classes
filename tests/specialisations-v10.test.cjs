@@ -63,7 +63,8 @@ test('Technicité : difficulté PvP pour des critères PvP, PvE pour des critèr
  assert.equal(load({tech:3,bg:3}).load,5);assert.equal(load({tech:3,bg:3}).context,'pvp');
  assert.equal(load({tech:3,sauv:2}).load,5);
  assert.equal(load({tech:3,solo:3}).load,4);assert.equal(load({tech:3,solo:3}).context,'pve');
- assert.equal(load({tech:3,dps:1}).load,4,'les rôles sont évalués en PvE');
+ // Depuis la v12, un rôle ne fait plus du PvE : sans activité, la technicité prend la moyenne des deux.
+ assert.equal(load({tech:3,dps:1}).load,4.5,'un rôle seul ne décide pas du contexte');
  assert.equal(load({tech:3,bg:3,solo:3}).load,4.5);assert.equal(load({tech:3,bg:3,solo:3}).context,'mixte');
  assert.equal(load({tech:3}).load,4.5);
  // Le score suit : Finesse est plus exigeante en PvP.

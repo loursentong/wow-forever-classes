@@ -1,8 +1,8 @@
 {
  "classe": "paladin",
  "libelle": "Paladin",
- "date": "2026-10-22",
- "moteur": "1.1.0-exploratoire",
+ "date": "2026-10-23",
+ "moteur": "1.2.0-exploratoire",
  "faits": [
   {
    "id": "p-role",

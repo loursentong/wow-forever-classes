@@ -60,8 +60,9 @@ test('v11 : le moteur porte la grille et les points décidés, et sa difficulté
    assert.equal(s.load[c],note(sum(s.complexity[c])),s.id+'/'+c+' : la difficulté suit la grille');
   }
  }
- // Les variantes sans familier gardent la complexité de leur configuration (règle de la v5 conservée).
- for(const [id,v] of Object.entries(E.petless))assert.deepEqual(v.complexity,spec(id).complexity,id);
+ // Depuis la v12, les variantes sans familier ont leur propre grille (contexte-v12.test.cjs) ; Précision, déjà
+ // évaluée en Loup solitaire, garde celle de sa configuration.
+ assert.deepEqual(E.petless['chasseur-precision'].complexity,spec('chasseur-precision').complexity);
  assert.deepEqual(E.checkData(),[]);
 });
 
@@ -135,8 +136,8 @@ test('Explications : la difficulté dit ce qui pèse, la fiche détaille chaque 
  const html=details(spec('chasseur-survie'));
  assert.match(html,/En PvE, la rotation et le placement pèsent beaucoup ; les effets à entretenir, la gestion de la ressource et le pilotage, un peu\./);
  assert.match(html,/href="fiches-sources\/chasseur\.html#chasseur-survie-complexite"/);
- // Variante sans familier : même complexité, même lien vers la configuration.
- assert.match(details(E.petless['chasseur-survie']),/href="fiches-sources\/chasseur\.html#chasseur-survie-complexite"/);
+ // Variante sans familier (v12) : sa propre grille, détaillée dans la section « sans familier » de la fiche.
+ assert.match(details(E.petless['chasseur-survie']),/href="fiches-sources\/chasseur\.html#chasseur-survie-sans-familier"/);
  // « Pourquoi cette piste » : la note, puis ce qui pèse, dans le contexte retenu.
  const ex=E.explain('voleur-finesse',{difficulty:{value:'complex',certainty:5},activities:{bg:5}});
  const lines=X.answerLines(ex.answers.find(a=>a.domain==='difficulty'),ex);
