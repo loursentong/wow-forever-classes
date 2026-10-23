@@ -10,7 +10,8 @@ const path=require('node:path');
 const crypto=require('node:crypto');
 const E=require('../recommendation-engine.js');
 const v10=require('./fixtures/moteur-reference-v10.json'),v11=require('./fixtures/moteur-reference-v11.json');
-const {compare,snapshot,NEW_CASES,LOADS}=require('../scripts/reference-v11.cjs');
+const {compare,NEW_CASES,LOADS}=require('../scripts/reference-v11.cjs');
+// Depuis la v12, la v11 est une photographie figée (empreinte vérifiée dans reference-v12.test.cjs) : on compare des fixtures.
 
 test('La photographie v10 reste intacte ; la v11 en dérive explicitement',()=>{
  const source=fs.readFileSync(path.join(__dirname,'fixtures/moteur-reference-v10.json'),'utf8').replace(/\r\n/g,'\n');
@@ -18,12 +19,10 @@ test('La photographie v10 reste intacte ; la v11 en dérive explicitement',()=>{
  assert.equal(v10.info.engineVersion,'1.0.9-exploratoire');
  assert.equal(v11.info.revision,11);
  assert.equal(v11.info.previousReference,'moteur-reference-v10.json');
- assert.equal(v11.info.engineVersion,E.version);
- assert.equal(E.version,'1.1.0-exploratoire');
+ assert.equal(v11.info.engineVersion,'1.1.0-exploratoire');
 });
 
 test('v10 → v11 : seules les charges décidées changent ; sans préférence de difficulté, à la maîtrise de référence, rien ne bouge',()=>{
- assert.deepEqual(snapshot(),v11,'le moteur reproduit exactement la v11');
  const report=compare(v10,v11);
  assert.equal(report.loadChanges,26,'26 notes de difficulté sur 56');
  assert.equal(Object.keys(LOADS).length,22,'22 spécialisations');

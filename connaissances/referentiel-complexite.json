@@ -1,7 +1,7 @@
 {
  "version": 1,
- "date": "2026-10-22",
- "moteur": "1.1.0-exploratoire",
+ "date": "2026-10-23",
+ "moteur": "1.2.0-exploratoire",
  "definition": "La complexité d’une spécialisation mesure ce qu’elle demande au joueur pour être bien jouée dans un contexte : ce qu’il faut suivre, décider et exécuter en même temps, et ce que coûte une erreur. Ce n’est ni sa puissance ni son confort en leveling.",
  "jeu_evalue": "Le jeu de base correct, celui des guides de la spécialisation. Une technique avancée n’entre dans la note que si elle conditionne la performance que nos autres notes lui prêtent (au moins 10 % de dégâts en simulation) ; sinon, elle est signalée comme approfondissement. Seul cas aujourd’hui : l’alternance tir-mêlée de Survie, environ 21 % de dégâts en plus.",
  "contextes": {
@@ -155,7 +155,7 @@
   "Aucune mesure en jeu : la bêta est plafonnée au niveau 30 et le jeu sort le 4 novembre 2026. Les guides consultés décrivent le niveau 30 ; les simulations, le niveau 60.",
   "Chaque composante est un jugement à un point près : un écart d’un point sur 10 n’est pas significatif. La note sur 5 absorbe une partie de ce bruit.",
   "En PvP, 18 spécialisations sur 28 sont à 4/5 : le PvP demande beaucoup à presque toutes, et la note y distingue moins.",
-  "Les variantes sans familier gardent la complexité de leur configuration (règle de la v5). Sans compagnon, le pilotage PvE perd un point pour Survie, Affliction et Destruction : Survie passerait de 4 à 3 et Destruction de 3 à 2, Affliction resterait à 3. À arbitrer."
+  "Depuis la v12, les variantes sans familier ont leur propre grille : sans compagnon, plus de familier ni de démon à piloter. Survie passe à 3/5 en PvE ; Destruction à 2/5 en PvE et à 3/5 en PvP, avec trois contrôles sans démon ; Affliction reste à 3/5 et 4/5."
  ],
  "sources": [
   "wowsims-forever",

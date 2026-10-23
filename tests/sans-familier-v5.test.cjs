@@ -43,7 +43,8 @@ test('Notes sans familier : seules celles qui dépendent du familier changent',(
  for(const [id,v] of Object.entries(E.petless)){
   const base=spec(id);
   assert.equal(v.variant,'sans-familier');
-  for(const k of ['id','classId','label','role','range','pet','load','source'])assert.deepEqual(v[k],base[k],id+'/'+k);
+  // Depuis la v12, la charge d'une variante suit sa propre grille de complexité (contexte-v12.test.cjs).
+  for(const k of ['id','classId','label','role','range','pet','source'])assert.deepEqual(v[k],base[k],id+'/'+k);
  }
  assert.deepEqual(E.checkData(),[]);
 });

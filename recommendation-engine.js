@@ -104,6 +104,7 @@ var COMPLEXITY={
  'druide-restauration':{pve:[1,2,1,0,1],pvp:[1,2,2,0,2]}
 };
 function complexityNote(total){return total<=2?1:total<=4?2:total<=6?3:total<=8?4:5;}
+function sum(a){return a.reduce(function(x,y){return x+y;},0);}
 specs.forEach(function(s){var c=COMPLEXITY[s.id];if(c)s.complexity={pve:c.pve.slice(),pvp:c.pvp.slice()};});
 /* Façon de soigner (référence v8) : profil éditorial 1–5 des cinq configurations de soin, d'après les
  * présentations officielles (base de connaissances) : prévenir les dégâts (boucliers, absorptions), soins sur
@@ -122,18 +123,23 @@ specs.forEach(function(s){if(HEAL[s.id])s.heal=HEAL[s.id];});
  * Elles s'appliquent quand le joueur préfère jouer sans compagnon ; la variante répond alors
  * pleinement à ce souhait, et son compromis est porté par ses notes, plus par la préférence.
  * Précision est déjà évaluée en « Loup solitaire » : aucune note ne change. */
+/* Depuis la v12, une variante a aussi sa propre grille de complexité (voir COMPLEXITY) : sans compagnon, plus
+ * de familier ni de démon à piloter (PvE ; PvP pour le Démoniste, qui garde « Drain Mana »), et la Destruction
+ * n'a plus que trois contrôles en PvP (Fear, Death Coil, ralentissement de Conflagrate). Sa charge en découle. */
 var PETLESS={
  'chasseur-precision':{},
- 'chasseur-survie':{activity:{solo:4}},
- 'demoniste-affliction':{activity:{world:4,solo:3},style:{ctrl:4}},
- 'demoniste-destruction':{activity:{world:4,solo:3},style:{ctrl:3}}
+ 'chasseur-survie':{activity:{solo:4},complexity:{pve:[2,1,1,2,0]}},
+ 'demoniste-affliction':{activity:{world:4,solo:3},style:{ctrl:4},complexity:{pve:[1,2,1,1,0],pvp:[2,1,2,1,1]}},
+ 'demoniste-destruction':{activity:{world:4,solo:3},style:{ctrl:3},complexity:{pve:[1,1,1,1,0],pvp:[1,1,2,1,1]}}
 };
 var petless={};
 specs.forEach(function(s){
   if(s.pet!=='optional'||!PETLESS[s.id])return;
   var d=PETLESS[s.id];
+  var cx={pve:((d.complexity||{}).pve||s.complexity.pve).slice(),pvp:((d.complexity||{}).pvp||s.complexity.pvp).slice()};
   petless[s.id]=Object.assign({},s,{variant:'sans-familier',
-    activity:Object.assign({},s.activity,d.activity||{}),style:Object.assign({},s.style,d.style||{})});
+    activity:Object.assign({},s.activity,d.activity||{}),style:Object.assign({},s.style,d.style||{}),
+    complexity:cx,load:{pve:complexityNote(sum(cx.pve)),pvp:complexityNote(sum(cx.pvp))}});
 });
 // Le build de référence de Précision est déjà Loup solitaire. Aucun build avec
 // compagnon n'est inventé à partir de ces notes (référence v9).
@@ -222,8 +228,11 @@ function execution(s,k,m){
   return clamp(factor*load,-1.2,0.35);
 }
 function adjustedActivity(s,k,m){return clamp(s.activity[k]+execution(s,k,m),1,5);}
-function adjustedStyle(s,k,m){
-  var pvp=k==='ctrl'||k==='surv';
+/* Effet de la maîtrise sur un style (v12) : il suit les activités du joueur, PvE seul → difficulté PvE, PvP
+ * seul → difficulté PvP ; sinon (activités mêlées ou absentes), contrôle et résistance en PvP et les autres
+ * styles en PvE, comme avant la v12. */
+function adjustedStyle(s,k,m,ctx){
+  var pvp=ctx==='pvp'||ctx!=='pve'&&(k==='ctrl'||k==='surv');
   var domain=pvp?'world':'raid';
   return clamp(s.style[k]+execution(s,domain,m)*0.55,1,5);
 }
@@ -274,7 +283,7 @@ function specFit(s,p,trace){
     parts.range={value:preferenceFit(v,p.range.certainty),weight:.15};
     record('range',p.range.value,v,v,p.range.certainty);
   }
-  if(sty.length)parts.styles={value:aggregate(sty,p.styles,function(k){var a=adjustedStyle(s,k,p.mastery);return record('styles',k,(s.style[k]-1)/4,(a-1)/4,p.styles[k],s.style[k],a);}),weight:.20};
+  if(sty.length)parts.styles={value:aggregate(sty,p.styles,function(k){var a=adjustedStyle(s,k,p.mastery,difficultyContext(p));return record('styles',k,(s.style[k]-1)/4,(a-1)/4,p.styles[k],s.style[k],a);}),weight:.20};
   // Une envie de soin s'applique à toutes les pistes : un autre rôle n'y répond pas.
   // Même dénominateur, aucun veto implicite et aucune note de soin inventée hors rôle.
   if(healActive(p))parts.healStyles={value:aggregate(selected(p.healStyles),p.healStyles,function(k){var note=s.heal?s.heal[k]:undefined,v=s.heal?(note-1)/4:0;return record('healStyles',k,v,v,p.healStyles[k],note,note);}),weight:.15};
@@ -432,49 +441,57 @@ var PRIORITY_STYLE={burst:'burst',zone:'zone',ctrl:'ctrl',surv:'surv',mob:'mob',
 /* Technicité (référence v10) : comme la difficulté du parcours guidé (v6), elle suit les critères
  * d'activité. PvP : champ de bataille, PvP sauvage ; PvE : solo et rôles, évalués en PvE ; les deux,
  * ou aucun : moyenne des difficultés PvE et PvP. */
+/* Contexte des activités du mode personnalisé (v12) : seules les activités décident ; les rôles ne comptent
+ * plus comme du PvE. Champ de bataille et PvP sauvage → PvP, solo → PvE, les deux ou aucun → mixte. */
 function techContext(w){
-  var pvp=w.bg>0||w.sauv>0,pve=w.solo>0||w.tank>0||w.soin>0||w.dps>0;
+  var pvp=w.bg>0||w.sauv>0,pve=w.solo>0;
   return pvp&&!pve?'pvp':pve&&!pvp?'pve':'mixte';
 }
-function techLoad(s,ctx){return ctx==='pve'?s.load.pve:ctx==='pvp'?s.load.pvp:(s.load.pve+s.load.pvp)/2;}
-function priorityRaw(s,k,m,ctx){
+// Parts PvE et PvP de la technicité (v12) : selon la priorité des activités ; sans activité, moitié-moitié.
+function techShares(w){
+  var pvp=(w.bg>0?w.bg:0)+(w.sauv>0?w.sauv:0),pve=w.solo>0?w.solo:0;
+  return pvp+pve?{pve:pve/(pve+pvp),pvp:pvp/(pve+pvp)}:{pve:.5,pvp:.5};
+}
+function techLoad(s,sh){return sh.pve===1?s.load.pve:sh.pvp===1?s.load.pvp:sh.pve===.5?(s.load.pve+s.load.pvp)/2:sh.pve*s.load.pve+sh.pvp*s.load.pvp;}
+function priorityRaw(s,k,m,ctx,sh){
   // Un rôle n'est pas une note de performance : les spécialisations d'un même
   // rôle reçoivent une adéquation PvE distincte (proxy éditorial 'raid').
   // Le rôle inadéquat vaut 0 ; impossible d'agréger les meilleures spés d'une classe.
   if(k==='tank'||k==='soin'||k==='dps')return s.role===k?roleSuitability(s,m):0;
   if(PRIORITY_ACTIVITY[k])return (adjustedActivity(s,PRIORITY_ACTIVITY[k],m)-1)/4;
-  if(PRIORITY_STYLE[k])return (adjustedStyle(s,PRIORITY_STYLE[k],m)-1)/4;
+  if(PRIORITY_STYLE[k])return (adjustedStyle(s,PRIORITY_STYLE[k],m,ctx)-1)/4;
   if(k==='poly')return (rolePool(s.classId).length-1)/2;
-  if(k==='tech')return clamp((techLoad(s,ctx||'mixte')-1)/4,0,1);
+  if(k==='tech')return clamp((techLoad(s,sh||{pve:.5,pvp:.5})-1)/4,0,1);
   return .5;
 }
 function priorityFit(s,w,m,active,trace){
-  var parts={},numer=0,denom=0,ctx=techContext(w);
+  var parts={},numer=0,denom=0,ctx=techContext(w),sh=techShares(w);
   for(var g of PRIORITY_GROUPS){
     var axes=g.axes.filter(function(k){return w[k]>0;});
     if(!axes.length)continue;
     // Rôles exprimés : l'aptitude à exercer la spécialisation préférée
     // est une seule dimension ; les autres groupes sont moyens, pas additionnés.
-    var weighted=axes.reduce(function(t,k){return t+w[k]*priorityRaw(s,k,m,ctx);},0);
+    var weighted=axes.reduce(function(t,k){return t+w[k]*priorityRaw(s,k,m,ctx,sh);},0);
     var total=axes.reduce(function(t,k){return t+w[k];},0);
     var value=weighted/total;
     var importance=g.factor*Math.max.apply(null,axes.map(function(k){return w[k];}))/3;
     parts[g.id]={value:value,weight:importance};
     numer+=value*importance;denom+=importance;
     if(trace)axes.forEach(function(k){
-      var row={group:g.id,key:k,weight:w[k],share:w[k]/total,raw:priorityRaw(s,k,m,ctx)};
+      var row={group:g.id,key:k,weight:w[k],share:w[k]/total,raw:priorityRaw(s,k,m,ctx,sh)};
       if(PRIORITY_ACTIVITY[k]){row.note=s.activity[PRIORITY_ACTIVITY[k]];row.adjusted=adjustedActivity(s,PRIORITY_ACTIVITY[k],m);}
-      if(PRIORITY_STYLE[k]){row.note=s.style[PRIORITY_STYLE[k]];row.adjusted=adjustedStyle(s,PRIORITY_STYLE[k],m);}
+      if(PRIORITY_STYLE[k]){row.note=s.style[PRIORITY_STYLE[k]];row.adjusted=adjustedStyle(s,PRIORITY_STYLE[k],m,ctx);}
       if(k==='poly')row.roles=rolePool(s.classId).length;
-      if(k==='tech'){row.load=techLoad(s,ctx);row.context=ctx;
-        // Pour l'explication seulement : en contexte mixte, la part PvE et la part PvP (moyenne exacte de raw).
-        if(ctx==='mixte')row.contexts={pve:{load:s.load.pve,raw:clamp((s.load.pve-1)/4,0,1)},pvp:{load:s.load.pvp,raw:clamp((s.load.pvp-1)/4,0,1)}};}
+      if(k==='tech'){row.load=techLoad(s,sh);row.context=ctx;
+        // Pour l'explication seulement : en contexte mixte, la part PvE et la part PvP, chacune avec son poids
+        // (share) ; leur somme pondérée est exactement la valeur du calcul.
+        if(ctx==='mixte')row.contexts={pve:{load:s.load.pve,raw:clamp((s.load.pve-1)/4,0,1),share:sh.pve},pvp:{load:s.load.pvp,raw:clamp((s.load.pvp-1)/4,0,1),share:sh.pvp}};}
       trace.push(row);
     });
   }
   // Un critère unique doit donner le même score quel que soit son poids :
   // éviter la dérive d'arrondi des divisions flottantes normalisées.
-  return {score:active.length===1?100*priorityRaw(s,active[0],m,ctx):(denom?100*numer/denom:0),parts:parts};
+  return {score:active.length===1?100*priorityRaw(s,active[0],m,ctx,sh):(denom?100*numer/denom:0),parts:parts};
 }
 function priorityInput(input,mastery){
   var w=sanitizeWeights(input),m=Number.isInteger(mastery)&&mastery>=0&&mastery<=3?mastery:2;
@@ -515,6 +532,11 @@ function checkData(){
   if(!Array.isArray(cx)||cx.length!==COMPLEXITY_GRID[c].length||!cx.every(function(p){return p===0||p===1||p===2;}))errors.push('complexité '+s.id+':'+c);
   else if(s.load[c]!==complexityNote(cx.reduce(function(a,b){return a+b;},0)))errors.push('difficulté '+s.id+':'+c+' différente de la grille');
  }
+ for(var id in petless)for(var c of ['pve','pvp']){
+  var pc=petless[id].complexity&&petless[id].complexity[c];
+  if(!Array.isArray(pc)||pc.length!==COMPLEXITY_GRID[c].length||!pc.every(function(p){return p===0||p===1||p===2;}))errors.push('complexité sans familier '+id+':'+c);
+  else if(petless[id].load[c]!==complexityNote(sum(pc)))errors.push('difficulté sans familier '+id+':'+c+' différente de la grille');
+ }
  for(var id in PETLESS){
   var base=specs.find(function(x){return x.id===id;});
   if(!base||base.pet!=='optional')errors.push('variante sans familier sans objet '+id);
@@ -525,7 +547,7 @@ function checkData(){
  }
  return errors;
 }
-return {version:'1.1.0-exploratoire',referenceVariants:REFERENCE_VARIANTS,healStyles:HEAL_STYLES,sources:sources,specs:specs,petless:petless,difficultyContext:difficultyContext,difficultyLoad:difficultyLoad,complexityGrid:COMPLEXITY_GRID,complexityNote:complexityNote,roles:ROLE,activities:acts,styles:styles,
+return {version:'1.2.0-exploratoire',referenceVariants:REFERENCE_VARIANTS,healStyles:HEAL_STYLES,sources:sources,specs:specs,petless:petless,difficultyContext:difficultyContext,difficultyLoad:difficultyLoad,complexityGrid:COMPLEXITY_GRID,complexityNote:complexityNote,roles:ROLE,activities:acts,styles:styles,
  defaultProfile:copy(DEFAULT),sanitize:sanitize,selected:selected,domains:domains,eligible:eligible,
  ranking:ranking,recommend:recommend,topPicks:topPicks,perClass:perClass,techContext:techContext,explain:explain,priorityExplain:priorityExplain,checkData:checkData,intensity:intensity,preferenceFit:preferenceFit,
  rolePool:rolePool,adjustedActivity:adjustedActivity,potential:potential,roleSuitability:roleSuitability,roleReference:ROLE_REFERENCE,priorityAxes:PRIORITY_AXES,priorityRanking:priorityRanking,sanitizeWeights:sanitizeWeights};

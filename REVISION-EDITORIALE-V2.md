@@ -1,4 +1,4 @@
-# Révision éditoriale v2 et références v3 à v11 — 21 et 22 octobre 2026
+# Révision éditoriale v2 et références v3 à v12 — 21 au 23 octobre 2026
 
 Changement de **données et d'explications**, approuvé par le responsable du projet après la revue pratique des 28 configurations : moteur `1.0.1-exploratoire`, référence v2. Il est complété le même jour par la règle d'affichage à score égal (moteur `1.0.2-exploratoire`, référence v3) puis par l'exception solo du Chasseur réservée à Maîtrise des bêtes (moteur `1.0.3-exploratoire`, référence v4), voir plus bas. Base commune : `71f81ec53bc3023e5fd8e8428de1267ff5df2d4a`.
 
@@ -224,9 +224,19 @@ Décision du responsable du projet, 22 octobre 2026, après l’étude d’un r�
 
 **Hypothèses non validées par des mesures.** Aucune mesure en jeu (bêta plafonnée au niveau 30) ; les guides décrivent le niveau 30, les simulations le niveau 60. Chaque composante est un jugement à un point près. En PvP, 18 spécialisations sur 28 sont à 4/5 : la note y distingue moins. Les variantes sans familier gardent la complexité de leur configuration ; sans compagnon, Survie passerait de 4 à 3 et Destruction de 3 à 2 en PvE : à arbitrer.
 
+## Version 1.2.0 : la difficulté suit le contexte (référence v12)
+
+Décision du responsable du projet, 23 octobre 2026, après l’audit de la v11 : un mage Givre n’est pas difficile en PvE mais l’est en PvP, et un joueur dont l’activité principale est le PvP ne doit pas voir sa technicité baisser à cause du PvE. Trois correctifs, sans changer aucune note de configuration :
+
+- **Technicité du mode personnalisé.** Seules les activités décident ; les rôles ne comptent plus comme du PvE. PvE et PvP mêlés comptent chacun selon leur priorité ; sans activité, la moyenne. Exemple, DPS, Champ de bataille 3, PvP sauvage 3 et Technicité 3 : Précision passe de 79,44 à 85,08.
+- **Effet de la maîtrise sur les styles.** Il suit les activités du joueur, PvE seul ou PvP seul ; sinon la règle d’avant (contrôle et résistance en PvP, le reste en PvE). Exemple, débutant en donjons et raids qui veut du contrôle : le contrôle du Givre vaut 4,68/5 au lieu de 4,36/5, et le Givre passe de la 5e à la 3e piste.
+- **Variantes sans familier.** Elles ont leur propre grille de complexité : Survie 3/5 en PvE (plus de familier à piloter) ; Destruction 2/5 en PvE et 3/5 en PvP (plus de démon à piloter, trois contrôles sans démon) ; Affliction inchangée (quatre contrôles sans démon). Les notes et leurs raisons figurent dans la base de connaissances.
+
+**Effets vérifiés** (`node scripts/reference-v12.cjs`). Aucun top 3 des 41 scénarios guidés de la v11 ne change ; les 35 qui ne combinent pas « sans familier » et difficulté, à la maîtrise Confirmé, gardent exactement leurs résultats. En mode personnalisé, 5 classements sur 107 changent de top 3 ; les 21 sans technicité, à la maîtrise Confirmé, sont identiques. La technicité « DPS seul » passe du PvE à la moyenne. Le guerrier débutant en PvP était déjà jugé sur la difficulté PvP : son cas ne change pas (Armes en champ de bataille : 2,8/5 en Débutant, 4/5 en Confirmé, 4,35/5 en Expert). La v12 ajoute trois scénarios guidés et deux pondérations de technicité.
+
 ## Références et reproduction
 
-La fixture v1 et `tests/reference-notes.json` sont conservés. La fixture v2 fige les mêmes entrées, après vérification des trois seuls écarts de notes. La fixture v3 ne diffère de la v2 que par les configurations affichées à score égal. La fixture v4 ne diffère de la v3 que par le Chasseur en solo, en Débutant ou Intermédiaire. La fixture v5 ne diffère de la v4 que par un scénario sans familier ; elle ajoute quatre scénarios. La fixture v6 reprend la v5 à l'identique et ajoute quatre scénarios de difficulté. La fixture v7 ne diffère de la v6 que par les cinq notes décidées. La fixture v8 reprend la v7 à l'identique, y ajoute les profils de soin et sept scénarios de soin. La fixture v9 ne diffère de la v8 que par deux scénarios de soin, le build de référence de Précision et sept scénarios d'interactions. La fixture v10 rejoue la v9 avec des classements par spécialisation et la technicité selon les activités ; elle ajoute trois scénarios. La fixture v11, active, ne diffère de la v10 que par les 26 notes de difficulté décidées et la grille qui les fonde ; elle ajoute quatre scénarios. Les tests protègent les empreintes des v1 à v10. Les formules de score existantes et les données de maîtrise sont inchangées ; la v8 ajoute un domaine, la façon de soigner.
+La fixture v1 et `tests/reference-notes.json` sont conservés. La fixture v2 fige les mêmes entrées, après vérification des trois seuls écarts de notes. La fixture v3 ne diffère de la v2 que par les configurations affichées à score égal. La fixture v4 ne diffère de la v3 que par le Chasseur en solo, en Débutant ou Intermédiaire. La fixture v5 ne diffère de la v4 que par un scénario sans familier ; elle ajoute quatre scénarios. La fixture v6 reprend la v5 à l'identique et ajoute quatre scénarios de difficulté. La fixture v7 ne diffère de la v6 que par les cinq notes décidées. La fixture v8 reprend la v7 à l'identique, y ajoute les profils de soin et sept scénarios de soin. La fixture v9 ne diffère de la v8 que par deux scénarios de soin, le build de référence de Précision et sept scénarios d'interactions. La fixture v10 rejoue la v9 avec des classements par spécialisation et la technicité selon les activités ; elle ajoute trois scénarios. La fixture v11 ne diffère de la v10 que par les 26 notes de difficulté décidées et la grille qui les fonde ; elle ajoute quatre scénarios. La fixture v12, active, rejoue la v11 avec la difficulté qui suit le contexte et les grilles sans familier ; elle ajoute trois scénarios et deux pondérations de technicité. Les tests protègent les empreintes des v1 à v11. Les formules de score existantes et les données de maîtrise sont inchangées ; la v8 ajoute un domaine, la façon de soigner.
 
 ```text
 node --test tests/*.test.cjs
@@ -240,11 +250,12 @@ node scripts/reference-v8.cjs comparaison-v7-v8.json
 node scripts/reference-v9.cjs comparaison-v8-v9.json
 node scripts/reference-v10.cjs comparaison-v9-v10.json
 node scripts/reference-v11.cjs comparaison-v10-v11.json
+node scripts/reference-v12.cjs comparaison-v11-v12.json
 node scripts/audit-interactions.cjs > audit-interactions.json
 bash scripts/prepare-pages.sh
 node tests/browser-smoke.cjs
 ```
 
-Les comparaisons produisent les scores, rangs et spécialisations avant/après avec la cause de chaque écart. Elles ne réécrivent aucune fixture : `scripts/reference-v9.cjs` à `scripts/reference-v11.cjs` n'écrivent la photographie qu'avec l'option explicite `--fixture`, et jamais sur un fichier existant. Le test navigateur utilise Playwright ; `FRV_CHROMIUM_EXECUTABLE` permet de sélectionner un Chrome/Chromium déjà installé.
+Les comparaisons produisent les scores, rangs et spécialisations avant/après avec la cause de chaque écart. Elles ne réécrivent aucune fixture : `scripts/reference-v9.cjs` à `scripts/reference-v12.cjs` n'écrivent la photographie qu'avec l'option explicite `--fixture`, et jamais sur un fichier existant. Le test navigateur utilise Playwright ; `FRV_CHROMIUM_EXECUTABLE` permet de sélectionner un Chrome/Chromium déjà installé.
 
 Les tests et les 99 cas vérifient la cohérence de l'implémentation, pas la justesse scientifique au niveau 60. Cette étape ne revoit ni les coefficients de maîtrise ni les formules et ne lance pas de nouvel audit exhaustif.

@@ -132,10 +132,11 @@
   * deux (contexte mixte), l'explication les montre l'une après l'autre, chacune comptant pour moitié ; la
   * trace du moteur en donne les valeurs (`contexts`), dont la moyenne est exactement celle du calcul. */
  var contextNames={pve:'PvE',pvp:'PvP'};
+ // Depuis la v12, seules les activités décident : mêlées, chacune compte selon sa priorité ; absentes, moitié-moitié.
  function priorityTechNote(a,ex){
-  var w=ex&&ex.weights||{},criteria=w.bg>0||w.sauv>0||w.solo>0||w.tank>0||w.soin>0||w.dps>0;
-  return 'Technicité : '+(criteria?'tes critères mêlent PvE et PvP':'sans critère d’activité ni de rôle')+', moyenne des deux ('+
-   percent(a.contexts.pve.raw)+' en PvE, '+percent(a.contexts.pvp.raw)+' en PvP).';
+  var c=a.contexts,w=ex&&ex.weights||{},mixed=(w.bg>0||w.sauv>0)&&w.solo>0;
+  return 'Technicité : '+(mixed?'tes activités mêlent PvE et PvP, chacune selon sa priorité : le PvP compte pour '+percent(c.pvp.share)+', le PvE pour '+percent(c.pve.share):
+   'sans critère d’activité, moyenne des deux')+' ('+percent(c.pve.raw)+' en PvE, '+percent(c.pvp.raw)+' en PvP).';
  }
  function priorityParts(ex,score){
   if(!ex)return [];
@@ -408,6 +409,11 @@
    out.push(ctx==='pve'?'Ton rapport à la difficulté est comparé à la difficulté PvE de chaque spécialisation, puisque tes activités sont en PvE.':
     ctx==='pvp'?'Ton rapport à la difficulté est comparé à la difficulté PvP de chaque spécialisation, puisque tes activités sont en PvP.':
     'Ton rapport à la difficulté est comparé à la moyenne PvE et PvP de chaque spécialisation, faute d’activités d’un seul type.');
+  }
+  // v12 : la maîtrise ajuste les styles selon la difficulté du contexte de tes activités, s'il n'y en a qu'un.
+  if(p&&Number.isInteger(p.mastery)&&p.mastery!==2&&Object.keys(p.styles||{}).length){
+   var sctx=difficultyContext(p);
+   if(sctx!=='mixte')out.push('Ta maîtrise ajuste tes styles selon la difficulté '+(sctx==='pve'?'PvE':'PvP')+' de chaque spécialisation, puisque tes activités sont en '+(sctx==='pve'?'PvE':'PvP')+'.');
   }
   if(p&&Object.hasOwn(p.roles||{},'soin')){
    var heal=healChoices(p);

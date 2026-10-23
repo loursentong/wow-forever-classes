@@ -38,10 +38,10 @@
   if(!spec.load)return '';
   var levels=['pve','pvp'].map(function(c){return contextNames[c]+' : '+esc(effort[spec.load[c]])+' ('+spec.load[c]+'/5)';}).join(' · ');
   if(!spec.complexity)return '<p><b>Difficulté de cette spécialisation :</b> '+levels+'.</p>';
-  // Une variante sans familier garde la complexité de sa configuration : le lien mène à celle-ci.
+  // Depuis la v12, une variante sans familier a sa propre grille : le lien mène à sa section de la fiche.
   return '<p><b>Difficulté de cette spécialisation :</b> '+levels+'. '+
    ['pve','pvp'].map(function(c){return 'En '+contextNames[c]+', '+esc(weighs(spec,c))+'.';}).join(' ')+
-   ' <a href="fiches-sources/'+esc(spec.classId)+'.html#'+esc(spec.id)+'-complexite">Le détail, composante par composante</a></p>';
+   ' <a href="fiches-sources/'+esc(spec.classId)+'.html#'+esc(spec.id)+(spec.variant==='sans-familier'?'-sans-familier':'-complexite')+'">Le détail, composante par composante</a></p>';
  }
  function render(spec){
   var note=notes&&notes[spec.id];

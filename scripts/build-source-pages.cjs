@@ -23,7 +23,7 @@ function complexityPage(ref,classes,registry){
   '<section class="panel" id="grille"><h2>La grille</h2><p>Cinq composantes par contexte, notées 0, 1 ou 2 points. Le PvE et le PvP sont notés séparément.</p>'+grid('pve')+grid('pvp')+'</section>'+
   '<section class="panel" id="bareme"><h2>Du total à la note</h2><div class="table"><table><thead><tr><th scope="col">Total sur 10</th><th scope="col">Note</th></tr></thead><tbody>'+
    ref.bareme.map(b=>'<tr><td>'+esc(b.de)+' à '+esc(b.a)+'</td><td>'+esc(b.note)+'/5 · '+esc(b.libelle)+'</td></tr>').join('')+'</tbody></table></div>'+
-   '<p>Cette note sert partout où la difficulté compte : ta préférence de difficulté, la technicité du mode personnalisé et l’effet de ta maîtrise.</p></section>'+
+   '<p>Cette note sert partout où la difficulté compte : ta préférence de difficulté, la technicité du mode personnalisé et l’effet de ta maîtrise, chaque fois dans le contexte de tes activités (PvE, PvP ou les deux).</p></section>'+
   '<section class="panel" id="specialisations"><h2>Les 28 spécialisations</h2><div class="table"><table><thead><tr><th scope="col">Spécialisation</th><th scope="col">PvE</th><th scope="col">PvP</th></tr></thead><tbody>'+rows+'</tbody></table></div></section>'+
   '<section class="panel" id="mesures"><h2>Mesures et limites</h2><p>'+esc(ref.mesures)+'</p><ul>'+ref.limites.map(l=>'<li>'+esc(l)+'</li>').join('')+'</ul>'+
    '<p class="meta">Sources principales : '+ref.sources.map(id=>{const s=sources.get(id);if(!s)throw Error('Source inconnue : '+id);return '<a href="'+esc(s.url)+'" rel="noopener noreferrer" target="_blank">'+esc(s.titre)+' ↗</a>';}).join(' · ')+'</p></section>'+

@@ -1,8 +1,8 @@
 {
  "classe": "demoniste",
  "libelle": "Démoniste",
- "date": "2026-10-22",
- "moteur": "1.1.0-exploratoire",
+ "date": "2026-10-23",
+ "moteur": "1.2.0-exploratoire",
  "faits": [
   {
    "id": "d-role",
@@ -769,7 +769,7 @@
     }
    },
    "variante_sans_familier": {
-    "synthese": "Sans démon : ni Séduction ni Verrou magique, et plus personne pour encaisser à sa place.",
+    "synthese": "Sans démon : ni Séduction ni Verrou magique, et plus personne pour encaisser à sa place. Sans démon à piloter, sa difficulté baisse : 2/5 en PvE, 3/5 en PvP.",
     "appuis": [
      "d-controle",
      "d-role"
@@ -800,6 +800,27 @@
       "appuis": [
        "d-role",
        "d-solo"
+      ],
+      "confiance": "moyenne"
+     },
+     "charge_pve": {
+      "valeur": 2,
+      "raison": "4 points sur 10 sur la grille de complexité : sans démon, plus rien à piloter en PvE ; la rotation, les effets à entretenir, la gestion de la ressource et le placement pèsent un peu.",
+      "appuis": [
+       "d-demons",
+       "d-destru",
+       "d-rotation"
+      ],
+      "confiance": "moyenne"
+     },
+     "charge_pvp": {
+      "valeur": 3,
+      "raison": "6 points sur 10 sur la grille de complexité : sans démon, trois contrôles (Fear, Death Coil, ralentissement de Conflagrate) et « Drain Mana » seul à piloter ; le placement pèse beaucoup ; les contrôles, la défense, l’ouverture et le pilotage, un peu.",
+      "appuis": [
+       "d-controle",
+       "d-ralentissements",
+       "d-mobilite",
+       "d-sorts-client"
       ],
       "confiance": "moyenne"
      }
