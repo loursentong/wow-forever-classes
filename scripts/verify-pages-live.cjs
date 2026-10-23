@@ -15,6 +15,7 @@ const expected={
  'configuration-notes.js':'guerrier-armes',
  'configuration-details.js':'reco-config-details',
  'result-explanations.js':'WFResultExplanations',
+ 'notes-specialisations.js':'WFSpecRows',
  'configuration-notes.css':'reco-config-details',
  'assets/hero-landscape.svg':'<svg',
  'assets/img/hero-arbre-monde.webp':'WEBP',
