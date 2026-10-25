@@ -2,6 +2,30 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const E=require('../recommendation-engine.js'),X=require('../result-explanations.js');
 
+test('Exigeant au maximum : une spécialisation intermédiaire est explicitement plus simple que l’envie',()=>{
+ const p={activities:{raid:5},difficulty:{value:'complex',certainty:5},mastery:3};
+ const ex=E.explain('mage-arcane',p),a=ex.answers.find(a=>a.domain==='difficulty');
+ assert.equal(a.raw,.5);
+ const g=X.friendlyGroups(ex,false).find(g=>g.key==='difficulty');
+ assert.equal(g.verdict,'Plus simple que ton envie');
+ assert.match(g.answers[0].text,/difficulté intermédiaire en PvE/);
+ assert.match(g.answers[0].text,/plus simple que ce que tu recherches/);
+ assert.doesNotMatch(g.answers[0].text,/À voir si|plaît/);
+ const hard=E.explain('chasseur-survie',p),h=X.friendlyGroups(hard,false).find(g=>g.key==='difficulty');
+ assert.match(h.verdict,/Ça colle/);assert.match(h.answers[0].text,/exigeante en PvE, comme tu le souhaites/);
+});
+
+test('Accessible et Exigeant : le texte donne le sens de l’écart et distingue PvE et PvP',()=>{
+ const simple=E.explain('mage-arcane',{activities:{raid:5},difficulty:{value:'simple',certainty:5}});
+ assert.equal(X.friendlyGroups(simple,false).find(g=>g.key==='difficulty').verdict,'Plus technique que ton envie');
+ const p={activities:{raid:5,bg:5},difficulty:{value:'complex',certainty:5}},ex=E.explain('mage-givre',p);
+ const g=X.friendlyGroups(ex,false).find(g=>g.key==='difficulty');
+ assert.equal(g.verdict,'Selon l’activité');assert.equal(g.answers.length,2);
+ assert.match(g.answers[0].text,/accessible en PvE.*plus simple/);
+ assert.match(g.answers[1].text,/exigeante en PvP.*comme tu le souhaites/);
+ assert.deepEqual(g,X.friendlyGroups(E.explain('mage-givre',{...p,mastery:3}),false).find(g=>g.key==='difficulty'));
+});
+
 test('Chasseurs en PvE : des remarques concrètes, sans transformer le repère en incapacité à faire des donjons',()=>{
  for(const id of ['chasseur-survie','chasseur-precision','chasseur-maitrise-betes'])for(const mastery of [0,1,2,3]){
   const ex=E.explain(id,{roles:{dps:5},activities:{raid:5},mastery});

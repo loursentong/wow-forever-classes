@@ -1,6 +1,6 @@
 # Choisir ma classe WoW Forever
 
-**Lisibilité mobile et remarques (25 octobre 2026, en revue) :** les textes distinguent les points forts, les limites concrètes et la pratique à acquérir. Les réglages sont repliables et les cartes restent en place à la sélection. Vue mobile allégée dans les deux parcours ; scores et référence v15 inchangés. [Détail et vérifications](LISIBILITE-MOBILE.md).
+**Lisibilité mobile et remarques (25 octobre 2026, en revue) :** les textes distinguent les points forts, les limites concrètes et la pratique à acquérir. Les réglages de certitude s’affichent automatiquement sous les choix et les cartes restent en place à la sélection. Vue mobile allégée dans les deux parcours ; scores et référence v15 inchangés. [Détail et vérifications](LISIBILITE-MOBILE.md).
 
 **Moteur 1.5.0 / référence v15 publiée (25 octobre 2026) :** pour les DPS, Donjons et raids combine 75 % de monocible et 25 % de zone, sur le même build et avant la maîtrise. Le rôle et le départage suivent ce repère. Les notes sources restent inchangées et les explications distinguent la pratique à acquérir des limites du profil. Convention éditoriale ; publiée après fusion de la PR #44. [Décision et vérifications](PVE-GROUPE-V15.md).
 

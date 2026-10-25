@@ -75,6 +75,17 @@ test('Resélectionner la même portée conserve la certitude et l’exigence sau
  const h=createHarness();h.step(2);h.single('range','distance');h.certainty('range','distance',5);h.strict('range',true);
  const before=h.profile();h.single('range','distance');assert.deepEqual(h.profile(),before);
 });
+
+test('Les choix sélectionnés affichent automatiquement leur certitude sous les réponses',()=>{
+ for(const [group,key,step] of [['range','distance',2],['pet','like',4],['difficulty','complex',5]]){
+  const h=createHarness();h.step(step);
+  assert.doesNotMatch(h.form.innerHTML,new RegExp('data-tuning="'+group+'"'));
+  h.single(group,key);
+  assert.match(h.form.innerHTML,new RegExp('data-tuning="'+group+'"'));
+  assert.match(h.form.innerHTML,new RegExp('id="rc-'+group+'-'+key+'"'));
+  assert.doesNotMatch(h.form.innerHTML,/<summary>Préciser|<details[^>]*data-tuning/);
+ }
+});
 test('Jusqu’à trois styles, y compris après navigation entre questions',()=>{
  const h=createHarness();h.step(3);
  for(const k of ['ctrl','burst','zone'])h.press('multi','styles',k);
@@ -117,8 +128,8 @@ test('Complexité en PvE et en PvP : deux blocs quand les activités mêlent les
  h.step(5);h.single('difficulty','complex');
  h.step(1);h.reveal();
  assert.match(h.results.innerHTML,/Tes activités gardent leurs propres repères/);
- assert.match(h.results.innerHTML,/<strong>Difficulté exigeante · PvE :<\/strong> La prise en main/);
- assert.match(h.results.innerHTML,/<strong>Difficulté exigeante · PvP :<\/strong> La prise en main/);
+ assert.match(h.results.innerHTML,/<strong>Difficulté exigeante · PvE :<\/strong> (?:Tu veux du défi\. )?Cette spécialisation est [^<]+ en PvE/);
+ assert.match(h.results.innerHTML,/<strong>Difficulté exigeante · PvP :<\/strong> (?:Tu veux du défi\. )?Cette spécialisation est [^<]+ en PvP/);
  assert.match(h.results.innerHTML,/<summary>Voir le détail du calcul<\/summary>/);
  assert.doesNotMatch(h.results.innerHTML,/moyenne PvE et PvP\)\./);
 });

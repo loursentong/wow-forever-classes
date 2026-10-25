@@ -696,15 +696,9 @@ footer.end{border-top:1px solid var(--line);padding-top:22px;font-size:13.5px;li
  .reco-option,.reco-modes button,.reco-template,.wow-class-index a,.wow-class-index img,.reco-reveal-button,.reco-next{transition:none!important;animation:none!important;transform:none!important}
 }
 
-/* Confort du questionnaire : réglages facultatifs sous la grille, géométrie stable. */
+/* Confort du questionnaire : réglages affichés sous la grille, géométrie stable. */
 .reco-tuning{margin:12px 0 0;padding:0;border:1px solid var(--rf-line);border-radius:10px;background:rgba(9,18,31,.6);animation:none}
-.reco-tuning>summary{box-sizing:border-box;min-height:44px;padding:10px 14px;display:flex;align-items:center;gap:8px;cursor:pointer;list-style:none;color:var(--rf-soft);font-size:14px}
-.reco-tuning>summary::-webkit-details-marker{display:none}
-.reco-tuning>summary:after{content:"+";margin-left:auto;color:var(--rf-gold-light);font-size:20px}
-.reco-tuning[open]>summary:after{content:"−"}
-.reco-tuning>summary small{font-size:12px;color:var(--rf-muted)}
-.reco-tuning-body{padding:0 14px 12px}
-.reco-choice-empty{box-sizing:border-box;min-height:46px;margin:12px 0 0;padding:11px 15px;font-size:14px;line-height:22px;color:var(--rf-muted)}
+.reco-tuning-body{padding:12px 14px}
 .reco-summary-toggle,.reco-priority-group-toggle,.reco-priority-group-count{display:none}
 .reco-priority-fields{display:grid;gap:10px}
 @media(max-width:820px){

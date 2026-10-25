@@ -135,7 +135,6 @@ async function check(){
   assert.equal(await page.locator('#reco-form .reco-cert').count(),3);
   assert.ok(await page.locator('#reco-form .reco-option-art img').count()>=3,'Les vrais pictogrammes de compétences sont présents');
 
-  await page.locator('[data-tuning="styles"] > summary').click();
   const slider=page.locator('#rc-styles-ctrl');
   await slider.evaluate(el=>{el.value='0';el.dispatchEvent(new Event('input',{bubbles:true}));});
   assert.equal(await slider.inputValue(),'0');
@@ -223,7 +222,6 @@ async function check(){
   await page.locator('[data-roles-strict]').check();
   await page.locator('[data-step="2"]').click();
   await page.locator('[data-single="range"][data-key="distance"]').click();
-  await page.locator('[data-tuning="range"] > summary').click();
   await page.locator('[data-strict="range"]').check();
   assert.match(await page.locator('#reco-results').textContent(),/Prévisualiser mes résultats/);
   await page.locator('[data-reco-reveal]').click();
@@ -442,7 +440,6 @@ async function check(){
   await page.locator('#reco-results').screenshot({path:path.join(__dirname,'screenshots','lot1-egalite-guide.png'),animations:'disabled'});
   await page.locator('[data-step="4"]').click();
   await page.locator('[data-single="pet"][data-key="avoid"]').click();
-  await page.locator('[data-tuning="pet"] > summary').click();
   await page.locator('#rc-pet-avoid').fill('5');
   await page.locator('[data-strict="pet"]').check();
   const warlock=page.locator('#reco-results .reco-result-card').filter({has:page.locator('h4', {hasText:'Démoniste'})});
@@ -534,7 +531,6 @@ async function check(){
   const healQuestion=page.locator('#reco-form .reco-subquestion');
   assert.match(await healQuestion.textContent(),/Quelle façon de soigner t’attire/);
   await page.locator('[data-multi="healStyles"][data-key="cible"]').click();
-  await page.locator('[data-tuning="healStyles"] > summary').click();
   await page.locator('#rc-healStyles-cible').fill('5');
   assert.match(await page.locator('#reco-form').textContent(),/1 sur 2 choix possibles/);
   assert.equal(await page.locator('#reco-results .reco-tie-note').count(),0);
@@ -730,7 +726,8 @@ async function check(){
     const after=await places();for(let i=0;i<before.length;i++){
      assert.ok(Math.abs(before[i].y-after[i].y)<=1&&Math.abs(before[i].h-after[i].h)<=1,'Cartes stables '+width+'/'+group);
     }
-    assert.equal(await page.locator('[data-tuning="'+group+'"]').evaluate(d=>d.open),false);
+    assert.equal(await page.locator('[data-tuning="'+group+'"] input[type=range]').isVisible(),true);
+    assert.equal(await page.locator('[data-tuning="'+group+'"] summary').count(),0);
     assert.equal(await page.evaluate(()=>document.activeElement.dataset.key),key);
     if(width===900&&group==='range')await page.locator('#reco-guided .reco-workspace').screenshot({path:path.join(__dirname,'screenshots','selection-stable-desktop.png'),animations:'disabled'});
     if(width===390)await page.locator('#reco-guided .reco-workspace').screenshot({path:path.join(__dirname,'screenshots','mobile-stable-'+group+'.png'),animations:'disabled'});
@@ -749,6 +746,22 @@ async function check(){
    }
    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth+2));
   }
+  // Exigeant très affirmé : préciser le sens de l'écart, avec une vraie spé intermédiaire.
+  await page.evaluate(()=>{localStorage.clear();localStorage.setItem('wf-recommend-v1',JSON.stringify({roles:{dps:5},rolesStrict:true,range:{value:'distance',certainty:5,strict:true},activities:{raid:5},difficulty:{value:'complex',certainty:5},mastery:3}));});
+  await page.reload({waitUntil:'domcontentloaded'});await page.setViewportSize({width:390,height:1000});
+  await page.locator('[data-reco-mode="guided"]').click();await page.locator('[data-step="5"]').click();
+  assert.equal(await page.locator('#rc-difficulty-complex').isVisible(),true);
+  assert.equal(await page.locator('#rc-difficulty-complex').inputValue(),'5');
+  assert.doesNotMatch(await page.locator('#reco-form .reco-question').textContent(),/facultatif/);
+  await page.locator('#reco-guided .reco-workspace').screenshot({path:path.join(__dirname,'screenshots','certitude-visible-mobile.png'),animations:'disabled'});
+  await page.locator('[data-show-results]').click();
+  const arcaneCard=page.locator('#reco-results .reco-result-card').filter({has:page.locator('a[href="fiches-sources/mage.html#mage-arcane"]')});
+  assert.equal(await arcaneCard.count(),1);await arcaneCard.locator('.reco-why > summary').click();
+  const complexity=arcaneCard.locator('.reco-friendly-groups li').filter({has:page.locator('h5',{hasText:'Complexité'})});
+  assert.match(await complexity.textContent(),/Plus simple que ton envie/);
+  assert.match(await complexity.textContent(),/difficulté intermédiaire en PvE/);
+  assert.doesNotMatch(await complexity.textContent(),/À voir si/);
+  await complexity.screenshot({path:path.join(__dirname,'screenshots','complexite-envie.png'),animations:'disabled'});
   assert.deepEqual(errors,[],'Erreurs JavaScript navigateur');
   process.stdout.write('Chromium : deux parcours, 15 poids, 15 presets, 28 spécialisations classées, maîtrise partagée, mobile et clavier — OK\n');
  }finally{

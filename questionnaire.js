@@ -6,9 +6,9 @@ var X=window.WFResultExplanations;
 var root=document.getElementById('reco-app');
 if(!E||!root)return;
 var KEY='wf-recommend-v1',state=E.sanitize(null),step=0,revealed=false;
-var tuningOpen={},summaryExpanded=false;
+var summaryExpanded=false;
 function compactScreen(){return !!(window.matchMedia&&window.matchMedia('(max-width:820px)').matches);}
-function tuning(group,content){var required=group==='roles'?state.rolesStrict:(group==='range'||group==='pet')&&state[group].strict;return '<details class="reco-choice-details reco-tuning" data-tuning="'+group+'"'+(tuningOpen[group]?' open':'')+'><summary>Préciser '+(group==='range'||group==='pet'||group==='difficulty'?'ce choix':'ces envies')+' <small>'+(required?'exigence active':'facultatif')+'</small></summary><div class="reco-tuning-body">'+content+'</div></details>';}
+function tuning(group,content){return '<div class="reco-choice-details reco-tuning" data-tuning="'+group+'"><div class="reco-tuning-body">'+content+'</div></div>';}
 // Pistes détaillées : cinq, dont au plus trois spécialisations d'une même classe ; le classement complet
 // reste dans l'aperçu du classement.
 var PISTES=5,firstWords=['','première','deux premières','trois premières','quatre premières','cinq premières','six premières'];
@@ -124,7 +124,7 @@ function single(group){
   if(group==='range')controls+='<label class="reco-strict"><input type="checkbox" data-strict="range" '+(state.range.strict?'checked':'')+'><span><strong>C’est une exigence absolue</strong><small>Écarte les configurations incompatibles.</small></span></label>';
   if(group==='pet'&&selected==='avoid')controls+='<label class="reco-strict"><input type="checkbox" data-strict="pet" '+(state.pet.strict?'checked':'')+'><span><strong>Je veux jouer uniquement sans familier</strong><small>Les builds avec compagnon seront écartés.</small></span></label>';
   html+=tuning(group,controls);
- }else html+='<p class="reco-choice-empty">Tu pourras préciser ce choix si tu le souhaites.</p>';
+ }
  return html;
 }
 function question(n,title,hint,content){
@@ -153,8 +153,6 @@ function currentQuestion(){
  return question(6,'Quel est ton rapport à la difficulté ?','Être débutant ne t’empêche pas de vouloir apprendre une classe exigeante. La difficulté dépend de la spécialisation et de l’activité.',controls);
 }
 function renderForm(){
- var oldForm=root.querySelector('#reco-form');
- if(oldForm&&oldForm.querySelectorAll)Array.prototype.forEach.call(oldForm.querySelectorAll('[data-tuning]'),function(d){tuningOpen[d.dataset.tuning]=d.open;});
  var done=answered(),count=done.filter(Boolean).length;
  var html='<div class="reco-progress-top"><div><span class="reco-kicker">Ton parcours</span><strong>Étape '+(step+1)+' sur 6</strong></div><span class="reco-progress-count">'+count+' thème'+(count>1?'s':'')+' renseigné'+(count>1?'s':'')+'</span></div>';
  html+='<div class="reco-progress-track" role="progressbar" aria-label="Étapes parcourues" aria-valuemin="0" aria-valuemax="6" aria-valuenow="'+(step+1)+'"><span style="width:'+((step+1)/6*100).toFixed(2)+'%"></span></div>';
@@ -417,8 +415,7 @@ form.addEventListener('change',function(ev){
  renderResults();
 });
 root.querySelector('#reco-reset').addEventListener('click',function(){
- state=E.sanitize(null);step=0;revealed=false;summaryExpanded=false;tuningOpen={};
- if(form.querySelectorAll)Array.prototype.forEach.call(form.querySelectorAll('[data-tuning]'),function(d){d.open=false;});
+ state=E.sanitize(null);step=0;revealed=false;summaryExpanded=false;
  renderForm();renderResults();
 });
 window.WFGuide={getMastery:function(){return state.mastery;},setMastery:function(v){if(Number.isInteger(v)&&v>=0&&v<=3){state.mastery=v;renderForm();renderResults();}}};

@@ -4,7 +4,7 @@ Base publiée : moteur 1.5.0, référence v15, commit `286747f239cc4670253fc2760
 
 ## Remarques cohérentes
 
-Une adéquation intermédiaire ne signifie pas qu'une spécialisation est incapable de faire l'activité. Les textes distinguent désormais le profil de référence, la maîtrise à acquérir et les hésitations du joueur.
+Une adéquation intermédiaire ne signifie pas qu'une spécialisation est incapable de faire l'activité. Les textes distinguent désormais le profil de référence, la maîtrise à acquérir et les hésitations du joueur. Pour la complexité, ils comparent explicitement l’envie du joueur à la difficulté retenue pour la spécialisation dans chaque contexte : « Plus simple que ton envie » ou « Plus technique que ton envie » si nécessaire. Une forte certitude sur « Exigeant » ne rend pas la spécialisation plus complexe ; la maîtrise Expert reste indépendante de cette préférence.
 
 Pour les Chasseurs en PvE, le texte nomme le compromis concret : monocible fort, zone plus moyenne ou modeste selon la spécialisation. La maîtrise peut demander de la pratique ; elle ne transforme pas ce profil en faiblesse intrinsèque de classe. Une activité réellement moins bien évaluée garde son avertissement. Cette règle s'applique aux deux parcours et ne donne aucun avantage numérique à une classe.
 
@@ -12,7 +12,7 @@ Les mentions « Le point à regarder » sont réservées aux incompatibilités o
 
 ## Sélections stables
 
-Les curseurs de certitude et exigences ne s'ouvrent plus dans une carte de réponse. Ils sont regroupés sous les choix, dans « Préciser ce choix / ces envies », fermé au départ. Une exigence déjà activée y reste signalée. L'ouverture de ces réglages est conservée pendant les modifications et le focus revient au contrôle utilisé, sans déplacement automatique.
+Les curseurs de certitude et exigences ne s'ouvrent plus dans une carte de réponse. Ils s’affichent automatiquement sous l’ensemble des choix sélectionnés, sans volet à ouvrir ni mention « facultatif ». Une exigence déjà activée reste visible. Le focus revient au contrôle utilisé, sans déplacement automatique.
 
 L'animation de hauteur du formulaire est supprimée. Le texte descriptif garde la même graisse avant et après sélection pour éviter un retour à la ligne supplémentaire sur les écrans étroits. Sélectionner « À distance » ou « J'aime les familiers » garde la position des autres cartes. Resélectionner la même réponse ne réinitialise plus sa certitude ou son exigence. Les anciennes sauvegardes restent compatibles.
 
@@ -28,6 +28,6 @@ L'animation de hauteur du formulaire est supprimée. Le texte descriptif garde l
 
 `node --test tests/*.test.cjs` protège notamment la référence v15, les contextes PvE/PvP/solo, les sauvegardes et les nouvelles explications. `tests/remarques-claires.test.cjs` contrôle les trois Chasseurs sur les quatre maîtrises, les deux parcours, les avertissements réels et l'immutabilité des résultats.
 
-`node tests/browser-smoke.cjs` vérifie les cartes et le défilement à la sélection, le focus, l'accès aux réglages repliés, les exigences, les résumés et les groupes de priorités. Les tailles mobiles et les deux colonnes sont couvertes. Les captures permettent une revue visuelle avant publication.
+`node tests/browser-smoke.cjs` vérifie les cartes et le défilement à la sélection, le focus, l'accès aux réglages affichés sous les choix, les exigences, les résumés et les groupes de priorités. Les tailles mobiles et les deux colonnes sont couvertes. Les captures permettent une revue visuelle avant publication.
 
-Contrôles réalisés : 195 tests réussis ; contrôle Chromium complet réussi, avec stabilité des positions et du défilement à 320, 390 et 900 pixels, aperçu des deux parcours et vérification des sauvegardes. L’artefact Pages est complet.
+Contrôles réalisés : 198 tests réussis ; contrôle Chromium complet réussi, avec stabilité des positions et du défilement à 320, 390 et 900 pixels, aperçu des deux parcours et vérification des sauvegardes. Le cas Expert, Exigeant au maximum et spécialisation intermédiaire en PvE est reproduit dans le navigateur. L’artefact Pages est complet.

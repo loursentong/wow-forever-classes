@@ -407,7 +407,23 @@
   if(keys.length===1)return criterionIn[keys[0]];
   return 'dans tes activités';
  }
- function difficultyWords(load){return load<=2?'accessible':load<=3?'un peu plus technique':'exigeante';}
+ function difficultyWords(load){return load<=2?'accessible':load<4?'de difficulté intermédiaire':'exigeante';}
+ function difficultyValue(a){return a.load!==undefined?a.load:a.key==='simple'?5-4*a.raw:1+4*a.raw;}
+ function difficultyVerdict(a){
+  if(a.contexts){var values=Object.values(a.contexts).map(function(c){return difficultyWords(c.load);});if(new Set(values).size>1)return 'Selon l’activité';}
+  var load=difficultyValue(a),simple=a.key==='simple';
+  if(simple&&load>2)return 'Plus technique que ton envie';
+  if(!simple&&load<4)return 'Plus simple que ton envie';
+  return fitWords(a.raw);
+ }
+ function difficultyAdvice(a){
+  var simple=a.key==='simple',wish=simple?'Tu préfères une prise en main accessible. ':'Tu veux du défi. ';
+  if(a.contexts)return wish+'Cette spécialisation est '+Object.keys(a.contexts).map(function(k){return difficultyWords(a.contexts[k].load)+' en '+contextNames[k];}).join(' et ')+'.';
+  var load=difficultyValue(a),where=contextNames[a.context]?' en '+contextNames[a.context]:'';
+  if(!simple&&load<4)return wish+'Cette spécialisation est '+difficultyWords(load)+where+' : elle est plus simple que ce que tu recherches.';
+  if(simple&&load>2)return wish+'Cette spécialisation est '+difficultyWords(load)+where+' : elle demande plus de technique que ce que tu recherches.';
+  return 'Cette spécialisation est '+difficultyWords(load)+where+', comme tu le souhaites.';
+ }
  function suitableReference(a,ex){
   var domain=a.domain||a.group;
   if(domain==='activities')return a.note>=3;
@@ -454,10 +470,7 @@
     'Elle se joue '+(s.range==='distance'?'à distance':'en mêlée')+' : ce n’est pas la portée que tu recherches.');
   if(domain==='pet')return petLine(a,s);
   if(domain==='difficulty'||a.key==='tech'){
-   var load=a.load!==undefined?a.load:a.key==='simple'?5-4*v:1+4*v,ctx=a.context||E.difficultyContext(p);
-   text='La prise en main est '+difficultyWords(load)+(contextNames[ctx]?' en '+contextNames[ctx]:' selon le contexte')+'.';
-   if(domain==='difficulty')text+=' '+(v>=.7?'Ça va dans le sens de ce que tu recherches.':v>=.45?'À voir si ce niveau de difficulté te plaît.':'Ça s’éloigne de la difficulté que tu recherches.');
-   return text;
+   return difficultyAdvice(a);
   }
   if(a.key==='poly')return a.roles>1?'Sa classe te laisse changer de rôle en changeant de spécialisation.':'Sa classe se concentre sur le rôle DPS.';
   if(domain==='activities')return activityWords(a,ex);
@@ -489,6 +502,7 @@
     }
    });
    var verdict=fitWords(raw);
+   if(answers.length===1&&(answers[0].domain==='difficulty'||answers[0].key==='tech'))verdict=difficultyVerdict(answers[0]);
    if(answers.length&&answers.every(function(a){return suitableReference(a,ex);}))
     verdict=answers.some(function(a){return needsPractice(a,ex);})?'Quelques réflexes à prendre':g.key==='activities'?'Un profil adapté':'Le rôle lui convient';
    return {key:g.key,label:g.label,verdict:verdict,answers:entries};
