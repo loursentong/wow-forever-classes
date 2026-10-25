@@ -135,6 +135,7 @@ async function check(){
   assert.equal(await page.locator('#reco-form .reco-cert').count(),3);
   assert.ok(await page.locator('#reco-form .reco-option-art img').count()>=3,'Les vrais pictogrammes de compétences sont présents');
 
+  await page.locator('[data-tuning="styles"] > summary').click();
   const slider=page.locator('#rc-styles-ctrl');
   await slider.evaluate(el=>{el.value='0';el.dispatchEvent(new Event('input',{bubbles:true}));});
   assert.equal(await slider.inputValue(),'0');
@@ -222,6 +223,7 @@ async function check(){
   await page.locator('[data-roles-strict]').check();
   await page.locator('[data-step="2"]').click();
   await page.locator('[data-single="range"][data-key="distance"]').click();
+  await page.locator('[data-tuning="range"] > summary').click();
   await page.locator('[data-strict="range"]').check();
   assert.match(await page.locator('#reco-results').textContent(),/Prévisualiser mes résultats/);
   await page.locator('[data-reco-reveal]').click();
@@ -440,6 +442,7 @@ async function check(){
   await page.locator('#reco-results').screenshot({path:path.join(__dirname,'screenshots','lot1-egalite-guide.png'),animations:'disabled'});
   await page.locator('[data-step="4"]').click();
   await page.locator('[data-single="pet"][data-key="avoid"]').click();
+  await page.locator('[data-tuning="pet"] > summary').click();
   await page.locator('#rc-pet-avoid').fill('5');
   await page.locator('[data-strict="pet"]').check();
   const warlock=page.locator('#reco-results .reco-result-card').filter({has:page.locator('h4', {hasText:'Démoniste'})});
@@ -531,6 +534,7 @@ async function check(){
   const healQuestion=page.locator('#reco-form .reco-subquestion');
   assert.match(await healQuestion.textContent(),/Quelle façon de soigner t’attire/);
   await page.locator('[data-multi="healStyles"][data-key="cible"]').click();
+  await page.locator('[data-tuning="healStyles"] > summary').click();
   await page.locator('#rc-healStyles-cible').fill('5');
   assert.match(await page.locator('#reco-form').textContent(),/1 sur 2 choix possibles/);
   assert.equal(await page.locator('#reco-results .reco-tie-note').count(),0);
@@ -711,6 +715,40 @@ async function check(){
   assert.equal(await weight('raid',3),'true');
   await page.reload({waitUntil:'domcontentloaded'});await page.locator('[data-reco-mode="priorities"]').click();
   assert.equal(await weight('raid',3),'true');assert.equal(await weight('bg',3),'true');
+  // Régression : sélectionner une réponse ne déplace pas les autres cartes et garde le focus.
+  for(const width of [320,390,900]){
+   await page.evaluate(()=>localStorage.clear());await page.reload({waitUntil:'domcontentloaded'});
+   await page.setViewportSize({width,height:950});await page.locator('[data-reco-mode="guided"]').click();
+   for(const [step,group,key] of [[2,'range','distance'],[4,'pet','like']]){
+    await page.locator('[data-step="'+step+'"]').click();
+    const buttons=page.locator('[data-single="'+group+'"]');
+    const places=()=>buttons.evaluateAll(items=>items.map(b=>{const r=b.getBoundingClientRect();return {key:b.dataset.key,y:r.top+window.scrollY,x:r.left,h:r.height};}));
+    const selected=page.locator('[data-single="'+group+'"][data-key="'+key+'"]');await selected.scrollIntoViewIfNeeded();
+    const scrollBefore=await page.evaluate(()=>window.scrollY);
+    const before=await places();await selected.click();
+    assert.ok(Math.abs(await page.evaluate(()=>window.scrollY)-scrollBefore)<=1,'Défilement stable '+width+'/'+group);
+    const after=await places();for(let i=0;i<before.length;i++){
+     assert.ok(Math.abs(before[i].y-after[i].y)<=1&&Math.abs(before[i].h-after[i].h)<=1,'Cartes stables '+width+'/'+group);
+    }
+    assert.equal(await page.locator('[data-tuning="'+group+'"]').evaluate(d=>d.open),false);
+    assert.equal(await page.evaluate(()=>document.activeElement.dataset.key),key);
+    if(width===900&&group==='range')await page.locator('#reco-guided .reco-workspace').screenshot({path:path.join(__dirname,'screenshots','selection-stable-desktop.png'),animations:'disabled'});
+    if(width===390)await page.locator('#reco-guided .reco-workspace').screenshot({path:path.join(__dirname,'screenshots','mobile-stable-'+group+'.png'),animations:'disabled'});
+   }
+   if(width===390){
+    assert.equal(await page.locator('#reco-summary-choices').isVisible(),false);
+    await page.locator('[data-summary-toggle]').click();assert.equal(await page.locator('#reco-summary-choices').isVisible(),true);
+    await page.locator('[data-summary-toggle]').click();assert.equal(await page.locator('#reco-summary-choices').isVisible(),false);
+    await page.locator('[data-reco-mode="priorities"]').click();
+    assert.equal(await page.locator('#prio-group-2').isVisible(),false);
+    await page.locator('[data-prio-group-toggle="2"]').click();
+    await page.locator('[data-prio-axis="ctrl"][data-prio-weight="2"]').click();
+    assert.equal(await page.locator('#prio-group-2').isVisible(),true);
+    assert.equal(await page.evaluate(()=>document.activeElement.dataset.prioAxis),'ctrl');
+    await page.locator('#reco-priority-form').screenshot({path:path.join(__dirname,'screenshots','mobile-priorites-allegees.png'),animations:'disabled'});
+   }
+   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth+2));
+  }
   assert.deepEqual(errors,[],'Erreurs JavaScript navigateur');
   process.stdout.write('Chromium : deux parcours, 15 poids, 15 presets, 28 spécialisations classées, maîtrise partagée, mobile et clavier — OK\n');
  }finally{

@@ -71,7 +71,7 @@ test('Texte courant : accord en mots, contexte exact et chiffres réservés au d
  const ex=E.explain('mage-givre',{styles:{ctrl:0}});
  assert.match(X.friendlyKeep(ex),/Tu hésites encore sur « Contrôle »/);
  assert.doesNotMatch(X.friendlyKeep(ex),/faible|manque|limites|points/);
- assert.deepEqual([.9,.7,.45,.15,0].map(X.fitWords),['Ça colle très bien','Ça colle bien','Un compromis','Ça colle peu','Ça ne colle pas']);
+ assert.deepEqual([.9,.7,.45,.15,0].map(X.fitWords),['Ça colle très bien','Ça colle bien','Ça colle en partie','Ça colle peu','Ça ne colle pas']);
  const raw=JSON.stringify(E.recommend({roles:{dps:5},activities:{bg:5}}));
  X.friendlyGroups(E.explain('mage-givre',{roles:{dps:5},activities:{bg:5}}),false);
  assert.equal(JSON.stringify(E.recommend({roles:{dps:5},activities:{bg:5}})),raw);

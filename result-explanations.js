@@ -400,7 +400,7 @@
  }
  // v14 : les explications courantes décrivent l'accord et le compromis en mots. Les seuils
  // portent sur les valeurs du moteur ; ils ne prétendent pas mesurer une puissance en jeu.
- function fitWords(v){v=Math.round(v*100)/100;return v>=.9?'Ça colle très bien':v>=.7?'Ça colle bien':v>=.45?'Un compromis':v>=.15?'Ça colle peu':'Ça ne colle pas';}
+ function fitWords(v){v=Math.round(v*100)/100;return v>=.9?'Ça colle très bien':v>=.7?'Ça colle bien':v>=.45?'Ça colle en partie':v>=.15?'Ça colle peu':'Ça ne colle pas';}
  function roleWhere(ctx){
   var keys=Object.keys(ctx&&ctx.activities||{});
   if(!keys.length)return 'en donjons et raids (activité à préciser)';
@@ -408,6 +408,30 @@
   return 'dans tes activités';
  }
  function difficultyWords(load){return load<=2?'accessible':load<=3?'un peu plus technique':'exigeante';}
+ function suitableReference(a,ex){
+  var domain=a.domain||a.group;
+  if(domain==='activities')return a.note>=3;
+  if(domain==='roles'){
+   var requested=a.domain?Object.keys((ex.profile||{}).roles||{}):[a.key];
+   return requested.length===1&&requested[0]===ex.spec.role&&a.referenceAptitude>=.5;
+  }
+  return false;
+ }
+ function needsPractice(a,ex){
+  var role=a.domain==='roles'||a.group==='roles',value=role?(a.aptitude===undefined?a.raw:a.aptitude):a.raw;
+  return suitableReference(a,ex)&&(a.domain==='roles'||a.group==='roles'?
+   a.referenceAptitude>value+.01:a.adjusted<a.note-.01)&&value<.7;
+ }
+ function activityWords(a,ex){
+  var where=criterionIn[a.key]||'dans cette activité',d=a.key==='raid'&&ex.pveDamage,text;
+  if(d){
+   text=d.singleTarget>=4&&d.area<=3?'En donjons et raids, elle est surtout forte sur une cible. '+(d.area<=2?'Les gros groupes sont moins son point fort.':'Ses dégâts de zone sont plus moyens.'):
+    d.area>=4&&d.singleTarget<4?'En donjons et raids, elle se démarque surtout sur les groupes d’ennemis.':
+    d.singleTarget>=4&&d.area>=4?'Elle est à l’aise sur une cible comme sur les groupes en donjons et raids.':
+    a.note>=3?'Son profil convient aux donjons et raids.':'Elle sera moins à l’aise en donjons et raids.';
+  }else text=a.note>=4?'C’est un de ses points forts '+where+'.':a.note>=3?'Son profil convient '+where+'.':'Elle sera moins à l’aise '+where+'.';
+  return text+(needsPractice(a,ex)?' Quelques réflexes restent à prendre à ton niveau.':'');
+ }
  function friendlyAnswer(a,ex,compact){
   var s=ex.spec||{},p=ex.profile||{},v=a.raw,label=answerNames[a.key]||priorityAxisNames[a.key]||'',text='';
   var domain=a.domain||a.group,role=roleNames[s.role]||'';
@@ -421,9 +445,9 @@
     text+=' '+(missing.length?'Sa classe ne propose pas '+list(missing.map(function(k){return roleNames[k];}))+'.':'Tu peux aussi changer de spécialisation pour jouer les autres rôles demandés.');
    }
    var aptitude=a.aptitude===undefined?v:a.aptitude;
-   if(aptitude<.7&&a.referenceAptitude>=.7&&a.referenceAptitude>aptitude)
+   if(needsPractice(a,ex))
     return text+' Quelques réflexes restent à prendre pour être à l’aise '+roleWhere(a.activityContext)+'.';
-   return text+' '+(aptitude>=.7?'Elle est à l’aise ':aptitude>=.45?'Elle fait le travail, avec quelques limites ':'Elle est moins à l’aise ')+roleWhere(a.activityContext)+'.';
+   return text+' '+(aptitude>=.7?'Elle est à l’aise ':suitableReference(a,ex)?'Son profil convient ':aptitude>=.45?'Elle fait le travail, avec quelques limites ':'Elle est moins à l’aise ')+roleWhere(a.activityContext)+'.';
   }
   if(domain==='range')return a.key==='mixte'?(v>=1?'Sa classe te permet d’alterner mêlée et distance avec les rôles choisis.':'Pour tes rôles, sa classe ne propose qu’une seule façon de combattre.'):
    (v>=.9?'Tu joueras '+(s.range==='distance'?'à distance':'en mêlée')+', comme tu le souhaites.':
@@ -436,10 +460,9 @@
    return text;
   }
   if(a.key==='poly')return a.roles>1?'Sa classe te laisse changer de rôle en changeant de spécialisation.':'Sa classe se concentre sur le rôle DPS.';
+  if(domain==='activities')return activityWords(a,ex);
   if(domain==='healStyles'&&a.note===undefined)return 'Cette spécialisation ne soigne pas : elle ne répond pas à cette envie.';
   var where=criterionIn[a.key]||(a.key==='sauv'?criterionIn.world:a.key==='util'?criterionIn.support:'pour ce choix');
-  if(domain==='activities'&&a.note>=4&&a.adjusted<a.note-.01&&v<.7)
-   return 'Son profil convient à cette activité. À ton niveau, quelques réflexes restent à prendre.';
   text=v>=.9?'C’est un de ses points forts '+where+'.':v>=.7?'Elle s’en sort bien '+where+'.':
    v>=.45?'Elle peut le faire, avec quelques limites '+where+'.':'D’autres pistes seront plus à l’aise '+where+'.';
   if(!compact&&a.causes&&mainCause(a)==='mastery'&&a.adjusted<a.note-.01)text+=' Il te faudra de la pratique pour en tirer davantage.';
@@ -465,7 +488,10 @@
      entries.push({label:title,text:friendlyAnswer(a,ex,true)+(note?' '+note:'')});
     }
    });
-   return {key:g.key,label:g.label,verdict:fitWords(raw),answers:entries};
+   var verdict=fitWords(raw);
+   if(answers.length&&answers.every(function(a){return suitableReference(a,ex);}))
+    verdict=answers.some(function(a){return needsPractice(a,ex);})?'Quelques réflexes à prendre':g.key==='activities'?'Un profil adapté':'Le rôle lui convient';
+   return {key:g.key,label:g.label,verdict:verdict,answers:entries};
   });
  }
  function friendlyKeep(ex,fit,score){
@@ -474,18 +500,21 @@
   var a=an.answer,title=choiceLabel(a,ex.profile);
   if(mainCause(a)==='certainty')return a.certainty<=2?'Tu hésites encore sur « '+title+' » : garde cette piste ouverte le temps de préciser ton envie.':
    'Tu n’es pas totalement sûr de « '+title+' » : cette piste reste à explorer.';
-  return 'Le point à regarder, c’est « '+title+' ». '+friendlyAnswer(a,ex);
+  return (suitableReference(a,ex)?'':'Le point à regarder, c’est « '+title+' ». ')+friendlyAnswer(a,ex);
  }
  function friendlySummary(ex,priority){
   if(!priority)return friendlyKeep(ex);
   var parts=costly(priorityParts(ex,ex.score));
   if(!parts.length)return 'Cette piste réunit ce que tu recherches. Reste à voir si son style te plaît.';
   var g=parts[0],a=ex.axes.filter(function(a){return a.group===g.key;}).sort(function(a,b){return b.share*(1-b.raw)-a.share*(1-a.raw);})[0];
-  return 'Le point à regarder, c’est « '+priorityAxisNames[a.key]+' ». '+friendlyAnswer(a,ex);
+  return (suitableReference(a,ex)?'':'Le point à regarder, c’est « '+priorityAxisNames[a.key]+' ». ')+friendlyAnswer(a,ex);
  }
  function friendlyStrengths(ex,fit,score){
   var an=pisteAnalysis(ex,fit,score);
-  if(!an||!an.strengths.length)return 'Cette piste est un compromis entre tes envies.';
+  if(!an||!an.strengths.length){
+   var good=(ex&&ex.answers||[]).filter(function(a){return suitableReference(a,ex);});
+   return good.length?'Son profil correspond à ces envies : '+list(good.slice(0,3).map(function(a){return choiceLabel(a,ex.profile);}))+'.':'Regarde son style de jeu pour voir ce qui te plaît.';
+  }
   return 'Ça colle surtout à ces envies : '+list(an.strengths.slice(0,3).map(function(a){return choiceLabel(a,ex.profile);}))+'.';
  }
  function friendlyHtml(groups){

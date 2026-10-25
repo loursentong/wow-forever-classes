@@ -70,6 +70,11 @@ test('Certitude 0 à 5 visible uniquement pour les réponses actives',()=>{
  assert.ok(!Object.hasOwn(h.profile().styles,'ctrl'));
  assert.match(h.results.innerHTML,/Tout commence par tes envies/);
 });
+
+test('Resélectionner la même portée conserve la certitude et l’exigence sauvegardées',()=>{
+ const h=createHarness();h.step(2);h.single('range','distance');h.certainty('range','distance',5);h.strict('range',true);
+ const before=h.profile();h.single('range','distance');assert.deepEqual(h.profile(),before);
+});
 test('Jusqu’à trois styles, y compris après navigation entre questions',()=>{
  const h=createHarness();h.step(3);
  for(const k of ['ctrl','burst','zone'])h.press('multi','styles',k);
