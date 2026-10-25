@@ -762,6 +762,26 @@ async function check(){
   assert.match(await complexity.textContent(),/difficulté intermédiaire en PvE/);
   assert.doesNotMatch(await complexity.textContent(),/À voir si/);
   await complexity.screenshot({path:path.join(__dirname,'screenshots','complexite-envie.png'),animations:'disabled'});
+  // Fureur en PvE : les six graduations passent par le vrai curseur, pour les deux envies.
+  await page.evaluate(()=>{localStorage.clear();localStorage.setItem('wf-recommend-v1',JSON.stringify({roles:{dps:5},rolesStrict:true,activities:{raid:5},mastery:3}));});
+  await page.reload({waitUntil:'domcontentloaded'});await page.locator('[data-reco-mode="guided"]').click();
+  for(const value of ['simple','complex'])for(const certainty of [0,1,2,3,4,5]){
+   await page.locator('[data-step="5"]').click();
+   await page.locator('[data-single="difficulty"][data-key="'+value+'"]').click();
+   const slider=page.locator('#rc-difficulty-'+value);await slider.press('Home');
+   for(let i=0;i<certainty;i++)await slider.press('ArrowRight');
+   assert.equal(await slider.inputValue(),String(certainty));
+   await page.locator('[data-show-results]').click();
+   const fury=page.locator('#reco-results .reco-result-card').filter({has:page.locator('a[href="fiches-sources/guerrier.html#guerrier-fureur"]')});
+   assert.equal(await fury.count(),1);
+   if(!await fury.locator('.reco-why').evaluate(d=>d.open))await fury.locator('.reco-why > summary').click();
+   const g=fury.locator('.reco-friendly-groups li').filter({has:page.locator('h5',{hasText:'Complexité'})});
+   const expected=certainty<=2?'Une piste compatible':certainty<5?'Un peu plus '+(value==='simple'?'technique':'simple'):value==='simple'?'Plus technique que ton envie':'Plus simple que ton envie';
+   assert.equal(await g.locator('.reco-friendly-head span').textContent(),expected);
+   assert.match(await g.textContent(),/difficulté intermédiaire en PvE/);
+   if(certainty<=2)assert.match(await g.textContent(),/préférence reste souple.*peut bien te convenir/);
+   if(value==='simple'&&certainty===2)await g.screenshot({path:path.join(__dirname,'screenshots','complexite-souple-mobile.png'),animations:'disabled'});
+  }
   assert.deepEqual(errors,[],'Erreurs JavaScript navigateur');
   process.stdout.write('Chromium : deux parcours, 15 poids, 15 presets, 28 spécialisations classées, maîtrise partagée, mobile et clavier — OK\n');
  }finally{
