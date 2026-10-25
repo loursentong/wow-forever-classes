@@ -1,11 +1,11 @@
-/* Mode personnalisé : 15 critères pondérés de 0 à 3, les profils historiques et la maîtrise.
+/* Mode personnalisé : 15 critères pondérés de 0 à 3, des profils concrets et la maîtrise.
  * Il garde son propre état (sauvegardé dans wf-overview-v3, schéma inchangé) et produit son
  * classement avec le moteur unique par spécialisation. Il gère aussi le choix du parcours. */
 (function(){
 'use strict';
-var E=window.WFRecommend,D=window.__WF,root=document.getElementById('reco-app');
+var E=window.WFRecommend,D=window.__WF,P=window.WFPriorityProfiles,root=document.getElementById('reco-app');
 var X=window.WFResultExplanations;
-if(!E||!D||!root||typeof E.priorityRanking!=='function')return;
+if(!E||!D||!P||!root||typeof E.priorityRanking!=='function')return;
 var modes=Array.prototype.slice.call(root.querySelectorAll('[data-reco-mode]'));
 var guided=root.querySelector('#reco-guided'),priority=root.querySelector('#reco-priorities');
 var form=root.querySelector('#reco-priority-form'),output=root.querySelector('#reco-priority-results');
@@ -14,9 +14,11 @@ var KEY='wf-reco-mode-v1',CUSTOM_KEY='wf-priority-custom-v1',STATE_KEY='wf-overv
 var words=X&&X.priorityWords||['sans importance','secondaire','importante','essentielle'];
 // État du mode personnalisé. Les champs hérités (hl, c) d'une ancienne sauvegarde sont conservés tels quels.
 var presets={};Object.keys(D.presets).forEach(function(k){presets[k]=E.priorityPreset(k,D.presets[k]);});
+P.forEach(function(p){presets[p.id]=E.sanitizeWeights(p.weights);});
+var popular=P.map(function(p){return p.id;});
 var S={w:Object.assign({},presets.egal),m:2,extra:{}},hasMastery=false;
 function validW(o){return !!o&&typeof o==='object'&&!Array.isArray(o)&&E.priorityAxes.every(function(k){return k==='raid'&&o[k]===undefined||Number.isInteger(o[k])&&o[k]>=0&&o[k]<=3;});}
-function presetOf(w){return Object.keys(presets).find(function(p){return E.priorityAxes.every(function(k){return presets[p][k]===w[k];});})||null;}
+function presetOf(w){return popular.concat(Object.keys(D.presets)).find(function(p){return E.priorityAxes.every(function(k){return presets[p][k]===w[k];});})||null;}
 // Burst et Dégâts de zone datent du 20 octobre 2026 : une sauvegarde antérieure ne les contient pas.
 // Ils prennent alors 0, sauf si tous les autres critères avaient le même poids : ils reçoivent ce poids.
 var ADDED=['burst','zone'];
@@ -68,8 +70,6 @@ var axes=[
  {name:'Style de combat',items:[['burst','Dégâts de burst'],['zone','Dégâts de zone'],['ctrl','Contrôle'],['surv','Résistance'],['mob','Mobilité'],['util','Soutien']],hint:'Le burst, c’est frapper fort en peu de temps. Choisis les qualités qui te plaisent.'},
  {name:'Affinités facultatives',items:[['poly','Polyvalence'],['tech','Technicité']],hint:'La polyvalence et la difficulté ne sont valorisées que si tu les demandes expressément.'}
 ];
-var presetNames={egal:'Tous les critères',polyvalence:'Polyvalence',pve:'PvE',pvp:'PvP',tank:'Tank en groupe',soin:'Soin en groupe',dps:'DPS en groupe',zone:'Dégâts de zone',soutien:'Soutien',bg:'Champ de bataille',soinbg:'Soin en BG',sauvage:'PvP sauvage',burst:'Burst et mobilité',controle:'Contrôle',solo:'Solo, leveling et farm'};
-var popular=['pve','pvp','dps','tank','soin','solo','bg','controle'];
 var mastery=['Débutant','Intermédiaire','Confirmé','Expert'];
 var WOW_ICON_BASE='https://render.worldofwarcraft.com/us/icons/56/classicon_';
 var wowClassIcons={guerrier:'warrior',paladin:'paladin',chasseur:'hunter',voleur:'rogue',pretre:'priest',chaman:'shaman',mage:'mage',demoniste:'warlock',druide:'druid'};
@@ -77,17 +77,15 @@ function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp
 function weights(){return Object.assign({},S.w);}
 function currentMastery(){return S.m;}
 function presetMatch(w){
- return Object.keys(presets).find(function(k){
-  return E.priorityAxes.every(function(a){return w[a]===presets[k][a];});
- })||null;
+ return presetOf(w);
 }
 function makePreset(k,active){
- return '<button type="button" class="reco-template" data-prio-preset="'+k+'" aria-pressed="'+(active===k)+'">'+
-  esc(presetNames[k]||k)+'</button>';
+ var p=P.find(function(p){return p.id===k;});
+ return '<button type="button" class="reco-template" data-prio-preset="'+k+'" data-prio-icon="'+p.icon+'" title="'+esc(p.description)+'" aria-pressed="'+(active===k)+'"'+(active===k?' aria-describedby="prio-profile-hint"':'')+'>'+esc(p.label)+'</button>';
 }
 function controls(){
- var w=weights(),active=presetMatch(w),html='';
- html+='<div class="reco-priority-presets"><div><span class="reco-kicker">Démarrer avec un profil</span><p>Choisis un exemple, puis adapte chaque critère à ta façon.</p></div>';
+ var w=weights(),active=presetMatch(w),profile=P.find(function(p){return p.id===active;}),html='';
+ html+='<div class="reco-priority-presets"><div><span class="reco-kicker">Démarrer avec un profil</span><p id="prio-profile-hint" aria-live="polite">'+esc(profile?profile.description:'Choisis un exemple, puis adapte chaque critère à ta façon.')+'</p></div>';
  html+='<div class="reco-template-list">'+popular.map(function(k){return makePreset(k,active);}).join('')+'</div></div>';
  html+='<div class="reco-custom-toolbar" aria-label="Sauvegarde des critères personnels"><div class="reco-custom-copy">'+
   '<strong>Mes critères personnels</strong><small>Enregistre tes poids et ta maîtrise sur cet appareil, puis retrouve-les après avoir essayé les profils.</small></div>'+
@@ -96,14 +94,14 @@ function controls(){
   (savedCustom?'<button type="button" data-prio-restore '+(isCurrentCustom(w,currentMastery())?'disabled':'')+'>Reprendre mes critères</button>':'')+'</div></div>';
  html+='<div class="reco-priority-mastery"><div><b>Ton niveau de maîtrise</b><small>Influence les performances réalisables, pas le goût pour la difficulté.</small></div><div class="reco-mastery-choices" role="group" aria-label="Maîtrise pour le classement des priorités">'+
   mastery.map(function(name,i){return '<button type="button" data-prio-mastery="'+i+'" aria-pressed="'+(currentMastery()===i)+'">'+name+'</button>';}).join('')+'</div></div>';
- html+='<div class="reco-priority-groups">';
+ html+='<section class="reco-priority-groups" aria-labelledby="prio-importance-title"><div class="reco-priority-intro"><h4 id="prio-importance-title">Importance de chaque critère</h4><p><strong>0</strong> Sans importance · <strong>1</strong> Secondaire · <strong>2</strong> Importante · <strong>3</strong> Essentielle</p></div>';
  axes.forEach(function(g,index){
   var count=g.items.filter(function(it){return w[it[0]]>0;}).length,expanded=!!groupExpanded[index];
-  html+='<section class="reco-priority-group'+(expanded?' is-expanded':'')+'"><div class="reco-priority-group-head"><h4>'+g.name+'</h4><span class="reco-priority-group-count">'+count+' actif'+(count>1?'s':'')+'</span><button type="button" class="reco-priority-group-toggle" data-prio-group-toggle="'+index+'" aria-expanded="'+expanded+'" aria-controls="prio-group-'+index+'" aria-label="'+(expanded?'Replier':'Déplier')+' '+g.name+'">'+(expanded?'Replier':'Déplier')+'</button><p>'+g.hint+'</p></div><div class="reco-priority-fields" id="prio-group-'+index+'">';
+  html+='<section class="reco-priority-group'+(expanded?' is-expanded':'')+'"><div class="reco-priority-group-head"><h5>'+g.name+'</h5><span class="reco-priority-group-count">'+count+' actif'+(count>1?'s':'')+'</span><button type="button" class="reco-priority-group-toggle" data-prio-group-toggle="'+index+'" aria-expanded="'+expanded+'" aria-controls="prio-group-'+index+'" aria-label="'+(expanded?'Replier':'Déplier')+' '+g.name+'">'+(expanded?'Replier':'Déplier')+'</button><p>'+g.hint+'</p></div><div class="reco-priority-fields" id="prio-group-'+index+'">';
   g.items.forEach(function(it){
    var val=w[it[0]];
    var help=X&&X.criteria[it[0]];
-   html+='<div class="reco-priority-row"><span class="reco-priority-label">'+it[1]+
+   html+='<div class="reco-priority-row"><span class="reco-priority-label"><span class="reco-priority-name"><strong>'+it[1]+'</strong><span class="reco-priority-level" data-prio-level="'+it[0]+'">'+esc(words[val])+'</span></span>'+
     (help?'<small id="prio-help-'+it[0]+'">'+esc(help)+'</small>':'')+'</span>'+
     '<div class="reco-weights" role="group" aria-label="Importance de '+esc(it[1])+'"'+(help?' aria-describedby="prio-help-'+it[0]+'"':'')+'>'+[0,1,2,3].map(function(n){
       return '<button type="button" data-prio-axis="'+it[0]+'" data-prio-weight="'+n+'" aria-pressed="'+(val===n)+'" aria-label="'+it[1]+' : '+(n?'priorité '+words[n]:words[0])+' ('+n+')">'+n+'</button>';
@@ -111,8 +109,8 @@ function controls(){
   });
   html+='</div></section>';
  });
- html+='</div>';
- html+='<div class="reco-priority-footer"><p><strong>0</strong> = sans importance · <strong>1</strong> = secondaire · <strong>2</strong> = importante · <strong>3</strong> = essentielle. Les critères ignorés ne procurent aucun avantage.</p>'+
+ html+='</section>';
+ html+='<div class="reco-priority-footer"><p>Les critères à 0 ne comptent pas.</p>'+
   '<button type="button" data-prio-clear>Tout remettre à zéro</button></div>';
  form.innerHTML=html;
 }
@@ -232,7 +230,10 @@ form.addEventListener('click',function(ev){
   sync(b);return;
  }
  if(b.dataset.prioPreset){
-  if(presets[b.dataset.prioPreset]){S.w=Object.assign({},presets[b.dataset.prioPreset]);save();}
+  if(presets[b.dataset.prioPreset]){
+   S.w=Object.assign({},presets[b.dataset.prioPreset]);save();
+   groupExpanded={};axes.forEach(function(g,i){if(g.items.some(function(it){return S.w[it[0]]>0;}))groupExpanded[i]=true;});
+  }
   sync(b);return;
  }
  if(b.dataset.prioMastery!==undefined){setMastery(Number(b.dataset.prioMastery));sync(b);return;}

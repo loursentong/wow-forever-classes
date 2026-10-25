@@ -70,7 +70,7 @@ function boot(storage={},guide){
   const root={classList:{contains:c=>classes.has(c),remove:c=>classes.delete(c),add:c=>classes.add(c)},
     querySelectorAll:s=>s==='[data-reco-mode]'?tabs:[],
     querySelector:s=>({'#reco-guided':guided,'#reco-priorities':priority,'#reco-priority-form':form,'#reco-priority-results':output,'.reco-modes':bar})[s]||null};
-  const window={WFRecommend:E,__WF:config,WFResultExplanations:X,WFConfigurationDetails:require('../configuration-details.js'),
+  const window={WFRecommend:E,__WF:config,WFPriorityProfiles:require('../priority-profiles.js'),WFResultExplanations:X,WFConfigurationDetails:require('../configuration-details.js'),
     WFGuide:guide,matchMedia:()=>({matches:true})};
   vm.runInNewContext(ui,{window,document:{getElementById:id=>id==='reco-app'?root:null},localStorage},{timeout:3000});
   const press=(dataset,attrs=[])=>form.listeners.click[0]({target:{dataset,hasAttribute:k=>attrs.includes(k),closest(){return this;}}});
@@ -79,6 +79,23 @@ function boot(storage={},guide){
     saved(){return JSON.parse(store['wf-overview-v3']||'null');},
     pressed(axis){const m=form.innerHTML.match(new RegExp('data-prio-axis="'+axis+'" data-prio-weight="(\\d)" aria-pressed="true"'));return m&&Number(m[1]);}};
 }
+
+test('Les nouveaux profils activent seulement leurs critères, ouvrent les groupes utiles et gardent la maîtrise',()=>{
+  const h=boot({},{getMastery:()=>1,setMastery(){}});h.choose('priorities');
+  for(const p of require('../priority-profiles.js')){
+    h.press({prioPreset:p.id});
+    assert.deepEqual(h.saved().w,E.sanitizeWeights(p.weights));assert.equal(h.saved().m,1);
+    assert.match(h.form.innerHTML,new RegExp('data-prio-preset="'+p.id+'"[^>]*aria-pressed="true"'));
+    assert.ok(h.form.innerHTML.includes(p.description));
+  }
+  assert.doesNotMatch(h.form.innerHTML,/data-prio-preset="(?:pve|pvp)"/);
+  h.press({prioPreset:'solo-autonomie'});
+  assert.match(h.form.innerHTML,/data-prio-group-toggle="0" aria-expanded="false"/);
+  assert.match(h.form.innerHTML,/data-prio-group-toggle="1" aria-expanded="true"/);
+  assert.match(h.form.innerHTML,/data-prio-level="solo">essentielle/);
+  h.press({prioAxis:'solo',prioWeight:'1'});
+  assert.match(h.form.innerHTML,/data-prio-level="solo">secondaire/);
+});
 
 test('Arrivée : aucun parcours ouvert, le dernier parcours utilisé est signalé, le choix ouvre son panneau',()=>{
   const h=boot({'wf-reco-mode-v1':'priorities'});

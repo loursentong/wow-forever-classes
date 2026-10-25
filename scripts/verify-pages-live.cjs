@@ -7,6 +7,7 @@ const expected={
  'index.html':'data-reco-mode="priorities"',
  'recommendation-engine.js':'priorityRanking',
  'questionnaire.js':'WFGuide',
+ 'priority-profiles.js':'WFPriorityProfiles',
  'priorities-ui.js':'priorityRanking',
  'ux-polish.css':'reco-reveal-button',
  'warcraft-visual-pack.css':'--wow-gold:#eac061',
