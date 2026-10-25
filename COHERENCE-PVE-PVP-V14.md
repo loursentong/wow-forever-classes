@@ -1,6 +1,6 @@
-# Rôles, activités et explications — proposition v14
+# Rôles, activités et explications — v14
 
-Correction demandée le 25 octobre 2026. Moteur proposé : `1.4.0-exploratoire`, sur la production `5212e32a2484d95b60ac63d84c996b71a1cb8ada`. Publication soumise à validation.
+Correction demandée le 25 octobre 2026. Moteur : `1.4.0-exploratoire`, sur la production `5212e32a2484d95b60ac63d84c996b71a1cb8ada`. Correction et publication validées par le responsable du projet le 25 octobre 2026.
 
 ## Problème et comportement voulu
 
