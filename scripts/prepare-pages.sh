@@ -6,7 +6,7 @@ set -euo pipefail
 mkdir -p _site
 node scripts/build-source-pages.cjs
 cp -r -- fiches-sources _site/
-cp -- index.html .nojekyll ./*.js ./*.css RECOMMANDATION-METHODE.md REVISION-EDITORIALE-V2.md LOT-1-EXPLICATIONS.md _site/
+cp -- index.html .nojekyll ./*.js ./*.css RECOMMANDATION-METHODE.md REVISION-EDITORIALE-V2.md LOT-1-EXPLICATIONS.md COHERENCE-PVE-PVP-V14.md _site/
 mkdir -p _site/assets
 cp -- assets/*.svg _site/assets/
 # Visuels de la refonte (logo, décors, bandeaux, grain), appelés par index.html et les CSS.

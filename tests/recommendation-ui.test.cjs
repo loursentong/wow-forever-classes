@@ -111,10 +111,10 @@ test('Complexité en PvE et en PvP : deux blocs quand les activités mêlent les
  h.choose('activities','raid');h.choose('activities','bg');
  h.step(5);h.single('difficulty','complex');
  h.step(1);h.reveal();
- assert.match(h.results.innerHTML,/Tes activités mêlent PvE et PvP : moyenne des deux, \d+\u00a0% en PvE et \d+\u00a0% en PvP\./);
- // Depuis la v11, chaque ligne dit aussi ce qui pèse dans cette difficulté (référentiel de complexité).
- assert.match(h.results.innerHTML,/<b class="reco-answer-title">Difficulté exigeante · PvE<\/b><dl class="reco-answer-steps"><div><dt>La spécialisation<\/dt><dd>[^<]+ est notée \d\/5 en difficulté PvE : [^<]+ (pèse|pèsent) (beaucoup|un peu)[^<]*\.<\/dd>/);
- assert.match(h.results.innerHTML,/<b class="reco-answer-title">Difficulté exigeante · PvP<\/b><dl class="reco-answer-steps"><div><dt>La spécialisation<\/dt><dd>[^<]+ est notée \d\/5 en difficulté PvP : [^<]+ (pèse|pèsent) (beaucoup|un peu)[^<]*\.<\/dd>/);
+ assert.match(h.results.innerHTML,/Tes activités gardent leurs propres repères/);
+ assert.match(h.results.innerHTML,/<strong>Difficulté exigeante · PvE :<\/strong> La prise en main/);
+ assert.match(h.results.innerHTML,/<strong>Difficulté exigeante · PvP :<\/strong> La prise en main/);
+ assert.match(h.results.innerHTML,/<summary>Voir le détail du calcul<\/summary>/);
  assert.doesNotMatch(h.results.innerHTML,/moyenne PvE et PvP\)\./);
 });
 test('Réinitialisation, navigation et localStorage corrompu',()=>{
@@ -194,7 +194,7 @@ test('Façon de soigner : sous-question facultative du rôle Soin, deux choix au
  assert.match(h.form.innerHTML,/DPS · Soin \(soins de groupe, soins sur la durée\)/);
  assert.match(h.results.innerHTML,/Prévisualiser mes résultats/);
  h.reveal();
- assert.match(h.results.innerHTML,/Ta façon de soigner \(soins sur la durée, soigner tout le groupe\) départage/);
+ assert.match(h.results.innerHTML,/Ta façon de soigner aide à trouver le soigneur qui te ressemble/);
  // Retirer le rôle Soin masque la sous-question ; la façon de soigner ne compte plus.
  h.step(0);h.press('multi','roles','soin');
  assert.doesNotMatch(h.form.innerHTML,/Quelle façon de soigner/);
@@ -218,10 +218,10 @@ test('Fiche d’une piste de soin : façon de soigner décrite, sans score suppl
  assert.match(h.results.innerHTML,/Façon de soigner :<\/b> Gros soins ciblés : son point fort/);
  assert.doesNotMatch(h.results.innerHTML,/configurations compatibles|dimensions prises en compte/);
  // « Correspond à tes envies » nomme les choix pleinement remplis, avec les mots du questionnaire.
- assert.match(h.results.innerHTML,/<b>Correspond à tes envies<\/b><span>Soin · Gros soins ciblés<\/span>/);
+ assert.match(h.results.innerHTML,/<b>Correspond à tes envies<\/b><span>Ça colle surtout à ces envies : Soin et Gros soins ciblés\.<\/span>/);
  // Le Chaman : « À garder en tête » et le bilan nomment le même critère, avec les mêmes points.
- assert.match(h.results.innerHTML,/<b>À garder en tête<\/b><span>Le Chaman Restauration est noté 4\/5 en gros soins ciblés : c’est la seule chose qui lui coûte des points \(9 sur la façon de soigner\)\.<\/span>/);
- assert.match(h.results.innerHTML,/Pourquoi 91 sur 100 \?<\/b> Il lui manque 9 points, tous sur la façon de soigner \(Gros soins ciblés\)\./);
+ assert.match(h.results.innerHTML,/<b>À garder en tête<\/b><span>Le point à regarder, c’est « Gros soins ciblés »\./);
+ assert.doesNotMatch(h.results.innerHTML,/Pourquoi \d+ sur 100/);
 });
 
 test('Sauvegarde de la façon de soigner : aller-retour, et une ancienne sauvegarde reste valide',()=>{
@@ -292,14 +292,13 @@ test('Pourquoi cette piste remplace « Fiabilité et incertitude » : critères,
  for(const c of classes)count[c]=(count[c]||0)+1;
  assert.ok(Object.values(count).every(n=>n<=3),JSON.stringify(count));
  assert.match(h.results.innerHTML,/une même classe peut en proposer trois au plus/);
- assert.match(h.results.innerHTML,/Cette spécialisation reste dans tes cinq premières pistes dans \d+ cas sur \d+/);
- assert.match(h.results.innerHTML,/reco-why-parts[\s\S]*Rôles[\s\S]*Activités/);
- assert.match(h.results.innerHTML,/retiré chacune de tes réponses les plus hésitantes \(Soin\)/);
+ assert.match(h.results.innerHTML,/quand on retire tes réponses hésitantes/);
+ assert.match(h.results.innerHTML,/reco-friendly-groups[\s\S]*Rôles[\s\S]*Activités/);
  assert.match(h.results.innerHTML,/fiches-sources\/chaman\.html#chaman-restauration/);
  // Une hésitation n'est pas une faiblesse : la spécialisation y répond pleinement, mais le choix est adouci.
- assert.match(h.results.innerHTML,/Le Chaman Restauration répond pleinement à ton choix « Soin », mais tu hésites \(certitude 2\/5\) : c’est ce qui lui coûte le plus de points \(11 sur les rôles\)\./);
- assert.match(h.results.innerHTML,/Pourquoi \d+ sur 100 \?<\/b> Il lui manque \d+ points : \d+ sur les rôles \(Soin : certitude 2\/5\)/);
- assert.match(h.results.innerHTML,/<dt>Ton choix<\/dt><dd>Hésitant \(certitude 2\/5\)<\/dd>/);
+ assert.match(h.results.innerHTML,/Tu hésites encore sur « Soin » : garde cette piste ouverte/);
+ assert.match(h.results.innerHTML,/<summary>Voir le détail du calcul<\/summary>/);
+ assert.doesNotMatch(h.results.innerHTML,/<dt>Ton choix/);
  h.certainty('roles','soin',5);
  assert.match(h.results.innerHTML,/Tes choix sont assez affirmés/);
 });

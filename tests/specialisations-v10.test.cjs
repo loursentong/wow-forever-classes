@@ -25,7 +25,7 @@ test('Top 3 : au plus deux spécialisations d’une même classe, la troisième 
  assert.deepEqual(druids.top.map(x=>x.spec.id),['druide-restauration','druide-farouche-chat','chaman-restauration']);
  const hunters=E.recommend({roles:{dps:5},activities:{solo:5}});
  assert.deepEqual(hunters.top.map(x=>x.spec.classId),['chasseur','chasseur','demoniste']);
- assert.equal(hunters.top[0].spec.id,'chasseur-survie');
+ assert.equal(hunters.top[0].spec.id,'chasseur-maitrise-betes');
  // La stabilité se compte désormais par spécialisation.
  for(const t of hunters.top)assert.ok(t.scenarioAppearances<=t.scenarioCount);
  assert.ok(hunters.scenarios.every(s=>s.top.every(id=>E.specs.some(x=>x.id===id))),'les scénarios citent des spécialisations');
@@ -42,7 +42,7 @@ test('Nombre de pistes : trois par défaut (référence v10), cinq dans l’inte
  assert.ok(Object.values(count).every(n=>n<=3));
  // Le profil DPS orienté solo : les trois Chasseurs, puis deux Démonistes (décision du 22 octobre 2026).
  assert.deepEqual(E.recommend({roles:{dps:5},activities:{solo:5},mastery:2},5).top.map(x=>x.spec.id),
-  ['chasseur-survie','chasseur-maitrise-betes','chasseur-precision','demoniste-demonologie','demoniste-affliction']);
+  ['chasseur-maitrise-betes','chasseur-precision','chasseur-survie','demoniste-demonologie','demoniste-affliction']);
  // La stabilité se compte parmi les cinq premières pistes de chaque scénario.
  assert.ok(five.scenarios.every(s=>s.top.length<=5));
  for(const t of five.top)assert.ok(t.scenarioAppearances<=t.scenarioCount);

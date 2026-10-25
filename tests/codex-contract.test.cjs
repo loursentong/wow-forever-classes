@@ -24,7 +24,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
 const E=require('../recommendation-engine.js');
-const fixture=require('./fixtures/moteur-reference-v13.json');
+const fixture=require('./fixtures/moteur-reference-v14.json');
 const html=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
 const questionnaire=fs.readFileSync(path.join(__dirname,'..','questionnaire.js'),'utf8');
 const prioritiesUI=fs.readFileSync(path.join(__dirname,'..','priorities-ui.js'),'utf8');
@@ -85,8 +85,8 @@ test('CODEx: référence de rôle toujours liée aux notes historiques',()=>{
   assert.ok(Math.abs(E.roleSuitability(s,2)-(.55*baseline+.45*activity))<1e-12,s.id);
  }
 });
-test('CODEx: 46 scénarios guidés — statut, spécialisations, scores, top 3, sensibilité, vétos, variantes sans familier, difficulté et soin',()=>{
- assert.equal(fixture.guide.length,46);
+test('CODEx: 52 scénarios guidés — statut, spécialisations, scores, top 3, sensibilité, vétos, variantes sans familier, difficulté et soin',()=>{
+ assert.equal(fixture.guide.length,52);
  for(const ex of fixture.guide){
   const actual=compactGuide(ex.profile);
   assert.deepEqual(actual,{
@@ -109,7 +109,7 @@ test('CODEx: 15 préréglages × 4 maîtrises — classe, spé, score et ordre e
   assert.ok(Object.hasOwn(D.presets,preset.id),preset.id);
   assert.equal(preset.levels.length,4,preset.id);
   for(const {mastery,results} of preset.levels){
-   const r=E.priorityRanking(D.presets[preset.id],mastery);
+   const r=E.priorityRanking(E.priorityPreset(preset.id,D.presets[preset.id]),mastery);
    assert.equal(r.status,'ok');
    assert.deepEqual(compactResults(r),results,preset.id+'/maîtrise='+mastery);
    assert.equal(r.results.length,28,preset.id);
@@ -144,8 +144,8 @@ test('CODEx: DPS PvE / Tank / Soin isolés × 4 maîtrises — aucune régressio
   }
  }
 });
-test('CODEx: six pondérations croisées sur trois maîtrises — pas de dérive silencieuse',()=>{
- assert.equal(fixture.mixed.length,6);
+test('CODEx: neuf pondérations croisées sur trois maîtrises — pas de dérive silencieuse',()=>{
+ assert.equal(fixture.mixed.length,9);
  for(const example of fixture.mixed)for(const caseLevel of example.levels){
   const w=structuredClone(example.weights);
   const r=E.priorityRanking(w,caseLevel.mastery);

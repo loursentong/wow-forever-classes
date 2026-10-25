@@ -51,6 +51,6 @@ test('Un débutant qui cherche du solo voit Maîtrise des bêtes en première pi
   assert.equal(top.spec.id,'chasseur-maitrise-betes');
   assert.equal(top.score,100);
  }
- // Confirmé : les trois spécialisations sont à 100 ; la règle d'égalité (potentiel) retient Survie.
- assert.equal(E.recommend({activities:{solo:5},mastery:2}).top[0].spec.id,'chasseur-survie');
+ // Confirmé : même note solo ; la v14 départage par le contexte solo puis l'identifiant.
+ assert.equal(E.recommend({activities:{solo:5},mastery:2}).top[0].spec.id,'chasseur-maitrise-betes');
 });

@@ -1,4 +1,4 @@
-/* Mode personnalisé : 14 critères pondérés de 0 à 3, les profils historiques et la maîtrise.
+/* Mode personnalisé : 15 critères pondérés de 0 à 3, les profils historiques et la maîtrise.
  * Il garde son propre état (sauvegardé dans wf-overview-v3, schéma inchangé) et produit son
  * classement avec le moteur unique par spécialisation. Il gère aussi le choix du parcours. */
 (function(){
@@ -13,16 +13,18 @@ var KEY='wf-reco-mode-v1',CUSTOM_KEY='wf-priority-custom-v1',STATE_KEY='wf-overv
 // Mots de l'échelle 0 à 3, repris dans les explications (« Priorité essentielle (3) »).
 var words=X&&X.priorityWords||['sans importance','secondaire','importante','essentielle'];
 // État du mode personnalisé. Les champs hérités (hl, c) d'une ancienne sauvegarde sont conservés tels quels.
-var S={w:Object.assign({},D.presets.egal),m:2,extra:{}},hasMastery=false;
-function validW(o){return !!o&&typeof o==='object'&&!Array.isArray(o)&&E.priorityAxes.every(function(k){return Number.isInteger(o[k])&&o[k]>=0&&o[k]<=3;});}
-function presetOf(w){return Object.keys(D.presets).find(function(p){return E.priorityAxes.every(function(k){return D.presets[p][k]===w[k];});})||null;}
+var presets={};Object.keys(D.presets).forEach(function(k){presets[k]=E.priorityPreset(k,D.presets[k]);});
+var S={w:Object.assign({},presets.egal),m:2,extra:{}},hasMastery=false;
+function validW(o){return !!o&&typeof o==='object'&&!Array.isArray(o)&&E.priorityAxes.every(function(k){return k==='raid'&&o[k]===undefined||Number.isInteger(o[k])&&o[k]>=0&&o[k]<=3;});}
+function presetOf(w){return Object.keys(presets).find(function(p){return E.priorityAxes.every(function(k){return presets[p][k]===w[k];});})||null;}
 // Burst et Dégâts de zone datent du 20 octobre 2026 : une sauvegarde antérieure ne les contient pas.
 // Ils prennent alors 0, sauf si tous les autres critères avaient le même poids : ils reçoivent ce poids.
 var ADDED=['burst','zone'];
 function loadWeights(src){
+ S.w.raid=Number.isInteger(src.raid)&&src.raid>=0&&src.raid<=3?src.raid:0;
  E.priorityAxes.forEach(function(k){if(Number.isInteger(src[k])&&src[k]>=0&&src[k]<=3)S.w[k]=src[k];});
  if(ADDED.some(function(k){return Object.prototype.hasOwnProperty.call(src,k);}))return;
- var rest=E.priorityAxes.filter(function(k){return ADDED.indexOf(k)<0;}).map(function(k){return S.w[k];});
+ var rest=E.priorityAxes.filter(function(k){return k!=='raid'&&ADDED.indexOf(k)<0;}).map(function(k){return S.w[k];});
  var same=rest.every(function(v){return v===rest[0];})?rest[0]:0;
  ADDED.forEach(function(k){S.w[k]=same;});
 }
@@ -48,7 +50,7 @@ try{
  var stored=JSON.parse(localStorage.getItem(CUSTOM_KEY)||'null');
  if(stored&&stored.weights&&Number.isInteger(stored.mastery)&&stored.mastery>=0&&stored.mastery<=3){
   var cleaned=E.sanitizeWeights(stored.weights);
-  if(E.priorityAxes.every(function(k){return stored.weights[k]===cleaned[k];}))
+  if(validW(stored.weights))
    savedCustom={weights:cleaned,mastery:stored.mastery};
  }
  // Compatibilité : sauvegarde historique de « Mes critères » (ancienne interface).
@@ -60,12 +62,12 @@ function isCurrentCustom(w,m){
  return !!savedCustom&&savedCustom.mastery===m&&E.priorityAxes.every(function(k){return savedCustom.weights[k]===w[k];});
 }
 var axes=[
- {name:'Rôles',items:[['tank','Tank'],['soin','Soin'],['dps','DPS PvE']],hint:'Un seul domaine de rôle. Pas de bonus automatique pour pouvoir tout jouer.'},
- {name:'Activités',items:[['bg','Champ de bataille'],['sauv','PvP sauvage'],['solo','Solo / leveling']],hint:'Les activités que tu privilégies, évaluées dans leur contexte.'},
- {name:'Style de combat',items:[['burst','Burst'],['zone','Dégâts de zone'],['ctrl','Contrôle'],['surv','Résistance'],['mob','Mobilité'],['util','Soutien']],hint:'Choisir plusieurs qualités ne multiplie pas artificiellement le poids du domaine.'},
+ {name:'Rôles',items:[['tank','Tank'],['soin','Soin'],['dps','DPS']],hint:'Choisis ce que tu veux faire. L’aisance dans ce rôle suit tes activités ci-dessous.'},
+ {name:'Activités',items:[['raid','Donjons et raids'],['bg','Champ de bataille'],['sauv','PvP sauvage'],['solo','Solo, leveling et farm']],hint:'PvE de groupe, solo, PvP : choisis les activités qui comptent pour toi.'},
+ {name:'Style de combat',items:[['burst','Dégâts de burst'],['zone','Dégâts de zone'],['ctrl','Contrôle'],['surv','Résistance'],['mob','Mobilité'],['util','Soutien']],hint:'Le burst, c’est frapper fort en peu de temps. Choisis les qualités qui te plaisent.'},
  {name:'Affinités facultatives',items:[['poly','Polyvalence'],['tech','Technicité']],hint:'La polyvalence et la difficulté ne sont valorisées que si tu les demandes expressément.'}
 ];
-var presetNames={egal:'Tous les critères',polyvalence:'Polyvalence',pve:'PvE',pvp:'PvP',tank:'Tank en groupe',soin:'Soin en groupe',dps:'DPS en raid',zone:'Dégâts de zone',soutien:'Soutien',bg:'Champ de bataille',soinbg:'Soin en BG',sauvage:'PvP sauvage',burst:'Burst et mobilité',controle:'Contrôle',solo:'Solo et leveling'};
+var presetNames={egal:'Tous les critères',polyvalence:'Polyvalence',pve:'PvE',pvp:'PvP',tank:'Tank en groupe',soin:'Soin en groupe',dps:'DPS en raid',zone:'Dégâts de zone',soutien:'Soutien',bg:'Champ de bataille',soinbg:'Soin en BG',sauvage:'PvP sauvage',burst:'Burst et mobilité',controle:'Contrôle',solo:'Solo, leveling et farm'};
 var popular=['pve','pvp','dps','tank','soin','solo','bg','controle'];
 var mastery=['Débutant','Intermédiaire','Confirmé','Expert'];
 var WOW_ICON_BASE='https://render.worldofwarcraft.com/us/icons/56/classicon_';
@@ -74,8 +76,8 @@ function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp
 function weights(){return Object.assign({},S.w);}
 function currentMastery(){return S.m;}
 function presetMatch(w){
- return Object.keys(D.presets).find(function(k){
-  return E.priorityAxes.every(function(a){return w[a]===D.presets[k][a];});
+ return Object.keys(presets).find(function(k){
+  return E.priorityAxes.every(function(a){return w[a]===presets[k][a];});
  })||null;
 }
 function makePreset(k,active){
@@ -120,17 +122,11 @@ function classify(v){
 function whyPlace(x,w,m){
  var ex=X&&E.priorityExplain?E.priorityExplain(x.spec.id,w,m):null;
  if(!ex)return '';
- var rows=X.priorityParts(ex,x.score).map(function(g){
-  return '<li><span class="reco-why-name">'+esc(g.label)+'</span><span class="reco-why-bar" aria-hidden="true"><i style="width:'+g.fit+'%"></i></span>'+
-   '<span class="reco-why-fit" title="Correspondance avec tes critères">'+g.fit+' %</span><span class="reco-why-points">'+g.points+' / '+g.max+' pts</span>'+
-   '<div class="reco-answer-list">'+(g.note?'<p class="reco-why-note">'+esc(g.note)+'</p>':'')+
-   g.axes.map(function(a){return X.answerHtml(a.label,a.lines);}).join('')+'</div></li>';
- }).join('');
+ var parts=X.priorityParts(ex,x.score);
  return '<details class="reco-evidence reco-why"><summary>Pourquoi cette place</summary>'+
-  '<p><b>Pourquoi '+Math.round(x.score)+' sur 100 ?</b> '+esc(X.priorityMissing(ex,x.score))+'</p>'+
-  '<p>Pour chaque critère : la note '+esc(X.of(x.spec.label))+', ta priorité, puis le constat. Une note de 1/5 compte pour 0&nbsp;% et 5/5 pour 100&nbsp;% ; '+
-  'ces notes sont des estimations, pas des mesures de puissance, et ta maîtrise en ajuste certaines. Chaque groupe pèse selon ta priorité la plus forte, et ses points forment le score.</p>'+
-  '<ul class="reco-why-parts" aria-label="Part de chaque groupe de critères dans le score">'+rows+'</ul>'+
+  '<p class="reco-friendly-summary">'+esc(X.friendlySummary(ex,true))+'</p>'+
+  (X.learningNote(ex)?'<p>'+esc(X.learningNote(ex))+'</p>':'')+
+  X.friendlyHtml(X.friendlyGroups(ex,true))+X.calculationHtml(parts)+
   '<p><a href="fiches-sources/'+esc(x.classId)+'.html#'+esc(x.spec.id)+(x.spec.variant==='sans-familier'?'-sans-familier':'')+'">Comprendre les notes et voir les sources du '+esc(x.className)+'</a></p>'+
   '</details>';
 }
@@ -223,7 +219,7 @@ form.addEventListener('click',function(ev){
   sync();return;
  }
  if(b.dataset.prioPreset){
-  if(D.presets[b.dataset.prioPreset]){S.w=E.sanitizeWeights(D.presets[b.dataset.prioPreset]);save();}
+  if(presets[b.dataset.prioPreset]){S.w=Object.assign({},presets[b.dataset.prioPreset]);save();}
   sync();return;
  }
  if(b.dataset.prioMastery!==undefined){setMastery(Number(b.dataset.prioMastery));sync();return;}

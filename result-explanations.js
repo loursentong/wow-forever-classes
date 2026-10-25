@@ -1,8 +1,8 @@
 /* Présentation des résultats existants : aucun score, tri ou filtre modifié. */
 (function(root,factory){
- if(typeof module==='object'&&module.exports)module.exports=factory(require('./configuration-details.js'));
- else root.WFResultExplanations=factory(root.WFConfigurationDetails);
-})(typeof globalThis==='object'?globalThis:this,function(details){
+ if(typeof module==='object'&&module.exports)module.exports=factory(require('./configuration-details.js'),require('./recommendation-engine.js'));
+ else root.WFResultExplanations=factory(root.WFConfigurationDetails,root.WFRecommend);
+})(typeof globalThis==='object'?globalThis:this,function(details,E){
  'use strict';
  // Référentiel de complexité (v11) : ce qui pèse dans la difficulté d'un contexte, mêmes mots que la fiche.
  function complexityWhy(s,ctx){
@@ -38,8 +38,7 @@
   var gap=results[i-1].score-row.score;
   if(!(gap<2.01))return '';
   var above=results.filter(function(r){return r.score===results[i-1].score;});
-  var v=Math.round(gap*10)/10,points=v<0.1?'moins de 0,1 point':String(v).replace('.',',')+(v>=2?' points':' point');
-  return points+' derrière '+(above.length>2?'les '+above.length+' spécialisations à égalité au-dessus':names(above));
+  return 'au coude-à-coude avec '+(above.length>2?'les spécialisations juste au-dessus':names(above));
  }
  // « Pourquoi cette piste » : part de chaque critère renseigné dans le score. Son poids est le
  // coefficient du moteur ramené aux seuls critères renseignés (codex, § 2.4) ; son adéquation est la
@@ -78,8 +77,8 @@
  // (priorityExplain du moteur). La priorité 1 à 3 est l'importance donnée au critère.
  var priorityGroups=['roles','activities','style','affinity'];
  var priorityGroupNames={roles:'Rôles',activities:'Activités',style:'Style de combat',affinity:'Affinités'};
- var priorityAxisNames={tank:'Tank',soin:'Soin',dps:'DPS PvE',bg:'Champ de bataille',sauv:'PvP sauvage',solo:'Solo / leveling',
-  burst:'Burst',zone:'Dégâts de zone',ctrl:'Contrôle',surv:'Résistance',mob:'Mobilité',util:'Soutien',poly:'Polyvalence',tech:'Technicité'};
+ var priorityAxisNames={tank:'Tank',soin:'Soin',dps:'DPS',raid:'Donjons et raids',bg:'Champ de bataille',sauv:'PvP sauvage',solo:'Solo, leveling et farm',
+  burst:'Dégâts de burst',zone:'Dégâts de zone',ctrl:'Contrôle',surv:'Résistance',mob:'Mobilité',util:'Soutien',poly:'Polyvalence',tech:'Technicité'};
  var priorityWords=['sans importance','secondaire','importante','essentielle'];
  /* « Pourquoi cette piste » et « Pourquoi cette place » (révision du 21 octobre 2026, soir) : chaque
   * critère se lit en trois lignes, avec le nom de la spécialisation et des mots avant les chiffres.
@@ -114,7 +113,7 @@
  }
  function priorityAxisLines(a,ex){
   var s=ex&&ex.spec||{},n=specNames(s),spec;
-  if(a.group==='roles')spec=a.raw>0?n.spec+' joue ce rôle ; aisance estimée en PvE : '+percent(a.raw)+'.':
+  if(a.group==='roles')spec=a.raw>0?n.spec+' joue ce rôle ; aisance estimée '+roleWhere(a.activityContext)+' : '+percent(a.raw)+'.':
    n.spec+' ne joue pas ce rôle'+(roleNames[s.role]?' (spécialisation '+roleNames[s.role]+')':'')+'.';
   else if(a.note!==undefined)spec=noted(n.spec,a,noteWhere[a.group],ex&&ex.mastery);
   else if(a.key==='poly')spec=n.cls+(a.roles>1?' propose '+a.roles+' rôles.':' ne propose qu’un rôle.');
@@ -134,7 +133,7 @@
  var contextNames={pve:'PvE',pvp:'PvP'};
  // Depuis la v12, seules les activités décident : mêlées, chacune compte selon sa priorité ; absentes, moitié-moitié.
  function priorityTechNote(a,ex){
-  var c=a.contexts,w=ex&&ex.weights||{},mixed=(w.bg>0||w.sauv>0)&&w.solo>0;
+  var c=a.contexts,w=ex&&ex.weights||{},mixed=(w.bg>0||w.sauv>0)&&(w.raid>0||w.solo>0);
   return 'Technicité : '+(mixed?'tes activités mêlent PvE et PvP, chacune selon sa priorité : le PvP compte pour '+percent(c.pvp.share)+', le PvE pour '+percent(c.pve.share):
    'sans critère d’activité, moyenne des deux')+' ('+percent(c.pve.raw)+' en PvE, '+percent(c.pvp.raw)+' en PvP).';
  }
@@ -175,8 +174,8 @@
   });
  }
  // Intitulés des réponses : ceux du questionnaire, pour que le joueur retrouve ce qu'il a choisi.
- var answerNames={raid:'Donjons et raids',bg:'Champs de bataille',world:'PvP sauvage et duel',solo:'Solo et farm',
-  burst:'Dégâts explosifs',zone:'Dégâts de zone',ctrl:'Contrôle',surv:'Résistance',mob:'Mobilité',support:'Soutien',
+ var answerNames={raid:'Donjons et raids',bg:'Champs de bataille',world:'PvP sauvage et duel',solo:'Solo, leveling et farm',
+  burst:'Dégâts de burst',zone:'Dégâts de zone',ctrl:'Contrôle',surv:'Résistance',mob:'Mobilité',support:'Soutien',
   prevention:'Prévenir les dégâts',duree:'Soins sur la durée',cible:'Gros soins ciblés',groupe:'Soigner tout le groupe',
   distance:'À distance',melee:'Au corps-à-corps',mixte:'Pouvoir alterner distance et mêlée',
   like:'J’aime les familiers',avoid:'Je préfère éviter les familiers',simple:'Difficulté accessible',complex:'Difficulté exigeante'};
@@ -193,12 +192,12 @@
  }
  function roleSpecLine(a,p,s){
   var n=specNames(s),keys=Object.keys(p&&p.roles||{});
-  if(keys.length<2)return a.raw>0?n.spec+' joue ce rôle'+(a.aptitude!==undefined?' ; aisance estimée en PvE : '+percent(a.aptitude):'')+'.':
+  if(keys.length<2)return a.raw>0?n.spec+' joue ce rôle'+(a.aptitude!==undefined?' ; aisance estimée '+roleWhere(a.activityContext)+' : '+percent(a.aptitude):'')+'.':
    n.spec+' ne joue pas ce rôle'+(roleNames[s.role]?' (spécialisation '+roleNames[s.role]+')':'')+'.';
   var covered=a.covered||[],missing=keys.filter(function(k){return covered.indexOf(k)<0;});
   return n.cls+(covered.length?' propose '+list(covered.map(function(k){return roleNames[k];})):' ne propose aucun de ces rôles')+
    (missing.length&&covered.length?', pas '+missing.map(function(k){return roleNames[k];}).join(' ni '):'')+
-   ' ; '+n.spec+' joue '+(roleNames[s.role]||'son rôle')+(a.aptitude!==undefined?' (aisance estimée en PvE : '+percent(a.aptitude)+')':'')+'.';
+   ' ; '+n.spec+' joue '+(roleNames[s.role]||'son rôle')+(a.aptitude!==undefined?' (aisance estimée '+roleWhere(a.activityContext)+' : '+percent(a.aptitude)+')':'')+'.';
  }
  // Familier : d'après la configuration évaluée ; à défaut, d'après l'adéquation du moteur.
  function petLine(a,s){
@@ -314,8 +313,8 @@
  // « À garder en tête » : une phrase qui situe la classe, la spécialisation et le critère, avec les chiffres des
  // lignes « La spécialisation » : « Le Chasseur Maîtrise des bêtes est noté 3/5 en résistance : c'est ce qui
  // lui coûte le plus de points (10 sur le gameplay). » Les classes sont toutes au masculin (le, au, du).
- var criterionIn={raid:'en donjons et raids',bg:'en champs de bataille',world:'en PvP sauvage et duel',solo:'en solo et farm',
-  burst:'en dégâts explosifs',zone:'en dégâts de zone',ctrl:'en contrôle',surv:'en résistance',mob:'en mobilité',support:'en soutien',
+ var criterionIn={raid:'en donjons et raids',bg:'en champs de bataille',world:'en PvP sauvage et duel',solo:'en solo et leveling',
+  burst:'en dégâts de burst',zone:'en dégâts de zone',ctrl:'en contrôle',surv:'en résistance',mob:'en mobilité',support:'en soutien',
   prevention:'pour prévenir les dégâts',duree:'en soins sur la durée',cible:'en gros soins ciblés',groupe:'pour soigner tout le groupe'};
  function costFact(a,ex,le){
   var p=ex.profile||{},s=ex.spec||{},cause=mainCause(a),l=level(a.raw),mastery=(masteryNames[p.mastery]||'').toLowerCase();
@@ -326,9 +325,9 @@
   if(a.domain==='healStyles'&&a.note===undefined)return le+' ne soigne pas, alors que tu veux « '+choiceLabel(a,p)+' »';
   if(a.note!==undefined)return le+noted+number(a.note)+'/5 '+criterionIn[a.key]+(masteryShown(a)?', '+number(a.adjusted)+'/5 avec ta maîtrise ('+mastery+')':'');
   if(a.domain==='roles'){
-   var role=roleNames[s.role]||'',apt=a.aptitude!==undefined?' (aisance estimée en PvE : '+percent(a.aptitude)+')':'';
+   var role=roleNames[s.role]||'',apt=a.aptitude!==undefined?' (aisance estimée '+roleWhere(a.activityContext)+' : '+percent(a.aptitude)+')':'';
    if(!multi)return a.raw<.005?le+' ne joue pas le rôle '+names[0]+(role?' (spécialisation '+role+')':''):
-    'en '+names[0]+', '+le+' a une aisance estimée en PvE de '+percent(a.aptitude!==undefined?a.aptitude:a.raw)+(cause==='mastery'?' à ton niveau ('+mastery+')':'');
+    'en '+names[0]+', '+le+' a une aisance estimée '+roleWhere(a.activityContext)+' de '+percent(a.aptitude!==undefined?a.aptitude:a.raw)+(cause==='mastery'?' à ton niveau ('+mastery+')':'');
    var covered=a.covered||[],missing=roles.filter(function(k){return covered.indexOf(k)<0;}).map(function(k){return roleNames[k];});
    var lead='pour tes rôles '+names.join(' + ')+', '+le;
    if(roles.indexOf(s.role)<0)return lead+' ne joue aucun de ces rôles'+(role?' (spécialisation '+role+')':'');
@@ -399,29 +398,121 @@
   if(!p||!valid((p.roles||{}).soin))return [];
   return Object.keys(healNames).filter(function(k){return valid((p.healStyles||{})[k]);}).slice(0,2);
  }
+ // v14 : les explications courantes décrivent l'accord et le compromis en mots. Les seuils
+ // portent sur les valeurs du moteur ; ils ne prétendent pas mesurer une puissance en jeu.
+ function fitWords(v){v=Math.round(v*100)/100;return v>=.9?'Ça colle très bien':v>=.7?'Ça colle bien':v>=.45?'Un compromis':v>=.15?'Ça colle peu':'Ça ne colle pas';}
+ function roleWhere(ctx){
+  var keys=Object.keys(ctx&&ctx.activities||{});
+  if(!keys.length)return 'en donjons et raids (activité à préciser)';
+  if(keys.length===1)return criterionIn[keys[0]];
+  return 'dans tes activités';
+ }
+ function difficultyWords(load){return load<=2?'accessible':load<=3?'un peu plus technique':'exigeante';}
+ function friendlyAnswer(a,ex,compact){
+  var s=ex.spec||{},p=ex.profile||{},v=a.raw,label=answerNames[a.key]||priorityAxisNames[a.key]||'',text='';
+  var domain=a.domain||a.group,role=roleNames[s.role]||'';
+  if(domain==='roles'){
+   var requested=a.domain?Object.keys(p.roles||{}):[a.key];
+   var covered=a.covered||requested.filter(function(k){return E.rolePool(s.classId).includes(k);});
+   if(!requested.includes(s.role))return s.label+' joue '+role+', alors que tu cherches '+list(requested.map(function(k){return roleNames[k];}))+'.';
+   text=s.label+' remplit ton rôle '+role+'.';
+   if(requested.length>1){
+    var missing=requested.filter(function(k){return !covered.includes(k);});
+    text+=' '+(missing.length?'Sa classe ne propose pas '+list(missing.map(function(k){return roleNames[k];}))+'.':'Tu peux aussi changer de spécialisation pour jouer les autres rôles demandés.');
+   }
+   var aptitude=a.aptitude===undefined?v:a.aptitude;
+   return text+' '+(aptitude>=.7?'Elle est à l’aise ':aptitude>=.45?'Elle fait le travail, avec quelques limites ':'Elle est moins à l’aise ')+roleWhere(a.activityContext)+'.';
+  }
+  if(domain==='range')return a.key==='mixte'?(v>=1?'Sa classe te permet d’alterner mêlée et distance avec les rôles choisis.':'Pour tes rôles, sa classe ne propose qu’une seule façon de combattre.'):
+   (v>=.9?'Tu joueras '+(s.range==='distance'?'à distance':'en mêlée')+', comme tu le souhaites.':
+    'Elle se joue '+(s.range==='distance'?'à distance':'en mêlée')+' : ce n’est pas la portée que tu recherches.');
+  if(domain==='pet')return petLine(a,s);
+  if(domain==='difficulty'||a.key==='tech'){
+   var load=a.load!==undefined?a.load:a.key==='simple'?5-4*v:1+4*v,ctx=a.context||E.difficultyContext(p);
+   text='La prise en main est '+difficultyWords(load)+(contextNames[ctx]?' en '+contextNames[ctx]:' selon le contexte')+'.';
+   if(domain==='difficulty')text+=' '+(v>=.7?'Ça va dans le sens de ce que tu recherches.':v>=.45?'À voir si ce niveau de difficulté te plaît.':'Ça s’éloigne de la difficulté que tu recherches.');
+   return text;
+  }
+  if(a.key==='poly')return a.roles>1?'Sa classe te laisse changer de rôle en changeant de spécialisation.':'Sa classe se concentre sur le rôle DPS.';
+  if(domain==='healStyles'&&a.note===undefined)return 'Cette spécialisation ne soigne pas : elle ne répond pas à cette envie.';
+  var where=criterionIn[a.key]||(a.key==='sauv'?criterionIn.world:a.key==='util'?criterionIn.support:'pour ce choix');
+  text=v>=.9?'C’est un de ses points forts '+where+'.':v>=.7?'Elle s’en sort bien '+where+'.':
+   v>=.45?'Elle peut le faire, avec quelques limites '+where+'.':'D’autres pistes seront plus à l’aise '+where+'.';
+  if(!compact&&a.causes&&mainCause(a)==='mastery'&&a.adjusted<a.note-.01)text+=' Il te faudra de la pratique pour en tirer davantage.';
+  return text;
+ }
+ function certaintyNote(a){
+  if(a.certainty===undefined||a.certainty>=5||!a.causes||mainCause(a)!=='certainty')return '';
+  return a.certainty<=2?'Tu hésites encore sur cette envie : elle compte avec plus de souplesse.':'';
+ }
+ function friendlyGroups(ex,priority){
+  if(!ex)return [];
+  var parts=priority?priorityParts(ex,ex.score):pisteParts(ex,fitFromAnswers(ex),ex.score);
+  return parts.map(function(g){
+   var answers=priority?ex.axes.filter(function(a){return a.group===g.key;}):ex.answers.filter(function(a){return a.domain===g.key;});
+   var raw=answers.reduce(function(n,a){return n+a.raw*(priority?a.share:1/answers.length);},0);
+   var entries=[];
+   answers.forEach(function(a){
+    var title=priority?priorityAxisNames[a.key]:choiceLabel(a,ex.profile);
+    if(a.contexts&&(a.domain==='difficulty'||a.key==='tech')){
+     ['pve','pvp'].forEach(function(k){entries.push({label:title+' · '+contextNames[k],text:friendlyAnswer(Object.assign({},a,a.contexts[k],{context:k,contexts:null}),ex,true)});});
+    }else{
+     var note=priority?'':certaintyNote(a);
+     entries.push({label:title,text:friendlyAnswer(a,ex,true)+(note?' '+note:'')});
+    }
+   });
+   return {key:g.key,label:g.label,verdict:fitWords(raw),answers:entries};
+  });
+ }
+ function friendlyKeep(ex,fit,score){
+  var an=pisteAnalysis(ex,fit,score);
+  if(!an||!an.answer)return 'Pas de gros compromis sur tes envies. Le mieux, maintenant, c’est de voir si son style te plaît.';
+  var a=an.answer,title=choiceLabel(a,ex.profile);
+  if(mainCause(a)==='certainty')return a.certainty<=2?'Tu hésites encore sur « '+title+' » : garde cette piste ouverte le temps de préciser ton envie.':
+   'Tu n’es pas totalement sûr de « '+title+' » : cette piste reste à explorer.';
+  return 'Le point à regarder, c’est « '+title+' ». '+friendlyAnswer(a,ex);
+ }
+ function friendlySummary(ex,priority){
+  if(!priority)return friendlyKeep(ex);
+  var parts=costly(priorityParts(ex,ex.score));
+  if(!parts.length)return 'Cette piste réunit ce que tu recherches. Reste à voir si son style te plaît.';
+  var g=parts[0],a=ex.axes.filter(function(a){return a.group===g.key;}).sort(function(a,b){return b.share*(1-b.raw)-a.share*(1-a.raw);})[0];
+  return 'Le point à regarder, c’est « '+priorityAxisNames[a.key]+' ». '+friendlyAnswer(a,ex);
+ }
+ function friendlyStrengths(ex,fit,score){
+  var an=pisteAnalysis(ex,fit,score);
+  if(!an||!an.strengths.length)return 'Cette piste est un compromis entre tes envies.';
+  return 'Ça colle surtout à ces envies : '+list(an.strengths.slice(0,3).map(function(a){return choiceLabel(a,ex.profile);}))+'.';
+ }
+ function friendlyHtml(groups){
+  return '<ul class="reco-friendly-groups">'+groups.map(function(g){return '<li><div class="reco-friendly-head"><h5>'+escape(g.label)+'</h5><span>'+escape(g.verdict)+'</span></div>'+g.answers.map(function(a){return '<p><strong>'+escape(a.label)+' :</strong> '+escape(a.text)+'</p>';}).join('')+'</li>';}).join('')+'</ul>';
+ }
+ function learningNote(ex){
+  var lower=(ex.answers||ex.axes||[]).some(function(a){return a.causes?a.causes.mastery>0:a.adjusted<a.note-.01;});
+  return lower?'Certaines qualités demandent encore un peu de pratique à ton niveau.':'';
+ }
+ function calculationHtml(parts){
+  return '<details class="reco-calculation"><summary>Voir le détail du calcul</summary><p>Ces indices servent à comparer tes envies. Ils ne mesurent pas une puissance en jeu.</p>'+
+   '<table><caption>Contribution de chaque groupe au score</caption><thead><tr><th>Groupe</th><th>Accord</th><th>Points</th></tr></thead><tbody>'+parts.map(function(g){return '<tr><th scope="row">'+escape(g.label)+'</th><td>'+g.fit+' %</td><td>'+g.points+' / '+g.max+'</td></tr>';}).join('')+'</tbody></table></details>';
+ }
  function contextNotes(context){
   var out=[],p=context.profile,w=context.weights;
-  if((p&&Object.hasOwn(p.styles||{},'ctrl'))||(w&&w.ctrl>0))
-   out.push('Le contrôle regroupe plusieurs usages. La maîtrise choisie tient aussi compte de la difficulté estimée à utiliser ces outils.');
-  if(p&&p.difficulty&&p.difficulty.value&&p.difficulty.value!=='any'){
-   // Même règle que le moteur (difficultyContext) : PvE seul, PvP seul, sinon moyenne.
-   var ctx=difficultyContext(p);
-   out.push(ctx==='pve'?'Ton rapport à la difficulté est comparé à la difficulté PvE de chaque spécialisation, puisque tes activités sont en PvE.':
-    ctx==='pvp'?'Ton rapport à la difficulté est comparé à la difficulté PvP de chaque spécialisation, puisque tes activités sont en PvP.':
-    'Ton rapport à la difficulté est comparé à la moyenne PvE et PvP de chaque spécialisation, faute d’activités d’un seul type.');
-  }
-  // v12 : la maîtrise ajuste les styles selon la difficulté du contexte de tes activités, s'il n'y en a qu'un.
-  if(p&&Number.isInteger(p.mastery)&&p.mastery!==2&&Object.keys(p.styles||{}).length){
-   var sctx=difficultyContext(p);
-   if(sctx!=='mixte')out.push('Ta maîtrise ajuste tes styles selon la difficulté '+(sctx==='pve'?'PvE':'PvP')+' de chaque spécialisation, puisque tes activités sont en '+(sctx==='pve'?'PvE':'PvP')+'.');
-  }
+  var aw=p?E.guideActivities(E.sanitize(p)):E.priorityActivities(E.sanitizeWeights(w)),ctx=E.activityContext(aw),keys=Object.keys(ctx.activities);
+  var roles=p?Object.keys(p.roles||{}):['tank','soin','dps'].filter(function(k){return w&&w[k]>0;});
+  if(keys.length===1&&keys[0]==='solo')out.push('Ici, on regarde le solo et le leveling : se débrouiller seul et progresser, avec la difficulté PvE de la spécialisation.');
+  else if(keys.length===1&&keys[0]==='raid')out.push('Ici, on regarde les donjons et raids, avec la difficulté PvE de la spécialisation.');
+  else if(ctx.kind==='pvp')out.push('Ici, on regarde tes activités PvP. Les performances en donjons et raids ne comptent pas.');
+  else if(ctx.explicit&&ctx.kind==='mixte')out.push('Tes activités gardent leurs propres repères : '+list(keys.map(function(k){return answerNames[k];}))+'.');
+  if(!ctx.explicit&&roles.length)out.push('Précise tes activités pour affiner cette piste. En attendant, le rôle utilise un repère donjons et raids.');
+  if(ctx.kind==='pvp'&&roles.includes('tank'))out.push('Pour tanker en donjon ou en raid, ajoute cette activité. Tes choix actuels comparent ici le PvP.');
   if(p&&Object.hasOwn(p.roles||{},'soin')){
    var heal=healChoices(p);
-   out.push(heal.length?'Ta façon de soigner ('+heal.map(function(k){return healNames[k];}).join(', ')+') départage les spécialisations de soin. Les autres rôles répondent moins bien à cette envie.':
-    'Tu peux préciser ta façon de soigner à la question 1 : elle départage les spécialisations de soin.');
+   out.push(heal.length?'Ta façon de soigner aide à trouver le soigneur qui te ressemble.':
+    'Tu peux préciser ta façon de soigner à la question 1 pour affiner ces pistes.');
   }else if(w&&w.soin>0)
-   out.push('Ce comparateur ne départage pas les façons de soigner : le parcours guidé le fait à la question 1, et la fiche de chaque spécialisation de soin les décrit.');
+   out.push('Pour choisir aussi ta façon de soigner, passe par la première question du parcours guidé.');
   return out;
  }
- return {criteria:criteria,ranks:ranks,rankHint:rankHint,scoreParts:scoreParts,priorityParts:priorityParts,priorityMissing:priorityMissing,pisteParts:pisteParts,pisteMissing:pisteMissing,of:of,priorityWords:priorityWords,answerLabel:answerLabel,answerLines:answerLines,answerHtml:answerHtml,answerText:answerText,certaintyWords:certaintyWords,pisteAnalysis:pisteAnalysis,keepInMind:keepInMind,strengthsText:strengthsText,choiceLabel:choiceLabel,level:level,number:number,tieNote:tieNote,petNotice:petNotice,contextNotes:contextNotes,healChoices:healChoices};
+ return {criteria:criteria,ranks:ranks,rankHint:rankHint,scoreParts:scoreParts,priorityParts:priorityParts,priorityMissing:priorityMissing,pisteParts:pisteParts,pisteMissing:pisteMissing,of:of,priorityWords:priorityWords,answerLabel:answerLabel,answerLines:answerLines,answerHtml:answerHtml,answerText:answerText,certaintyWords:certaintyWords,pisteAnalysis:pisteAnalysis,keepInMind:keepInMind,strengthsText:strengthsText,choiceLabel:choiceLabel,level:level,number:number,tieNote:tieNote,petNotice:petNotice,contextNotes:contextNotes,healChoices:healChoices,
+  fitWords:fitWords,friendlyAnswer:friendlyAnswer,friendlyGroups:friendlyGroups,friendlyKeep:friendlyKeep,friendlySummary:friendlySummary,friendlyStrengths:friendlyStrengths,friendlyHtml:friendlyHtml,learningNote:learningNote,calculationHtml:calculationHtml};
 });

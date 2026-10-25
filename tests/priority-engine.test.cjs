@@ -8,9 +8,9 @@ const html=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
 const ui=fs.readFileSync(path.join(__dirname,'..','priorities-ui.js'),'utf8');
 const weights={poly:0,tank:0,soin:0,dps:0,bg:0,sauv:0,burst:0,zone:0,ctrl:0,surv:0,mob:0,util:0,solo:0,tech:0};
 function withW(o){return {...weights,...o};}
-test('Le second parcours conserve les 14 critères, le guide et un moteur partagé',()=>{
- assert.equal(E.priorityAxes.length,14);
- assert.equal(new Set(E.priorityAxes).size,14);
+test('Le second parcours propose 15 critères avec Donjons et raids, le guide et un moteur partagé',()=>{
+ assert.equal(E.priorityAxes.length,15);
+ assert.equal(new Set(E.priorityAxes).size,15);
  assert.match(html,/data-reco-mode="guided"/);
  assert.match(html,/data-reco-mode="priorities"/);
  assert.match(html,/src="priorities-ui.js"/);

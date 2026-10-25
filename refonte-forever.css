@@ -508,6 +508,26 @@ details.reco-evidence p b{color:var(--rf-ivory)}
 .reco-answer-steps dd{margin:0;color:var(--rf-muted)}
 .reco-answer-steps .is-result dt{color:var(--rf-gold)}
 .reco-answer-steps .is-result dd{color:var(--rf-ivory)}
+/* Explications en mots ; les chiffres restent dans un volet facultatif. */
+.reco-friendly-summary{color:var(--rf-ivory);line-height:1.55}
+.reco-friendly-groups{list-style:none;margin:12px 14px;padding:0;display:grid;gap:14px}
+.reco-friendly-groups>li{padding-top:12px;border-top:1px solid var(--rf-line-soft);min-width:0}
+.reco-friendly-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 12px;margin-bottom:7px}
+.reco-friendly-head h5{margin:0;font-size:15px;color:var(--rf-ivory)}
+.reco-friendly-head span{font-size:13px;color:var(--rf-gold-light)}
+.reco-friendly-groups p{margin:6px 0;font-size:14px;line-height:1.55;color:var(--rf-soft)}
+.reco-friendly-groups p strong{color:var(--rf-ivory);font-weight:600}
+.reco-calculation{margin:12px 14px;border-top:1px solid var(--rf-line-soft);font-size:13px;color:var(--rf-muted)}
+.reco-calculation>summary{display:flex;align-items:center;min-height:44px;cursor:pointer;color:var(--rf-soft);list-style:none}
+.reco-calculation>summary::-webkit-details-marker{display:none}
+.reco-calculation>summary::after{content:"+";margin-left:auto;color:var(--rf-gold-light)}
+.reco-calculation[open]>summary::after{content:"−"}
+.reco-calculation p{margin:0 0 10px;line-height:1.5}
+.reco-calculation table{width:100%;border-collapse:collapse;font-size:13px}
+.reco-calculation caption{text-align:left;margin-bottom:8px}
+.reco-calculation th,.reco-calculation td{padding:7px 5px;text-align:left;border-bottom:1px solid var(--rf-line-soft);white-space:normal}
+.reco-calculation td{font-variant-numeric:tabular-nums}
+#reco-priority-results .reco-friendly-groups,#reco-priority-results .reco-calculation{margin-left:4px;margin-right:4px}
 @media (max-width:600px){
  .reco-why-parts li{grid-template-columns:minmax(0,1fr) 46px 78px;row-gap:5px}
  .reco-why-bar{grid-column:1/-1;grid-row:2}

@@ -30,7 +30,7 @@ test('Technicité : les activités décident, les rôles ne comptent plus comme 
  near(mix.load,(6*5+1*4)/7,'charge');
  near(mix.raw,mix.contexts.pve.share*mix.contexts.pve.raw+mix.contexts.pvp.share*mix.contexts.pvp.raw,'valeur du calcul');
  const score=(id,w)=>E.priorityRanking(w,2).results.find(x=>x.spec.id===id).score;
- assert.ok(score('chasseur-precision',{dps:2,bg:3,sauv:3,tech:3})>85,'Précision n’est plus tirée vers le bas par le PvE');
+ near(E.priorityExplain('chasseur-precision',{dps:2,bg:3,sauv:3,tech:3},2).axes.find(a=>a.key==='dps').raw,.875,'v14 : aisance du rôle dans les deux activités PvP');
 });
 
 test('Maîtrise sur les styles : PvE seul → difficulté PvE, PvP seul → PvP, sinon la règle d’avant',()=>{
@@ -78,6 +78,6 @@ test('Explications : part de chaque contexte pour la technicité, détail du bui
  assert.match(html,/PvE : Demande de la pratique \(3\/5\)/);
  assert.match(html,/href="fiches-sources\/chasseur\.html#chasseur-survie-sans-familier">Le détail, composante par composante<\/a>/);
  // Parcours guidé : la note de contexte dit sur quelle difficulté la maîtrise ajuste les styles.
- assert.match(X.contextNotes({profile:E.sanitize({activities:{raid:5},styles:{ctrl:4},mastery:0})}).join(' '),/Ta maîtrise ajuste tes styles selon la difficulté PvE de chaque spécialisation, puisque tes activités sont en PvE\./);
+ assert.match(X.contextNotes({profile:E.sanitize({activities:{raid:5},styles:{ctrl:4},mastery:0})}).join(' '),/donjons et raids, avec la difficulté PvE/);
  assert.ok(!X.contextNotes({profile:E.sanitize({activities:{raid:5},styles:{ctrl:4},mastery:2})}).join(' ').includes('ajuste tes styles'));
 });
