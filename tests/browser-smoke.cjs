@@ -11,7 +11,7 @@ const {chromium}=require('playwright');
 
 const base=path.resolve(__dirname,'..');
 const allowed={'/':'index.html','/index.html':'index.html','/questionnaire.js':'questionnaire.js','/recommendation-engine.js':'recommendation-engine.js','/priorities-ui.js':'priorities-ui.js','/ux-polish.css':'ux-polish.css','/warcraft-visual-pack.css':'warcraft-visual-pack.css','/wow-ui-rework.css':'wow-ui-rework.css','/refonte-forever.css':'refonte-forever.css','/assets/hero-landscape.svg':'assets/hero-landscape.svg'};
-for(const f of ['configuration-notes.js','configuration-details.js','configuration-notes.css','result-explanations.js','notes-specialisations.js','support.js'])allowed['/'+f]=f;
+for(const f of ['priority-profiles.js','configuration-notes.js','configuration-details.js','configuration-notes.css','result-explanations.js','notes-specialisations.js','support.js'])allowed['/'+f]=f;
 for(const f of fs.readdirSync(path.join(base,'fiches-sources')).filter(f=>f.endsWith('.html')))allowed['/fiches-sources/'+f]='fiches-sources/'+f;
 // Visuels de la refonte (kit de presse officiel), servis comme sur GitHub Pages.
 for(const f of ['logo-wow-forever.webp','hero-arbre-monde.webp','hero-vallee-nuit.webp','bandeau-gantelet.webp','bandeau-darkspear.webp','grain.png'])allowed['/assets/img/'+f]='assets/img/'+f;
@@ -249,7 +249,7 @@ async function check(){
   assert.equal(await page.locator('.reco-more-presets').count(),0);
   assert.ok(await page.locator('[data-prio-save]').count()===1);
   // Régression DPS PvE : les neuf classes ne peuvent PAS recevoir toutes 100.
-  await page.locator('[data-prio-preset="dps"]').click();
+  await page.locator('[data-prio-preset="groupe-dps"]').click();
   assert.equal(await page.locator('.support-reminder').isVisible(),true);
   const dpsScores=await page.locator('#reco-priority-results .reco-priority-score').allTextContents();
   assert.ok(new Set(dpsScores).size>=3, 'DPS PvE doit différencier les neuf classes');
@@ -257,7 +257,7 @@ async function check(){
   assert.equal(await page.locator('[data-prio-axis]').count(),60);
   assert.equal(await page.locator('#reco-priority-results .reco-priority-class').count(),10);
   assert.equal(await page.locator('#reco-priority-results .reco-config-details').count(),10);
-  await page.locator('[data-prio-preset="pvp"]').click();
+  await page.locator('[data-prio-preset="bg-dps"]').click();
   const weight=(axis,v)=>page.locator('[data-prio-axis="'+axis+'"][data-prio-weight="'+v+'"]').getAttribute('aria-pressed');
   assert.equal(await weight('bg',3),'true');
   await page.locator('[data-prio-mastery="3"]').click();
@@ -284,7 +284,7 @@ async function check(){
   await page.locator('[data-prio-save]').click();
   const custom=await page.evaluate(()=>JSON.parse(localStorage.getItem('wf-priority-custom-v1')));
   assert.equal(custom.mastery,3);assert.equal(custom.weights.bg,3);assert.equal(custom.weights.poly,0);
-  await page.locator('[data-prio-preset="solo"]').click();
+  await page.locator('[data-prio-preset="solo-autonomie"]').click();
   assert.equal(await weight('solo',3),'true');
   await page.locator('[data-prio-restore]').click();
   assert.equal(await weight('bg',3),'true');
@@ -475,7 +475,8 @@ async function check(){
   assert.ok(await page.locator('#reco-live-body li').count()>10);
   await page.locator('#reco-results').screenshot({path:path.join(__dirname,'screenshots','v10-deux-druides.png'),animations:'disabled'});
   await page.locator('[data-reco-mode="priorities"]').click();
-  await page.locator('[data-prio-preset="controle"]').click();
+  await page.locator('[data-prio-clear]').click();
+  await page.locator('[data-prio-axis="ctrl"][data-prio-weight="3"]').click();
   const rankRows=page.locator('#reco-priority-results .reco-priority-class');
   assert.equal(await rankRows.nth(0).getAttribute('value'),'1');
   assert.equal(await rankRows.nth(1).getAttribute('value'),'1');
@@ -690,7 +691,7 @@ async function check(){
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth+2));
   await fireCard.screenshot({path:path.join(__dirname,'screenshots','v15-pve-mobile.png'),animations:'disabled'});
   await page.setViewportSize({width:1300,height:1000});await page.locator('[data-reco-mode="priorities"]').click();
-  await page.locator('[data-prio-preset="dps"]').click();
+  await page.locator('[data-prio-preset="groupe-dps"]').click();
   const firePlace=page.locator('#reco-priority-results .reco-priority-class').filter({has:page.locator('a[href="fiches-sources/mage.html#mage-feu"]')});
   assert.equal(await firePlace.count(),1);await firePlace.locator('.reco-why > summary').click();
   assert.equal(await firePlace.locator('.reco-calculation').evaluate(d=>d.open),false);
@@ -706,7 +707,7 @@ async function check(){
   await page.locator('[data-reco-mode="priorities"]').click();
   assert.equal(await weight('raid',0),'true');assert.equal(await weight('dps',3),'true');
   await page.locator('[data-prio-axis="raid"][data-prio-weight="3"]').click();
-  await page.locator('[data-prio-save]').click();await page.locator('[data-prio-preset="pvp"]').click();
+  await page.locator('[data-prio-save]').click();await page.locator('[data-prio-preset="bg-dps"]').click();
   assert.equal(await weight('raid',0),'true');await page.locator('[data-prio-restore]').click();
   assert.equal(await weight('raid',3),'true');
   await page.reload({waitUntil:'domcontentloaded'});await page.locator('[data-reco-mode="priorities"]').click();
@@ -782,8 +783,48 @@ async function check(){
    if(certainty<=2)assert.match(await g.textContent(),/préférence reste souple.*peut bien te convenir/);
    if(value==='simple'&&certainty===2)await g.screenshot({path:path.join(__dirname,'screenshots','complexite-souple-mobile.png'),animations:'disabled'});
   }
+  // Audit de la restitution réelle : huit profils × quatre maîtrises × 28 configurations.
+  await page.locator('[data-reco-mode="priorities"]').click();
+  const profiles=require('../priority-profiles.js');
+  for(const p of profiles)for(const mastery of [0,1,2,3]){
+   await page.locator('[data-prio-preset="'+p.id+'"]').click();
+   await page.locator('[data-prio-mastery="'+mastery+'"]').click();
+   if(await page.locator('[data-prio-more]').getAttribute('aria-expanded')!=='true')await page.locator('[data-prio-more]').click();
+   const comparison=await page.evaluate(({mastery,expectedWeights})=>{
+    const E=window.WFRecommend,X=window.WFResultExplanations,w=Object.fromEntries([...document.querySelectorAll('[data-prio-axis][aria-pressed="true"]')].map(b=>[b.dataset.prioAxis,Number(b.dataset.prioWeight)]));
+    const expected=E.priorityRanking(expectedWeights,mastery),ranks=X.ranks(expected.results),rows=[...document.querySelectorAll('#reco-priority-results .reco-priority-class')],failures=[];
+    if(JSON.stringify(w)!==JSON.stringify(E.sanitizeWeights(expectedWeights))){
+     for(const k of E.priorityAxes)if(w[k]!==E.sanitizeWeights(expectedWeights)[k])failures.push('poids:'+k);
+    }
+    for(let i=0;i<rows.length;i++){
+     const li=rows[i],r=expected.results[i],ex=E.priorityExplain(r.spec.id,w,mastery);
+     const id=new URL(li.querySelector('.reco-why a[href*="fiches-sources/"]').href).hash.slice(1);
+     const fragment=r.spec.id+(r.spec.variant==='sans-familier'?'-sans-familier':'');
+     if(id!==fragment||parseInt(li.querySelector('.reco-priority-score').textContent,10)!==Math.round(r.score)||Number(li.getAttribute('value'))!==ranks[i].rank)failures.push('classement:'+i+':'+id+'/'+fragment);
+     const actual=[...li.querySelectorAll('.reco-friendly-groups>li')].map(g=>g.textContent);
+     const wanted=X.friendlyGroups(ex,true).map(g=>g.label+g.verdict+g.answers.map(a=>a.label+' : '+a.text).join(''));
+     if(JSON.stringify(actual)!==JSON.stringify(wanted))failures.push('explication:'+id);
+    }
+    for(const el of document.querySelectorAll('[data-prio-level]'))if(el.textContent!==X.priorityWords[w[el.dataset.prioLevel]])failures.push('niveau:'+el.dataset.prioLevel);
+    return {rows:rows.length,failures};
+   },{mastery,expectedWeights:p.weights});
+   assert.equal(comparison.rows,28,p.id+'/'+mastery);assert.deepEqual(comparison.failures,[],p.id+'/'+mastery);
+  }
+  for(const width of [320,390,1300]){
+   await page.setViewportSize({width,height:1000});
+   await page.locator('[data-prio-preset="bg-soin"]').click();
+   assert.equal(await page.locator('[data-prio-group-toggle="0"]').getAttribute('aria-expanded'),'true');
+   assert.equal(await page.locator('[data-prio-group-toggle="1"]').getAttribute('aria-expanded'),'true');
+   assert.equal(await page.locator('[data-prio-group-toggle="2"]').getAttribute('aria-expanded'),'false');
+   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth+2));
+   if(width!==320){
+    const suffix=width===390?'mobile':'desktop';
+    await page.locator('.reco-priority-presets').screenshot({path:path.join(__dirname,'screenshots','profils-concrets-'+suffix+'.png'),animations:'disabled'});
+    await page.locator('.reco-priority-groups').screenshot({path:path.join(__dirname,'screenshots','importance-criteres-'+suffix+'.png'),animations:'disabled'});
+   }
+  }
   assert.deepEqual(errors,[],'Erreurs JavaScript navigateur');
-  process.stdout.write('Chromium : deux parcours, 15 poids, 15 presets, 28 spécialisations classées, maîtrise partagée, mobile et clavier — OK\n');
+  process.stdout.write('Chromium : deux parcours, 15 poids, 8 profils actuels, 28 spécialisations classées, maîtrise partagée, mobile et clavier — OK\n');
  }finally{
   if(browser)await browser.close();
   await new Promise(resolve=>server.close(resolve));

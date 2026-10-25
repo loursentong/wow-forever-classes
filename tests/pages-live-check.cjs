@@ -6,7 +6,7 @@ const {chromium}=require('playwright');
 const url='https://loursentong.github.io/wow-forever-classes/';
 (async()=>{
  const qs='?diagnostic='+Date.now();
- const requests=[url,url+'recommendation-engine.js',url+'questionnaire.js',url+'priorities-ui.js'];
+ const requests=[url,url+'recommendation-engine.js',url+'questionnaire.js',url+'priorities-ui.js',url+'priority-profiles.js'];
  for(const u of requests){
   try{
    const res=await fetch(u+qs,{signal:AbortSignal.timeout(15000),headers:{'cache-control':'no-cache'}});
