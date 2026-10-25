@@ -409,20 +409,34 @@
  }
  function difficultyWords(load){return load<=2?'accessible':load<4?'de difficulté intermédiaire':'exigeante';}
  function difficultyValue(a){return a.load!==undefined?a.load:a.key==='simple'?5-4*a.raw:1+4*a.raw;}
+ // La certitude nuance le commentaire, sans changer la difficulté ni le calcul.
+ // La Technicité personnalisée est une importance, pas une certitude : elle garde sa lecture affirmée.
+ function difficultyGap(a){
+  var load=difficultyValue(a),simple=a.key==='simple',certainty=a.certainty===undefined?5:a.certainty;
+  if(simple?load<=2:load>=4)return 'match';
+  if(load>2&&load<4)return certainty<=2?'flexible':certainty<5?'slight':'gap';
+  return certainty<=2?'open':'gap';
+ }
  function difficultyVerdict(a){
   if(a.contexts){var values=Object.values(a.contexts).map(function(c){return difficultyWords(c.load);});if(new Set(values).size>1)return 'Selon l’activité';}
-  var load=difficultyValue(a),simple=a.key==='simple';
-  if(simple&&load>2)return 'Plus technique que ton envie';
-  if(!simple&&load<4)return 'Plus simple que ton envie';
+  var gap=difficultyGap(a),simple=a.key==='simple';
+  if(gap==='flexible')return 'Une piste compatible';
+  if(gap==='open')return 'À explorer';
+  if(gap==='slight')return simple?'Un peu plus technique':'Un peu plus simple';
+  if(gap==='gap')return simple?'Plus technique que ton envie':'Plus simple que ton envie';
   return fitWords(a.raw);
  }
  function difficultyAdvice(a){
+  if(a.contexts)return Object.keys(a.contexts).map(function(k){return difficultyAdvice(Object.assign({},a,a.contexts[k],{context:k,contexts:null}));}).join(' ');
   var simple=a.key==='simple',wish=simple?'Tu préfères une prise en main accessible. ':'Tu veux du défi. ';
-  if(a.contexts)return wish+'Cette spécialisation est '+Object.keys(a.contexts).map(function(k){return difficultyWords(a.contexts[k].load)+' en '+contextNames[k];}).join(' et ')+'.';
-  var load=difficultyValue(a),where=contextNames[a.context]?' en '+contextNames[a.context]:'';
+  var load=difficultyValue(a),where=contextNames[a.context]?' en '+contextNames[a.context]:'',gap=difficultyGap(a);
+  var fact='Cette spécialisation est '+difficultyWords(load)+where;
+  if(gap==='flexible')return fact+'. Ta préférence reste souple : ça peut bien te convenir.';
+  if(gap==='open')return fact+'. Ta préférence reste souple : regarde si ce niveau te tente.';
+  if(gap==='slight')return fact+' : elle est un peu plus '+(simple?'technique':'simple')+' que ce que tu recherches.';
   if(!simple&&load<4)return wish+'Cette spécialisation est '+difficultyWords(load)+where+' : elle est plus simple que ce que tu recherches.';
   if(simple&&load>2)return wish+'Cette spécialisation est '+difficultyWords(load)+where+' : elle demande plus de technique que ce que tu recherches.';
-  return 'Cette spécialisation est '+difficultyWords(load)+where+', comme tu le souhaites.';
+  return fact+', comme tu le souhaites.';
  }
  function suitableReference(a,ex){
   var domain=a.domain||a.group;
@@ -512,6 +526,7 @@
   var an=pisteAnalysis(ex,fit,score);
   if(!an||!an.answer)return 'Pas de gros compromis sur tes envies. Le mieux, maintenant, c’est de voir si son style te plaît.';
   var a=an.answer,title=choiceLabel(a,ex.profile);
+  if(a.domain==='difficulty'&&a.certainty<=2)return friendlyAnswer(a,ex);
   if(mainCause(a)==='certainty')return a.certainty<=2?'Tu hésites encore sur « '+title+' » : garde cette piste ouverte le temps de préciser ton envie.':
    'Tu n’es pas totalement sûr de « '+title+' » : cette piste reste à explorer.';
   return (suitableReference(a,ex)?'':'Le point à regarder, c’est « '+title+' ». ')+friendlyAnswer(a,ex);
