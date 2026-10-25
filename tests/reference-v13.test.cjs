@@ -18,14 +18,13 @@ test('La photographie v12 reste intacte ; la v13 en dérive explicitement',()=>{
  assert.equal(v12.info.engineVersion,'1.2.0-exploratoire');
  assert.equal(v13.info.revision,13);
  assert.equal(v13.info.previousReference,'moteur-reference-v12.json');
- assert.equal(v13.info.engineVersion,E.version);
- assert.equal(E.version,'1.3.0-exploratoire');
+ assert.equal(v13.info.engineVersion,'1.3.0-exploratoire');
  // De la v2 à la v12, aucune note de classe n'avait changé : la v13 est la première révision de la matrice depuis.
  assert.deepEqual(v12.matrix.classes,v2.matrix.classes);
 });
 
 test('v12 → v13 : 27 notes de classe ; seuls bougent les classements qui demandent le rôle DPS',()=>{
- assert.deepEqual(snapshot(),v13,'le moteur et la page reproduisent exactement la v13');
+ // La v14 a son propre contrat actif ; ce test conserve la décision historique v12 → v13.
  const report=compare(v12,v13);
  assert.equal(report.matrixChanges,27);
  assert.equal(CHANGES.length,27);

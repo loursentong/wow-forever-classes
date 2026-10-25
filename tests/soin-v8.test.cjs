@@ -86,10 +86,10 @@ test('Explications et fiches : mêmes règles que le moteur, profil affiché pou
   assert.deepEqual(X.healChoices(profile),E.selected(E.sanitize(profile).healStyles),JSON.stringify(profile));
  }
  assert.match(X.contextNotes({profile:{roles:{soin:3},healStyles:{groupe:3,cible:1}}}).join(' '),
-  /Ta façon de soigner \(gros soins ciblés, soigner tout le groupe\) départage les spécialisations de soin/);
+  /Ta façon de soigner aide à trouver le soigneur qui te ressemble/);
  assert.match(X.contextNotes({profile:{roles:{soin:3}}}).join(' '),/préciser ta façon de soigner à la question 1/);
  assert.ok(!X.contextNotes({profile:{roles:{dps:3},healStyles:{groupe:3}}}).join(' ').includes('soigner'));
- assert.match(X.contextNotes({weights:{soin:2}}).join(' '),/Ce comparateur ne départage pas les façons de soigner/);
+ assert.match(X.contextNotes({weights:{soin:2}}).join(' '),/Pour choisir aussi ta façon de soigner/);
  for(const s of E.specs){
   const html=details(s);
   assert.equal(html.includes('Façon de soigner :'),s.role==='soin',s.id);

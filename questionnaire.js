@@ -1,4 +1,4 @@
-/* Présentation progressive de l'assistant. Le moteur de recommandation reste inchangé. */
+/* Présentation progressive de l'assistant ; calcul confié au moteur partagé. */
 (function(){
 'use strict';
 var E=window.WFRecommend;
@@ -20,16 +20,16 @@ lockStrict();
 var names={
  roles:{dps:'DPS',tank:'Tank',soin:'Soin'},
  healStyles:{prevention:'Prévenir les dégâts',duree:'Soins sur la durée',cible:'Gros soins ciblés',groupe:'Soigner tout le groupe'},
- activities:{raid:'Donjons et raids',bg:'Champs de bataille',world:'PvP sauvage et duel',solo:'Solo et farm'},
+ activities:{raid:'Donjons et raids',bg:'Champs de bataille',world:'PvP sauvage et duel',solo:'Solo, leveling et farm'},
  range:{distance:'À distance',melee:'Au corps-à-corps',mixte:'Pouvoir alterner'},
- styles:{burst:'Dégâts explosifs',zone:'Dégâts de zone',ctrl:'Contrôle',surv:'Résistance',mob:'Mobilité',support:'Soutien'},
+ styles:{burst:'Dégâts de burst',zone:'Dégâts de zone',ctrl:'Contrôle',surv:'Résistance',mob:'Mobilité',support:'Soutien'},
  pet:{like:"J'aime les familiers",avoid:'Je préfère éviter'},
  difficulty:{simple:'Accessible',complex:'Exigeant'}
 };
 var descriptions={
- roles:{dps:'Infliger des dégâts',tank:'Protéger et encaisser',soin:'Soigner et soutenir'},
+ roles:{dps:'Infliger des dégâts, en PvE ou en PvP',tank:'Encaisser pour le groupe en donjons et raids',soin:'Soigner et soutenir, en PvE ou en PvP'},
  healStyles:{prevention:'Boucliers et absorptions avant les coups',duree:'Des soins qui agissent dans le temps',cible:'Garder une cible en vie, souvent le tank',groupe:'Des soins qui touchent plusieurs alliés'},
- activities:{raid:'Jouer en groupe en PvE',bg:'Affrontements en équipe',world:'Combats imprévus et duels',solo:'Explorer et progresser seul'},
+ activities:{raid:'Jouer en groupe en PvE',bg:'Affrontements en équipe',world:'Combats imprévus et duels',solo:'Progresser, explorer et farmer seul'},
  range:{distance:'Combattre sans être au contact',melee:'Combattre au plus près',mixte:'Changer selon la configuration'},
  styles:{burst:'Frapper très fort en peu de temps',zone:'Toucher plusieurs cibles',ctrl:'Ralentir, immobiliser, interrompre ou neutraliser',surv:'Tenir sous pression',mob:'Se déplacer et poursuivre',support:'Renforcer les alliés'},
  pet:{like:'Un compagnon fait partie du plaisir',avoid:'Je préfère jouer sans compagnon'},
@@ -134,13 +134,14 @@ function healQuestion(){
  if(!E.selected(state.roles).includes('soin'))return '';
  return '<div class="reco-subquestion" role="group" aria-labelledby="reco-heal-title" aria-describedby="reco-heal-hint">'+
   '<p class="reco-subquestion-title" id="reco-heal-title">Quelle façon de soigner t’attire ?</p>'+
-  '<p class="reco-subquestion-hint" id="reco-heal-hint">Facultatif · jusqu’à deux choix. Départage les spécialisations de soin ; le score des autres pistes ne change pas.</p>'+
+  '<p class="reco-subquestion-hint" id="reco-heal-hint">Facultatif · jusqu’à deux choix pour trouver le soigneur qui te ressemble.</p>'+
   multi('healStyles',2)+'</div>';
 }
 function currentQuestion(){
  if(step===0)return question(1,'Quel rôle voudrais-tu jouer ?','Tu peux choisir plusieurs rôles ou simplement explorer ce qui t’attire.',
   multi('roles')+(E.selected(state.roles).length?'<label class="reco-strict"><input type="checkbox" data-roles-strict '+(state.rolesStrict?'checked':'')+'><span><strong>'+ (E.selected(state.roles).length>1?'Je veux pouvoir exercer tous ces rôles':'Ce rôle est indispensable pour moi')+'</strong><small>Une préférence seule ne bloque jamais les alternatives.</small></span></label>':'')+healQuestion());
- if(step===1)return question(2,'Où passeras-tu le plus de temps ?','Tu peux sélectionner plusieurs activités. Aucune obligation de te décider tout de suite.',multi('activities'));
+ if(step===1)return question(2,'Quelles activités comptent pour toi ?','Coche les activités où tu veux que ta classe soit à l’aise. Tu peux en choisir plusieurs.',multi('activities')+
+  (E.selected(state.roles).includes('tank')?'<p class="reco-note">Pour tanker en groupe, choisis « Donjons et raids ». Tu peux aussi ajouter tes autres envies.</p>':''));
  if(step===2)return question(3,'Comment aimes-tu combattre ?','Une préférence peut rester souple. Coche une exigence uniquement si elle est non négociable.',single('range'));
  if(step===3)return question(4,'Quel style te ressemble ?','Choisis jusqu’à trois qualités qui t’attirent. Tes hésitations sont normales.',multi('styles',3));
  if(step===4)return question(5,'Quelle place pour les familiers ?','Un familier facultatif peut apporter des outils que tu perds en jouant sans lui.',single('pet'));
@@ -204,9 +205,7 @@ function renderForm(){
  }
 }
 function fitLabel(v){
- if(v>=.82)return 'Très bonne piste';
- if(v>=.68)return 'Bonne correspondance';
- return 'À explorer';
+ return X.fitWords(v);
 }
 /* « Pourquoi cette piste » : part de chaque critère dans le score, stabilité face aux réponses
  * hésitantes (scénarios du moteur), sources. */
@@ -220,21 +219,15 @@ function hesitations(report){
 function whyBlock(r,hesitant){
  var explanation=E.explain(r.spec.id,state);
  var parts=X?X.pisteParts(explanation,r.fit,r.score):[];
- var rows=parts.map(function(p){
-  return '<li><span class="reco-why-name">'+esc(p.label)+'</span><span class="reco-why-bar" aria-hidden="true"><i style="width:'+p.fit+'%"></i></span>'+
-   '<span class="reco-why-fit" title="Correspondance avec tes réponses, certitude comprise">'+p.fit+' %</span><span class="reco-why-points">'+p.points+' / '+p.max+' pts</span>'+
-   '<div class="reco-answer-list">'+(p.note?'<p class="reco-why-note">'+esc(p.note)+'</p>':'')+
-   p.answers.map(function(a){return X.answerHtml(a.label,a.lines);}).join('')+'</div></li>';
- }).join('');
- var stability=r.scenarioCount<=1?'Tes choix sont assez affirmés : nous n’avons pas testé de variante sans eux.':
-  'Cette spécialisation reste dans tes '+firstWords[PISTES]+' pistes dans '+r.scenarioAppearances+' cas sur '+r.scenarioCount+'. Nous avons comparé tes réponses actuelles, puis retiré chacune de tes réponses les plus hésitantes'+
-  (hesitant.length?' ('+hesitant.join(', ')+')':'')+'.';
+ var stability=r.scenarioCount<=1?'Tes choix sont assez affirmés pour dessiner cette piste.':
+  r.scenarioAppearances===r.scenarioCount?'Elle reste parmi tes pistes quand on retire tes réponses hésitantes.':
+  'Sa place dépend de certaines envies sur lesquelles tu hésites encore. Tu peux les préciser en revenant aux questions.';
  return '<details class="reco-evidence reco-why"><summary>Pourquoi cette piste</summary>'+
-  '<p><b>Pourquoi '+Math.round(r.score)+' sur 100 ?</b> '+esc(X.pisteMissing(explanation,r.fit,r.score))+'</p>'+
-  '<p>Pour chaque réponse : la note '+esc(X.of(r.spec.label))+', ta certitude, puis le constat. Une note de 1/5 compte pour 0&nbsp;% et 5/5 pour 100&nbsp;% ; '+
-  'ces notes sont des estimations, pas des mesures de puissance, et ta maîtrise en ajuste certaines. Moins tu es sûr d’un choix, plus son effet est adouci.</p>'+
-  (rows?'<ul class="reco-why-parts" aria-label="Part de chaque critère dans le score">'+rows+'</ul>':'')+
+  '<p class="reco-friendly-summary">'+esc(X.friendlySummary(explanation,false))+'</p>'+
+  (X.learningNote(explanation)?'<p>'+esc(X.learningNote(explanation))+'</p>':'')+
+  X.friendlyHtml(X.friendlyGroups(explanation,false))+
   '<p><b>Si tu changes d’avis :</b> '+esc(stability)+'</p>'+
+  X.calculationHtml(parts)+
   '<p><a href="fiches-sources/'+esc(r.classId)+'.html#'+esc(r.spec.id)+(r.spec.variant==='sans-familier'?'-sans-familier':'')+'">Comprendre les notes et voir les sources du '+esc(r.className)+'</a></p>'+
   '</details>';
 }
@@ -242,8 +235,8 @@ function whyBlock(r,hesitant){
  * (fit et score de la piste) : le critère nommé est le premier du bilan des points manquants. */
 function resultCard(r,i,position,hesitant){
  var explanation=E.explain(r.spec.id,state);
- var strong=X.strengthsText(explanation,r.fit,r.score);
- var weak=X.keepInMind(explanation,r.fit,r.score);
+ var strong=X.friendlyStrengths(explanation,r.fit,r.score);
+ var weak=X.friendlyKeep(explanation,r.fit,r.score);
  var cls=r.classId;
  var tied=position&&position.tied,leader=position?position.leader:i===0;
  var petNotice=X?X.petNotice(r.spec,state):'';

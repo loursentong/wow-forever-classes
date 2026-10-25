@@ -188,7 +188,7 @@ async function check(){
   assert.equal(summaryLook.chevron,'""');
   // « Pourquoi cette piste » : les points des critères font le score affiché.
   const why=await page.locator('#reco-results .reco-result-card').first().evaluate(card=>({score:Number(card.querySelector('.reco-score strong').textContent),
-   points:[...card.querySelectorAll('.reco-why-points')].map(x=>Number(x.textContent.split('/')[0])),summary:card.querySelector('.reco-why summary').textContent}));
+   points:[...card.querySelectorAll('.reco-calculation tbody td:last-child')].map(x=>Number(x.textContent.split('/')[0])),summary:card.querySelector('.reco-why summary').textContent}));
   assert.equal(why.summary,'Pourquoi cette piste');
   assert.equal(why.points.reduce((a,b)=>a+b,0),why.score,JSON.stringify(why));
   // Les blocs de chaque carte se répondent : « À garder en tête » nomme la première ligne du bilan, mêmes points.
@@ -197,8 +197,8 @@ async function check(){
    sum:card.querySelector('.reco-why > p').textContent})));
   assert.equal(coherent.length,5);
   for(const c of coherent){
-   const m=c.keep.match(/\((\d+) sur ([^,)]+)/);
-   if(m)assert.match(c.sum,new RegExp('^Pourquoi \\d+ sur 100 \\? Il lui manque \\d+ points(?: : '+m[1]+' sur |, tous sur )'+m[2]),JSON.stringify(c));
+   assert.equal(c.sum,c.keep,'Le compromis de la carte et celui de l’explication sont identiques');
+   assert.doesNotMatch(c.keep,/\d|%/);
   }
   await page.locator('[data-reco-hide]').click();
   assert.equal(await page.locator('#reco-results .reco-result-card').count(),0);
@@ -254,7 +254,7 @@ async function check(){
   const dpsScores=await page.locator('#reco-priority-results .reco-priority-score').allTextContents();
   assert.ok(new Set(dpsScores).size>=3, 'DPS PvE doit différencier les neuf classes');
   assert.ok(dpsScores.some(x=>!x.trim().startsWith('100')));
-  assert.equal(await page.locator('[data-prio-axis]').count(),56);
+  assert.equal(await page.locator('[data-prio-axis]').count(),60);
   assert.equal(await page.locator('#reco-priority-results .reco-priority-class').count(),10);
   assert.equal(await page.locator('#reco-priority-results .reco-config-details').count(),10);
   await page.locator('[data-prio-preset="pvp"]').click();
@@ -268,10 +268,12 @@ async function check(){
   const place1=page.locator('#reco-priority-results .reco-priority-class').first();
   await place1.locator('.reco-why > summary').click();
   const placeWhy=await place1.evaluate(li=>({score:parseInt(li.querySelector('.reco-priority-score').textContent,10),
-   points:[...li.querySelectorAll('.reco-why-points')].map(x=>parseInt(x.textContent,10)),text:li.querySelector('.reco-why').textContent}));
+   points:[...li.querySelectorAll('.reco-calculation tbody td:last-child')].map(x=>parseInt(x.textContent,10)),text:li.querySelector('.reco-friendly-groups').textContent}));
   assert.equal(placeWhy.points.reduce((a,b)=>a+b,0),placeWhy.score,JSON.stringify(placeWhy));
-  assert.match(placeWhy.text,/Pourquoi \d+ sur 100 \? (Il lui manque \d+ points?( : |, (tous )?sur )|Il ne lui manque aucun point)/);
-  assert.match(placeWhy.text,/Ton choix\s*Priorité (secondaire|importante|essentielle) \([123]\)/);
+  assert.doesNotMatch(placeWhy.text,/\d|%/);
+  assert.equal(await place1.locator('.reco-calculation').evaluate(d=>d.open),false);
+  await place1.locator('.reco-calculation > summary').click();
+  assert.equal(await place1.locator('.reco-calculation').evaluate(d=>d.open),true);
   await place1.screenshot({path:path.join(__dirname,'screenshots','priorites-pourquoi-cette-place.png'),animations:'disabled'});
   await place1.locator('.reco-why > summary').click();
   await page.locator('[data-prio-axis="poly"][data-prio-weight="0"]').click();
@@ -456,7 +458,7 @@ async function check(){
   await page.reload({waitUntil:'domcontentloaded'});
   await page.locator('[data-reco-mode="guided"]').click();
   await page.locator('[data-reco-reveal]').click();
-  assert.match(await page.locator('#reco-results').textContent(),/comparé à la difficulté PvE/);
+  assert.match(await page.locator('#reco-results').textContent(),/donjons et raids, avec la difficulté PvE/);
   // Une même classe peut revenir dans les pistes, au plus trois fois sur cinq.
   await page.evaluate(()=>localStorage.setItem('wf-recommend-v1',JSON.stringify({styles:{mob:5,surv:5},mastery:2})));
   await page.reload({waitUntil:'domcontentloaded'});
@@ -533,7 +535,7 @@ async function check(){
   assert.match(await page.locator('#reco-form').textContent(),/1 sur 2 choix possibles/);
   assert.equal(await page.locator('#reco-results .reco-tie-note').count(),0);
   assert.equal(await page.locator('#reco-results .reco-featured h4').textContent(),'Paladin');
-  assert.match(await page.locator('#reco-results').textContent(),/Ta façon de soigner \(gros soins ciblés\) départage/);
+  assert.match(await page.locator('#reco-results').textContent(),/Ta façon de soigner aide à trouver le soigneur qui te ressemble/);
   const sacre=page.locator('[data-config-id="paladin-sacre"]');
   await sacre.locator('summary').click();
   assert.match(await sacre.textContent(),/Façon de soigner : Gros soins ciblés : son point fort/);
@@ -552,12 +554,12 @@ async function check(){
   });
   await page.reload({waitUntil:'domcontentloaded'});await page.locator('[data-reco-mode="guided"]').click();await page.locator('[data-reco-reveal]').click();
   const detailsWhy=page.locator('#reco-results .reco-why').nth(1);
-  await detailsWhy.locator('summary').focus();await page.keyboard.press('Enter');
+  await detailsWhy.locator(':scope > summary').focus();await page.keyboard.press('Enter');
   assert.equal(await detailsWhy.evaluate(d=>d.open),true);
   // Chaque choix se lit en trois temps : note de référence de la spécialisation, ton choix, résultat.
-  assert.match(await detailsWhy.locator('.reco-answer-list').allTextContents().then(x=>x.join(' ')),/Soutien\s*La spécialisation\s*[^.]+ est notée 5\/5 pour ce style\.\s*Ton choix\s*Très sûr \(certitude 4\/5\)\s*Constat\s*Elle y répond/);
-  assert.deepEqual(await detailsWhy.locator('.reco-answer').first().locator('dt').allTextContents(),['La spécialisation','Ton choix','Constat']);
-  const totals=await page.locator('#reco-results .reco-result-card').evaluateAll(cards=>cards.map(c=>({score:Number(c.querySelector('.reco-score strong').textContent),parts:[...c.querySelectorAll('.reco-why-points')].map(x=>x.textContent.match(/\d+/g).map(Number))})));
+  assert.match(await detailsWhy.locator('.reco-friendly-groups').textContent(),/Soutien/);
+  assert.doesNotMatch(await detailsWhy.locator('.reco-friendly-groups').textContent(),/\d|%/);
+  const totals=await page.locator('#reco-results .reco-result-card').evaluateAll(cards=>cards.map(c=>({score:Number(c.querySelector('.reco-score strong').textContent),parts:[...c.querySelectorAll('.reco-calculation tbody td:last-child')].map(x=>x.textContent.match(/\d+/g).map(Number))})));
   for(const t of totals){assert.equal(t.parts.reduce((n,p)=>n+p[0],0),t.score);assert.ok(t.parts.every(p=>p[0]<=p[1]));}
   for(const width of [320,390,768,1300]){
    await page.setViewportSize({width,height:900});
@@ -648,8 +650,47 @@ async function check(){
     await page.setViewportSize({width:390,height:844});await page.screenshot({path:path.join(__dirname,'screenshots','sources-mobile.png'),animations:'disabled'});
    }
   }
+  // v14 : rôles évalués dans leurs activités, explications en mots, nouveau critère PvE explicite.
+  await page.goto('http://127.0.0.1:'+server.address().port+'/');
+  for(const [label,activities] of [['pvp',{bg:5,world:5}],['solo',{solo:5}],['raid',{raid:5}],['mixte',{raid:5,bg:5}]]){
+   await page.evaluate(p=>{localStorage.clear();localStorage.setItem('wf-recommend-v1',JSON.stringify(p));},
+    {roles:{dps:5},rolesStrict:true,activities,styles:{burst:4,ctrl:5},difficulty:{value:'simple',certainty:5},mastery:0});
+   await page.reload({waitUntil:'domcontentloaded'});await page.setViewportSize({width:1300,height:1000});
+   await page.locator('[data-reco-mode="guided"]').click();await page.locator('[data-step="1"]').click();
+   assert.match(await page.locator('#reco-form legend').textContent(),/Quelles activités comptent pour toi/);
+   assert.match(await page.locator('#reco-form').textContent(),/Coche les activités où tu veux que ta classe soit à l’aise/);
+   await page.locator('[data-reco-reveal]').click();
+   const why=page.locator('#reco-results .reco-why').first();await why.locator(':scope > summary').click();
+   const words=await why.locator('.reco-friendly-groups').textContent();
+   assert.doesNotMatch(words,/\d|%|DPS PvE/);
+   if(label==='pvp'||label==='solo')assert.doesNotMatch(words,/donjon|raid/i);
+   if(label==='pvp')assert.match(words,/PvP/);
+   if(label==='solo')assert.match(words,/solo/i);
+   assert.equal(await why.locator('.reco-calculation').evaluate(d=>d.open),false);
+   if(label==='pvp')await page.locator('#reco-results .reco-result-card').first().screenshot({path:path.join(__dirname,'screenshots','v14-pvp-desktop.png'),animations:'disabled'});
+   if(label==='solo'){
+    await page.setViewportSize({width:390,height:1000});
+    await page.locator('#reco-results .reco-result-card').first().screenshot({path:path.join(__dirname,'screenshots','v14-solo-mobile.png'),animations:'disabled'});
+    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth+2));
+   }
+  }
+  // Une sauvegarde des 14 anciens poids n'active aucun nouveau poids ; le quinzième se sauvegarde et se restaure.
+  await page.evaluate(()=>{
+   const w=Object.fromEntries(window.__WF.axes.map(k=>[k,0]));w.dps=3;w.bg=3;
+   localStorage.clear();localStorage.setItem('wf-overview-v3',JSON.stringify({w,m:2}));
+   localStorage.setItem('wf-priority-custom-v1',JSON.stringify({weights:w,mastery:2}));
+  });
+  await page.reload({waitUntil:'domcontentloaded'});await page.setViewportSize({width:1300,height:1000});
+  await page.locator('[data-reco-mode="priorities"]').click();
+  assert.equal(await weight('raid',0),'true');assert.equal(await weight('dps',3),'true');
+  await page.locator('[data-prio-axis="raid"][data-prio-weight="3"]').click();
+  await page.locator('[data-prio-save]').click();await page.locator('[data-prio-preset="pvp"]').click();
+  assert.equal(await weight('raid',0),'true');await page.locator('[data-prio-restore]').click();
+  assert.equal(await weight('raid',3),'true');
+  await page.reload({waitUntil:'domcontentloaded'});await page.locator('[data-reco-mode="priorities"]').click();
+  assert.equal(await weight('raid',3),'true');assert.equal(await weight('bg',3),'true');
   assert.deepEqual(errors,[],'Erreurs JavaScript navigateur');
-  process.stdout.write('Chromium : deux parcours, 14 poids, 15 presets, 28 spécialisations classées, maîtrise partagée, mobile et clavier — OK\n');
+  process.stdout.write('Chromium : deux parcours, 15 poids, 15 presets, 28 spécialisations classées, maîtrise partagée, mobile et clavier — OK\n');
  }finally{
   if(browser)await browser.close();
   await new Promise(resolve=>server.close(resolve));

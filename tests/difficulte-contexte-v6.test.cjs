@@ -62,7 +62,7 @@ test('Retour de guilde : le Chasseur reste simple en PvE même pour un joueur qu
  // L'explication affichée annonce le contexte retenu, avec la même règle que le moteur.
  for(const p of [pve,pvp,E.sanitize({difficulty:{value:'complex',certainty:3},activities:{raid:2,bg:2}})]){
   const ctx=E.difficultyContext(p),note=X.contextNotes({profile:p}).join(' ');
-  assert.match(note,ctx==='pve'?/difficulté PvE/:ctx==='pvp'?/difficulté PvP/:/moyenne PvE et PvP/);
+  assert.match(note,ctx==='pve'?/difficulté PvE/:ctx==='pvp'?/activités PvP/:/propres repères/);
  }
- assert.ok(!X.contextNotes({profile:E.sanitize({activities:{raid:5}})}).join(' ').includes('difficulté'));
+ assert.match(X.contextNotes({profile:E.sanitize({activities:{raid:5}})}).join(' '),/donjons et raids/);
 });

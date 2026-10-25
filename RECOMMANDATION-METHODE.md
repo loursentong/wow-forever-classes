@@ -1,3 +1,5 @@
+> **Révision validée du 25 octobre 2026 (v14)** : ton rôle est évalué dans les activités que tu choisis. Solo et leveling utilisent le repère solo et la difficulté PvE ; BG et PvP sauvage utilisent leurs repères PvP ; Donjons et raids garde son repère de groupe. Plusieurs activités comptent ensemble. Sans activité précisée, le rôle garde provisoirement son repère de groupe, indiqué dans le résultat. Le mode personnalisé ajoute Donjons et raids comme quinzième priorité ; tes anciens poids sauvegardés sont conservés. Les explications passent en mots et gardent les chiffres dans un volet facultatif. Les notes et les coefficients ne changent pas. Voir [la révision et ses limites](COHERENCE-PVE-PVP-V14.md). Les descriptions historiques ci-dessous doivent être lues avec cette révision.
+
 # Moteur de recommandation — spécification et limites
 
 **État : 20 octobre 2026. Modèle exploratoire, non calibré au niveau 60.**

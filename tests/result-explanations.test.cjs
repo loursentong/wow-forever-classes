@@ -23,12 +23,12 @@ test('Repères de rang explicites : égalité nommée, écart chiffré avec la c
   .map(([className,score])=>({className,score}));
  const hints=rows.map((r,i)=>X.rankHint(rows,i));
  assert.deepEqual(hints,['à égalité avec le Paladin','à égalité avec le Démoniste','à égalité avec le Prêtre','à égalité avec le Druide',
-  '0,4 point derrière le Druide et le Prêtre','','0,8 point derrière le Mage','','2 points derrière le Chasseur','']);
+  'au coude-à-coude avec le Druide et le Prêtre','','au coude-à-coude avec le Mage','','au coude-à-coude avec le Chasseur','']);
  const four=[100,100,100,100,99.98].map((score,i)=>({className:'C'+i,score}));
  assert.equal(X.rankHint(four,0),'à égalité avec 3 autres spécialisations');
- assert.equal(X.rankHint(four,4),'moins de 0,1 point derrière les 4 spécialisations à égalité au-dessus');
+ assert.equal(X.rankHint(four,4),'au coude-à-coude avec les spécialisations juste au-dessus');
  // Avec une spécialisation, elle est nommée : une même classe peut revenir (v10).
- assert.equal(X.rankHint([{className:'Mage',spec:{label:'Givre'},score:90},{className:'Mage',spec:{label:'Feu'},score:89}],1),'1 point derrière le Mage Givre');
+ assert.equal(X.rankHint([{className:'Mage',spec:{label:'Givre'},score:90},{className:'Mage',spec:{label:'Feu'},score:89}],1),'au coude-à-coude avec le Mage Givre');
  assert.equal(X.rankHint([],0),'');
 });
 
@@ -85,7 +85,7 @@ test('Pourquoi cette piste : la spécialisation nommée et sa note, ton choix en
  // Mêmes mots que le curseur de certitude et que les options du questionnaire.
  const certWords=JSON.parse(ui.match(/var certWords=(\[[^\]]+\]);/)[1].replace(/'/g,'"'));
  assert.deepEqual(X.certaintyWords,certWords.map(w=>w.toLowerCase()));
- for(const [key,label] of Object.entries({burst:'Dégâts explosifs',surv:'Résistance',world:'PvP sauvage et duel',solo:'Solo et farm',groupe:'Soigner tout le groupe'}))
+ for(const [key,label] of Object.entries({burst:'Dégâts de burst',surv:'Résistance',world:'PvP sauvage et duel',solo:'Solo, leveling et farm',groupe:'Soigner tout le groupe'}))
   assert.ok(ui.includes(label),label+' figure dans le questionnaire'),assert.equal(X.answerLabel({domain:'x',key},{}),label);
  const where={activities:'pour cette activité',styles:'pour ce style',healStyles:'pour cette façon de soigner'};
  const profiles=[{roles:{soin:5},activities:{bg:0,solo:3},range:{value:'distance',certainty:0},styles:{zone:4,surv:5,support:4},mastery:3},
@@ -129,7 +129,7 @@ test('Pourquoi cette piste : la spécialisation nommée et sa note, ton choix en
  assert.deepEqual(X.answerLines(bg,ex).map(l=>l.text),['Restauration est notée 5/5 pour cette activité.','Intuition (certitude 0/5)','Elle y répond pleinement (100\u00a0%), adouci à 63\u00a0% par ta certitude.']);
  assert.equal(X.answerLines(solo,ex)[0].text,'Restauration est notée 3/5 pour cette activité, 3,3/5 avec ta maîtrise (expert).');
  const strict=E.explain('druide-restauration',profiles[1]),roles=X.answerLines(strict.answers.find(a=>a.domain==='roles'),strict);
- assert.match(roles[0].text,/^La classe Druide propose Tank et Soin ; Restauration joue Soin \(aisance estimée en PvE : \d+\u00a0%\)\.$/);
+ assert.match(roles[0].text,/^La classe Druide propose Tank et Soin ; Restauration joue Soin \(aisance estimée en donjons et raids : \d+\u00a0%\)\.$/);
  assert.equal(roles[1].text,'Assez sûr (certitude moyenne 3/5) · tous ces rôles indispensables');
  assert.match(roles[2].text,/Les rôles que propose sa classe comptent pour 65\u00a0%, la spécialisation retenue pour 35\u00a0%\.$/);
  assert.equal(X.answerLines(strict.answers.find(a=>a.domain==='pet'),strict)[1].text,'Certain (certitude 5/5) · uniquement sans familier');
@@ -143,9 +143,9 @@ test('Pourquoi cette piste : la spécialisation nommée et sa note, ton choix en
  assert.equal(X.keepInMind(hunter),'Le Chasseur Maîtrise des bêtes est noté 3/5 en résistance : c’est ce qui lui coûte le plus de points (22 sur le gameplay).');
  assert.match(X.pisteMissing(hunter,...fitScore(hunter)),/^Il lui manque 36 points : 22 sur le gameplay \(Résistance\) et 14 sur les activités/);
  const role=E.explain('demoniste-demonologie',{roles:{dps:5},activities:{bg:5},range:{value:'distance',certainty:5},mastery:2});
- assert.equal(X.keepInMind(role),'En DPS, le Démoniste Démonologie a une aisance estimée en PvE de 75\u00a0% : c’est la seule chose qui lui coûte des points (7 sur les rôles).');
+ assert.match(X.keepInMind(role),/répond pleinement à tes choix/);
  // Le même pourcentage que la ligne « La spécialisation » du rôle.
- assert.match(X.answerLines(role.answers.find(a=>a.domain==='roles'),role)[0].text,/aisance estimée en PvE : 75\u00a0%/);
+ assert.match(X.answerLines(role.answers.find(a=>a.domain==='roles'),role)[0].text,/aisance estimée en champs de bataille : 100\u00a0%/);
  const armes=E.explain('guerrier-armes',{range:{value:'distance',certainty:5},styles:{ctrl:5}});
  assert.equal(X.keepInMind(armes),'Le Guerrier Armes se joue en mêlée, alors que tu veux jouer à distance : c’est ce qui lui coûte le plus de points (38 sur la portée).');
  assert.equal(X.of('Affliction'),'d’Affliction');assert.equal(X.of('Élémentaire'),'d’Élémentaire');assert.equal(X.of('Finesse'),'de Finesse');

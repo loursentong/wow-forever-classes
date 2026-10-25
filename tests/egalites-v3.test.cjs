@@ -39,18 +39,18 @@ test('Le potentiel est celui du codex (§ 3.4) et reste la base de l’adéquati
 
 const firstOfEachClass=rows=>rows.filter((r,i)=>rows.findIndex(q=>(q.classId||q.spec.classId)===(r.classId||r.spec.classId))===i);
 test('Exemples : la configuration au plus haut potentiel représente la classe à égalité',()=>{
- // Guide « solo » sans préférence de familier : les trois Chasseurs à 85 ; Survie a le plus haut potentiel.
+ // Guide solo : depuis la v14, les mêmes notes solo se départagent par identifiant, sans potentiel raid.
  // Jusqu'à la v4, « solo sans familier obligatoire » illustrait la même règle (Précision et Survie à 83) ;
  // depuis la v5, Précision y est évaluée en « Loup solitaire » et l'emporte au score.
  const guide=E.ranking({activities:{solo:3}}).results;
  const hunter=guide.find(r=>r.spec.classId==='chasseur');
- assert.equal(hunter.spec.id,'chasseur-survie');
+ assert.equal(hunter.spec.id,'chasseur-maitrise-betes');
  assert.equal(hunter.score,85);
  assert.equal(v2.guide.find(g=>g.id==='solo-no-mandatory-pet').results[1].join(),'chasseur,chasseur-precision,83');
  assert.ok(E.potential(spec('chasseur-survie'),2)>E.potential(spec('chasseur-precision'),2));
  // Le potentiel dépend de la maîtrise : en Débutant, la Maîtrise des bêtes gagne déjà au score.
  const solo=v2.matrix.presets.solo;
- assert.equal(E.priorityRanking(solo,2).results.find(r=>r.classId==='chasseur').spec.id,'chasseur-survie');
+ assert.equal(E.priorityRanking(solo,2).results.find(r=>r.classId==='chasseur').spec.id,'chasseur-maitrise-betes');
  assert.equal(E.priorityRanking(solo,0).results.find(r=>r.classId==='chasseur').spec.id,'chasseur-maitrise-betes');
  // Ordre des classes inchangé à égalité de score : identifiant de classe, comme avant.
  const tie=firstOfEachClass(E.ranking({activities:{solo:5},mastery:2}).results).slice(0,3).map(r=>r.spec.classId);

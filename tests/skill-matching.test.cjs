@@ -104,7 +104,7 @@ test('Profils, poids, maîtrise partagée et remise à zéro : l’état est sau
   assert.equal(h.pressed('ctrl'),config.presets.egal.ctrl,'profil de départ : Tous les critères');
   assert.equal(h.saved(),null,'rien n’est écrit sans action');
   h.press({prioPreset:'solo'});
-  assert.deepEqual(h.saved().w,config.presets.solo);
+  assert.deepEqual(h.saved().w,E.sanitizeWeights(config.presets.solo));
   assert.equal(h.saved().m,1,'sans maîtrise sauvegardée ici, celle du parcours guidé est reprise');
   // Une maîtrise sauvegardée ici n'est pas écrasée par celle du parcours guidé.
   const own=boot({'wf-overview-v3':JSON.stringify({w:config.presets.pvp,m:0})},{getMastery:()=>3,setMastery(){}});
@@ -160,9 +160,23 @@ test('Pourquoi cette place : chaque spécialisation explique son score, les poin
   for(const row of rows){
     assert.match(row,/<summary>Pourquoi cette place<\/summary>/);
     const score=Number(row.match(/<span class="reco-priority-score">(\d+)/)[1]);
-    const points=[...row.matchAll(/reco-why-points">(\d+) \/ (\d+) pts/g)];
+    const points=[...row.matchAll(/<td>(\d+) \/ (\d+)<\/td>/g)];
     assert.equal(points.reduce((t,m)=>t+Number(m[1]),0),score);
     assert.equal(points.reduce((t,m)=>t+Number(m[2]),0),100);
+    assert.match(row,/<summary>Voir le détail du calcul<\/summary>/);
+    assert.match(row,/reco-friendly-groups/);
     assert.match(row,/href="fiches-sources\/[a-z]+\.html#[a-z-]+"/);
   }
+});
+
+test('v14 : anciens critères personnels conservés ; Donjons et raids se sauvegarde et se restaure',()=>{
+ const legacy={...config.presets.pvp,dps:3},stored=JSON.stringify({weights:legacy,mastery:1});
+ const h=boot({'wf-overview-v3':JSON.stringify({w:legacy,m:1,hl:['mage']}),'wf-priority-custom-v1':stored});
+ h.choose('priorities');assert.equal(h.pressed('raid'),0);assert.equal(h.pressed('dps'),3);
+ assert.equal(h.store['wf-priority-custom-v1'],stored,'lecture de l’ancien format sans écrasement');
+ h.press({prioAxis:'raid',prioWeight:'2'});h.press({},['data-prio-save']);
+ const custom=JSON.parse(h.store['wf-priority-custom-v1']);assert.equal(custom.weights.raid,2);assert.equal(custom.mastery,1);
+ h.press({prioPreset:'pvp'});assert.equal(h.pressed('raid'),0);
+ h.press({},['data-prio-restore']);assert.equal(h.pressed('raid'),2);assert.deepEqual(h.saved().hl,['mage']);
+ const restored=boot(h.store);restored.choose('priorities');assert.equal(restored.pressed('raid'),2);assert.equal(restored.pressed('dps'),3);
 });

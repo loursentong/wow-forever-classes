@@ -40,10 +40,11 @@ test('À garder en tête : le groupe qui perd le plus de points, puis sa répons
   * gameplay et sa réponse la plus coûteuse, comme la première ligne du bilan ; avant, il nommait le rôle. */
  const p={roles:{dps:4},activities:{raid:3,bg:2},styles:{burst:4,surv:3},range:{value:'distance',certainty:3},pet:{value:'like',certainty:4},mastery:3};
  const ex=E.explain('demoniste-affliction',p),row=E.ranking(p).results.find(r=>r.spec.id==='demoniste-affliction');
- assert.equal(ex.answers.slice().sort((a,b)=>b.loss-a.loss)[0].domain,'roles');
- assert.equal(X.keepInMind(ex,row.fit,row.score),'Le Démoniste Affliction est noté 3/5 en dégâts explosifs, 3,1/5 avec ta maîtrise (expert) : c’est ce qui lui coûte le plus de points (8 sur le gameplay).');
- assert.equal(X.pisteMissing(ex,row.fit,row.score),'Il lui manque 26 points : 8 sur le gameplay (Dégâts explosifs), 6 sur les activités (Donjons et raids), 5 sur les rôles (DPS), 4 sur les familiers (J’aime les familiers) et 3 sur la portée (À distance : certitude 3/5).');
- assert.equal(X.strengthsText(ex,row.fit,row.score),'Champs de bataille · À distance');
+ assert.equal(ex.answers.slice().sort((a,b)=>b.loss-a.loss)[0].domain,'styles');
+ assert.match(X.keepInMind(ex,row.fit,row.score),/3\/5 en dégâts de burst/);
+ assert.equal(X.pisteAnalysis(ex,row.fit,row.score).main.key,'styles');
+ assert.match(X.friendlyKeep(ex,row.fit,row.score),/Le point à regarder, c’est « Dégâts de burst »/);
+ assert.equal(X.strengthsText(ex,row.fit,row.score),'DPS · Champs de bataille · À distance');
  // Sans fit ni score, l'analyse les retrouve dans la trace : même phrase.
  assert.equal(X.keepInMind(ex),X.keepInMind(ex,row.fit,row.score));
 });
