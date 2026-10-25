@@ -2,7 +2,7 @@
  "classe": "chasseur",
  "libelle": "Chasseur",
  "date": "2026-10-23",
- "moteur": "1.4.0-exploratoire",
+ "moteur": "1.5.0-exploratoire",
  "faits": [
   {
    "id": "c-role",

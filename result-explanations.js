@@ -421,6 +421,8 @@
     text+=' '+(missing.length?'Sa classe ne propose pas '+list(missing.map(function(k){return roleNames[k];}))+'.':'Tu peux aussi changer de spécialisation pour jouer les autres rôles demandés.');
    }
    var aptitude=a.aptitude===undefined?v:a.aptitude;
+   if(aptitude<.7&&a.referenceAptitude>=.7&&a.referenceAptitude>aptitude)
+    return text+' Quelques réflexes restent à prendre pour être à l’aise '+roleWhere(a.activityContext)+'.';
    return text+' '+(aptitude>=.7?'Elle est à l’aise ':aptitude>=.45?'Elle fait le travail, avec quelques limites ':'Elle est moins à l’aise ')+roleWhere(a.activityContext)+'.';
   }
   if(domain==='range')return a.key==='mixte'?(v>=1?'Sa classe te permet d’alterner mêlée et distance avec les rôles choisis.':'Pour tes rôles, sa classe ne propose qu’une seule façon de combattre.'):
@@ -436,6 +438,8 @@
   if(a.key==='poly')return a.roles>1?'Sa classe te laisse changer de rôle en changeant de spécialisation.':'Sa classe se concentre sur le rôle DPS.';
   if(domain==='healStyles'&&a.note===undefined)return 'Cette spécialisation ne soigne pas : elle ne répond pas à cette envie.';
   var where=criterionIn[a.key]||(a.key==='sauv'?criterionIn.world:a.key==='util'?criterionIn.support:'pour ce choix');
+  if(domain==='activities'&&a.note>=4&&a.adjusted<a.note-.01&&v<.7)
+   return 'Son profil convient à cette activité. À ton niveau, quelques réflexes restent à prendre.';
   text=v>=.9?'C’est un de ses points forts '+where+'.':v>=.7?'Elle s’en sort bien '+where+'.':
    v>=.45?'Elle peut le faire, avec quelques limites '+where+'.':'D’autres pistes seront plus à l’aise '+where+'.';
   if(!compact&&a.causes&&mainCause(a)==='mastery'&&a.adjusted<a.note-.01)text+=' Il te faudra de la pratique pour en tirer davantage.';
@@ -491,6 +495,11 @@
   var lower=(ex.answers||ex.axes||[]).some(function(a){return a.causes?a.causes.mastery>0:a.adjusted<a.note-.01;});
   return lower?'Certaines qualités demandent encore un peu de pratique à ton niveau.':'';
  }
+ function pveProfile(ex){
+  var d=ex&&ex.pveDamage;if(!d)return '';
+  var quality=function(v){return v>=4.5?'très bons':v>=3.5?'bons':v>=2.5?'corrects':v>=1.5?'modestes':'faibles';};
+  return 'Ses dégâts sont '+quality(d.singleTarget)+' sur une cible et '+quality(d.area)+' sur les groupes d’ennemis.';
+ }
  function calculationHtml(parts){
   return '<details class="reco-calculation"><summary>Voir le détail du calcul</summary><p>Ces indices servent à comparer tes envies. Ils ne mesurent pas une puissance en jeu.</p>'+
    '<table><caption>Contribution de chaque groupe au score</caption><thead><tr><th>Groupe</th><th>Accord</th><th>Points</th></tr></thead><tbody>'+parts.map(function(g){return '<tr><th scope="row">'+escape(g.label)+'</th><td>'+g.fit+' %</td><td>'+g.points+' / '+g.max+'</td></tr>';}).join('')+'</tbody></table></details>';
@@ -505,6 +514,7 @@
   else if(ctx.explicit&&ctx.kind==='mixte')out.push('Tes activités gardent leurs propres repères : '+list(keys.map(function(k){return answerNames[k];}))+'.');
   if(!ctx.explicit&&roles.length)out.push('Précise tes activités pour affiner cette piste. En attendant, le rôle utilise un repère donjons et raids.');
   if(ctx.kind==='pvp'&&roles.includes('tank'))out.push('Pour tanker en donjon ou en raid, ajoute cette activité. Tes choix actuels comparent ici le PvP.');
+  if(keys.includes('raid'))out.push('Pour les pistes DPS, les dégâts sur une cible et sur les groupes d’ennemis comptent tous les deux.');
   if(p&&Object.hasOwn(p.roles||{},'soin')){
    var heal=healChoices(p);
    out.push(heal.length?'Ta façon de soigner aide à trouver le soigneur qui te ressemble.':
@@ -514,5 +524,5 @@
   return out;
  }
  return {criteria:criteria,ranks:ranks,rankHint:rankHint,scoreParts:scoreParts,priorityParts:priorityParts,priorityMissing:priorityMissing,pisteParts:pisteParts,pisteMissing:pisteMissing,of:of,priorityWords:priorityWords,answerLabel:answerLabel,answerLines:answerLines,answerHtml:answerHtml,answerText:answerText,certaintyWords:certaintyWords,pisteAnalysis:pisteAnalysis,keepInMind:keepInMind,strengthsText:strengthsText,choiceLabel:choiceLabel,level:level,number:number,tieNote:tieNote,petNotice:petNotice,contextNotes:contextNotes,healChoices:healChoices,
-  fitWords:fitWords,friendlyAnswer:friendlyAnswer,friendlyGroups:friendlyGroups,friendlyKeep:friendlyKeep,friendlySummary:friendlySummary,friendlyStrengths:friendlyStrengths,friendlyHtml:friendlyHtml,learningNote:learningNote,calculationHtml:calculationHtml};
+  fitWords:fitWords,friendlyAnswer:friendlyAnswer,friendlyGroups:friendlyGroups,friendlyKeep:friendlyKeep,friendlySummary:friendlySummary,friendlyStrengths:friendlyStrengths,friendlyHtml:friendlyHtml,learningNote:learningNote,pveProfile:pveProfile,calculationHtml:calculationHtml};
 });

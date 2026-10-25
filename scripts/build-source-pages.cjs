@@ -43,7 +43,8 @@ function generate(){
   function notesHTML(notes,specId,variant){return '<div class="grid">'+Object.entries(notes).map(([k,n])=>{
    const gap=!variant&&pending.find(e=>e.spec===specId&&e.critere===k);
    const watch=variant?[]:gaps.surveiller.filter(e=>e.critere===k&&(e.spec===specId||e.spec.endsWith('*')&&specId.startsWith(e.spec.slice(0,-1))));
-   return '<article class="note" data-note="'+esc(specId+'/'+k)+'"><h3>'+esc(labels[k]||k)+' <span class="value">'+esc(n.valeur)+'/5</span></h3><span class="confidence">Confiance dans l’argument : '+esc(n.confiance)+'</span><p>'+esc(n.raison)+'</p><p class="meta">Appuis : '+factLinks(n.appuis)+'</p>'+(gap?'<p class="flag">À revoir : '+esc(gap.constat)+'</p>':'')+watch.map(e=>'<p class="flag">À surveiller : '+esc(e.constat)+'</p>').join('')+'</article>';
+   const label=k==='raid'&&E.specs.find(e=>e.id===specId).role==='dps'?'DPS monocible (raid)':labels[k]||k;
+   return '<article class="note" data-note="'+esc(specId+'/'+k)+'"><h3>'+esc(label)+' <span class="value">'+esc(n.valeur)+'/5</span></h3><span class="confidence">Confiance dans l’argument : '+esc(n.confiance)+'</span><p>'+esc(n.raison)+'</p><p class="meta">Appuis : '+factLinks(n.appuis)+'</p>'+(gap?'<p class="flag">À revoir : '+esc(gap.constat)+'</p>':'')+watch.map(e=>'<p class="flag">À surveiller : '+esc(e.constat)+'</p>').join('')+'</article>';
   }).join('')+'</div>';}
   let content='<header><p class="eyebrow">LES REPÈRES · CHOISIR MA CLASSE WOW FOREVER · '+esc(c.date)+'</p><h1>'+esc(c.libelle)+' : pourquoi ces notes ?</h1><p class="intro">Choisis une spécialisation pour comprendre ses atouts, ses limites et les sources utilisées.</p></header>'+
    '<p class="notice">Ces notes aident à choisir ton style de jeu. Elles ne mesurent pas la puissance en jeu.</p><details><summary>Comment lire les notes et leur confiance</summary><p>Une capacité officielle ne prouve pas un 4/5 ou un 5/5. La confiance concerne la solidité de l’argument, pas la précision du chiffre.</p><p>État du corpus : '+esc(c.date)+'. Les changements de patch peuvent modifier ces repères. Plusieurs sites qui reprennent une même source ne constituent pas plusieurs confirmations.</p></details>'+
@@ -52,6 +53,7 @@ function generate(){
    const e=E.specs.find(e=>e.id===s.id),portrait=portraits[s.id];
    content+='<section class="config" id="'+esc(s.id)+'"><h2>'+esc(e.label)+'</h2><p class="meta">'+esc(roles[s.profil.role])+' · '+(s.profil.portee==='distance'?'Distance':'Mêlée')+' · '+esc(pets[s.profil.familier])+'</p><p>'+esc(portrait.fit)+'</p><p><b>À prévoir :</b> '+esc(portrait.caution)+'</p>'+
     '<details><summary>Comprendre ses 12 notes</summary><p class="meta">De 1 à 5 : plus la note est haute, plus ce point est marqué. Pour la difficulté, 5 signifie plus exigeant. Les notes ci-dessous précèdent les réglages de maîtrise et de certitude du questionnaire.</p>'+notesHTML(s.notes,s.id)+'</details>';
+   if(e.role==='dps')content+='<p class="notice" data-pve-profile="'+esc(e.id)+'">En donjons et raids, son profil de dégâts tient compte du monocible et des dégâts de zone.</p>';
    if(s.complexite){
     const ctxName={pve:'PvE',pvp:'PvP'};
     content+='<section class="complexity" id="'+esc(s.id)+'-complexite"><h3>Sa complexité, composante par composante</h3><p class="meta">Chaque composante vaut 0, 1 ou 2 points ; le total sur 10 donne la note de difficulté. <a href="complexite.html#grille">La grille et la méthode</a></p><div class="grid">'+

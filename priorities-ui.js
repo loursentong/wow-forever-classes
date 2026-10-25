@@ -126,6 +126,7 @@ function whyPlace(x,w,m){
  return '<details class="reco-evidence reco-why"><summary>Pourquoi cette place</summary>'+
   '<p class="reco-friendly-summary">'+esc(X.friendlySummary(ex,true))+'</p>'+
   (X.learningNote(ex)?'<p>'+esc(X.learningNote(ex))+'</p>':'')+
+  (X.pveProfile(ex)?'<p>'+esc(X.pveProfile(ex))+'</p>':'')+
   X.friendlyHtml(X.friendlyGroups(ex,true))+X.calculationHtml(parts)+
   '<p><a href="fiches-sources/'+esc(x.classId)+'.html#'+esc(x.spec.id)+(x.spec.variant==='sans-familier'?'-sans-familier':'')+'">Comprendre les notes et voir les sources du '+esc(x.className)+'</a></p>'+
   '</details>';

@@ -57,7 +57,7 @@ test('v12 → v13 : exactement les 27 notes qui différaient de leur meilleure s
 });
 
 test('La référence de rôle du moteur suit les notes de classe : Druide DPS 3 → 4, moteur 1.3.0',()=>{
- assert.equal(E.version,'1.4.0-exploratoire');
+ // La version active est vérifiée par le contrat ; cette décision historique porte sur les notes de classe.
  for(const c of D.classes)for(const r of E.roles)assert.equal(E.roleReference[c.id][r],c.r[r],c.id+'/'+r);
  assert.equal(E.roleReference.druide.dps,4);
  assert.deepEqual(E.specs,v12.specs,'aucune note de configuration ne change');

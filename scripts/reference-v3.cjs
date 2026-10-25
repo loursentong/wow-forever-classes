@@ -32,6 +32,10 @@ function snapshot(){
 function v2Presets(id){return v2.matrix.presets[id];}
 // Potentiels calculés sur les notes figées de la v2 (identiques en v3), pas sur le moteur actuel.
 const specById=Object.fromEntries(v2.specs.map(s=>[s.id,s]));
+function historicalPotential(s,m){
+ const delta=Math.min(.35,Math.max(-1.2,[-.29,-.13,0,.09][m]*s.load.pve));
+ return (Math.min(5,Math.max(1,s.activity.raid+delta))-1)/4;
+}
 // Contrôle des écarts v2 → v3 : même classe au même rang, même score ; une configuration
 // différente n'est admise qu'à égalité, avec un potentiel plus élevé (ou égal et identifiant antérieur).
 function compare(before,after){
@@ -46,7 +50,7 @@ function compare(before,after){
    assert.equal(row[0],old[0],'Même classe au rang '+(i+1)+' : '+id);
    assert.equal(row[2],old[2],'Même score : '+id+'/'+row[0]);
    if(row[1]!==old[1]){
-    const pNew=Math.round(E.potential(specById[row[1]],mastery)*1e4),pOld=Math.round(E.potential(specById[old[1]],mastery)*1e4);
+    const pNew=Math.round(historicalPotential(specById[row[1]],mastery)*1e4),pOld=Math.round(historicalPotential(specById[old[1]],mastery)*1e4);
     assert.ok(pNew>pOld||pNew===pOld&&row[1].localeCompare(old[1])<0,'Potentiel non respecté : '+id+'/'+row[0]);
     changes.push({classe:row[0],rang:i+1,score:row[2],avant:old[1],apres:row[1],potentiel_avant:pOld/1e4,potentiel_apres:pNew/1e4});
    }

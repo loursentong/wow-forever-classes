@@ -127,8 +127,8 @@ test('Les notes des trois rôles sont ancrées dans les 126 notes historiques et
  }
  for(const spec of E.specs){
   const quality=E.roleSuitability(spec,2);
-  const expected=.55*(E.roleReference[spec.classId][spec.role]-1)/4+
-    .45*(spec.activity.raid-1)/4;
+  const activity=(E.adjustedActivity(spec,'raid',2)-1)/4;
+  const expected=spec.role==='dps'?activity:.55*(E.roleReference[spec.classId][spec.role]-1)/4+.45*activity;
   assert.ok(Math.abs(quality-expected)<1e-9,spec.id);
  }
 });

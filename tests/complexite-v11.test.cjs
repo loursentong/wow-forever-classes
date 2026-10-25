@@ -85,7 +85,7 @@ test('La complexité règle aussi l’effet de la maîtrise (décision : partout
  for(const s of E.specs)for(let m=0;m<4;m++)for(const k of ['raid','bg','world','solo']){
   const ctx=k==='raid'||k==='solo'?'pve':'pvp';
   const delta=k==='solo'&&s.classId==='chasseur'&&s.pet==='core'?0:Math.min(0.35,Math.max(-1.2,factor[m]*note(sum(s.complexity[ctx]))));
-  assert.equal(E.adjustedActivity(s,k,m),Math.min(5,Math.max(1,s.activity[k]+delta)),s.id+'/'+k+'/'+m);
+  assert.equal(E.adjustedActivity(s,k,m),Math.min(5,Math.max(1,(k==='raid'&&s.role==='dps'?.75*s.activity.raid+.25*s.style.zone:s.activity[k])+delta)),s.id+'/'+k+'/'+m);
  }
 });
 
