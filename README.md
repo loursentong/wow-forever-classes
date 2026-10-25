@@ -1,6 +1,8 @@
 # Choisir ma classe WoW Forever
 
-**Moteur 1.5.0 / référence v15 préparée (25 octobre 2026) :** pour les DPS, Donjons et raids combine 75 % de monocible et 25 % de zone, sur le même build et avant la maîtrise. Le rôle et le départage suivent ce repère. Les notes sources restent inchangées et les explications distinguent la pratique à acquérir des limites du profil. Convention éditoriale ; publication à valider. [Décision et vérifications](PVE-GROUPE-V15.md).
+**Lisibilité mobile et remarques (25 octobre 2026, en revue) :** les textes distinguent les points forts, les limites concrètes et la pratique à acquérir. Les réglages de certitude s’affichent automatiquement sous les choix et les cartes restent en place à la sélection. Vue mobile allégée dans les deux parcours ; scores et référence v15 inchangés. [Détail et vérifications](LISIBILITE-MOBILE.md).
+
+**Moteur 1.5.0 / référence v15 publiée (25 octobre 2026) :** pour les DPS, Donjons et raids combine 75 % de monocible et 25 % de zone, sur le même build et avant la maîtrise. Le rôle et le départage suivent ce repère. Les notes sources restent inchangées et les explications distinguent la pratique à acquérir des limites du profil. Convention éditoriale ; publiée après fusion de la PR #44. [Décision et vérifications](PVE-GROUPE-V15.md).
 
 **Moteur 1.4.0 / référence v14 (25 octobre 2026) :** les rôles et les départages suivent les activités choisies : PvP, solo et leveling, ou donjons et raids. Une quinzième priorité rend le PvE de groupe explicite ; les explications courantes passent en mots, avec un détail chiffré facultatif. Aucune note ne change. [Décision, sauvegardes et limites](COHERENCE-PVE-PVP-V14.md). Correction et publication validées le 25 octobre 2026.
 

@@ -711,6 +711,57 @@ async function check(){
   assert.equal(await weight('raid',3),'true');
   await page.reload({waitUntil:'domcontentloaded'});await page.locator('[data-reco-mode="priorities"]').click();
   assert.equal(await weight('raid',3),'true');assert.equal(await weight('bg',3),'true');
+  // Régression : sélectionner une réponse ne déplace pas les autres cartes et garde le focus.
+  for(const width of [320,390,900]){
+   await page.evaluate(()=>localStorage.clear());await page.reload({waitUntil:'domcontentloaded'});
+   await page.setViewportSize({width,height:950});await page.locator('[data-reco-mode="guided"]').click();
+   for(const [step,group,key] of [[2,'range','distance'],[4,'pet','like']]){
+    await page.locator('[data-step="'+step+'"]').click();
+    const buttons=page.locator('[data-single="'+group+'"]');
+    const places=()=>buttons.evaluateAll(items=>items.map(b=>{const r=b.getBoundingClientRect();return {key:b.dataset.key,y:r.top+window.scrollY,x:r.left,h:r.height};}));
+    const selected=page.locator('[data-single="'+group+'"][data-key="'+key+'"]');await selected.scrollIntoViewIfNeeded();
+    const scrollBefore=await page.evaluate(()=>window.scrollY);
+    const before=await places();await selected.click();
+    assert.ok(Math.abs(await page.evaluate(()=>window.scrollY)-scrollBefore)<=1,'Défilement stable '+width+'/'+group);
+    const after=await places();for(let i=0;i<before.length;i++){
+     assert.ok(Math.abs(before[i].y-after[i].y)<=1&&Math.abs(before[i].h-after[i].h)<=1,'Cartes stables '+width+'/'+group);
+    }
+    assert.equal(await page.locator('[data-tuning="'+group+'"] input[type=range]').isVisible(),true);
+    assert.equal(await page.locator('[data-tuning="'+group+'"] summary').count(),0);
+    assert.equal(await page.evaluate(()=>document.activeElement.dataset.key),key);
+    if(width===900&&group==='range')await page.locator('#reco-guided .reco-workspace').screenshot({path:path.join(__dirname,'screenshots','selection-stable-desktop.png'),animations:'disabled'});
+    if(width===390)await page.locator('#reco-guided .reco-workspace').screenshot({path:path.join(__dirname,'screenshots','mobile-stable-'+group+'.png'),animations:'disabled'});
+   }
+   if(width===390){
+    assert.equal(await page.locator('#reco-summary-choices').isVisible(),false);
+    await page.locator('[data-summary-toggle]').click();assert.equal(await page.locator('#reco-summary-choices').isVisible(),true);
+    await page.locator('[data-summary-toggle]').click();assert.equal(await page.locator('#reco-summary-choices').isVisible(),false);
+    await page.locator('[data-reco-mode="priorities"]').click();
+    assert.equal(await page.locator('#prio-group-2').isVisible(),false);
+    await page.locator('[data-prio-group-toggle="2"]').click();
+    await page.locator('[data-prio-axis="ctrl"][data-prio-weight="2"]').click();
+    assert.equal(await page.locator('#prio-group-2').isVisible(),true);
+    assert.equal(await page.evaluate(()=>document.activeElement.dataset.prioAxis),'ctrl');
+    await page.locator('#reco-priority-form').screenshot({path:path.join(__dirname,'screenshots','mobile-priorites-allegees.png'),animations:'disabled'});
+   }
+   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth+2));
+  }
+  // Exigeant très affirmé : préciser le sens de l'écart, avec une vraie spé intermédiaire.
+  await page.evaluate(()=>{localStorage.clear();localStorage.setItem('wf-recommend-v1',JSON.stringify({roles:{dps:5},rolesStrict:true,range:{value:'distance',certainty:5,strict:true},activities:{raid:5},difficulty:{value:'complex',certainty:5},mastery:3}));});
+  await page.reload({waitUntil:'domcontentloaded'});await page.setViewportSize({width:390,height:1000});
+  await page.locator('[data-reco-mode="guided"]').click();await page.locator('[data-step="5"]').click();
+  assert.equal(await page.locator('#rc-difficulty-complex').isVisible(),true);
+  assert.equal(await page.locator('#rc-difficulty-complex').inputValue(),'5');
+  assert.doesNotMatch(await page.locator('#reco-form .reco-question').textContent(),/facultatif/);
+  await page.locator('#reco-guided .reco-workspace').screenshot({path:path.join(__dirname,'screenshots','certitude-visible-mobile.png'),animations:'disabled'});
+  await page.locator('[data-show-results]').click();
+  const arcaneCard=page.locator('#reco-results .reco-result-card').filter({has:page.locator('a[href="fiches-sources/mage.html#mage-arcane"]')});
+  assert.equal(await arcaneCard.count(),1);await arcaneCard.locator('.reco-why > summary').click();
+  const complexity=arcaneCard.locator('.reco-friendly-groups li').filter({has:page.locator('h5',{hasText:'Complexité'})});
+  assert.match(await complexity.textContent(),/Plus simple que ton envie/);
+  assert.match(await complexity.textContent(),/difficulté intermédiaire en PvE/);
+  assert.doesNotMatch(await complexity.textContent(),/À voir si/);
+  await complexity.screenshot({path:path.join(__dirname,'screenshots','complexite-envie.png'),animations:'disabled'});
   assert.deepEqual(errors,[],'Erreurs JavaScript navigateur');
   process.stdout.write('Chromium : deux parcours, 15 poids, 15 presets, 28 spécialisations classées, maîtrise partagée, mobile et clavier — OK\n');
  }finally{

@@ -309,7 +309,7 @@ header.top{position:absolute;min-height:0}
 .reco-option[aria-pressed="true"] .reco-option-art{border-color:#000;box-shadow:0 0 0 1px var(--rf-gold),0 0 20px rgba(255,215,140,.55)}
 .reco-option-text strong{font-size:16.5px;font-weight:700;color:var(--rf-ivory)}
 .reco-option[aria-pressed="true"] .reco-option-text strong{color:var(--rf-ivory)}
-.reco-option-text small{font-size:14px;color:var(--rf-muted)}
+.reco-option-text small{font-size:14px;color:var(--rf-muted);font-weight:400}
 .reco-option-mark{width:22px;height:22px;border:2px solid #3A5170;border-radius:6px;background:transparent}
 .reco-option[aria-pressed="true"] .reco-option-mark{background:var(--rf-gold);border-color:var(--rf-gold);box-shadow:0 0 10px rgba(255,215,140,.6)}
 .reco-option[aria-pressed="true"] .reco-option-mark:after{border-color:var(--rf-bg)}
@@ -694,4 +694,44 @@ footer.end{border-top:1px solid var(--line);padding-top:22px;font-size:13.5px;li
 }
 @media (prefers-reduced-motion:reduce){
  .reco-option,.reco-modes button,.reco-template,.wow-class-index a,.wow-class-index img,.reco-reveal-button,.reco-next{transition:none!important;animation:none!important;transform:none!important}
+}
+
+/* Confort du questionnaire : réglages affichés sous la grille, géométrie stable. */
+.reco-tuning{margin:12px 0 0;padding:0;border:1px solid var(--rf-line);border-radius:10px;background:rgba(9,18,31,.6);animation:none}
+.reco-tuning-body{padding:12px 14px}
+.reco-summary-toggle,.reco-priority-group-toggle,.reco-priority-group-count{display:none}
+.reco-priority-fields{display:grid;gap:10px}
+@media(max-width:820px){
+ #reco-app{overflow-anchor:none}
+ #reco-app:not(.is-choosing) .reco-modes{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ #reco-app:not(.is-choosing) .reco-modes button{min-height:48px;padding:10px;font-size:14px}
+ #reco-app:not(.is-choosing) .reco-mode-symbol,#reco-app:not(.is-choosing) .reco-mode-title small{display:none}
+ #reco-app:not(.is-choosing) .reco-mode-title strong{font-size:14px}
+ #reco-app .reco-option,#reco-app .reco-choice-wrap,#reco-app .reco-subquestion,#reco-app .reco-result-card,#reco-app .reco-priority-class{animation:none!important;transition:none!important;transform:none!important}
+ #reco-guided .reco-workspace{padding:18px 14px;background:#0c1725;backdrop-filter:none}
+ .reco-step-rail .reco-step-label{display:none}
+ .reco-step-rail .reco-step{min-height:44px}
+ .reco-step-rail .reco-step.is-current .reco-step-no{box-shadow:none}
+ .reco-question legend{font-size:24px;line-height:1.25;letter-spacing:0}
+ .reco-question .reco-hint{font-size:15px;line-height:1.5;margin-bottom:14px}
+ .reco-cert-head{flex-wrap:wrap;gap:4px 10px}
+ .reco-form-footer{margin-top:14px}
+ .reco-form-help{display:none}
+ .reco-summary-toggle{display:inline-flex;min-height:44px;align-items:center;padding:6px 10px;border:1px solid var(--rf-line);border-radius:6px;background:transparent;color:var(--rf-gold-light);font:inherit;font-size:14px}
+ .reco-summary-rows:not(.is-expanded){display:none}
+ #reco-results .reco-reasons{grid-template-columns:1fr}
+ #reco-results .reco-result-top{grid-template-columns:40px minmax(0,1fr) auto;column-gap:10px}
+ #reco-results .reco-emblem{width:40px;height:40px}
+ #reco-results .reco-score strong{font-size:26px}
+ #reco-results .reco-result-main h4{font-size:20px}
+ #reco-results .reco-fit{flex-direction:column;align-items:flex-start;gap:3px}
+ .reco-priorities-layout .reco-results{position:static}
+ .reco-priority-group-head{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px}
+ .reco-priority-group-head h4{margin:0;flex:1 1 auto}
+ .reco-priority-group-head p{flex:1 1 100%}
+ .reco-priority-group-toggle{display:inline-flex;min-height:44px;align-items:center;padding:6px 10px;border:1px solid var(--rf-line);border-radius:6px;background:transparent;color:var(--rf-gold-light);font:inherit;font-size:14px}
+ .reco-priority-group-count{display:inline;font-size:12px;color:var(--rf-muted)}
+ .reco-priority-group:not(.is-expanded) .reco-priority-fields,.reco-priority-group:not(.is-expanded) .reco-priority-group-head p{display:none}
+ .reco-priority-group:not(.is-expanded){padding-bottom:10px}
+ .reco-weights button{min-height:44px;min-width:40px}
 }

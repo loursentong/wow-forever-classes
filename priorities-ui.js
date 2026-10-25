@@ -61,13 +61,14 @@ try{
 function isCurrentCustom(w,m){
  return !!savedCustom&&savedCustom.mastery===m&&E.priorityAxes.every(function(k){return savedCustom.weights[k]===w[k];});
 }
+var groupExpanded={0:true};
 var axes=[
  {name:'Rôles',items:[['tank','Tank'],['soin','Soin'],['dps','DPS']],hint:'Choisis ce que tu veux faire. L’aisance dans ce rôle suit tes activités ci-dessous.'},
  {name:'Activités',items:[['raid','Donjons et raids'],['bg','Champ de bataille'],['sauv','PvP sauvage'],['solo','Solo, leveling et farm']],hint:'PvE de groupe, solo, PvP : choisis les activités qui comptent pour toi.'},
  {name:'Style de combat',items:[['burst','Dégâts de burst'],['zone','Dégâts de zone'],['ctrl','Contrôle'],['surv','Résistance'],['mob','Mobilité'],['util','Soutien']],hint:'Le burst, c’est frapper fort en peu de temps. Choisis les qualités qui te plaisent.'},
  {name:'Affinités facultatives',items:[['poly','Polyvalence'],['tech','Technicité']],hint:'La polyvalence et la difficulté ne sont valorisées que si tu les demandes expressément.'}
 ];
-var presetNames={egal:'Tous les critères',polyvalence:'Polyvalence',pve:'PvE',pvp:'PvP',tank:'Tank en groupe',soin:'Soin en groupe',dps:'DPS en raid',zone:'Dégâts de zone',soutien:'Soutien',bg:'Champ de bataille',soinbg:'Soin en BG',sauvage:'PvP sauvage',burst:'Burst et mobilité',controle:'Contrôle',solo:'Solo, leveling et farm'};
+var presetNames={egal:'Tous les critères',polyvalence:'Polyvalence',pve:'PvE',pvp:'PvP',tank:'Tank en groupe',soin:'Soin en groupe',dps:'DPS en groupe',zone:'Dégâts de zone',soutien:'Soutien',bg:'Champ de bataille',soinbg:'Soin en BG',sauvage:'PvP sauvage',burst:'Burst et mobilité',controle:'Contrôle',solo:'Solo, leveling et farm'};
 var popular=['pve','pvp','dps','tank','soin','solo','bg','controle'];
 var mastery=['Débutant','Intermédiaire','Confirmé','Expert'];
 var WOW_ICON_BASE='https://render.worldofwarcraft.com/us/icons/56/classicon_';
@@ -96,8 +97,9 @@ function controls(){
  html+='<div class="reco-priority-mastery"><div><b>Ton niveau de maîtrise</b><small>Influence les performances réalisables, pas le goût pour la difficulté.</small></div><div class="reco-mastery-choices" role="group" aria-label="Maîtrise pour le classement des priorités">'+
   mastery.map(function(name,i){return '<button type="button" data-prio-mastery="'+i+'" aria-pressed="'+(currentMastery()===i)+'">'+name+'</button>';}).join('')+'</div></div>';
  html+='<div class="reco-priority-groups">';
- axes.forEach(function(g){
-  html+='<section class="reco-priority-group"><div class="reco-priority-group-head"><h4>'+g.name+'</h4><p>'+g.hint+'</p></div>';
+ axes.forEach(function(g,index){
+  var count=g.items.filter(function(it){return w[it[0]]>0;}).length,expanded=!!groupExpanded[index];
+  html+='<section class="reco-priority-group'+(expanded?' is-expanded':'')+'"><div class="reco-priority-group-head"><h4>'+g.name+'</h4><span class="reco-priority-group-count">'+count+' actif'+(count>1?'s':'')+'</span><button type="button" class="reco-priority-group-toggle" data-prio-group-toggle="'+index+'" aria-expanded="'+expanded+'" aria-controls="prio-group-'+index+'" aria-label="'+(expanded?'Replier':'Déplier')+' '+g.name+'">'+(expanded?'Replier':'Déplier')+'</button><p>'+g.hint+'</p></div><div class="reco-priority-fields" id="prio-group-'+index+'">';
   g.items.forEach(function(it){
    var val=w[it[0]];
    var help=X&&X.criteria[it[0]];
@@ -107,7 +109,7 @@ function controls(){
       return '<button type="button" data-prio-axis="'+it[0]+'" data-prio-weight="'+n+'" aria-pressed="'+(val===n)+'" aria-label="'+it[1]+' : '+(n?'priorité '+words[n]:words[0])+' ('+n+')">'+n+'</button>';
     }).join('')+'</div></div>';
   });
-  html+='</section>';
+  html+='</div></section>';
  });
  html+='</div>';
  html+='<div class="reco-priority-footer"><p><strong>0</strong> = sans importance · <strong>1</strong> = secondaire · <strong>2</strong> = importante · <strong>3</strong> = essentielle. Les critères ignorés ne procurent aucun avantage.</p>'+
@@ -177,7 +179,16 @@ function applyWeights(newW,newMastery){
  setMastery(newMastery);
  sync();
 }
-function sync(){controls();results();}
+function sync(button){
+ var selector='';
+ if(button){
+  if(button.dataset.prioAxis!==undefined)selector='[data-prio-axis="'+button.dataset.prioAxis+'"][data-prio-weight="'+button.dataset.prioWeight+'"]';
+  else if(button.dataset.prioMastery!==undefined)selector='[data-prio-mastery="'+button.dataset.prioMastery+'"]';
+  else if(button.dataset.prioPreset)selector='[data-prio-preset="'+button.dataset.prioPreset+'"]';
+ }
+ controls();results();
+ var again=selector&&form.querySelector&&form.querySelector(selector);if(again&&again.focus)again.focus({preventScroll:true});
+}
 function setMode(m){
  var choosing=root.classList.contains('is-choosing'),isPriority=m==='priorities';
  root.classList.remove('is-choosing');
@@ -187,7 +198,7 @@ function setMode(m){
  try{localStorage.setItem(KEY,m);}catch(e){}
  // Après le premier choix, les deux cartes deviennent des onglets : on garde le parcours en vue.
  var bar=root.querySelector('.reco-modes');
- if(choosing&&bar&&bar.scrollIntoView)bar.scrollIntoView({block:'start',behavior:window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+ if(choosing&&bar&&bar.scrollIntoView)bar.scrollIntoView({block:'start',behavior:window.matchMedia&&(window.matchMedia('(max-width:820px)').matches||window.matchMedia('(prefers-reduced-motion: reduce)').matches)?'auto':'smooth'});
 }
 modes.forEach(function(b){
  b.addEventListener('click',function(){setMode(b.dataset.recoMode);});
@@ -205,10 +216,11 @@ output.addEventListener('click',function(ev){
 });
 form.addEventListener('click',function(ev){
  var b=ev.target.closest('button');if(!b||!form.contains(b))return;
+ if(b.dataset.prioGroupToggle!==undefined){groupExpanded[b.dataset.prioGroupToggle]=!groupExpanded[b.dataset.prioGroupToggle];sync();var toggle=form.querySelector('[data-prio-group-toggle="'+b.dataset.prioGroupToggle+'"]');if(toggle&&toggle.focus)toggle.focus({preventScroll:true});return;}
  if(b.hasAttribute('data-prio-save')){
   savedCustom={weights:E.sanitizeWeights(weights()),mastery:currentMastery()};
   try{localStorage.setItem(CUSTOM_KEY,JSON.stringify(savedCustom));}catch(e){}
-  sync();return;
+  sync(b);return;
  }
  if(b.hasAttribute('data-prio-restore')){
   if(savedCustom)applyWeights(savedCustom.weights,savedCustom.mastery);
@@ -217,13 +229,13 @@ form.addEventListener('click',function(ev){
  if(b.dataset.prioAxis!==undefined){
   var axis=b.dataset.prioAxis,weight=Number(b.dataset.prioWeight);
   if(E.priorityAxes.indexOf(axis)>=0&&weight>=0&&weight<=3){S.w[axis]=weight;save();}
-  sync();return;
+  sync(b);return;
  }
  if(b.dataset.prioPreset){
   if(presets[b.dataset.prioPreset]){S.w=Object.assign({},presets[b.dataset.prioPreset]);save();}
-  sync();return;
+  sync(b);return;
  }
- if(b.dataset.prioMastery!==undefined){setMastery(Number(b.dataset.prioMastery));sync();return;}
+ if(b.dataset.prioMastery!==undefined){setMastery(Number(b.dataset.prioMastery));sync(b);return;}
  if(b.hasAttribute('data-prio-clear')){
   E.priorityAxes.forEach(function(k){S.w[k]=0;});save();sync();
  }

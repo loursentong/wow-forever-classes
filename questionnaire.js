@@ -6,6 +6,9 @@ var X=window.WFResultExplanations;
 var root=document.getElementById('reco-app');
 if(!E||!root)return;
 var KEY='wf-recommend-v1',state=E.sanitize(null),step=0,revealed=false;
+var summaryExpanded=false;
+function compactScreen(){return !!(window.matchMedia&&window.matchMedia('(max-width:820px)').matches);}
+function tuning(group,content){return '<div class="reco-choice-details reco-tuning" data-tuning="'+group+'"><div class="reco-tuning-body">'+content+'</div></div>';}
 // Pistes détaillées : cinq, dont au plus trois spécialisations d'une même classe ; le classement complet
 // reste dans l'aperçu du classement.
 var PISTES=5,firstWords=['','première','deux premières','trois premières','quatre premières','cinq premières','six premières'];
@@ -97,9 +100,9 @@ function multi(group,limit){
  Object.keys(names[group]||{}).forEach(function(k){html+=choice(group,k,chosen.includes(k),'multi');});
  html+='</div>';
  if(chosen.length){
-  html+='<div class="reco-cert-list"><p class="reco-cert-title">À quel point es-tu sûr de ces envies ?</p>';
-  chosen.forEach(function(k){html+=certaintyControl(group,k,state[group][k]);});
-  html+='</div>';
+  var controls='<div class="reco-cert-list"><p class="reco-cert-title">À quel point es-tu sûr de ces envies ?</p>';
+  chosen.forEach(function(k){controls+=certaintyControl(group,k,state[group][k]);});
+  html+=tuning(group,controls+'</div>');
  }
  if(limit)html+='<p class="reco-selection-count">'+chosen.length+' sur '+limit+(group==='styles'?' styles':' choix')+' possibles</p>';
  return html;
@@ -112,17 +115,16 @@ function single(group){
  Object.keys(names[group]||{}).forEach(function(k){
   var on=selected===k;
   html+='<div class="reco-choice-wrap'+(on?' is-picked':'')+'" data-choice-wrap="'+group+'/'+k+'">'+choice(group,k,on,'single');
-  if(on){
-   html+='<div class="reco-choice-details">'+certaintyControl(group,k,state[group].certainty);
-   if(group==='range')
-    html+='<label class="reco-strict"><input type="checkbox" data-strict="range" '+(state.range.strict?'checked':'')+'><span><strong>C’est une exigence absolue</strong><small>Écarte les configurations incompatibles.</small></span></label>';
-   if(group==='pet'&&state.pet.value==='avoid')
-    html+='<label class="reco-strict"><input type="checkbox" data-strict="pet" '+(state.pet.strict?'checked':'')+'><span><strong>Je veux jouer uniquement sans familier</strong><small>Les builds avec compagnon seront écartés.</small></span></label>';
-   html+='</div>';
-  }
   html+='</div>';
  });
  html+='</div>';
+ // Les réglages suivent toute la grille : sélectionner une réponse ne déplace plus ses voisines.
+ if(selected!=='any'){
+  var controls=certaintyControl(group,selected,state[group].certainty);
+  if(group==='range')controls+='<label class="reco-strict"><input type="checkbox" data-strict="range" '+(state.range.strict?'checked':'')+'><span><strong>C’est une exigence absolue</strong><small>Écarte les configurations incompatibles.</small></span></label>';
+  if(group==='pet'&&selected==='avoid')controls+='<label class="reco-strict"><input type="checkbox" data-strict="pet" '+(state.pet.strict?'checked':'')+'><span><strong>Je veux jouer uniquement sans familier</strong><small>Les builds avec compagnon seront écartés.</small></span></label>';
+  html+=tuning(group,controls);
+ }
  return html;
 }
 function question(n,title,hint,content){
@@ -177,32 +179,15 @@ function renderForm(){
   {title:'Familiers',value:state.pet.value==='any'?'':names.pet[state.pet.value]},
   {title:'Maîtrise',value:state.mastery===2?'Référence : confirmé':mastery[state.mastery]+(state.difficulty.value!=='any'?' · '+names.difficulty[state.difficulty.value]:'')}
  ];
- var summaryMarkup='<div class="reco-summary-header"><span class="reco-kicker">Mes choix</span><span class="reco-summary-count">'+answered().filter(Boolean).length+' / 6 thèmes</span></div>'+
-  '<div class="reco-summary-rows">'+summaryRows.map(function(item,i){
+ var summaryMarkup='<div class="reco-summary-header"><span class="reco-kicker">Mes choix</span><span class="reco-summary-count">'+answered().filter(Boolean).length+' / 6 thèmes</span><button type="button" class="reco-summary-toggle" data-summary-toggle aria-controls="reco-summary-choices" aria-expanded="'+summaryExpanded+'" aria-label="'+(summaryExpanded?'Masquer':'Afficher')+' mes choix">'+(summaryExpanded?'Masquer':'Afficher')+'</button></div>'+
+  '<div id="reco-summary-choices" class="reco-summary-rows'+(summaryExpanded?' is-expanded':'')+'">'+summaryRows.map(function(item,i){
    return '<div class="reco-summary-row'+(item.value&&!(i===5&&state.mastery===2)?' is-filled':'')+'"><span class="reco-summary-index">'+(i+1)+'</span>'+
    '<span class="reco-summary-name">'+item.title+'</span><span class="reco-summary-value">'+esc(item.value||'Non renseigné')+'</span>'+
    '<button type="button" class="reco-summary-edit" data-summary-step="'+i+'" aria-label="Modifier '+item.title+'">✎</button></div>';
   }).join('')+'</div>';
  if(summaryPanel)summaryPanel.innerHTML=summaryMarkup;
  else html+='<div class="reco-summary" aria-label="Mes choix">'+summaryMarkup+'</div>';
- var canAnimate=!!(form.getBoundingClientRect&&window.matchMedia&&window.requestAnimationFrame&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches);
- var oldHeight=canAnimate?form.getBoundingClientRect().height:0;
- form.style&&(form.style.transition='none');
- form.style&&(form.style.height='');
  form.innerHTML=html;
- if(canAnimate&&oldHeight>0){
-  var newHeight=form.getBoundingClientRect().height;
-  if(Math.abs(newHeight-oldHeight)>4){
-   form.style.height=oldHeight+'px';form.style.overflow='hidden';
-   void form.offsetHeight;
-   window.requestAnimationFrame(function(){
-    form.style.transition='height 210ms cubic-bezier(.2,.75,.25,1)';
-    form.style.height=newHeight+'px';
-   });
-   if(form.__recoMotion)window.clearTimeout(form.__recoMotion);
-   form.__recoMotion=window.setTimeout(function(){form.style.height='';form.style.overflow='';form.style.transition='';},260);
-  }
- }
 }
 function fitLabel(v){
  return X.fitWords(v);
@@ -345,16 +330,18 @@ function showResults(){
  if(report.status==='unanswered')return;
  revealed=true;renderResults();
  var r=root.querySelector('#reco-results');
- if(r&&r.scrollIntoView)r.scrollIntoView({behavior:window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'nearest'});
+ if(r&&r.scrollIntoView)r.scrollIntoView({behavior:compactScreen()||window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:compactScreen()?'start':'nearest'});
 }
 function navigate(next){
  step=Math.max(0,Math.min(5,next));renderForm();renderResults();
  var legend=root.querySelector('#reco-form .reco-question legend');
  if(legend&&typeof legend.focus==='function')legend.focus({preventScroll:true});
+ if(compactScreen()){var workspace=root.querySelector('.reco-workspace');if(workspace&&workspace.scrollIntoView)workspace.scrollIntoView({behavior:'auto',block:'start'});}
 }
 var form=root.querySelector('#reco-form'),resultsArea=root.querySelector('#reco-results');
 var editSummary=root.querySelector('#reco-summary-panel');
 if(editSummary)editSummary.addEventListener('click',function(ev){
+ if(ev.target.closest('[data-summary-toggle]')){summaryExpanded=!summaryExpanded;renderForm();var toggle=editSummary.querySelector('[data-summary-toggle]');if(toggle&&toggle.focus)toggle.focus({preventScroll:true});return;}
  var b=ev.target.closest('button[data-summary-step]');
  if(b&&editSummary.contains(b))navigate(Number(b.dataset.summaryStep));
 });
@@ -395,12 +382,13 @@ form.addEventListener('click',function(ev){
    if(group==='healStyles'&&E.selected(state.healStyles).length>=2)return;
    state[group][key]=group==='roles'&&state.rolesStrict?5:3;
   }
-  renderForm();renderResults();return;
+  renderForm();renderResults();var again=form.querySelector('[data-multi="'+group+'"][data-key="'+key+'"]');if(again&&again.focus)again.focus({preventScroll:true});return;
  }
  group=b.dataset.single;
  if(group){
+  if(state[group].value===key)return;
   state[group].value=key;state[group].strict=false;state[group].certainty=3;
-  renderForm();renderResults();return;
+  renderForm();renderResults();var again=form.querySelector('[data-single="'+group+'"][data-key="'+key+'"]');if(again&&again.focus)again.focus({preventScroll:true});return;
  }
  if(b.dataset.mastery!==undefined){state.mastery=Number(b.dataset.mastery);renderForm();renderResults();if(window.WFPriorities&&window.WFPriorities.setMastery)window.WFPriorities.setMastery(state.mastery);}
 });
@@ -422,12 +410,13 @@ form.addEventListener('change',function(ev){
  if(roles||el.dataset.strict){
   lockStrict();renderForm();
   var again=form.querySelector&&form.querySelector(roles?'[data-roles-strict]':'[data-strict="'+el.dataset.strict+'"]');
-  if(again&&again.focus)again.focus();
+  if(again&&again.focus)again.focus({preventScroll:true});
  }
  renderResults();
 });
 root.querySelector('#reco-reset').addEventListener('click',function(){
- state=E.sanitize(null);step=0;revealed=false;renderForm();renderResults();
+ state=E.sanitize(null);step=0;revealed=false;summaryExpanded=false;
+ renderForm();renderResults();
 });
 window.WFGuide={getMastery:function(){return state.mastery;},setMastery:function(v){if(Number.isInteger(v)&&v>=0&&v<=3){state.mastery=v;renderForm();renderResults();}}};
 renderForm();renderResults();
