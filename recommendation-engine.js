@@ -239,7 +239,18 @@ function execution(s,k,m){
   var factor=[-0.29,-0.13,0,0.09][m];
   return clamp(factor*load,-1.2,0.35);
 }
-function adjustedActivity(s,k,m){return clamp(s.activity[k]+execution(s,k,m),1,5);}
+// v15 : repère généraliste de PvE de groupe. Deux évaluations du même build, 75 % monocible et 25 % zone :
+// cibles isolées / boss et groupes d'ennemis. Convention éditoriale, jamais une somme de DPS mesurés.
+var GROUP_PVE_SINGLE_TARGET = 0.75;
+function activityNote(s,k){
+  return k==='raid'&&s.role==='dps'?GROUP_PVE_SINGLE_TARGET*s.activity.raid+(1-GROUP_PVE_SINGLE_TARGET)*s.style.zone:s.activity[k];
+}
+function adjustedActivity(s,k,m){return clamp(activityNote(s,k)+execution(s,k,m),1,5);}
+function groupPveDetails(s,m){
+  if(s.role!=='dps')return null;
+  return {singleTarget:s.activity.raid,area:s.style.zone,singleTargetShare:GROUP_PVE_SINGLE_TARGET,areaShare:1-GROUP_PVE_SINGLE_TARGET,
+    note:activityNote(s,'raid'),adjusted:adjustedActivity(s,'raid',m)};
+}
 /* Effet de la maîtrise sur un style (v12) : il suit les activités du joueur, PvE seul → difficulté PvE, PvP
  * seul → difficulté PvP ; sinon (activités mêlées ou absentes), contrôle et résistance en PvP et les autres
  * styles en PvE, comme avant la v12. */
@@ -287,9 +298,9 @@ function specFit(s,p,trace){
     var referenceRole=roleSuitability(s,2,roleActivities);
     record('roles','roles',roles.length===1?(s.role===roles[0]?(.25+.75*referenceRole):0):.65*coverage+.35*mainWeight*referenceRole,raw,certainty);
     // Pour l'explication seulement : rôles demandés que propose la classe, aisance estimée de la spécialisation.
-    if(trace){trace[trace.length-1].covered=roles.filter(function(k){return rolePool(s.classId).includes(k);});trace[trace.length-1].aptitude=aptitude;trace[trace.length-1].activityContext=activityContext(roleActivities);}
+    if(trace){trace[trace.length-1].covered=roles.filter(function(k){return rolePool(s.classId).includes(k);});trace[trace.length-1].aptitude=aptitude;trace[trace.length-1].referenceAptitude=referenceRole;trace[trace.length-1].activityContext=activityContext(roleActivities);}
   }
-  if(activities.length)parts.activities={value:aggregate(activities,p.activities,function(k){var a=adjustedActivity(s,k,p.mastery);return record('activities',k,(s.activity[k]-1)/4,(a-1)/4,p.activities[k],s.activity[k],a);}),weight:.25};
+  if(activities.length)parts.activities={value:aggregate(activities,p.activities,function(k){var note=activityNote(s,k),a=adjustedActivity(s,k,p.mastery);return record('activities',k,(note-1)/4,(a-1)/4,p.activities[k],note,a);}),weight:.25};
   if(p.range.value!=='any'){
     var v=p.range.value==='mixte'?(distPool(s.classId,p).length>=2?1:.28):s.range===p.range.value?1:.12;
     parts.range={value:preferenceFit(v,p.range.certainty),weight:.15};
@@ -336,10 +347,11 @@ function explain(id,profile){
     a.points=a.max*a.fit;a.loss=a.max-a.points;
     a.causes={aptitude:(1-a.base)*a.max,mastery:(a.base-a.raw)*a.max,certainty:(a.raw-a.fit)*a.max};
   });
-  return {spec:s,profile:p,score:Math.round(10000*result.value)/100,rawScore:100*result.value,answers:answers};
+  var pveUsed=s.role==='dps'&&(p.activities.raid!==undefined||!selected(p.activities).length&&p.roles.dps!==undefined);
+  return {spec:s,profile:p,score:Math.round(10000*result.value)/100,rawScore:100*result.value,answers:answers,pveDamage:pveUsed?groupPveDetails(s,p.mastery):null};
 }
 /* Potentiel ajusté à la maîtrise : activités choisies (v14), sur 0…1.
- * Sans activité, le repère raid historique reste le départage de repli. */
+ * Sans activité, le repère de PvE de groupe reste le départage de repli (synthèse monocible/zone en DPS). */
 function potential(s,m,activities){
   var ctx=activityContext(activities);
   if(!ctx.explicit)return (adjustedActivity(s,'raid',m)-1)/4;
@@ -445,6 +457,9 @@ var ROLE_REFERENCE={
 function roleSuitability(s,m,activities){
  var ctx=activityContext(activities);
  function raidSuitability(){
+  // Pour le DPS, même build et même synthèse monocible/zone que l'activité : aucun maximum
+  // monocible d'une autre spécialisation de la classe n'est ajouté à ce repère (v15).
+  if(s.role==='dps')return (adjustedActivity(s,'raid',m)-1)/4;
   var baseline=(ROLE_REFERENCE[s.classId][s.role]-1)/4;
   return clamp(.55*baseline+.45*(adjustedActivity(s,'raid',m)-1)/4,0,1);
  }
@@ -512,8 +527,8 @@ function priorityFit(s,w,m,active,trace){
     numer+=value*importance;denom+=importance;
     if(trace)axes.forEach(function(k){
       var row={group:g.id,key:k,weight:w[k],share:w[k]/total,raw:priorityRaw(s,k,m,ctx,sh,activities)};
-      if(g.id==='roles')row.activityContext=activityContext(activities);
-      if(PRIORITY_ACTIVITY[k]){row.note=s.activity[PRIORITY_ACTIVITY[k]];row.adjusted=adjustedActivity(s,PRIORITY_ACTIVITY[k],m);}
+      if(g.id==='roles'){row.activityContext=activityContext(activities);row.aptitude=row.raw;row.referenceAptitude=priorityRaw(s,k,2,ctx,sh,activities);}
+      if(PRIORITY_ACTIVITY[k]){row.note=activityNote(s,PRIORITY_ACTIVITY[k]);row.adjusted=adjustedActivity(s,PRIORITY_ACTIVITY[k],m);}
       if(PRIORITY_STYLE[k]){row.note=s.style[PRIORITY_STYLE[k]];row.adjusted=adjustedStyle(s,PRIORITY_STYLE[k],m,ctx);}
       if(k==='poly')row.roles=rolePool(s.classId).length;
       if(k==='tech'){row.load=techLoad(s,sh);row.context=ctx;
@@ -548,7 +563,8 @@ function priorityExplain(id,input,mastery){
   var q=priorityInput(input,mastery),original=specs.find(function(s){return s.id===id;});
   if(!q.active.length||!original)return null;
   var s=referenceSpec(original),axes=[],r=priorityFit(s,q.w,q.m,q.active,axes);
-  return {spec:s,score:Math.round(r.score*100)/100,parts:r.parts,axes:axes,weights:q.w,mastery:q.m};
+  var pveUsed=s.role==='dps'&&(q.w.raid>0||!activityContext(priorityActivities(q.w)).explicit&&q.w.dps>0);
+  return {spec:s,score:Math.round(r.score*100)/100,parts:r.parts,axes:axes,weights:q.w,mastery:q.m,pveDamage:pveUsed?groupPveDetails(s,q.m):null};
 }
 function checkData(){
  var errors=[],ids=new Set();
@@ -581,8 +597,8 @@ function checkData(){
  }
  return errors;
 }
-return {version:'1.4.0-exploratoire',referenceVariants:REFERENCE_VARIANTS,healStyles:HEAL_STYLES,sources:sources,specs:specs,petless:petless,difficultyContext:difficultyContext,difficultyLoad:difficultyLoad,complexityGrid:COMPLEXITY_GRID,complexityNote:complexityNote,roles:ROLE,activities:acts,styles:styles,
+return {version:'1.5.0-exploratoire',referenceVariants:REFERENCE_VARIANTS,healStyles:HEAL_STYLES,sources:sources,specs:specs,petless:petless,difficultyContext:difficultyContext,difficultyLoad:difficultyLoad,complexityGrid:COMPLEXITY_GRID,complexityNote:complexityNote,roles:ROLE,activities:acts,styles:styles,
  defaultProfile:copy(DEFAULT),sanitize:sanitize,selected:selected,domains:domains,eligible:eligible,
  ranking:ranking,recommend:recommend,topPicks:topPicks,perClass:perClass,techContext:techContext,explain:explain,priorityExplain:priorityExplain,checkData:checkData,intensity:intensity,preferenceFit:preferenceFit,
- rolePool:rolePool,adjustedActivity:adjustedActivity,potential:potential,roleSuitability:roleSuitability,roleReference:ROLE_REFERENCE,activityContext:activityContext,guideActivities:guideActivities,priorityActivities:priorityActivities,priorityPreset:priorityPreset,priorityAxes:PRIORITY_AXES,priorityRanking:priorityRanking,sanitizeWeights:sanitizeWeights};
+ rolePool:rolePool,activityNote:activityNote,groupPveDetails:groupPveDetails,adjustedActivity:adjustedActivity,potential:potential,roleSuitability:roleSuitability,roleReference:ROLE_REFERENCE,activityContext:activityContext,guideActivities:guideActivities,priorityActivities:priorityActivities,priorityPreset:priorityPreset,priorityAxes:PRIORITY_AXES,priorityRanking:priorityRanking,sanitizeWeights:sanitizeWeights};
 });

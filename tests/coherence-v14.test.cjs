@@ -38,7 +38,7 @@ test('Solo et leveling : ni la note de raid ni la difficulté PvP ne comptent',(
  }
 });
 test('Les rôles suivent les activités ; le repère raid reste réservé au raid ou à une activité non précisée',()=>{
- const s=spec('mage-givre'),pve=.55*(E.roleReference.mage.dps-1)/4+.45*(E.adjustedActivity(s,'raid',2)-1)/4;
+ const s=spec('mage-givre'),pve=(E.adjustedActivity(s,'raid',2)-1)/4; // v15 : synthèse du même build en DPS.
  near(E.roleSuitability(s,2),pve);near(E.roleSuitability(s,2,{raid:1}),pve);
  near(E.roleSuitability(s,2,{bg:1}),(s.activity.bg-1)/4);
  near(E.roleSuitability(s,2,{world:1}),(s.activity.world-1)/4);
@@ -56,7 +56,7 @@ test('Donjons et raids : quinzième priorité explicite, pondération et difficu
  assert.deepEqual(ex.axes.find(a=>a.key==='dps').activityContext.activities,{raid:.75,bg:.25});
  const old={dps:3,ctrl:1};assert.equal(E.sanitizeWeights(old).raid,0);assert.deepEqual(old,{dps:3,ctrl:1});
  assert.equal(E.priorityPreset('dps',old).raid,3);assert.equal(E.priorityPreset('pvp',{bg:3}).raid,0);
- for(const weight of [1,2,3])assert.equal(E.priorityRanking({raid:weight},2).results.find(r=>r.spec.id==='mage-givre').score,50);
+ for(const weight of [1,2,3])assert.equal(E.priorityRanking({raid:weight},2).results.find(r=>r.spec.id==='mage-givre').score,62.5);
 });
 test('Texte courant : accord en mots, contexte exact et chiffres réservés au détail du calcul',()=>{
  for(const activities of [{bg:5},{world:5},{solo:5},{raid:5,bg:5}])for(const mastery of [0,2,3]){

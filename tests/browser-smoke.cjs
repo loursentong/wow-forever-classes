@@ -674,6 +674,28 @@ async function check(){
     assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth+2));
    }
   }
+  // v15 : synthèse monocible/zone, mêmes chiffres dans les deux parcours, détail facultatif et mobile.
+  await page.evaluate(()=>{localStorage.clear();localStorage.setItem('wf-recommend-v1',JSON.stringify({roles:{dps:5},rolesStrict:true,activities:{raid:5},mastery:2}));});
+  await page.reload({waitUntil:'domcontentloaded'});await page.setViewportSize({width:1300,height:1000});
+  await page.locator('[data-reco-mode="guided"]').click();await page.locator('[data-reco-reveal]').click();
+  const fireCard=page.locator('#reco-results .reco-result-card').filter({has:page.locator('a[href="fiches-sources/mage.html#mage-feu"]')});
+  assert.equal(await fireCard.count(),1);
+  await fireCard.locator('.reco-why > summary').click();
+  assert.match(await fireCard.locator('.reco-why').textContent(),/sur une cible.*groupes d’ennemis/);
+  const fireCalc=fireCard.locator('.reco-calculation');assert.equal(await fireCalc.evaluate(d=>d.open),false);
+  await fireCalc.locator('summary').click();
+  const recipe=await fireCalc.textContent();assert.doesNotMatch(recipe,/75\s?%|25\s?%|Synthèse|Repère PvE de groupe/);
+  await fireCard.screenshot({path:path.join(__dirname,'screenshots','v15-pve-desktop.png'),animations:'disabled'});
+  await page.setViewportSize({width:390,height:1100});
+  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth+2));
+  await fireCard.screenshot({path:path.join(__dirname,'screenshots','v15-pve-mobile.png'),animations:'disabled'});
+  await page.setViewportSize({width:1300,height:1000});await page.locator('[data-reco-mode="priorities"]').click();
+  await page.locator('[data-prio-preset="dps"]').click();
+  const firePlace=page.locator('#reco-priority-results .reco-priority-class').filter({has:page.locator('a[href="fiches-sources/mage.html#mage-feu"]')});
+  assert.equal(await firePlace.count(),1);await firePlace.locator('.reco-why > summary').click();
+  assert.equal(await firePlace.locator('.reco-calculation').evaluate(d=>d.open),false);
+  assert.doesNotMatch(await firePlace.locator('.reco-calculation').textContent(),/75\s?%|25\s?%|Synthèse/);
+
   // Une sauvegarde des 14 anciens poids n'active aucun nouveau poids ; le quinzième se sauvegarde et se restaure.
   await page.evaluate(()=>{
    const w=Object.fromEntries(window.__WF.axes.map(k=>[k,0]));w.dps=3;w.bg=3;

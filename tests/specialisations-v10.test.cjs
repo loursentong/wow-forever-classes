@@ -14,15 +14,15 @@ test('Parcours guidé : chaque configuration admissible est classée, une classe
  assert.equal(r.status,'ok');
  assert.equal(r.results.length,r.compatible,'une ligne par configuration admissible');
  assert.equal(new Set(r.results.map(x=>x.spec.id)).size,r.results.length,'aucune configuration en double');
- // Trois Druides à égalité : Restauration d'abord (plus haut potentiel), puis l'identifiant.
- assert.deepEqual(r.results.slice(0,3).map(x=>x.spec.id),['druide-restauration','druide-farouche-chat','druide-farouche-ours']);
+ // v15 : à score égal, la synthèse monocible/zone abaisse le départage du félin sous l'ours.
+ assert.deepEqual(r.results.slice(0,3).map(x=>x.spec.id),['druide-restauration','druide-farouche-ours','druide-farouche-chat']);
  // Ordre : score, puis classe, puis potentiel ajusté à la maîtrise, puis identifiant.
  for(let i=1;i<r.results.length;i++)assert.ok(r.results[i-1].score>=r.results[i].score);
 });
 
 test('Top 3 : au plus deux spécialisations d’une même classe, la troisième place va à une autre classe',()=>{
  const druids=E.recommend({styles:{mob:5,surv:5}});
- assert.deepEqual(druids.top.map(x=>x.spec.id),['druide-restauration','druide-farouche-chat','chaman-restauration']);
+ assert.deepEqual(druids.top.map(x=>x.spec.id),['druide-restauration','druide-farouche-ours','chaman-restauration']);
  const hunters=E.recommend({roles:{dps:5},activities:{solo:5}});
  assert.deepEqual(hunters.top.map(x=>x.spec.classId),['chasseur','chasseur','demoniste']);
  assert.equal(hunters.top[0].spec.id,'chasseur-maitrise-betes');

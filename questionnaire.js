@@ -225,6 +225,7 @@ function whyBlock(r,hesitant){
  return '<details class="reco-evidence reco-why"><summary>Pourquoi cette piste</summary>'+
   '<p class="reco-friendly-summary">'+esc(X.friendlySummary(explanation,false))+'</p>'+
   (X.learningNote(explanation)?'<p>'+esc(X.learningNote(explanation))+'</p>':'')+
+  (X.pveProfile(explanation)?'<p>'+esc(X.pveProfile(explanation))+'</p>':'')+
   X.friendlyHtml(X.friendlyGroups(explanation,false))+
   '<p><b>Si tu changes d’avis :</b> '+esc(stability)+'</p>'+
   X.calculationHtml(parts)+

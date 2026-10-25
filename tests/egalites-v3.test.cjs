@@ -33,7 +33,7 @@ test('Le potentiel est celui du codex (§ 3.4) et reste la base de l’adéquati
  for(const s of E.specs)for(const m of [0,1,2,3]){
   assert.equal(E.potential(s,m),(E.adjustedActivity(s,'raid',m)-1)/4);
   const base=(E.roleReference[s.classId][s.role]-1)/4;
-  assert.equal(E.roleSuitability(s,m),Math.min(1,Math.max(0,.55*base+.45*E.potential(s,m))));
+  assert.equal(E.roleSuitability(s,m),s.role==='dps'?E.potential(s,m):Math.min(1,Math.max(0,.55*base+.45*E.potential(s,m))));
  }
 });
 

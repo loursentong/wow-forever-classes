@@ -16,7 +16,9 @@
  'use strict';
  function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
  var ROLES={tank:1,soin:1,dps:1};
- /* Colonne du tableau → note de la spécialisation. Les colonnes de rôle reçoivent la note « Donjons et raids »
+ /* Colonne du tableau → note source de la spécialisation. En DPS, le repère est le monocible de raid,
+  * à lire avec la colonne Zone (le moteur les combine pour « Donjons et raids », v15). Tank et Soin gardent
+  * leur note de groupe. Les colonnes de rôle reçoivent la note source de l'activité raid
   * dans le rôle de la spé (même définition que la colonne de la classe) ; la Polyvalence est un critère de classe ;
   * la Technicité donne la complexité PvE et PvP du référentiel. */
  function value(s,k){

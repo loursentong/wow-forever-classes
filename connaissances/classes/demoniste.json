@@ -2,7 +2,7 @@
  "classe": "demoniste",
  "libelle": "Démoniste",
  "date": "2026-10-23",
- "moteur": "1.4.0-exploratoire",
+ "moteur": "1.5.0-exploratoire",
  "faits": [
   {
    "id": "d-role",

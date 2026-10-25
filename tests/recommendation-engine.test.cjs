@@ -116,9 +116,9 @@ test('La maîtrise est indépendante de la préférence pour un jeu difficile',(
 });
 test('Cas de référence indépendants : préférences ciblées et exclusion des contrariétés',()=>{
  const cases=[
-  // v11 : à la maîtrise Expert, le bonus de contrôle suit la difficulté PvP (référentiel de complexité). Affliction sans
-  // démon (4/5) devance Arcane (3/5) de 0,11 point ; en v10 (3/5 contre 4/5), c'était l'inverse, du même écart.
-  ['Contrôle de zone DPS distance sans pet', {roles:{dps:5},range:{value:'distance',certainty:5,strict:true},pet:{value:'avoid',certainty:5,strict:true},styles:{ctrl:5,zone:5},activities:{raid:4},mastery:3},'Démoniste'],
+  // v15 : en PvE de groupe, Feu profite aussi de sa zone dans l'activité et le rôle DPS ;
+  // cela le fait passer devant Affliction dans ce profil contrôle + zone. Les notes ne changent pas.
+  ['Contrôle de zone DPS distance sans pet', {roles:{dps:5},range:{value:'distance',certainty:5,strict:true},pet:{value:'avoid',certainty:5,strict:true},styles:{ctrl:5,zone:5},activities:{raid:4},mastery:3},'Mage'],
   ['Duel mobile en mêlée', {roles:{dps:5},range:{value:'melee',certainty:5,strict:true},styles:{ctrl:5,burst:5,mob:5},activities:{world:5},mastery:3},'Voleur'],
   ['Solo accessible aux débutants',{activities:{solo:5},difficulty:{value:'simple',certainty:5},mastery:0},'Chasseur'],
   // v2 : soin Paladin 4→5, sa résistance le place devant ; aucune modification des poids.

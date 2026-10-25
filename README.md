@@ -1,5 +1,7 @@
 # Choisir ma classe WoW Forever
 
+**Moteur 1.5.0 / référence v15 préparée (25 octobre 2026) :** pour les DPS, Donjons et raids combine 75 % de monocible et 25 % de zone, sur le même build et avant la maîtrise. Le rôle et le départage suivent ce repère. Les notes sources restent inchangées et les explications distinguent la pratique à acquérir des limites du profil. Convention éditoriale ; publication à valider. [Décision et vérifications](PVE-GROUPE-V15.md).
+
 **Moteur 1.4.0 / référence v14 (25 octobre 2026) :** les rôles et les départages suivent les activités choisies : PvP, solo et leveling, ou donjons et raids. Une quinzième priorité rend le PvE de groupe explicite ; les explications courantes passent en mots, avec un détail chiffré facultatif. Aucune note ne change. [Décision, sauvegardes et limites](COHERENCE-PVE-PVP-V14.md). Correction et publication validées le 25 octobre 2026.
 
 **Soutenir cet outil (23 octobre 2026) :** encart RestedXP et coupon de réduction en haut à droite sur ordinateur, puis rappel après les résultats. Les deux parcours occupent toute la largeur de la page. La commission est indiquée près des liens. [Intégration et vérifications](AFFILIATION-RESTEDXP.md).
@@ -25,7 +27,7 @@
 **Révision du moteur du 21 octobre 2026 (moteur 1.0.3, puis 1.0.4).** Trois notes révisées après revue : soin Chaman et Paladin 4→5, contrôle Discipline 4→3. À score égal, une classe est représentée par sa spécialisation au plus haut potentiel compte tenu de la maîtrise. En solo, seul le Chasseur Maîtrise des bêtes, porté par son familier, échappe à l'effet de la maîtrise. Les formules de score, la maîtrise et la refonte graphique sont conservées. Les 28 configurations disposent de repères courts dans les résultats des deux parcours. Voir [le détail et les effets](REVISION-EDITORIALE-V2.md).
 
 
-> **Référentiel du moteur logique :** [CODEX-MOTEUR-LOGIQUE.md](CODEX-MOTEUR-LOGIQUE.md). Ce document spécifie les entrées, formules, filtres, interprétations, sauvegardes et règles de changement. Les tests de contrat comparent la version actuelle à [la photographie v14](tests/fixtures/moteur-reference-v14.json) couvrant les 28 configurations, leurs variantes sans familier, les profils de soin, les 126 notes historiques, 60 classements par préréglage et maîtrise et trente-quatre scénarios guidés. Les versions [v1](tests/fixtures/moteur-reference-v1.json) à [v8](tests/fixtures/moteur-reference-v8.json) sont conservées intactes.
+> **Référentiel du moteur logique :** [CODEX-MOTEUR-LOGIQUE.md](CODEX-MOTEUR-LOGIQUE.md). Ce document spécifie les entrées, formules, filtres, interprétations, sauvegardes et règles de changement. Les tests de contrat comparent la version actuelle à [la photographie v15](tests/fixtures/moteur-reference-v15.json) couvrant les 28 configurations, leurs variantes sans familier, les profils de soin, les 126 notes historiques, 60 classements par préréglage et maîtrise et 56 scénarios guidés. Les versions [v1](tests/fixtures/moteur-reference-v1.json) à [v8](tests/fixtures/moteur-reference-v8.json) sont conservées intactes.
 >
 > **Important :** un échec de ces tests peut signaler une évolution intentionnelle ou une régression. Ne jamais régénérer automatiquement la photographie pour rétablir une CI verte. Examiner les écarts, obtenir l'accord sur le nouveau comportement et versionner le référentiel.
 
