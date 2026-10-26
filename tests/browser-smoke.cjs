@@ -11,7 +11,7 @@ const {chromium}=require('playwright');
 
 const base=path.resolve(__dirname,'..');
 const allowed={'/':'index.html','/index.html':'index.html','/questionnaire.js':'questionnaire.js','/recommendation-engine.js':'recommendation-engine.js','/priorities-ui.js':'priorities-ui.js','/ux-polish.css':'ux-polish.css','/warcraft-visual-pack.css':'warcraft-visual-pack.css','/wow-ui-rework.css':'wow-ui-rework.css','/refonte-forever.css':'refonte-forever.css','/assets/hero-landscape.svg':'assets/hero-landscape.svg'};
-for(const f of ['priority-profiles.js','configuration-notes.js','configuration-details.js','configuration-notes.css','result-explanations.js','notes-specialisations.js','support.js'])allowed['/'+f]=f;
+for(const f of ['priority-profiles.js','configuration-notes.js','configuration-details.js','configuration-notes.css','result-explanations.js','notes-specialisations.js','support.js','result-sharing.js','result-sharing-ui.js','result-sharing.css'])allowed['/'+f]=f;
 for(const f of fs.readdirSync(path.join(base,'fiches-sources')).filter(f=>f.endsWith('.html')))allowed['/fiches-sources/'+f]='fiches-sources/'+f;
 // Visuels de la refonte (kit de presse officiel), servis comme sur GitHub Pages.
 for(const f of ['logo-wow-forever.webp','hero-arbre-monde.webp','hero-vallee-nuit.webp','bandeau-gantelet.webp','bandeau-darkspear.webp','grain.png'])allowed['/assets/img/'+f]='assets/img/'+f;
@@ -823,6 +823,7 @@ async function check(){
     await page.locator('.reco-priority-groups').screenshot({path:path.join(__dirname,'screenshots','importance-criteres-'+suffix+'.png'),animations:'disabled'});
    }
   }
+  await require('./sharing-browser.cjs')(browser,'http://127.0.0.1:'+server.address().port+'/');
   assert.deepEqual(errors,[],'Erreurs JavaScript navigateur');
   process.stdout.write('Chromium : deux parcours, 15 poids, 8 profils actuels, 28 spécialisations classées, maîtrise partagée, mobile et clavier — OK\n');
  }finally{

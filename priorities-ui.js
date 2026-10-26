@@ -63,7 +63,7 @@ try{
 function isCurrentCustom(w,m){
  return !!savedCustom&&savedCustom.mastery===m&&E.priorityAxes.every(function(k){return savedCustom.weights[k]===w[k];});
 }
-var groupExpanded={0:true};
+var groupExpanded={0:true},preview=null;
 var axes=[
  {name:'Rôles',items:[['tank','Tank'],['soin','Soin'],['dps','DPS']],hint:'Choisis ce que tu veux faire. L’aisance dans ce rôle suit tes activités ci-dessous.'},
  {name:'Activités',items:[['raid','Donjons et raids'],['bg','Champ de bataille'],['sauv','PvP sauvage'],['solo','Solo, leveling et farm']],hint:'PvE de groupe, solo, PvP : choisis les activités qui comptent pour toi.'},
@@ -141,7 +141,7 @@ function results(){
  }else{
   var described=r.active.length;
   h='<div class="reco-results-head"><div><span class="reco-kicker">Classement personnalisé</span><h3>Les spécialisations selon tes critères</h3></div>'+
-    '<p>'+described+' critère'+(described>1?'s':'')+' actif'+(described>1?'s':'')+' · maîtrise '+mastery[currentMastery()]+'</p></div>';
+    '<p>'+described+' critère'+(described>1?'s':'')+' actif'+(described>1?'s':'')+' · maîtrise '+mastery[currentMastery()]+'</p><button type="button" class="reco-share-button" data-share-results="priorities">Partager mes résultats</button></div>';
   h+='<p class="reco-note">Chaque spécialisation est classée avec ses propres notes : une même classe peut donc revenir plusieurs fois.</p>';
   var positions=X?X.ranks(r.results):[],tie=X?X.tieNote(r.results):'';
   if(tie)h+='<p class="reco-note reco-tie-note">'+esc(tie)+'</p>';
@@ -165,6 +165,7 @@ function results(){
   if(r.active.length===1)h+='<p class="reco-note">Avec un seul critère actif, le poids 1, 2 ou 3 ne change pas les proportions du score : il détermine son importance par rapport à d’autres critères si tu en ajoutes.</p>';
   if(presetMatch(w)==='egal')h+='<p class="reco-note">« Tous les critères » est un scénario de référence, pas un profil neutre du joueur : pour une recommandation personnelle, précise ce qui compte vraiment.</p>';
  }
+ if(r.status==='ok')h+='<div class="reco-share-footer"><span>Envie d’en parler avec un ami ?</span><button type="button" class="reco-share-button" data-share-results="priorities">Partager mes résultats</button></div>';
  output.innerHTML=h;
 }
 function setMastery(level,fromGuide){
@@ -187,13 +188,18 @@ function sync(button){
  controls();results();
  var again=selector&&form.querySelector&&form.querySelector(selector);if(again&&again.focus)again.focus({preventScroll:true});
 }
-function setMode(m){
+function setMode(m,temporary){
+ if(m===null){
+  root.classList.add('is-choosing');guided.hidden=true;priority.hidden=true;
+  var last=null;try{last=localStorage.getItem(KEY);}catch(e){}
+  modes.forEach(function(b){b.setAttribute('aria-selected','false');b.tabIndex=0;if(b.dataset.recoMode===last)b.setAttribute('data-last','true');else b.removeAttribute('data-last');});return;
+ }
  var choosing=root.classList.contains('is-choosing'),isPriority=m==='priorities';
  root.classList.remove('is-choosing');
  priority.hidden=!isPriority;guided.hidden=isPriority;
- modes.forEach(function(b){b.setAttribute('aria-selected',String(b.dataset.recoMode===m));b.tabIndex=b.dataset.recoMode===m?0:-1;b.removeAttribute('data-last');});
+ modes.forEach(function(b){b.setAttribute('aria-selected',String(b.dataset.recoMode===m));b.tabIndex=b.dataset.recoMode===m?0:-1;if(!temporary)b.removeAttribute('data-last');});
  if(isPriority)sync();
- try{localStorage.setItem(KEY,m);}catch(e){}
+ if(!temporary)try{localStorage.setItem(KEY,m);}catch(e){}
  // Après le premier choix, les deux cartes deviennent des onglets : on garde le parcours en vue.
  var bar=root.querySelector('.reco-modes');
  if(choosing&&bar&&bar.scrollIntoView)bar.scrollIntoView({block:'start',behavior:window.matchMedia&&(window.matchMedia('(max-width:820px)').matches||window.matchMedia('(prefers-reduced-motion: reduce)').matches)?'auto':'smooth'});
@@ -247,7 +253,24 @@ form.addEventListener('click',function(ev){
 if(!hasMastery&&window.WFGuide&&window.WFGuide.getMastery){var fromGuide=window.WFGuide.getMastery();if(Number.isInteger(fromGuide)&&fromGuide>=0&&fromGuide<=3)S.m=fromGuide;}
 window.WFPriorities={getMastery:function(){return S.m;},setMastery:function(level){
  if(level===S.m)return;setMastery(level,true);if(!priority.hidden)sync();
-}};
+},getProfile:function(){return {weights:weights(),mastery:S.m};},
+ getMode:function(){return root.classList.contains('is-choosing')?null:priority.hidden?'guided':'priorities';},
+ openMode:setMode,
+ describe:function(){
+  var lines=[];axes.forEach(function(g){g.items.forEach(function(it){if(S.w[it[0]])lines.push(it[1]+' · priorité '+words[S.w[it[0]]]);});});
+  lines.push('Maîtrise : '+mastery[S.m]);return lines;
+ },
+ preview:function(p){
+  if(!preview)preview={w:weights(),m:S.m,showAll:showAll,expanded:groupExpanded};
+  S.w=E.sanitizeWeights(p.weights);S.m=p.mastery;showAll=false;sync();
+ },
+ endPreview:function(adopt){
+  if(!preview)return;
+  if(!adopt){S.w=preview.w;S.m=preview.m;showAll=preview.showAll;groupExpanded=preview.expanded;}
+  preview=null;
+  if(adopt){save();setMastery(S.m);groupExpanded={};axes.forEach(function(g,i){if(g.items.some(function(it){return S.w[it[0]]>0;}))groupExpanded[i]=true;});}
+  sync();
+ }};
 // À l'arrivée, aucun parcours n'est ouvert : le visiteur choisit. Le dernier parcours utilisé est signalé.
 root.classList.add('is-choosing');guided.hidden=true;priority.hidden=true;
 modes.forEach(function(b){b.setAttribute('aria-selected','false');});

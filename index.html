@@ -440,6 +440,7 @@ footer.end{font-size:.9rem;color:var(--muted)}
 <link rel="preload" as="image" href="assets/img/hero-arbre-monde.webp" type="image/webp">
 <link rel="stylesheet" href="refonte-forever.css">
 <link rel="stylesheet" href="configuration-notes.css">
+<link rel="stylesheet" href="result-sharing.css">
 </head>
 <body>
 <main class="wrap">
@@ -486,11 +487,13 @@ footer.end{font-size:.9rem;color:var(--muted)}
   <div id="reco-app" class="reco-panel is-choosing">
     <div class="reco-mode-intro">
       <div class="reco-mode-heading"><span class="reco-kicker">Choisis ton approche</span><h3>Comment veux-tu trouver ta classe&nbsp;?</h3><p>Deux façons de trouver ta classe. Tu pourras passer de l'une à l'autre à tout moment, sans perdre tes réponses.</p></div>
+      <div class="reco-import-entry"><button type="button" class="reco-import-button" data-share-import>Importer des résultats</button><span>Tu as reçu un lien ou un fichier ? Ouvre-le ici.</span></div>
       <div class="reco-modes" role="tablist" aria-label="Mode de recommandation">
         <button id="reco-tab-guided" type="button" role="tab" aria-controls="reco-guided" aria-selected="false" aria-labelledby="reco-tab-guided-title" aria-describedby="reco-tab-guided-desc" data-reco-mode="guided"><span class="reco-mode-symbol" aria-hidden="true"><img src="https://render.worldofwarcraft.com/us/icons/56/inv_misc_map_01.jpg" width="40" height="40" loading="eager" alt=""></span><span class="reco-mode-title"><span class="reco-mode-kicker">Parcours 1</span><strong id="reco-tab-guided-title">Être guidé</strong><small>Je découvre mon style</small></span><span class="reco-mode-desc" id="reco-tab-guided-desc">Six questions à ton rythme, une certitude pour chaque envie, puis tes résultats quand tu le décides. Idéal si tu hésites encore.</span><span class="reco-mode-go" aria-hidden="true">Commencer le questionnaire →</span></button>
         <button id="reco-tab-priorities" type="button" role="tab" aria-controls="reco-priorities" aria-selected="false" aria-labelledby="reco-tab-priorities-title" aria-describedby="reco-tab-priorities-desc" data-reco-mode="priorities"><span class="reco-mode-symbol" aria-hidden="true"><img src="https://render.worldofwarcraft.com/us/icons/56/inv_misc_book_09.jpg" width="40" height="40" loading="eager" alt=""></span><span class="reco-mode-title"><span class="reco-mode-kicker">Parcours 2</span><strong id="reco-tab-priorities-title">Mode personnalisé</strong><small>Je règle précisément mes attentes</small></span><span class="reco-mode-desc" id="reco-tab-priorities-desc">Un profil de départ, l’importance de quinze critères de 0 à 3 et ton niveau : le classement des spécialisations suit chaque réglage. Idéal si tu sais ce qui compte pour toi.</span><span class="reco-mode-go" aria-hidden="true">Régler mes critères →</span></button>
       </div>
     </div>
+    <section id="reco-shared-profile" class="reco-shared-profile" aria-labelledby="reco-shared-title" hidden></section>
     <div class="rf-band">
       <div class="rf-band-copy rf-band-copy-guide">
         <p class="rf-band-kicker">Parcours 1</p>
@@ -753,5 +756,7 @@ window.__WF = {"axes":["poly","tank","soin","dps","bg","sauv","burst","zone","ct
 <script src="questionnaire.js"></script>
 <script src="priority-profiles.js"></script>
 <script src="priorities-ui.js"></script>
+<script src="result-sharing.js"></script>
+<script src="result-sharing-ui.js"></script>
 </body>
 </html>

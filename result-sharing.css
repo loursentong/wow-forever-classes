@@ -1,0 +1,51 @@
+/* Actions près des résultats ; import accessible avant et pendant les deux parcours. */
+.reco-import-entry{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:4px 14px;margin:0}
+.reco-import-entry span,.reco-share-footer>span{font-size:14px;color:var(--rf-muted)}
+.reco-result-actions,.reco-share-options{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+.reco-share-button,.reco-import-button{display:inline-flex;justify-content:center;align-items:center;min-height:44px;padding:9px 15px;border:1px solid var(--rf-line);border-radius:8px;background:#101e30;color:var(--rf-ivory);font:inherit;font-size:15px;line-height:1.3;text-align:center;cursor:pointer}
+.reco-share-button{border-color:var(--rf-gold);color:var(--rf-gold-light);background:linear-gradient(135deg,rgba(233,179,79,.13),#0c1725)}
+.reco-share-button:hover,.reco-import-button:hover{border-color:var(--rf-gold-light);color:var(--rf-gold-light)}
+.reco-share-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px 16px;border-top:1px solid var(--rf-line-soft);padding-top:16px;margin-top:20px}
+.reco-share-dialog{width:min(560px,calc(100% - 32px));max-height:calc(100dvh - 32px);margin:auto;padding:24px;overflow:auto;box-sizing:border-box;border:1px solid var(--rf-gold);border-radius:14px;background:#0c1725;color:var(--rf-ivory);box-shadow:0 20px 80px #000b;font:inherit}
+.reco-share-dialog::backdrop{background:rgba(1,6,13,.8)}
+.reco-share-dialog-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.reco-share-dialog h2,.reco-shared-profile h3{margin:0;font-family:var(--font-display);font-size:23px;line-height:1.3;color:var(--rf-ivory)}
+.reco-share-dialog p{margin:14px 0;color:var(--rf-muted);font-size:16px;line-height:1.5}
+.reco-share-dialog .reco-share-current{font-size:14px}
+.reco-share-field{display:block;margin:16px 0 6px;font-weight:600;font-size:16px}
+.reco-share-dialog textarea,.reco-share-dialog input[type=url]{display:block;box-sizing:border-box;width:100%;max-width:100%;padding:11px;margin:0 0 12px;border:1px solid var(--rf-line);border-radius:7px;background:#07101b;color:var(--rf-ivory);font:inherit;font-size:16px;line-height:1.4;resize:vertical}
+.reco-share-dialog textarea{overflow-wrap:anywhere;word-break:break-all}
+.reco-share-file{margin-top:22px;padding-top:4px;border-top:1px solid var(--rf-line)}
+.reco-share-file input{display:block;width:100%;font:inherit;font-size:15px;color:var(--rf-ivory)}
+.reco-share-file input::file-selector-button{min-height:44px;margin:0 10px 8px 0;padding:8px 12px;border:1px solid var(--rf-line);border-radius:7px;background:#101e30;color:var(--rf-ivory);font:inherit;cursor:pointer}
+.reco-share-file small{display:block;color:var(--rf-muted);font-size:14px;line-height:1.4}
+.reco-share-dialog .reco-share-status{min-height:24px;margin-bottom:0;color:var(--rf-gold-light);font-size:15px;overflow-wrap:anywhere}
+.reco-share-dialog .reco-share-status.is-error{color:#ffb8ac}
+.reco-share-dialog :is(button,input,textarea):focus-visible,.reco-shared-profile :is(button,summary):focus-visible{outline:2px solid var(--rf-gold-light);outline-offset:3px}
+.reco-shared-profile{padding:20px;margin-bottom:20px;border:1px solid var(--rf-gold);border-radius:12px;background:#0c1725;scroll-margin-top:16px}
+.reco-shared-profile[hidden]{display:none}
+.reco-shared-profile h3:focus{outline:none}
+.reco-shared-profile p,.reco-shared-profile li{font-size:16px;line-height:1.5;color:var(--rf-muted)}
+.reco-shared-profile details{margin:14px 0}
+.reco-shared-profile summary{min-height:44px;display:list-item;align-content:center;color:var(--rf-gold-light);cursor:pointer}
+.reco-shared-profile ul{padding-left:22px;margin-top:8px}
+#reco-app.is-shared .reco-mode-intro,#reco-app.is-shared .reco-import-entry,#reco-app.is-shared .rf-band,#reco-app.is-shared .reco-guided-left,#reco-app.is-shared .reco-workspace,#reco-app.is-shared [data-reco-hide]{display:none}
+#reco-app.is-shared .reco-guided-layout{display:block}
+/* Ces deux règles neutralisent les anciennes dispositions forcées du mode personnalisé. */
+#reco-app.is-shared .reco-priorities-layout{display:block!important}
+#reco-app.is-shared #reco-priority-form{display:none!important}
+#reco-app.is-shared #reco-results,#reco-app.is-shared #reco-priority-results{position:static;max-height:none;overflow:visible}
+#reco-app.is-shared .reco-live{margin-top:16px}
+@media(max-width:580px){
+ .reco-import-entry{align-items:flex-start;gap:0}
+ .reco-import-entry span{flex-basis:100%;text-align:center;font-size:13px}
+ .reco-share-dialog{padding:18px}
+ .reco-share-dialog h2{font-size:21px}
+ .reco-share-dialog-head .reco-import-button{padding:8px 10px;font-size:14px}
+ .reco-share-options>*{flex:1 1 100%}
+ .reco-result-actions{width:100%;gap:6px}
+ .reco-result-actions .reco-hide-results{margin:0}
+ .reco-share-footer{align-items:flex-start}
+ .reco-share-footer .reco-share-button{width:100%}
+ .reco-shared-profile{padding:16px}
+}

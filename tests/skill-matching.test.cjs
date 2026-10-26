@@ -80,6 +80,27 @@ function boot(storage={},guide){
     pressed(axis){const m=form.innerHTML.match(new RegExp('data-prio-axis="'+axis+'" data-prio-weight="(\\d)" aria-pressed="true"'));return m&&Number(m[1]);}};
 }
 
+test('Consultation personnalisée partagée : aucun état écrit ni maîtrise propagée, puis retour aux poids d’origine',()=>{
+  const custom=JSON.stringify({weights:E.sanitizeWeights({dps:3,raid:3}),mastery:3}),calls=[];
+  const h=boot({'wf-overview-v3':JSON.stringify({w:E.sanitizeWeights({solo:3}),m:1,hl:'conservé'}),'wf-priority-custom-v1':custom},{getMastery:()=>1,setMastery:n=>calls.push(n)});
+  const api=h.window.WFPriorities,before={...h.store},own=JSON.parse(JSON.stringify(api.getProfile()));
+  const copy=api.getProfile();copy.weights.solo=0;assert.deepEqual(JSON.parse(JSON.stringify(api.getProfile())),own);
+  const received={weights:E.sanitizeWeights({soin:3,bg:3}),mastery:0};
+  api.preview(received);api.openMode('priorities',true);
+  assert.deepEqual(JSON.parse(JSON.stringify(api.getProfile())),received);assert.deepEqual(h.store,before);assert.deepEqual(calls,[]);
+  api.endPreview(false);api.openMode(null,true);
+  assert.deepEqual(JSON.parse(JSON.stringify(api.getProfile())),own);assert.deepEqual(h.store,before);assert.deepEqual(calls,[]);
+});
+
+test('Adopter les poids partagés garde la sauvegarde personnelle et les champs historiques',()=>{
+  const custom=JSON.stringify({weights:E.sanitizeWeights({ctrl:3}),mastery:2}),calls=[];
+  const h=boot({'wf-overview-v3':JSON.stringify({w:E.sanitizeWeights({solo:3}),m:1,hl:'conservé'}),'wf-priority-custom-v1':custom},{getMastery:()=>1,setMastery:n=>calls.push(n)});
+  const received={weights:E.sanitizeWeights({tank:3,raid:3}),mastery:3};
+  h.window.WFPriorities.preview(received);h.window.WFPriorities.endPreview(true);
+  assert.deepEqual(h.saved().w,received.weights);assert.equal(h.saved().m,3);assert.equal(h.saved().hl,'conservé');
+  assert.equal(h.store['wf-priority-custom-v1'],custom);assert.deepEqual(calls,[3]);
+});
+
 test('Les nouveaux profils activent seulement leurs critères, ouvrent les groupes utiles et gardent la maîtrise',()=>{
   const h=boot({},{getMastery:()=>1,setMastery(){}});h.choose('priorities');
   for(const p of require('../priority-profiles.js')){
