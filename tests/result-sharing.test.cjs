@@ -10,11 +10,12 @@ const full=()=>E.sanitize({roles:{soin:4,dps:1},healStyles:{prevention:0,groupe:
 test('Lien et fichier conservent chaque réponse, les zéros, le soin, les exigences et la maîtrise',()=>{
  const profile=full(),packet=C.create('guided',profile);
  assert.deepEqual(packet.choices,profile);
+ assert.deepEqual(C.parse(C.stringify(packet)),packet);
  for(const imported of [C.parse(C.stringify(packet)),C.readLink(C.link(packet,base))]){
-  assert.deepEqual(imported,packet);
+  assert.equal(imported.mode,packet.mode);assert.deepEqual(imported.choices,packet.choices);
   assert.deepEqual(E.recommend(imported.choices),E.recommend(profile));
  }
- assert.ok(C.link(packet,base).length<1500);
+ assert.equal(C.link(packet,base).length,68);
  const url=new URL(C.link(packet,base));assert.equal(url.pathname,'/wow-forever-classes/');assert.equal(url.search,'');
  assert.ok(!Object.hasOwn(packet,'results'));assert.ok(!Object.hasOwn(packet,'scores'));
 });
@@ -22,10 +23,12 @@ test('Les profils guidés de référence se transportent sans changer leur class
  let checked=0;
  for(const row of fixture.guide){
   if(E.ranking(row.profile).status==='unanswered')continue;
-  const packet=C.create('guided',row.profile),imported=C.decode(C.encode(packet));
-  assert.deepEqual(imported.choices,packet.choices,row.id);
-  assert.deepEqual(E.recommend(imported.choices),E.recommend(packet.choices),row.id);
-  for(const r of E.ranking(packet.choices).results)assert.deepEqual(E.explain(r.spec.id,imported.choices),E.explain(r.spec.id,packet.choices));
+  const packet=C.create('guided',row.profile);
+  for(const imported of [C.decode(C.encode(packet)),C.readLink(C.link(packet,base))]){
+   assert.deepEqual(imported.choices,packet.choices,row.id);
+   assert.deepEqual(E.recommend(imported.choices),E.recommend(packet.choices),row.id);
+   for(const r of E.ranking(packet.choices).results)assert.deepEqual(E.explain(r.spec.id,imported.choices),E.explain(r.spec.id,packet.choices));
+  }
   checked++;
  }assert.ok(checked>=50);
 });

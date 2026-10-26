@@ -105,6 +105,8 @@ Le classement des priorités regroupe les axes en quatre domaines (rôles, activ
 
 **Partage des résultats (26 octobre 2026, en revue) :** lien et fichier importables dans les deux parcours, avec consultation temporaire puis reprise explicite des réglages. Les résultats utilisent toujours les notes actuelles ; les choix personnels restent conservés. Moteur, notes et références inchangés. [Parcours, format et contrôles](PARTAGE-RESULTATS.md).
 
+**Liens compacts (26 octobre 2026, en revue) :** les nouveaux liens publics font 61 caractères en mode personnalisé et 68 dans le guide, avec toutes les préférences conservées. Les liens longs déjà diffusés restent lisibles ; le fichier exporté, les notes et les calculs sont inchangés. [Format et compatibilité](PARTAGE-RESULTATS.md).
+
 Le nouveau questionnaire est placé avant la matrice des notes et n'affiche **aucun classement tant que le joueur n'a pas exprimé de préférence**. Il comprend six questions facultatives : rôles, activités, portée, style, familiers, maîtrise/complexité. Chaque choix est accompagné d'une certitude de **0 à 5** ; un refus absolu nécessite une case distincte. Les questions laissées sans réponse n'influencent pas les résultats.
 
 Le moteur autonome compare **27 spécialisations et 1 configuration Farouche (ours)**, puis propose au plus trois classes différentes et une configuration précise pour chacune. Il affiche les compromis, les fiches officielles et des scénarios de réponses hésitantes. Ses notes de style et d'activité restent **des hypothèses éditoriales à confronter à la réalité du niveau 60**.
