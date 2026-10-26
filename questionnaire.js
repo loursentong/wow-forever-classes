@@ -6,7 +6,7 @@ var X=window.WFResultExplanations;
 var root=document.getElementById('reco-app');
 if(!E||!root)return;
 var KEY='wf-recommend-v1',state=E.sanitize(null),step=0,revealed=false;
-var summaryExpanded=false;
+var summaryExpanded=false,preview=null;
 function compactScreen(){return !!(window.matchMedia&&window.matchMedia('(max-width:820px)').matches);}
 function tuning(group,content){return '<div class="reco-choice-details reco-tuning" data-tuning="'+group+'"><div class="reco-tuning-body">'+content+'</div></div>';}
 // Pistes détaillées : cinq, dont au plus trois spécialisations d'une même classe ; le classement complet
@@ -304,7 +304,7 @@ function renderResults(){
    '<button type="button" class="reco-hide-results" data-reco-hide>Revenir à mes réponses</button>');
  }else{
   h='<div class="reco-results-head"><div><span class="reco-kicker">Sélection personnalisée</span><h3>Tes meilleures pistes</h3></div>'+
-   '<button type="button" class="reco-hide-results" data-reco-hide>Masquer les résultats</button></div>';
+   '<div class="reco-result-actions"><button type="button" class="reco-share-button" data-share-results="guided">Partager mes résultats</button><button type="button" class="reco-hide-results" data-reco-hide>Masquer les résultats</button></div></div>';
   h+='<p class="reco-note">Tes '+report.top.length+' meilleures pistes. Chaque piste est une spécialisation : une même classe peut en proposer '+(E.perClass?['','une','deux','trois','quatre','cinq'][E.perClass(report.top.length)]||E.perClass(report.top.length):'plusieurs')+' au plus, les places suivantes revenant à d’autres classes.</p>';
   // Rangs et égalités entre les pistes affichées (le top 3 peut sauter une troisième spécialisation d'une même classe).
   var positions=X?X.ranks(report.top):[],tie=X?X.tieNote(report.results):'';
@@ -315,6 +315,7 @@ function renderResults(){
   if(report.uncertain.length)h+='<p class="reco-note">Sensibilité : '+report.uncertain.length+' préférence(s) hésitante(s) explorée(s). Ces scénarios ne sont pas des probabilités.</p>';
   else h+='<p class="reco-note">Ces scores sont des estimations de correspondance, pas des probabilités de satisfaction.</p>';
  }
+ if(revealed&&report.status!=='unanswered')h+='<div class="reco-share-footer"><span>Envie d’en parler avec un ami ?</span><button type="button" class="reco-share-button" data-share-results="guided">Partager mes résultats</button></div>';
  if(out.innerHTML!==h){
   out.innerHTML=h;
  }
@@ -323,7 +324,7 @@ function renderResults(){
   out.classList.toggle('is-revealed',!!revealed&&report.status==='ok');
   out.classList.toggle('is-ready',ready&&!!h);
  }
- try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}
+ if(!preview)try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}
 }
 function showResults(){
  var report=E.recommend(state);
@@ -418,6 +419,24 @@ root.querySelector('#reco-reset').addEventListener('click',function(){
  state=E.sanitize(null);step=0;revealed=false;summaryExpanded=false;
  renderForm();renderResults();
 });
-window.WFGuide={getMastery:function(){return state.mastery;},setMastery:function(v){if(Number.isInteger(v)&&v>=0&&v<=3){state.mastery=v;renderForm();renderResults();}}};
+window.WFGuide={getMastery:function(){return state.mastery;},setMastery:function(v){if(Number.isInteger(v)&&v>=0&&v<=3){state.mastery=v;renderForm();renderResults();}},
+ getProfile:function(){return E.sanitize(state);},
+ describe:function(){
+  var lines=[];
+  ['roles','healStyles','activities','styles'].forEach(function(k){E.selected(state[k]).forEach(function(v){lines.push(names[k][v]+' · '+certWords[state[k][v]].toLowerCase()+(k==='roles'&&state.rolesStrict?' · indispensable':''));});});
+  ['range','pet','difficulty'].forEach(function(k){if(state[k].value!=='any')lines.push(names[k][state[k].value]+' · '+certWords[state[k].certainty].toLowerCase()+(state[k].strict?' · exigence absolue':''));});
+  lines.push('Maîtrise : '+mastery[state.mastery]);return lines;
+ },
+ preview:function(p){
+  if(!preview)preview={state:E.sanitize(state),step:step,revealed:revealed,summaryExpanded:summaryExpanded};
+  state=E.sanitize(p);lockStrict();revealed=true;renderForm();renderResults();
+ },
+ endPreview:function(adopt){
+  if(!preview)return;
+  if(!adopt){state=preview.state;step=preview.step;revealed=preview.revealed;summaryExpanded=preview.summaryExpanded;}
+  preview=null;renderForm();renderResults();
+  if(adopt&&window.WFPriorities)window.WFPriorities.setMastery(state.mastery);
+ }
+};
 renderForm();renderResults();
 })();

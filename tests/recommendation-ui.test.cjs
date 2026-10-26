@@ -40,6 +40,26 @@ function createHarness(initial={}){
   profile(){return JSON.parse(store['wf-recommend-v1']);}
  };
 }
+test('Consultation guidée partagée : profil copié, sauvegarde et maîtrise séparées, puis retour exact',()=>{
+ const h=createHarness();h.choose('roles','tank');h.step(3);
+ const before={...h.store},own=h.window.WFGuide.getProfile(),calls=[];
+ h.window.WFPriorities={setMastery:n=>calls.push(n)};
+ const copied=h.window.WFGuide.getProfile();copied.roles.tank=0;assert.deepEqual(h.window.WFGuide.getProfile(),own);
+ const received=engine.sanitize({roles:{dps:3},activities:{bg:0},mastery:0});
+ h.window.WFGuide.preview(received);
+ assert.deepEqual(h.window.WFGuide.getProfile(),received);assert.deepEqual(h.store,before);assert.deepEqual(calls,[]);
+ h.window.WFGuide.endPreview(false);assert.deepEqual(h.window.WFGuide.getProfile(),own);assert.deepEqual(h.store,before);
+ assert.match(h.form.innerHTML,/Quel style te ressemble/);assert.deepEqual(calls,[]);
+});
+
+test('Adopter les choix guidés conserve certitudes et exigences et reprend la maîtrise partagée',()=>{
+ const h=createHarness(),calls=[];h.window.WFPriorities={setMastery:n=>calls.push(n)};
+ const received=engine.sanitize({roles:{soin:0},healStyles:{groupe:2},activities:{raid:5},range:{value:'distance',certainty:5,strict:true},mastery:3});
+ h.window.WFGuide.preview(received);h.window.WFGuide.endPreview(true);
+ assert.deepEqual(h.profile(),received);assert.deepEqual(calls,[3]);
+ assert.match(h.results.innerHTML,/data-share-results="guided"/);
+});
+
 test('Accueil épuré : une question, six étapes et aucune recommandation arbitraire',()=>{
  const h=createHarness();
  assert.match(h.form.innerHTML,/Quel rôle voudrais-tu jouer/);
