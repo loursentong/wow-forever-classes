@@ -1,5 +1,7 @@
 # Choisir ma classe WoW Forever
 
+**Préparer une mise à jour du dump :** la compétence [frv-dump-update](skills/frv-dump-update/SKILL.md) guide la recherche et la révision des notes après lancement ou patch. Son outil crée un état initial, un suivi par classe et des propositions avant/après, puis vérifie leur cohérence sans appliquer de notes. Les [repères de révision](skills/frv-dump-update/references/revision.md) précisent les sources à croiser, les valeurs dérivées et le protocole d’intégration. Exemple de demande : « Mets à jour le dump après le lancement, en commençant par les données devenues fragiles. »
+
 **Profils personnalisés (25 octobre 2026, en revue) :** huit points de départ explicites par rôle et activité remplacent les profils génériques visibles. L’importance sélectionnée se lit en mots, avec sa légende en haut et les groupes utiles ouverts sur mobile. Audit croisé reproductible : 6 272 explications, repères du guide et points détaillés ; moteur, notes, sauvegardes et référence v15 conservés. [Profils, résultats et limites](PROFILS-PERSONNALISES.md).
 
 **Complexité et certitude (25 octobre 2026, en revue) :** une difficulté intermédiaire reste une piste compatible avec Accessible ou Exigeant à certitude 0–2 ; l’écart est modéré à 3–4 et explicite à 5. La difficulté PvE/PvP reste indiquée, sans changer les scores, les notes ni la référence v15. [Détail et vérifications](LISIBILITE-MOBILE.md).

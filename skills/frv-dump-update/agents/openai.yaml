@@ -1,0 +1,4 @@
+interface:
+  display_name: "Mettre à jour le dump WoW Forever"
+  short_description: "Réviser les notes des spécialisations avec leurs sources"
+  default_prompt: "Utilise $frv-dump-update pour réviser les notes de Choisir ma classe WoW Forever et préparer une mise à jour sourcée."
