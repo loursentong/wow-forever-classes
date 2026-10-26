@@ -25,10 +25,13 @@ module.exports=async function(browser,url){
    return [C.create('guided',E.sanitize({roles:{dps:4},activities:{bg:5,world:1},range:{value:'distance',certainty:5,strict:true},pet:{value:'avoid',certainty:5,strict:true},styles:{ctrl:0,surv:3},difficulty:{value:'complex',certainty:1},mastery:3})),
     C.create('priorities',{weights:E.sanitizeWeights({soin:3,bg:3,util:1,tech:2}),mastery:0})];
   });
-  // Lien direct et rechargement : aucun remplacement des choix ni des critères enregistrés.
-  for(const packet of packets){
-   const token=await page.evaluate(p=>WFResultShare.encode(p),packet);
-   await page.goto(url+'#partage='+token,{waitUntil:'domcontentloaded'});
+  // Ancien lien et nouveau code compact, dans les deux parcours : mêmes résultats et sauvegardes.
+  const links=await page.evaluate(packets=>packets.flatMap(packet=>[
+   {packet,hash:new URL(WFResultShare.link(packet,location.href)).hash},
+   {packet,hash:'#partage='+WFResultShare.encode(packet)}
+  ]),packets);
+  for(const {packet,hash} of links){
+   await page.goto(url+hash,{waitUntil:'domcontentloaded'});
    assert.equal(await page.locator('#reco-shared-profile').isVisible(),true);
    assert.equal(await page.locator('#reco-'+(packet.mode==='guided'?'form':'priority-form')).isVisible(),false);
    assert.equal(await store(),original);
@@ -95,6 +98,7 @@ module.exports=async function(browser,url){
    await page.evaluate(()=>Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async s=>{window.__sharedCopy=s;}}}));
    await modal.locator('[data-share-copy]').click();assert.match(await modal.locator('[data-share-status]').textContent(),/Lien copié/);
    const copied=await page.evaluate(()=>WFResultShare.readLink(window.__sharedCopy));assert.deepEqual(copied.choices,packet.choices);
+   assert.match(await page.evaluate(()=>new URL(window.__sharedCopy).hash),/^#p=[A-Za-z0-9_-]{8,15}$/);
    const downloadPromise=page.waitForEvent('download');await modal.locator('[data-share-download]').click();
    const download=await downloadPromise,stream=await download.createReadStream(),chunks=[];for await(const chunk of stream)chunks.push(chunk);
    const file=JSON.parse(Buffer.concat(chunks).toString('utf8'));assert.deepEqual(file.choices,packet.choices);
@@ -126,8 +130,11 @@ module.exports=async function(browser,url){
   await page.evaluate(()=>Object.defineProperty(navigator,'share',{configurable:true,value:async()=>{throw new Error('refus');}}));
   await modal.locator('[data-share-native]').click();assert.match(await modal.locator('[data-share-status]').textContent(),/copier le lien/);
   await page.keyboard.press('Escape');const beforeBad=await store();
-  await page.goto(url+'#partage=bad',{waitUntil:'domcontentloaded'});assert.equal(await modal.isVisible(),true);assert.equal(await store(),beforeBad);
-  await page.keyboard.press('Escape');assert.equal(await page.locator('[data-reco-mode="guided"]').isVisible(),true);
+  for(const hash of ['#p=bad','#partage=bad']){
+   await page.goto(url+hash,{waitUntil:'domcontentloaded'});assert.equal(await modal.isVisible(),true);assert.equal(await store(),beforeBad);
+   assert.equal(new URL(page.url()).hash,'');
+   await page.keyboard.press('Escape');assert.equal(await page.locator('[data-reco-mode="guided"]').isVisible(),true);
+  }
   assert.deepEqual(errors,[]);
   process.stdout.write('Chromium partage : liens, fichiers, deux parcours, consultation sans écriture, adoption, sauvegardes, erreurs, mobile et clavier — OK\n');
  }finally{await context.close();}

@@ -22,7 +22,7 @@ function open(title,description,content,trigger){
 }
 function openImport(trigger,error){
  open('Ouvrir des résultats partagés','Colle un lien de partage ou choisis un fichier de résultats.',
-  '<label class="reco-share-field" for="reco-import-link">Lien de partage</label><input id="reco-import-link" type="url" inputmode="url" placeholder="https://…#partage=…" autocomplete="off" spellcheck="false">'+
+  '<label class="reco-share-field" for="reco-import-link">Lien de partage</label><input id="reco-import-link" type="url" inputmode="url" placeholder="https://…#p=…" autocomplete="off" spellcheck="false">'+
   '<button type="button" class="reco-share-button" data-share-open-link>Ouvrir le lien</button>'+
   '<div class="reco-share-file"><label class="reco-share-field" for="reco-import-file">Ou importer un fichier</label><input id="reco-import-file" type="file" accept=".json,application/json"><small>Le fichier téléchargé depuis « Partager mes résultats ».</small></div>',trigger);
  if(error)status(error,true);
@@ -36,7 +36,7 @@ function openShare(mode,trigger){
   '<div class="reco-share-options">'+(typeof navigator.share==='function'?'<button type="button" class="reco-share-button" data-share-native>Partager…</button>':'')+
   '<button type="button" class="reco-share-button" data-share-copy>Copier le lien</button><button type="button" class="reco-import-button" data-share-download>Télécharger le fichier</button></div>',trigger);
 }
-function clearHash(){if(location.hash.indexOf('#partage=')===0)history.replaceState(history.state,'',location.pathname+location.search);}
+function clearHash(){if(C.isShareHash(location.hash))history.replaceState(history.state,'',location.pathname+location.search);}
 function focusBanner(){var h=banner.querySelector('h3');if(h){h.focus({preventScroll:true});banner.scrollIntoView({block:'start',behavior:'auto'});}}
 function present(packet){
  packet=C.validate(packet);
@@ -107,7 +107,7 @@ dialog.addEventListener('change',async function(ev){
 });
 dialog.addEventListener('close',function(){if(dialog.open)return;operation++;if(opener&&opener.isConnected)opener.focus({preventScroll:true});});
 function fromHash(){
- if(location.hash.indexOf('#partage=')!==0){if(session)leave(false);return;}
+ if(!C.isShareHash(location.hash)){if(session)leave(false);return;}
  try{present(C.readLink(location.hash));}catch(e){clearHash();openImport(null,e.message);}
 }
 window.addEventListener('hashchange',fromHash);

@@ -296,6 +296,8 @@ Une modification du schéma de stockage REQUIERT une migration documentée, des 
 
 **Partage de résultats (interface, 26 octobre 2026, en revue).** Le format portable v1 contient les entrées d’un seul parcours, sa maîtrise et les métadonnées de création. Les résultats et leurs explications sont recalculés avec le moteur et les notes courants ; aucun score importé ni restitution historique ne fait autorité. La consultation temporaire ne remplace pas les préférences sauvegardées et ne synchronise pas la maîtrise avec l’autre parcours. L’adoption explicite reprend les choix et la synchronisation habituelle, sans remplacer « Mes critères personnels ». Les deux parcours restent distincts. Le schéma des sauvegardes existantes, les calculs, les données et les références sont conservés. [Format, limites et contrôles](PARTAGE-RESULTATS.md).
 
+**Liens compacts (interface, 26 octobre 2026, en revue).** Les nouveaux liens `#p=` transportent les mêmes entrées dans un code binaire versionné à identifiants figés ; les anciens liens `#partage=` et les fichiers JSON v1 restent lisibles. Aucune certitude, exigence, façon de soigner, maîtrise ou pondération ne peut être perdue. Un nouveau code reconstruit son enveloppe au moment de l’ouverture et utilise les notes courantes. Les positions du protocole et son numéro de version sont indépendants des catalogues d’affichage ; une évolution doit préserver le décodage des liens existants. Aucune évolution du moteur ni des sauvegardes.
+
 ## 6. Oracles de non-régression et fichiers à ne pas régénérer automatiquement
 
 ### 6.1. Photographie de référence figée
