@@ -522,8 +522,8 @@ footer.end{font-size:.9rem;color:var(--muted)}
         <aside class="reco-live" aria-label="Aperçu du classement">
           <div class="reco-live-inner">
             <details class="reco-live-panel" id="reco-live">
-              <summary><span class="reco-live-title">Aperçu du classement</span><small>Les spécialisations selon tes réponses actuelles, à ouvrir quand tu veux.</small></summary>
-              <div id="reco-live-body" class="reco-live-body"></div>
+              <summary><span class="reco-live-title">Aperçu du classement</span><small id="reco-live-status" role="status">Toutes les spécialisations, selon tes réponses.</small></summary>
+              <div id="reco-live-body" class="reco-live-body" tabindex="0" role="region" aria-label="Classement complet des spécialisations"></div>
             </details>
           </div>
         </aside>

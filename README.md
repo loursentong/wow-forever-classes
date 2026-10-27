@@ -1,5 +1,7 @@
 # Choisir ma classe WoW Forever
 
+**Aperçu du classement (27 octobre 2026, en revue) :** suppression du renvoi sous le top 5 ; toutes les spécialisations compatibles se consultent dans un aperçu repliable, avec un vrai défilement jusqu’à la dernière ligne, un en-tête visible et un compteur adapté aux filtres. Ordre, scores et explications conservés. [Correction et contrôles](APERCU-CLASSEMENT.md).
+
 **Profils personnalisés (25 octobre 2026, en revue) :** huit points de départ explicites par rôle et activité remplacent les profils génériques visibles. L’importance sélectionnée se lit en mots, avec sa légende en haut et les groupes utiles ouverts sur mobile. Audit croisé reproductible : 6 272 explications, repères du guide et points détaillés ; moteur, notes, sauvegardes et référence v15 conservés. [Profils, résultats et limites](PROFILS-PERSONNALISES.md).
 
 **Complexité et certitude (25 octobre 2026, en revue) :** une difficulté intermédiaire reste une piste compatible avec Accessible ou Exigeant à certitude 0–2 ; l’écart est modéré à 3–4 et explicite à 5. La difficulté PvE/PvP reste indiquée, sans changer les scores, les notes ni la référence v15. [Détail et vérifications](LISIBILITE-MOBILE.md).
