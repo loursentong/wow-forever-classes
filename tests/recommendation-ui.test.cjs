@@ -14,8 +14,8 @@ function createHarness(initial={}){
   contains(){return true;},
   querySelector(){return null;}};
  const reset={addEventListener(k,fn){listeners[k]=fn;},click(){listeners.click();}};
- const live={innerHTML:'',listeners:{},addEventListener(k,fn){this.listeners[k]=fn;},querySelector(){return null;}};
- const root={querySelector(s){return {'#reco-form':form,'#reco-results':results,'#reco-reset':reset,'#reco-live-body':live}[s]||null;}};
+ const live={innerHTML:'',listeners:{},addEventListener(k,fn){this.listeners[k]=fn;},querySelector(){return null;}},liveStatus={textContent:''};
+ const root={querySelector(s){return {'#reco-form':form,'#reco-results':results,'#reco-reset':reset,'#reco-live-body':live,'#reco-live-status':liveStatus}[s]||null;}};
  const document={getElementById(id){return id==='reco-app'?root:null;}};
  const localStorage={getItem(k){return Object.hasOwn(store,k)?store[k]:null;},setItem(k,v){store[k]=v;}};
  const window={WFRecommend:engine,WFConfigurationDetails:require('../configuration-details.js'),WFResultExplanations:require('../result-explanations.js')};
@@ -24,7 +24,7 @@ function createHarness(initial={}){
   return {dataset,hasAttribute(k){return attrs.includes(k);},closest(){return this;}};
  }
  function press(dataset,attrs=[]){form.listeners.click({target:button(dataset,attrs)});}
- return {form,results,reset,store,window,live,
+ return {form,results,reset,store,window,live,liveStatus,
   step(n){press({step:String(n)});},
   next(){press({},['data-next']);},
   back(){press({},['data-prev']);},
@@ -319,11 +319,11 @@ test('Pourquoi cette piste remplace « Fiabilité et incertitude » : critères,
  h.step(1);h.press('multi','activities','raid');
  h.reveal();
  assert.doesNotMatch(h.results.innerHTML,/Fiabilité et incertitude/);
- // Cinq pistes détaillées (au plus deux d'une même classe), puis le classement complet sur demande.
+ // Cinq pistes détaillées, au plus trois d'une même classe ; le classement complet reste dans l'aperçu.
  assert.equal((h.results.innerHTML.match(/<summary>Pourquoi cette piste<\/summary>/g)||[]).length,5);
  assert.equal((h.results.innerHTML.match(/class="reco-result-card/g)||[]).length,5);
  assert.match(h.results.innerHTML,/Tes 5 meilleures pistes\./);
- assert.match(h.results.innerHTML,/data-reco-full>Voir le classement complet des 28 spécialisations</);
+ assert.doesNotMatch(h.results.innerHTML,/data-reco-full|Voir le classement complet/);
  const classes=[...h.results.innerHTML.matchAll(/<h4>([^<]+)<\/h4>/g)].map(m=>m[1]),count={};
  for(const c of classes)count[c]=(count[c]||0)+1;
  assert.ok(Object.values(count).every(n=>n<=3),JSON.stringify(count));
@@ -339,26 +339,29 @@ test('Pourquoi cette piste remplace « Fiabilité et incertitude » : critères,
  assert.match(h.results.innerHTML,/Tes choix sont assez affirmés/);
 });
 
-test('Aperçu du classement : les spécialisations suivent chaque réponse, dix visibles puis les autres sur demande',()=>{
- const h=createHarness(),more=()=>h.live.listeners.click({target:{closest:s=>s==='[data-live-more]'?{}:null}});
+test('Aperçu du classement : toutes les spécialisations suivent les réponses sans second bouton',()=>{
+ const h=createHarness();
  assert.match(h.live.innerHTML,/Réponds à une question/);
+ assert.match(h.liveStatus.textContent,/Toutes les spécialisations/);
  h.press('multi','roles','dps');
  assert.match(h.live.innerHTML,/Avec une seule préférence, ce classement est encore peu parlant/);
- assert.equal((h.live.innerHTML.match(/<li /g)||[]).length,10);
- assert.match(h.live.innerHTML,/data-live-more aria-expanded="false">Voir les 18 autres spécialisations</);
- more();
  assert.equal((h.live.innerHTML.match(/<li /g)||[]).length,28);
- assert.match(h.live.innerHTML,/aria-expanded="true">Afficher les 10 premières seulement</);
+ assert.equal(h.liveStatus.textContent,'28 spécialisations à comparer');
+ assert.doesNotMatch(h.live.innerHTML,/data-live-more|autres spécialisations|premières seulement/);
  h.step(1);h.press('multi','activities','bg');
  assert.doesNotMatch(h.live.innerHTML,/une seule préférence/);
  // L'aperçu reprend le classement du moteur, dans le même ordre : une classe peut revenir.
  const order=[...h.live.innerHTML.matchAll(/<b>([^<]+)<\/b><small>([^<·]+)/g)].map(m=>m[1]+' '+m[2].trim());
  assert.deepEqual(order,engine.recommend(h.profile()).results.map(r=>r.spec.className+' '+r.spec.label));
  assert.ok(new Set(order.map(x=>x.split(' ')[0])).size<order.length);
- more();assert.equal((h.live.innerHTML.match(/<li /g)||[]).length,10);
+ h.step(2);h.single('range','distance');h.strict('range',true);
+ const filtered=engine.recommend(h.profile()).results.length;
+ assert.ok(filtered>0&&filtered<28);assert.equal((h.live.innerHTML.match(/<li /g)||[]).length,filtered);
+ assert.equal(h.liveStatus.textContent,filtered+' spécialisations à comparer');
  assert.doesNotMatch(h.results.innerHTML,/reco-result-card/);
  h.strict('roles',true);h.step(2);h.single('range','distance');h.strict('range',true);h.press('multi','roles','dps');h.press('multi','roles','tank');h.strict('roles',true);
  assert.match(h.live.innerHTML,/Aucune configuration ne remplit toutes tes exigences/);
+ assert.equal(h.liveStatus.textContent,'Aucune spécialisation compatible.');
 });
 
 test('Exigence absolue : la certitude du choix exigé passe à 5/5 et son curseur est verrouillé',()=>{

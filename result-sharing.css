@@ -36,6 +36,8 @@
 #reco-app.is-shared #reco-priority-form{display:none!important}
 #reco-app.is-shared #reco-results,#reco-app.is-shared #reco-priority-results{position:static;max-height:none;overflow:visible}
 #reco-app.is-shared .reco-live{margin-top:16px}
+#reco-app.is-shared .reco-live-inner{position:static}
+#reco-app.is-shared .reco-live-panel{max-height:65vh}
 @media(max-width:580px){
  .reco-import-entry{align-items:flex-start;gap:0}
  .reco-import-entry span{flex-basis:100%;text-align:center;font-size:13px}

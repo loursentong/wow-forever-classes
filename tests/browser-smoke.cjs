@@ -145,12 +145,13 @@ async function check(){
   await page.locator('[data-single="range"][data-key="distance"]').click();
   assert.match(await page.locator('#reco-results').textContent(),/Prévisualiser mes résultats/);
   assert.equal(await page.locator('#reco-results .reco-result-card').count(),0);
-  // L'aperçu du classement suit les réponses : neuf classes, dans l'ordre du moteur.
+  // L'aperçu contient directement tout le classement, dans l'ordre du moteur.
   await page.locator('#reco-live > summary').click();
-  assert.equal(await page.locator('#reco-live-body li').count(),10,'dix spécialisations visibles, les autres sur demande');
+  assert.equal(await page.locator('#reco-live-body li').count(),28,'Toutes les spécialisations sont accessibles dans le cadre');
   const liveBox=await page.evaluate(()=>{const a=document.querySelector('#reco-guided .reco-live').getBoundingClientRect(),b=document.querySelector('#reco-guided .reco-workspace').getBoundingClientRect(),
-   c=document.querySelector('#reco-live-body');return {liveBottom:Math.round(a.bottom),formBottom:Math.round(b.bottom),scrolls:c.scrollHeight>=c.clientHeight};});
+   c=document.querySelector('#reco-live');return {liveBottom:Math.round(a.bottom),formBottom:Math.round(b.bottom),scrolls:c.scrollHeight>c.clientHeight};});
   assert.ok(liveBox.liveBottom<=liveBox.formBottom+2,'Aperçu ouvert, toujours borné à la question : '+JSON.stringify(liveBox));
+  assert.ok(liveBox.scrolls,'Le cadre propose un vrai défilement : '+JSON.stringify(liveBox));
   await page.locator('#reco-live > summary').click();
   const place=()=>page.evaluate(()=>{const r=s=>{const b=document.querySelector(s).getBoundingClientRect();return {top:Math.round(b.top),bottom:Math.round(b.bottom),left:Math.round(b.left),width:Math.round(b.width)};};
    return {form:r('#reco-guided .reco-workspace'),results:r('#reco-results'),summary:r('#reco-summary-panel')};});
@@ -469,10 +470,11 @@ async function check(){
   // Cinq pistes : une classe en occupe au plus trois (ici les trois Druides à égalité), puis d'autres classes.
   assert.equal(cards.length,5);assert.deepEqual(cards.slice(0,3),['Druide','Druide','Druide']);
   assert.ok(cards.slice(3).every(c=>c!=='Druide'),'les places suivantes vont à d’autres classes : '+cards);
-  // Le classement complet s'ouvre depuis les résultats.
-  await page.locator('[data-reco-full]').click();
+  // Le classement complet reste dans l'aperçu ; aucun renvoi en haut depuis le top 5.
+  assert.equal(await page.locator('[data-reco-full]').count(),0);
+  await page.locator('#reco-live > summary').click();
   assert.equal(await page.locator('#reco-live').evaluate(d=>d.open),true);
-  assert.ok(await page.locator('#reco-live-body li').count()>10);
+  assert.equal(await page.locator('#reco-live-body li').count(),28);
   await page.locator('#reco-results').screenshot({path:path.join(__dirname,'screenshots','v10-deux-druides.png'),animations:'disabled'});
   await page.locator('[data-reco-mode="priorities"]').click();
   await page.locator('[data-prio-clear]').click();
@@ -824,6 +826,7 @@ async function check(){
    }
   }
   await require('./sharing-browser.cjs')(browser,'http://127.0.0.1:'+server.address().port+'/');
+  await require('./live-preview-browser.cjs')(browser,'http://127.0.0.1:'+server.address().port+'/');
   assert.deepEqual(errors,[],'Erreurs JavaScript navigateur');
   process.stdout.write('Chromium : deux parcours, 15 poids, 8 profils actuels, 28 spécialisations classées, maîtrise partagée, mobile et clavier — OK\n');
  }finally{

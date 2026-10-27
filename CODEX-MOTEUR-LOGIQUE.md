@@ -163,6 +163,8 @@ score_affiché = arrondi(100 × score_brut, 2 décimales)
 
 **Restitution des égalités (lot d'explications du 21 octobre 2026) :** l'interface partage le rang des scores exactement égaux et leur mise en avant. Le guide cite toutes les classes à égalité en tête, y compris au-delà de ses trois cartes. Cette présentation ne modifie ni le tri déterministe, ni les scores, ni le choix de la configuration représentative. Les scores affichés à l'entier peuvent masquer un petit écart ; ils ne définissent pas l'égalité.
 
+**Restitution du classement guidé (27 octobre 2026, en revue).** Les cinq pistes détaillées restent affichées sur demande. Le bouton qui renvoyait au classement complet depuis le top 5 est retiré. L’aperçu, fermé par défaut, contient directement toutes les configurations compatibles et défile dans son cadre, avec un compteur adapté aux filtres et un en-tête visible. Cette présentation remplace la limite d’affichage de dix configurations suivie d’un bouton dans l’aperçu guidé ; elle ne change ni le moteur, ni le classement personnalisé, ni les scores, ni les sauvegardes. [Motif et contrôles](APERCU-CLASSEMENT.md).
+
 ### 2.6. Sensibilité (et ce qu'elle ne signifie pas)
 
 Les choix de certitude **≤ 2** sont successivement retirés **un par un** et les classements recalculés (depuis la v10, la stabilité d'une piste se compte par spécialisation : sa présence dans le top 3 plafonné de chaque scénario) ; depuis la v8, une façon de soigner hésitante l'est aussi, et retirer le rôle Soin retire avec lui la façon de soigner. La stabilité exprimée est un décompte interne d'apparitions dans le top 3 des scénarios admissibles ; **ce n'est pas une probabilité statistique**. Ne pas annoncer « 90 % de chances d'aimer cette classe » à partir de ce dispositif.

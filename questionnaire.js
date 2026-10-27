@@ -251,36 +251,28 @@ function discovery(n){
   '<small>'+(n?'Encore une préférence pour un premier aperçu.':'Deux préférences suffisent pour un premier aperçu.')+'</small>';
 }
 /* Aperçu du classement, à droite du questionnaire : les spécialisations selon les réponses actuelles,
- * dans un bloc repliable fermé par défaut (les résultats restent affichés à la demande). Depuis la v10,
- * une classe peut revenir ; les dix premières sont affichées, les autres sur demande. */
-var live=root.querySelector('#reco-live-body'),LIVE_VISIBLE=10,liveAll=false,lastLive=null;
-function moreButton(attr,total,open){
- return total>LIVE_VISIBLE?'<button type="button" class="reco-more" '+attr+' aria-expanded="'+open+'">'+
-  (open?'Afficher les '+LIVE_VISIBLE+' premières seulement':'Voir les '+(total-LIVE_VISIBLE)+' autres spécialisations')+'</button>':'';
-}
+ * dans un bloc repliable fermé par défaut. Une fois ouvert, tout le classement est accessible dans
+ * son cadre défilant ; les cinq pistes détaillées restent affichées sur demande. */
+var live=root.querySelector('#reco-live-body'),liveStatus=root.querySelector('#reco-live-status');
 function renderLive(report){
  if(!live)return;
- var h;lastLive=report;
+ var h,status=report.status==='unanswered'?'Toutes les spécialisations, selon tes réponses.':report.status==='no-match'?'Aucune spécialisation compatible.':report.results.length+' spécialisation'+(report.results.length>1?'s':'')+' à comparer';
+ if(liveStatus&&liveStatus.textContent!==status)liveStatus.textContent=status;
  if(report.status==='unanswered')h='<p class="reco-live-empty">Réponds à une question : les spécialisations se classeront ici à chaque réponse.</p>';
  else if(report.status==='no-match')h='<p class="reco-live-empty">Aucune configuration ne remplit toutes tes exigences.</p>';
  else{
   var positions=X?X.ranks(report.results):[];
   h=(report.used.length<2?'<p class="reco-live-note">Avec une seule préférence, ce classement est encore peu parlant.</p>':'')+
-   '<ol class="reco-live-list">'+report.results.slice(0,liveAll?report.results.length:LIVE_VISIBLE).map(function(r,i){
+   '<ol class="reco-live-list">'+report.results.map(function(r,i){
     var p=positions[i]||{rank:i+1},score=Math.round(r.score);
     return '<li value="'+p.rank+'" style="--reco-class:var(--k-'+esc(r.spec.classId)+')"><span class="reco-live-rank">'+p.rank+'</span>'+
      '<img src="'+wowClassIcon(r.spec.classId)+'" alt="" width="28" height="28" loading="lazy" decoding="async">'+
      '<span class="reco-live-name"><b>'+esc(r.spec.className)+'</b><small>'+esc(r.spec.label)+(r.spec.variant==='sans-familier'?' · sans familier':'')+'</small></span>'+
      '<span class="reco-live-score">'+score+'</span><span class="reco-live-bar" aria-hidden="true"><i style="width:'+Math.max(0,Math.min(100,score))+'%"></i></span></li>';
-   }).join('')+'</ol>'+moreButton('data-live-more',report.results.length,liveAll);
+   }).join('')+'</ol>';
  }
  if(live.innerHTML!==h)live.innerHTML=h;
 }
-if(live&&live.addEventListener)live.addEventListener('click',function(ev){
- if(!ev.target.closest||!ev.target.closest('[data-live-more]')||!lastLive)return;
- liveAll=!liveAll;renderLive(lastLive);
- var again=live.querySelector&&live.querySelector('[data-live-more]');if(again&&again.focus)again.focus();
-});
 function canReveal(report){return !revealed&&report.status==='ok'&&report.used.length>=2;}
 function renderResults(){
  var report=E.recommend(state,PISTES),out=root.querySelector('#reco-results'),h='';
@@ -311,7 +303,6 @@ function renderResults(){
   if(tie)h+='<p class="reco-note reco-tie-note">'+esc(tie)+'</p>';
   if(X)X.contextNotes({profile:state}).forEach(function(note){h+='<p class="reco-note">'+esc(note)+'</p>';});
   h+='<div class="reco-cards">'+report.top.map(function(r,i){return resultCard(r,i,positions[i],hesitations(report));}).join('')+'</div>';
-  if(report.results.length>report.top.length)h+='<button type="button" class="reco-more" data-reco-full>Voir le classement complet des '+report.results.length+' spécialisations</button>';
   if(report.uncertain.length)h+='<p class="reco-note">Sensibilité : '+report.uncertain.length+' préférence(s) hésitante(s) explorée(s). Ces scénarios ne sont pas des probabilités.</p>';
   else h+='<p class="reco-note">Ces scores sont des estimations de correspondance, pas des probabilités de satisfaction.</p>';
  }
@@ -353,14 +344,6 @@ if(stepRail)stepRail.addEventListener('click',function(ev){
 });
 resultsArea.addEventListener('click',function(ev){
  var b=ev.target.closest('button');if(!b)return;
- if(b.hasAttribute('data-reco-full')){
-  // Le classement complet est l'aperçu du classement : on l'ouvre, en entier, et on y conduit le joueur.
-  var panel=root.querySelector('#reco-live');
-  if(panel){panel.open=true;liveAll=true;if(lastLive)renderLive(lastLive);
-   if(panel.scrollIntoView)panel.scrollIntoView({block:'start',behavior:window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
-   var summary=panel.querySelector('summary');if(summary&&summary.focus)summary.focus({preventScroll:true});}
-  return;
- }
  if(b.hasAttribute('data-reco-reveal'))showResults();
  else if(b.hasAttribute('data-reco-hide')){
   revealed=false;renderResults();
