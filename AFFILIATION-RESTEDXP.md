@@ -5,7 +5,7 @@ Intégration du 23 octobre 2026, sur la version du moteur 1.3.0 / référence v1
 ## Offre affichée
 
 - Lien fourni par le propriétaire et confirmé dans l’espace affilié : https://shop.restedxp.com/ref/LoursEnTong/
-- Coupon affiché dans l’onglet Coupons : `1K9U6RPCTR`, réduction de **10 %**.
+- Coupon actualisé le 30 octobre 2026 d’après la capture de l’onglet Coupons fournie par le propriétaire : `IJFISSOEDT`, réduction de **10 %**.
 - L’espace affilié confirme une commission de 30 % pour le propriétaire. Ce taux n’est pas une réduction pour l’acheteur et n’est pas affiché dans l’encart.
 - Les produits éligibles, exclusions, dates d’expiration et règles de cumul ne sont pas détaillés dans cet espace. L’encart indique de vérifier les conditions au panier ; il ne promet ni application automatique du coupon, ni validité sur tout le catalogue.
 

@@ -62,11 +62,11 @@ async function check(){
   const prefsBefore=await page.evaluate(()=>JSON.stringify(localStorage));
   await page.evaluate(()=>Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async text=>{window.__couponCopied=text;}}}));
   await page.locator('[data-support-copy]').focus();await page.keyboard.press('Enter');
-  assert.equal(await page.evaluate(()=>window.__couponCopied),'1K9U6RPCTR');
+  assert.equal(await page.evaluate(()=>window.__couponCopied),'IJFISSOEDT');
   assert.match(await page.locator('.support-copy-status').textContent(),/Code copié/);
   await page.evaluate(()=>Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async()=>{throw new Error('Presse-papiers indisponible');}}}));
   await page.locator('[data-support-copy]').click();
-  assert.equal(await page.evaluate(()=>getSelection().toString()),'1K9U6RPCTR');
+  assert.equal(await page.evaluate(()=>getSelection().toString()),'IJFISSOEDT');
   assert.match(await page.locator('.support-copy-status').textContent(),/Code sélectionné/);
   assert.equal(await page.evaluate(()=>JSON.stringify(localStorage)),prefsBefore);
   await page.reload();
