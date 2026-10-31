@@ -38,7 +38,9 @@ test('Chasseurs en PvE : des remarques concrètes, sans transformer le repère e
   assert.doesNotMatch(X.friendlyGroups(p,true).find(g=>g.key==='activities').verdict,/compromis/i);
  }
  const bm=E.explain('chasseur-maitrise-betes',{activities:{raid:5},mastery:2});
- assert.match(X.friendlyKeep(bm),/forte sur une cible.*gros groupes/i);
+ // v16 : son repère monocible est désormais 3 ; conserver la distinction cible/zone sans le qualifier de « fort ».
+ assert.match(X.friendlyKeep(bm),/dégâts estimés privilégient une cible.*gros groupes/i);
+ assert.doesNotMatch(X.friendlyKeep(bm),/forte sur une cible/);
 });
 
 test('Maîtrise, activités faibles et hésitations gardent des explications distinctes',()=>{
@@ -46,7 +48,7 @@ test('Maîtrise, activités faibles et hésitations gardent des explications dis
  assert.match(X.friendlyGroups(s,false).find(g=>g.key==='activities').verdict,/réflexes/);
  assert.match(X.friendlyKeep(s),/réflexes/);
  const weak=E.explain('voleur-assassinat',{activities:{raid:5},mastery:2});
- assert.match(X.friendlyKeep(weak),/moins à l’aise/);
+ assert.match(X.friendlyKeep(weak),/dégâts estimés privilégient une cible.*gros groupes/i);
  const unsure=E.explain('mage-givre',{styles:{ctrl:0}});
  assert.match(X.friendlyKeep(unsure),/Tu hésites/);
 });

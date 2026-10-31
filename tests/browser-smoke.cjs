@@ -435,7 +435,7 @@ async function check(){
   const givre=page.locator('[data-config-id="mage-givre"]');
   await givre.locator('summary').click();
   // Depuis la v11 : la note sur 5, ce qui pèse dans chaque contexte et le lien vers le détail de la grille.
-  assert.match(await givre.textContent(),/PvE : Assez accessible \(2\/5\) · PvP : Exigeant \(4\/5\)\. En PvE, la rotation, la gestion de la ressource et le placement pèsent un peu\. En PvP, les contrôles, la défense et le placement pèsent beaucoup ; l’ouverture, un peu\./);
+  assert.match(await givre.textContent(),/PvE : Assez accessible \(2\/5\) · PvP : Exigeant \(4\/5\)\. En PvE, la rotation, les effets à entretenir, la gestion de la ressource et le placement pèsent un peu\. En PvP, les contrôles, la défense et le placement pèsent beaucoup ; l’ouverture, un peu\./);
   assert.equal(await givre.locator('a[href="fiches-sources/mage.html#mage-givre-complexite"]').count(),1);
   await page.locator('#reco-results').screenshot({path:path.join(__dirname,'screenshots','lot1-egalite-guide.png'),animations:'disabled'});
   await page.locator('[data-step="4"]').click();
@@ -593,8 +593,8 @@ async function check(){
   await parents.first().locator('td[data-k="burst"]').click();
   assert.equal(await parents.first().locator('.spec-toggle').getAttribute('aria-expanded'),'true');
   assert.deepEqual(await visibleSpecs(),[
-   {id:'guerrier-armes',notes:'— — — 4 4 3 5 4 3 3 4 2 2 4·4'},
-   {id:'guerrier-fureur',notes:'— — — 5 4 3 4 5 2 3 4 2 3 3·4'},
+   {id:'guerrier-armes',notes:'— — — 3 4 3 5 4 3 3 4 2 2 4·4'},
+   {id:'guerrier-fureur',notes:'— — — 4 4 3 4 5 2 3 4 2 3 3·4'},
    {id:'guerrier-protection',notes:'— 5 — — 4 2 2 3 3 5 3 3 3 4·4'}]);
   assert.equal(await firstColumn(),closedColumn,'La colonne des noms ne bouge pas à l’ouverture');
   // Le nom de la classe ouvre toujours sa fiche, sans replier ni déplier.
@@ -748,7 +748,8 @@ async function check(){
    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth+2));
   }
   // Exigeant très affirmé : préciser le sens de l'écart, avec une vraie spé intermédiaire.
-  await page.evaluate(()=>{localStorage.clear();localStorage.setItem('wf-recommend-v1',JSON.stringify({roles:{dps:5},rolesStrict:true,range:{value:'distance',certainty:5,strict:true},activities:{raid:5},difficulty:{value:'complex',certainty:5},mastery:3}));});
+  // v16 : burst/mobilité garde Arcane dans les trois pistes de ce cas destiné à vérifier sa complexité, malgré son nouveau repère raid.
+  await page.evaluate(()=>{localStorage.clear();localStorage.setItem('wf-recommend-v1',JSON.stringify({roles:{dps:5},rolesStrict:true,range:{value:'distance',certainty:5,strict:true},activities:{raid:5},styles:{burst:5,mob:3},difficulty:{value:'complex',certainty:5},mastery:3}));});
   await page.reload({waitUntil:'domcontentloaded'});await page.setViewportSize({width:390,height:1000});
   await page.locator('[data-reco-mode="guided"]').click();await page.locator('[data-step="5"]').click();
   assert.equal(await page.locator('#rc-difficulty-complex').isVisible(),true);
@@ -764,7 +765,8 @@ async function check(){
   assert.doesNotMatch(await complexity.textContent(),/À voir si/);
   await complexity.screenshot({path:path.join(__dirname,'screenshots','complexite-envie.png'),animations:'disabled'});
   // Fureur en PvE : les six graduations passent par le vrai curseur, pour les deux envies.
-  await page.evaluate(()=>{localStorage.clear();localStorage.setItem('wf-recommend-v1',JSON.stringify({roles:{dps:5},rolesStrict:true,activities:{raid:5},mastery:3}));});
+  // Restreindre ce cas à la mêlée pour garder Fureur visible à toutes les graduations ; les classements complets suivent la référence v16.
+  await page.evaluate(()=>{localStorage.clear();localStorage.setItem('wf-recommend-v1',JSON.stringify({roles:{dps:5},rolesStrict:true,range:{value:'melee',certainty:5,strict:true},activities:{raid:5},mastery:3}));});
   await page.reload({waitUntil:'domcontentloaded'});await page.locator('[data-reco-mode="guided"]').click();
   for(const value of ['simple','complex'])for(const certainty of [0,1,2,3,4,5]){
    await page.locator('[data-step="5"]').click();

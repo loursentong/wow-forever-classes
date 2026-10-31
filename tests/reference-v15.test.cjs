@@ -1,16 +1,19 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),crypto=require('node:crypto');
-const E=require('../recommendation-engine.js'),v14=require('./fixtures/moteur-reference-v14.json'),v15=require('./fixtures/moteur-reference-v15.json');
-const {snapshot,compare}=require('../scripts/reference-v15.cjs');
+const v14=require('./fixtures/moteur-reference-v14.json'),v15=require('./fixtures/moteur-reference-v15.json');
+const {compare}=require('../scripts/reference-v15.cjs');
 
 test('v14 intacte ; nouvelle référence v15 explicite et données sources conservées',()=>{
  const s=fs.readFileSync(require.resolve('./fixtures/moteur-reference-v14.json'),'utf8').replace(/\r\n/g,'\n');
  assert.equal(crypto.createHash('sha1').update('blob '+Buffer.byteLength(s)+'\0').update(s).digest('hex'),'e2c04042407a125bac7a90d187059b23dcdf5ded');
  assert.equal(v14.info.engineVersion,'1.4.0-exploratoire');
- assert.equal(E.version,'1.5.0-exploratoire');assert.equal(v15.info.revision,15);
+ assert.equal(v15.info.engineVersion,'1.5.0-exploratoire');assert.equal(v15.info.revision,15);
  assert.equal(v15.info.previousReference,'moteur-reference-v14.json');
  assert.match(v15.info.decision,/75 %.*25 %/);
- assert.deepEqual(snapshot(),v15);
+ // Depuis la révision de données v16, la reconstruction active appartient au contrat v16.
+ // La photographie v15 et toutes ses assertions de transition restent figées, octet pour octet.
+ const frozen=fs.readFileSync(require.resolve('./fixtures/moteur-reference-v15.json'),'utf8').replace(/\r\n/g,'\n');
+ assert.equal(crypto.createHash('sha1').update('blob '+Buffer.byteLength(frozen)+'\0').update(frozen).digest('hex'),'9035f56a33edb98ebf7967e7a686326f018fb119');
  for(const field of ['matrix','specs','petless','heal','referenceVariants','petlessComplexity','priorityAxes'])assert.deepEqual(v15[field],v14[field]);
 });
 

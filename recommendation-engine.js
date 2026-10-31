@@ -30,14 +30,14 @@ var names={guerrier:'Guerrier',paladin:'Paladin',chasseur:'Chasseur',voleur:'Vol
  * Charge d'exécution (référence v11) : note de complexité PvE et PvP, issue de la grille COMPLEXITY ci-dessous.
  */
 var rows=[
-['armes','guerrier','Armes','dps','melee','none', [4,4,3,2],[5,4,3,3,4,2],[4,4]],
-['fureur','guerrier','Fureur','dps','melee','none',[5,4,3,3],[4,5,2,3,4,2],[3,4]],
+['armes','guerrier','Armes','dps','melee','none', [3,4,3,2],[5,4,3,3,4,2],[4,4]],
+['fureur','guerrier','Fureur','dps','melee','none',[4,4,3,3],[4,5,2,3,4,2],[3,4]],
 ['protection','guerrier','Protection','tank','melee','none',[5,4,2,3],[2,3,3,5,3,3],[4,4]],
 ['sacre','paladin','Sacré','soin','distance','none',[5,5,4,3],[2,2,2,5,2,5],[2,2]],
 ['protection','paladin','Protection','tank','melee','none',[4,4,3,5],[3,3,2,5,2,5],[3,2]],
-['vindicte','paladin','Vindicte','dps','melee','none',[4,4,4,4],[4,3,2,4,2,4],[1,3]],
-['maitrise-betes','chasseur','Maîtrise des bêtes','dps','distance','core',[4,4,4,5],[3,2,3,3,3,2],[2,4]],
-['precision','chasseur','Précision','dps','distance','optional',[4,5,4,5],[5,3,3,2,3,2],[2,4]],
+['vindicte','paladin','Vindicte','dps','melee','none',[3,4,4,4],[4,3,2,4,2,4],[2,3]],
+['maitrise-betes','chasseur','Maîtrise des bêtes','dps','distance','core',[3,4,4,5],[3,2,3,3,3,2],[2,4]],
+['precision','chasseur','Précision','dps','distance','optional',[3,5,4,5],[5,3,3,2,3,2],[2,4]],
 ['survie','chasseur','Survie','dps','melee','optional',[5,4,4,5],[4,3,4,3,3,2],[4,4]],
 ['assassinat','voleur','Assassinat','dps','melee','none',[3,3,5,3],[5,2,5,2,4,1],[2,4]],
 ['combat','voleur','Combat','dps','melee','none',[3,3,4,3],[4,3,4,3,4,1],[2,4]],
@@ -48,14 +48,14 @@ var rows=[
 ['elementaire','chaman','Élémentaire','dps','distance','none',[2,4,4,3],[5,4,3,3,4,4],[3,4]],
 ['amelioration','chaman','Amélioration','dps','melee','none',[3,4,4,3],[5,3,2,3,5,4],[3,3]],
 ['restauration','chaman','Restauration','soin','distance','none',[5,5,4,3],[2,2,2,4,4,5],[3,3]],
-['arcane','mage','Arcane','dps','distance','none',[4,4,3,3],[5,4,4,2,3,3],[3,3]],
+['arcane','mage','Arcane','dps','distance','none',[3,4,3,3],[5,4,4,2,3,3],[3,3]],
 ['feu','mage','Feu','dps','distance','none',[4,4,4,3],[5,5,3,2,3,3],[2,3]],
 ['givre','mage','Givre','dps','distance','none',[3,5,5,3],[4,5,5,3,3,3],[2,4]],
-['affliction','demoniste','Affliction','dps','distance','optional',[4,5,5,4],[3,4,5,4,2,3],[3,4]],
+['affliction','demoniste','Affliction','dps','distance','optional',[3,5,5,4],[3,4,5,4,2,3],[3,4]],
 ['demonologie','demoniste','Démonologie','dps','distance','core',[4,5,4,5],[4,4,4,5,2,3],[4,4]],
 ['destruction','demoniste','Destruction','dps','distance','optional',[3,5,5,4],[5,4,4,3,2,2],[3,4]],
 ['equilibre','druide','Équilibre','dps','distance','none',[3,4,4,3],[4,3,3,3,5,5],[2,4]],
-['farouche-chat','druide','Farouche (félin)','dps','melee','none',[4,4,4,4],[5,2,3,4,5,3],[4,4]],
+['farouche-chat','druide','Farouche (félin)','dps','melee','none',[3,4,4,4],[4,2,3,4,5,3],[4,4]],
 ['farouche-ours','druide','Farouche (ours)','tank','melee','none',[4,4,3,4],[2,3,3,5,4,4],[2,3]],
 ['restauration','druide','Restauration','soin','distance','none',[5,5,4,3],[2,2,3,4,5,5],[3,4]]
 ];
@@ -79,7 +79,7 @@ var COMPLEXITY={
  'guerrier-protection':{pve:[2,2,2,0,1],pvp:[2,2,1,0,2]},
  'paladin-sacre':{pve:[0,1,1,1,1],pvp:[1,1,1,0,1]},
  'paladin-protection':{pve:[1,1,2,0,1],pvp:[1,1,1,0,1]},
- 'paladin-vindicte':{pve:[0,1,1,0,0],pvp:[1,1,2,1,1]},
+ 'paladin-vindicte':{pve:[1,1,1,0,0],pvp:[1,1,2,1,1]},
  'chasseur-maitrise-betes':{pve:[0,1,1,1,1],pvp:[2,1,2,1,2]},
  'chasseur-precision':{pve:[1,1,1,1,0],pvp:[2,1,2,1,1]},
  'chasseur-survie':{pve:[2,1,1,2,1],pvp:[2,2,2,1,1]},
@@ -94,14 +94,14 @@ var COMPLEXITY={
  'chaman-restauration':{pve:[0,1,1,1,2],pvp:[1,1,2,0,2]},
  'mage-arcane':{pve:[1,1,2,1,0],pvp:[2,1,2,1,0]},
  'mage-feu':{pve:[1,1,1,1,0],pvp:[2,1,2,1,0]},
- 'mage-givre':{pve:[1,0,1,1,0],pvp:[2,2,2,1,0]},
+ 'mage-givre':{pve:[1,1,1,1,0],pvp:[2,2,2,1,0]},
  'demoniste-affliction':{pve:[1,2,1,1,1],pvp:[2,1,2,1,2]},
  'demoniste-demonologie':{pve:[1,2,1,1,2],pvp:[2,1,2,1,2]},
  'demoniste-destruction':{pve:[1,1,1,1,1],pvp:[2,1,2,1,2]},
  'druide-equilibre':{pve:[0,1,1,1,0],pvp:[1,1,2,1,2]},
  'druide-farouche-chat':{pve:[2,2,2,1,1],pvp:[1,2,1,2,2]},
  'druide-farouche-ours':{pve:[1,1,1,0,1],pvp:[1,2,1,0,2]},
- 'druide-restauration':{pve:[1,2,1,0,1],pvp:[1,2,2,0,2]}
+ 'druide-restauration':{pve:[1,2,1,1,1],pvp:[1,2,2,0,2]}
 };
 function complexityNote(total){return total<=2?1:total<=4?2:total<=6?3:total<=8?4:5;}
 function sum(a){return a.reduce(function(x,y){return x+y;},0);}
@@ -448,11 +448,11 @@ function sanitizeWeights(input){
  * Vérification de synchronisation avec les 126 notes affichées dans les tests.
  */
 var ROLE_REFERENCE={
- guerrier:{tank:5,soin:1,dps:5},paladin:{tank:4,soin:5,dps:4},
+ guerrier:{tank:5,soin:1,dps:4},paladin:{tank:4,soin:5,dps:3},
  chasseur:{tank:1,soin:1,dps:5},voleur:{tank:1,soin:1,dps:3},
  pretre:{tank:1,soin:5,dps:3},chaman:{tank:2,soin:5,dps:3},
  mage:{tank:1,soin:1,dps:4},demoniste:{tank:1,soin:1,dps:4},
- druide:{tank:4,soin:5,dps:4}
+ druide:{tank:4,soin:5,dps:3}
 };
 function roleSuitability(s,m,activities){
  var ctx=activityContext(activities);
@@ -597,7 +597,7 @@ function checkData(){
  }
  return errors;
 }
-return {version:'1.5.0-exploratoire',referenceVariants:REFERENCE_VARIANTS,healStyles:HEAL_STYLES,sources:sources,specs:specs,petless:petless,difficultyContext:difficultyContext,difficultyLoad:difficultyLoad,complexityGrid:COMPLEXITY_GRID,complexityNote:complexityNote,roles:ROLE,activities:acts,styles:styles,
+return {version:'1.6.0-exploratoire',referenceVariants:REFERENCE_VARIANTS,healStyles:HEAL_STYLES,sources:sources,specs:specs,petless:petless,difficultyContext:difficultyContext,difficultyLoad:difficultyLoad,complexityGrid:COMPLEXITY_GRID,complexityNote:complexityNote,roles:ROLE,activities:acts,styles:styles,
  defaultProfile:copy(DEFAULT),sanitize:sanitize,selected:selected,domains:domains,eligible:eligible,
  ranking:ranking,recommend:recommend,topPicks:topPicks,perClass:perClass,techContext:techContext,explain:explain,priorityExplain:priorityExplain,checkData:checkData,intensity:intensity,preferenceFit:preferenceFit,
  rolePool:rolePool,activityNote:activityNote,groupPveDetails:groupPveDetails,adjustedActivity:adjustedActivity,potential:potential,roleSuitability:roleSuitability,roleReference:ROLE_REFERENCE,activityContext:activityContext,guideActivities:guideActivities,priorityActivities:priorityActivities,priorityPreset:priorityPreset,priorityAxes:PRIORITY_AXES,priorityRanking:priorityRanking,sanitizeWeights:sanitizeWeights};

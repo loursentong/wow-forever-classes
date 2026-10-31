@@ -11,6 +11,7 @@ const path=require('node:path');
 const E=require('../recommendation-engine.js');
 const S=require('../notes-specialisations.js');
 const v12=require('./fixtures/moteur-reference-v12.json');
+const v13=require('./fixtures/moteur-reference-v13.json');
 const html=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
 const D=JSON.parse(html.match(/window\.__WF = (\{.*?\});\s*<\/script>/s)[1]);
 // [classe, critère, note v12, note v13], dans l'ordre des classes et des critères du tableau.
@@ -42,7 +43,8 @@ test('Règle v13 : sur chaque critère porté par les spécialisations, la class
 
 test('v12 → v13 : exactement les 27 notes qui différaient de leur meilleure spé',()=>{
  const diff=[];
- for(const c of v12.matrix.classes){const now=D.classes.find(x=>x.id===c.id).r;for(const k of D.axes)if(now[k]!==c.r[k])diff.push([c.id,k,c.r[k],now[k]]);}
+ // La transition historique est comparée à sa photographie, le tableau actif reste contrôlé ci-dessous.
+ for(const c of v12.matrix.classes){const now=v13.matrix.classes.find(x=>x.id===c.id).r;for(const k of v13.matrix.axes)if(now[k]!==c.r[k])diff.push([c.id,k,c.r[k],now[k]]);}
  assert.deepEqual(diff,CHANGES);
  assert.equal(CHANGES.filter(x=>x[3]>x[2]).length,25,'25 notes montent');
  assert.deepEqual(CHANGES.filter(x=>x[3]<x[2]).map(x=>x[0]+'/'+x[1]),['chasseur/util','voleur/util'],'2 baissent');
@@ -59,8 +61,8 @@ test('v12 → v13 : exactement les 27 notes qui différaient de leur meilleure s
 test('La référence de rôle du moteur suit les notes de classe : Druide DPS 3 → 4, moteur 1.3.0',()=>{
  // La version active est vérifiée par le contrat ; cette décision historique porte sur les notes de classe.
  for(const c of D.classes)for(const r of E.roles)assert.equal(E.roleReference[c.id][r],c.r[r],c.id+'/'+r);
- assert.equal(E.roleReference.druide.dps,4);
- assert.deepEqual(E.specs,v12.specs,'aucune note de configuration ne change');
+ assert.equal(v13.matrix.classes.find(c=>c.id==='druide').r.dps,4);
+ assert.deepEqual(v13.specs,v12.specs,'aucune note de configuration ne change en v13');
 });
 
 test('Textes : la note sous le tableau et les justifications de Burst et de Zone suivent la règle',()=>{

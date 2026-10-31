@@ -1,8 +1,8 @@
 {
  "classe": "druide",
  "libelle": "Druide",
- "date": "2026-10-23",
- "moteur": "1.5.0-exploratoire",
+ "date": "2026-10-31",
+ "moteur": "1.6.0-exploratoire",
  "faits": [
   {
    "id": "dr-role",
@@ -16,9 +16,10 @@
   {
    "id": "dr-limites",
    "categorie": "limite",
-   "texte": "Ne peut ni ralentir, ni réduire au silence, ni interrompre ; contrôle plus faible et moins fiable.",
+   "texte": "Le contrôle est moins fourni que celui des spécialistes. Le félin ne dispose ni de silence ni d’interruption dans sa forme ; « Feral Charge », si le build prend ce talent Farouche, immobilise et interrompt en ours. Ne pas attribuer cette interruption à tous les builds de Druide.",
    "sources": [
-    "bz-dd-chasseur-druide"
+    "bz-dd-chasseur-druide",
+    "wft-druide-talents-20261031"
    ],
    "contre": [
     "ctrl"
@@ -35,10 +36,11 @@
   {
    "id": "dr-ours-controle",
    "categorie": "controle",
-   "texte": "Ours : « Bash » (recharge réduite par « Brutal Impact ») ; aucune interruption ni aucun ralentissement en félin.",
+   "texte": "« Bash » étourdit en ours ; le talent Farouche « Feral Charge » immobilise et interrompt en ours. Ces outils exigent un changement de forme quand on joue félin ; aucune interruption ni aucun ralentissement direct en félin ne sont établis par les données consultées.",
    "sources": [
     "bz-dd-chasseur-druide",
-    "kami-video"
+    "kami-video",
+    "wft-druide-talents-20261031"
    ],
    "specs": [
     "druide-farouche-ours",
@@ -48,10 +50,11 @@
   {
    "id": "dr-mobilite",
    "categorie": "mobilite",
-   "texte": "Forme de voyage, « Dash », camouflage en félin ; « Feral Charge » (30 s en félin), « Feral Swiftness » ; se transformer libère des entraves.",
+   "texte": "Forme de voyage, « Dash », camouflage en félin, « Feral Swiftness » et transformations qui libèrent des entraves. Les données actuelles décrivent « Feral Charge » en ours, avec 15 s de recharge ; l’ancienne indication de 30 s en félin n’est plus retenue. Le talent doit être effectivement pris dans le build.",
    "sources": [
     "bz-dd-chasseur-druide",
-    "wt-druide"
+    "wt-druide",
+    "wft-druide-talents-20261031"
    ]
   },
   {
@@ -66,20 +69,25 @@
   {
    "id": "dr-soutien",
    "categorie": "soutien",
-   "texte": "« Rebirth », « Innervate », « Mark of the Wild », retrait des malédictions et poisons, auras « Leader of the Pack » et « Moonkin Form ».",
+   "texte": "« Rebirth », « Innervate », « Mark of the Wild », retrait des malédictions et poisons. Selon les talents pris, « Leader of the Pack » en forme animale ou « Moonkin Form » : les descriptions du hotfix du 30 octobre donnent désormais 3 % aux critiques de toute nature du groupe ou raid, à confirmer en jeu.",
    "sources": [
     "wt-druide",
     "bz-dd-chasseur-druide",
-    "kami-video"
+    "kami-video",
+    "wft-druide-talents-20261031",
+    "fc-hotfix-20261030"
    ]
   },
   {
    "id": "dr-resto",
    "categorie": "soutien",
-   "texte": "Restauration : « Wild Growth » (31 points), « Swiftmend » sans consommer les soins sur la durée, « Revive » ; soins sur la durée cumulables et critiques ; boîte à outils plus limitée que celle du Prêtre selon Blizzard.",
+   "texte": "Restauration : « Wild Growth », talent profond, pose un soin de groupe sur la durée avec 3 s d’incantation (2,5 s avec Naturalist au maximum). « Swiftmend » est un soin instantané exigeant son propre Rejuvenation ou Regrowth actif ; le nouveau texte parle du sort consommé, ce qui reste à confirmer en jeu. « Revive » complète le kit. L’ancienne présentation Blizzard juge sa boîte à outils plus limitée que celle du Prêtre.",
    "sources": [
     "bz-dd-chasseur-druide",
-    "wt-druide"
+    "wt-druide",
+    "wft-patch-20261031",
+    "wft-druide-talents-20261031",
+    "fc-hotfix-20261030"
    ],
    "specs": [
     "druide-restauration"
@@ -88,9 +96,11 @@
   {
    "id": "dr-equilibre",
    "categorie": "burst",
-   "texte": "Équilibre : « Eclipse », « Nature’s Grace », « Insect Swarm », « Hurricane » sans recharge, « Moonkin Form ».",
+   "texte": "Équilibre : « Eclipse », « Nature’s Grace », « Insect Swarm », « Hurricane » sans recharge et « Moonkin Form ». Le hotfix porte Genesis à 10 % sur les dégâts et soins périodiques au rang maximum ; ce bénéfice suppose que le build investisse dans ce talent.",
    "sources": [
-    "bz-dd-chasseur-druide"
+    "bz-dd-chasseur-druide",
+    "wft-patch-20261031",
+    "fc-hotfix-20261030"
    ],
    "specs": [
     "druide-equilibre"
@@ -99,9 +109,12 @@
   {
    "id": "dr-chat",
    "categorie": "burst",
-   "texte": "Félin : « Berserk » (31 points, +100 % de critique), « Shifting Power » (40 d’Énergie), « Shred », « Rake ».",
+   "texte": "Félin : « Shred », « Rake », « Rip » et « Ferocious Bite ». Le hotfix retire Berserk. Predatory Discipline permet à Ferocious Bite de profiter de l’énergie en réserve sans la dépenser ; Shifting Power donne 40 énergie, coûte 55 % du mana de base et se recharge en 8 s. Ce dernier exige 30 points dépensés en Farouche et Predatory Discipline.",
    "sources": [
-    "bz-dd-chasseur-druide"
+    "bz-dd-chasseur-druide",
+    "wft-patch-20261031",
+    "wft-druide-talents-20261031",
+    "fc-hotfix-20261030"
    ],
    "specs": [
     "druide-farouche-chat"
@@ -110,10 +123,13 @@
   {
    "id": "dr-ours",
    "categorie": "zone",
-   "texte": "Ours : « Lacerate », « Primal Bite », « Swipe » (3 cibles) ; ne bloque ni ne pare, compte sur l’esquive et l’armure.",
+   "texte": "Ours : Lacerate devient un talent accessible après 15 points dépensés en Farouche, puis ses rangs suivants se prennent chez le maître de classe. Primal Bite demande désormais 30 points dépensés et Leader of the Pack ; il n’est plus un outil du même palier de leveling. « Swipe » reste limité à 3 cibles ; l’ours ne bloque ni ne pare et compte sur l’esquive et l’armure.",
    "sources": [
     "bz-dd-chasseur-druide",
-    "wt-druide"
+    "wt-druide",
+    "wft-patch-20261031",
+    "wft-druide-talents-20261031",
+    "fc-hotfix-20261030"
    ],
    "specs": [
     "druide-farouche-ours"
@@ -147,9 +163,9 @@
   {
    "id": "dr-sim",
    "categorie": "performance",
-   "texte": "Simulation 60 : Farouche félin 12e (73 %), Équilibre 22e (62 %) ; ours 1er en menace (100 %), à vérifier en jeu.",
+   "texte": "Relevé MythicSim du 31 octobre 2026 : Équilibre 780 DPS (62,3 % de Survie 1253) ; Farouche (félin) 849 DPS (67,8 % de Survie 1253). Personnages de niveau 60, boss 63, deux minutes, équipement de référence avec sa paire de bijoux, talents et race de chaque preset. Simulation expérimentale ; différences de preset, de moteur et de rotation, pas une mesure de patch isolée ni de PvP.",
    "sources": [
-    "mythicsim"
+    "mythicsim-20261031"
    ]
   },
   {
@@ -201,7 +217,7 @@
   {
    "id": "dr-rotation",
    "categorie": "complexite",
-   "texte": "Rotations simulées (listes de priorités wowsims, 22 octobre 2026) : félin, 10 sorts et 33 conditions (14 et 40 en alternance avec la forme d’ours) ; ours, 6 sorts et 8 conditions ; Équilibre, 6 sorts et 5 conditions.",
+   "texte": "Photographie historique des listes de priorités wowsims du 22 octobre, avant la refonte du 30 : félin, 10 sorts et 33 conditions (14 et 40 en alternance avec l’ours) ; ours, 6 sorts et 8 conditions ; Équilibre, 6 sorts et 5 conditions. Ces décomptes ne valident pas une rotation après le retrait de Berserk et les changements de talents.",
    "sources": [
     "wowsims-forever"
    ],
@@ -214,18 +230,22 @@
   {
    "id": "dr-donnees-jeu",
    "categorie": "controle",
-   "texte": "Données du jeu lues par le simulateur wowsims : « Pounce » étourdit depuis Prowl, dans le dos de la cible ; « Bash » étourdit en forme d’ours ; « Feral Charge » (talent Farouche) immobilise et interrompt, en forme d’ours seulement.",
+   "texte": "Données du jeu : « Pounce » étourdit depuis Prowl, dans le dos de la cible ; « Bash » étourdit en ours ; le talent Farouche « Feral Charge » immobilise et interrompt en ours. Les outils de contrôle doivent être attribués à la forme et aux talents du build réellement évalué.",
    "sources": [
-    "wowsims-forever"
+    "wowsims-forever",
+    "wft-druide-talents-20261031"
    ]
   },
   {
    "id": "dr-soin-resto",
    "categorie": "soin",
-   "texte": "Restauration s’appuie sur des soins sur la durée qui demandent plus de préparation ; sa boîte à outils est plus limitée que celle du Prêtre. « Wild Growth » (31 points) pose un soin sur la durée sur tout le groupe ; « Swiftmend » ne consomme plus « Rejuvenation » ni « Regrowth » ; « Regrowth » coûte surtout pour son soin immédiat. Aucune absorption décrite.",
+   "texte": "Le kit Restauration reste centré sur Rejuvenation et Regrowth, des soins sur la durée à préparer. Wild Growth soigne le groupe après une incantation de 3 s, réductible à 2,5 s par Naturalist. Swiftmend nécessite un HoT personnel actif ; la consommation indiquée par son nouveau texte reste à confirmer en jeu. Bloom ajoute un soin à l’expiration d’un HoT. Aucune absorption de groupe n’est décrite.",
    "sources": [
     "bz-dd-chasseur-druide",
-    "wt-classes"
+    "wt-classes",
+    "wft-patch-20261031",
+    "wft-druide-talents-20261031",
+    "fc-hotfix-20261030"
    ],
    "specs": [
     "druide-restauration"
@@ -234,7 +254,7 @@
   {
    "id": "dr-guides",
    "categorie": "complexite",
-   "texte": "Guides de la bêta, écrits pour le niveau 30. wowtbc.gg : Équilibre maintient Moonfire et Insect Swarm, lance Starfire sous « Eclipse », Wrath sinon ; le félin garde Faerie Fire, Rip à 5 points et Rake, lance Shred sous « Omen of Clarity », « Shifting Power » sous 60 d’Énergie, Ferocious Bite s’il ne retarde pas Rip. Icy Veins : l’ours dépense sa Rage en Primal Bite, Maul et Swipe contre plusieurs cibles, avec Enrage et Faerie Fire.",
+   "texte": "Guides de bêta antérieurs au hotfix du 30, écrits pour le niveau 30 : Équilibre maintient Moonfire et Insect Swarm, utilise Starfire sous Eclipse et Wrath sinon ; le félin entretenait Faerie Fire, Rip et Rake et gérait Shred, Shifting Power et Ferocious Bite. L’ours utilisait Primal Bite, Maul, Swipe, Enrage et Faerie Fire. Les accès aux talents ont changé : ces guides ne constituent plus une validation des builds au même niveau.",
    "sources": [
     "wowtbc-guides",
     "iv-guides-forever"
@@ -243,9 +263,10 @@
   {
    "id": "dr-blizzard",
    "categorie": "complexite",
-   "texte": "Blizzard : « Shifting Power » réintroduit le powershifting « in a much more approachable way » ; Restauration s’appuie sur des soins sur la durée qui « require more planning » ; le Druide a un contrôle « weaker and less reliable ».",
+   "texte": "Dans sa présentation antérieure au hotfix du 30, Blizzard décrivait Shifting Power comme une approche plus accessible du powershifting, les HoT de Restauration comme demandant davantage de préparation et le contrôle du Druide comme plus faible et moins fiable. Le coût et l’accès actuels à Shifting Power viennent des nouveaux relevés de talents.",
    "sources": [
-    "bz-dd-chasseur-druide"
+    "bz-dd-chasseur-druide",
+    "wft-druide-talents-20261031"
    ]
   },
   {
@@ -254,6 +275,48 @@
    "texte": "Sorts et talents présents dans les données du client lues par wowsims : « Hibernate », « Ravage », « Overgrowth », « Reflection », « Innervate », « Tranquility » ; « Shred » exige d’être dans le dos de la cible.",
    "sources": [
     "wowsims-forever"
+   ]
+  },
+  {
+   "id": "dr-perte-berserk",
+   "categorie": "limite",
+   "texte": "Le hotfix du 30 octobre retire Berserk : le Farouche perd sa fenêtre de critiques garantis sur les générateurs de points de combo, et la suppression/immunité à la Peur qu’il apportait. Une valeur élevée de burst ou de survie ne peut plus invoquer ce temps de recharge. L’ampleur sur les performances reste inconnue avant des essais comparables.",
+   "sources": [
+    "wft-patch-20261031",
+    "fc-hotfix-20261030"
+   ],
+   "specs": [
+    "druide-farouche-chat",
+    "druide-farouche-ours"
+   ],
+   "contre": [
+    "burst",
+    "surv"
+   ]
+  },
+  {
+   "id": "dr-hotfix-resto",
+   "categorie": "soin",
+   "texte": "Données du hotfix du 30 : Wild Growth devient une incantation de 3 s (2,5 s avec Naturalist au maximum). Bloom remplace Gift of the Earthmother : soin à l’expiration de Rejuvenation ou Regrowth égal à 100 % de l’Esprit, 50 % après dissipation. L’ancienne réduction de 0,5 s du GCD disparaît. Ces changements imposent de distinguer mobilité des formes et soins de groupe en mouvement.",
+   "sources": [
+    "wft-patch-20261031",
+    "wft-druide-talents-20261031",
+    "fc-hotfix-20261030"
+   ],
+   "specs": [
+    "druide-restauration"
+   ]
+  },
+  {
+   "id": "dr-rangs-morsure",
+   "categorie": "ressource",
+   "texte": "Le grimoire dataminé ajoute un rang inférieur de Ferocious Bite pendant la progression ; le rang supérieur disponible au niveau 60 conserve 685–735 dégâts à 5 points de combo et 2,5 dégâts par énergie supplémentaire. Comparer deux rangs numérotés de la même façon ne justifie pas un nerf du rang maximum.",
+   "sources": [
+    "wft-druide-20261031",
+    "fc-hotfix-20261030"
+   ],
+   "specs": [
+    "druide-farouche-chat"
    ]
   }
  ],
@@ -270,7 +333,7 @@
    "notes": {
     "raid": {
      "valeur": 3,
-     "raison": "Simulation 60 : 22e DPS (62 %) ; « Moonkin Form », « Innervate » et « Rebirth » apportent de l’utilité ; taxe hybride d’environ 5 %.",
+     "raison": "Simulation MythicSim du 31 octobre 2026, niveau 60, cible unique sur deux minutes : 780 DPS, soit 62,3 % de la référence Survie à 1253 DPS. Note relative 3/5 selon le barème existant ; résultat expérimental du build et de son équipement, pas une mesure en jeu.",
      "appuis": [
       "dr-sim",
       "dr-soutien",
@@ -466,8 +529,8 @@
    },
    "notes": {
     "raid": {
-     "valeur": 4,
-     "raison": "Simulation 60 : 12e DPS (73 %) ; « Leader of the Pack » pour le groupe ; taxe hybride d’environ 5 %.",
+     "valeur": 3,
+     "raison": "Simulation MythicSim du 31 octobre 2026, niveau 60, cible unique sur deux minutes : 849 DPS, soit 67,8 % de la référence Survie à 1253 DPS. Note relative 3/5 selon le barème existant ; résultat expérimental du build et de son équipement, pas une mesure en jeu.",
      "appuis": [
       "dr-sim",
       "dr-soutien",
@@ -477,24 +540,27 @@
     },
     "bg": {
      "valeur": 4,
-     "raison": "Mobilité, camouflage et burst de « Berserk » ; très difficile à tuer selon Kami.",
+     "raison": "Mobilité, camouflage et changements de forme conservés ; Berserk et son immunité à la Peur disparaissent. Repère de bêta conservé provisoirement, sans comparaison en BG après le hotfix.",
      "appuis": [
       "dr-mobilite",
       "dr-chat",
-      "dr-defense"
+      "dr-defense",
+      "dr-perte-berserk"
      ],
      "confiance": "faible"
     },
     "world": {
      "valeur": 4,
-     "raison": "Camouflage, « Feral Charge » et burst. Tournoi niveau 30 : meilleur Druide dans les six derniers.",
+     "raison": "Camouflage et ouverture depuis Prowl, contrôles accessibles par changement de forme ; la perte de Berserk réduit l’ancienne fenêtre de burst. Les résultats du tournoi au niveau 30 restent historiques et ne mesurent pas ce nouveau kit.",
      "appuis": [
       "dr-mobilite",
       "dr-chat",
       "dr-tournoi",
-      "dr-pvp-duel"
+      "dr-pvp-duel",
+      "dr-perte-berserk",
+      "dr-donnees-jeu"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "solo": {
      "valeur": 4,
@@ -505,12 +571,14 @@
      "confiance": "moyenne"
     },
     "burst": {
-     "valeur": 5,
-     "raison": "« Berserk » (31 points, +100 % de critique), « Shifting Power », « Shred » et « Rake ».",
+     "valeur": 4,
+     "raison": "La perte de Berserk retire la fenêtre de critiques qui fondait l’ancien 5/5. Les finishers, Predatory Discipline et Shifting Power conservent des possibilités de dégâts concentrés ; leur ampleur après le hotfix n’est pas mesurée.",
      "appuis": [
-      "dr-chat"
+      "dr-chat",
+      "dr-perte-berserk",
+      "dr-rangs-morsure"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "zone": {
      "valeur": 2,
@@ -533,24 +601,25 @@
     },
     "surv": {
      "valeur": 4,
-     "raison": "« Barkskin » en forme, changements de forme qui libèrent des entraves ; très difficile à tuer selon Kami.",
+     "raison": "Barkskin en forme, mobilité et transformations pour se dégager ; la note ne suppose plus la suppression ni l’immunité à la Peur de Berserk. Résistance relative après le hotfix non mesurée.",
      "appuis": [
       "dr-defense",
+      "dr-mobilite",
+      "dr-perte-berserk"
+     ],
+     "confiance": "faible"
+    },
+    "mob": {
+     "valeur": 5,
+     "raison": "Dash, Feral Swiftness, camouflage et forme de voyage ; Feral Charge sert au déplacement et au contrôle en ours si le talent est pris. Aucune charge féline à 30 s n’est créditée par la présente revue.",
+     "appuis": [
       "dr-mobilite"
      ],
      "confiance": "moyenne"
     },
-    "mob": {
-     "valeur": 5,
-     "raison": "« Feral Charge » (30 s en félin), « Dash », « Feral Swiftness », camouflage et forme de voyage.",
-     "appuis": [
-      "dr-mobilite"
-     ],
-     "confiance": "haute"
-    },
     "support": {
      "valeur": 3,
-     "raison": "« Leader of the Pack », « Mark of the Wild », « Innervate » et « Rebirth » de la classe, moins accessibles en forme.",
+     "raison": "Leader of the Pack bénéficie désormais aux critiques de toute nature selon le datamine ; Mark of the Wild, Innervate et Rebirth restent utiles, avec le coût des sorties de forme pour les sorts concernés.",
      "appuis": [
       "dr-soutien"
      ],
@@ -564,9 +633,11 @@
       "dr-guides",
       "dr-blizzard",
       "dr-chat",
-      "dr-sorts-client"
+      "dr-sorts-client",
+      "dr-perte-berserk",
+      "dr-rangs-morsure"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "charge_pvp": {
      "valeur": 4,
@@ -580,20 +651,22 @@
       "dr-pvp-duel",
       "dr-blizzard",
       "dr-sorts-client",
-      "dr-chat"
+      "dr-chat",
+      "dr-perte-berserk",
+      "dr-rangs-morsure"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     }
    },
    "complexite": {
     "pve": {
      "note": 4,
      "total": 8,
-     "confiance": "moyenne",
+     "confiance": "faible",
      "composantes": {
       "rotation": {
        "points": 2,
-       "raison": "Shred sous « Omen of Clarity », Rake, Rip à 5 points, Ferocious Bite sans retarder Rip, « Shifting Power » sous 60 d’Énergie, « Berserk » (10 sorts, 33 conditions dans la rotation simulée)."
+       "raison": "Entretenir Rake, Rip et Faerie Fire, choisir Shred selon les procs et Ferocious Bite sans retarder les saignements ; intégrer Predatory Discipline et Shifting Power si le build les prend. L’ancienne liste à 10 sorts n’est pas utilisée comme mesure post-hotfix."
       },
       "entretien": {
        "points": 2,
@@ -601,7 +674,7 @@
       },
       "ressource": {
        "points": 2,
-       "raison": "Énergie, points de combo et mana pour « Shifting Power »."
+       "raison": "Énergie, points de combo et mana de Shifting Power ; Predatory Discipline évite la dépense d’énergie supplémentaire de Ferocious Bite mais conserve l’arbitrage avec l’entretien des saignements."
       },
       "placement": {
        "points": 1,
@@ -609,7 +682,7 @@
       },
       "pilotage": {
        "points": 1,
-       "raison": "« Shifting Power » rend le powershifting « in a much more approachable way » (Blizzard)."
+       "raison": "Shifting Power simplifie les changements de ressource, mais exige désormais un investissement profond en Farouche et coûte du mana ; les transformations restent disponibles."
       }
      },
      "appuis": [
@@ -617,14 +690,16 @@
       "dr-guides",
       "dr-blizzard",
       "dr-chat",
-      "dr-sorts-client"
+      "dr-sorts-client",
+      "dr-perte-berserk",
+      "dr-rangs-morsure"
      ],
-     "approfondissement": "Alternance avec la forme d’ours (« bearweave ») dans une rotation simulée : 14 sorts, 40 conditions."
+     "approfondissement": "Alternance avec l’ours (« bearweave ») : technique décrite dans une simulation du 22 octobre ; les anciens 14 sorts et 40 conditions ne valident pas sa pertinence après la refonte."
     },
     "pvp": {
      "note": 4,
      "total": 8,
-     "confiance": "moyenne",
+     "confiance": "faible",
      "composantes": {
       "controles": {
        "points": 1,
@@ -636,11 +711,11 @@
       },
       "placement": {
        "points": 1,
-       "raison": "Rester au contact avec « Feral Charge » et « Dash »."
+       "raison": "Rester au contact avec Dash et les formes ; Feral Charge suppose le passage en ours et le talent correspondant."
       },
       "ouverture": {
        "points": 2,
-       "raison": "Ouverture depuis Prowl (« Pounce », « Ravage »), « Berserk »."
+       "raison": "Ouverture depuis Prowl, avec Pounce ou Ravage et les enchaînements de points de combo ; Berserk n’est plus disponible."
       },
       "pilotage": {
        "points": 2,
@@ -656,7 +731,9 @@
       "dr-pvp-duel",
       "dr-blizzard",
       "dr-sorts-client",
-      "dr-chat"
+      "dr-chat",
+      "dr-perte-berserk",
+      "dr-rangs-morsure"
      ]
     }
    }
@@ -673,14 +750,14 @@
    "notes": {
     "raid": {
      "valeur": 4,
-     "raison": "Menace simulée la plus haute des trois tanks (100 %), mais classé B par Mobalytics : ni bouclier ni blocage, très dépendant de son soigneur.",
+     "raison": "Repère éditorial de tank conservé après revue du 31 octobre : kit de menace, défenses et contraintes de ce build. Les nouveaux talents sont décrits dans les appuis ; les simulations de menace ne mesurent pas la survie et ne justifient pas un nouveau classement de tanks au niveau 60.",
      "appuis": [
       "dr-sim",
       "dr-ours",
       "dr-defense",
       "dr-tank-b"
      ],
-     "confiance": "haute"
+     "confiance": "faible"
     },
     "bg": {
      "valeur": 4,
@@ -727,24 +804,26 @@
     },
     "ctrl": {
      "valeur": 3,
-     "raison": "« Bash » (recharge réduite par « Brutal Impact ») et racines en forme humanoïde.",
+     "raison": "Bash en ours, Feral Charge pour immobiliser et interrompre si le talent est pris, puis racines en forme humanoïde ; chaque outil reste lié à sa forme.",
      "appuis": [
       "dr-ours-controle",
-      "dr-racines"
+      "dr-racines",
+      "dr-donnees-jeu"
      ],
      "confiance": "moyenne"
     },
     "surv": {
      "valeur": 5,
-     "raison": "« Frenzied Regeneration » (100 % des PV sur la durée), « Thick Hide », « Natural Reaction » et « Barkskin ».",
+     "raison": "Frenzied Regeneration, Thick Hide, Natural Reaction et Barkskin fondent ce repère de résistance ; Berserk ne fournit plus de suppression ni d’immunité à la Peur. La note ne constitue pas une mesure comparative après le hotfix.",
      "appuis": [
-      "dr-defense"
+      "dr-defense",
+      "dr-perte-berserk"
      ],
-     "confiance": "haute"
+     "confiance": "moyenne"
     },
     "mob": {
      "valeur": 4,
-     "raison": "« Feral Charge », forme de voyage et « Dash » ; changements de forme qui libèrent des entraves.",
+     "raison": "Feral Charge en ours, forme de voyage et Dash en félin ; les transformations libèrent des entraves, avec leur coût en mana.",
      "appuis": [
       "dr-mobilite"
      ],
@@ -752,7 +831,7 @@
     },
     "support": {
      "valeur": 4,
-     "raison": "« Rebirth », « Innervate », « Mark of the Wild » et « Leader of the Pack ».",
+     "raison": "Rebirth, Innervate et Mark of the Wild ; Leader of the Pack, si le talent est pris, bénéficie désormais aux critiques de toute nature selon les descriptions dataminées.",
      "appuis": [
       "dr-soutien"
      ],
@@ -790,7 +869,7 @@
      "composantes": {
       "rotation": {
        "points": 1,
-       "raison": "Primal Bite, Maul pour la Rage en trop, Swipe en multicible, Lacerate cumulé, Demoralizing Roar, Enrage (6 sorts, 8 conditions dans la rotation simulée)."
+       "raison": "Lacerate à cumuler, Primal Bite si le build atteint son nouveau palier profond, Maul pour la Rage en trop, Swipe en multicible, Faerie Fire et Enrage. Le décompte simulé du 22 octobre reste historique."
       },
       "entretien": {
        "points": 1,
@@ -864,7 +943,7 @@
    "notes": {
     "raid": {
      "valeur": 5,
-     "raison": "« Wild Growth », « Swiftmend » et soins sur la durée cumulables ; Blizzard juge pourtant sa boîte à outils plus limitée que celle du Prêtre. Aucune donnée comparative entre soigneurs.",
+     "raison": "« Wild Growth », « Swiftmend » et soins sur la durée cumulables ; Blizzard juge pourtant sa boîte à outils plus limitée que celle du Prêtre. Aucune donnée comparative entre soigneurs. Revue du 31 octobre : 5/5 est la convention commune aux cinq soigneurs faute de comparaison HPS pertinente ; ce chiffre ne démontre pas leur égalité de puissance.",
      "appuis": [
       "dr-resto",
       "dr-soutien"
@@ -873,24 +952,26 @@
     },
     "bg": {
      "valeur": 5,
-     "raison": "Soins sur la durée en mouvement, formes qui libèrent des entraves ; très difficile à tuer selon Kami.",
+     "raison": "Les HoT et les formes gardent de la souplesse sous pression ; Wild Growth exige maintenant 3 s d’incantation (2,5 s avec Naturalist) et l’ancienne réduction du GCD disparaît. Repère provisoire, sans comparaison en BG après le hotfix.",
      "appuis": [
       "dr-resto",
       "dr-mobilite",
-      "dr-defense"
+      "dr-defense",
+      "dr-hotfix-resto"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "world": {
      "valeur": 4,
-     "raison": "Mobilité et soins sur la durée pour durer. Tournoi niveau 30 : meilleur Druide dans les six derniers.",
+     "raison": "Mobilité des formes et HoT pour durer ; Bloom et le nouveau texte de Swiftmend changent la gestion des soins, tandis que Wild Growth exige une incantation. Le tournoi au niveau 30 n’évalue pas le kit après hotfix.",
      "appuis": [
       "dr-mobilite",
       "dr-resto",
       "dr-tournoi",
-      "dr-pvp-duel"
+      "dr-pvp-duel",
+      "dr-hotfix-resto"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "solo": {
      "valeur": 3,
@@ -918,7 +999,7 @@
     },
     "ctrl": {
      "valeur": 3,
-     "raison": "« Entangling Roots » et « Nature’s Grasp », et « Bash » en forme d’ours ; ni ralentissement, ni silence, ni interruption.",
+     "raison": "Entangling Roots, Nature’s Grasp et Bash en ours. Feral Charge interrompt en ours uniquement si le build investit dans le talent Farouche ; cette option n’est pas ajoutée gratuitement au profil Restauration.",
      "appuis": [
       "dr-racines",
       "dr-donnees-jeu",
@@ -928,18 +1009,20 @@
     },
     "surv": {
      "valeur": 4,
-     "raison": "Soins sur la durée, « Barkskin » et changements de forme.",
+     "raison": "HoT, Barkskin et transformations ; Bloom peut soigner à l’expiration ou à la dissipation de ses HoT, mais l’effet relatif sur la survie après le hotfix n’est pas mesuré.",
      "appuis": [
       "dr-defense",
-      "dr-resto"
+      "dr-resto",
+      "dr-hotfix-resto"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "mob": {
      "valeur": 5,
-     "raison": "Forme de voyage, « Dash » et changements de forme qui libèrent des entraves.",
+     "raison": "Forme de voyage, Dash et transformations qui libèrent des entraves. Cette note décrit les déplacements ; elle ne signifie pas que Wild Growth, désormais incanté, se lance en mouvement.",
      "appuis": [
-      "dr-mobilite"
+      "dr-mobilite",
+      "dr-hotfix-resto"
      ],
      "confiance": "haute"
     },
@@ -954,12 +1037,13 @@
     },
     "charge_pve": {
      "valeur": 3,
-     "raison": "5 points sur 10 sur la grille de complexité : les effets à entretenir pèsent beaucoup ; la rotation, la gestion de la ressource et le pilotage, un peu.",
+     "raison": "6 points sur 10 sur la grille de complexité : les effets à entretenir pèsent beaucoup ; la rotation, la gestion de la ressource, le placement et le pilotage, un peu. Wild Growth impose désormais une fenêtre d’incantation.",
      "appuis": [
       "dr-blizzard",
       "dr-resto",
       "dr-soin-resto",
-      "dr-sorts-client"
+      "dr-sorts-client",
+      "dr-hotfix-resto"
      ],
      "confiance": "moyenne"
     },
@@ -973,7 +1057,8 @@
       "dr-complexite",
       "dr-sorts-client",
       "dr-mobilite",
-      "dr-soin-resto"
+      "dr-soin-resto",
+      "dr-hotfix-resto"
      ],
      "confiance": "moyenne"
     }
@@ -990,51 +1075,54 @@
     },
     "duree": {
      "valeur": 5,
-     "raison": "Le spécialiste des soins sur la durée, cumulables, selon Blizzard et Warcraft Tavern.",
+     "raison": "Rejuvenation et Regrowth restent au cœur du kit ; Bloom ajoute un soin à leur expiration ou dissipation selon les données du hotfix. Le profil décrit ce mode de soin, pas sa puissance comparative.",
      "appuis": [
       "dr-soin-resto",
-      "dr-resto"
+      "dr-resto",
+      "dr-hotfix-resto"
      ],
-     "confiance": "haute"
+     "confiance": "moyenne"
     },
     "cible": {
      "valeur": 3,
-     "raison": "« Swiftmend » sans consommer ses soins sur la durée et le soin immédiat de « Regrowth » ; boîte à outils plus limitée que celle du Prêtre.",
+     "raison": "Swiftmend apporte un soin instantané exigeant son propre HoT actif, et Regrowth un soin immédiat. Le nouveau texte évoque la consommation du HoT ; cette interaction reste à confirmer en jeu.",
      "appuis": [
-      "dr-soin-resto"
+      "dr-soin-resto",
+      "dr-hotfix-resto"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "groupe": {
      "valeur": 4,
-     "raison": "« Wild Growth » pose un soin sur la durée sur tout le groupe, « Tranquility » plus fréquente avec talent.",
+     "raison": "Wild Growth reste un soin de groupe sur la durée, mais demande désormais 3 s d’incantation, 2,5 s avec Naturalist au maximum. Tranquility complète ce kit ; la note décrit la capacité de groupe, pas un classement HPS.",
      "appuis": [
-      "dr-soin-resto"
+      "dr-soin-resto",
+      "dr-hotfix-resto"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     }
    },
    "complexite": {
     "pve": {
      "note": 3,
-     "total": 5,
+     "total": 6,
      "confiance": "moyenne",
      "composantes": {
       "rotation": {
        "points": 1,
-       "raison": "Rejuvenation, Regrowth, Healing Touch, Swiftmend sur une cible qui porte déjà un soin sur la durée, Wild Growth, Tranquility, Nature’s Swiftness."
+       "raison": "Rejuvenation, Regrowth, Healing Touch, Swiftmend sur un HoT personnel actif, Wild Growth incanté, Tranquility et Nature’s Swiftness ; aucune validation en jeu de la consommation du HoT par Swiftmend."
       },
       "entretien": {
        "points": 2,
-       "raison": "Soins sur la durée à tenir sur plusieurs cibles : ils « require more planning » (Blizzard)."
+       "raison": "HoT à tenir sur plusieurs cibles ; Bloom ajoute un effet à leur expiration ou dissipation, sans retirer la préparation des soins."
       },
       "ressource": {
        "points": 1,
        "raison": "Mana : boire entre les combats, « Reflection »."
       },
       "placement": {
-       "points": 0,
-       "raison": "Beaucoup de sorts instantanés : soigner en se déplaçant coûte peu."
+       "points": 1,
+       "raison": "Prévoir une fenêtre immobile pour Wild Growth, désormais à 3 s d’incantation (2,5 s avec Naturalist), tout en conservant ses HoT instantanés pour les déplacements."
       },
       "pilotage": {
        "points": 1,
@@ -1045,7 +1133,8 @@
       "dr-blizzard",
       "dr-resto",
       "dr-soin-resto",
-      "dr-sorts-client"
+      "dr-sorts-client",
+      "dr-hotfix-resto"
      ]
     },
     "pvp": {
@@ -1063,7 +1152,7 @@
       },
       "placement": {
        "points": 2,
-       "raison": "Soigner sous pression, lignes de vue à gérer."
+       "raison": "Soigner sous pression et gérer les lignes de vue ; Wild Growth impose désormais une incantation, en plus des déplacements et des formes à choisir."
       },
       "ouverture": {
        "points": 0,
@@ -1081,7 +1170,8 @@
       "dr-complexite",
       "dr-sorts-client",
       "dr-mobilite",
-      "dr-soin-resto"
+      "dr-soin-resto",
+      "dr-hotfix-resto"
      ]
     }
    }

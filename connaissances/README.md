@@ -1,3 +1,5 @@
+> **Revue actuelle : 31 octobre 2026, moteur 1.6.0-exploratoire.** Les neuf classes, leurs variantes, les profils de soin et les justifications ont été relus face aux changements disponibles. Huit repères DPS, le burst félin et trois composantes de complexité évoluent ; toutes les autres valeurs sont conservées. [Décisions et sources](../REVISION-DONNEES-2026-10-31.md), [photographie chiffrée](revisions/2026-10-31.json). Les anciennes dates et statistiques ci-dessous décrivent leurs étapes historiques ; elles ne prétendent pas valider le hotfix courant.
+
 # Base de connaissances
 
 Elle relie chaque note du moteur à des **faits sourcés**, avec une **raison** et un **niveau de confiance**. Elle rend les notes traçables, pas « vraies » : ce restent des évaluations éditoriales de 1 à 5 (voir le [codex](../CODEX-MOTEUR-LOGIQUE.md), §1 et §8).

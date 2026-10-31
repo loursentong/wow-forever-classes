@@ -1,9 +1,9 @@
 {
  "version": 1,
- "date": "2026-10-23",
- "moteur": "1.5.0-exploratoire",
+ "date": "2026-10-31",
+ "moteur": "1.6.0-exploratoire",
  "definition": "La complexité d’une spécialisation mesure ce qu’elle demande au joueur pour être bien jouée dans un contexte : ce qu’il faut suivre, décider et exécuter en même temps, et ce que coûte une erreur. Ce n’est ni sa puissance ni son confort en leveling.",
- "jeu_evalue": "Le jeu de base correct, celui des guides de la spécialisation. Une technique avancée n’entre dans la note que si elle conditionne la performance que nos autres notes lui prêtent (au moins 10 % de dégâts en simulation) ; sinon, elle est signalée comme approfondissement. Seul cas aujourd’hui : l’alternance tir-mêlée de Survie, environ 21 % de dégâts en plus.",
+ "jeu_evalue": "Le jeu de base correct de la configuration évaluée. Une technique avancée compte si la référence de performance en dépend. Survie est évaluée en alternance tirs/mêlée ; Maîtrise des bêtes et Précision sur leurs presets à distance, cette dernière en Loup solitaire. Les écarts de presets et la taille des rotations historiques ne mesurent pas la difficulté ressentie. La grille et son barème sont inchangés.",
  "contextes": {
   "pve": {
    "libelle": "PvE",
