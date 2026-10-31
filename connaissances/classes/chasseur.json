@@ -1,8 +1,8 @@
 {
  "classe": "chasseur",
  "libelle": "Chasseur",
- "date": "2026-10-23",
- "moteur": "1.5.0-exploratoire",
+ "date": "2026-10-31",
+ "moteur": "1.6.0-exploratoire",
  "faits": [
   {
    "id": "c-role",
@@ -70,10 +70,11 @@
   {
    "id": "c-survie-controle",
    "categorie": "controle",
-   "texte": "Survie : « Entrapment » allonge l’immobilisation des pièges, « Counterattack » (16 points), « Improved Wing Clip ».",
+   "texte": "Survie : « Entrapment » immobilise à l’activation du Piège de givre ; « Counterattack » et « Improved Wing Clip » ajoutent d’autres immobilisations conditionnelles. Depuis le relevé du 28 octobre, ces trois immobilisations partagent un groupe de rendements décroissants avec « Improved Hamstring » et « Frostbite ».",
    "sources": [
     "bz-dd-chasseur-druide",
-    "wt-chasseur"
+    "wt-chasseur",
+    "fc-hotfix-20261030"
    ],
    "specs": [
     "chasseur-survie"
@@ -135,10 +136,12 @@
   {
    "id": "c-soutien",
    "categorie": "soutien",
-   "texte": "« Trueshot Aura » (Précision, 21 points) et « Furious Howl » du loup ; ni soin, ni dissipation, ni résurrection.",
+   "texte": "« Trueshot Aura » augmente la puissance d’attaque à distance du groupe ou du raid : premier rang obtenu par un talent après 15 points dépensés en Précision, puis rangs enseignés ; le rang 5 reste à 50 au niveau 60. « Furious Howl » exige le loup invoqué ; ni soin, ni dissipation, ni résurrection de classe.",
    "sources": [
     "bz-dd-chasseur-druide",
-    "wt-chasseur"
+    "wt-chasseur",
+    "wft-chasseur-20261031",
+    "fc-hotfix-20261030"
    ]
   },
   {
@@ -183,10 +186,10 @@
   {
    "id": "c-tissage",
    "categorie": "ressource",
-   "texte": "Les références simulées des trois spécialisations alternent tirs à 12 m et attaques au contact quand le prochain Auto Shot est loin ; au cœur de Survie, c’est une optimisation pour Maîtrise des bêtes et Précision.",
+   "texte": "MythicSim distingue les presets en tissage et ceux qui tirent uniquement à distance. La présente révision retient le tir à distance pour Maîtrise des bêtes et Précision, cohérent avec leur complexité, et l’alternance tirs/mêlée pour Survie. On ne mélange pas les dégâts du tissage et la simplicité du tir fixe. La variante Survie sans familier n’a pas de mesure dédiée dans ce relevé.",
    "sources": [
     "wt-chasseur",
-    "mythicsim"
+    "mythicsim-20261031"
    ]
   },
   {
@@ -200,9 +203,9 @@
   {
    "id": "c-sim",
    "categorie": "performance",
-   "texte": "Simulation 60, références en tissage : Survie 1re (100 %), Précision 3e (85 %), Maîtrise des bêtes 8e (77 %). En tir seul, Maîtrise des bêtes perd environ 9 % sur un combat de 2 minutes (3 % sur 5 minutes) et Précision environ 3 % (elle gagne 2 % sur 5 minutes) ; Survie jouée en mêlée seule est environ 21 % plus bas. La tenue du tissage en raid réel n’est pas confirmée.",
+   "texte": "Relevé MythicSim du 31 octobre 2026 : Maîtrise des bêtes 768 DPS (61,3 % de Survie 1253) ; Précision 866 DPS (69,1 % de Survie 1253) ; Survie 1253 DPS (100,0 % de Survie 1253). Personnages de niveau 60, boss 63, deux minutes, équipement de référence avec sa paire de bijoux, talents et race de chaque preset. Simulation expérimentale ; différences de preset, de moteur et de rotation, pas une mesure de patch isolée ni de PvP. Maîtrise des bêtes et Précision sont évaluées en tir à distance ; Précision en Loup solitaire. Survie suit le tissage, dont le déplacement réel reste à confirmer.",
    "sources": [
-    "mythicsim"
+    "mythicsim-20261031"
    ]
   },
   {
@@ -289,6 +292,36 @@
    "sources": [
     "wowsims-forever"
    ]
+  },
+  {
+   "id": "c-rangs-28-oct",
+   "categorie": "performance",
+   "texte": "Le hotfix du 28 octobre réduit les premiers rangs d’« Aspect of the Hawk » et de « Trueshot Aura ». Les rangs maximum restent respectivement à 120 et 50 de puissance d’attaque à distance au niveau 60 : ce changement de leveling ne permet pas de conclure à une division par deux des dégâts de raid.",
+   "sources": [
+    "wft-chasseur-20261031",
+    "fc-hotfix-20261030"
+   ]
+  },
+  {
+   "id": "c-marque-21-oct",
+   "categorie": "soutien",
+   "texte": "Le correctif du 21 octobre porte le bonus de puissance d’attaque à distance de « Hunter’s Mark » rang 4 à 143, au lieu de 71. Sa présence dans les données ne constitue pas une nouvelle mesure de DPS comparatif.",
+   "sources": [
+    "wft-chasseur-20261031",
+    "wft-patch-20261031"
+   ]
+  },
+  {
+   "id": "c-talents-30-oct",
+   "categorie": "complexite",
+   "texte": "Le relevé du 30 octobre déplace « Pathfinding » de la deuxième à la troisième rangée de Maîtrise des bêtes et décale « Improved Revive Pet » d’une colonne. Un déplacement dans l’arbre change l’accès au talent, pas à lui seul la puissance mesurée de la spécialisation.",
+   "sources": [
+    "wft-patch-20261031",
+    "fc-hotfix-20261030"
+   ],
+   "specs": [
+    "chasseur-maitrise-betes"
+   ]
   }
  ],
  "specialisations": [
@@ -305,8 +338,8 @@
    },
    "notes": {
     "raid": {
-     "valeur": 4,
-     "raison": "Évaluée en tir statique, familier central : environ 71 à 75 % du meilleur DPS simulé selon la durée du combat (77 % en tissage), au niveau des DPS notés 4 ; capacités de familiers réduites le 15 octobre.",
+     "valeur": 3,
+     "raison": "Simulation MythicSim du 31 octobre 2026, niveau 60, cible unique sur deux minutes : 768 DPS, soit 61,3 % de la référence Survie à 1253 DPS. Référence tir à distance avec familier, sans alternance mêlée. Note relative 3/5 selon le barème existant ; résultat expérimental du build et de son équipement, pas une mesure en jeu.",
      "appuis": [
       "c-sim",
       "c-tissage",
@@ -342,11 +375,12 @@
     },
     "solo": {
      "valeur": 5,
-     "raison": "En tête des listes de leveling (Warcraft Tavern, Kami, Crix, Mobalytics) ; Maîtrise des bêtes est le choix naturel en monde ouvert, le familier encaissant à sa place.",
+     "raison": "En tête des listes de leveling (Warcraft Tavern, Kami, Crix, Mobalytics) ; Maîtrise des bêtes est le choix naturel en monde ouvert, le familier encaissant à sa place. Les baisses de rangs de leveling du 28 octobre sont prises en compte comme réserve ; elles n’effacent pas les outils de solo du profil.",
      "appuis": [
       "c-leveling",
       "c-familier-mdb",
-      "c-role"
+      "c-role",
+      "c-rangs-28-oct"
      ],
      "confiance": "haute"
     },
@@ -399,7 +433,8 @@
      "valeur": 2,
      "raison": "« Furious Howl » du loup ; ni soin, ni dissipation, ni résurrection.",
      "appuis": [
-      "c-soutien"
+      "c-soutien",
+      "c-marque-21-oct"
      ],
      "confiance": "haute"
     },
@@ -414,7 +449,8 @@
       "c-nerf",
       "c-familier-gestion",
       "c-familier-mdb",
-      "c-sim"
+      "c-sim",
+      "c-talents-30-oct"
      ],
      "confiance": "moyenne"
     },
@@ -468,7 +504,8 @@
       "c-nerf",
       "c-familier-gestion",
       "c-familier-mdb",
-      "c-sim"
+      "c-sim",
+      "c-talents-30-oct"
      ],
      "approfondissement": "Alternance tirs-mêlée : +3 à 9 % dans la simulation, facultative. Icy Veins résume la spécialisation par « Easy to Learn, Hard to Master »."
     },
@@ -524,8 +561,8 @@
    },
    "notes": {
     "raid": {
-     "valeur": 4,
-     "raison": "Évaluée en tir statique, en « Loup solitaire » : environ 82 à 87 % du meilleur DPS simulé selon la durée du combat (85 % en tissage) ; « Trueshot Aura » pour le groupe.",
+     "valeur": 3,
+     "raison": "Simulation MythicSim du 31 octobre 2026, niveau 60, cible unique sur deux minutes : 866 DPS, soit 69,1 % de la référence Survie à 1253 DPS. Référence tir à distance en Loup solitaire, sans alternance mêlée. Note relative 3/5 selon le barème existant ; résultat expérimental du build et de son équipement, pas une mesure en jeu.",
      "appuis": [
       "c-sim",
       "c-tissage",
@@ -561,10 +598,11 @@
     },
     "solo": {
      "valeur": 5,
-     "raison": "En tête des listes de leveling pour la classe ; « Lone Wolf » (+20 % de dégâts sans familier) rend le familier facultatif.",
+     "raison": "En tête des listes de leveling pour la classe ; « Lone Wolf » (+20 % de dégâts sans familier) rend le familier facultatif. Les baisses de rangs de leveling du 28 octobre sont prises en compte comme réserve ; elles n’effacent pas les outils de solo du profil.",
      "appuis": [
       "c-leveling",
-      "c-familier-precision"
+      "c-familier-precision",
+      "c-rangs-28-oct"
      ],
      "confiance": "moyenne"
     },
@@ -617,7 +655,8 @@
      "valeur": 2,
      "raison": "« Trueshot Aura » (21 points) ; ni soin, ni dissipation, ni résurrection.",
      "appuis": [
-      "c-soutien"
+      "c-soutien",
+      "c-marque-21-oct"
      ],
      "confiance": "haute"
     },
@@ -656,7 +695,8 @@
     "appuis": [
      "c-familier-precision"
     ],
-    "notes": {}
+    "notes": {},
+    "raison": " Revue du 31 octobre : aucun nouveau comparatif dédié sans familier ; les valeurs de raid héritées restent une hypothèse du modèle existant."
    },
    "complexite": {
     "pve": {
@@ -749,7 +789,7 @@
    "notes": {
     "raid": {
      "valeur": 5,
-     "raison": "Évaluée en alternance tirs et mêlée, comme le veut la spécialisation : 1re en simulation (100 %), mais la tenue du tissage en raid réel n’est pas confirmée ; jouée en mêlée seule, environ 83 %.",
+     "raison": "Simulation MythicSim du 31 octobre 2026, niveau 60, cible unique sur deux minutes : 1253 DPS, soit 100,0 % de la référence Survie à 1253 DPS. Référence en alternance tirs/mêlée ; déplacements modélisés, tenue en raid réel non confirmée. Note relative 5/5 selon le barème existant ; résultat expérimental du build et de son équipement, pas une mesure en jeu.",
      "appuis": [
       "c-sim",
       "c-tissage",
@@ -782,11 +822,12 @@
     },
     "solo": {
      "valeur": 5,
-     "raison": "En tête des listes de leveling pour la classe ; la mêlée et les défenses de Survie compensent un familier secondaire.",
+     "raison": "En tête des listes de leveling pour la classe ; la mêlée et les défenses de Survie compensent un familier secondaire. Les baisses de rangs de leveling du 28 octobre sont prises en compte comme réserve ; elles n’effacent pas les outils de solo du profil.",
      "appuis": [
       "c-leveling",
       "c-familier-survie",
-      "c-defense"
+      "c-defense",
+      "c-rangs-28-oct"
      ],
      "confiance": "moyenne"
     },
@@ -809,7 +850,7 @@
     },
     "ctrl": {
      "valeur": 4,
-     "raison": "« Entrapment » allonge l’immobilisation des pièges, « Counterattack » (16 points), « Improved Wing Clip » ; ni étourdissement ni interruption de base.",
+     "raison": "« Entrapment », « Counterattack » et « Improved Wing Clip » apportent des immobilisations conditionnelles, avec un groupe commun de rendements décroissants depuis le 28 octobre ; pièges et ralentissements restent disponibles. Ni étourdissement ni interruption de base.",
      "appuis": [
       "c-survie-controle",
       "c-pieges",
@@ -839,7 +880,8 @@
      "valeur": 2,
      "raison": "Ni soin, ni dissipation, ni résurrection ; quelques bonus de familier.",
      "appuis": [
-      "c-soutien"
+      "c-soutien",
+      "c-marque-21-oct"
      ],
      "confiance": "haute"
     },
@@ -900,7 +942,8 @@
       ],
       "confiance": "moyenne"
      }
-    }
+    },
+    "raison": " Revue du 31 octobre : aucun nouveau comparatif dédié sans familier ; les valeurs de raid héritées restent une hypothèse du modèle existant."
    },
    "complexite": {
     "pve": {
@@ -959,7 +1002,7 @@
      "composantes": {
       "controles": {
        "points": 2,
-       "raison": "Pièges (« Entrapment » immobilise), « Improved Wing Clip », « Counterattack », « Concussive Shot »."
+       "raison": "Pièges, « Entrapment », « Improved Wing Clip », « Counterattack » et « Concussive Shot » ; choisir ses enchaînements en tenant compte du groupe commun de rendements décroissants des immobilisations de talents."
       },
       "defense": {
        "points": 2,

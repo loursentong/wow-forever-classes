@@ -1,0 +1,227 @@
+{
+ "date": "2026-10-31",
+ "moteur": "1.6.0-exploratoire",
+ "nature": "DONNEES",
+ "base": "8d4066ef2f3973fe7f0b7f6ef060e0af988c3efd",
+ "periode": "Depuis la revue du 20–23 octobre ; client 70707/70685 et hotfixes du 30 lus le 31.",
+ "limites": "Données extraites avant lancement ; aucun test de jeu niveau 60. Simulation unique expérimentale, presets différents et re-simulations par spécialisation. Aucune formule ni pondération modifiée.",
+ "simulation": {
+  "source": "mythicsim-20261031",
+  "referenceDps": 1253,
+  "iterations": 10000,
+  "niveau": 60,
+  "cible": 63,
+  "dureeSecondes": 120,
+  "bijoux": "Paire de référence de chaque preset",
+  "sha256Page": "a3e1a71943e4acb548127b8873219e9c83b6dfc0f6ff55cb49991a512af8b9a0"
+ },
+ "dps": [
+  {
+   "specialisation": "guerrier-armes",
+   "reference": "arms-warrior",
+   "build": "39/10/2",
+   "dps": 832,
+   "pourcentage": 66.4,
+   "ancienneNote": 4,
+   "note": 3
+  },
+  {
+   "specialisation": "guerrier-fureur",
+   "reference": "warrior",
+   "build": "18/31/2",
+   "dps": 976,
+   "pourcentage": 77.89,
+   "ancienneNote": 5,
+   "note": 4
+  },
+  {
+   "specialisation": "paladin-vindicte",
+   "reference": "retribution-paladin",
+   "build": "12/8/31",
+   "dps": 889,
+   "pourcentage": 70.95,
+   "ancienneNote": 4,
+   "note": 3
+  },
+  {
+   "specialisation": "chasseur-maitrise-betes",
+   "reference": "hunter-turret",
+   "build": "31/20/0",
+   "dps": 768,
+   "pourcentage": 61.29,
+   "ancienneNote": 4,
+   "note": 3
+  },
+  {
+   "specialisation": "chasseur-precision",
+   "reference": "marksmanship-hunter-turret",
+   "build": "5/33/13",
+   "dps": 866,
+   "pourcentage": 69.11,
+   "ancienneNote": 4,
+   "note": 3
+  },
+  {
+   "specialisation": "chasseur-survie",
+   "reference": "survival-hunter",
+   "build": "0/20/31",
+   "dps": 1253,
+   "pourcentage": 100,
+   "ancienneNote": 5,
+   "note": 5
+  },
+  {
+   "specialisation": "voleur-assassinat",
+   "reference": "assassination-rogue",
+   "build": "29/22/0",
+   "dps": 702,
+   "pourcentage": 56.03,
+   "ancienneNote": 3,
+   "note": 3
+  },
+  {
+   "specialisation": "voleur-combat",
+   "reference": "combat-rogue",
+   "build": "16/33/2",
+   "dps": 730,
+   "pourcentage": 58.26,
+   "ancienneNote": 3,
+   "note": 3
+  },
+  {
+   "specialisation": "voleur-finesse",
+   "reference": "subtlety-rogue",
+   "build": "12/8/31",
+   "dps": 713,
+   "pourcentage": 56.9,
+   "ancienneNote": 3,
+   "note": 3
+  },
+  {
+   "specialisation": "pretre-ombre",
+   "reference": "shadow-priest",
+   "build": "17/0/34",
+   "dps": 834,
+   "pourcentage": 66.56,
+   "ancienneNote": 3,
+   "note": 3
+  },
+  {
+   "specialisation": "chaman-elementaire",
+   "reference": "elemental-shaman",
+   "build": "31/11/9",
+   "dps": 614,
+   "pourcentage": 49,
+   "ancienneNote": 2,
+   "note": 2
+  },
+  {
+   "specialisation": "chaman-amelioration",
+   "reference": "enhancement-shaman",
+   "build": "18/33/0",
+   "dps": 805,
+   "pourcentage": 64.25,
+   "ancienneNote": 3,
+   "note": 3
+  },
+  {
+   "specialisation": "mage-arcane",
+   "reference": "arcane-mage",
+   "build": "32/3/16",
+   "dps": 872,
+   "pourcentage": 69.59,
+   "ancienneNote": 4,
+   "note": 3
+  },
+  {
+   "specialisation": "mage-feu",
+   "reference": "fire-mage",
+   "build": "16/32/3",
+   "dps": 932,
+   "pourcentage": 74.38,
+   "ancienneNote": 4,
+   "note": 4
+  },
+  {
+   "specialisation": "mage-givre",
+   "reference": "frost-mage",
+   "build": "14/5/32",
+   "dps": 795,
+   "pourcentage": 63.45,
+   "ancienneNote": 3,
+   "note": 3
+  },
+  {
+   "specialisation": "demoniste-affliction",
+   "reference": "affliction-warlock",
+   "build": "30/2/19",
+   "dps": 888,
+   "pourcentage": 70.87,
+   "ancienneNote": 4,
+   "note": 3
+  },
+  {
+   "specialisation": "demoniste-demonologie",
+   "reference": "demonology-warlock",
+   "build": "2/31/18",
+   "dps": 993,
+   "pourcentage": 79.25,
+   "ancienneNote": 4,
+   "note": 4
+  },
+  {
+   "specialisation": "demoniste-destruction",
+   "reference": "destruction-warlock",
+   "build": "20/0/31",
+   "dps": 873,
+   "pourcentage": 69.67,
+   "ancienneNote": 3,
+   "note": 3
+  },
+  {
+   "specialisation": "druide-equilibre",
+   "reference": "balance-druid",
+   "build": "41/0/10",
+   "dps": 780,
+   "pourcentage": 62.25,
+   "ancienneNote": 3,
+   "note": 3
+  },
+  {
+   "specialisation": "druide-farouche-chat",
+   "reference": "feral-druid",
+   "build": "9/32/10",
+   "dps": 849,
+   "pourcentage": 67.76,
+   "ancienneNote": 4,
+   "note": 3
+  }
+ ],
+ "autresChangements": [
+  {
+   "id": "druide-farouche-chat/reference/note/burst",
+   "avant": 5,
+   "apres": 4,
+   "raison": "Berserk supprimé ; perte de la fenêtre ayant fondé le 5, sans quantification de DPS PvP."
+  },
+  {
+   "id": "paladin-vindicte/reference/composante/pve.rotation",
+   "avant": 0,
+   "apres": 1,
+   "raison": "Référence niveau60 avec Unsealed Wrath : alternance et stockage des sceaux."
+  },
+  {
+   "id": "mage-givre/reference/composante/pve.entretien",
+   "avant": 0,
+   "apres": 1,
+   "raison": "Barrière offensive et cumuls à entretenir."
+  },
+  {
+   "id": "druide-restauration/reference/composante/pve.placement",
+   "avant": 0,
+   "apres": 1,
+   "raison": "Wild Growth incanté demande une fenêtre stationnaire."
+  }
+ ],
+ "conservations": "Tous les autres scores de gameplay, variantes, profils de soin, maîtrises et formules sont conservés. Les cinq soigneurs restent à 5 par convention sans comparaison HPS ; les tanks gardent leurs évaluations de kit, confiance faible."
+}

@@ -4,9 +4,11 @@ const E=require('../recommendation-engine.js'),X=require('../result-explanations
 const profile=(value,certainty,activities={raid:5})=>({activities,difficulty:{value,certainty},mastery:3});
 const group=ex=>X.friendlyGroups(ex,false).find(g=>g.key==='difficulty');
 
-test('Fureur en PvE : une difficulté intermédiaire est compatible avec les deux envies peu affirmées',()=>{
+test('Restauration chaman en PvE : une difficulté intermédiaire est compatible avec les deux envies peu affirmées',()=>{
  for(const value of ['simple','complex'])for(const certainty of [0,1,2]){
-  const ex=E.explain('guerrier-fureur',profile(value,certainty)),g=group(ex);
+  // Le repère raid de Fureur a baissé en v16 : son activité devient une réserve légitime.
+  // Ce scénario isole la difficulté intermédiaire avec une activité qui répond pleinement au choix.
+  const ex=E.explain('chaman-restauration',profile(value,certainty)),g=group(ex);
   assert.equal(ex.spec.load.pve,3);assert.equal(g.verdict,'Une piste compatible');
   assert.match(g.answers[0].text,/difficulté intermédiaire en PvE.*préférence reste souple.*peut bien te convenir/);
   assert.doesNotMatch(g.answers[0].text,/plus simple|plus de technique|comme tu le souhaites/);

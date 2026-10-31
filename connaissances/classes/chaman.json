@@ -1,8 +1,8 @@
 {
  "classe": "chaman",
  "libelle": "Chaman",
- "date": "2026-10-23",
- "moteur": "1.5.0-exploratoire",
+ "date": "2026-10-31",
+ "moteur": "1.6.0-exploratoire",
  "faits": [
   {
    "id": "ch-role",
@@ -66,11 +66,12 @@
   {
    "id": "ch-soutien",
    "categorie": "soutien",
-   "texte": "Totems pour tout le raid (« Windfury », « Flametongue », « Grace of Air », « Strength of Earth »), « Mana Tide Totem », « Purge », totems de purification.",
+   "texte": "Totems dont les effets couvrent le groupe ou le raid (« Windfury », « Flametongue », « Grace of Air », « Strength of Earth »), selon le totem et son emplacement ; un même Chaman ne les maintient pas tous simultanément. « Mana Tide Totem », « Purge » et totems de purification complètent ce soutien.",
    "sources": [
     "bz-dd-mage-chaman",
     "wt-chaman",
-    "bz-notes-15-oct"
+    "bz-notes-15-oct",
+    "wft-chaman-20261031"
    ]
   },
   {
@@ -141,9 +142,9 @@
   {
    "id": "ch-sim",
    "categorie": "performance",
-   "texte": "Simulation 60 : Amélioration 15e (68 %), Élémentaire 24e et dernier (49 %).",
+   "texte": "Relevé MythicSim du 31 octobre 2026 : Élémentaire 614 DPS (49,0 % de Survie 1253) ; Amélioration 805 DPS (64,3 % de Survie 1253). Personnages de niveau 60, boss 63, deux minutes, équipement de référence avec sa paire de bijoux, talents et race de chaque preset. Simulation expérimentale ; différences de preset, de moteur et de rotation, pas une mesure de patch isolée ni de PvP.",
    "sources": [
-    "mythicsim"
+    "mythicsim-20261031"
    ]
   },
   {
@@ -235,6 +236,27 @@
    "sources": [
     "wowsims-forever"
    ]
+  },
+  {
+   "id": "ch-lava-21-oct",
+   "categorie": "burst",
+   "texte": "Le correctif serveur du 21 octobre remet le bonus d’« Explosion de lave » rang 3 sur une cible sous « Horion de flammes » à 20 %, au lieu de 54 %, comme les autres rangs. Le rang maximum lu dans les données porte également ce bonus de 20 %.",
+   "sources": [
+    "wft-chaman-20261031",
+    "wft-patch-20261031"
+   ],
+   "specs": [
+    "chaman-elementaire"
+   ]
+  },
+  {
+   "id": "ch-revue-31-oct",
+   "categorie": "complexite",
+   "texte": "Revue du 31 octobre : aucun nouveau changement de classe Chaman au hotfix du 30 n’a été identifié dans les deux index consultés. Cette absence de relevé ne prouve pas l’absence de tout changement serveur ; les interprétations de performance restent conditionnelles.",
+   "sources": [
+    "fc-hotfix-20261030",
+    "wft-patch-20261031"
+   ]
   }
  ],
  "specialisations": [
@@ -250,7 +272,7 @@
    "notes": {
     "raid": {
      "valeur": 2,
-     "raison": "Barème des dégâts : dernier DPS simulé au niveau 60 (49 % du meilleur), sous le seuil de 55 %. L’utilité de ses totems est notée dans Soutien.",
+     "raison": "Simulation MythicSim du 31 octobre 2026, niveau 60, cible unique sur deux minutes : 614 DPS, soit 49,0 % de la référence Survie à 1253 DPS. Note relative 2/5 selon le barème existant ; résultat expérimental du build et de son équipement, pas une mesure en jeu.",
      "appuis": [
       "ch-sim"
      ],
@@ -288,9 +310,10 @@
     },
     "burst": {
      "valeur": 5,
-     "raison": "« Lava Burst » (31 points), « Elemental Mastery » (de retour le 15 octobre) et gros critiques attendus au 60.",
+     "raison": "« Lava Burst » (31 points), « Elemental Mastery » (de retour le 15 octobre) et gros critiques attendus au 60. Le bonus de Lava Burst sur Flame Shock est de 20 % à chaque rang après le correctif du 21 octobre ; le précédent 54 % du rang 3 ne doit pas servir de référence.",
      "appuis": [
-      "ch-elem-burst"
+      "ch-elem-burst",
+      "ch-lava-21-oct"
      ],
      "confiance": "moyenne"
     },
@@ -448,7 +471,7 @@
    "notes": {
     "raid": {
      "valeur": 3,
-     "raison": "Barème des dégâts : 68 % du meilleur DPS simulé (15e), entre 55 et 71 %. Ses totems de raid sont notés dans Soutien (4).",
+     "raison": "Simulation MythicSim du 31 octobre 2026, niveau 60, cible unique sur deux minutes : 805 DPS, soit 64,2 % de la référence Survie à 1253 DPS. Note relative 3/5 selon le barème existant ; résultat expérimental du build et de son équipement, pas une mesure en jeu.",
      "appuis": [
       "ch-sim",
       "ch-soutien"
@@ -645,13 +668,13 @@
    "notes": {
     "raid": {
      "valeur": 5,
-     "raison": "« Chain Heal », « Riptide », « Mana Tide Totem » et totems de raid ; jugée indispensable par Kami. Aucune donnée comparative entre soigneurs.",
+     "raison": "« Chain Heal », « Riptide », « Mana Tide Totem » et totems de raid ; jugée indispensable par Kami. Aucune donnée comparative entre soigneurs. Revue du 31 octobre : 5/5 est la convention commune aux cinq soigneurs faute de comparaison HPS pertinente ; ce chiffre ne démontre pas leur égalité de puissance.",
      "appuis": [
       "ch-resto",
       "ch-soutien",
       "ch-utilite"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "bg": {
      "valeur": 5,

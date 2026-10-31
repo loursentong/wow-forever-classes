@@ -36,15 +36,17 @@ test('À garder en tête : le groupe qui perd le plus de points, puis sa répons
  const fit=E.explain('mage-givre',{styles:{ctrl:5},mastery:2});
  assert.equal(X.keepInMind(fit),'Le Mage Givre répond pleinement à tes choix dans nos estimations : regarde si son style de jeu te plaît.');
  /* Perte pondérée, groupe par groupe (révision du 22 octobre 2026) : le rôle seul perd plus qu'aucune autre
-  * réponse (5,66 points), mais le gameplay en perd davantage à deux réponses (8). « À garder en tête » nomme le
-  * gameplay et sa réponse la plus coûteuse, comme la première ligne du bilan ; avant, il nommait le rôle. */
- const p={roles:{dps:4},activities:{raid:3,bg:2},styles:{burst:4,surv:3},range:{value:'distance',certainty:3},pet:{value:'like',certainty:4},mastery:3};
+  * réponse (5,08 points), mais le gameplay en perd davantage à deux réponses (8). « À garder en tête » nomme le
+  * gameplay et sa réponse la plus coûteuse, comme la première ligne du bilan ; avant, il nommait le rôle.
+  * La certitude raid passe de 3 à 5 dans cet exemple v16 : l'activité Affliction 4→3 doit rester derrière
+  * le gameplay pour vérifier précisément cette distinction, sans masquer la nouvelle faiblesse d'activité. */
+ const p={roles:{dps:4},activities:{raid:5,bg:2},styles:{burst:4,surv:3},range:{value:'distance',certainty:3},pet:{value:'like',certainty:4},mastery:3};
  const ex=E.explain('demoniste-affliction',p),row=E.ranking(p).results.find(r=>r.spec.id==='demoniste-affliction');
- assert.equal(ex.answers.slice().sort((a,b)=>b.loss-a.loss)[0].domain,'styles');
+ assert.equal(ex.answers.slice().sort((a,b)=>b.loss-a.loss)[0].domain,'roles');
  assert.match(X.keepInMind(ex,row.fit,row.score),/3\/5 en dégâts de burst/);
  assert.equal(X.pisteAnalysis(ex,row.fit,row.score).main.key,'styles');
  assert.match(X.friendlyKeep(ex,row.fit,row.score),/Le point à regarder, c’est « Dégâts de burst »/);
- assert.equal(X.strengthsText(ex,row.fit,row.score),'DPS · Champs de bataille · À distance');
+ assert.equal(X.strengthsText(ex,row.fit,row.score),'Champs de bataille · À distance');
  // Sans fit ni score, l'analyse les retrouve dans la trace : même phrase.
  assert.equal(X.keepInMind(ex),X.keepInMind(ex,row.fit,row.score));
 });

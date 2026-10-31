@@ -13,7 +13,7 @@
   var keys=Object.keys(healNames).filter(function(k){return heal[k]>=1&&heal[k]<=5;})
    .sort(function(a,b){return heal[b]-heal[a];});
   return '<p><b>Façon de soigner :</b> '+keys.map(function(k){return esc(healNames[k])+' : '+healLevels[heal[k]];}).join(' · ')+
-   '. Portrait tiré des présentations officielles, pas un classement de puissance.</p>';
+   '. Portrait des outils de soin revu avant lancement, pas un classement de puissance.</p>';
  }
  /* Référentiel de complexité (référence v11) : composantes dans l'ordre du moteur (spec.complexity), avec les
   * mots de la base de connaissances (connaissances/referentiel-complexite.json). Une composante à 2 points

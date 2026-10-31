@@ -7,7 +7,6 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
 const crypto=require('node:crypto');
-const E=require('../recommendation-engine.js');
 const v6=require('./fixtures/moteur-reference-v6.json');
 const v7=require('./fixtures/moteur-reference-v7.json');
 const {compare,CHANGES}=require('../scripts/reference-v7.cjs');
@@ -31,7 +30,7 @@ test('v6 → v7 : cinq notes, 45 cas sur 107, aucune première classe différent
  assert.deepEqual(report.premiere_configuration_modifiee.map(c=>c.id),['priorites/egal/2']);
 });
 
-test('Barèmes de dégâts : la note raid de chaque DPS correspond à sa simulation',()=>{
+test('Barèmes de dégâts v7 : la note raid historique de chaque DPS correspond à sa simulation',()=>{
  // Pourcentage du meilleur DPS simulé (MythicSim, base de connaissances). Chasseurs : rotation évaluée,
  // tir statique sur un combat long pour Maîtrise des bêtes et Précision, alternance pour Survie.
  const sim={'chasseur-survie':100,'guerrier-fureur':86,'chasseur-precision':85,'demoniste-demonologie':83,'mage-feu':80,
@@ -39,7 +38,8 @@ test('Barèmes de dégâts : la note raid de chaque DPS correspond à sa simulat
   'druide-farouche-chat':73,'pretre-ombre':71,'chaman-amelioration':68,'demoniste-destruction':68,'voleur-combat':65,
   'voleur-finesse':63,'mage-givre':62,'voleur-assassinat':62,'druide-equilibre':62,'chaman-elementaire':49};
  const bareme=p=>p>=86?5:p>=72?4:p>=55?3:2;
- const dps=E.specs.filter(s=>s.role==='dps');
+ // La snapshot du 21 octobre reste vérifiée ; la simulation du 31 octobre est une autre révision.
+ const dps=v7.specs.filter(s=>s.role==='dps');
  assert.deepEqual(dps.map(s=>s.id).sort(),Object.keys(sim).sort());
  for(const s of dps)assert.equal(s.activity.raid,bareme(sim[s.id]),s.id+' ('+sim[s.id]+' %)');
 });

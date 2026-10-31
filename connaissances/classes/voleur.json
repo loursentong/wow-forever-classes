@@ -1,8 +1,8 @@
 {
  "classe": "voleur",
  "libelle": "Voleur",
- "date": "2026-10-23",
- "moteur": "1.5.0-exploratoire",
+ "date": "2026-10-31",
+ "moteur": "1.6.0-exploratoire",
  "faits": [
   {
    "id": "v-role",
@@ -138,9 +138,9 @@
   {
    "id": "v-sim",
    "categorie": "performance",
-   "texte": "Simulation 60 : Combat 17e (65 %), Finesse 18e (63 %), Assassinat 21e (62 %).",
+   "texte": "Relevé MythicSim du 31 octobre 2026 : Assassinat 702 DPS (56,0 % de Survie 1253) ; Combat 730 DPS (58,3 % de Survie 1253) ; Finesse 713 DPS (56,9 % de Survie 1253). Personnages de niveau 60, boss 63, deux minutes, équipement de référence avec sa paire de bijoux, talents et race de chaque preset. Simulation expérimentale ; différences de preset, de moteur et de rotation, pas une mesure de patch isolée ni de PvP.",
    "sources": [
-    "mythicsim"
+    "mythicsim-20261031"
    ]
   },
   {
@@ -213,6 +213,15 @@
    "sources": [
     "wowsims-forever"
    ]
+  },
+  {
+   "id": "v-revue-31-oct",
+   "categorie": "complexite",
+   "texte": "Revue du 31 octobre : aucun changement de classe Voleur postérieur au 15 octobre n’a été identifié dans les relevés de patch consultés. Cela ne garantit ni l’absence de tout correctif serveur, ni la stabilité de sa performance relative après les modifications des autres classes.",
+   "sources": [
+    "fc-hotfix-20261030",
+    "wft-patch-20261031"
+   ]
   }
  ],
  "specialisations": [
@@ -228,7 +237,7 @@
    "notes": {
     "raid": {
      "valeur": 3,
-     "raison": "Simulation 60 : 21e DPS (62 %) ; Blizzard veut le Voleur meilleur DPS monocible sur combat statique, ce que la simulation ne montre pas encore.",
+     "raison": "Simulation MythicSim du 31 octobre 2026, niveau 60, cible unique sur deux minutes : 702 DPS, soit 56,0 % de la référence Survie à 1253 DPS. Note relative 3/5 selon le barème existant ; résultat expérimental du build et de son équipement, pas une mesure en jeu.",
      "appuis": [
       "v-sim",
       "v-intention"
@@ -428,7 +437,7 @@
    "notes": {
     "raid": {
      "valeur": 3,
-     "raison": "Barème des dégâts : 65 % du meilleur DPS simulé (17e), entre 55 et 71 %. Blizzard veut faire du Voleur le meilleur DPS monocible sur combat statique : à revoir après ses ajustements.",
+     "raison": "Simulation MythicSim du 31 octobre 2026, niveau 60, cible unique sur deux minutes : 730 DPS, soit 58,3 % de la référence Survie à 1253 DPS. Note relative 3/5 selon le barème existant ; résultat expérimental du build et de son équipement, pas une mesure en jeu.",
      "appuis": [
       "v-sim",
       "v-intention"
@@ -625,7 +634,7 @@
    "notes": {
     "raid": {
      "valeur": 3,
-     "raison": "Simulation 60 : 18e DPS (63 %).",
+     "raison": "Simulation MythicSim du 31 octobre 2026, niveau 60, cible unique sur deux minutes : 713 DPS, soit 56,9 % de la référence Survie à 1253 DPS. Note relative 3/5 selon le barème existant ; résultat expérimental du build et de son équipement, pas une mesure en jeu.",
      "appuis": [
       "v-sim"
      ],

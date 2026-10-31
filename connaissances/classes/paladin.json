@@ -1,8 +1,8 @@
 {
  "classe": "paladin",
  "libelle": "Paladin",
- "date": "2026-10-23",
- "moteur": "1.5.0-exploratoire",
+ "date": "2026-10-31",
+ "moteur": "1.6.0-exploratoire",
  "faits": [
   {
    "id": "p-role",
@@ -15,9 +15,10 @@
   {
    "id": "p-limites",
    "categorie": "limite",
-   "texte": "Aucune interruption ni aucun ralentissement ; portée limitée ; « Consecration » ne touche efficacement que 4 ennemis.",
+   "texte": "Pas d’interruption ni de ralentissement général ; peu de mobilité. Consécration touche les entrants de sa zone, mais réserve ses dégâts supplémentaires aux quatre premiers : ce n’est pas un plafond strict de quatre cibles.",
    "sources": [
-    "bz-dd-paladin"
+    "bz-dd-paladin",
+    "wft-paladin-20261031"
    ],
    "contre": [
     "ctrl",
@@ -64,10 +65,13 @@
   {
    "id": "p-prot-defense",
    "categorie": "defense",
-   "texte": "Protection : « Templar’s Bulwark » (bouclier de 100 % des PV pendant 8 s, 5 min), « Seal of Fury » (bouclier de 50 % des dégâts, provocation par Judgement), « Sacred Duty », « Iron Creed ».",
+   "texte": "Protection : Rempart de templier absorbe l’équivalent de 100 % des PV pendant 8 s ; Sceau de fureur fournit une absorption en portant un bouclier et son Jugement provoque la cible. Le hotfix du 30 octobre ajoute le blocage des sorts pendant 6 s via Shieldsworn et Holy Strike, avec Holy Shield requis. Improved Righteous Fury réduit les dégâts subis ; Sacred Duty ne donne plus d’Endurance. Ces outils exigent le build Protection et, pour le blocage, un bouclier.",
    "sources": [
     "bz-dd-paladin",
-    "iv-choisir"
+    "iv-choisir",
+    "wft-paladin-talents-20261031",
+    "wft-patch-20261031",
+    "fc-hotfix-20261030"
    ],
    "specs": [
     "paladin-protection"
@@ -76,9 +80,12 @@
   {
    "id": "p-prot-degats",
    "categorie": "burst",
-   "texte": "Protection : « Swift Judgement » remet Judgement à disposition sans coût ; « Holy Strike » sert surtout la menace.",
+   "texte": "Depuis le hotfix du 30 octobre, Swift Judgement est un second Jugement à recharge séparée, sans consommer le sceau ; il ne réinitialise plus le Jugement normal. Shieldsworn réduit la recharge de Holy Strike et le fait interagir avec Holy Shield ; Righteous Fury augmente aussi la menace non sacrée.",
    "sources": [
-    "bz-dd-paladin"
+    "bz-dd-paladin",
+    "wft-paladin-talents-20261031",
+    "wft-patch-20261031",
+    "fc-hotfix-20261030"
    ],
    "specs": [
     "paladin-protection"
@@ -87,19 +94,24 @@
   {
    "id": "p-soutien",
    "categorie": "soutien",
-   "texte": "Bénédictions d’une heure (« Blessing of Kings » de base), « Salvation » séparée des bénédictions, auras de résistance à 30 m pour le raid, « Cleanse ».",
+   "texte": "Bénédictions longues, dont Kings de base, auras de résistance à 30 m pour le raid et Cleanse. Le hotfix du 30 octobre retire Salvation, Mass Salvation, Revoke, Blessing of Light et Greater Blessing of Light du grimoire : ils ne sont plus comptés dans le soutien actuel.",
    "sources": [
     "bz-dd-paladin",
     "wt-paladin",
-    "bz-notes-15-oct"
+    "bz-notes-15-oct",
+    "wft-paladin-20261031",
+    "wft-patch-20261031",
+    "fc-hotfix-20261030"
    ]
   },
   {
    "id": "p-sacre",
    "categorie": "soutien",
-   "texte": "Sacré : « Holy Shock » toutes les 10 s, « Light’s Vigil » (31 points, soin du groupe), « Infusion of Light », « Reverence » pour le mana.",
+   "texte": "Sacré : Holy Shock, Infusion of Light et Reverence ; Light’s Vigil prépare un soin déclenché par Holy Shock sur un allié. Les données du 30 octobre ajoutent Oath of Light sur un allié et Boundless Light pour les Holy Shock lancés sur des alliés sans cet Oath.",
    "sources": [
-    "bz-dd-paladin"
+    "bz-dd-paladin",
+    "wft-paladin-talents-20261031",
+    "wft-paladin-20261031"
    ],
    "specs": [
     "paladin-sacre"
@@ -119,20 +131,25 @@
   {
    "id": "p-zone",
    "categorie": "zone",
-   "texte": "« Consecration » de base au niveau 20 (dégâts modérés sur 4 ennemis), « Holy Wrath », « Exorcism », « Consecrated Ground ».",
+   "texte": "Consécration, apprise au niveau 20, inflige des dégâts aux entrants dans la zone et des dégâts supplémentaires aux quatre premiers ; Holy Wrath et Exorcism complètent les outils, avec leurs restrictions de cible. Consecrated Ground est un talent Sacré : il ne doit être attribué à un autre profil que si son build le prend.",
    "sources": [
     "bz-dd-paladin",
-    "wt-paladin"
+    "wt-paladin",
+    "wft-paladin-20261031",
+    "wft-paladin-talents-20261031"
    ]
   },
   {
    "id": "p-burst",
    "categorie": "burst",
-   "texte": "Vindicte : « Vengeance », « Vindication », « Twist of Light » (deux sceaux à la fois), « Hammer of Wrath » instantané ; burst aussi en Shockadin.",
+   "texte": "Vindicte conserve Vengeance et Hammer of Wrath, dont Champion of the Light peut supprimer l’incantation au rang maximum. Unsealed Wrath remplace Twist of Light : les attaques stockent un sceau, puis une attaque sous un autre sceau consomme les cumuls avec la chance normale de déclenchement. Vindication ne donne plus son ancien bonus d’attaque au Paladin. Le Shockadin dégâts reste distinct du profil Sacré soigneur évalué ici.",
    "sources": [
     "bz-dd-paladin",
     "wt-paladin",
-    "kami-video"
+    "kami-video",
+    "wft-paladin-talents-20261031",
+    "wft-patch-20261031",
+    "fc-hotfix-20261030"
    ],
    "specs": [
     "paladin-vindicte",
@@ -142,18 +159,21 @@
   {
    "id": "p-nerf",
    "categorie": "performance",
-   "texte": "Patch du 16 octobre : « Consecration » et « Champion of the Light » réduits ; Shockadin −9 % et Vindicte −6 % en simulation.",
+   "texte": "Repère historique : les simulations après les modifications du 16 octobre donnaient Shockadin −9 % et Vindicte −6 %. Elles précèdent la refonte du 30 et ne mesurent pas ses effets. Champion of the Light a désormais cinq rangs ; son maximum reste 60 % d’Intelligence en dégâts des sorts.",
    "sources": [
     "bz-notes-15-oct",
-    "mythicsim"
+    "mythicsim",
+    "wft-paladin-talents-20261031",
+    "wft-patch-20261031",
+    "fc-hotfix-20261030"
    ]
   },
   {
    "id": "p-sim",
    "categorie": "performance",
-   "texte": "Simulation 60 : Shockadin (expérimental) 4e à 84 %, Vindicte 7e à 78 % ; tank : Protection à 67 % de la menace de l’ours (groupe C), survie non simulée.",
+   "texte": "Relevé MythicSim du 31 octobre 2026 : Vindicte 889 DPS (71,0 % de Survie 1253). Personnages de niveau 60, boss 63, deux minutes, équipement de référence avec sa paire de bijoux, talents et race de chaque preset. Simulation expérimentale ; différences de preset, de moteur et de rotation, pas une mesure de patch isolée ni de PvP.",
    "sources": [
-    "mythicsim"
+    "mythicsim-20261031"
    ]
   },
   {
@@ -167,18 +187,24 @@
   {
    "id": "p-facile",
    "categorie": "ressource",
-   "texte": "Facile à prendre en main (Kami) ; Blizzard assume une Vindicte « robot d’attaques automatiques », réactive.",
+   "texte": "Ancien portrait de bêta : Kami le trouvait facile et Blizzard décrivait une Vindicte réactive autour des attaques automatiques. Depuis le hotfix du 30 octobre, le build de référence avec Unsealed Wrath doit aussi gérer une alternance de sceaux ; cet ancien portrait ne suffit plus à fixer sa difficulté.",
    "sources": [
     "kami-video",
-    "kami-podcast-2"
+    "kami-podcast-2",
+    "wft-paladin-talents-20261031",
+    "wft-patch-20261031",
+    "fc-hotfix-20261030"
    ]
   },
   {
    "id": "p-mana",
    "categorie": "ressource",
-   "texte": "Seals et Judgements coûtent cher en mana ; le « Seal Twisting » n’existe plus de base.",
+   "texte": "Le mana reste à gérer pour les sceaux, Jugements et Consécration. Unsealed Wrath est un talent final de Vindicte : ses cumuls et leur consommation ne sont pas un second sceau permanent disponible pour toute la classe.",
    "sources": [
-    "bz-dd-paladin"
+    "bz-dd-paladin",
+    "wft-paladin-talents-20261031",
+    "wft-patch-20261031",
+    "fc-hotfix-20261030"
    ]
   },
   {
@@ -228,9 +254,12 @@
   {
    "id": "p-tank-a",
    "categorie": "performance",
-   "texte": "Protection classée A des tanks (Mobalytics) : provocation par « Seal of Fury », « Templar’s Bulwark » ; mana et absence de réduction de dégâts classique en points faibles.",
+   "texte": "Repère historique antérieur au 30 octobre : Mobalytics classait Protection A grâce à sa provocation et à Rempart de templier, avec le mana et ses réductions de dégâts comme réserves. Le nouveau kit porte des réductions conditionnelles et Shieldsworn : ce guide ne permet pas de classer sa survie ou sa menace après la refonte.",
    "sources": [
-    "mobalytics-tanking"
+    "mobalytics-tanking",
+    "wft-paladin-talents-20261031",
+    "wft-patch-20261031",
+    "fc-hotfix-20261030"
    ],
    "specs": [
     "paladin-protection"
@@ -239,9 +268,11 @@
   {
    "id": "p-rotation",
    "categorie": "complexite",
-   "texte": "Rotations simulées (listes de priorités wowsims, 22 octobre 2026) : Protection, 9 sorts et 5 conditions ; Vindicte, 7 à 8 sorts et 8 à 9 conditions.",
+   "texte": "Inventaire historique des listes de priorités wowsims relevées le 22 octobre : Protection, 9 sorts et 5 conditions ; Vindicte, 7 à 8 sorts et 8 à 9 conditions. Il précède Swift Judgement et Unsealed Wrath refondus et ne constitue pas une rotation optimale validée après le 30 octobre.",
    "sources": [
-    "wowsims-forever"
+    "wowsims-forever",
+    "wft-patch-20261031",
+    "fc-hotfix-20261030"
    ],
    "specs": [
     "paladin-vindicte",
@@ -251,10 +282,12 @@
   {
    "id": "p-soin-cible",
    "categorie": "soin",
-   "texte": "Sacré excelle à soutenir une seule cible avec « Flash of Light » : les Paladins peuvent être « les soigneurs monocibles les plus puissants du jeu ». « Infusion of Light » accélère « Holy Light » après un critique.",
+   "texte": "Sacré garde une identité de soins directs sur une cible autour de Flash of Light et Holy Light. Oath of Light renforce les soins sur un allié pendant cinq minutes, un seul Oath actif par Paladin ; Boundless Light augmente au maximum de 30 % la chance de critique de Holy Shock sur les alliés sans cet Oath. Ces deux avantages ne sont pas cumulés sur une même cible.",
    "sources": [
     "bz-dd-paladin",
-    "wt-classes"
+    "wt-classes",
+    "wft-paladin-talents-20261031",
+    "wft-paladin-20261031"
    ],
    "specs": [
     "paladin-sacre"
@@ -263,9 +296,13 @@
   {
    "id": "p-soin-groupe",
    "categorie": "soin",
-   "texte": "Soigner tout un groupe lui demande plus de préparation : « Light’s Vigil » (31 points), posé 30 s sur un allié, soigne instantanément tout son groupe pour un montant modéré, avec une recharge de 6 s.",
+   "texte": "Les données du 30 octobre décrivent Light’s Vigil comme une pose à 1,5 s sur un allié pendant 30 s ; le prochain Holy Shock sur lui ne déclenche pas de recharge et soigne sa partie. Portée 40 m et recharge de la pose 6 s. Le soin de groupe exige donc une préparation ; la version offensive et son remboursement de mana ne sont plus comptés.",
    "sources": [
-    "bz-dd-paladin"
+    "bz-dd-paladin",
+    "wft-paladin-20261031",
+    "wft-paladin-talents-20261031",
+    "wft-patch-20261031",
+    "fc-hotfix-20261030"
    ],
    "specs": [
     "paladin-sacre"
@@ -285,18 +322,60 @@
   {
    "id": "p-guides",
    "categorie": "complexite",
-   "texte": "Guides de la bêta, écrits pour le niveau 30. Icy Veins, Vindicte : un sceau toujours actif, Holy Strike et Judgement à la recharge si le mana le permet, Exorcism contre morts-vivants et démons ; Consecration est « fairly Mana expensive ». Icy Veins, Sacré : sa plus grande faiblesse est une mobilité très faible. wowtbc.gg, Protection : Seal of Fury maintenu, Holy Shield, Judgement (provocation avec Seal of Fury), Holy Strike, Consecration, Exorcism.",
+   "texte": "Guides historiques de la bêta au niveau 30 : sceau entretenu, Holy Strike et Jugement, puis Exorcism sur les cibles compatibles ; mana et mobilité du Sacré restreints. Ces guides précèdent la refonte du 30 octobre : la rotation actuelle tient aussi compte du Jugement séparé de Protection et des cumuls de sceaux du talent final Vindicte.",
    "sources": [
     "iv-guides-forever",
-    "wowtbc-guides"
+    "wowtbc-guides",
+    "wft-patch-20261031",
+    "fc-hotfix-20261030"
    ]
   },
   {
    "id": "p-sorts-client",
    "categorie": "complexite",
-   "texte": "Sorts et talents présents dans les données du client lues par wowsims : « Reverence », « Illumination », « Light’s Vigil ».",
+   "texte": "Les anciens relevés wowsims décrivent Reverence, Illumination et Light’s Vigil. Les données du 30 octobre refont le soin de groupe de Vigil, ajoutent Oath of Light et Boundless Light et rendent Voice of Truth accessible auprès du maître de classe ; les anciens effets offensifs de Vigil ne sont pas retenus.",
    "sources": [
-    "wowsims-forever"
+    "wowsims-forever",
+    "wft-paladin-talents-20261031",
+    "wft-paladin-20261031",
+    "wft-patch-20261031",
+    "fc-hotfix-20261030"
+   ]
+  },
+  {
+   "id": "p-vindicte-cycle",
+   "categorie": "complexite",
+   "texte": "Build de référence niveau 60 : Unsealed Wrath, talent final après Repentance, stocke le sceau actif sur les attaques pendant 15 s, jusqu’à trois cumuls ; une attaque sous un sceau différent les consomme. Alterner les sceaux et choisir le moment de consommation fait désormais partie de la rotation évaluée, avec un coût et une durée à suivre.",
+   "sources": [
+    "wft-paladin-talents-20261031",
+    "wft-patch-20261031",
+    "fc-hotfix-20261030"
+   ],
+   "specs": [
+    "paladin-vindicte"
+   ]
+  },
+  {
+   "id": "p-voice-defense",
+   "categorie": "defense",
+   "texte": "Voice of Truth devient un sort de base au niveau 20 : immunité aux silences et interruptions pendant 6 s, recharge de 3 min. Il est distinct du talent de soin Oath of Light.",
+   "sources": [
+    "wft-paladin-20261031",
+    "wft-patch-20261031",
+    "fc-hotfix-20261030"
+   ]
+  },
+  {
+   "id": "p-holy-shield-rangs",
+   "categorie": "complexite",
+   "texte": "Holy Shield remonte à 20 points dépensés dans Protection. Les rangs documentés sont appris aux niveaux 30, 40 et 50 ; le rang à 221 dégâts existe dans les données mais son niveau d’apprentissage n’est pas défini dans le relevé consulté. Sa disponibilité au niveau 60 reste à vérifier, sans en déduire une menace comparable mesurée.",
+   "sources": [
+    "wft-paladin-20261031",
+    "wft-patch-20261031",
+    "fc-hotfix-20261030"
+   ],
+   "specs": [
+    "paladin-protection"
    ]
   }
  ],
@@ -313,33 +392,37 @@
    "notes": {
     "raid": {
      "valeur": 5,
-     "raison": "Blizzard le présente comme le soigneur monocible le plus puissant : « Holy Shock », « Light’s Vigil », auras de raid. Aucune donnée comparative entre soigneurs.",
+     "raison": "Blizzard le présente comme le soigneur monocible le plus puissant : « Holy Shock », « Light’s Vigil », auras de raid. Aucune donnée comparative entre soigneurs. Revue du 31 octobre : 5/5 est la convention commune aux cinq soigneurs faute de comparaison HPS pertinente ; ce chiffre ne démontre pas leur égalité de puissance.",
      "appuis": [
       "p-role",
       "p-sacre",
       "p-soutien"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "bg": {
      "valeur": 5,
-     "raison": "Soin monocible sans égal et « Blessing of Freedom » qui porte une équipe (Kami) ; plaques et « Divine Shield ».",
+     "raison": "Soins directs sur les alliés, Blessing of Freedom et défenses en plaques ; Voice of Truth protège temporairement les incantations. Le repère de bêta est conservé, sans comparatif de champs de bataille après le hotfix du 30 octobre.",
      "appuis": [
       "p-bg",
-      "p-defense"
+      "p-defense",
+      "p-soin-cible",
+      "p-voice-defense"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "world": {
      "valeur": 4,
-     "raison": "Plaques, « Divine Shield » et « Hammer of Justice » : difficile à tuer ; tournoi niveau 30 favorable aux Paladins et Shockadin prometteur à distance selon Crix.",
+     "raison": "Plaques, immunités, soins et Hammer of Justice aident à survivre. Le tournoi niveau 30 et les avis Shockadin restent historiques ; ils ne classent pas le nouveau Sacré soigneur au niveau 60.",
      "appuis": [
       "p-defense",
       "p-hoj",
       "p-tournoi",
-      "p-pvp-duel"
+      "p-pvp-duel",
+      "p-soin-cible",
+      "p-voice-defense"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "solo": {
      "valeur": 3,
@@ -379,9 +462,10 @@
     },
     "surv": {
      "valeur": 5,
-     "raison": "Plaques, bouclier, « Divine Shield », « Divine Protection » et « Lay on Hands » toutes les 20 min.",
+     "raison": "Plaques, bouclier, Divine Shield, Divine Protection et Lay on Hands ; Voice of Truth ajoute une immunité temporaire aux silences et interruptions.",
      "appuis": [
-      "p-defense"
+      "p-defense",
+      "p-voice-defense"
      ],
      "confiance": "haute"
     },
@@ -396,12 +480,13 @@
     },
     "support": {
      "valeur": 5,
-     "raison": "Bénédictions d’une heure, auras de résistance pour le raid, « Cleanse » et soin de groupe (« Light’s Vigil »).",
+     "raison": "Bénédictions longues, auras, Cleanse et soin de groupe préparé par Light’s Vigil. Le Salut et les Bénédictions de lumière retirés ne sont plus comptés.",
      "appuis": [
       "p-soutien",
-      "p-sacre"
+      "p-sacre",
+      "p-soin-groupe"
      ],
-     "confiance": "haute"
+     "confiance": "moyenne"
     },
     "charge_pve": {
      "valeur": 2,
@@ -426,7 +511,8 @@
       "p-defense",
       "p-bg",
       "p-facile",
-      "p-mobilite"
+      "p-mobilite",
+      "p-voice-defense"
      ],
      "confiance": "moyenne"
     }
@@ -450,7 +536,7 @@
     },
     "cible": {
      "valeur": 5,
-     "raison": "Les soigneurs monocibles les plus puissants du jeu selon Blizzard, autour de « Flash of Light » et « Holy Light ».",
+     "raison": "Profil de soins directs monocibles autour de Flash of Light et Holy Light, renforcé par Oath of Light ; Boundless Light profite aux Holy Shock sur les autres alliés. La note décrit cette identité, pas un rang mesuré entre soigneurs.",
      "appuis": [
       "p-soin-cible",
       "p-role"
@@ -459,7 +545,7 @@
     },
     "groupe": {
      "valeur": 3,
-     "raison": "« Light’s Vigil » soigne tout un groupe, mais demande plus de préparation, d’après Blizzard.",
+     "raison": "Light’s Vigil prépare un soin de groupe déclenché par Holy Shock ; la pose incantée et le ciblage demandent une anticipation. Le profil de soin de groupe reste secondaire par rapport au monocible.",
      "appuis": [
       "p-soin-groupe"
      ],
@@ -474,11 +560,11 @@
      "composantes": {
       "rotation": {
        "points": 0,
-       "raison": "Flash of Light d’abord, Holy Light pour les gros soins, Holy Shock en urgence, Lay on Hands."
+       "raison": "Flash of Light et Holy Light pour les soins directs, Holy Shock en urgence et pour déclencher Light’s Vigil, puis Lay on Hands."
       },
       "entretien": {
        "points": 1,
-       "raison": "« Light’s Vigil » posé 30 s sur un allié ; bénédictions et aura longues."
+       "raison": "Oath of Light sur un allié et Light’s Vigil préparé sur sa cible ; bénédictions et aura longues."
       },
       "ressource": {
        "points": 1,
@@ -514,7 +600,7 @@
       },
       "defense": {
        "points": 1,
-       "raison": "« Divine Shield », « Divine Protection », « Lay on Hands »."
+       "raison": "Divine Shield, Divine Protection, Lay on Hands et Voice of Truth contre silence/interruption ; leur disponibilité reste à gérer."
       },
       "placement": {
        "points": 1,
@@ -535,7 +621,8 @@
       "p-defense",
       "p-bg",
       "p-facile",
-      "p-mobilite"
+      "p-mobilite",
+      "p-voice-defense"
      ]
     }
    }
@@ -552,7 +639,7 @@
    "notes": {
     "raid": {
      "valeur": 4,
-     "raison": "Classé A des tanks par Mobalytics (provocation de « Seal of Fury », « Templar’s Bulwark »), mais menace simulée la plus faible des trois (67 % de l’ours, groupe C) ; survie non simulée.",
+     "raison": "Repère éditorial de tank conservé après revue du 31 octobre : kit de menace, défenses et contraintes de ce build. Les nouveaux talents sont décrits dans les appuis ; les simulations de menace ne mesurent pas la survie et ne justifient pas un nouveau classement de tanks au niveau 60.",
      "appuis": [
       "p-prot-defense",
       "p-sim",
@@ -580,25 +667,28 @@
     },
     "solo": {
      "valeur": 5,
-     "raison": "Farme en zone et monte de niveau sans difficulté selon Kami, après la réduction de « Consecration » du 16 octobre ; Paladin classé A dans la liste de la bêta.",
+     "raison": "Protection disposait déjà d’un bon repère de farm en zone pendant la bêta. Sa résistance et ses outils de menace sont refondus le 30 octobre ; faute de comparaison actuelle, la note de confort est conservée avec réserve.",
      "appuis": [
       "p-solo-kami",
       "p-solo-mobalytics",
-      "p-nerf"
+      "p-nerf",
+      "p-prot-defense",
+      "p-zone"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "burst": {
      "valeur": 3,
-     "raison": "« Swift Judgement » relance Judgement sans coût ; « Holy Strike » sert surtout la menace.",
+     "raison": "Swift Judgement fournit un second Jugement à recharge séparée ; Holy Strike et Shieldsworn servent la menace et les interactions de bouclier. Cela ne mesure pas un nouveau burst comparatif.",
      "appuis": [
-      "p-prot-degats"
+      "p-prot-degats",
+      "p-prot-defense"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "zone": {
      "valeur": 3,
-     "raison": "« Consecration » (4 ennemis), « Consecrated Ground » et « Holy Wrath ».",
+     "raison": "Consécration touche la zone avec un supplément sur les quatre premiers entrants ; Holy Wrath reste conditionnel. Consecrated Ground ne compte que si le build prend ce talent Sacré.",
      "appuis": [
       "p-zone",
       "p-limites"
@@ -617,7 +707,7 @@
     },
     "surv": {
      "valeur": 5,
-     "raison": "« Templar’s Bulwark » (bouclier de 100 % des PV), « Seal of Fury », « Sacred Duty », « Iron Creed », en plus des défenses de la classe.",
+     "raison": "Rempart de templier et les défenses de la classe ; dans le build Protection avec bouclier, Holy Strike et Shieldsworn permettent un blocage de sorts temporaire. Les réductions de dégâts de Righteous Fury et Iron Creed sont conditionnelles.",
      "appuis": [
       "p-prot-defense",
       "p-defense"
@@ -635,7 +725,7 @@
     },
     "support": {
      "valeur": 5,
-     "raison": "Bénédictions d’une heure, auras de résistance pour le raid et « Cleanse », comme toute la classe.",
+     "raison": "Bénédictions longues, auras de résistance et Cleanse restent disponibles ; le Salut a quitté le grimoire.",
      "appuis": [
       "p-soutien"
      ],
@@ -649,7 +739,9 @@
       "p-guides",
       "p-mana",
       "p-tank-a",
-      "p-prot-defense"
+      "p-prot-defense",
+      "p-prot-degats",
+      "p-holy-shield-rangs"
      ],
      "confiance": "moyenne"
     },
@@ -673,11 +765,11 @@
      "composantes": {
       "rotation": {
        "points": 1,
-       "raison": "Seal of Fury, Holy Shield, Judgement (provocation et menace), Holy Strike, Consecration, Exorcism (9 sorts, 5 conditions dans la rotation simulée)."
+       "raison": "Seal of Fury, Holy Shield, Jugement et Swift Judgement séparé, Holy Strike avec Shieldsworn, Consécration ; l’ancien inventaire de rotation ne décrit pas l’ordre optimal après le hotfix."
       },
       "entretien": {
        "points": 1,
-       "raison": "Seal of Fury, Holy Shield et Consecration ; Righteous Fury longue."
+       "raison": "Sceau, Holy Shield, Consécration et Righteous Fury ; conserver le blocage de sorts temporaire apporté par Holy Strike lorsque Shieldsworn est pris."
       },
       "ressource": {
        "points": 2,
@@ -689,7 +781,7 @@
       },
       "pilotage": {
        "points": 1,
-       "raison": "Rôle de tank : menace et défenses."
+       "raison": "Rôle de tank : menace, provocations et défenses, dont la fenêtre de blocage des sorts de Shieldsworn."
       }
      },
      "appuis": [
@@ -697,7 +789,9 @@
       "p-guides",
       "p-mana",
       "p-tank-a",
-      "p-prot-defense"
+      "p-prot-defense",
+      "p-prot-degats",
+      "p-holy-shield-rangs"
      ]
     },
     "pvp": {
@@ -746,8 +840,8 @@
    },
    "notes": {
     "raid": {
-     "valeur": 4,
-     "raison": "Simulation 60 : 7e DPS (78 %) après les réductions du 16 octobre ; « Sacred Arbiter » rafraîchit les Judgements de tous les Paladins ; taxe hybride d’environ 5 %.",
+     "valeur": 3,
+     "raison": "Simulation MythicSim du 31 octobre 2026, niveau 60, cible unique sur deux minutes : 889 DPS, soit 70,9 % de la référence Survie à 1253 DPS. Note relative 3/5 selon le barème existant ; résultat expérimental du build et de son équipement, pas une mesure en jeu.",
      "appuis": [
       "p-sim",
       "p-nerf",
@@ -758,11 +852,12 @@
     },
     "bg": {
      "valeur": 4,
-     "raison": "Burst (« Hammer of Wrath » instantané), « Repentance », plaques et « Blessing of Freedom » ; aucune source PvP propre à la Vindicte.",
+     "raison": "Hammer of Wrath peut devenir instantané avec Champion of the Light au maximum ; Repentance, plaques et Blessing of Freedom restent utiles. Unsealed Wrath change la préparation des sceaux ; aucun comparatif PvP post-hotfix ne mesure son effet.",
      "appuis": [
       "p-burst",
       "p-hoj",
-      "p-bg"
+      "p-bg",
+      "p-vindicte-cycle"
      ],
      "confiance": "faible"
     },
@@ -780,24 +875,26 @@
     },
     "solo": {
      "valeur": 4,
-     "raison": "Spécialisation conseillée pour le leveling du Paladin, classé A dans la liste de la bêta (Mobalytics, niveaux 1 à 20).",
+     "raison": "Vindicte était conseillée pour le leveling de la bêta ; son build final ajoute désormais Unsealed Wrath. La note de confort est conservée sans supposer que ce talent soit disponible dès les premiers niveaux.",
      "appuis": [
       "p-defense",
-      "p-solo-mobalytics"
+      "p-solo-mobalytics",
+      "p-vindicte-cycle"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "burst": {
      "valeur": 4,
-     "raison": "« Vengeance », « Vindication », « Twist of Light » (deux sceaux à la fois) et « Hammer of Wrath » instantané.",
+     "raison": "Vengeance, Hammer of Wrath et les attaques de sceaux stockées par Unsealed Wrath peuvent préparer une fenêtre de dégâts. Le nouveau talent demande d’alterner les sceaux ; son gain comparatif n’est pas mesuré.",
      "appuis": [
-      "p-burst"
+      "p-burst",
+      "p-vindicte-cycle"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "zone": {
      "valeur": 3,
-     "raison": "« Consecration » (4 ennemis, réduite le 16 octobre) et « Exorcism ».",
+     "raison": "Consécration inflige des dégâts dans la zone et un supplément aux quatre premiers entrants ; Exorcism reste restreint à ses cibles compatibles. L’ancien repère n’est pas une mesure de zone après le hotfix.",
      "appuis": [
       "p-zone",
       "p-nerf",
@@ -842,15 +939,16 @@
      "confiance": "moyenne"
     },
     "charge_pve": {
-     "valeur": 1,
-     "raison": "2 points sur 10 sur la grille de complexité : les effets à entretenir et la gestion de la ressource pèsent un peu.",
+     "valeur": 2,
+     "raison": "3 points sur 10 sur la grille commune : la rotation, les effets à entretenir et la gestion du mana pèsent un peu dans le build niveau 60 avec Unsealed Wrath.",
      "appuis": [
       "p-rotation",
       "p-guides",
       "p-facile",
-      "p-mana"
+      "p-mana",
+      "p-vindicte-cycle"
      ],
-     "confiance": "haute"
+     "confiance": "moyenne"
     },
     "charge_pvp": {
      "valeur": 3,
@@ -860,24 +958,25 @@
       "p-defense",
       "p-mobilite",
       "p-pvp-duel",
-      "p-burst"
+      "p-burst",
+      "p-vindicte-cycle"
      ],
      "confiance": "moyenne"
     }
    },
    "complexite": {
     "pve": {
-     "note": 1,
-     "total": 2,
-     "confiance": "haute",
+     "note": 2,
+     "total": 3,
+     "confiance": "moyenne",
      "composantes": {
       "rotation": {
-       "points": 0,
-       "raison": "Un sceau actif, Holy Strike et Judgement à la recharge, Exorcism contre morts-vivants et démons ; Blizzard assume un « robot d’attaques automatiques »."
+       "points": 1,
+       "raison": "Le build de référence niveau 60 prend Unsealed Wrath : stocker les cumuls de sceau puis les consommer sous un autre sceau s’ajoute à Holy Strike et Jugement."
       },
       "entretien": {
        "points": 1,
-       "raison": "Sceau et Judgement à garder."
+       "raison": "Sceau actif, Jugement et cumuls d’Unsealed Wrath à suivre avant leur expiration."
       },
       "ressource": {
        "points": 1,
@@ -896,9 +995,10 @@
       "p-rotation",
       "p-guides",
       "p-facile",
-      "p-mana"
+      "p-mana",
+      "p-vindicte-cycle"
      ],
-     "approfondissement": "Alterner les sceaux (Croisé avant Judgement) et Hammer of Justice avec Seal of Command."
+     "approfondissement": "L’ordre optimal des sceaux après le hotfix n’est pas mesuré ici ; l’alternance requise par le talent final appartient au jeu de référence, pas à un ancien bonus permanent de deux sceaux."
     },
     "pvp": {
      "note": 3,
@@ -919,7 +1019,7 @@
       },
       "ouverture": {
        "points": 1,
-       "raison": "Burst « Vengeance », Hammer of Wrath, sceaux."
+       "raison": "Préparer les cumuls de sceaux d’Unsealed Wrath, Vengeance et Hammer of Wrath sans disposer d’un moyen de rapprochement."
       },
       "pilotage": {
        "points": 1,
@@ -931,7 +1031,8 @@
       "p-defense",
       "p-mobilite",
       "p-pvp-duel",
-      "p-burst"
+      "p-burst",
+      "p-vindicte-cycle"
      ]
     }
    }

@@ -13,8 +13,8 @@ const E = require('../recommendation-engine.js');
 const X = require('../result-explanations.js');
 
 const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8').replace(/\r\n/g, '\n');
-// Référence active : la v13 reprend, pour chaque classe, la meilleure de ses spécialisations (27 notes depuis la v2).
-const referenceNotes = Object.fromEntries(require('./fixtures/moteur-reference-v13.json').matrix.classes.map(c=>[c.id,c.r]));
+// Référence active : la v16 conserve la règle de la meilleure spécialisation et révise quatre cellules dérivées.
+const referenceNotes = Object.fromEntries(require('./fixtures/moteur-reference-v16.json').matrix.classes.map(c=>[c.id,c.r]));
 const match = html.match(/window\.__WF = (\{.*?\});\s*<\/script>/s);
 assert.ok(match, 'données historiques présentes');
 const config = JSON.parse(match[1]);

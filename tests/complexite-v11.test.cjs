@@ -9,6 +9,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
 const E=require('../recommendation-engine.js');
+const v11=require('./fixtures/moteur-reference-v11.json');
 const X=require('../result-explanations.js');
 const details=require('../configuration-details.js');
 const GRID={pve:['rotation','entretien','ressource','placement','pilotage'],pvp:['controles','defense','placement','ouverture','pilotage']};
@@ -46,14 +47,16 @@ const POINTS={
 const note=t=>t<=2?1:t<=4?2:t<=6?3:t<=8?4:5;
 const sum=a=>a.reduce((x,y)=>x+y,0);
 const spec=id=>E.specs.find(s=>s.id===id);
+const historicalSpec=id=>v11.specs.find(s=>s.id===id);
 const dir=path.join(__dirname,'..','connaissances');
 const lire=f=>JSON.parse(fs.readFileSync(path.join(dir,f),'utf8'));
 
-test('v11 : le moteur porte la grille et les points décidés, et sa difficulté en découle',()=>{
+test('v11 : photographie des points décidés ; grille et barème toujours appliqués au moteur actif',()=>{
  assert.deepEqual(E.complexityGrid,GRID);
  assert.deepEqual([0,1,2,3,4,5,6,7,8,9,10].map(E.complexityNote),[1,1,1,2,2,3,3,4,4,5,5]);
- assert.deepEqual(Object.keys(POINTS).sort(),E.specs.map(s=>s.id).sort());
- for(const s of E.specs){
+ assert.deepEqual(Object.keys(POINTS).sort(),v11.specs.map(s=>s.id).sort());
+ // Les points de la décision v11 restent exacts ; les révisions ultérieures sont figées par leur contrat.
+ for(const s of v11.specs){
   assert.deepEqual(s.complexity,POINTS[s.id],s.id);
   for(const c of ['pve','pvp']){
    assert.ok(s.complexity[c].every(p=>p===0||p===1||p===2),s.id);
@@ -66,18 +69,18 @@ test('v11 : le moteur porte la grille et les points décidés, et sa difficulté
  assert.deepEqual(E.checkData(),[]);
 });
 
-test('Exemples de la décision : chasseurs simples en PvE, exigeants en PvP ; Survie notée en alternance',()=>{
- assert.deepEqual(spec('chasseur-maitrise-betes').load,{pve:2,pvp:4});
- assert.deepEqual(spec('chasseur-precision').load,{pve:2,pvp:4});
- assert.deepEqual(spec('chasseur-survie').load,{pve:4,pvp:4});
- assert.deepEqual(spec('paladin-vindicte').load,{pve:1,pvp:3});
- assert.deepEqual(spec('guerrier-armes').load,{pve:4,pvp:4});
- assert.deepEqual(spec('druide-farouche-ours').load,{pve:2,pvp:3});
- assert.deepEqual(spec('voleur-assassinat').load,{pve:2,pvp:4},'Mutilate n’exige pas d’être dans le dos de la cible');
- assert.deepEqual(spec('voleur-finesse').load,{pve:4,pvp:5});
- assert.deepEqual(E.specs.filter(s=>s.load.pve===1).map(s=>s.id),['paladin-vindicte']);
- assert.equal(E.specs.filter(s=>s.load.pvp>s.load.pve).length,17);
- assert.deepEqual(E.specs.filter(s=>s.load.pvp<s.load.pve).map(s=>s.id),['paladin-protection']);
+test('Exemples historiques v11 : chasseurs simples en PvE, exigeants en PvP ; Survie notée en alternance',()=>{
+ assert.deepEqual(historicalSpec('chasseur-maitrise-betes').load,{pve:2,pvp:4});
+ assert.deepEqual(historicalSpec('chasseur-precision').load,{pve:2,pvp:4});
+ assert.deepEqual(historicalSpec('chasseur-survie').load,{pve:4,pvp:4});
+ assert.deepEqual(historicalSpec('paladin-vindicte').load,{pve:1,pvp:3});
+ assert.deepEqual(historicalSpec('guerrier-armes').load,{pve:4,pvp:4});
+ assert.deepEqual(historicalSpec('druide-farouche-ours').load,{pve:2,pvp:3});
+ assert.deepEqual(historicalSpec('voleur-assassinat').load,{pve:2,pvp:4},'Mutilate n’exige pas d’être dans le dos de la cible');
+ assert.deepEqual(historicalSpec('voleur-finesse').load,{pve:4,pvp:5});
+ assert.deepEqual(v11.specs.filter(s=>s.load.pve===1).map(s=>s.id),['paladin-vindicte']);
+ assert.equal(v11.specs.filter(s=>s.load.pvp>s.load.pve).length,17);
+ assert.deepEqual(v11.specs.filter(s=>s.load.pvp<s.load.pve).map(s=>s.id),['paladin-protection']);
 });
 
 test('La complexité règle aussi l’effet de la maîtrise (décision : partout)',()=>{
@@ -130,7 +133,8 @@ test('Explications : la difficulté dit ce qui pèse, la fiche détaille chaque 
  assert.deepEqual(C.grid,GRID,'même ordre que le moteur');
  for(const c of ['pve','pvp'])for(const x of R.contextes[c].composantes)assert.equal(C.phrases[c][x.cle],x.phrase,'mêmes mots que le référentiel : '+c+'/'+x.cle);
  assert.equal(C.weighs(spec('chasseur-survie'),'pve'),'la rotation et le placement pèsent beaucoup ; les effets à entretenir, la gestion de la ressource et le pilotage, un peu');
- assert.equal(C.weighs(spec('paladin-vindicte'),'pve'),'les effets à entretenir et la gestion de la ressource pèsent un peu');
+ assert.equal(C.weighs(historicalSpec('paladin-vindicte'),'pve'),'les effets à entretenir et la gestion de la ressource pèsent un peu');
+ assert.equal(C.weighs(spec('paladin-vindicte'),'pve'),'la rotation, les effets à entretenir et la gestion de la ressource pèsent un peu');
  assert.equal(C.weighs(spec('voleur-combat'),'pve'),'la gestion de la ressource pèse beaucoup ; les effets à entretenir, un peu');
  assert.equal(C.weighs(spec('voleur-finesse'),'pvp'),'les contrôles, la défense, le placement et l’ouverture pèsent beaucoup ; le pilotage, un peu');
  const html=details(spec('chasseur-survie'));

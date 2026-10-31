@@ -29,7 +29,7 @@ test('Chaque colonne reçoit la note de la spécialisation correspondant au crit
  const spec=id=>E.specs.find(s=>s.id===id);
  // Rôle : la note « Donjons et raids » dans la colonne de son rôle ; Polyvalence : critère de classe ;
  // PvP sauvage → Sauvage et duel, Soutien → Utilité ; technicité : complexité PvE · PvP.
- assert.deepEqual(cells(spec('guerrier-armes'),axes),['—','—','—','4','4','3','5','4','3','3','4','2','2','4·4']);
+ assert.deepEqual(cells(spec('guerrier-armes'),axes),['—','—','—','3','4','3','5','4','3','3','4','2','2','4·4']);
  assert.deepEqual(cells(spec('guerrier-protection'),axes),['—','5','—','—','4','2','2','3','3','5','3','3','3','4·4']);
  assert.deepEqual(cells(spec('druide-restauration'),axes),['—','—','5','—','5','4','2','2','3','4','5','5','3','3·4']);
  for(const s of E.specs){

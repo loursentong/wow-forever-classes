@@ -1,8 +1,8 @@
 {
  "classe": "mage",
  "libelle": "Mage",
- "date": "2026-10-23",
- "moteur": "1.5.0-exploratoire",
+ "date": "2026-10-31",
+ "moteur": "1.6.0-exploratoire",
  "faits": [
   {
    "id": "m-role",
@@ -37,18 +37,24 @@
   {
    "id": "m-ralentissements",
    "categorie": "ralentissement",
-   "texte": "« Cone of Cold », « Frostfire Bolt » et « Frostbolt » ralentissent ; « Improved Blizzard » jusqu’à 40 %.",
+   "texte": "Cone of Cold, Frostfire Bolt et Frostbolt ralentissent ; Improved Blizzard et les talents Givre renforcent le contrôle de zone. Les immobilisations de talent comme Frostbite partagent désormais une même famille de rendements décroissants avec celles des autres classes concernées.",
    "sources": [
     "bz-dd-mage-chaman",
-    "wt-mage"
+    "wt-mage",
+    "wft-patch-20261031",
+    "fc-hotfix-20261030",
+    "wft-mage-talents-20261031"
    ]
   },
   {
    "id": "m-givre-controle",
    "categorie": "controle",
-   "texte": "Givre : contrôle présenté comme inégalé par Blizzard ; « Permafrost » allonge les effets de froid.",
+   "texte": "Givre garde Polymorph, gel et effets de froid renforcés par Permafrost ; l’ancien portrait Blizzard le présentait comme un contrôle inégalé. Depuis le 28 octobre, Frostbite partage ses rendements décroissants avec les autres immobilisations de talent : leur enchaînement en groupe n’est pas illimité.",
    "sources": [
-    "bz-dd-mage-chaman"
+    "bz-dd-mage-chaman",
+    "wft-patch-20261031",
+    "fc-hotfix-20261030",
+    "wft-mage-talents-20261031"
    ],
    "specs": [
     "mage-givre"
@@ -57,10 +63,13 @@
   {
    "id": "m-givre-burst",
    "categorie": "burst",
-   "texte": "Givre : « Ice Lance » (+300 % sur cible gelée) et « Fingers of Frost ».",
+   "texte": "Ice Lance inflige de nouveau 300 % de dégâts supplémentaires sur une cible gelée, mais possède désormais une recharge de 8 s à tous les rangs. Fingers of Frost rend un sort éligible à la condition de gel ; il ne supprime pas cette recharge.",
    "sources": [
     "bz-dd-mage-chaman",
-    "wt-mage"
+    "wt-mage",
+    "wft-mage-20261031",
+    "wft-patch-20261031",
+    "fc-hotfix-20261030"
    ],
    "specs": [
     "mage-givre"
@@ -69,9 +78,12 @@
   {
    "id": "m-givre-defense",
    "categorie": "defense",
-   "texte": "Givre : « Ice Block » (16 points) et « Cold Snap » (21 points).",
+   "texte": "Ice Block et Cold Snap restent des talents Givre ; Ice Barrier, talent profond, absorbe des dégâts et protège des pertes de temps d’incantation tant que le bouclier tient. Depuis le hotfix du 30 octobre, la Barrière augmente aussi les dégâts de Givre pendant une minute, avec un supplément tant que son bouclier tient.",
    "sources": [
-    "bz-dd-mage-chaman"
+    "bz-dd-mage-chaman",
+    "wft-mage-talents-20261031",
+    "wft-patch-20261031",
+    "fc-hotfix-20261030"
    ],
    "specs": [
     "mage-givre"
@@ -117,10 +129,13 @@
   {
    "id": "m-arcane",
    "categorie": "burst",
-   "texte": "Arcane : « Arcane Blast » (coût croissant), « Arcane Power », « Missile Barrage », « Presence of Mind » ; mana très exposé.",
+   "texte": "Arcane Blast accumule jusqu’à quatre effets : chacun ajoute 12 % d’Intelligence en dégâts des sorts et augmente de 100 % le coût de mana ; l’effet dure 18 s dans les données du 30 octobre. Arcane Power, Missile Barrage et Presence of Mind complètent le kit. Le compromis puissance/mana change sans fournir à lui seul un DPS comparatif.",
    "sources": [
     "bz-dd-mage-chaman",
-    "wt-mage"
+    "wt-mage",
+    "wft-mage-20261031",
+    "wft-patch-20261031",
+    "fc-hotfix-20261030"
    ],
    "specs": [
     "mage-arcane"
@@ -129,10 +144,13 @@
   {
    "id": "m-feu",
    "categorie": "burst",
-   "texte": "Feu : « Heating Up » (Pyroblast plus rapide), « Combustion » (4 critiques), « Wake of Fire » ; « Impact » étourdit parfois.",
+   "texte": "Heating Up accélère Pyroblast ; Combustion augmente la chance de critique jusqu’à trois critiques de Feu non périodiques. Improved Fire Blast a remplacé Wake of Fire : son ancien bonus à consommer après des morts n’est plus compté. Impact peut encore étourdir.",
    "sources": [
     "bz-dd-mage-chaman",
-    "wt-mage"
+    "wt-mage",
+    "wft-mage-talents-20261031",
+    "wft-patch-20261031",
+    "fc-hotfix-20261030"
    ],
    "specs": [
     "mage-feu"
@@ -141,9 +159,9 @@
   {
    "id": "m-sim",
    "categorie": "performance",
-   "texte": "Simulation 60 : Feu 6e (80 %), Arcane 10e (74 %), Givre 20e (62 %).",
+   "texte": "Relevé MythicSim du 31 octobre 2026 : Arcane 872 DPS (69,6 % de Survie 1253) ; Feu 932 DPS (74,4 % de Survie 1253) ; Givre 795 DPS (63,5 % de Survie 1253). Personnages de niveau 60, boss 63, deux minutes, équipement de référence avec sa paire de bijoux, talents et race de chaque preset. Simulation expérimentale ; différences de preset, de moteur et de rotation, pas une mesure de patch isolée ni de PvP.",
    "sources": [
-    "mythicsim"
+    "mythicsim-20261031"
    ]
   },
   {
@@ -215,17 +233,21 @@
   {
    "id": "m-rotation",
    "categorie": "complexite",
-   "texte": "Rotations simulées (listes de priorités wowsims, 22 octobre 2026) : Arcane, 6 à 7 sorts et 10 à 17 conditions ; Feu, 5 à 7 sorts et 6 à 8 conditions. Aucune liste propre au Givre n’a été relevée.",
+   "texte": "Inventaire historique des priorités wowsims relevées le 22 octobre : Arcane, 6 à 7 sorts et 10 à 17 conditions ; Feu, 5 à 7 sorts et 6 à 8 conditions. Aucun inventaire Givre propre n’avait été relevé. Les changements du 30 octobre exigent de relire ces listes plutôt que de les présenter comme des rotations actuelles.",
    "sources": [
-    "wowsims-forever"
+    "wowsims-forever",
+    "wft-patch-20261031",
+    "fc-hotfix-20261030"
    ]
   },
   {
    "id": "m-guides",
    "categorie": "complexite",
-   "texte": "Guides Icy Veins de la bêta, écrits pour le niveau 30. Arcane : une rotation « a balancing act », un jeu « turret-style », et une complexité que les deux autres spécialisations n’ont pas. Feu : Pyroblast en ouverture, Fireball, Fire Blast pour achever et consommer « Wake of Fire ». Givre : peu de spécialisations sont aussi sûres et régulières.",
+   "texte": "Guides historiques Icy Veins au niveau 30 : Arcane demande de gérer puissance et mana en restant souvent immobile ; Feu combine Pyroblast, Fireball et Fire Blast ; Givre privilégie sécurité et contrôle. Les priorités qui précédaient le 30 octobre ne valident pas une rotation actuelle, et les anciens effets de Wake of Fire ne sont plus retenus.",
    "sources": [
-    "iv-guides-forever"
+    "iv-guides-forever",
+    "wft-patch-20261031",
+    "fc-hotfix-20261030"
    ]
   },
   {
@@ -234,6 +256,30 @@
    "texte": "Sorts et talents présents dans les données du client lues par wowsims : « Arcane Concentration », « Heating Up », « Fire Vulnerability », « Fingers of Frost », « Frostbite », « Missile Barrage », « Blast Wave », « Cone of Cold », « Ice Barrier ».",
    "sources": [
     "wowsims-forever"
+   ]
+  },
+  {
+   "id": "m-givre-entretien",
+   "categorie": "complexite",
+   "texte": "Le build Givre de référence avec Ice Barrier entretient son bonus offensif d’une minute et prépare les cumuls de Winter’s Chill pour le prochain Cone of Cold. Le hotfix porte leur bonus à 20 % par cumul, jusqu’à cinq, et le cône les consomme ; il ne s’agit pas de l’ancienne aura de critique de raid.",
+   "sources": [
+    "wft-mage-talents-20261031",
+    "wft-patch-20261031",
+    "fc-hotfix-20261030"
+   ],
+   "specs": [
+    "mage-givre"
+   ]
+  },
+  {
+   "id": "m-precision-hotfix",
+   "categorie": "complexite",
+   "texte": "Precision remplace Elemental Precision et couvre les trois écoles ; Arcane Focus a quitté l’arbre. Frost Blast n’est plus enseigné dans les données récentes, même si des infobulles résiduelles le citent encore. Ces changements ne sont pas interprétés comme un nouveau niveau de dégâts mesuré.",
+   "sources": [
+    "wft-mage-talents-20261031",
+    "wft-mage-20261031",
+    "wft-patch-20261031",
+    "fc-hotfix-20261030"
    ]
   }
  ],
@@ -249,8 +295,8 @@
    },
    "notes": {
     "raid": {
-     "valeur": 4,
-     "raison": "Simulation 60 : 10e DPS (74 %) ; mana très exposé sur les longs combats.",
+     "valeur": 3,
+     "raison": "Simulation MythicSim du 31 octobre 2026, niveau 60, cible unique sur deux minutes : 872 DPS, soit 69,6 % de la référence Survie à 1253 DPS. Note relative 3/5 selon le barème existant ; résultat expérimental du build et de son équipement, pas une mesure en jeu.",
      "appuis": [
       "m-sim",
       "m-arcane"
@@ -290,11 +336,12 @@
     },
     "burst": {
      "valeur": 5,
-     "raison": "« Arcane Power », « Presence of Mind », « Arcane Blast » et « Missile Barrage ».",
+     "raison": "Arcane Power, Presence of Mind, Arcane Blast et Missile Barrage donnent des fenêtres de dégâts. Les coefficients et le coût d’Arcane Blast sont retouchés le 30 octobre ; la note est conservée faute de mesure comparable actuelle.",
      "appuis": [
-      "m-arcane"
+      "m-arcane",
+      "m-precision-hotfix"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "zone": {
      "valeur": 4,
@@ -347,7 +394,8 @@
       "m-rotation",
       "m-guides",
       "m-arcane",
-      "m-sorts-client"
+      "m-sorts-client",
+      "m-precision-hotfix"
      ],
      "confiance": "moyenne"
     },
@@ -373,15 +421,15 @@
      "composantes": {
       "rotation": {
        "points": 1,
-       "raison": "Arcane Blast deux ou trois fois puis un autre sort pour dépenser les cumuls, Arcane Missiles sous « Missile Barrage », procs d’« Arcane Concentration », « Presence of Mind », « Arcane Power » (6 à 7 sorts dans la rotation simulée)."
+       "raison": "Arcane Blast et ses cumuls, Arcane Missiles sous Missile Barrage, procs d’Arcane Concentration, Presence of Mind et Arcane Power ; l’ordre optimal après le hotfix reste à mesurer."
       },
       "entretien": {
        "points": 1,
-       "raison": "Cumuls d’Arcane Blast à exploiter avant qu’ils ne retombent."
+       "raison": "Cumuls d’Arcane Blast à exploiter dans leur durée actuelle de 18 s."
       },
       "ressource": {
        "points": 2,
-       "raison": "Le mana est la ressource à piloter : la rotation est « a balancing act » (Icy Veins), avec le coût croissant d’Arcane Blast."
+       "raison": "Le coût d’Arcane Blast augmente avec les cumuls, même après son abaissement du 30 octobre : le mana et les fenêtres de consommation restent au centre du jeu."
       },
       "placement": {
        "points": 1,
@@ -396,7 +444,8 @@
       "m-rotation",
       "m-guides",
       "m-arcane",
-      "m-sorts-client"
+      "m-sorts-client",
+      "m-precision-hotfix"
      ],
      "approfondissement": "Icy Veins lui prête « a nice layer of complexity, which the other two Mage specs lack »."
     },
@@ -449,7 +498,7 @@
    "notes": {
     "raid": {
      "valeur": 4,
-     "raison": "Simulation 60 : 6e DPS (80 %).",
+     "raison": "Simulation MythicSim du 31 octobre 2026, niveau 60, cible unique sur deux minutes : 932 DPS, soit 74,4 % de la référence Survie à 1253 DPS. Note relative 4/5 selon le barème existant ; résultat expérimental du build et de son équipement, pas une mesure en jeu.",
      "appuis": [
       "m-sim",
       "m-feu"
@@ -489,21 +538,21 @@
     },
     "burst": {
      "valeur": 5,
-     "raison": "« Heating Up » (Pyroblast plus rapide) et « Combustion » (4 critiques).",
+     "raison": "Heating Up accélère Pyroblast et Combustion prépare une fenêtre qui prend fin après trois critiques de Feu non périodiques. Les retouches de critique ne fournissent pas un nouveau burst comparatif.",
      "appuis": [
       "m-feu"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "zone": {
      "valeur": 5,
-     "raison": "« Flamestrike » et « Wake of Fire » en plus des sorts de zone du Mage, parmi les meilleurs dégâts de zone à distance selon Blizzard.",
+     "raison": "Flamestrike et les autres sorts de zone du Mage conservent le repère de la présentation Blizzard. Wake of Fire n’est plus compté ; aucune mesure de zone post-hotfix ne permet de recalibrer cette note.",
      "appuis": [
       "m-zone",
       "m-feu",
       "m-role"
      ],
-     "confiance": "haute"
+     "confiance": "faible"
     },
     "ctrl": {
      "valeur": 3,
@@ -574,7 +623,7 @@
      "composantes": {
       "rotation": {
        "points": 1,
-       "raison": "Pyroblast en ouverture, Fireball, Fire Blast pour achever et consommer « Wake of Fire », Pyroblast accéléré par « Heating Up » (5 à 7 sorts dans les rotations simulées)."
+       "raison": "Pyroblast, Fireball, Fire Blast et Pyroblast accéléré par Heating Up ; l’ancien effet de Wake of Fire n’est plus à consommer."
       },
       "entretien": {
        "points": 1,
@@ -619,7 +668,7 @@
       },
       "ouverture": {
        "points": 1,
-       "raison": "Pyroblast accéléré et « Combustion » à placer."
+       "raison": "Pyroblast accéléré et Combustion, qui prend fin après trois critiques de Feu non périodiques, à placer dans une fenêtre protégée."
       },
       "pilotage": {
        "points": 0,
@@ -650,7 +699,7 @@
    "notes": {
     "raid": {
      "valeur": 3,
-     "raison": "Simulation 60 : 20e DPS (62 %).",
+     "raison": "Simulation MythicSim du 31 octobre 2026, niveau 60, cible unique sur deux minutes : 795 DPS, soit 63,4 % de la référence Survie à 1253 DPS. Note relative 3/5 selon le barème existant ; résultat expérimental du build et de son équipement, pas une mesure en jeu.",
      "appuis": [
       "m-sim"
      ],
@@ -658,17 +707,18 @@
     },
     "bg": {
      "valeur": 5,
-     "raison": "Contrôle présenté comme inégalé par Blizzard, ralentissements de zone (« Improved Blizzard », « Cone of Cold ») et « Ice Block ».",
+     "raison": "Contrôles, ralentissements de zone et Ice Block restent ses atouts. Le Javelot est limité par sa recharge de 8 s et les immobilisations de talent ont des rendements décroissants partagés ; pas de comparaison actuelle de champs de bataille.",
      "appuis": [
       "m-givre-controle",
       "m-ralentissements",
-      "m-givre-defense"
+      "m-givre-defense",
+      "m-givre-burst"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "world": {
      "valeur": 5,
-     "raison": "Contrôle inégalé et « Ice Lance » : la meilleure spécialisation du Mage en duel, mais la classe est classée A, derrière Démoniste et Chasseur, et tous les Mages sont sortis tôt du tournoi niveau 30.",
+     "raison": "Gel, contrôle, Ice Block et Ice Lance contre cible gelée restent ses atouts ; le Javelot a désormais une recharge de 8 s. Le tournoi niveau 30 et l’ancien classement en duel ne mesurent pas le hotfix du 30 octobre.",
      "appuis": [
       "m-givre-controle",
       "m-givre-burst",
@@ -690,35 +740,36 @@
     },
     "burst": {
      "valeur": 4,
-     "raison": "« Ice Lance » (+300 % sur cible gelée) et « Fingers of Frost ».",
+     "raison": "Ice Lance donne +300 % contre une cible gelée ou rendue éligible par Fingers of Frost, avec 8 s de recharge à tous les rangs ; le nouveau gain global n’est pas mesuré.",
      "appuis": [
       "m-givre-burst"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "zone": {
      "valeur": 5,
-     "raison": "« Blizzard » (ralentissement jusqu’à 40 % avec talent) et « Cone of Cold » ; parmi les meilleurs dégâts de zone à distance selon Blizzard.",
+     "raison": "Blizzard et Cone of Cold donnent des dégâts de zone ; Winter’s Chill prépare le prochain cône du Mage. Le bonus par cumul ne doit pas être transformé en pourcentage de DPS global.",
      "appuis": [
       "m-zone",
       "m-ralentissements",
-      "m-role"
+      "m-role",
+      "m-givre-entretien"
      ],
-     "confiance": "haute"
+     "confiance": "moyenne"
     },
     "ctrl": {
      "valeur": 5,
-     "raison": "Contrôle présenté comme inégalé par Blizzard ; « Permafrost » allonge les effets de froid, en plus de « Polymorph », « Counterspell » et « Frost Nova ».",
+     "raison": "Polymorph, Counterspell, Frost Nova et Permafrost donnent un kit de contrôle fourni ; Frostbite partage les rendements décroissants des autres immobilisations de talent.",
      "appuis": [
       "m-givre-controle",
       "m-controle",
       "m-ralentissements"
      ],
-     "confiance": "haute"
+     "confiance": "moyenne"
     },
     "surv": {
      "valeur": 3,
-     "raison": "« Ice Block » (16 points) et « Cold Snap » (21 points), mais tissu et fragile au contact.",
+     "raison": "Ice Block, Cold Snap et Ice Barrier apportent des défenses actives, tout en laissant un personnage en tissu fragile au contact.",
      "appuis": [
       "m-givre-defense",
       "m-fragile"
@@ -743,12 +794,13 @@
     },
     "charge_pve": {
      "valeur": 2,
-     "raison": "3 points sur 10 sur la grille de complexité : la rotation, la gestion de la ressource et le placement pèsent un peu.",
+     "raison": "4 points sur 10 sur la grille commune : la rotation, les effets à entretenir, la gestion du mana et le placement pèsent un peu.",
      "appuis": [
       "m-guides",
       "m-givre-burst",
       "m-sorts-client",
-      "m-defense"
+      "m-defense",
+      "m-givre-entretien"
      ],
      "confiance": "moyenne"
     },
@@ -771,16 +823,16 @@
    "complexite": {
     "pve": {
      "note": 2,
-     "total": 3,
+     "total": 4,
      "confiance": "moyenne",
      "composantes": {
       "rotation": {
        "points": 1,
-       "raison": "Frostbolt en continu, Ice Lance sous « Fingers of Frost » ou sur cible gelée par « Frostbite », Arcane Missiles sous « Missile Barrage »."
+       "raison": "Frostbolt, Ice Lance lorsque gel ou Fingers of Frost le rend avantageux et que sa recharge de 8 s est disponible, puis Arcane Missiles selon les procs et le build."
       },
       "entretien": {
-       "points": 0,
-       "raison": "Rien à maintenir en combat."
+       "points": 1,
+       "raison": "Maintenir le bonus offensif d’Ice Barrier et préparer/consommer les cumuls de Winter’s Chill avec Cone of Cold."
       },
       "ressource": {
        "points": 1,
@@ -799,7 +851,8 @@
       "m-guides",
       "m-givre-burst",
       "m-sorts-client",
-      "m-defense"
+      "m-defense",
+      "m-givre-entretien"
      ],
      "approfondissement": "Icy Veins : « few specs are as safe or as consistent »."
     },
@@ -810,7 +863,7 @@
      "composantes": {
       "controles": {
        "points": 2,
-       "raison": "« Polymorph », « Counterspell », « Frost Nova », « Cone of Cold », Ice Lance sur cible gelée ; « Permafrost »."
+       "raison": "Polymorph, Counterspell, Frost Nova, Cone of Cold et Permafrost ; tenir compte des rendements décroissants partagés des immobilisations de talent."
       },
       "defense": {
        "points": 2,
@@ -822,7 +875,7 @@
       },
       "ouverture": {
        "points": 1,
-       "raison": "Combinaisons gel puis Ice Lance à préparer."
+       "raison": "Préparer gel ou Fingers of Frost pour Ice Lance en tenant compte de ses 8 s de recharge."
       },
       "pilotage": {
        "points": 0,

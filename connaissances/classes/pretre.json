@@ -1,8 +1,8 @@
 {
  "classe": "pretre",
  "libelle": "Prêtre",
- "date": "2026-10-23",
- "moteur": "1.5.0-exploratoire",
+ "date": "2026-10-31",
+ "moteur": "1.6.0-exploratoire",
  "faits": [
   {
    "id": "pr-role",
@@ -48,9 +48,10 @@
   {
    "id": "pr-defense",
    "categorie": "defense",
-   "texte": "« Power Word: Shield », « Divine Aegis », « Fade » (réduction de menace doublée) ; raciaux « Desperate Prayer », « Contingency Plan », « Elune’s Grace ».",
+   "texte": "« Power Word: Shield » et « Fade » (réduction de menace doublée) sont des outils de classe ; les raciaux « Desperate Prayer », « Contingency Plan » et « Elune’s Grace » dépendent de la race. « Divine Aegis » appartient à Discipline et ne doit pas être attribué par défaut aux autres profils.",
    "sources": [
-    "bz-dd-pretre-guerrier"
+    "bz-dd-pretre-guerrier",
+    "wft-pretre-20261031"
    ]
   },
   {
@@ -77,10 +78,12 @@
   {
    "id": "pr-sacre",
    "categorie": "soutien",
-   "texte": "Sacré : « Binding Heal », « Prayer of Mending » (31 points), « Litany of Light » ; domine le soin de zone.",
+   "texte": "Sacré : « Prayer of Mending » (31 points), « Litany of Light » et désormais « Holy Binding », qui soigne le Prêtre à hauteur de 50 % de ses Soins rapides sur autrui. « Binding Heal » est devenu un sort enseigné à toute la classe, et non un talent exclusif de Sacré.",
    "sources": [
     "bz-dd-pretre-guerrier",
-    "kami-video"
+    "kami-video",
+    "wft-patch-20261031",
+    "fc-hotfix-20261030"
    ],
    "specs": [
     "pretre-sacre"
@@ -128,10 +131,9 @@
   {
    "id": "pr-sim",
    "categorie": "performance",
-   "texte": "Simulation 60 : Ombre 13e (71 %), malgré les renforcements du 15 octobre ; soigneurs absents de ce classement.",
+   "texte": "Relevé MythicSim du 31 octobre 2026 : Ombre 834 DPS (66,6 % de Survie 1253). Personnages de niveau 60, boss 63, deux minutes, équipement de référence avec sa paire de bijoux, talents et race de chaque preset. Simulation expérimentale ; différences de preset, de moteur et de rotation, pas une mesure de patch isolée ni de PvP.",
    "sources": [
-    "mythicsim",
-    "bz-notes-15-oct"
+    "mythicsim-20261031"
    ]
   },
   {
@@ -225,9 +227,10 @@
   {
    "id": "pr-soin-disc",
    "categorie": "soin",
-   "texte": "Discipline : « Improved Power Word: Shield », « Soul Warding » (bouclier moins cher et plus fréquent), « Divine Aegis » (un soin critique laisse une absorption de 12 s) ; « Penance » soigne ou frappe, canalisée 2 s ; « Renewed Hope » renforce les soins directs sur une cible protégée.",
+   "texte": "Discipline : « Improved Power Word: Shield », « Soul Warding », « Divine Aegis » (un soin critique laisse une absorption de 12 s) et « Penance », canalisée 2 s. « Renewed Hope » renforce les soins directs concernés sur une cible avec Âme affaiblie ; son nouveau texte ne cite plus « Binding Heal ».",
    "sources": [
-    "bz-dd-pretre-guerrier"
+    "bz-dd-pretre-guerrier",
+    "wft-patch-20261031"
    ],
    "specs": [
     "pretre-discipline"
@@ -236,9 +239,11 @@
   {
    "id": "pr-soin-sacre",
    "categorie": "soin",
-   "texte": "Sacré : « Prayer of Mending » (31 points) rebondit jusqu’à cinq fois dans le groupe ou le raid ; « Binding Heal » soigne le Prêtre et sa cible, au niveau de « Flash Heal » ; « Litany of Light » rembourse du mana quand les soins alternent.",
+   "texte": "Sacré : « Prayer of Mending » rebondit jusqu’à cinq fois dans le groupe ou le raid ; « Holy Binding » soigne passivement le Prêtre pour 50 % de ses Soins rapides sur une autre cible, sans menace. « Litany of Light » récompense l’alternance des soins. « Binding Heal », maintenant enseigné, reste distinct de ce talent.",
    "sources": [
-    "bz-dd-pretre-guerrier"
+    "bz-dd-pretre-guerrier",
+    "wft-patch-20261031",
+    "wft-pretre-20261031"
    ],
    "specs": [
     "pretre-sacre"
@@ -259,6 +264,38 @@
    "sources": [
     "wowsims-forever"
    ]
+  },
+  {
+   "id": "pr-binding-30-oct",
+   "categorie": "soin",
+   "texte": "Le hotfix du 30 octobre rend « Binding Heal » enseigné dès le niveau 25 et ajoute un rang. Au rang maximum, il soigne toujours le lanceur et sa cible pour 772 à 911, comme Soins rapides rang 7 ; le déplacement des rangs ne démontre pas un nerf du soin maximum. Le talent Sacré à son ancien emplacement devient « Holy Binding ».",
+   "sources": [
+    "wft-pretre-20261031",
+    "wft-patch-20261031"
+   ]
+  },
+  {
+   "id": "pr-swd-30-oct",
+   "categorie": "ressource",
+   "texte": "Le relevé du 30 octobre porte le contrecoup de « Shadow Word: Death » à 30 % des points de vie maximum, au lieu de 10 %, si la cible survit. Son usage demande donc de surveiller sa propre santé, sans en déduire à lui seul un nouveau classement DPS ou PvP.",
+   "sources": [
+    "wft-pretre-20261031",
+    "wft-patch-20261031"
+   ],
+   "specs": [
+    "pretre-ombre"
+   ]
+  },
+  {
+   "id": "pr-maladies-30-oct",
+   "categorie": "soutien",
+   "texte": "Les données du hotfix du 30 octobre autorisent « Cure Disease » et « Abolish Disease » en Forme d’Ombre. Ce confort de dissipation n’ajoute ni nouveau contrôle, ni mobilité.",
+   "sources": [
+    "fc-hotfix-20261030"
+   ],
+   "specs": [
+    "pretre-ombre"
+   ]
   }
  ],
  "specialisations": [
@@ -274,7 +311,7 @@
    "notes": {
     "raid": {
      "valeur": 5,
-     "raison": "Le soigneur le plus polyvalent selon Blizzard, réputé le plus puissant (Warcraft Tavern) ; ses boucliers gardent le mieux un tank en vie (développeurs). Aucun comparatif chiffré entre soigneurs.",
+     "raison": "Le soigneur le plus polyvalent selon Blizzard, réputé le plus puissant (Warcraft Tavern) ; ses boucliers gardent le mieux un tank en vie (développeurs). Aucun comparatif chiffré entre soigneurs. Revue du 31 octobre : 5/5 est la convention commune aux cinq soigneurs faute de comparaison HPS pertinente ; ce chiffre ne démontre pas leur égalité de puissance.",
      "appuis": [
       "pr-role",
       "pr-disc",
@@ -282,7 +319,7 @@
       "pr-soin-dev",
       "pr-reputation"
      ],
-     "confiance": "haute"
+     "confiance": "faible"
     },
     "bg": {
      "valeur": 5,
@@ -410,10 +447,11 @@
     },
     "cible": {
      "valeur": 4,
-     "raison": "« Penance », « Renewed Hope » et les soins directs de la classe : garde le mieux un tank en vie selon les développeurs.",
+     "raison": "« Penance », les soins directs de la classe et les effets de « Renewed Hope » sur les sorts concernés ; « Binding Heal » est désormais enseigné, sans profiter du bonus de Renewed Hope dans le nouveau texte.",
      "appuis": [
       "pr-soin-disc",
-      "pr-soin-dev"
+      "pr-soin-dev",
+      "pr-binding-30-oct"
      ],
      "confiance": "moyenne"
     },
@@ -510,7 +548,7 @@
    "notes": {
     "raid": {
      "valeur": 5,
-     "raison": "Domine le soin de groupe (Kami, développeurs) et réputé le soigneur le plus puissant (Warcraft Tavern). Aucun comparatif chiffré entre soigneurs.",
+     "raison": "Domine le soin de groupe (Kami, développeurs) et réputé le soigneur le plus puissant (Warcraft Tavern). Aucun comparatif chiffré entre soigneurs. Revue du 31 octobre : 5/5 est la convention commune aux cinq soigneurs faute de comparaison HPS pertinente ; ce chiffre ne démontre pas leur égalité de puissance.",
      "appuis": [
       "pr-sacre",
       "pr-role",
@@ -518,7 +556,7 @@
       "pr-soin-dev",
       "pr-reputation"
      ],
-     "confiance": "haute"
+     "confiance": "faible"
     },
     "bg": {
      "valeur": 5,
@@ -575,10 +613,11 @@
     },
     "surv": {
      "valeur": 4,
-     "raison": "« Power Word: Shield », « Divine Aegis », « Fade » et raciaux défensifs, malgré le tissu et peu de moyens de fuite.",
+     "raison": "« Power Word: Shield », « Fade », les raciaux disponibles et l’auto-soin conditionnel de « Holy Binding », malgré le tissu et peu de moyens de fuite. « Divine Aegis » est propre à Discipline.",
      "appuis": [
       "pr-defense",
-      "pr-limites"
+      "pr-limites",
+      "pr-soin-sacre"
      ],
      "confiance": "moyenne"
     },
@@ -606,7 +645,8 @@
       "pr-guides",
       "pr-soin-sacre",
       "pr-mana",
-      "pr-limites"
+      "pr-limites",
+      "pr-binding-30-oct"
      ],
      "confiance": "moyenne"
     },
@@ -643,10 +683,11 @@
     },
     "cible": {
      "valeur": 4,
-     "raison": "« Binding Heal », au niveau de « Flash Heal », et les gros soins directs de la classe.",
+     "raison": "Gros soins directs de la classe et « Binding Heal », désormais enseigné ; « Holy Binding » ajoute un auto-soin conditionnel lorsque Soins rapides soigne autrui. La valeur reste un portrait des outils, pas une mesure comparative de HPS.",
      "appuis": [
       "pr-soin-sacre",
-      "pr-soin-classe"
+      "pr-soin-classe",
+      "pr-binding-30-oct"
      ],
      "confiance": "moyenne"
     },
@@ -669,7 +710,7 @@
      "composantes": {
       "rotation": {
        "points": 0,
-       "raison": "Heal, Renew, Flash Heal en urgence, Prayer of Healing en groupe ; Prayer of Mending et Binding Heal viennent des talents profonds."
+       "raison": "Heal, Renew, Flash Heal en urgence et Prayer of Healing en groupe ; Binding Heal est enseigné dès le niveau 25, Prayer of Mending reste un talent profond et Holy Binding est un auto-soin passif."
       },
       "entretien": {
        "points": 1,
@@ -692,7 +733,8 @@
       "pr-guides",
       "pr-soin-sacre",
       "pr-mana",
-      "pr-limites"
+      "pr-limites",
+      "pr-binding-30-oct"
      ],
      "approfondissement": "Icy Veins la juge « very beginner-friendly »."
     },
@@ -744,7 +786,7 @@
    "notes": {
     "raid": {
      "valeur": 3,
-     "raison": "Simulation 60 : 13e DPS (71 %), juste sous le groupe noté 4 (73 % et plus) malgré les renforcements du 15 octobre ; « Dark Inspiration » et « Vampiric Embrace » aident le groupe.",
+     "raison": "Simulation MythicSim du 31 octobre 2026, niveau 60, cible unique sur deux minutes : 834 DPS, soit 66,6 % de la référence Survie à 1253 DPS. Note relative 3/5 selon le barème existant ; résultat expérimental du build et de son équipement, pas une mesure en jeu.",
      "appuis": [
       "pr-sim",
       "pr-ombre-soutien"
@@ -762,13 +804,14 @@
     },
     "world": {
      "valeur": 4,
-     "raison": "« Silence », « Psychic Scream », « Shadow Word: Death » et ralentissement de « Mind Flay » ; tissu. Tournoi niveau 30 : meilleur Prêtre au top 12.",
+     "raison": "« Silence », « Psychic Scream », « Shadow Word: Death » et ralentissement de « Mind Flay » ; tissu. Tournoi niveau 30 : meilleur Prêtre au top 12. Le risque du contrecoup de Shadow Word: Death à 30 % des PV maximum limite son usage sous pression.",
      "appuis": [
       "pr-controle",
       "pr-ombre",
       "pr-mind-flay",
       "pr-limites",
-      "pr-tournoi"
+      "pr-tournoi",
+      "pr-swd-30-oct"
      ],
      "confiance": "faible"
     },
@@ -782,9 +825,10 @@
     },
     "burst": {
      "valeur": 3,
-     "raison": "« Shadowform » (coût Ombre réduit de moitié, critiques renforcés), « Shadow Word: Death » et « Early Demise » : des dégâts surtout réguliers.",
+     "raison": "« Shadowform » (coût Ombre réduit de moitié, critiques renforcés), « Shadow Word: Death » et « Early Demise » : des dégâts surtout réguliers. Si Shadow Word: Death ne tue pas sa cible, son contrecoup coûte maintenant 30 % des PV maximum : vérifier sa santé avant de l’utiliser.",
      "appuis": [
-      "pr-ombre"
+      "pr-ombre",
+      "pr-swd-30-oct"
      ],
      "confiance": "moyenne"
     },
@@ -807,11 +851,12 @@
     },
     "surv": {
      "valeur": 3,
-     "raison": "Tissu, « Power Word: Shield » et « Fade » ; « Vampiric Embrace » rend un peu de vie.",
+     "raison": "Tissu, « Power Word: Shield » et « Fade » ; « Vampiric Embrace » rend un peu de vie. Le contrecoup de Shadow Word: Death exige une réserve de santé lorsque la cible survit.",
      "appuis": [
       "pr-defense",
       "pr-ombre-soutien",
-      "pr-limites"
+      "pr-limites",
+      "pr-swd-30-oct"
      ],
      "confiance": "moyenne"
     },
@@ -829,7 +874,8 @@
      "appuis": [
       "pr-ombre-soutien",
       "pr-soutien",
-      "pr-ombre-raid-dev"
+      "pr-ombre-raid-dev",
+      "pr-maladies-30-oct"
      ],
      "confiance": "faible"
     },
@@ -853,7 +899,8 @@
       "pr-defense",
       "pr-ombre",
       "pr-limites",
-      "pr-sorts-client"
+      "pr-sorts-client",
+      "pr-swd-30-oct"
      ],
      "confiance": "moyenne"
     }
@@ -911,7 +958,7 @@
       },
       "ouverture": {
        "points": 1,
-       "raison": "Burst Mind Blast et Shadow Word: Death."
+       "raison": "Burst Mind Blast et Shadow Word: Death ; réserver l’exécution aux situations où la cible meurt ou où ses propres PV permettent le contrecoup de 30 %."
       },
       "pilotage": {
        "points": 1,
@@ -924,7 +971,8 @@
       "pr-defense",
       "pr-ombre",
       "pr-limites",
-      "pr-sorts-client"
+      "pr-sorts-client",
+      "pr-swd-30-oct"
      ]
     }
    }

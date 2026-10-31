@@ -13,6 +13,8 @@ const legacy=[
 ];
 test('Les deux anciens liens publiés retrouvent encore leur profil et leurs métadonnées exactes',()=>{
  samples().forEach((p,i)=>{
+  // Les anciens liens conservent leur métadonnée d'export, même si les résultats sont recalculés en v16.
+  p.engine='1.5.0-exploratoire';
   p.created='2026-10-26T12:00:00.000Z';
   assert.deepEqual(C.readLink(base+'#partage='+legacy[i]),p);
   assert.deepEqual(C.decode(legacy[i]),p);

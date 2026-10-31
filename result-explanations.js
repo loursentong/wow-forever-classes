@@ -456,9 +456,10 @@
   var where=criterionIn[a.key]||'dans cette activité',d=a.key==='raid'&&ex.pveDamage,text;
   if(d){
    text=d.singleTarget>=4&&d.area<=3?'En donjons et raids, elle est surtout forte sur une cible. '+(d.area<=2?'Les gros groupes sont moins son point fort.':'Ses dégâts de zone sont plus moyens.'):
+    d.singleTarget>=3&&d.area<=2?'En donjons et raids, ses dégâts estimés privilégient une cible. Les gros groupes sont moins son point fort.':
     d.area>=4&&d.singleTarget<4?'En donjons et raids, elle se démarque surtout sur les groupes d’ennemis.':
     d.singleTarget>=4&&d.area>=4?'Elle est à l’aise sur une cible comme sur les groupes en donjons et raids.':
-    a.note>=3?'Son profil convient aux donjons et raids.':'Elle sera moins à l’aise en donjons et raids.';
+    a.note>=3?'Son profil convient aux donjons et raids.':'Ses dégâts estimés en groupe sont plus modestes.';
   }else text=a.note>=4?'C’est un de ses points forts '+where+'.':a.note>=3?'Son profil convient '+where+'.':'Elle sera moins à l’aise '+where+'.';
   return text+(needsPractice(a,ex)?' Quelques réflexes restent à prendre à ton niveau.':'');
  }
@@ -529,14 +530,15 @@
   if(a.domain==='difficulty'&&a.certainty<=2)return friendlyAnswer(a,ex);
   if(mainCause(a)==='certainty')return a.certainty<=2?'Tu hésites encore sur « '+title+' » : garde cette piste ouverte le temps de préciser ton envie.':
    'Tu n’es pas totalement sûr de « '+title+' » : cette piste reste à explorer.';
-  return (suitableReference(a,ex)?'':'Le point à regarder, c’est « '+title+' ». ')+friendlyAnswer(a,ex);
+  // Le portrait PvE explicite déjà la cible et la zone ; éviter une amorce générique qui le fait passer pour une incapacité.
+  return (suitableReference(a,ex)||(a.key==='raid'&&ex.pveDamage)?'':'Le point à regarder, c’est « '+title+' ». ')+friendlyAnswer(a,ex);
  }
  function friendlySummary(ex,priority){
   if(!priority)return friendlyKeep(ex);
   var parts=costly(priorityParts(ex,ex.score));
   if(!parts.length)return 'Cette piste réunit ce que tu recherches. Reste à voir si son style te plaît.';
   var g=parts[0],a=ex.axes.filter(function(a){return a.group===g.key;}).sort(function(a,b){return b.share*(1-b.raw)-a.share*(1-a.raw);})[0];
-  return (suitableReference(a,ex)?'':'Le point à regarder, c’est « '+priorityAxisNames[a.key]+' ». ')+friendlyAnswer(a,ex);
+  return (suitableReference(a,ex)||(a.key==='raid'&&ex.pveDamage)?'':'Le point à regarder, c’est « '+priorityAxisNames[a.key]+' ». ')+friendlyAnswer(a,ex);
  }
  function friendlyStrengths(ex,fit,score){
   var an=pisteAnalysis(ex,fit,score);
