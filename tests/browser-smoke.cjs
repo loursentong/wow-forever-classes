@@ -481,12 +481,13 @@ async function check(){
   assert.equal(await rankRows.nth(0).getAttribute('value'),'1');
   assert.equal(await rankRows.nth(1).getAttribute('value'),'1');
   assert.equal(await rankRows.nth(2).getAttribute('value'),'1');
-  assert.equal(await rankRows.nth(3).getAttribute('value'),'1');
-  // Quatre spécialisations à égalité en tête, dont deux du Voleur (v10).
-  assert.match(await rankRows.nth(1).textContent(),/à égalité avec 3 autres spécialisations/);
+  assert.equal(await rankRows.nth(3).getAttribute('value'),'4');
+  // Trois spécialisations à égalité en tête ; Assassinat passe à 4 en contrôle dans la revue v17.
+  // Avec deux autres ex æquo, l’interface existante nomme chacun au lieu d’afficher leur nombre.
+  assert.match(await rankRows.nth(1).textContent(),/à égalité avec le Démoniste Affliction et le Voleur Finesse/);
   assert.doesNotMatch(await page.locator('#reco-priority-results').textContent(),/ex æquo|résultat proche/);
   const leadBorders=await page.locator('#reco-priority-results .is-leading').evaluateAll(rows=>rows.map(row=>getComputedStyle(row).borderColor));
-  assert.equal(leadBorders.length,4);
+  assert.equal(leadBorders.length,3);
   assert.equal(new Set(leadBorders).size,1,'Les spécialisations à égalité doivent recevoir la même mise en avant');
   // Les autres spécialisations s'affichent sur demande.
   await page.locator('[data-prio-more]').click();
@@ -593,8 +594,8 @@ async function check(){
   await parents.first().locator('td[data-k="burst"]').click();
   assert.equal(await parents.first().locator('.spec-toggle').getAttribute('aria-expanded'),'true');
   assert.deepEqual(await visibleSpecs(),[
-   {id:'guerrier-armes',notes:'— — — 3 4 3 5 4 3 3 4 2 2 4·4'},
-   {id:'guerrier-fureur',notes:'— — — 4 4 3 4 5 2 3 4 2 3 3·4'},
+   {id:'guerrier-armes',notes:'— — — 3 4 3 4 4 3 3 4 2 2 4·4'},
+   {id:'guerrier-fureur',notes:'— — — 4 4 3 4 5 2 3 4 2 3 4·4'},
    {id:'guerrier-protection',notes:'— 5 — — 4 2 2 3 3 5 3 3 3 4·4'}]);
   assert.equal(await firstColumn(),closedColumn,'La colonne des noms ne bouge pas à l’ouverture');
   // Le nom de la classe ouvre toujours sa fiche, sans replier ni déplier.
@@ -764,9 +765,9 @@ async function check(){
   assert.match(await complexity.textContent(),/difficulté intermédiaire en PvE/);
   assert.doesNotMatch(await complexity.textContent(),/À voir si/);
   await complexity.screenshot({path:path.join(__dirname,'screenshots','complexite-envie.png'),animations:'disabled'});
-  // Fureur en PvE : les six graduations passent par le vrai curseur, pour les deux envies.
-  // Restreindre ce cas à la mêlée pour garder Fureur visible à toutes les graduations ; les classements complets suivent la référence v16.
-  await page.evaluate(()=>{localStorage.clear();localStorage.setItem('wf-recommend-v1',JSON.stringify({roles:{dps:5},rolesStrict:true,range:{value:'melee',certainty:5,strict:true},activities:{raid:5},mastery:3}));});
+  // Arcane en PvE : les six graduations passent par le vrai curseur, pour les deux envies.
+  // Fureur est désormais exigeant en v17. Arcane reste intermédiaire et visible sur les douze cas avec ce profil.
+  await page.evaluate(()=>{localStorage.clear();localStorage.setItem('wf-recommend-v1',JSON.stringify({roles:{dps:5},rolesStrict:true,range:{value:'distance',certainty:5,strict:true},activities:{raid:5},styles:{burst:5,mob:3},mastery:3}));});
   await page.reload({waitUntil:'domcontentloaded'});await page.locator('[data-reco-mode="guided"]').click();
   for(const value of ['simple','complex'])for(const certainty of [0,1,2,3,4,5]){
    await page.locator('[data-step="5"]').click();
@@ -775,10 +776,10 @@ async function check(){
    for(let i=0;i<certainty;i++)await slider.press('ArrowRight');
    assert.equal(await slider.inputValue(),String(certainty));
    await page.locator('[data-show-results]').click();
-   const fury=page.locator('#reco-results .reco-result-card').filter({has:page.locator('a[href="fiches-sources/guerrier.html#guerrier-fureur"]')});
-   assert.equal(await fury.count(),1);
-   if(!await fury.locator('.reco-why').evaluate(d=>d.open))await fury.locator('.reco-why > summary').click();
-   const g=fury.locator('.reco-friendly-groups li').filter({has:page.locator('h5',{hasText:'Complexité'})});
+   const intermediate=page.locator('#reco-results .reco-result-card').filter({has:page.locator('a[href="fiches-sources/mage.html#mage-arcane"]')});
+   assert.equal(await intermediate.count(),1);
+   if(!await intermediate.locator('.reco-why').evaluate(d=>d.open))await intermediate.locator('.reco-why > summary').click();
+   const g=intermediate.locator('.reco-friendly-groups li').filter({has:page.locator('h5',{hasText:'Complexité'})});
    const expected=certainty<=2?'Une piste compatible':certainty<5?'Un peu plus '+(value==='simple'?'technique':'simple'):value==='simple'?'Plus technique que ton envie':'Plus simple que ton envie';
    assert.equal(await g.locator('.reco-friendly-head span').textContent(),expected);
    assert.match(await g.textContent(),/difficulté intermédiaire en PvE/);

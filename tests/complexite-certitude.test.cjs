@@ -6,8 +6,7 @@ const group=ex=>X.friendlyGroups(ex,false).find(g=>g.key==='difficulty');
 
 test('Restauration chaman en PvE : une difficulté intermédiaire est compatible avec les deux envies peu affirmées',()=>{
  for(const value of ['simple','complex'])for(const certainty of [0,1,2]){
-  // Le repère raid de Fureur a baissé en v16 : son activité devient une réserve légitime.
-  // Ce scénario isole la difficulté intermédiaire avec une activité qui répond pleinement au choix.
+  // Ce scénario isole la difficulté intermédiaire avec un kit de soin adapté au raid.
   const ex=E.explain('chaman-restauration',profile(value,certainty)),g=group(ex);
   assert.equal(ex.spec.load.pve,3);assert.equal(g.verdict,'Une piste compatible');
   assert.match(g.answers[0].text,/difficulté intermédiaire en PvE.*préférence reste souple.*peut bien te convenir/);
@@ -18,7 +17,7 @@ test('Restauration chaman en PvE : une difficulté intermédiaire est compatible
 
 test('Les certitudes 3 et 4 décrivent un écart modéré, dans le bon sens',()=>{
  for(const value of ['simple','complex'])for(const certainty of [3,4]){
-  const g=group(E.explain('guerrier-fureur',profile(value,certainty)));
+  const g=group(E.explain('druide-restauration',profile(value,certainty)));
   const direction=value==='simple'?'technique':'simple';
   assert.equal(g.verdict,'Un peu plus '+direction);
   assert.match(g.answers[0].text,new RegExp('difficulté intermédiaire en PvE.*un peu plus '+direction));
@@ -27,7 +26,7 @@ test('Les certitudes 3 et 4 décrivent un écart modéré, dans le bon sens',()=
 
 test('La certitude maximale conserve une explication franche, sans modifier le score',()=>{
  for(const value of ['simple','complex']){
-  const ex=E.explain('guerrier-fureur',profile(value,5)),g=group(ex);
+  const ex=E.explain('druide-restauration',profile(value,5)),g=group(ex);
   assert.equal(g.verdict,value==='simple'?'Plus technique que ton envie':'Plus simple que ton envie');
   assert.doesNotMatch(g.answers[0].text,/préférence reste souple|un peu plus/);
   assert.equal(ex.answers.find(a=>a.domain==='difficulty').fit,.5);
@@ -35,7 +34,7 @@ test('La certitude maximale conserve une explication franche, sans modifier le s
 });
 
 test('En contexte mixte, chaque activité garde son niveau et sa propre explication',()=>{
- const ex=E.explain('guerrier-fureur',profile('simple',1,{raid:5,bg:5})),g=group(ex);
+ const ex=E.explain('druide-restauration',profile('simple',1,{raid:5,bg:5})),g=group(ex);
  assert.equal(g.verdict,'Selon l’activité');assert.equal(g.answers.length,2);
  assert.match(g.answers[0].text,/difficulté intermédiaire en PvE.*peut bien te convenir/);
  assert.match(g.answers[1].text,/exigeante en PvP.*regarde si ce niveau te tente/);
@@ -53,7 +52,7 @@ test('Une faible certitude ne masque pas les difficultés aux extrêmes ni la pr
   assert.equal(easy.verdict,'À explorer');assert.match(easy.answers[0].text,/accessible en PvE/);
  }
  for(const weight of [1,2,3]){
-  const ex=E.priorityExplain('guerrier-fureur',{raid:3,tech:weight},3);
+  const ex=E.priorityExplain('druide-restauration',{raid:3,tech:weight},3);
   const text=X.friendlyHtml(X.friendlyGroups(ex,true));
   assert.match(text,/Plus simple que ton envie/);assert.doesNotMatch(text,/préférence reste souple|Une piste compatible|Un peu plus simple/);
  }

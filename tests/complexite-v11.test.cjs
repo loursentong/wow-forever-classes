@@ -135,7 +135,7 @@ test('Explications : la difficulté dit ce qui pèse, la fiche détaille chaque 
  assert.equal(C.weighs(spec('chasseur-survie'),'pve'),'la rotation et le placement pèsent beaucoup ; les effets à entretenir, la gestion de la ressource et le pilotage, un peu');
  assert.equal(C.weighs(historicalSpec('paladin-vindicte'),'pve'),'les effets à entretenir et la gestion de la ressource pèsent un peu');
  assert.equal(C.weighs(spec('paladin-vindicte'),'pve'),'la rotation, les effets à entretenir et la gestion de la ressource pèsent un peu');
- assert.equal(C.weighs(spec('voleur-combat'),'pve'),'la gestion de la ressource pèse beaucoup ; les effets à entretenir, un peu');
+ assert.equal(C.weighs(spec('voleur-combat'),'pve'),'la rotation et la gestion de la ressource pèsent beaucoup ; les effets à entretenir et le placement, un peu');
  assert.equal(C.weighs(spec('voleur-finesse'),'pvp'),'les contrôles, la défense, le placement et l’ouverture pèsent beaucoup ; le pilotage, un peu');
  const html=details(spec('chasseur-survie'));
  assert.match(html,/En PvE, la rotation et le placement pèsent beaucoup ; les effets à entretenir, la gestion de la ressource et le pilotage, un peu\./);

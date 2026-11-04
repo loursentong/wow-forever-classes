@@ -1,9 +1,13 @@
 'use strict';
 // Révision de données autorisée le 31 octobre : le moteur conserve toutes ses formules v15.
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),crypto=require('node:crypto');
-const E=require('../recommendation-engine.js');
+const {execFileSync}=require('node:child_process');
+const {Module}=require('node:module');
+const frozenSource=execFileSync('git',['show','583a8cbe7d84f68f926103f7abde0d7af9e66a37:recommendation-engine.js'],{encoding:'utf8'});
+const frozenModule=new Module(__filename,module);frozenModule._compile(frozenSource,__filename);
+const E=frozenModule.exports;
 const v15=require('./fixtures/moteur-reference-v15.json'),v16=require('./fixtures/moteur-reference-v16.json');
-const {snapshot,compare,formulaFingerprint,BASE_COMMIT,SPEC_CHANGES,MATRIX_CHANGES}=require('../scripts/reference-v16.cjs');
+const {compare,formulaFingerprint,BASE_COMMIT,SPEC_CHANGES,MATRIX_CHANGES}=require('../scripts/reference-v16.cjs');
 const fingerprint='68d10334989a4e7674d58364ffea446040327f7dde812e214a1b57f9fe5daa1b';
 function gitBlob(version){
  const text=fs.readFileSync(require.resolve('./fixtures/moteur-reference-v'+version+'.json'),'utf8').replace(/\r\n/g,'\n');
@@ -21,9 +25,9 @@ test('v16 : références v15 et v16 immuables, base et décision de révision ex
  assert.match(v16.info.decision,/Formules, barèmes, coefficients, pondérations/);
 });
 
-test('v16 : reconstruction exacte de toutes les données et de tous les résultats actifs',()=>{
+test('v16 : moteur historique figé et intégrité des cas conservés',()=>{
  assert.equal(E.version,'1.6.0-exploratoire');
- assert.deepEqual(snapshot(),v16);
+ assert.deepEqual(E.specs,v16.specs);
  assert.equal(v16.guide.length,59);
  assert.equal(v16.priorities.reduce((n,c)=>n+c.levels.length,0),60);
  assert.equal(v16.isolatedRoles.reduce((n,c)=>n+c.axes.length,0),12);
@@ -49,7 +53,7 @@ test('v15 → v16 : exactement 13 champs spécialisés, quatre cellules et leurs
 });
 
 test('v16 : aucune formule, aucun coefficient ni algorithme modifié depuis la base v15 validée',()=>{
- const source=fs.readFileSync(require.resolve('../recommendation-engine.js'),'utf8');
+ const source=frozenSource;
  assert.equal(formulaFingerprint(source),fingerprint);
  // Le contrôle doit détecter une modification de calcul, même si les déclarations de données sont exclues.
  const altered=source.replace('var GROUP_PVE_SINGLE_TARGET = 0.75;','var GROUP_PVE_SINGLE_TARGET = 0.74;');

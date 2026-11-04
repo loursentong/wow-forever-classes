@@ -11,13 +11,31 @@ const LIBELLES={raid:'Donjons et raids',bg:'Champs de bataille',world:'PvP sauva
 const nom=id=>{const s=E.specs.find(x=>x.id===id);if(s)return s.className+' '+s.label;
  return {'mage-*':'Mage (les trois)','voleur-*':'Voleur (les trois)','soigneurs':'Les cinq soigneurs'}[id]||id;};
 const cell=t=>String(t).replace(/\|/g,'\\|');
-const tranches=data.ecarts.filter(e=>e.decision),ouverts=data.ecarts.filter(e=>!e.decision);
+const decisionCourante=e=>e.revisions&&e.revisions.length?e.revisions[e.revisions.length-1]:e.decision;
+const tranches=data.ecarts.filter(e=>decisionCourante(e)),ouverts=data.ecarts.filter(e=>!decisionCourante(e));
 const out=['# Écarts à arbitrer','',
  `> Base de connaissances du ${data.date}, moteur \`${data.moteur}\`. Un écart **tranché** porte sa décision, appliquée au moteur ;`,
  '> un écart **ouvert** attend des données ou une décision. Les arguments restent à apprécier dans leur contexte : ils ne prouvent pas tous une erreur de note.',''];
 if(tranches.length){
  out.push('## Tranchés','','| # | Configuration | Critère | Avant | Décision | Motif |','|---|---|---|---|---|---|');
- for(const e of tranches)out.push(`| ${e.id} | ${nom(e.spec)} | ${LIBELLES[e.critere]} | ${e.valeur} | ${e.decision.choix==='changer'?'changée à '+e.decision.valeur:'gardée'} (${e.decision.date}) | ${cell(e.decision.motif||e.constat)} |`);
+ for(const e of tranches){
+  const revision=e.revisions&&e.revisions.length?e.revisions[e.revisions.length-1]:null;
+  const decision=revision||e.decision;
+  const avant=revision?revision.avant:e.valeur;
+  out.push(`| ${e.id} | ${nom(e.spec)} | ${LIBELLES[e.critere]} | ${avant} | ${decision.choix==='changer'?'changée à '+decision.valeur:'gardée à '+avant} (${decision.date}) | ${cell(decision.motif||e.constat)} |`);
+ }
+ out.push('');
+}
+const revises=tranches.filter(e=>e.revisions&&e.revisions.length);
+if(revises.length){
+ out.push('## Historique des décisions révisées','','Les décisions initiales restent conservées avec les références historiques du moteur. Les lignes ci-dessus affichent la décision la plus récente.','',
+  '| # | Date | Décision | Motif |','|---|---|---|---|');
+ for(const e of revises){
+  const initiale=e.decision;
+  if(initiale)out.push(`| ${e.id} | ${initiale.date} | ${initiale.choix==='changer'?e.valeur+' → '+initiale.valeur:'gardée à '+e.valeur} | ${cell(initiale.motif||e.constat)} |`);
+  else out.push(`| ${e.id} | Avant révision | écart ouvert à ${e.valeur} | ${cell(e.constat)} |`);
+  for(const revision of e.revisions)out.push(`| ${e.id} | ${revision.date} | ${revision.choix==='changer'?revision.avant+' → '+revision.valeur:'gardée à '+revision.valeur} | ${cell(revision.motif)} |`);
+ }
  out.push('');
 }
 if(ouverts.length){

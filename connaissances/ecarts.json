@@ -1,6 +1,6 @@
 {
- "date": "2026-10-31",
- "moteur": "1.6.0-exploratoire",
+ "date": "2026-11-04",
+ "moteur": "1.7.0-exploratoire",
  "ecarts": [
   {
    "id": "e1",
@@ -18,7 +18,16 @@
     "date": "2026-10-21",
     "motif": "Note raid des DPS = dégâts seuls : 49 %, sous 55 %.",
     "valeur": 2
-   }
+   },
+   "revisions": [
+    {
+     "choix": "changer",
+     "date": "2026-11-04",
+     "avant": 2,
+     "valeur": 3,
+     "motif": "Snapshot MythicSim du 4 novembre : 823.297 DPS, soit 63.902 % de la référence Survie à 1288.369 DPS. Le barème 86/72/55 appliqué aux nombres non arrondis donne 3/5. Les sorts et la rotation Élémentaire sont révisés après les notes du 2 novembre."
+    }
+   ]
   },
   {
    "id": "e2",
@@ -38,7 +47,16 @@
     "date": "2026-10-21",
     "motif": "Note raid des DPS = dégâts seuls : 68 %, entre 55 et 71 %.",
     "valeur": 3
-   }
+   },
+   "revisions": [
+    {
+     "choix": "changer",
+     "date": "2026-11-04",
+     "avant": 3,
+     "valeur": 4,
+     "motif": "Snapshot MythicSim du 4 novembre : 928.764 DPS, soit 72.088 % de la référence Survie à 1288.369 DPS. Le barème 86/72/55 appliqué aux nombres non arrondis donne 4/5. Le nouveau preset Destruction intègre les bonus croisés de Shadow and Flame. La note reste fragile près du seuil de 72 %."
+    }
+   ]
   },
   {
    "id": "e3",
@@ -57,7 +75,16 @@
     "date": "2026-10-21",
     "motif": "Note raid des DPS = dégâts seuls : 65 %, entre 55 et 71 % ; à revoir si Blizzard renforce le Voleur.",
     "valeur": 3
-   }
+   },
+   "revisions": [
+    {
+     "choix": "garder",
+     "date": "2026-11-04",
+     "avant": 3,
+     "valeur": 3,
+     "motif": "Snapshot MythicSim du 4 novembre : 878.412 DPS, soit 68.180 % de la référence Survie à 1288.369 DPS. Le barème 86/72/55 appliqué aux nombres non arrondis donne 3/5. La référence Combat est maintenant le build Attaque sournoise 12/35/4, avec Shank et les nouvelles fenêtres de rotation."
+    }
+   ]
   },
   {
    "id": "e4",
@@ -193,7 +220,16 @@
     "m-leveling"
    ],
    "decision": null,
-   "attente": "Données du lancement : un conseil de leveling 1–20 ne donne pas la note solo et farm au 60."
+   "attente": "Données du lancement : un conseil de leveling 1–20 ne donne pas la note solo et farm au 60.",
+   "revisions": [
+    {
+     "choix": "changer",
+     "date": "2026-11-04",
+     "avant": 3,
+     "valeur": 4,
+     "motif": "Revue du kit Givre au lancement : Ralentissements, gels, kiting, nourriture et eau rendent les quêtes solo plus sûres ; Barrière et Bloc de glace renforcent ce confort. Le guide Method actuel préfère Givre aux autres écoles pour cette sécurité. La dépendance au mana et les restrictions de Blizzard restent des limites."
+    }
+   ]
   },
   {
    "id": "e12",
@@ -228,7 +264,16 @@
     "date": "2026-10-21",
     "valeur": 3,
     "motif": "Note raid des DPS = dégâts seuls : 68 %, entre 55 et 71 % ; les totems restent notés dans Soutien."
-   }
+   },
+   "revisions": [
+    {
+     "choix": "changer",
+     "date": "2026-11-04",
+     "avant": 3,
+     "valeur": 4,
+     "motif": "Snapshot MythicSim du 4 novembre : 1066.309 DPS, soit 82.764 % de la référence Survie à 1288.369 DPS. Le barème 86/72/55 appliqué aux nombres non arrondis donne 4/5. Le preset Amélioration intègre Stormstrike, les nouveaux talents et la fréquence de Maelstrom annoncée, encore partiellement déclarative dans le simulateur."
+    }
+   ]
   }
  ],
  "surveiller": [

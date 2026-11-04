@@ -1,8 +1,8 @@
 {
  "classe": "paladin",
  "libelle": "Paladin",
- "date": "2026-10-31",
- "moteur": "1.6.0-exploratoire",
+ "date": "2026-11-04",
+ "moteur": "1.7.0-exploratoire",
  "faits": [
   {
    "id": "p-role",
@@ -56,22 +56,27 @@
   {
    "id": "p-defense",
    "categorie": "defense",
-   "texte": "Plaques et bouclier ; « Divine Shield », « Divine Protection », « Lay on Hands » toutes les 20 min au lieu d’une heure.",
+   "texte": "Plaques et bouclier, Divine Shield, Divine Protection, Blessing of Protection, Blessing of Freedom et Lay on Hands, désormais à 20 minutes. Les immunités imposent Forbearance : les utiliser sur soi demande un choix, et elles ne sont pas disponibles toutes à la suite.",
    "sources": [
     "bz-dd-paladin",
-    "kami-video"
+    "kami-video",
+    "bz-dev-20261102",
+    "wft-patch-20261104"
    ]
   },
   {
    "id": "p-prot-defense",
    "categorie": "defense",
-   "texte": "Protection : Rempart de templier absorbe l’équivalent de 100 % des PV pendant 8 s ; Sceau de fureur fournit une absorption en portant un bouclier et son Jugement provoque la cible. Le hotfix du 30 octobre ajoute le blocage des sorts pendant 6 s via Shieldsworn et Holy Strike, avec Holy Shield requis. Improved Righteous Fury réduit les dégâts subis ; Sacred Duty ne donne plus d’Endurance. Ces outils exigent le build Protection et, pour le blocage, un bouclier.",
+   "texte": "Protection : Rempart de templier absorbe l’équivalent de 100 % des PV pendant 8 s, mais c’est un effet magique dissipable et il partage Forbearance avec les immunités. Sceau de fureur fournit une absorption avec bouclier. Holy Strike avec Shieldsworn permet de bloquer des sorts pendant 6 s et déclenche les talents de blocage actifs sans consommer leurs charges. Improved Righteous Fury et Iron Creed réduisent les dégâts sous leurs conditions ; Sacred Duty réduit Forbearance et ne donne plus d’Endurance.",
    "sources": [
     "bz-dd-paladin",
     "iv-choisir",
     "wft-paladin-talents-20261031",
     "wft-patch-20261031",
-    "fc-hotfix-20261030"
+    "fc-hotfix-20261030",
+    "bz-dev-20261102",
+    "wft-patch-20261104",
+    "fc-patch-20261104"
    ],
    "specs": [
     "paladin-protection"
@@ -80,12 +85,15 @@
   {
    "id": "p-prot-degats",
    "categorie": "burst",
-   "texte": "Depuis le hotfix du 30 octobre, Swift Judgement est un second Jugement à recharge séparée, sans consommer le sceau ; il ne réinitialise plus le Jugement normal. Shieldsworn réduit la recharge de Holy Strike et le fait interagir avec Holy Shield ; Righteous Fury augmente aussi la menace non sacrée.",
+   "texte": "Swift Judgement est un second Jugement à recharge séparée, sans consommer le sceau. Le Jugement de fureur provoque pendant 3 s. Righteous Fury, apprise au niveau 10, augmente toute menace de 33 % et ajoute 90 % à celle des attaques sacrées. Shieldsworn réduit la recharge de Holy Strike et le fait interagir avec les talents de blocage.",
    "sources": [
     "bz-dd-paladin",
     "wft-paladin-talents-20261031",
     "wft-patch-20261031",
-    "fc-hotfix-20261030"
+    "fc-hotfix-20261030",
+    "bz-dev-20261102",
+    "wft-patch-20261104",
+    "fc-patch-20261104"
    ],
    "specs": [
     "paladin-protection"
@@ -107,11 +115,15 @@
   {
    "id": "p-sacre",
    "categorie": "soutien",
-   "texte": "Sacré : Holy Shock, Infusion of Light et Reverence ; Light’s Vigil prépare un soin déclenché par Holy Shock sur un allié. Les données du 30 octobre ajoutent Oath of Light sur un allié et Boundless Light pour les Holy Shock lancés sur des alliés sans cet Oath.",
+   "texte": "Sacré combine soins directs, Holy Shock et Infusion of Light, qui accélère Holy Light après un critique éligible. Oath of Light renforce les soins sur un allié ; Boundless Light renforce le critique de Holy Shock sur les autres. Holy Power augmente désormais le bonus des soins critiques. Light’s Vigil prépare un soin de groupe déclenché par Holy Shock sur le même allié.",
    "sources": [
     "bz-dd-paladin",
     "wft-paladin-talents-20261031",
-    "wft-paladin-20261031"
+    "wft-paladin-20261031",
+    "bz-dev-20261102",
+    "wft-patch-20261104",
+    "fc-patch-20261104",
+    "iv-holy-rotation-20261104"
    ],
    "specs": [
     "paladin-sacre"
@@ -171,9 +183,11 @@
   {
    "id": "p-sim",
    "categorie": "performance",
-   "texte": "Relevé MythicSim du 31 octobre 2026 : Vindicte 889 DPS (71,0 % de Survie 1253). Personnages de niveau 60, boss 63, deux minutes, équipement de référence avec sa paire de bijoux, talents et race de chaque preset. Simulation expérimentale ; différences de preset, de moteur et de rotation, pas une mesure de patch isolée ni de PvP.",
+   "texte": "Snapshot MythicSim du 4 novembre 2026, moteur a667dce : Vindicte 1097,74 DPS, 85,20 % de Survie 1288,37. Build 12/8/31 avec Unsealed Wrath, niveau 60, boss 63 unique, 120 s avec variation de 15 s, 10 000 itérations, équipement et paire de bijoux du preset, buffs et consommables de raid. Le changement de preset et de moteur participe au résultat ; ce repère ne mesure pas le PvP.",
    "sources": [
-    "mythicsim-20261031"
+    "mythicsim-20261031",
+    "mythicsim-20261104",
+    "mythicsim-log-20261104"
    ]
   },
   {
@@ -282,12 +296,16 @@
   {
    "id": "p-soin-cible",
    "categorie": "soin",
-   "texte": "Sacré garde une identité de soins directs sur une cible autour de Flash of Light et Holy Light. Oath of Light renforce les soins sur un allié pendant cinq minutes, un seul Oath actif par Paladin ; Boundless Light augmente au maximum de 30 % la chance de critique de Holy Shock sur les alliés sans cet Oath. Ces deux avantages ne sont pas cumulés sur une même cible.",
+   "texte": "Flash of Light, Holy Light et Holy Shock portent le soin direct. Oath of Light dure cinq minutes sur un seul allié et augmente ces soins sur lui. Au maximum, Boundless Light ajoute 30 points de chance de critique à Holy Shock sur les alliés sans cet Oath. Le guide Sacré actuel fait consommer Infusion of Light avec Holy Light.",
    "sources": [
     "bz-dd-paladin",
     "wt-classes",
     "wft-paladin-talents-20261031",
-    "wft-paladin-20261031"
+    "wft-paladin-20261031",
+    "bz-dev-20261102",
+    "wft-patch-20261104",
+    "fc-patch-20261104",
+    "iv-holy-rotation-20261104"
    ],
    "specs": [
     "paladin-sacre"
@@ -296,13 +314,17 @@
   {
    "id": "p-soin-groupe",
    "categorie": "soin",
-   "texte": "Les données du 30 octobre décrivent Light’s Vigil comme une pose à 1,5 s sur un allié pendant 30 s ; le prochain Holy Shock sur lui ne déclenche pas de recharge et soigne sa partie. Portée 40 m et recharge de la pose 6 s. Le soin de groupe exige donc une préparation ; la version offensive et son remboursement de mana ne sont plus comptés.",
+   "texte": "Light’s Vigil se pose en 1,5 s sur un allié pour 30 s ; le prochain Holy Shock sur lui n’encourt pas de recharge et soigne son groupe. Portée 40 m, recharge de la pose 6 s. Le guide de Mytholxgy du 3 novembre conseille de préparer Vigil avant les dégâts et de gérer son coût élevé. Le remboursement de la version offensive a disparu.",
    "sources": [
     "bz-dd-paladin",
     "wft-paladin-20261031",
     "wft-paladin-talents-20261031",
     "wft-patch-20261031",
-    "fc-hotfix-20261030"
+    "fc-hotfix-20261030",
+    "bz-dev-20261102",
+    "wft-patch-20261104",
+    "fc-patch-20261104",
+    "iv-holy-rotation-20261104"
    ],
    "specs": [
     "paladin-sacre"
@@ -358,21 +380,71 @@
   {
    "id": "p-voice-defense",
    "categorie": "defense",
-   "texte": "Voice of Truth devient un sort de base au niveau 20 : immunité aux silences et interruptions pendant 6 s, recharge de 3 min. Il est distinct du talent de soin Oath of Light.",
+   "texte": "Voice of Truth a quitté le talent Sacré, mais reste un sort appris au niveau 20 dans le grimoire 70755 : immunité aux silences et interruptions pendant 6 s, recharge de 3 min. Le guide Sacré de Mytholxgy du 3 novembre décrit aussi son usage défensif, notamment en PvP.",
    "sources": [
     "wft-paladin-20261031",
     "wft-patch-20261031",
-    "fc-hotfix-20261030"
+    "fc-hotfix-20261030",
+    "bz-dev-20261102",
+    "wft-patch-20261104",
+    "iv-holy-rotation-20261104"
    ]
   },
   {
    "id": "p-holy-shield-rangs",
    "categorie": "complexite",
-   "texte": "Holy Shield remonte à 20 points dépensés dans Protection. Les rangs documentés sont appris aux niveaux 30, 40 et 50 ; le rang à 221 dégâts existe dans les données mais son niveau d’apprentissage n’est pas défini dans le relevé consulté. Sa disponibilité au niveau 60 reste à vérifier, sans en déduire une menace comparable mesurée.",
+   "texte": "Holy Shield est un talent à 20 points dépensés dans Protection. Le relevé 70755 et ses hotfixs confirme le rang 4 appris au niveau 60, 221 dégâts par blocage, coût de 240 mana et recharge de 10 s. Il complète les rangs antérieurs appris plus tôt ; sa disponibilité n’est plus laissée inconnue.",
    "sources": [
     "wft-paladin-20261031",
     "wft-patch-20261031",
-    "fc-hotfix-20261030"
+    "fc-hotfix-20261030",
+    "wft-patch-20261104",
+    "fc-patch-20261104"
+   ],
+   "specs": [
+    "paladin-protection"
+   ]
+  },
+  {
+   "id": "p-sacre-priorites-20261104",
+   "categorie": "complexite",
+   "texte": "Le guide Sacré de Mytholxgy du 3 novembre décrit une priorité avec Oath, choix de sceau, Vigil puis Holy Shock, Flash of Light, Holy Light sous Infusion et Lay on Hands. Les soins demandent de saisir le proc d’Infusion et de préparer le déclenchement de Vigil sur le même allié.",
+   "sources": [
+    "iv-holy-rotation-20261104"
+   ],
+   "specs": [
+    "paladin-sacre"
+   ]
+  },
+  {
+   "id": "p-prot-solo-20261104",
+   "categorie": "solo",
+   "texte": "Le guide Protection de Progress/Thick du 3 novembre recommande Vindicte pour accélérer les quêtes solo. Protection reste résistante et efficace contre de petits groupes, mais son rythme dépend du mana et de ses talents de blocage ; sa survie ne garantit pas une élimination rapide des cibles isolées.",
+   "sources": [
+    "moba-prot-thick-20261104",
+    "wft-patch-20261104"
+   ],
+   "specs": [
+    "paladin-protection"
+   ]
+  },
+  {
+   "id": "p-defense-pvp-pilotage",
+   "categorie": "complexite",
+   "texte": "La défense PvP du Paladin demande de choisir l’immunité liée à Forbearance, de placer Freedom, de garder Lay on Hands et d’utiliser Voice of Truth au bon moment. Même en regroupant les immunités qui se verrouillent, cela représente au moins quatre outils ou échappatoires à décider. Protection ajoute Rempart et sa fenêtre Shieldsworn.",
+   "sources": [
+    "wft-patch-20261104",
+    "iv-holy-rotation-20261104",
+    "bz-dev-20261102"
+   ]
+  },
+  {
+   "id": "p-prot-mana-actuelle",
+   "categorie": "ressource",
+   "texte": "Les blocages et les déclenchements de Shield Specialization via Shieldsworn rendent du mana. Le guide Protection de Mytholxgy du 3 novembre garde pourtant le choix des dépenses au centre du jeu : la récupération dépend des attaques reçues et le coût de Consécration reste à arbitrer selon le combat.",
+   "sources": [
+    "iv-prot-rotation-20261104",
+    "wft-patch-20261104"
    ],
    "specs": [
     "paladin-protection"
@@ -392,13 +464,14 @@
    "notes": {
     "raid": {
      "valeur": 5,
-     "raison": "Blizzard le présente comme le soigneur monocible le plus puissant : « Holy Shock », « Light’s Vigil », auras de raid. Aucune donnée comparative entre soigneurs. Revue du 31 octobre : 5/5 est la convention commune aux cinq soigneurs faute de comparaison HPS pertinente ; ce chiffre ne démontre pas leur égalité de puissance.",
+     "raison": "Les soins directs, Oath of Light, Infusion et la possibilité de préparer un soin de groupe par Vigil justifient un repère haut de 5/5 pour le rôle. Le guide Sacré actuel détaille les choix d’efficacité et de mana ; la confiance reste moyenne sur cette appréciation du kit.",
      "appuis": [
       "p-role",
       "p-sacre",
-      "p-soutien"
+      "p-soutien",
+      "p-sacre-priorites-20261104"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     },
     "bg": {
      "valeur": 5,
@@ -489,8 +562,8 @@
      "confiance": "moyenne"
     },
     "charge_pve": {
-     "valeur": 2,
-     "raison": "4 points sur 10 sur la grille de complexité : les effets à entretenir, la gestion de la ressource, le placement et le pilotage pèsent un peu.",
+     "valeur": 3,
+     "raison": "5 points sur 10 : la rotation à conditions, les effets à entretenir, le mana, les incantations et le rôle de soigneur pèsent chacun un peu.",
      "appuis": [
       "p-guides",
       "p-sacre",
@@ -498,13 +571,14 @@
       "p-soin-groupe",
       "p-defense",
       "p-mana",
-      "p-sorts-client"
+      "p-sorts-client",
+      "p-sacre-priorites-20261104"
      ],
      "confiance": "moyenne"
     },
     "charge_pvp": {
-     "valeur": 2,
-     "raison": "4 points sur 10 sur la grille de complexité : les contrôles, la défense, le placement et le pilotage pèsent un peu.",
+     "valeur": 3,
+     "raison": "5 points sur 10 sur la grille commune : les défenses actives exigent des choix, y compris entre immunités partageant Forbearance ; le reste suit les contraintes de contrôle, placement et soutien de ce build.",
      "appuis": [
       "p-hoj",
       "p-justice",
@@ -512,7 +586,8 @@
       "p-bg",
       "p-facile",
       "p-mobilite",
-      "p-voice-defense"
+      "p-voice-defense",
+      "p-defense-pvp-pilotage"
      ],
      "confiance": "moyenne"
     }
@@ -554,13 +629,13 @@
    },
    "complexite": {
     "pve": {
-     "note": 2,
-     "total": 4,
+     "note": 3,
+     "total": 5,
      "confiance": "moyenne",
      "composantes": {
       "rotation": {
-       "points": 0,
-       "raison": "Flash of Light et Holy Light pour les soins directs, Holy Shock en urgence et pour déclencher Light’s Vigil, puis Lay on Hands."
+       "points": 1,
+       "raison": "Choisir Flash of Light, Holy Light sous Infusion, Holy Shock et la séquence Light’s Vigil puis Holy Shock ; l’Oath, le sceau et les urgences complètent une priorité à conditions."
       },
       "entretien": {
        "points": 1,
@@ -586,12 +661,13 @@
       "p-soin-groupe",
       "p-defense",
       "p-mana",
-      "p-sorts-client"
+      "p-sorts-client",
+      "p-sacre-priorites-20261104"
      ]
     },
     "pvp": {
-     "note": 2,
-     "total": 4,
+     "note": 3,
+     "total": 5,
      "confiance": "moyenne",
      "composantes": {
       "controles": {
@@ -599,8 +675,8 @@
        "raison": "« Hammer of Justice », « Seal of Justice »."
       },
       "defense": {
-       "points": 1,
-       "raison": "Divine Shield, Divine Protection, Lay on Hands et Voice of Truth contre silence/interruption ; leur disponibilité reste à gérer."
+       "points": 2,
+       "raison": "Choisir entre les immunités liées à Forbearance, utiliser Freedom, Lay on Hands et Voice of Truth au bon moment ; au moins quatre outils, avec Rempart et Shieldsworn en Protection."
       },
       "placement": {
        "points": 1,
@@ -622,7 +698,8 @@
       "p-bg",
       "p-facile",
       "p-mobilite",
-      "p-voice-defense"
+      "p-voice-defense",
+      "p-defense-pvp-pilotage"
      ]
     }
    }
@@ -666,16 +743,17 @@
      "confiance": "faible"
     },
     "solo": {
-     "valeur": 5,
-     "raison": "Protection disposait déjà d’un bon repère de farm en zone pendant la bêta. Sa résistance et ses outils de menace sont refondus le 30 octobre ; faute de comparaison actuelle, la note de confort est conservée avec réserve.",
+     "valeur": 4,
+     "raison": "Très résistante et à l’aise contre de petits groupes grâce aux blocages, absorptions et soins. Le guide actuel préfère Vindicte pour les quêtes à cibles isolées ; le mana et l’accès progressif aux talents limitent le rythme. Le repère est ramené à 4 pour l’ensemble solo, leveling et farm.",
      "appuis": [
       "p-solo-kami",
       "p-solo-mobalytics",
       "p-nerf",
       "p-prot-defense",
-      "p-zone"
+      "p-zone",
+      "p-prot-solo-20261104"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     },
     "burst": {
      "valeur": 3,
@@ -741,20 +819,23 @@
       "p-tank-a",
       "p-prot-defense",
       "p-prot-degats",
-      "p-holy-shield-rangs"
+      "p-holy-shield-rangs",
+      "p-prot-mana-actuelle"
      ],
      "confiance": "moyenne"
     },
     "charge_pvp": {
-     "valeur": 2,
-     "raison": "4 points sur 10 sur la grille de complexité : les contrôles, la défense, le placement et le pilotage pèsent un peu.",
+     "valeur": 3,
+     "raison": "5 points sur 10 sur la grille commune : les défenses actives exigent des choix, y compris entre immunités partageant Forbearance ; le reste suit les contraintes de contrôle, placement et soutien de ce build.",
      "appuis": [
       "p-hoj",
       "p-defense",
       "p-prot-defense",
-      "p-mobilite"
+      "p-mobilite",
+      "p-voice-defense",
+      "p-defense-pvp-pilotage"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     }
    },
    "complexite": {
@@ -773,7 +854,7 @@
       },
       "ressource": {
        "points": 2,
-       "raison": "Mana au cœur du tanking : sceaux, Judgements et Consecration coûtent cher, et le mana compte parmi ses points faibles selon Mobalytics."
+       "raison": "Blocages et Shieldsworn alimentent le mana, mais le rythme des attaques reçues et les dépenses de Consécration changent son équilibre ; arbitrer les dépenses reste central dans le guide actuel."
       },
       "placement": {
        "points": 0,
@@ -791,21 +872,22 @@
       "p-tank-a",
       "p-prot-defense",
       "p-prot-degats",
-      "p-holy-shield-rangs"
+      "p-holy-shield-rangs",
+      "p-prot-mana-actuelle"
      ]
     },
     "pvp": {
-     "note": 2,
-     "total": 4,
-     "confiance": "faible",
+     "note": 3,
+     "total": 5,
+     "confiance": "moyenne",
      "composantes": {
       "controles": {
        "points": 1,
        "raison": "« Hammer of Justice »."
       },
       "defense": {
-       "points": 1,
-       "raison": "« Divine Shield », « Lay on Hands », « Templar’s Bulwark »."
+       "points": 2,
+       "raison": "Choisir entre les immunités liées à Forbearance, utiliser Freedom, Lay on Hands et Voice of Truth au bon moment ; au moins quatre outils, avec Rempart et Shieldsworn en Protection."
       },
       "placement": {
        "points": 1,
@@ -824,7 +906,9 @@
       "p-hoj",
       "p-defense",
       "p-prot-defense",
-      "p-mobilite"
+      "p-mobilite",
+      "p-voice-defense",
+      "p-defense-pvp-pilotage"
      ]
     }
    }
@@ -840,8 +924,8 @@
    },
    "notes": {
     "raid": {
-     "valeur": 3,
-     "raison": "Simulation MythicSim du 31 octobre 2026, niveau 60, cible unique sur deux minutes : 889 DPS, soit 70,9 % de la référence Survie à 1253 DPS. Note relative 3/5 selon le barème existant ; résultat expérimental du build et de son équipement, pas une mesure en jeu.",
+     "valeur": 4,
+     "raison": "Simulation MythicSim du 4 novembre 2026, moteur a667dce : 1097,74 DPS, soit 85,20 % de Survie à 1288,37. Build 12/8/31 avec Unsealed Wrath, niveau 60, boss unique sur 120 s avec variation de 15 s, 10 000 itérations. Note 4 selon les seuils 86/72/55 appliqués au ratio non arrondi.",
      "appuis": [
       "p-sim",
       "p-nerf",
@@ -951,15 +1035,17 @@
      "confiance": "moyenne"
     },
     "charge_pvp": {
-     "valeur": 3,
-     "raison": "6 points sur 10 sur la grille de complexité : le placement pèse beaucoup ; les contrôles, la défense, l’ouverture et le pilotage, un peu.",
+     "valeur": 4,
+     "raison": "7 points sur 10 sur la grille commune : les défenses actives exigent des choix, y compris entre immunités partageant Forbearance ; le reste suit les contraintes de contrôle, placement et soutien de ce build.",
      "appuis": [
       "p-hoj",
       "p-defense",
       "p-mobilite",
       "p-pvp-duel",
       "p-burst",
-      "p-vindicte-cycle"
+      "p-vindicte-cycle",
+      "p-voice-defense",
+      "p-defense-pvp-pilotage"
      ],
      "confiance": "moyenne"
     }
@@ -1001,8 +1087,8 @@
      "approfondissement": "L’ordre optimal des sceaux après le hotfix n’est pas mesuré ici ; l’alternance requise par le talent final appartient au jeu de référence, pas à un ancien bonus permanent de deux sceaux."
     },
     "pvp": {
-     "note": 3,
-     "total": 6,
+     "note": 4,
+     "total": 7,
      "confiance": "moyenne",
      "composantes": {
       "controles": {
@@ -1010,8 +1096,8 @@
        "raison": "« Hammer of Justice », « Repentance »."
       },
       "defense": {
-       "points": 1,
-       "raison": "« Divine Shield », « Blessing of Freedom », « Blessing of Protection »."
+       "points": 2,
+       "raison": "Choisir entre les immunités liées à Forbearance, utiliser Freedom, Lay on Hands et Voice of Truth au bon moment ; au moins quatre outils, avec Rempart et Shieldsworn en Protection."
       },
       "placement": {
        "points": 2,
@@ -1032,7 +1118,9 @@
       "p-mobilite",
       "p-pvp-duel",
       "p-burst",
-      "p-vindicte-cycle"
+      "p-vindicte-cycle",
+      "p-voice-defense",
+      "p-defense-pvp-pilotage"
      ]
     }
    }
