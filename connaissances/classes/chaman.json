@@ -1,8 +1,8 @@
 {
  "classe": "chaman",
  "libelle": "Chaman",
- "date": "2026-10-31",
- "moteur": "1.6.0-exploratoire",
+ "date": "2026-11-04",
+ "moteur": "1.7.0-exploratoire",
  "faits": [
   {
    "id": "ch-role",
@@ -47,11 +47,11 @@
   {
    "id": "ch-mobilite",
    "categorie": "mobilite",
-   "texte": "« Ghost Wolf » (+40 %) ; « Improved Ghost Wolf », dans l’arbre Amélioration, le rend instantané et utilisable en intérieur ; la meilleure mobilité du jeu selon Kami.",
+   "texte": "Loup fantôme de base donne +40 % de vitesse avec 3 s d’incantation et usage extérieur. Loup fantôme amélioré, rangée 4 d’Amélioration, exige 15 points préalables puis 2 points pour la forme instantanée et l’intérieur. Ce choix reste possible avec 31 points dans une autre spécialisation au niveau 60, mais les nouveaux presets DPS Élémentaire 31/11/9 et Amélioration 18/31/2 ne l’apprennent pas.",
    "sources": [
-    "bz-dd-mage-chaman",
-    "wt-chaman",
-    "kami-video"
+    "bz-dev-20261102",
+    "wft-patch-20261104",
+    "mythicsim-20261104"
    ]
   },
   {
@@ -94,12 +94,10 @@
   {
    "id": "ch-elem-burst",
    "categorie": "burst",
-   "texte": "Élémentaire : « Lava Burst » (31 points), « Elemental Mastery » (de retour au 15 octobre), gros critiques attendus au 60.",
+   "texte": "Explosion de lave est retirée. Call of Thunder augmente de 5 % les critiques d’Éclair et Chaîne d’éclairs. Lightning Mastery, 3 min de recharge, accélère Éclair de 0,5 s et retire la recharge de Chaîne d’éclairs pendant 15 s. Lightning Overload atteint 30 % de chances de lancer une copie à demi-dégâts. Les Horions retrouvent les dégâts de base Classic.",
    "sources": [
-    "bz-dd-mage-chaman",
-    "bz-notes-15-oct",
-    "wt-chaman",
-    "kami-video"
+    "bz-dev-20261102",
+    "wft-patch-20261104"
    ],
    "specs": [
     "chaman-elementaire"
@@ -108,11 +106,10 @@
   {
    "id": "ch-amelio-burst",
    "categorie": "burst",
-   "texte": "Amélioration : « Stormstrike » (8 s), « Rage of the Farseer » (+30 % de vitesse d’attaque 25 s), procs de « Windfury ».",
+   "texte": "Stormstrike inflige 150 % des dégâts normalisés de l’arme avec 6 s de recharge, et renforce le prochain Éclair, Chaîne ou Horion de terre. Rage of the Farseer donne +30 % de vitesse d’attaque pendant 25 s. Les procs de Furie-des-vents restent conditionnels. Maelstrom Weapon peut rendre Éclair instantané et gratuit à cinq cumuls ; le doublement annoncé de sa fréquence de déclenchement n’est pas confirmé dans les tables du client lues au 4 novembre.",
    "sources": [
-    "bz-dd-mage-chaman",
-    "wt-chaman",
-    "kami-video"
+    "bz-dev-20261102",
+    "wft-patch-20261104"
    ],
    "specs": [
     "chaman-amelioration"
@@ -121,10 +118,10 @@
   {
    "id": "ch-resto",
    "categorie": "soutien",
-   "texte": "Restauration : « Riptide », « Chain Heal », « Healing Way », « Nature’s Swiftness », « Mana Tide Totem » ; peu de sorts instantanés.",
+   "texte": "Restauration : Remous, Salve de guérison, Healing Way, Rapidité de la nature, Totem de vague de mana et Bouclier d’eau. Depuis la passe de lancement, Remous ne produit plus de soin initial, sa recharge est de 12 s et son coût baisse. Les réponses immédiates reposent sur les autres soins.",
    "sources": [
-    "bz-dd-mage-chaman",
-    "wt-chaman"
+    "bz-dev-20261102",
+    "wft-patch-20261104"
    ],
    "specs": [
     "chaman-restauration"
@@ -142,9 +139,10 @@
   {
    "id": "ch-sim",
    "categorie": "performance",
-   "texte": "Relevé MythicSim du 31 octobre 2026 : Élémentaire 614 DPS (49,0 % de Survie 1253) ; Amélioration 805 DPS (64,3 % de Survie 1253). Personnages de niveau 60, boss 63, deux minutes, équipement de référence avec sa paire de bijoux, talents et race de chaque preset. Simulation expérimentale ; différences de preset, de moteur et de rotation, pas une mesure de patch isolée ni de PvP.",
+   "texte": "Snapshot MythicSim du 4 novembre 2026, moteur a667dce, 10 000 itérations, niveau 60, cible unique, deux minutes avec variation, équipement et talents de référence : elemental-shaman 823.297 DPS (63.902 %), enhancement-shaman 1066.309 DPS (82.764 %). Base de comparaison Survie 1288.369 DPS. Les valeurs non arrondies déterminent le barème. Les autres critères et variantes demandent leur propre contexte.",
    "sources": [
-    "mythicsim-20261031"
+    "mythicsim-20261104",
+    "mythicsim-log-20261104"
    ]
   },
   {
@@ -198,9 +196,10 @@
   {
    "id": "ch-rotation",
    "categorie": "complexite",
-   "texte": "Rotations simulées (listes de priorités wowsims, 22 octobre 2026) : Amélioration, 9 sorts et 10 conditions ; Élémentaire, 10 sorts et 15 conditions.",
+   "texte": "APL réelles MythicSim du 4 novembre : Élémentaire 31/11/9 et Amélioration 18/31/2 ont chacune 11 entrées normalisées, avec répétitions et branches. Élémentaire utilise Totem incendiaire à 15 m en monocible, Chaîne sous Idées claires et Nova sur plusieurs cibles ; sur packs, il approche à 8 m pour Magma et Nova. Amélioration gère Stormstrike, Maelstrom/Éclair, Horions, Nova et ses totems. Les listes anciennes du 22 octobre ne décrivent plus ces presets.",
    "sources": [
-    "wowsims-forever"
+    "mythicsim-20261104",
+    "mythicsim-log-20261104"
    ],
    "specs": [
     "chaman-amelioration",
@@ -210,9 +209,10 @@
   {
    "id": "ch-soin-resto",
    "categorie": "soin",
-   "texte": "Restauration : soins en chaîne (« Chain Heal »), « Riptide » (31 points : soin immédiat puis sur la durée pendant 15 s, +25 % à « Chain Heal » sur la cible), « Healing Way » (renforce « Healing Wave »), « Restorative Totems » (double le « Healing Stream Totem »). Aucune absorption décrite.",
+   "texte": "Restauration : Remous est un soin sur 15 s et renforce de 25 % la Salve de guérison lancée directement sur sa cible ; il ne produit plus de soin initial. Healing Way renforce Vague de soins, Restorative Totems renforce le Totem guérisseur. Le kit ne décrit pas d’absorption de soin comparable à un bouclier.",
    "sources": [
-    "bz-dd-mage-chaman"
+    "bz-dev-20261102",
+    "wft-patch-20261104"
    ],
    "specs": [
     "chaman-restauration"
@@ -221,9 +221,10 @@
   {
    "id": "ch-guides",
    "categorie": "complexite",
-   "texte": "Guide Icy Veins de la bêta (niveau 30), Amélioration : sa régénération de mana ne suffit pas à tenir toute la rotation.",
+   "texte": "Le constat de mana insuffisant des guides de bêta niveau 30 est historique. La référence actuelle coordonne les dépenses de Stormstrike, Éclair et Horions, les procs d’économie de mana et les totems. Les simulations ne mesurent pas le confort de leveling ou de PvP.",
    "sources": [
-    "iv-guides-forever"
+    "mythicsim-20261104",
+    "mythicsim-log-20261104"
    ],
    "specs": [
     "chaman-amelioration"
@@ -232,18 +233,19 @@
   {
    "id": "ch-sorts-client",
    "categorie": "complexite",
-   "texte": "Sorts et talents présents dans les données du client lues par wowsims : « Eye of the Storm », « Totemic Projection », « Call of the Elements », « Improved Stormstrike », « Tremor Totem », « Water Shield », « Windfury Weapon », « Lightning Shield ».",
+   "texte": "Totemic Projection est remplacé par Totemic Call, appris au niveau 22 : il replace les totems actifs à la position du Chaman, avec 30 s de recharge. Ce déplacement n’est plus une projection libre sur une position choisie. Eye of the Storm, Call of the Elements, Improved Stormstrike, Tremor Totem, Water Shield, Windfury Weapon et Lightning Shield complètent les outils conditionnés au build.",
    "sources": [
-    "wowsims-forever"
+    "bz-dev-20261102",
+    "wft-patch-20261104"
    ]
   },
   {
    "id": "ch-lava-21-oct",
    "categorie": "burst",
-   "texte": "Le correctif serveur du 21 octobre remet le bonus d’« Explosion de lave » rang 3 sur une cible sous « Horion de flammes » à 20 %, au lieu de 54 %, comme les autres rangs. Le rang maximum lu dans les données porte également ce bonus de 20 %.",
+   "texte": "Historique : le correctif du 21 octobre avait ramené le bonus d’Explosion de lave rang 3 sur Horion de flammes à 20 %. Le sort est retiré avec les changements de lancement, cette ancienne valeur ne doit plus justifier le burst actuel.",
    "sources": [
-    "wft-chaman-20261031",
-    "wft-patch-20261031"
+    "bz-dev-20261102",
+    "wft-patch-20261104"
    ],
    "specs": [
     "chaman-elementaire"
@@ -252,10 +254,20 @@
   {
    "id": "ch-revue-31-oct",
    "categorie": "complexite",
-   "texte": "Revue du 31 octobre : aucun nouveau changement de classe Chaman au hotfix du 30 n’a été identifié dans les deux index consultés. Cette absence de relevé ne prouve pas l’absence de tout changement serveur ; les interprétations de performance restent conditionnelles.",
+   "texte": "Historique : le relevé du 31 octobre n’avait pas identifié de nouveau changement Chaman dans les index consultés. La publication officielle du 2 novembre et le cache du 3 complètent cette photographie.",
    "sources": [
-    "fc-hotfix-20261030",
-    "wft-patch-20261031"
+    "bz-dev-20261102",
+    "wft-patch-20261104"
+   ]
+  },
+  {
+   "id": "ch-lancement-4-nov",
+   "categorie": "performance",
+   "texte": "Revue du 4 novembre : les sorts et arbres actuels intègrent le retrait d’Explosion de lave, les nouvelles valeurs de dégâts et Remous sans soin initial. Les scores PvP, solo et soin restent des appréciations de kit avec une incertitude de comparaison au niveau 60. Le simulateur applique la fréquence Maelstrom annoncée, encore absente des tables lues.",
+   "sources": [
+    "bz-dev-20261102",
+    "wft-patch-20261104",
+    "mythicsim-20261104"
    ]
   }
  ],
@@ -271,8 +283,8 @@
    },
    "notes": {
     "raid": {
-     "valeur": 2,
-     "raison": "Simulation MythicSim du 31 octobre 2026, niveau 60, cible unique sur deux minutes : 614 DPS, soit 49,0 % de la référence Survie à 1253 DPS. Note relative 2/5 selon le barème existant ; résultat expérimental du build et de son équipement, pas une mesure en jeu.",
+     "valeur": 3,
+     "raison": "Snapshot MythicSim du 4 novembre 2026, niveau 60, cible unique sur deux minutes : 823.297 DPS, soit 63.902 % de la référence Survie à 1288.369 DPS. Note 3/5 calculée sur les valeurs non arrondies du barème existant. Le preset 31/11/9 adapte son totem de feu à sa portée réelle. Le résultat dépend du build, de la rotation et de l’équipement simulés.",
      "appuis": [
       "ch-sim"
      ],
@@ -284,9 +296,10 @@
      "appuis": [
       "ch-elem-burst",
       "ch-utilite",
-      "ch-interruption"
+      "ch-interruption",
+      "ch-lancement-4-nov"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "world": {
      "valeur": 4,
@@ -296,7 +309,8 @@
       "ch-mobilite",
       "ch-elem-burst",
       "ch-tournoi",
-      "ch-pvp-duel"
+      "ch-pvp-duel",
+      "ch-lancement-4-nov"
      ],
      "confiance": "faible"
     },
@@ -304,16 +318,17 @@
      "valeur": 3,
      "raison": "Chaman classé A dans la liste de leveling de la bêta, mais c’est Amélioration qui y est conseillée.",
      "appuis": [
-      "ch-leveling"
+      "ch-leveling",
+      "ch-lancement-4-nov"
      ],
      "confiance": "faible"
     },
     "burst": {
-     "valeur": 5,
-     "raison": "« Lava Burst » (31 points), « Elemental Mastery » (de retour le 15 octobre) et gros critiques attendus au 60. Le bonus de Lava Burst sur Flame Shock est de 20 % à chaque rang après le correctif du 21 octobre ; le précédent 54 % du rang 3 ne doit pas servir de référence.",
+     "valeur": 4,
+     "raison": "Lightning Mastery ouvre une fenêtre de 15 s d’Éclairs accélérés et de Chaînes sans recharge, complétée par Horions et procs de Surcharge. Explosion de lave est retirée. Le potentiel est fort mais dépend des incantations et déclenchements ; les seules annonces de critiques ne justifient plus le maximum 5/5.",
      "appuis": [
       "ch-elem-burst",
-      "ch-lava-21-oct"
+      "ch-lancement-4-nov"
      ],
      "confiance": "moyenne"
     },
@@ -345,7 +360,7 @@
     },
     "mob": {
      "valeur": 4,
-     "raison": "« Ghost Wolf » (+40 %) ; la version instantanée vient de l’arbre Amélioration.",
+     "raison": "Loup fantôme donne +40 % de vitesse avec incantation. La forme instantanée et utilisable en intérieur exige 17 points en Amélioration, choix possible au niveau 60 avec 31 points principaux mais absent du preset DPS Élémentaire 31/11/9. Le repère de mobilité suppose ce choix lorsqu’il est utilisé.",
      "appuis": [
       "ch-mobilite"
      ],
@@ -361,7 +376,7 @@
     },
     "charge_pve": {
      "valeur": 3,
-     "raison": "5 points sur 10 sur la grille de complexité : la rotation, les effets à entretenir, la gestion de la ressource, le placement et le pilotage pèsent un peu.",
+     "raison": "5 points sur 10 sur la grille de complexité revue le 4 novembre : la rotation, les effets à entretenir, la gestion de la ressource, le placement et le pilotage pèsent un peu.",
      "appuis": [
       "ch-rotation",
       "ch-mana",
@@ -372,7 +387,7 @@
     },
     "charge_pvp": {
      "valeur": 4,
-     "raison": "7 points sur 10 sur la grille de complexité : le placement et le pilotage pèsent beaucoup ; les contrôles, la défense et l’ouverture, un peu.",
+     "raison": "7 points sur 10 sur la grille de complexité revue le 4 novembre : le placement et le pilotage pèsent beaucoup ; les contrôles, la défense et l’ouverture pèsent un peu.",
      "appuis": [
       "ch-interruption",
       "ch-earthbound",
@@ -381,7 +396,8 @@
       "ch-pas-controle",
       "ch-elem-burst",
       "ch-sorts-client",
-      "ch-soutien"
+      "ch-soutien",
+      "ch-lancement-4-nov"
      ],
      "confiance": "faible"
     }
@@ -394,11 +410,11 @@
      "composantes": {
       "rotation": {
        "points": 1,
-       "raison": "Lightning Bolt, Lava Burst à la recharge sur Flame Shock, Fire Nova et Chain Lightning en groupe (10 sorts, 15 conditions dans la rotation simulée)."
+       "raison": "Éclair, Chaîne sous Idées claires, Horion de flammes et Lightning Mastery ; Totem incendiaire en monocible, Magma et Nova sur packs. Les répétitions de l’APL sont des branches, pas onze techniques différentes."
       },
       "entretien": {
        "points": 1,
-       "raison": "Flame Shock et totem de feu."
+       "raison": "Horion de flammes et totem de feu."
       },
       "ressource": {
        "points": 1,
@@ -406,7 +422,7 @@
       },
       "placement": {
        "points": 1,
-       "raison": "Incantations ; « Eye of the Storm » limite les reculs."
+       "raison": "Incantations à protéger. Les totems de feu exigent leur portée réelle : Totem incendiaire à distance, Magma à 8 m et Nova à 10 m du totem sur les packs."
       },
       "pilotage": {
        "points": 1,
@@ -439,7 +455,7 @@
       },
       "ouverture": {
        "points": 1,
-       "raison": "Burst « Lava Burst »."
+       "raison": "Préparer la fenêtre de Lightning Mastery et les sorts de foudre avec les Horions ; Explosion de lave est retirée."
       },
       "pilotage": {
        "points": 2,
@@ -454,7 +470,8 @@
       "ch-pas-controle",
       "ch-elem-burst",
       "ch-sorts-client",
-      "ch-soutien"
+      "ch-soutien",
+      "ch-lancement-4-nov"
      ]
     }
    }
@@ -470,22 +487,22 @@
    },
    "notes": {
     "raid": {
-     "valeur": 3,
-     "raison": "Simulation MythicSim du 31 octobre 2026, niveau 60, cible unique sur deux minutes : 805 DPS, soit 64,2 % de la référence Survie à 1253 DPS. Note relative 3/5 selon le barème existant ; résultat expérimental du build et de son équipement, pas une mesure en jeu.",
+     "valeur": 4,
+     "raison": "Snapshot MythicSim du 4 novembre 2026, niveau 60, cible unique sur deux minutes : 1066.309 DPS, soit 82.764 % de la référence Survie à 1288.369 DPS. Note 4/5 calculée sur les valeurs non arrondies du barème existant. Le simulateur utilise la fréquence accrue de Maelstrom annoncée par Blizzard, encore absente des tables client lues au 4 novembre. Le résultat dépend du build, de la rotation et de l’équipement simulés.",
      "appuis": [
-      "ch-sim",
-      "ch-soutien"
+      "ch-sim"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "bg": {
      "valeur": 4,
      "raison": "Burst de « Stormstrike » et des procs de « Windfury », « Purge » offensive et « Grounding Totem ».",
      "appuis": [
       "ch-amelio-burst",
-      "ch-utilite"
+      "ch-utilite",
+      "ch-lancement-4-nov"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "world": {
      "valeur": 4,
@@ -495,9 +512,10 @@
       "ch-interruption",
       "ch-amelio-burst",
       "ch-tournoi",
-      "ch-pvp-duel"
+      "ch-pvp-duel",
+      "ch-lancement-4-nov"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "solo": {
      "valeur": 3,
@@ -505,13 +523,14 @@
      "appuis": [
       "ch-leveling",
       "ch-tank",
-      "ch-mobilite"
+      "ch-mobilite",
+      "ch-lancement-4-nov"
      ],
      "confiance": "faible"
     },
     "burst": {
      "valeur": 5,
-     "raison": "« Stormstrike » (8 s), « Rage of the Farseer » (+30 % de vitesse d’attaque 25 s) et procs de « Windfury ».",
+     "raison": "Stormstrike à 150 % des dégâts normalisés sur 6 s, Rage of the Farseer et procs de Furie-des-vents. Le burst reste conditionnel aux attaques et aux déclenchements, sans comparaison PvP mesurée au niveau 60.",
      "appuis": [
       "ch-amelio-burst"
      ],
@@ -544,7 +563,7 @@
     },
     "mob": {
      "valeur": 5,
-     "raison": "« Improved Ghost Wolf » rend la forme instantanée et utilisable en intérieur : la meilleure mobilité du jeu selon Kami.",
+     "raison": "Loup fantôme amélioré peut fournir une forme instantanée et utilisable en intérieur dans le build choisi pour ces activités. Son accès demande maintenant 17 points en Amélioration ; le preset DPS 18/31/2 ne l’apprend pas et ne mesure pas cette mobilité.",
      "appuis": [
       "ch-mobilite"
      ],
@@ -559,8 +578,8 @@
      "confiance": "haute"
     },
     "charge_pve": {
-     "valeur": 3,
-     "raison": "6 points sur 10 sur la grille de complexité : les effets à entretenir et la gestion de la ressource pèsent beaucoup ; la rotation et le pilotage, un peu.",
+     "valeur": 4,
+     "raison": "7 points sur 10 sur la grille de complexité revue le 4 novembre : la rotation, les effets à entretenir et la gestion de la ressource pèsent beaucoup ; le pilotage pèse un peu.",
      "appuis": [
       "ch-rotation",
       "ch-guides",
@@ -572,27 +591,28 @@
     },
     "charge_pvp": {
      "valeur": 3,
-     "raison": "6 points sur 10 sur la grille de complexité : le pilotage pèse beaucoup ; les contrôles, la défense, le placement et l’ouverture, un peu.",
+     "raison": "6 points sur 10 sur la grille de complexité revue le 4 novembre : le pilotage pèse beaucoup ; les contrôles, la défense, le placement et l’ouverture pèsent un peu.",
      "appuis": [
       "ch-interruption",
       "ch-amelio-burst",
       "ch-mobilite",
       "ch-pvp-duel",
       "ch-utilite",
-      "ch-soutien"
+      "ch-soutien",
+      "ch-lancement-4-nov"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     }
    },
    "complexite": {
     "pve": {
-     "note": 3,
-     "total": 6,
+     "note": 4,
+     "total": 7,
      "confiance": "moyenne",
      "composantes": {
       "rotation": {
-       "points": 1,
-       "raison": "Stormstrike à la recharge (relancé par « Improved Stormstrike »), Earth Shock et Flame Shock, Fire Nova avec un totem de feu (9 sorts, 10 conditions dans la rotation simulée)."
+       "points": 2,
+       "raison": "Coordonner les cumuls de Maelstrom pour Éclair, Stormstrike et son bonus au prochain sort de Nature, les Horions, Nova et les ressources. Les procs, cumuls et fenêtres interagissent dans la référence actuelle."
       },
       "entretien": {
        "points": 2,
@@ -608,7 +628,7 @@
       },
       "pilotage": {
        "points": 1,
-       "raison": "Totems (« Call of the Elements », « Totemic Projection »)."
+       "raison": "Totems à poser et replacer avec Totemic Call à sa propre position."
       }
      },
      "appuis": [
@@ -622,7 +642,7 @@
     "pvp": {
      "note": 3,
      "total": 6,
-     "confiance": "moyenne",
+     "confiance": "faible",
      "composantes": {
       "controles": {
        "points": 1,
@@ -651,7 +671,8 @@
       "ch-mobilite",
       "ch-pvp-duel",
       "ch-utilite",
-      "ch-soutien"
+      "ch-soutien",
+      "ch-lancement-4-nov"
      ]
     }
    }
@@ -668,11 +689,11 @@
    "notes": {
     "raid": {
      "valeur": 5,
-     "raison": "« Chain Heal », « Riptide », « Mana Tide Totem » et totems de raid ; jugée indispensable par Kami. Aucune donnée comparative entre soigneurs. Revue du 31 octobre : 5/5 est la convention commune aux cinq soigneurs faute de comparaison HPS pertinente ; ce chiffre ne démontre pas leur égalité de puissance.",
+     "raison": "Salve de guérison, Remous, Vague de soins et totems constituent le kit de groupe. Remous est désormais un HoT avec 12 s de recharge, sans soin initial. La convention commune 5/5 des cinq soigneurs est conservée faute de comparaison HPS pertinente au niveau 60.",
      "appuis": [
       "ch-resto",
-      "ch-soutien",
-      "ch-utilite"
+      "ch-soin-resto",
+      "ch-soutien"
      ],
      "confiance": "faible"
     },
@@ -682,9 +703,10 @@
      "appuis": [
       "ch-resto",
       "ch-utilite",
-      "ch-mobilite"
+      "ch-mobilite",
+      "ch-lancement-4-nov"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "world": {
      "valeur": 4,
@@ -695,7 +717,8 @@
       "ch-mobilite",
       "ch-resto",
       "ch-tournoi",
-      "ch-pvp-duel"
+      "ch-pvp-duel",
+      "ch-lancement-4-nov"
      ],
      "confiance": "faible"
     },
@@ -703,7 +726,8 @@
      "valeur": 3,
      "raison": "Chaman classé A dans la liste de leveling de la bêta, mais c’est Amélioration qui y est conseillée.",
      "appuis": [
-      "ch-leveling"
+      "ch-leveling",
+      "ch-lancement-4-nov"
      ],
      "confiance": "faible"
     },
@@ -744,7 +768,7 @@
     },
     "mob": {
      "valeur": 4,
-     "raison": "« Ghost Wolf » (+40 %) ; la version instantanée vient de l’arbre Amélioration.",
+     "raison": "Loup fantôme donne +40 % de vitesse avec incantation. La forme instantanée et utilisable en intérieur exige 17 points en Amélioration, choix possible au niveau 60 avec 31 points principaux mais absent du preset DPS Élémentaire 31/11/9. Le repère de mobilité suppose ce choix lorsqu’il est utilisé.",
      "appuis": [
       "ch-mobilite"
      ],
@@ -761,7 +785,7 @@
     },
     "charge_pve": {
      "valeur": 3,
-     "raison": "5 points sur 10 sur la grille de complexité : le pilotage pèse beaucoup ; les effets à entretenir, la gestion de la ressource et le placement, un peu.",
+     "raison": "6 points sur 10 sur la grille de complexité revue le 4 novembre : les effets à entretenir et le pilotage pèsent beaucoup ; la gestion de la ressource et le placement pèsent un peu.",
      "appuis": [
       "ch-resto",
       "ch-soin-resto",
@@ -773,13 +797,14 @@
     },
     "charge_pvp": {
      "valeur": 3,
-     "raison": "6 points sur 10 sur la grille de complexité : le placement et le pilotage pèsent beaucoup ; les contrôles et la défense, un peu.",
+     "raison": "6 points sur 10 sur la grille de complexité revue le 4 novembre : le placement et le pilotage pèsent beaucoup ; les contrôles et la défense pèsent un peu.",
      "appuis": [
       "ch-interruption",
       "ch-utilite",
       "ch-resto",
       "ch-soutien",
-      "ch-mobilite"
+      "ch-mobilite",
+      "ch-lancement-4-nov"
      ],
      "confiance": "faible"
     }
@@ -795,7 +820,7 @@
     },
     "duree": {
      "valeur": 3,
-     "raison": "« Riptide » soigne aussi sur 15 s et le « Healing Stream Totem » est doublé, sans en faire une spécialisation de soins sur la durée.",
+     "raison": "Remous soigne sur 15 s sans soin initial et le Totem guérisseur fournit des soins réguliers. Cela maintient la présence des soins sur la durée, sans dépasser la signature de Salve de guérison.",
      "appuis": [
       "ch-soin-resto"
      ],
@@ -811,7 +836,7 @@
     },
     "groupe": {
      "valeur": 5,
-     "raison": "Ses soins en chaîne (« Chain Heal », renforcé par « Riptide ») sont sa signature.",
+     "raison": "Salve de guérison reste la signature ; elle reçoit +25 % lorsqu’elle est lancée directement sur la cible de Remous.",
      "appuis": [
       "ch-soin-resto",
       "ch-resto"
@@ -822,16 +847,16 @@
    "complexite": {
     "pve": {
      "note": 3,
-     "total": 5,
+     "total": 6,
      "confiance": "moyenne",
      "composantes": {
       "rotation": {
        "points": 0,
-       "raison": "Healing Wave en monocible, Chain Heal en groupe, Lesser Healing Wave en urgence, Riptide."
+       "raison": "Vague de soins ciblée, Salve en groupe, Vague de soins inférieurs en urgence et Remous comme HoT préparant la Salve."
       },
       "entretien": {
-       "points": 1,
-       "raison": "Water Shield et Riptide ; totems de groupe."
+       "points": 2,
+       "raison": "Bouclier d’eau, Remous et totems représentent au moins trois effets à suivre."
       },
       "ressource": {
        "points": 1,
@@ -885,7 +910,8 @@
       "ch-utilite",
       "ch-resto",
       "ch-soutien",
-      "ch-mobilite"
+      "ch-mobilite",
+      "ch-lancement-4-nov"
      ]
     }
    }

@@ -52,7 +52,10 @@ test('Exemples : la configuration au plus haut potentiel représente la classe �
  const solo=v2.matrix.presets.solo;
  assert.equal(E.priorityRanking(solo,2).results.find(r=>r.classId==='chasseur').spec.id,'chasseur-maitrise-betes');
  assert.equal(E.priorityRanking(solo,0).results.find(r=>r.classId==='chasseur').spec.id,'chasseur-maitrise-betes');
- // Ordre des classes inchangé à égalité de score : identifiant de classe, comme avant.
- const tie=firstOfEachClass(E.ranking({activities:{solo:5},mastery:2}).results).slice(0,3).map(r=>r.spec.classId);
- assert.deepEqual(tie,['chasseur','demoniste','paladin']);
+ // Depuis la revue v17, Protection Paladin partage le palier solo du Druide et du Mage.
+ // Les classes à score égal gardent le départage par identifiant de classe.
+ const classes=firstOfEachClass(E.ranking({activities:{solo:5},mastery:2}).results);
+ assert.deepEqual(classes.slice(0,3).map(r=>r.spec.classId),['chasseur','demoniste','druide']);
+ for(let i=1;i<classes.length;i++)if(classes[i-1].score===classes[i].score)
+  assert.ok(classes[i-1].spec.classId.localeCompare(classes[i].spec.classId,'en')<0);
 });

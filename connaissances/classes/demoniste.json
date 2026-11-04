@@ -1,8 +1,8 @@
 {
  "classe": "demoniste",
  "libelle": "Démoniste",
- "date": "2026-10-31",
- "moteur": "1.6.0-exploratoire",
+ "date": "2026-11-04",
+ "moteur": "1.7.0-exploratoire",
  "faits": [
   {
    "id": "d-role",
@@ -71,9 +71,12 @@
   {
    "id": "d-affli",
    "categorie": "burst",
-   "texte": "Affliction : dégâts sur la durée et drains (« Wrack », « Pandemic », « Malevolence », « Nightfall »).",
+   "texte": "Affliction : effets sur la durée et drains, dont Wrack renforcé à la passe de lancement. La référence 35/11/5 du 4 novembre canalise Wrack avec Soul Siphon et sacrifie le Diablotin, sans démon actif. Le bonus de Soul Siphon dépend des effets d’Affliction encore présents à chaque tic.",
    "sources": [
-    "bz-dd-voleur-demoniste"
+    "bz-dev-20261102",
+    "wft-patch-20261104",
+    "mythicsim-20261104",
+    "mythicsim-log-20261104"
    ],
    "specs": [
     "demoniste-affliction"
@@ -105,9 +108,10 @@
   {
    "id": "d-destru",
    "categorie": "burst",
-   "texte": "Destruction : burst Feu et Ombre (« Shadowburn », « Conflagrate », « Incinerate », « Shadow and Flame »).",
+   "texte": "Destruction : Shadowburn, Conflagrate, Shadow Bolt ou Incinerate selon le build. Shadow and Flame donne jusqu’à +20 % aux dégâts d’Ombre après Conflagrate et +20 % aux dégâts de Feu après Shadowburn pendant 20 s. Au rang complet, Conflagrate ne consomme pas Immolate et Shadowburn restitue son éclat.",
    "sources": [
-    "bz-dd-voleur-demoniste"
+    "bz-dev-20261102",
+    "wft-patch-20261104"
    ],
    "specs": [
     "demoniste-destruction"
@@ -116,10 +120,10 @@
   {
    "id": "d-demons",
    "categorie": "familier",
-   "texte": "Démons indexés sur son équipement : Imp, Voidwalker (tank), Sayaad (« Seduction »), Felhunter (dissipation, interruption).",
+   "texte": "Démons conditionnés au compagnon invoqué : Diablotin, Marcheur du Vide pour encaisser, Sayaad pour Séduction, Chasseur corrompu pour dissiper et interrompre. Blizzard annonce un transfert d’Endurance du maître ramené de 7,5 à 2 PV par point ; ce chiffre concerne cette composante des PV, pas une réduction équivalente de tous les PV ou de toute la survie.",
    "sources": [
-    "wt-demoniste",
-    "bz-dd-voleur-demoniste"
+    "bz-dev-20261102",
+    "wft-patch-20261104"
    ]
   },
   {
@@ -134,9 +138,10 @@
   {
    "id": "d-sim",
    "categorie": "performance",
-   "texte": "Relevé MythicSim du 31 octobre 2026 : Affliction 888 DPS (70,9 % de Survie 1253) ; Démonologie 993 DPS (79,3 % de Survie 1253) ; Destruction 873 DPS (69,7 % de Survie 1253). Personnages de niveau 60, boss 63, deux minutes, équipement de référence avec sa paire de bijoux, talents et race de chaque preset. Simulation expérimentale ; différences de preset, de moteur et de rotation, pas une mesure de patch isolée ni de PvP.",
+   "texte": "Snapshot MythicSim du 4 novembre 2026, moteur a667dce, 10 000 itérations, niveau 60, cible unique, deux minutes avec variation, équipement et talents de référence : affliction-warlock 933.577 DPS (72.462 %), demonology-warlock 980.107 DPS (76.073 %), destruction-warlock 928.764 DPS (72.088 %). Base de comparaison Survie 1288.369 DPS. Les valeurs non arrondies déterminent le barème. Pour Affliction, le preset est sans démon actif avec sacrifice ; les autres critères et variantes demandent leur propre contexte.",
    "sources": [
-    "mythicsim-20261031"
+    "mythicsim-20261104",
+    "mythicsim-log-20261104"
    ]
   },
   {
@@ -177,18 +182,19 @@
   {
    "id": "d-rotation",
    "categorie": "complexite",
-   "texte": "Rotations simulées (listes de priorités wowsims, 22 octobre 2026) : Affliction, 8 sorts et 14 à 16 conditions ; Démonologie, 7 à 8 sorts et 26 conditions ; Destruction, 8 sorts et 16 conditions.",
+   "texte": "APL réelles MythicSim du 4 novembre : Affliction 35/11/5, 20 lignes normalisées ; Démonologie 2/31/18, 17 ; Destruction 20/0/31, 19. Elles contiennent répétitions, branches d’AoE et de ressources. Affliction utilise Wrack, les procs Nightfall et ses effets sur la durée sans Immolate en monocible. Démonologie emploie Douleur brûlante et Shadow Bolt dans le rapport de référence. Destruction conserve Corruption, Immolate, malédiction, Agonie ou Doom et ses bonus croisés.",
    "sources": [
-    "wowsims-forever"
+    "mythicsim-20261104",
+    "mythicsim-log-20261104"
    ]
   },
   {
    "id": "d-guides",
    "categorie": "complexite",
-   "texte": "Guides de la bêta, écrits pour le niveau 30. Icy Veins, Destruction : Immolate est son seul effet sur la durée à entretenir, et elle « relies heavily on hard casting ». wowtbc.gg, Démonologie : sacrifice d’un démon avec « Demonic Pact » et un autre invoqué, « Soul Link » ; malédiction, Immolate et Corruption maintenues, Bane of Doom sur une cible qui vivra plus d’une minute, Soul Fire sous « Decimation », Searing Pain sinon.",
+   "texte": "Les guides niveau 30 sont historiques. La référence Démonologie conserve un sacrifice avec Demonic Pact puis invoque un démon différent ; Soul Link dépend du démon actif. Le monocible du rapport actuel utilise Douleur brûlante et Shadow Bolt, sans Soul Fire systématique. La référence Destruction entretient plusieurs effets et utilise Shadowburn et Conflagrate pour leurs bonus croisés.",
    "sources": [
-    "iv-guides-forever",
-    "wowtbc-guides"
+    "mythicsim-20261104",
+    "mythicsim-log-20261104"
    ]
   },
   {
@@ -210,6 +216,15 @@
    "specs": [
     "demoniste-affliction"
    ]
+  },
+  {
+   "id": "d-lancement-4-nov",
+   "categorie": "performance",
+   "texte": "Revue du 4 novembre : hausse de Wrack et Shadow and Flame, correction des Pierres de sort vers les dégâts d’Ombre seuls, baisse annoncée du transfert d’Endurance au familier, et moindre fréquence des éclats de Drain d’âme hors mise à mort. Les performances et classements PvP de la bêta sont historiques. Les variantes sans démon perdent ses contrôles mais gardent les outils de soutien du personnage.",
+   "sources": [
+    "bz-dev-20261102",
+    "wft-patch-20261104"
+   ]
   }
  ],
  "specialisations": [
@@ -227,12 +242,13 @@
    "notes": {
     "raid": {
      "valeur": 3,
-     "raison": "Simulation MythicSim du 31 octobre 2026, niveau 60, cible unique sur deux minutes : 888 DPS, soit 70,9 % de la référence Survie à 1253 DPS. Note relative 3/5 selon le barème existant ; résultat expérimental du build et de son équipement, pas une mesure en jeu.",
+     "raison": "Repère avec démon conservé à 3/5, confiance faible : le snapshot actuel 35/11/5 mesure le sacrifice du Diablotin et aucun démon actif. Il ne mesure pas le DPS d’Affliction qui conserve son compagnon et ses contrôles. La variante sans familier porte le nouveau résultat mesuré.",
      "appuis": [
       "d-sim",
-      "d-affli"
+      "d-affli",
+      "d-demons"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "bg": {
      "valeur": 5,
@@ -240,9 +256,10 @@
      "appuis": [
       "d-bg-kami",
       "d-controle",
-      "d-defense"
+      "d-defense",
+      "d-lancement-4-nov"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "world": {
      "valeur": 5,
@@ -252,9 +269,10 @@
       "d-controle",
       "d-defense",
       "d-bg-kami",
-      "d-pvp-duel"
+      "d-pvp-duel",
+      "d-lancement-4-nov"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "solo": {
      "valeur": 4,
@@ -317,7 +335,7 @@
     },
     "charge_pve": {
      "valeur": 3,
-     "raison": "6 points sur 10 sur la grille de complexité : les effets à entretenir pèsent beaucoup ; la rotation, la gestion de la ressource, le placement et le pilotage, un peu.",
+     "raison": "6 points sur 10 sur la grille de complexité revue le 4 novembre : les effets à entretenir pèsent beaucoup ; la rotation, la gestion de la ressource, le placement et le pilotage pèsent un peu.",
      "appuis": [
       "d-rotation",
       "d-affli",
@@ -329,7 +347,7 @@
     },
     "charge_pvp": {
      "valeur": 4,
-     "raison": "8 points sur 10 sur la grille de complexité : les contrôles, le placement et le pilotage pèsent beaucoup ; la défense et l’ouverture, un peu.",
+     "raison": "8 points sur 10 sur la grille de complexité revue le 4 novembre : les contrôles, le placement et le pilotage pèsent beaucoup ; la défense et l’ouverture pèsent un peu.",
      "appuis": [
       "d-controle",
       "d-ralentissements",
@@ -338,9 +356,10 @@
       "d-pvp-duel",
       "d-demons",
       "d-sorts-client",
-      "d-drains-30-oct"
+      "d-drains-30-oct",
+      "d-lancement-4-nov"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     }
    },
    "variante_sans_familier": {
@@ -377,9 +396,18 @@
        "d-solo"
       ],
       "confiance": "moyenne"
+     },
+     "raid": {
+      "valeur": 4,
+      "raison": "Snapshot MythicSim du 4 novembre : build Wrack 35/11/5 avec Diablotin sacrifié, aucun démon actif, 933.577 DPS, soit 72.462 % de la référence Survie. Note 4/5 selon les nombres non arrondis du barème, pour ce preset monocible.",
+      "appuis": [
+       "d-sim",
+       "d-affli"
+      ],
+      "confiance": "moyenne"
      }
     },
-    "raison": " Revue du 31 octobre : aucun nouveau comparatif dédié sans familier ; les valeurs de raid héritées restent une hypothèse du modèle existant."
+    "raison": "Le nouveau repère de raid mesure ce build sans démon avec sacrifice ; le repère avec démon reste une hypothèse de faible confiance. Les pertes de contrôles et d’aide pour encaisser sont documentées séparément."
    },
    "complexite": {
     "pve": {
@@ -389,11 +417,11 @@
      "composantes": {
       "rotation": {
        "points": 1,
-       "raison": "Corruption, Bane of Agony, Siphon Life et Immolate selon la durée de vie de la cible, Shadow Bolt instantané sous « Nightfall », Life Tap (8 sorts, 14 conditions dans la rotation simulée)."
+       "raison": "Corruption, Agonie ou Doom, Siphon Life et malédiction selon la durée de vie, Wrack canalisé, Shadow Bolt sous Nightfall et Connexion. La référence sans démon sacrifie le Diablotin et ne maintient pas Immolate en monocible."
       },
       "entretien": {
        "points": 2,
-       "raison": "Corruption, Bane of Agony, Siphon Life, Immolate et malédiction, sans les relancer trop tôt."
+       "raison": "Corruption, Siphon Life, Agonie ou Doom et malédiction ; Soul Siphon dépend des effets encore actifs pendant les tics de canalisation."
       },
       "ressource": {
        "points": 1,
@@ -419,7 +447,7 @@
     "pvp": {
      "note": 4,
      "total": 8,
-     "confiance": "moyenne",
+     "confiance": "faible",
      "composantes": {
       "controles": {
        "points": 2,
@@ -450,7 +478,8 @@
       "d-pvp-duel",
       "d-demons",
       "d-sorts-client",
-      "d-drains-30-oct"
+      "d-drains-30-oct",
+      "d-lancement-4-nov"
      ]
     }
    }
@@ -470,22 +499,21 @@
    "notes": {
     "raid": {
      "valeur": 4,
-     "raison": "Simulation MythicSim du 31 octobre 2026, niveau 60, cible unique sur deux minutes : 993 DPS, soit 79,2 % de la référence Survie à 1253 DPS. Note relative 4/5 selon le barème existant ; résultat expérimental du build et de son équipement, pas une mesure en jeu.",
+     "raison": "Snapshot MythicSim du 4 novembre 2026, niveau 60, cible unique sur deux minutes : 980.107 DPS, soit 76.073 % de la référence Survie à 1288.369 DPS. Note 4/5 calculée sur les valeurs non arrondies du barème existant. Le preset utilise Demonic Pact et un démon actif. Le résultat dépend du build, de la rotation et de l’équipement simulés.",
      "appuis": [
-      "d-sim",
-      "d-demono"
+      "d-sim"
      ],
      "confiance": "moyenne"
     },
     "bg": {
      "valeur": 5,
-     "raison": "« Intuable » en champ de bataille selon Kami ; « Soul Link » et « Demonic Aegis » le rendent très résistant.",
+     "raison": "Soul Link et les talents défensifs soutiennent la tenue en combats de groupe, tant que le démon reste actif. La note de kit est conservée avec faible confiance comparative après la réduction annoncée de ses PV transférés ; l’avis de bêta « intuable » ne valide pas le niveau 60.",
      "appuis": [
-      "d-bg-kami",
       "d-defense",
-      "d-controle"
+      "d-demons",
+      "d-lancement-4-nov"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "world": {
      "valeur": 4,
@@ -494,19 +522,21 @@
       "d-demono",
       "d-defense",
       "d-tournoi",
-      "d-pvp-duel"
+      "d-pvp-duel",
+      "d-lancement-4-nov"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "solo": {
      "valeur": 5,
-     "raison": "Réussit seul des contenus que la plupart des classes ne peuvent pas faire, « excellent personnage solo » (Icy Veins), classe S dans la liste de la bêta ; démon central qui encaisse.",
+     "raison": "Démon central pour encaisser, drains et contrôle offrent une forte autonomie. La baisse annoncée du transfert d’Endurance demande de protéger et soigner le familier. Note conservée faute de comparaison de solo postérieure au patch.",
      "appuis": [
+      "d-demons",
+      "d-defense",
       "d-solo",
-      "d-demono",
-      "d-defense"
+      "d-lancement-4-nov"
      ],
-     "confiance": "haute"
+     "confiance": "faible"
     },
     "burst": {
      "valeur": 4,
@@ -535,11 +565,13 @@
     },
     "surv": {
      "valeur": 5,
-     "raison": "« Soul Link », « Demonic Aegis », « Fel Vitality », drains et « Demon Armor ».",
+     "raison": "Soul Link redirige 30 % des dégâts vers le démon actif, avec Demonic Aegis, Fel Vitality, drains et armure. La baisse annoncée du transfert d’Endurance fragilise une composante du familier, qui doit être protégé ; l’ampleur de la perte de survie totale n’est pas mesurée.",
      "appuis": [
-      "d-defense"
+      "d-defense",
+      "d-demons",
+      "d-lancement-4-nov"
      ],
-     "confiance": "haute"
+     "confiance": "faible"
     },
     "mob": {
      "valeur": 2,
@@ -559,7 +591,7 @@
     },
     "charge_pve": {
      "valeur": 4,
-     "raison": "7 points sur 10 sur la grille de complexité : les effets à entretenir et le pilotage pèsent beaucoup ; la rotation, la gestion de la ressource et le placement, un peu.",
+     "raison": "7 points sur 10 sur la grille de complexité revue le 4 novembre : les effets à entretenir et le pilotage pèsent beaucoup ; la rotation, la gestion de la ressource et le placement pèsent un peu.",
      "appuis": [
       "d-rotation",
       "d-guides",
@@ -571,7 +603,7 @@
     },
     "charge_pvp": {
      "valeur": 4,
-     "raison": "8 points sur 10 sur la grille de complexité : les contrôles, le placement et le pilotage pèsent beaucoup ; la défense et l’ouverture, un peu.",
+     "raison": "8 points sur 10 sur la grille de complexité revue le 4 novembre : les contrôles, le placement et le pilotage pèsent beaucoup ; la défense et l’ouverture pèsent un peu.",
      "appuis": [
       "d-controle",
       "d-defense",
@@ -579,9 +611,10 @@
       "d-pvp-duel",
       "d-demono",
       "d-demons",
-      "d-sorts-client"
+      "d-sorts-client",
+      "d-lancement-4-nov"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     }
    },
    "complexite": {
@@ -592,7 +625,7 @@
      "composantes": {
       "rotation": {
        "points": 1,
-       "raison": "Malédiction, Immolate, Corruption, Bane of Doom sur les cibles durables, Soul Fire sous « Decimation », Searing Pain (7 à 8 sorts, 26 conditions dans la rotation simulée)."
+       "raison": "Malédiction, Immolate, Corruption, Agonie ou Doom selon la durée de vie ; la référence actuelle utilise Douleur brûlante et Shadow Bolt avec Connexion. Soul Fire reste une option du kit, sans être systématique dans ce preset."
       },
       "entretien": {
        "points": 2,
@@ -622,7 +655,7 @@
     "pvp": {
      "note": 4,
      "total": 8,
-     "confiance": "moyenne",
+     "confiance": "faible",
      "composantes": {
       "controles": {
        "points": 2,
@@ -652,7 +685,8 @@
       "d-pvp-duel",
       "d-demono",
       "d-demons",
-      "d-sorts-client"
+      "d-sorts-client",
+      "d-lancement-4-nov"
      ]
     }
    }
@@ -670,12 +704,12 @@
    },
    "notes": {
     "raid": {
-     "valeur": 3,
-     "raison": "Simulation MythicSim du 31 octobre 2026, niveau 60, cible unique sur deux minutes : 873 DPS, soit 69,7 % de la référence Survie à 1253 DPS. Note relative 3/5 selon le barème existant ; résultat expérimental du build et de son équipement, pas une mesure en jeu.",
+     "valeur": 4,
+     "raison": "Snapshot MythicSim du 4 novembre 2026, niveau 60, cible unique sur deux minutes : 928.764 DPS, soit 72.088 % de la référence Survie à 1288.369 DPS. Note 4/5 calculée sur les valeurs non arrondies du barème existant. Référence Shadow Bolt 20/0/31 ; le preset Incinerate est évalué séparément par le simulateur. Le résultat dépend du build, de la rotation et de l’équipement simulés.",
      "appuis": [
       "d-sim"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "bg": {
      "valeur": 5,
@@ -683,9 +717,10 @@
      "appuis": [
       "d-destru",
       "d-bg-kami",
-      "d-controle"
+      "d-controle",
+      "d-lancement-4-nov"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "world": {
      "valeur": 5,
@@ -694,9 +729,10 @@
       "d-destru",
       "d-controle",
       "d-tournoi",
-      "d-pvp-duel"
+      "d-pvp-duel",
+      "d-lancement-4-nov"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "solo": {
      "valeur": 4,
@@ -749,16 +785,17 @@
      "confiance": "haute"
     },
     "support": {
-     "valeur": 2,
-     "raison": "Utilité de classe (« Healthstone », « Soulstone », « Ritual of Summoning ») ; « Bane of Havoc » sert surtout les dégâts.",
+     "valeur": 3,
+     "raison": "Pierres de soins et d’âme, invocation et malédictions appartiennent au personnage et restent disponibles en Destruction. Ces outils communs justifient le même repère de soutien 3/5 qu’Affliction et Démonologie ; Bane of Havoc sert les dégâts sans retirer ces services.",
      "appuis": [
-      "d-soutien"
+      "d-soutien",
+      "d-lancement-4-nov"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     },
     "charge_pve": {
      "valeur": 3,
-     "raison": "5 points sur 10 sur la grille de complexité : la rotation, les effets à entretenir, la gestion de la ressource, le placement et le pilotage pèsent un peu.",
+     "raison": "6 points sur 10 sur la grille de complexité revue le 4 novembre : les effets à entretenir pèsent beaucoup ; la rotation, la gestion de la ressource, le placement et le pilotage pèsent un peu.",
      "appuis": [
       "d-rotation",
       "d-guides",
@@ -770,7 +807,7 @@
     },
     "charge_pvp": {
      "valeur": 4,
-     "raison": "8 points sur 10 sur la grille de complexité : les contrôles, le placement et le pilotage pèsent beaucoup ; la défense et l’ouverture, un peu.",
+     "raison": "8 points sur 10 sur la grille de complexité revue le 4 novembre : les contrôles, le placement et le pilotage pèsent beaucoup ; la défense et l’ouverture pèsent un peu.",
      "appuis": [
       "d-controle",
       "d-ralentissements",
@@ -779,13 +816,14 @@
       "d-pvp-duel",
       "d-defense",
       "d-demons",
-      "d-sorts-client"
+      "d-sorts-client",
+      "d-lancement-4-nov"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     }
    },
    "variante_sans_familier": {
-    "synthese": "Sans démon : ni Séduction ni Verrou magique, et plus personne pour encaisser à sa place. Sans démon à piloter, sa difficulté baisse : 2/5 en PvE, 3/5 en PvP.",
+    "synthese": "Sans démon : ni Séduction ni Verrou magique, et plus de compagnon pour encaisser. La difficulté est de 3/5 en PvE et de 3/5 en PvP ; les effets à entretenir restent présents.",
     "appuis": [
      "d-controle",
      "d-role"
@@ -820,12 +858,12 @@
       "confiance": "moyenne"
      },
      "charge_pve": {
-      "valeur": 2,
-      "raison": "4 points sur 10 sur la grille de complexité : sans démon, plus rien à piloter en PvE ; la rotation, les effets à entretenir, la gestion de la ressource et le placement pèsent un peu.",
+      "valeur": 3,
+      "raison": "5 points sur 10 sur la grille revue : sans démon, Pilotage 0 ; Rotation 1, Entretien 2, Ressource 1 et Placement 1. Les effets suivis restent Corruption, Immolate, malédiction, Agonie ou Doom et les bonus croisés.",
       "appuis": [
-       "d-demons",
+       "d-rotation",
        "d-destru",
-       "d-rotation"
+       "d-demons"
       ],
       "confiance": "moyenne"
      },
@@ -841,21 +879,21 @@
       "confiance": "moyenne"
      }
     },
-    "raison": " Revue du 31 octobre : aucun nouveau comparatif dédié sans familier ; les valeurs de raid héritées restent une hypothèse du modèle existant."
+    "raison": "Aucun nouveau comparatif DPS propre sans démon pour Destruction ; le repère de raid hérité reste une hypothèse, tandis que les outils perdus et la grille de difficulté sont réévalués sur le kit actuel."
    },
    "complexite": {
     "pve": {
      "note": 3,
-     "total": 5,
+     "total": 6,
      "confiance": "moyenne",
      "composantes": {
       "rotation": {
        "points": 1,
-       "raison": "Immolate, Shadow Bolt, Conflagrate en fin d’Immolate, Shadowburn sur une cible presque morte, Incinerate (8 sorts, 16 conditions dans la rotation simulée)."
+       "raison": "Référence Shadow Bolt : Corruption, Immolate, malédiction, Agonie ou Doom, Conflagrate et Shadowburn pour les bonus croisés, puis Shadow Bolt et Connexion selon les ressources. Incinerate relève d’un autre preset."
       },
       "entretien": {
-       "points": 1,
-       "raison": "Immolate, son seul effet sur la durée à entretenir selon Icy Veins, et la malédiction."
+       "points": 2,
+       "raison": "Corruption, Immolate, malédiction, Agonie ou Doom et les deux bonus croisés de Shadow and Flame demandent de suivre au moins trois effets."
       },
       "ressource": {
        "points": 1,
@@ -881,7 +919,7 @@
     "pvp": {
      "note": 4,
      "total": 8,
-     "confiance": "moyenne",
+     "confiance": "faible",
      "composantes": {
       "controles": {
        "points": 2,
@@ -912,7 +950,8 @@
       "d-pvp-duel",
       "d-defense",
       "d-demons",
-      "d-sorts-client"
+      "d-sorts-client",
+      "d-lancement-4-nov"
      ]
     }
    }

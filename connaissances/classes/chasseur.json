@@ -1,8 +1,8 @@
 {
  "classe": "chasseur",
  "libelle": "Chasseur",
- "date": "2026-10-31",
- "moteur": "1.6.0-exploratoire",
+ "date": "2026-11-04",
+ "moteur": "1.7.0-exploratoire",
  "faits": [
   {
    "id": "c-role",
@@ -40,11 +40,10 @@
   {
    "id": "c-pieges",
    "categorie": "controle",
-   "texte": "Pièges utilisables en combat (recharge 30 s), un de Givre et un de Feu à la fois, posés à ses pieds : « Freezing Trap », « Frost Trap », « Explosive Trap ».",
+   "texte": "Tous les pièges partagent désormais une même recharge de 30 s. Il faut choisir le piège de contrôle ou de dégâts selon la situation ; la recharge commune ne prouve pas à elle seule qu’aucun effet de piège ne peut coexister avec un précédent.",
    "sources": [
-    "bz-dd-chasseur-druide",
-    "wt-chasseur",
-    "bz-notes-15-oct"
+    "bz-dev-20261102",
+    "wft-patch-20261104"
    ]
   },
   {
@@ -136,12 +135,11 @@
   {
    "id": "c-soutien",
    "categorie": "soutien",
-   "texte": "« Trueshot Aura » augmente la puissance d’attaque à distance du groupe ou du raid : premier rang obtenu par un talent après 15 points dépensés en Précision, puis rangs enseignés ; le rang 5 reste à 50 au niveau 60. « Furious Howl » exige le loup invoqué ; ni soin, ni dissipation, ni résurrection de classe.",
+   "texte": "Trueshot Aura augmente la puissance d’attaque à distance du groupe ou du raid : premier rang après 15 points dépensés en Précision, puis rangs enseignés ; le rang 5 atteint 100 après le hotfix du 3 novembre. Furious Howl exige le loup invoqué. Le Chasseur conserve une utilité limitée en soin, dissipation et résurrection.",
    "sources": [
     "bz-dd-chasseur-druide",
-    "wt-chasseur",
-    "wft-chasseur-20261031",
-    "fc-hotfix-20261030"
+    "bz-dev-20261102",
+    "fc-patch-20261104"
    ]
   },
   {
@@ -186,10 +184,10 @@
   {
    "id": "c-tissage",
    "categorie": "ressource",
-   "texte": "MythicSim distingue les presets en tissage et ceux qui tirent uniquement à distance. La présente révision retient le tir à distance pour Maîtrise des bêtes et Précision, cohérent avec leur complexité, et l’alternance tirs/mêlée pour Survie. On ne mélange pas les dégâts du tissage et la simplicité du tir fixe. La variante Survie sans familier n’a pas de mesure dédiée dans ce relevé.",
+   "texte": "La photographie du 4 novembre retient BM et Précision à distance, et Survie 0/20/31 en tissage léger sans familier. La note de raid de la base Survie avec compagnon reste une hypothèse héritée ; sa variante sans compagnon est le build effectivement mesuré. Les effets du tissage et de la gestion d’un compagnon sont distingués.",
    "sources": [
-    "wt-chasseur",
-    "mythicsim-20261031"
+    "mythicsim-20261104",
+    "mythicsim-log-20261104"
    ]
   },
   {
@@ -203,9 +201,10 @@
   {
    "id": "c-sim",
    "categorie": "performance",
-   "texte": "Relevé MythicSim du 31 octobre 2026 : Maîtrise des bêtes 768 DPS (61,3 % de Survie 1253) ; Précision 866 DPS (69,1 % de Survie 1253) ; Survie 1253 DPS (100,0 % de Survie 1253). Personnages de niveau 60, boss 63, deux minutes, équipement de référence avec sa paire de bijoux, talents et race de chaque preset. Simulation expérimentale ; différences de preset, de moteur et de rotation, pas une mesure de patch isolée ni de PvP. Maîtrise des bêtes et Précision sont évaluées en tir à distance ; Précision en Loup solitaire. Survie suit le tissage, dont le déplacement réel reste à confirmer.",
+   "texte": "Photographie MythicSim et rapports complets du 4 novembre 2026 : Maîtrise des bêtes 807.79 DPS (62.70 % de Survie 1288.37) ; Précision 993.57 DPS (77.12 % de Survie 1288.37) ; Survie 1288.37 DPS (100.00 % de Survie 1288.37). Niveau 60, boss 63, deux minutes ±15 s, équipement/race/talents de chaque référence avec ses bijoux. Simulation expérimentale, valeurs précises non arrondies pour le barème.",
    "sources": [
-    "mythicsim-20261031"
+    "mythicsim-20261104",
+    "mythicsim-log-20261104"
    ]
   },
   {
@@ -322,6 +321,33 @@
    "specs": [
     "chasseur-maitrise-betes"
    ]
+  },
+  {
+   "id": "c-lancement-20261104",
+   "categorie": "performance",
+   "texte": "Le correctif du 3 novembre relève Visée, Tir des arcanes, Morsure de serpent, Tir de précision, Barrage et Réflexes éclairs. Les six premiers rangs de Faucon montent à 20/35/50/70/90/110 ; le rang 7 reste 120. L’Aura de précision atteint 100 au rang 5. Les régimes de pièges et de rendements décroissants imposent des choix de contrôle.",
+   "sources": [
+    "bz-dev-20261102",
+    "fc-patch-20261104",
+    "wft-patch-20261104"
+   ]
+  },
+  {
+   "id": "c-reference-20261104",
+   "categorie": "complexite",
+   "texte": "Références simulées du 4 : BM à distance avec compagnon ; Précision à distance en Loup solitaire ; Survie 0/20/31 sans compagnon, en tissage distance/mêlée. La référence Survie sans compagnon ne démontre pas une égalité avec la configuration avec familier.",
+   "sources": [
+    "mythicsim-20261104"
+   ]
+  },
+  {
+   "id": "c-aspects-vitesse-20261104",
+   "categorie": "mobilite",
+   "texte": "Aspect of the Cheetah et Aspect of the Pack augmentent les déplacements avec le risque d’hébétement après un coup. Leur confort de déplacement est distingué des outils de mobilité immédiatement utilisables sous pression.",
+   "sources": [
+    "wft-patch-20261104",
+    "bz-dd-chasseur-druide"
+   ]
   }
  ],
  "specialisations": [
@@ -339,11 +365,10 @@
    "notes": {
     "raid": {
      "valeur": 3,
-     "raison": "Simulation MythicSim du 31 octobre 2026, niveau 60, cible unique sur deux minutes : 768 DPS, soit 61,3 % de la référence Survie à 1253 DPS. Référence tir à distance avec familier, sans alternance mêlée. Note relative 3/5 selon le barème existant ; résultat expérimental du build et de son équipement, pas une mesure en jeu.",
+     "raison": "Rapport MythicSim du 4 novembre, 807.792 DPS, soit 62.699 % de la référence Survie à 1288.369. Barème 86/72/55 appliqué aux valeurs non arrondies. Référence à distance, sans lui attribuer le résultat du tissage.",
      "appuis": [
       "c-sim",
-      "c-tissage",
-      "c-nerf"
+      "c-reference-20261104"
      ],
      "confiance": "moyenne"
     },
@@ -375,12 +400,13 @@
     },
     "solo": {
      "valeur": 5,
-     "raison": "En tête des listes de leveling (Warcraft Tavern, Kami, Crix, Mobalytics) ; Maîtrise des bêtes est le choix naturel en monde ouvert, le familier encaissant à sa place. Les baisses de rangs de leveling du 28 octobre sont prises en compte comme réserve ; elles n’effacent pas les outils de solo du profil.",
+     "raison": "Progression autonome avec tirs, pièges et gestion de la distance ; le familier encaisse en BM, tandis que Précision est évaluée en Loup solitaire. Les hausses de rangs du 3 novembre ne suppriment pas le coût du mana et de la zone morte.",
      "appuis": [
       "c-leveling",
       "c-familier-mdb",
       "c-role",
-      "c-rangs-28-oct"
+      "c-rangs-28-oct",
+      "c-lancement-20261104"
      ],
      "confiance": "haute"
     },
@@ -395,20 +421,22 @@
     },
     "zone": {
      "valeur": 2,
-     "raison": "« Multi-Shot » et « Volley » de base, sans le renfort de « Barrage » ; certains familiers frappent en zone.",
+     "raison": "« Multi-Shot » et « Volley » de base, sans le renfort de « Barrage » ; certains familiers frappent en zone. Contrôle et dégâts de piège se disputent désormais la même recharge de 30 s.",
      "appuis": [
-      "c-zone"
+      "c-zone",
+      "c-lancement-20261104"
      ],
      "confiance": "moyenne"
     },
     "ctrl": {
      "valeur": 3,
-     "raison": "Pièges en combat, immobilisations et ralentissements des familiers, « Intimidation » ; ni étourdissement ni interruption de base.",
+     "raison": "Pièges en combat, immobilisations et ralentissements des familiers, « Intimidation » ; ni étourdissement ni interruption de base. La recharge commune de 30 s entre pièges est prise en compte. Les outils de ralentissement et immobilisation du build conservent ce repère ; aucun résultat PvP niveau 60 ne permet de quantifier un point de perte.",
      "appuis": [
       "c-pieges",
       "c-ralentissements",
       "c-familier-mdb",
-      "c-pas-stun"
+      "c-pas-stun",
+      "c-lancement-20261104"
      ],
      "confiance": "moyenne"
     },
@@ -423,9 +451,10 @@
     },
     "mob": {
      "valeur": 3,
-     "raison": "« Disengage » et « Feign Death » pour décrocher ; aucun sort de vitesse cité par les sources de la bêta.",
+     "raison": "Aspects de vitesse pour les déplacements, avec hébétement possible en cas de coup. Disengage et Feign Death aident à gérer le combat, tout en conservant la zone morte et les contraintes de tir.",
      "appuis": [
-      "c-mobilite"
+      "c-mobilite",
+      "c-aspects-vitesse-20261104"
      ],
      "confiance": "moyenne"
     },
@@ -477,7 +506,7 @@
      "composantes": {
       "rotation": {
        "points": 0,
-       "raison": "Priorité courte : Aimed Shot et Summon Hawk à la recharge, Auto Shot, Arcane Shot si le mana déborde (6 sorts, 14 conditions dans la rotation simulée)."
+       "raison": "Priorité courte à distance autour de Visée, Morsure de serpent et des faucons, avec les recharges de dégâts. Le pilotage du compagnon est noté séparément."
       },
       "entretien": {
        "points": 1,
@@ -561,13 +590,11 @@
    },
    "notes": {
     "raid": {
-     "valeur": 3,
-     "raison": "Simulation MythicSim du 31 octobre 2026, niveau 60, cible unique sur deux minutes : 866 DPS, soit 69,1 % de la référence Survie à 1253 DPS. Référence tir à distance en Loup solitaire, sans alternance mêlée. Note relative 3/5 selon le barème existant ; résultat expérimental du build et de son équipement, pas une mesure en jeu.",
+     "valeur": 4,
+     "raison": "Rapport MythicSim du 4 novembre, 993.571 DPS, soit 77.119 % de la référence Survie à 1288.369. Barème 86/72/55 appliqué aux valeurs non arrondies. Référence à distance, sans lui attribuer le résultat du tissage.",
      "appuis": [
       "c-sim",
-      "c-tissage",
-      "c-soutien",
-      "c-familier-precision"
+      "c-reference-20261104"
      ],
      "confiance": "moyenne"
     },
@@ -598,11 +625,12 @@
     },
     "solo": {
      "valeur": 5,
-     "raison": "En tête des listes de leveling pour la classe ; « Lone Wolf » (+20 % de dégâts sans familier) rend le familier facultatif. Les baisses de rangs de leveling du 28 octobre sont prises en compte comme réserve ; elles n’effacent pas les outils de solo du profil.",
+     "raison": "Progression autonome avec tirs, pièges et gestion de la distance ; le familier encaisse en BM, tandis que Précision est évaluée en Loup solitaire. Les hausses de rangs du 3 novembre ne suppriment pas le coût du mana et de la zone morte.",
      "appuis": [
       "c-leveling",
       "c-familier-precision",
-      "c-rangs-28-oct"
+      "c-rangs-28-oct",
+      "c-lancement-20261104"
      ],
      "confiance": "moyenne"
     },
@@ -617,19 +645,21 @@
     },
     "zone": {
      "valeur": 3,
-     "raison": "« Barrage » renforce « Multi-Shot » et « Volley ».",
+     "raison": "« Barrage » renforce « Multi-Shot » et « Volley ». Contrôle et dégâts de piège se disputent désormais la même recharge de 30 s.",
      "appuis": [
-      "c-zone"
+      "c-zone",
+      "c-lancement-20261104"
      ],
      "confiance": "moyenne"
     },
     "ctrl": {
      "valeur": 3,
-     "raison": "Pièges en combat et « Scatter Shot » en interruption de fortune ; ni étourdissement ni interruption de base.",
+     "raison": "Pièges en combat et « Scatter Shot » en interruption de fortune ; ni étourdissement ni interruption de base. La recharge commune de 30 s entre pièges est prise en compte. Les outils de ralentissement et immobilisation du build conservent ce repère ; aucun résultat PvP niveau 60 ne permet de quantifier un point de perte.",
      "appuis": [
       "c-pieges",
       "c-scatter",
-      "c-pas-stun"
+      "c-pas-stun",
+      "c-lancement-20261104"
      ],
      "confiance": "moyenne"
     },
@@ -645,15 +675,16 @@
     },
     "mob": {
      "valeur": 3,
-     "raison": "« Disengage » et « Feign Death » pour décrocher ; aucun sort de vitesse cité par les sources de la bêta.",
+     "raison": "Aspects de vitesse pour les déplacements, avec hébétement possible en cas de coup. Disengage et Feign Death aident à gérer le combat, tout en conservant la zone morte et les contraintes de tir.",
      "appuis": [
-      "c-mobilite"
+      "c-mobilite",
+      "c-aspects-vitesse-20261104"
      ],
      "confiance": "moyenne"
     },
     "support": {
      "valeur": 2,
-     "raison": "« Trueshot Aura » (21 points) ; ni soin, ni dissipation, ni résurrection.",
+     "raison": "Trueshot Aura est accessible après 15 points dépensés en Précision ; son rang 5 atteint 100 de puissance d’attaque à distance. Marque du chasseur complète l’utilité ; le profil reste spécialisé dans les dégâts.",
      "appuis": [
       "c-soutien",
       "c-marque-21-oct"
@@ -696,7 +727,7 @@
      "c-familier-precision"
     ],
     "notes": {},
-    "raison": " Revue du 31 octobre : aucun nouveau comparatif dédié sans familier ; les valeurs de raid héritées restent une hypothèse du modèle existant."
+    "raison": "Le preset Précision à distance du 4 novembre est précisément Loup solitaire. Sa note de raid est mesurée pour cette référence."
    },
    "complexite": {
     "pve": {
@@ -706,7 +737,7 @@
      "composantes": {
       "rotation": {
        "points": 1,
-       "raison": "Rapid Fire, Serpent Sting, Sniper Shot, Aimed Shot, Arcane Shot et Auto Shot (7 sorts, 17 conditions dans la rotation simulée)."
+       "raison": "Visée, Tir de précision et tirs instantanés selon leurs recharges, avec Morsure de serpent et le choix de rester à distance. Aucun DPS de tissage n’est associé à cette simplicité."
       },
       "entretien": {
        "points": 1,
@@ -789,13 +820,12 @@
    "notes": {
     "raid": {
      "valeur": 5,
-     "raison": "Simulation MythicSim du 31 octobre 2026, niveau 60, cible unique sur deux minutes : 1253 DPS, soit 100,0 % de la référence Survie à 1253 DPS. Référence en alternance tirs/mêlée ; déplacements modélisés, tenue en raid réel non confirmée. Note relative 5/5 selon le barème existant ; résultat expérimental du build et de son équipement, pas une mesure en jeu.",
+     "raison": "Rapport MythicSim du 4 novembre, 1288.369 DPS, soit 100.000 % de la référence Survie à 1288.369. Barème 86/72/55 appliqué aux valeurs non arrondies. Référence sans familier en alternance tirs/mêlée ; sa transposition à la base avec compagnon reste une hypothèse.",
      "appuis": [
       "c-sim",
-      "c-tissage",
-      "c-survie-degats"
+      "c-reference-20261104"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "bg": {
      "valeur": 4,
@@ -822,12 +852,13 @@
     },
     "solo": {
      "valeur": 5,
-     "raison": "En tête des listes de leveling pour la classe ; la mêlée et les défenses de Survie compensent un familier secondaire. Les baisses de rangs de leveling du 28 octobre sont prises en compte comme réserve ; elles n’effacent pas les outils de solo du profil.",
+     "raison": "Kit de progression souple avec pièges, défenses et compagnon possible. Les rangs de leveling ont été réévalués après le correctif du 3 novembre ; le confort ne dépend pas du DPS de tissage simulé en raid.",
      "appuis": [
       "c-leveling",
       "c-familier-survie",
       "c-defense",
-      "c-rangs-28-oct"
+      "c-rangs-28-oct",
+      "c-lancement-20261104"
      ],
      "confiance": "moyenne"
     },
@@ -841,21 +872,23 @@
     },
     "zone": {
      "valeur": 3,
-     "raison": "« Multi-Shot », « Volley » et « Explosive Trap ».",
+     "raison": "« Multi-Shot », « Volley » et « Explosive Trap ». Contrôle et dégâts de piège se disputent désormais la même recharge de 30 s.",
      "appuis": [
       "c-zone",
-      "c-pieges"
+      "c-pieges",
+      "c-lancement-20261104"
      ],
      "confiance": "moyenne"
     },
     "ctrl": {
      "valeur": 4,
-     "raison": "« Entrapment », « Counterattack » et « Improved Wing Clip » apportent des immobilisations conditionnelles, avec un groupe commun de rendements décroissants depuis le 28 octobre ; pièges et ralentissements restent disponibles. Ni étourdissement ni interruption de base.",
+     "raison": "« Entrapment », « Counterattack » et « Improved Wing Clip » apportent des immobilisations conditionnelles, avec un groupe commun de rendements décroissants depuis le 28 octobre ; pièges et ralentissements restent disponibles. Ni étourdissement ni interruption de base. La recharge commune de 30 s entre pièges est prise en compte. Les outils de ralentissement et immobilisation du build conservent ce repère ; aucun résultat PvP niveau 60 ne permet de quantifier un point de perte.",
      "appuis": [
       "c-survie-controle",
       "c-pieges",
       "c-ralentissements",
-      "c-pas-stun"
+      "c-pas-stun",
+      "c-lancement-20261104"
      ],
      "confiance": "moyenne"
     },
@@ -941,9 +974,18 @@
        "c-rotation"
       ],
       "confiance": "moyenne"
+     },
+     "raid": {
+      "valeur": 5,
+      "raison": "La référence 0/20/31 du 4 novembre utilise PetNone et l’alternance tirs/mêlée, 1288,368517 DPS. Cette variante est le build réellement mesuré ; la transposition de ce repère à une configuration avec compagnon reste une hypothèse distincte.",
+      "appuis": [
+       "c-sim",
+       "c-reference-20261104"
+      ],
+      "confiance": "moyenne"
      }
     },
-    "raison": " Revue du 31 octobre : aucun nouveau comparatif dédié sans familier ; les valeurs de raid héritées restent une hypothèse du modèle existant."
+    "raison": "La photographie du 4 est précisément sans compagnon. Le 5 commun de la base reste un repère hérité, confiance faible, sans mesure dédiée avec compagnon."
    },
    "complexite": {
     "pve": {
@@ -953,7 +995,7 @@
      "composantes": {
       "rotation": {
        "points": 2,
-       "raison": "Jeu de référence en alternance : 11 sorts et 60 conditions dans la rotation simulée, calés sur le prochain Auto Shot (Raptor Strike, Mongoose Bite sous « Expose Prey », Strider Kick, tirs)."
+       "raison": "Tirs et attaques de mêlée à caler entre les Auto Shots, avec saignements, fenêtres Expose Prey et déplacements. La référence du 4 utilise un tissage léger sans familier."
       },
       "entretien": {
        "points": 1,

@@ -1,4 +1,4 @@
-> **31 octobre 2026 : revue des classes avant lancement.** Données et descriptions actualisées, moteur `1.6.0-exploratoire`, référence `v16`, formules et sauvegardes conservées. Huit repères DPS et quelques jugements de burst/difficulté sont révisés après recherche et comparaison des classements. Les données du client et les simulations sont distinguées des comportements restant à confirmer en jeu. [Lire les changements, sources et limites](REVISION-DONNEES-2026-10-31.md).
+> **Révision active v17 — données du 4 novembre 2026.** Moteur `1.7.0-exploratoire`, référence `tests/fixtures/moteur-reference-v17.json`, base `583a8cbe7d84f68f926103f7abde0d7af9e66a37`. Les 28 configurations, leurs critères, leurs variantes et leurs profils de soin ont été réexaminés après le bilan officiel et les rapports simulés actualisés. Les décisions, les incertitudes et la comparaison des classements sont détaillées dans [la révision du 4 novembre](REVISION-DONNEES-2026-11-04.md). Les sections historiques conservent leurs décisions datées.
 
 # Choisir ma classe WoW Forever
 

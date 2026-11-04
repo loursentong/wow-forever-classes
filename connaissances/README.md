@@ -1,4 +1,4 @@
-> **Revue actuelle : 31 octobre 2026, moteur 1.6.0-exploratoire.** Les neuf classes, leurs variantes, les profils de soin et les justifications ont été relus face aux changements disponibles. Huit repères DPS, le burst félin et trois composantes de complexité évoluent ; toutes les autres valeurs sont conservées. [Décisions et sources](../REVISION-DONNEES-2026-10-31.md), [photographie chiffrée](revisions/2026-10-31.json). Les anciennes dates et statistiques ci-dessous décrivent leurs étapes historiques ; elles ne prétendent pas valider le hotfix courant.
+> **Révision active v17 — données du 4 novembre 2026.** Moteur `1.7.0-exploratoire`, référence `tests/fixtures/moteur-reference-v17.json`, base `583a8cbe7d84f68f926103f7abde0d7af9e66a37`. Les 28 configurations, leurs critères, leurs variantes et leurs profils de soin ont été réexaminés après le bilan officiel et les rapports simulés actualisés. Les décisions, les incertitudes et la comparaison des classements sont détaillées dans [la révision du 4 novembre](../REVISION-DONNEES-2026-11-04.md). Les sections historiques conservent leurs décisions datées.
 
 # Base de connaissances
 

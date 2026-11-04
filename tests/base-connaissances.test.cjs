@@ -23,7 +23,8 @@ const sources=new Map(registre.sources.map(s=>[s.id,s]));
 const faits=new Map();
 for(const k of classes)for(const f of k.faits)faits.set(f.id,{...f,classe:k.classe});
 const applique=(f,id)=>id.startsWith(f.classe+'-')&&(!f.specs||f.specs.includes(id));
-const ouvert=e=>e.decision===null;
+const decisionCourante=e=>e.revisions&&e.revisions.length?e.revisions[e.revisions.length-1]:e.decision;
+const ouvert=e=>decisionCourante(e)===null;
 const enEcart=new Set(ecarts.ecarts.filter(ouvert).map(e=>e.spec+'/'+e.critere));
 
 test('Registre : identifiants uniques, fiabilité et statut renseignés ; une source utilisée est citée, et réciproquement',()=>{
@@ -80,7 +81,11 @@ test('Chaque note a une raison, des appuis qui concernent sa configuration et un
  }
 });
 
-test('Variantes sans familier : alignées sur le moteur, justifiées, et seulement pour un familier facultatif',()=>{
+test('Variantes sans familier : écarts numériques complets et notes égales justifiées par le build ou la grille',()=>{
+ const documentaires={
+  'chasseur-survie':{raid:['c-reference-20261104']},
+  'demoniste-destruction':{charge_pve:['d-rotation','d-demons']}
+ };
  for(const k of classes)for(const s of k.specialisations){
   const m=E.specs.find(x=>x.id===s.id),v=s.variante_sans_familier;
   assert.equal(!!v,m.pet==='optional',s.id+' : variante si et seulement si le familier est facultatif');
@@ -88,7 +93,15 @@ test('Variantes sans familier : alignées sur le moteur, justifiées, et seuleme
   const engine=E.petless[s.id];
   assert.ok(engine,s.id);
   const diff=CRITERES.filter(c=>valeur(engine,c)!==valeur(m,c));
-  assert.deepEqual(Object.keys(v.notes).sort(),diff.sort(),s.id+' : notes qui changent sans familier');
+  const documentees=Object.keys(v.notes);
+  assert.deepEqual(documentees.filter(c=>diff.includes(c)).sort(),diff.sort(),s.id+' : toutes les différences numériques sont documentées');
+  // Une même note peut décrire deux preuves différentes : mesure du build sans
+  // familier en Survie, ou grilles distinctes à 5 et 6 points en Destruction.
+  const valeursEgales=documentees.filter(c=>!diff.includes(c));
+  const admises=documentaires[s.id]||{};
+  assert.deepEqual(valeursEgales.sort(),Object.keys(admises).sort(),s.id+' : seules les notes égales explicitement justifiées sont admises');
+  for(const c of valeursEgales)for(const appui of admises[c])
+   assert.ok(v.notes[c].appuis.includes(appui),s.id+'/'+c+' : justification documentaire rattachée à '+appui);
   for(const [c,n] of Object.entries(v.notes)){
    assert.equal(n.valeur,valeur(engine,c),s.id+'/'+c);
    assert.ok(n.raison&&n.raison.length>=15&&['haute','moyenne','faible'].includes(n.confiance),s.id+'/'+c);
@@ -141,8 +154,22 @@ test('Écarts : valeur actuelle exacte tant qu’ils sont ouverts, décision tra
    assert.equal(e.valeur,valeur(m,e.critere),e.id+' : valeur actuelle du moteur');
    assert.equal(notes.get(e.spec)[e.critere].confiance,'faible',e.id);
   }else{
-   assert.ok(['garder','changer'].includes(e.decision.choix)&&e.decision.date,e.id);
-   assert.equal(valeur(m,e.critere),e.decision.choix==='garder'?e.valeur:e.decision.valeur,e.id+' : décision appliquée au moteur');
+   if(e.decision)assert.ok(['garder','changer'].includes(e.decision.choix)&&e.decision.date,e.id);
+   let attendue=e.decision?(e.decision.choix==='garder'?e.valeur:e.decision.valeur):e.valeur;
+   let datePrecedente=e.decision?e.decision.date:null;
+   for(const revision of e.revisions||[]){
+    assert.ok(['garder','changer'].includes(revision.choix),e.id+' : choix de révision connu');
+    assert.match(revision.date,/^\d{4}-\d{2}-\d{2}$/,e.id+' : date de révision');
+    if(datePrecedente)assert.ok(revision.date>=datePrecedente,e.id+' : révisions chronologiques');
+    assert.equal(revision.avant,attendue,e.id+' : la révision part de la décision précédente');
+    assert.ok(Number.isInteger(revision.valeur)&&revision.valeur>=1&&revision.valeur<=5,e.id+' : valeur révisée valide');
+    assert.equal(revision.choix==='garder',revision.valeur===revision.avant,e.id+' : choix cohérent avec la valeur révisée');
+    assert.ok(revision.motif&&revision.motif.length>=15,e.id+' : motif de révision');
+    assert.ok(md.includes(revision.date)&&md.includes(revision.motif),e.id+' : révision présente dans la synthèse');
+    attendue=revision.valeur;
+    datePrecedente=revision.date;
+   }
+   assert.equal(valeur(m,e.critere),attendue,e.id+' : dernière décision appliquée au moteur');
   }
  }
 });

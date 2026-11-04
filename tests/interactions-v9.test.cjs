@@ -77,5 +77,6 @@ test('Ajouter une façon de soigner ne peut plus faire passer un non-soigneur de
    assert.ok(after.get(h.spec.id).rawScore>=after.get(n.spec.id).rawScore-1e-8,h.spec.id+'/'+n.spec.id);
  }
  const p={...bases[0],healStyles:{prevention:0}},leader=E.ranking(p).results[0];
- assert.equal(leader.spec.id,'paladin-sacre');assert.equal(leader.score,56.6); // v14 : rôle Soin évalué dans BG + solo, plus en raid.
+ // La difficulté révisée de Sacré Paladin en v17 fait évoluer cet exemple, avec le même effet du rôle Soin.
+ assert.equal(leader.spec.id,'pretre-sacre');assert.equal(leader.spec.role,'soin');assert.equal(leader.score,55.92);
 });

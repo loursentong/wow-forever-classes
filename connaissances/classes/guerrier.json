@@ -1,8 +1,8 @@
 {
  "classe": "guerrier",
  "libelle": "Guerrier",
- "date": "2026-10-31",
- "moteur": "1.6.0-exploratoire",
+ "date": "2026-11-04",
+ "moteur": "1.7.0-exploratoire",
  "faits": [
   {
    "id": "g-role",
@@ -15,10 +15,10 @@
   {
    "id": "g-rage",
    "categorie": "ressource",
-   "texte": "La Rage se gagne en frappant et en subissant des dégâts ; elle retombe hors combat, et « Tactical Mastery » n’en conserve que 10 au changement de posture.",
+   "texte": "La Rage se gagne en frappant et en subissant des dégâts, puis retombe hors combat. Tactical Mastery conserve 10 points au changement de posture ; Improved Tactical Mastery 3/3 ajoute 15, soit 25 pour les références actuelles.",
    "sources": [
-    "bz-dd-pretre-guerrier",
-    "wt-guerrier"
+    "bz-dev-20261102",
+    "wft-patch-20261104"
    ]
   },
   {
@@ -111,9 +111,10 @@
   {
    "id": "g-defiance",
    "categorie": "role",
-   "texte": "Protection : « Defiance » augmente la menace en Posture défensive avec un bouclier.",
+   "texte": "Blizzard annonce un bonus de menace de 80 % en Posture défensive et jusqu’à 20 % supplémentaires par Defiance avec bouclier. Ces bonus facilitent l’aggro ; ils ne mesurent pas la mitigation.",
    "sources": [
-    "bz-dd-pretre-guerrier"
+    "bz-dev-20261102",
+    "wft-patch-20261104"
    ],
    "specs": [
     "guerrier-protection"
@@ -122,12 +123,10 @@
   {
    "id": "g-zone",
    "categorie": "zone",
-   "texte": "« Cleave », « Whirlwind » en Posture berserker, « Sweeping Strikes » et « Thunder Clap ». Depuis le 1er octobre, « Whirlwind » frappe des deux armes sans « Raging Blows » ; ce talent de Fureur réduit les coûts en Rage de « Whirlwind » et de « Cleave ».",
+   "texte": "Cleave, Whirlwind des deux armes, Sweeping Strikes et Thunder Clap couvrent plusieurs cibles. Improved Whirlwind réduit la recharge et renforce la cible la plus proche. Raging Blows est retiré dans les tables récentes ; son ancienne réduction de coûts ne doit plus justifier les notes.",
    "sources": [
-    "bz-dd-pretre-guerrier",
-    "wt-guerrier",
-    "fc-hotfix-20261030",
-    "wft-guerrier-20261031"
+    "bz-dev-20261102",
+    "wft-patch-20261104"
    ]
   },
   {
@@ -149,9 +148,10 @@
   {
    "id": "g-burst",
    "categorie": "burst",
-   "texte": "« Recklessness » et « Death Wish » ; Armes : « Spearing Strike » (16 points).",
+   "texte": "Recklessness apporte une fenêtre de critiques aux Guerriers. Spearing Strike est accessible à Armes ; Death Wish demande 21 points en Fureur et ne peut pas se combiner avec les 31 points de Mortal Strike au niveau 60.",
    "sources": [
-    "bz-dd-pretre-guerrier"
+    "bz-dev-20261102",
+    "wft-patch-20261104"
    ]
   },
   {
@@ -211,9 +211,10 @@
   {
    "id": "g-sim",
    "categorie": "performance",
-   "texte": "Relevé MythicSim du 31 octobre 2026 : Armes 832 DPS (66,4 % de Survie 1253) ; Fureur 976 DPS (77,9 % de Survie 1253). Personnages de niveau 60, boss 63, deux minutes, équipement de référence avec sa paire de bijoux, talents et race de chaque preset. Simulation expérimentale ; différences de preset, de moteur et de rotation, pas une mesure de patch isolée ni de PvP.",
+   "texte": "Photographie MythicSim et rapports complets du 4 novembre 2026 : Armes 867.69 DPS (67.35 % de Survie 1288.37) ; Fureur 992.69 DPS (77.05 % de Survie 1288.37). Niveau 60, boss 63, deux minutes ±15 s, équipement/race/talents de chaque référence avec ses bijoux. Simulation expérimentale, valeurs précises non arrondies pour le barème.",
    "sources": [
-    "mythicsim-20261031"
+    "mythicsim-20261104",
+    "mythicsim-log-20261104"
    ]
   },
   {
@@ -325,6 +326,24 @@
    "specs": [
     "guerrier-armes"
    ]
+  },
+  {
+   "id": "g-lancement-20261104",
+   "categorie": "complexite",
+   "texte": "Armes : Slam revient en 15 s, 10 s avec Improved Slam au maximum, et les talents de spécialisation d’arme et de gestion de Rage changent. Fureur : Reckless Swings échange 25 % des PV de base contre de la Rage sur les quatre attaques suivantes ; Flurry et Improved Whirlwind modifient le rythme. Les soins de Blood Craze et Gore Drinker ne génèrent plus de menace.",
+   "sources": [
+    "bz-dev-20261102",
+    "wft-patch-20261104"
+   ]
+  },
+  {
+   "id": "g-postures-20261104",
+   "categorie": "complexite",
+   "texte": "La référence Fureur 18/31/2 du 4 novembre alterne Battle Stance et Berserker Stance en monocible, avec environ 7,33 Overpower sur deux minutes. Armes 32/17/2 reste en Battle Stance dans le rapport monocible mais prévoit la danse de postures et Whirlwind à partir de trois cibles. Pilotage PvE couvre aussi les packs de donjon.",
+   "sources": [
+    "mythicsim-20261104",
+    "mythicsim-log-20261104"
+   ]
   }
  ],
  "specialisations": [
@@ -340,9 +359,10 @@
    "notes": {
     "raid": {
      "valeur": 3,
-     "raison": "Simulation MythicSim du 31 octobre 2026, niveau 60, cible unique sur deux minutes : 832 DPS, soit 66,4 % de la référence Survie à 1253 DPS. Note relative 3/5 selon le barème existant ; résultat expérimental du build et de son équipement, pas une mesure en jeu.",
+     "raison": "Rapport MythicSim du 4 novembre, 867.686 DPS, soit 67.348 % de la référence Survie à 1288.369. Barème 86/72/55 appliqué aux valeurs non arrondies. Équipement, race et rotation propres au preset ; résultat simulé provisoire.",
      "appuis": [
-      "g-sim"
+      "g-sim",
+      "g-postures-20261104"
      ],
      "confiance": "moyenne"
     },
@@ -380,11 +400,12 @@
      "confiance": "faible"
     },
     "burst": {
-     "valeur": 5,
-     "raison": "« Spearing Strike », « Recklessness », « Death Wish » et « Mortal Strike » : la spécialisation de burst du Guerrier.",
+     "valeur": 4,
+     "raison": "Fenêtre de Recklessness et attaques lourdes à deux mains avec Mortal Strike, Overpower et Spearing Strike. Le bonus de Spearing Strike dépend du type de cible, et Execute exige une cible en fin de vie. Death Wish exige trop de points en Fureur pour être combiné à Mortal Strike.",
      "appuis": [
       "g-burst",
-      "g-mortal"
+      "g-mortal",
+      "g-lancement-20261104"
      ],
      "confiance": "moyenne"
     },
@@ -411,10 +432,11 @@
     },
     "surv": {
      "valeur": 3,
-     "raison": "Plaques, « Shield Wall » et « Retaliation » (15 min), « Victory Rush » ; peu d’outils contre un gros burst.",
+     "raison": "Plaques, « Shield Wall » et « Retaliation » (15 min), « Victory Rush » ; peu d’outils contre un gros burst. Revue du 4 : les soins passifs et les dépenses de vie de Reckless Swings sont contextualisés ; aucun nouveau bonus de menace ne sert à relever la survie.",
      "appuis": [
       "g-defense",
-      "g-limite-burst"
+      "g-limite-burst",
+      "g-lancement-20261104"
      ],
      "confiance": "moyenne"
     },
@@ -436,13 +458,14 @@
     },
     "charge_pve": {
      "valeur": 4,
-     "raison": "7 points sur 10 sur la grille de complexité : la rotation, les effets à entretenir et la gestion de la ressource pèsent beaucoup ; le pilotage, un peu.",
+     "raison": "8 points sur 10 : rotation, Rage et danse de postures de la référence évaluée. La note inclut les décisions de changement de posture nécessaires à cette rotation.",
      "appuis": [
       "g-rotation",
       "g-guides",
       "g-rage",
       "g-postures",
-      "g-sorts-client"
+      "g-sorts-client",
+      "g-postures-20261104"
      ],
      "confiance": "moyenne"
     },
@@ -467,7 +490,7 @@
    "complexite": {
     "pve": {
      "note": 4,
-     "total": 7,
+     "total": 8,
      "confiance": "moyenne",
      "composantes": {
       "rotation": {
@@ -480,15 +503,15 @@
       },
       "ressource": {
        "points": 2,
-       "raison": "Rage irrégulière ; changer de posture la fait perdre (10 conservés avec « Tactical Mastery »)."
+       "raison": "Arbitrer la Rage entre techniques et changements de posture ; les références avec Improved Tactical Mastery 3/3 conservent jusqu’à 25 points."
       },
       "placement": {
        "points": 0,
        "raison": "Mêlée sans contrainte de position."
       },
       "pilotage": {
-       "points": 1,
-       "raison": "Postures : combat la plupart du temps, berserker ou défensive selon le besoin."
+       "points": 2,
+       "raison": "Danse de postures sur les packs pour Whirlwind, retour en Battle Stance pour les techniques Armes. La référence monocible reste principalement en Battle Stance."
       }
      },
      "appuis": [
@@ -496,7 +519,8 @@
       "g-guides",
       "g-rage",
       "g-postures",
-      "g-sorts-client"
+      "g-sorts-client",
+      "g-postures-20261104"
      ],
      "approfondissement": "La rotation simulée danse entre les postures pour Overpower et Whirlwind."
     },
@@ -519,7 +543,7 @@
       },
       "ouverture": {
        "points": 1,
-       "raison": "« Mortal Strike » sur les soins, « Recklessness » et « Death Wish »."
+       "raison": "Pression Mortal Strike sur les soins et fenêtre de Recklessness ; Spearing Strike selon la cible. Death Wish est inaccessible au build Armes avec Mortal Strike."
       },
       "pilotage": {
        "points": 2,
@@ -553,10 +577,10 @@
    "notes": {
     "raid": {
      "valeur": 4,
-     "raison": "Simulation MythicSim du 31 octobre 2026, niveau 60, cible unique sur deux minutes : 976 DPS, soit 77,9 % de la référence Survie à 1253 DPS. Note relative 4/5 selon le barème existant ; résultat expérimental du build et de son équipement, pas une mesure en jeu.",
+     "raison": "Rapport MythicSim du 4 novembre, 992.688 DPS, soit 77.050 % de la référence Survie à 1288.369. Barème 86/72/55 appliqué aux valeurs non arrondies. Équipement, race et rotation propres au preset ; résultat simulé provisoire.",
      "appuis": [
       "g-sim",
-      "g-cleave"
+      "g-postures-20261104"
      ],
      "confiance": "moyenne"
     },
@@ -603,7 +627,7 @@
     },
     "zone": {
      "valeur": 5,
-     "raison": "« Raging Blows » fait frapper « Whirlwind » des deux armes et réduit le coût de « Cleave » ; Blizzard vise le Guerrier en référence du multicible de mêlée.",
+     "raison": "Whirlwind frappe des deux armes sans talent et Improved Whirlwind réduit sa recharge ; Cleave et les outils multicibles renforcent le kit. Raging Blows est retiré. Le repère de zone reste un jugement de kit, pas une extrapolation du DPS monocible.",
      "appuis": [
       "g-zone",
       "g-cleave",
@@ -622,10 +646,11 @@
     },
     "surv": {
      "valeur": 3,
-     "raison": "Plaques, « Shield Wall » et « Retaliation » (15 min), « Victory Rush » ; peu d’outils contre un gros burst.",
+     "raison": "Plaques, « Shield Wall » et « Retaliation » (15 min), « Victory Rush » ; peu d’outils contre un gros burst. Revue du 4 : les soins passifs et les dépenses de vie de Reckless Swings sont contextualisés ; aucun nouveau bonus de menace ne sert à relever la survie.",
      "appuis": [
       "g-defense",
-      "g-limite-burst"
+      "g-limite-burst",
+      "g-lancement-20261104"
      ],
      "confiance": "moyenne"
     },
@@ -647,12 +672,13 @@
      "confiance": "moyenne"
     },
     "charge_pve": {
-     "valeur": 3,
-     "raison": "5 points sur 10 sur la grille de complexité : la rotation et la gestion de la ressource pèsent beaucoup ; les effets à entretenir, un peu.",
+     "valeur": 4,
+     "raison": "7 points sur 10 : rotation, Rage et danse de postures de la référence évaluée. La note inclut les décisions de changement de posture nécessaires à cette rotation.",
      "appuis": [
       "g-rotation",
       "g-guides",
-      "g-rage"
+      "g-rage",
+      "g-postures-20261104"
      ],
      "confiance": "faible"
     },
@@ -673,8 +699,8 @@
    },
    "complexite": {
     "pve": {
-     "note": 3,
-     "total": 5,
+     "note": 4,
+     "total": 7,
      "confiance": "faible",
      "composantes": {
       "rotation": {
@@ -694,14 +720,15 @@
        "raison": "Mêlée sans contrainte de position."
       },
       "pilotage": {
-       "points": 0,
-       "raison": "Reste en posture berserker."
+       "points": 2,
+       "raison": "Danse entre Battle Stance et Berserker Stance pour exploiter Overpower et les attaques de la référence simulée actuelle."
       }
      },
      "appuis": [
       "g-rotation",
       "g-guides",
-      "g-rage"
+      "g-rage",
+      "g-postures-20261104"
      ],
      "approfondissement": "La rotation simulée change de posture pour Overpower."
     },
@@ -826,11 +853,12 @@
     },
     "surv": {
      "valeur": 5,
-     "raison": "« Shield Wall » amélioré (60 % pendant 12 s), « Last Stand », « Anticipation », « Bastion », blocages ; la limite de classe face au burst vaut surtout hors Protection.",
+     "raison": "« Shield Wall » amélioré (60 % pendant 12 s), « Last Stand », « Anticipation », « Bastion », blocages ; la limite de classe face au burst vaut surtout hors Protection. Revue du 4 : les soins passifs et les dépenses de vie de Reckless Swings sont contextualisés ; aucun nouveau bonus de menace ne sert à relever la survie.",
      "appuis": [
       "g-prot-defense",
       "g-mur",
-      "g-limite-burst"
+      "g-limite-burst",
+      "g-lancement-20261104"
      ],
      "confiance": "haute"
     },

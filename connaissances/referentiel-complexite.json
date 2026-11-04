@@ -1,9 +1,9 @@
 {
  "version": 1,
- "date": "2026-10-31",
- "moteur": "1.6.0-exploratoire",
+ "date": "2026-11-04",
+ "moteur": "1.7.0-exploratoire",
  "definition": "La complexité d’une spécialisation mesure ce qu’elle demande au joueur pour être bien jouée dans un contexte : ce qu’il faut suivre, décider et exécuter en même temps, et ce que coûte une erreur. Ce n’est ni sa puissance ni son confort en leveling.",
- "jeu_evalue": "Le jeu de base correct de la configuration évaluée. Une technique avancée compte si la référence de performance en dépend. Survie est évaluée en alternance tirs/mêlée ; Maîtrise des bêtes et Précision sur leurs presets à distance, cette dernière en Loup solitaire. Les écarts de presets et la taille des rotations historiques ne mesurent pas la difficulté ressentie. La grille et son barème sont inchangés.",
+ "jeu_evalue": "Le jeu de base correct de la configuration évaluée. Une technique avancée compte si la référence de performance en dépend. Survie est évaluée en alternance tirs/mêlée ; BM et Précision à distance, Précision en Loup solitaire. La référence Fureur alterne les postures, Combat emploie Attaque sournoise et Arcane utilise le build Arcane/Feu 32/16/3. Les tâches et les contraintes effectives sont confrontées à la grille, plutôt que le seul nombre de lignes d’un simulateur. Affliction avec démon et sans démon ont des repères de performance distincts.",
  "contextes": {
   "pve": {
    "libelle": "PvE",

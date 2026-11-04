@@ -56,8 +56,8 @@ test('Sans familier : Survie, Affliction et Destruction ont leur propre grille',
  // (Fear, Death Coil, Curse of Tongues, Curse of Exhaustion), la Destruction trois (ralentissement de Conflagrate).
  assert.deepEqual(v('demoniste-affliction').complexity,{pve:[1,2,1,1,0],pvp:[2,1,2,1,1]});
  assert.deepEqual(v('demoniste-affliction').load,{pve:3,pvp:4});
- assert.deepEqual(v('demoniste-destruction').complexity,{pve:[1,1,1,1,0],pvp:[1,1,2,1,1]});
- assert.deepEqual(v('demoniste-destruction').load,{pve:2,pvp:3});
+ assert.deepEqual(v('demoniste-destruction').complexity,{pve:[1,2,1,1,0],pvp:[1,1,2,1,1]});
+ assert.deepEqual(v('demoniste-destruction').load,{pve:3,pvp:3});
  assert.deepEqual(v('chasseur-precision').complexity,spec('chasseur-precision').complexity,'déjà évaluée en Loup solitaire');
  for(const [id,s] of Object.entries(E.petless))for(const c of ['pve','pvp'])
   assert.equal(s.load[c],E.complexityNote(s.complexity[c].reduce((a,b)=>a+b,0)),id+'/'+c);

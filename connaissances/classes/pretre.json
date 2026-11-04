@@ -1,8 +1,8 @@
 {
  "classe": "pretre",
  "libelle": "Prêtre",
- "date": "2026-10-31",
- "moteur": "1.6.0-exploratoire",
+ "date": "2026-11-04",
+ "moteur": "1.7.0-exploratoire",
  "faits": [
   {
    "id": "pr-role",
@@ -48,10 +48,11 @@
   {
    "id": "pr-defense",
    "categorie": "defense",
-   "texte": "« Power Word: Shield » et « Fade » (réduction de menace doublée) sont des outils de classe ; les raciaux « Desperate Prayer », « Contingency Plan » et « Elune’s Grace » dépendent de la race. « Divine Aegis » appartient à Discipline et ne doit pas être attribué par défaut aux autres profils.",
+   "texte": "Power Word: Shield et Fade sont des outils de classe. Blizzard corrige le remplacement d’un bouclier par un autre de rang égal ou supérieur. Divine Aegis reste propre à Discipline. Les raciaux défensifs dépendent de la race du personnage.",
    "sources": [
     "bz-dd-pretre-guerrier",
-    "wft-pretre-20261031"
+    "bz-dev-20261102",
+    "wft-patch-20261104"
    ]
   },
   {
@@ -78,12 +79,11 @@
   {
    "id": "pr-sacre",
    "categorie": "soutien",
-   "texte": "Sacré : « Prayer of Mending » (31 points), « Litany of Light » et désormais « Holy Binding », qui soigne le Prêtre à hauteur de 50 % de ses Soins rapides sur autrui. « Binding Heal » est devenu un sort enseigné à toute la classe, et non un talent exclusif de Sacré.",
+   "texte": "Sacré dispose de Prayer of Mending, Litany of Light et Holy Binding. Ce dernier soigne passivement le Prêtre à hauteur de 50 % de ses Flash Heal sur autrui, sans générer de menace. Binding Heal a quitté le talent puis le grimoire du Prêtre et n’est plus compté dans le kit du lancement.",
    "sources": [
     "bz-dd-pretre-guerrier",
-    "kami-video",
-    "wft-patch-20261031",
-    "fc-hotfix-20261030"
+    "bz-dev-20261102",
+    "wft-patch-20261104"
    ],
    "specs": [
     "pretre-sacre"
@@ -103,10 +103,12 @@
   {
    "id": "pr-ombre-soutien",
    "categorie": "soutien",
-   "texte": "Ombre : « Vampiric Embrace » ; « Dark Inspiration » donne jusqu’à 15 % d’Esprit au groupe.",
+   "texte": "Vampiric Embrace soigne le groupe à partir des dégâts d’Ombre mais ses soins ne peuvent plus être critiques. Dark Inspiration donne jusqu’à 15 % d’Esprit au groupe. Cure Disease et Abolish Disease peuvent être lancés en Shadowform.",
    "sources": [
     "bz-dd-pretre-guerrier",
-    "bz-notes-15-oct"
+    "bz-notes-15-oct",
+    "bz-dev-20261102",
+    "wft-patch-20261104"
    ],
    "specs": [
     "pretre-ombre"
@@ -131,25 +133,28 @@
   {
    "id": "pr-sim",
    "categorie": "performance",
-   "texte": "Relevé MythicSim du 31 octobre 2026 : Ombre 834 DPS (66,6 % de Survie 1253). Personnages de niveau 60, boss 63, deux minutes, équipement de référence avec sa paire de bijoux, talents et race de chaque preset. Simulation expérimentale ; différences de preset, de moteur et de rotation, pas une mesure de patch isolée ni de PvP.",
+   "texte": "Rapport MythicSim généré le 4 novembre 2026 à 01 h 17 UTC, moteur a667dce. Ombre 833,827 DPS, soit 64,7 % de Survie à 1288,369 DPS, avec les bijoux du preset. Niveau 60, boss 63 unique, deux minutes ±15 s et 10 000 itérations, buffs et consommables de raid, sans world buffs. Chaque preset a ses talents, sa race et son équipement. Ce rapport de dégâts ne compare ni les soins ni le PvP.",
    "sources": [
-    "mythicsim-20261031"
+    "mythicsim-20261104",
+    "mythicsim-log-20261104"
    ]
   },
   {
    "id": "pr-bg",
    "categorie": "pvp",
-   "texte": "En champ de bataille, il soigne beaucoup de monde à la fois et reste très redouté ; parmi les meilleurs soigneurs en PvE comme en PvP.",
+   "texte": "Appréciation historique de Kami pendant la bêta. Le Prêtre est présenté comme un soigneur de groupe redouté en champ de bataille. Cette appréciation précède le retrait de Binding Heal et ne mesure pas une comparaison de BG au niveau 60 avec le kit du lancement.",
    "sources": [
-    "kami-video"
+    "kami-video",
+    "bz-dev-20261102"
    ]
   },
   {
    "id": "pr-tournoi",
    "categorie": "performance",
-   "texte": "Duel niveau 30 : meilleur Prêtre éliminé au top 12.",
+   "texte": "Résultat historique du tournoi de bêta niveau 30. Le meilleur Prêtre est éliminé au top 12. Ce résultat précède les changements du lancement et ne mesure pas le PvP niveau 60.",
    "sources": [
-    "forever-open"
+    "forever-open",
+    "bz-dev-20261102"
    ]
   },
   {
@@ -208,8 +213,10 @@
   {
    "id": "pr-rotation",
    "categorie": "complexite",
-   "texte": "Rotation simulée d’Ombre (liste de priorités wowsims, 22 octobre 2026) : 8 sorts et 7 conditions.",
+   "texte": "Revue du preset Ombre au 4 novembre. Les cinq attaques centrales sont Shadow Word: Pain et Devouring Plague à maintenir, Mind Blast et Shadow Word: Death en priorité de recharge, puis Mind Flay entre elles. Le changelog MythicSim précise que Mind Flay est désormais canalisé entièrement. L’ancien décompte wowsims du 22 octobre, huit sorts et sept conditions avec les utilitaires, reste une photographie de bêta.",
    "sources": [
+    "mythicsim-20261104",
+    "mythicsim-log-20261104",
     "wowsims-forever"
    ],
    "specs": [
@@ -227,10 +234,11 @@
   {
    "id": "pr-soin-disc",
    "categorie": "soin",
-   "texte": "Discipline : « Improved Power Word: Shield », « Soul Warding », « Divine Aegis » (un soin critique laisse une absorption de 12 s) et « Penance », canalisée 2 s. « Renewed Hope » renforce les soins directs concernés sur une cible avec Âme affaiblie ; son nouveau texte ne cite plus « Binding Heal ».",
+   "texte": "Discipline utilise Improved Power Word: Shield, Soul Warding, Divine Aegis et Penance, canalisée 2 s. Renewed Hope renforce les soins directs concernés sur une cible avec Âme affaiblie. Binding Heal a disparu du grimoire au lancement et ne fait pas partie de ces outils.",
    "sources": [
     "bz-dd-pretre-guerrier",
-    "wft-patch-20261031"
+    "bz-dev-20261102",
+    "wft-patch-20261104"
    ],
    "specs": [
     "pretre-discipline"
@@ -239,11 +247,11 @@
   {
    "id": "pr-soin-sacre",
    "categorie": "soin",
-   "texte": "Sacré : « Prayer of Mending » rebondit jusqu’à cinq fois dans le groupe ou le raid ; « Holy Binding » soigne passivement le Prêtre pour 50 % de ses Soins rapides sur une autre cible, sans menace. « Litany of Light » récompense l’alternance des soins. « Binding Heal », maintenant enseigné, reste distinct de ce talent.",
+   "texte": "Prayer of Mending rebondit jusqu’à cinq fois dans le groupe ou le raid. Holy Binding soigne passivement le Prêtre pour 50 % de ses Flash Heal sur autrui, sans menace. Litany of Light récompense l’alternance des soins. Binding Heal a été retiré du grimoire et n’est plus attribué à Sacré.",
    "sources": [
     "bz-dd-pretre-guerrier",
-    "wft-patch-20261031",
-    "wft-pretre-20261031"
+    "bz-dev-20261102",
+    "wft-patch-20261104"
    ],
    "specs": [
     "pretre-sacre"
@@ -268,19 +276,23 @@
   {
    "id": "pr-binding-30-oct",
    "categorie": "soin",
-   "texte": "Le hotfix du 30 octobre rend « Binding Heal » enseigné dès le niveau 25 et ajoute un rang. Au rang maximum, il soigne toujours le lanceur et sa cible pour 772 à 911, comme Soins rapides rang 7 ; le déplacement des rangs ne démontre pas un nerf du soin maximum. Le talent Sacré à son ancien emplacement devient « Holy Binding ».",
+   "texte": "Le relevé historique du 31 octobre décrivait Binding Heal enseigné dès le niveau 25 après le remplacement du talent par Holy Binding. Blizzard annonce ensuite son retrait et les tables du build 70755 avec hotfixes du 3 novembre confirment que les maîtres ne l’enseignent plus. Holy Binding reste le talent d’auto-soin passif déclenché par Flash Heal sur autrui.",
    "sources": [
     "wft-pretre-20261031",
-    "wft-patch-20261031"
+    "wft-patch-20261031",
+    "bz-dev-20261102",
+    "wft-patch-20261104"
    ]
   },
   {
    "id": "pr-swd-30-oct",
    "categorie": "ressource",
-   "texte": "Le relevé du 30 octobre porte le contrecoup de « Shadow Word: Death » à 30 % des points de vie maximum, au lieu de 10 %, si la cible survit. Son usage demande donc de surveiller sa propre santé, sans en déduire à lui seul un nouveau classement DPS ou PvP.",
+   "texte": "Blizzard confirme le contrecoup de Shadow Word: Death à 30 % des PV maximum si la cible survit et précise qu’un raté ne blesse plus le Prêtre. L’usage de cette attaque demande une réserve de santé. Ce risque était déjà pris en compte dans la revue du 31 octobre.",
    "sources": [
     "wft-pretre-20261031",
-    "wft-patch-20261031"
+    "wft-patch-20261031",
+    "bz-dev-20261102",
+    "wft-patch-20261104"
    ],
    "specs": [
     "pretre-ombre"
@@ -289,9 +301,10 @@
   {
    "id": "pr-maladies-30-oct",
    "categorie": "soutien",
-   "texte": "Les données du hotfix du 30 octobre autorisent « Cure Disease » et « Abolish Disease » en Forme d’Ombre. Ce confort de dissipation n’ajoute ni nouveau contrôle, ni mobilité.",
+   "texte": "Blizzard confirme Cure Disease et Abolish Disease utilisables en Shadowform. Le confort de dissipation évite une sortie de forme. Il ne fournit ni nouveau contrôle ni déplacement.",
    "sources": [
-    "fc-hotfix-20261030"
+    "fc-hotfix-20261030",
+    "bz-dev-20261102"
    ],
    "specs": [
     "pretre-ombre"
@@ -311,7 +324,7 @@
    "notes": {
     "raid": {
      "valeur": 5,
-     "raison": "Le soigneur le plus polyvalent selon Blizzard, réputé le plus puissant (Warcraft Tavern) ; ses boucliers gardent le mieux un tank en vie (développeurs). Aucun comparatif chiffré entre soigneurs. Revue du 31 octobre : 5/5 est la convention commune aux cinq soigneurs faute de comparaison HPS pertinente ; ce chiffre ne démontre pas leur égalité de puissance.",
+     "raison": "Revue du 4 novembre. Boucliers améliorés, Divine Aegis, Penance et Renewed Hope gardent une identité de prévention et de soins ciblés. Binding Heal retiré n’est plus compté. Le 5/5 reste la convention commune aux soigneurs faute de comparaison HPS exploitable pour le lancement.",
      "appuis": [
       "pr-role",
       "pr-disc",
@@ -323,7 +336,7 @@
     },
     "bg": {
      "valeur": 5,
-     "raison": "Soigne beaucoup de monde à la fois et reste très redouté en champ de bataille (Kami) ; boucliers et « Psychic Scream ».",
+     "raison": "Boucliers, soins directs, dissipations et Psychic Scream gardent leur intérêt en BG. Le remplacement corrigé des boucliers ne mesure pas un gain de classement. Repère 5 provisoire, appuyé sur le kit et les appréciations de bêta.",
      "appuis": [
       "pr-bg",
       "pr-disc",
@@ -346,7 +359,7 @@
     },
     "solo": {
      "valeur": 3,
-     "raison": "Prêtre classé C au leveling par Mobalytics (base Vanilla) ; aucune source propre à Forever.",
+     "raison": "Les guides de bêta conseillent Ombre pour le leveling et classent le Prêtre C. Le retrait de Binding Heal ne démontre pas à lui seul une nouvelle vitesse de progression de cette spécialisation de soin. Repère 3 conservé.",
      "appuis": [
       "pr-leveling"
      ],
@@ -447,7 +460,7 @@
     },
     "cible": {
      "valeur": 4,
-     "raison": "« Penance », les soins directs de la classe et les effets de « Renewed Hope » sur les sorts concernés ; « Binding Heal » est désormais enseigné, sans profiter du bonus de Renewed Hope dans le nouveau texte.",
+     "raison": "Penance, les soins directs de classe et Renewed Hope sur les sorts concernés soutiennent les soins ciblés. Le retrait de Binding Heal réduit le choix de sorts sans retirer ces outils. Le repère 4 est conservé comme portrait du kit.",
      "appuis": [
       "pr-soin-disc",
       "pr-soin-dev",
@@ -473,7 +486,7 @@
      "composantes": {
       "rotation": {
        "points": 1,
-       "raison": "Power Word: Shield, Penance, Renew, Heal, Flash Heal en urgence, Prayer of Healing, dissipations."
+       "raison": "Power Word: Shield, Penance, Renew, Heal, Flash Heal en urgence, Prayer of Healing et dissipations. Binding Heal retiré n’est pas utilisé. L’anticipation des boucliers et le mana restent évalués dans leurs composantes."
       },
       "entretien": {
        "points": 2,
@@ -548,7 +561,7 @@
    "notes": {
     "raid": {
      "valeur": 5,
-     "raison": "Domine le soin de groupe (Kami, développeurs) et réputé le soigneur le plus puissant (Warcraft Tavern). Aucun comparatif chiffré entre soigneurs. Revue du 31 octobre : 5/5 est la convention commune aux cinq soigneurs faute de comparaison HPS pertinente ; ce chiffre ne démontre pas leur égalité de puissance.",
+     "raison": "Revue du 4 novembre. Prayer of Mending et Prayer of Healing gardent une identité de soins de groupe. Holy Binding apporte un auto-soin conditionnel et Binding Heal est retiré. Le 5/5 reste la convention commune aux soigneurs faute de comparaison HPS exploitable pour le lancement.",
      "appuis": [
       "pr-sacre",
       "pr-role",
@@ -560,7 +573,7 @@
     },
     "bg": {
      "valeur": 5,
-     "raison": "Soigne beaucoup de monde à la fois et reste très redouté en champ de bataille (Kami) ; « Prayer of Healing » soigne tout un groupe.",
+     "raison": "Prayer of Healing et Prayer of Mending gardent une identité de soin de groupe, avec l’auto-soin conditionnel de Holy Binding. Binding Heal retiré n’est plus compté. Repère 5 provisoire, sans comparaison BG au niveau 60.",
      "appuis": [
       "pr-bg",
       "pr-sacre",
@@ -581,7 +594,7 @@
     },
     "solo": {
      "valeur": 3,
-     "raison": "Prêtre classé C au leveling par Mobalytics (base Vanilla) ; aucune source propre à Forever.",
+     "raison": "Les guides de bêta conseillent Ombre pour le leveling et classent le Prêtre C. Le retrait de Binding Heal ne démontre pas à lui seul une nouvelle vitesse de progression de cette spécialisation de soin. Repère 3 conservé.",
      "appuis": [
       "pr-leveling"
      ],
@@ -683,7 +696,7 @@
     },
     "cible": {
      "valeur": 4,
-     "raison": "Gros soins directs de la classe et « Binding Heal », désormais enseigné ; « Holy Binding » ajoute un auto-soin conditionnel lorsque Soins rapides soigne autrui. La valeur reste un portrait des outils, pas une mesure comparative de HPS.",
+     "raison": "Soins directs de classe avec Heal, Greater Heal et Flash Heal. Holy Binding ajoute un auto-soin conditionnel quand Flash Heal soigne autrui. Binding Heal retiré n’est plus compté. Le repère 4 décrit les outils ciblés disponibles.",
      "appuis": [
       "pr-soin-sacre",
       "pr-soin-classe",
@@ -710,7 +723,7 @@
      "composantes": {
       "rotation": {
        "points": 0,
-       "raison": "Heal, Renew, Flash Heal en urgence et Prayer of Healing en groupe ; Binding Heal est enseigné dès le niveau 25, Prayer of Mending reste un talent profond et Holy Binding est un auto-soin passif."
+       "raison": "Heal, Renew, Flash Heal en urgence, Prayer of Healing en groupe et Prayer of Mending selon les talents. Holy Binding est passif et Binding Heal a été retiré du grimoire."
       },
       "entretien": {
        "points": 1,
@@ -786,7 +799,7 @@
    "notes": {
     "raid": {
      "valeur": 3,
-     "raison": "Simulation MythicSim du 31 octobre 2026, niveau 60, cible unique sur deux minutes : 834 DPS, soit 66,6 % de la référence Survie à 1253 DPS. Note relative 3/5 selon le barème existant ; résultat expérimental du build et de son équipement, pas une mesure en jeu.",
+     "raison": "Rapport MythicSim du 4 novembre 2026, niveau 60, boss 63 unique sur deux minutes ±15 s. 833,827 DPS, soit 64,7 % de Survie à 1288,369 DPS. La note reste 3/5 selon le barème actuel. Talents, race, équipement et bijoux propres au preset, sans mesure de PvP.",
      "appuis": [
       "pr-sim",
       "pr-ombre-soutien"
@@ -795,7 +808,7 @@
     },
     "bg": {
      "valeur": 4,
-     "raison": "« Silence », « Psychic Scream » et « Mind Control » ; « Vampiric Embrace » soigne le groupe.",
+     "raison": "Silence, Psychic Scream et Mind Control restent ses outils de contrôle. Vampiric Embrace soigne le groupe sans critique et la dissipation des maladies reste possible en Shadowform. Le repère 4 est conservé faute de comparaison BG au niveau 60.",
      "appuis": [
       "pr-controle",
       "pr-ombre-soutien"
@@ -804,7 +817,7 @@
     },
     "world": {
      "valeur": 4,
-     "raison": "« Silence », « Psychic Scream », « Shadow Word: Death » et ralentissement de « Mind Flay » ; tissu. Tournoi niveau 30 : meilleur Prêtre au top 12. Le risque du contrecoup de Shadow Word: Death à 30 % des PV maximum limite son usage sous pression.",
+     "raison": "Silence, Psychic Scream et le ralentissement de Mind Flay gardent leur intérêt. Shadow Word: Death coûte 30 % des PV maximum si sa cible survit mais ne blesse plus sur un raté. Le tournoi de bêta reste historique et le repère 4 prudent.",
      "appuis": [
       "pr-controle",
       "pr-ombre",
@@ -817,7 +830,7 @@
     },
     "solo": {
      "valeur": 3,
-     "raison": "Ombre est la spécialisation conseillée pour le leveling, mais le Prêtre est classé C (Mobalytics, bêta comme Vanilla).",
+     "raison": "Ombre reste le choix de leveling conseillé dans les guides de bêta, classés C pour le Prêtre. Les outils de soins, Shadowform et ses coûts sont conservés, mais aucun comparatif actuel de progression ne justifie de déplacer le repère 3.",
      "appuis": [
       "pr-leveling"
      ],
@@ -851,7 +864,7 @@
     },
     "surv": {
      "valeur": 3,
-     "raison": "Tissu, « Power Word: Shield » et « Fade » ; « Vampiric Embrace » rend un peu de vie. Le contrecoup de Shadow Word: Death exige une réserve de santé lorsque la cible survit.",
+     "raison": "Power Word: Shield et Fade, avec Vampiric Embrace dont les soins ne peuvent plus critiquer. Le contrecoup de Shadow Word: Death demande toujours une réserve de santé si la cible survit. Le repère 3 est conservé.",
      "appuis": [
       "pr-defense",
       "pr-ombre-soutien",
@@ -870,7 +883,7 @@
     },
     "support": {
      "valeur": 4,
-     "raison": "« Dark Inspiration » (jusqu’à 15 % d’Esprit pour le groupe, ajoutée le 15 octobre) et « Vampiric Embrace » ; les développeurs avaient pourtant réduit son utilité de raid (batterie de mana retirée).",
+     "raison": "Dark Inspiration apporte jusqu’à 15 % d’Esprit au groupe. Vampiric Embrace fournit du soin sans critique, et les maladies se dissipent en Shadowform. L’ancienne batterie de mana reste absente. Le repère 4 est conservé comme jugement de soutien.",
      "appuis": [
       "pr-ombre-soutien",
       "pr-soutien",
@@ -913,7 +926,7 @@
      "composantes": {
       "rotation": {
        "points": 0,
-       "raison": "Mind Blast, Devouring Plague, Shadow Word: Pain, Mind Flay, Shadow Word: Death (8 sorts, 7 conditions dans la rotation simulée)."
+       "raison": "Priorité stable de cinq attaques centrales. Maintenir Shadow Word: Pain et Devouring Plague, utiliser Mind Blast et Shadow Word: Death selon leur recharge, puis terminer Mind Flay entre ces attaques. Les DoT et le mana sont évalués dans leurs composantes."
       },
       "entretien": {
        "points": 1,

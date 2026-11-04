@@ -1,0 +1,4096 @@
+{
+ "date": "2026-11-04",
+ "moteur": "1.7.0-exploratoire",
+ "nature": "DONNEES",
+ "base": "583a8cbe7d84f68f926103f7abde0d7af9e66a37",
+ "periode": "Notes officielles intitulées 2 novembre, complétées le 4 ; client 70755 et hotfixs du 3 novembre ; rapports simulés du 4 novembre.",
+ "limites": "Revue avant ouverture du jeu en Europe. Aucune télémétrie de combat niveau 60. Les notes de style, solo et difficulté sont des jugements argumentés du kit. Les DPS ont des presets/races/équipements distincts et des valeurs d’objets encore provisoires.",
+ "simulation": {
+  "source": "mythicsim-20261104",
+  "referenceDps": 1288.368517014365,
+  "iterations": 10000,
+  "niveau": 60,
+  "cible": 63,
+  "dureeSecondes": 120,
+  "variationSecondes": 15,
+  "bijoux": "Paire propre à chaque référence",
+  "sha256Page": "574124224b2f43425723d47dc1e7b4a0bfd33cf69b02dbecea6fb06bd85a23fd",
+  "bareme": {
+   "cinq": 0.86,
+   "quatre": 0.72,
+   "trois": 0.55
+  },
+  "reserves": [
+   "Affliction : 933,577 DPS est le build Wrack/Sacrifice sans démon. Seule sa variante sans familier reçoit 4 ; le 3 avec démon reste un repère provisoire, confiance faible.",
+   "Survie : le preset 0/20/31 est sans familier et alterne tir/mêlée. Le 5 de la configuration avec compagnon reste une hypothèse héritée, non une égalité mesurée.",
+   "Précision et BM sont prises à distance, et non sur leur variante de tissage.",
+   "Finesse : 927,6728 DPS dépasse le seuil 927,6253 de moins de 0,05 DPS. Le 4 suit le barème sans arrondi mais sa confiance est faible. Assassinat reste à 3 malgré le pourcentage affiché arrondi à 72 %.",
+   "Destruction franchit aussi de peu le seuil de 4. Les prochains correctifs de simulateur peuvent changer ces tranches.",
+   "Les corrections de rangs de sorts, équipements et rotations participent aux écarts. La comparaison ne mesure pas un effet causal du seul patch."
+  ]
+ },
+ "dps": [
+  {
+   "specialisation": "guerrier-armes",
+   "reference": "arms-warrior",
+   "dps": 867.6859009729646,
+   "pourcentage": 67.34764855817183,
+   "ancienneNote": 3,
+   "noteSimulee": 3,
+   "note": 3,
+   "varianteMesuree": "reference",
+   "dateRapport": "2026-11-04T12:39:45.759691Z",
+   "moteur": "a667dce8492bd9fb94269a9f864289cb74006775",
+   "race": "Night Elf",
+   "talents": {
+    "loadout_string": "30303213132215201-55050000011-2",
+    "trees": [
+     {
+      "name": "Arms",
+      "points": 32,
+      "nodes": [
+       {
+        "key": "improvedHeroicStrike",
+        "name": "Improved Heroic Strike",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_rogue_ambush.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Reduces the cost of your Heroic Strike ability by 3 Rage."
+       },
+       {
+        "key": "improvedRend",
+        "name": "Improved Rend",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_gouge.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases the Bleed damage done by your Rend ability by 35%."
+       },
+       {
+        "key": "improvedTacticalMastery",
+        "name": "Improved Tactical Mastery",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_enchantarmor.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Tactical Mastery lets you retain up to an additional 15 Rage when you change stances."
+       },
+       {
+        "key": "improvedOverpower",
+        "name": "Improved Overpower",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/inv_sword_05.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Increases the critical strike chance of your Overpower ability by 50%."
+       },
+       {
+        "key": "angerManagement",
+        "name": "Anger Management",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstamina.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Generates 1 Rage every 3 sec while in combat, and reduces Rage loss while out of combat by 30%."
+       },
+       {
+        "key": "deepWounds",
+        "name": "Deep Wounds",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_backstab.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Your critical strikes cause your opponent to Bleed, dealing 60% of your melee weapon's average damage over 12 sec."
+       },
+       {
+        "key": "spearingStrike",
+        "name": "Spearing Strike",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/inv_spear_01.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "A brutal attack that deals 75% weapon damage. Deals an additional 75% weapon damage against Giants, Dragonkin, and mounted targets. Mounted targets are dismounted."
+       },
+       {
+        "key": "twohandedWeaponSpecialization",
+        "name": "Two-Handed Weapon Specialization",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/inv_axe_09.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases the damage you deal with two-handed melee weapons by 6%."
+       },
+       {
+        "key": "impale",
+        "name": "Impale",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_searingarrow.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Increases the critical strike damage bonus of your abilities by 20%."
+       },
+       {
+        "key": "bloodthrill",
+        "name": "Bloodthrill",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/inv_sword_01.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Grants your Main Hand melee attacks against enemies afflicted by your Rend a 20% chance to allow an activation of Overpower."
+       },
+       {
+        "key": "sweepingStrikes",
+        "name": "Sweeping Strikes",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_rogue_slicedice.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Your next 5 melee attacks strike an additional nearby opponent."
+       },
+       {
+        "key": "weaponmaster",
+        "name": "Weaponmaster",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/garrison_weaponupgrade.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Gives your melee weapon attacks a benefit depending on the weapon. |CFFFFFFFFAxe/Polearm: Increases your critical strike chance by 5%. |CFFFFFFFFMace/Staff: Your attacks ignore 15% of your target's armor. |CFFFFFFFFSword: Your successful melee attacks have a 5% chance to trigger an extra attack on the target."
+       },
+       {
+        "key": "improvedSlam",
+        "name": "Improved Slam",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_warrior_decisivestrike.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Reduces the cooldown of your Slam ability by 5.0 sec, the cast time and global cooldown by 0.50 sec, and Slam no longer interrupts or delays your melee swing."
+       },
+       {
+        "key": "mortalStrike",
+        "name": "Mortal Strike",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_warrior_savageblow.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "A vicious strike that deals weapon damage plus 85 and wounds the target, reducing the effectiveness of any healing by 50% for 10 sec."
+       }
+      ]
+     },
+     {
+      "name": "Fury",
+      "points": 17,
+      "nodes": [
+       {
+        "key": "boomingVoice",
+        "name": "Booming Voice",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_purge.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases the area of effect of your Shouts by 50% and reduces the Rage cost by of your Shouts and Howls by 25%."
+       },
+       {
+        "key": "cruelty",
+        "name": "Cruelty",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_rogue_eviscerate.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Improves your chance to get a critical strike with melee attacks by 5%."
+       },
+       {
+        "key": "unbridledWrath",
+        "name": "Unbridled Wrath",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_stoneclawtotem.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Gives you a 60% chance to generate 1 additional Rage when you deal melee damage with a weapon."
+       },
+       {
+        "key": "recklessSwings",
+        "name": "Reckless Swings",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_warrior_bloodfrenzy.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Your next 4 melee attacks generate 5 additional Rage. Lasts 8 sec."
+       },
+       {
+        "key": "improvedExecute",
+        "name": "Improved Execute",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/inv_sword_48.jpg",
+        "rank": 1,
+        "max_rank": 2,
+        "description": "Reduces the Rage cost of your Execute ability by 3."
+       }
+      ]
+     },
+     {
+      "name": "Protection",
+      "points": 2,
+      "nodes": [
+       {
+        "key": "improvedBloodrage",
+        "name": "Improved Bloodrage",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_racial_bloodrage.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Increases all the Rage generated by your Bloodrage ability by 50%."
+       }
+      ]
+     }
+    ]
+   },
+   "rotation": "warrior/dps/arms",
+   "options": {
+    "classOptions": {
+     "defaultStance": "WarriorStanceBerserker",
+     "queueDelay": 250,
+     "useBattleShout": true
+    }
+   },
+   "url": "https://mythicsim.com/wow-forever/tier-list/sims/d69f0714-1f9e-4a2f-a5d8-a16092a2814d",
+   "sha256Rapport": "1193ec7879e89a6beee38b47eb73873bd85f42c7857e6b7cf3485b7d5503351b"
+  },
+  {
+   "specialisation": "guerrier-fureur",
+   "reference": "warrior",
+   "dps": 992.6881702634702,
+   "pourcentage": 77.05001768934113,
+   "ancienneNote": 4,
+   "noteSimulee": 4,
+   "note": 4,
+   "varianteMesuree": "reference",
+   "dateRapport": "2026-11-04T01:33:45.743697Z",
+   "moteur": "a667dce8492bd9fb94269a9f864289cb74006775",
+   "race": "Night Elf",
+   "talents": {
+    "loadout_string": "30313213002-053530005120100231-2",
+    "trees": [
+     {
+      "name": "Arms",
+      "points": 18,
+      "nodes": [
+       {
+        "key": "improvedHeroicStrike",
+        "name": "Improved Heroic Strike",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_rogue_ambush.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Reduces the cost of your Heroic Strike ability by 3 Rage."
+       },
+       {
+        "key": "improvedRend",
+        "name": "Improved Rend",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_gouge.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases the Bleed damage done by your Rend ability by 35%."
+       },
+       {
+        "key": "improvedCharge",
+        "name": "Improved Charge",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg",
+        "rank": 1,
+        "max_rank": 2,
+        "description": "Increases the Rage generated by your Charge ability by 3."
+       },
+       {
+        "key": "improvedTacticalMastery",
+        "name": "Improved Tactical Mastery",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_enchantarmor.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Tactical Mastery lets you retain up to an additional 15 Rage when you change stances."
+       },
+       {
+        "key": "improvedOverpower",
+        "name": "Improved Overpower",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/inv_sword_05.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Increases the critical strike chance of your Overpower ability by 50%."
+       },
+       {
+        "key": "angerManagement",
+        "name": "Anger Management",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstamina.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Generates 1 Rage every 3 sec while in combat, and reduces Rage loss while out of combat by 30%."
+       },
+       {
+        "key": "deepWounds",
+        "name": "Deep Wounds",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_backstab.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Your critical strikes cause your opponent to Bleed, dealing 60% of your melee weapon's average damage over 12 sec."
+       },
+       {
+        "key": "impale",
+        "name": "Impale",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_searingarrow.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Increases the critical strike damage bonus of your abilities by 20%."
+       }
+      ]
+     },
+     {
+      "name": "Fury",
+      "points": 31,
+      "nodes": [
+       {
+        "key": "cruelty",
+        "name": "Cruelty",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_rogue_eviscerate.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Improves your chance to get a critical strike with melee attacks by 5%."
+       },
+       {
+        "key": "lingeringRage",
+        "name": "Lingering Rage",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_warrior_secondwind.jpg",
+        "rank": 3,
+        "max_rank": 5,
+        "description": "Increases the time before your Rage begins to decay after leaving combat by 6 sec."
+       },
+       {
+        "key": "unbridledWrath",
+        "name": "Unbridled Wrath",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_stoneclawtotem.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Gives you a 60% chance to generate 1 additional Rage when you deal melee damage with a weapon."
+       },
+       {
+        "key": "furiousPrecision",
+        "name": "Furious Precision",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_warrior_incite.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases your chance to hit with off-hand attacks by 10%."
+       },
+       {
+        "key": "dualWieldSpecialization",
+        "name": "Dual Wield Specialization",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_dualwield.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases the damage done by your off-hand weapon by 25% and the Rage generated by your off-hand attacks by 50%."
+       },
+       {
+        "key": "recklessSwings",
+        "name": "Reckless Swings",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_warrior_bloodfrenzy.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Your next 4 melee attacks generate 5 additional Rage. Lasts 8 sec."
+       },
+       {
+        "key": "improvedExecute",
+        "name": "Improved Execute",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/inv_sword_48.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Reduces the Rage cost of your Execute ability by 5."
+       },
+       {
+        "key": "deathWish",
+        "name": "Death Wish",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_deathpact.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "When activated, increases your Physical damage done by 20% and makes you immune to Fear effects, but increases all damage you take by 5%. Lasts 30 sec."
+       },
+       {
+        "key": "ragingBlows",
+        "name": "Improved Whirlwind",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_whirlwind.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Reduces the cooldown of your Whirlwind ability by 2 sec and increases the damage it deals to the closest enemy by 30%."
+       },
+       {
+        "key": "flurry",
+        "name": "Flurry",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_ghoulfrenzy.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases your melee attack speed by 30% for your next 3 swings after dealing a melee critical strike."
+       },
+       {
+        "key": "bloodthirst",
+        "name": "Bloodthirst",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_bloodlust.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Instantly attack the target causing damage equal to 45% of your Attack Power plus 30 and increasing your movement speed by 10% for 10 sec."
+       }
+      ]
+     },
+     {
+      "name": "Protection",
+      "points": 2,
+      "nodes": [
+       {
+        "key": "improvedBloodrage",
+        "name": "Improved Bloodrage",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_racial_bloodrage.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Increases all the Rage generated by your Bloodrage ability by 50%."
+       }
+      ]
+     }
+    ]
+   },
+   "rotation": "warrior/dps/dps_reck",
+   "options": {
+    "classOptions": {
+     "defaultStance": "WarriorStanceBerserker",
+     "queueDelay": 250,
+     "useBattleShout": true
+    }
+   },
+   "url": "https://mythicsim.com/wow-forever/tier-list/sims/6e3b286b-ec63-4c6d-bf7d-d96649466812",
+   "sha256Rapport": "142e55481ebb7baedd269ed0adbd652c30f510676ba4415b22e4798b0c2e8ccf"
+  },
+  {
+   "specialisation": "paladin-vindicte",
+   "reference": "retribution-paladin",
+   "dps": 1097.7426035697226,
+   "pourcentage": 85.20408478418936,
+   "ancienneNote": 3,
+   "noteSimulee": 4,
+   "note": 4,
+   "varianteMesuree": "reference",
+   "dateRapport": "2026-11-04T04:59:38.547507Z",
+   "moteur": "a667dce8492bd9fb94269a9f864289cb74006775",
+   "race": "Human",
+   "talents": {
+    "loadout_string": "050050002-503-05233301001301351",
+    "trees": [
+     {
+      "name": "Holy",
+      "points": 12,
+      "nodes": [
+       {
+        "key": "divineStrength",
+        "name": "Divine Strength",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_golemthunderclap.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases your Strength by 10%."
+       },
+       {
+        "key": "improvedSeals",
+        "name": "Improved Seals",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_thunderbolt.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases the damage done by your Seals and Judgements by 15%."
+       },
+       {
+        "key": "holyConduit",
+        "name": "Holy Conduit",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_devineaegis.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Reduces the mana cost of your Consecration, Holy Wrath, Exorcism, and Hammer of Wrath spells by 40%."
+       }
+      ]
+     },
+     {
+      "name": "Protection",
+      "points": 8,
+      "nodes": [
+       {
+        "key": "divineIntellect",
+        "name": "Divine Intellect",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_sleep.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases your total Intellect by 10%."
+       },
+       {
+        "key": "precision",
+        "name": "Precision",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_rogue_ambush.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Improves your chance to hit by 3%."
+       }
+      ]
+     },
+     {
+      "name": "Retribution",
+      "points": 31,
+      "nodes": [
+       {
+        "key": "benediction",
+        "name": "Benediction",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_windwalkon.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Reduces the Mana cost of all instant cast spells and abilities by 10%."
+       },
+       {
+        "key": "improvedJudgement",
+        "name": "Improved Judgement",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_righteousfury.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Decreases the cooldown of your Judgement ability by 2 sec."
+       },
+       {
+        "key": "conviction",
+        "name": "Conviction",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_retributionaura.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Improves your chance to get a critical strike with all spells and attacks by 6%."
+       },
+       {
+        "key": "sanctifiedJudgement",
+        "name": "Sanctified Judgement",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_paladin_judgementblue.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Gives your Judgement ability a 100% chance to return 60% of the Mana cost of the judged seal."
+       },
+       {
+        "key": "vindication",
+        "name": "Vindication",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_vindication.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Gives your damaging melee attacks a chance to reduce the target's Attack Power by 127 for 30 sec."
+       },
+       {
+        "key": "sealOfCommand",
+        "name": "Seal of Command",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_warrior_innerrage.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Gives the Paladin a chance to deal additional Holy damage equal to 70% of normal weapon damage. Only one Seal can be active on the Paladin at any one time. Lasts 30 sec. Unleashing this Seal's energy will judge an enemy, instantly causing 68 to 73 Holy damage, 137 to 146 if the target is stunned or incapacitated."
+       },
+       {
+        "key": "sacredArbiter",
+        "name": "Sacred Arbiter",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/inv_sword_08.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Increases the damage of your Holy Strike ability by 20% and causes it to refresh all Judgement effects on the target."
+       },
+       {
+        "key": "twohandedWeaponSpecialization",
+        "name": "Two-Handed Weapon Specialization",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/inv_hammer_04.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases the physical damage you deal by 6%, and reduces all threat you generate by 20% while a two-handed melee weapon is equipped."
+       },
+       {
+        "key": "repentance",
+        "name": "Repentance",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_prayerofhealing.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Puts the enemy target in a state of meditation, incapacitating them for up to 6 sec. Any damage caused will awaken the target. Only works against Humanoids."
+       },
+       {
+        "key": "vengeance",
+        "name": "Vengeance",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_racial_avatar.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases your Physical and Holy damage dealt by 3% for 30 sec after landing a non-periodic critical strike. Stacks up to 3 times."
+       },
+       {
+        "key": "championOfTheLight",
+        "name": "Champion of the Light",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_paladin_enlightenedjudgements.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases your spell damage by up to 60% of your Intellect, and reduces the cast time of your Hammer of Wrath by 1.0 sec."
+       },
+       {
+        "key": "twistOfLight",
+        "name": "Unsealed Wrath",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessedresillience.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Your melee attacks store a copy of your active Seal for 15 sec, stacking up to 3 times. Landing an attack with a different Seal consumes all stacks, giving the stored Seal its normal chance to activate once per stack."
+       }
+      ]
+     }
+    ]
+   },
+   "rotation": "paladin/retribution/default",
+   "options": {
+    "classOptions": {}
+   },
+   "url": "https://mythicsim.com/wow-forever/tier-list/sims/cd261d98-8b0c-4e65-a214-19868b9c8d45",
+   "sha256Rapport": "287c546ab6d9ec4754286bd067a572b28691adf30f08d8840290c03c6b5e8d21"
+  },
+  {
+   "specialisation": "chasseur-maitrise-betes",
+   "reference": "hunter-turret",
+   "dps": 807.7920014072383,
+   "pourcentage": 62.698831175974135,
+   "ancienneNote": 3,
+   "noteSimulee": 3,
+   "note": 3,
+   "varianteMesuree": "reference",
+   "dateRapport": "2026-11-04T10:49:24.848416Z",
+   "moteur": "a667dce8492bd9fb94269a9f864289cb74006775",
+   "race": "Night Elf",
+   "talents": {
+    "loadout_string": "5320001505101251-00530520014",
+    "trees": [
+     {
+      "name": "Beast Mastery",
+      "points": 31,
+      "nodes": [
+       {
+        "key": "deadlyAspects",
+        "name": "Deadly Aspects",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_ravenform.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "While Aspect of the Hawk is active, Auto Shot has a 10% chance of increasing ranged attack speed by 30% for 12 sec. While Aspect of the Beast is active, all melee auto attacks have a 10% chance of increasing melee attack speed by 30% for 12 sec."
+       },
+       {
+        "key": "enduranceTraining",
+        "name": "Endurance Training",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_reincarnation.jpg",
+        "rank": 3,
+        "max_rank": 5,
+        "description": "Increases the Health and Armor of your pets by 9%."
+       },
+       {
+        "key": "focusedFire",
+        "name": "Focused Fire",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/inv_weapon_crossbow_10.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Increases all damage you and your pet deal by 2% while your pet is active."
+       },
+       {
+        "key": "bestialSwiftness",
+        "name": "Bestial Swiftness",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_druid_dash.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Increases the movement speed of your pets by 30%."
+       },
+       {
+        "key": "unleashedFury",
+        "name": "Unleashed Fury",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_bullrush.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases the damage done by your pets and hawks by 15%."
+       },
+       {
+        "key": "ferocity",
+        "name": "Ferocity",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/inv_misc_monsterclaw_04.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases the critical strike chance of your pets and hawks by 10%."
+       },
+       {
+        "key": "summonHawk",
+        "name": "Summon Hawk",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_hunter_animalhandler.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Command a hawk to dive-bomb your targeted enemy, dealing 53 Physical damage and continuing its assault for 18 sec. Only 2 hawks can be active at once. Summon Hawk shares its cooldown with Arcane Shot."
+       },
+       {
+        "key": "intimidation",
+        "name": "Intimidation",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_devour.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Command your pet to Stun the target for 3 sec on its next successful attack, which also gains 100% increased critical strike chance. Generates high threat."
+       },
+       {
+        "key": "bestialDiscipline",
+        "name": "Bestial Discipline",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_abolishmagic.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Increases the Focus regeneration of your pets by 20% and allows 50% of your Mana regeneration to continue while casting."
+       },
+       {
+        "key": "frenzy",
+        "name": "Frenzy",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/inv_misc_monsterclaw_03.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Gives your pet a 100% chance to gain a 30% attack speed increase for 8 sec after dealing a critical strike."
+       },
+       {
+        "key": "bestialWrath",
+        "name": "Bestial Wrath",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_druid_ferociousbite.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Send your pet into a rage causing 50% additional damage for 18 sec. While enraged, the beast does not feel pity or remorse or fear and it cannot be stopped unless killed."
+       }
+      ]
+     },
+     {
+      "name": "Marksmanship",
+      "points": 20,
+      "nodes": [
+       {
+        "key": "lethalAttacks",
+        "name": "Lethal Attacks",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_searingarrow.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases your critical strike chance with all attacks by 5%."
+       },
+       {
+        "key": "improvedStings",
+        "name": "Improved Stings",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_hunter_quickshot.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases the damage of your Serpent Sting ability by 20%, reduces the cooldown of your Viper Sting ability by 6 sec, and increases the duration of your Scorpid Sting ability by 45 sec."
+       },
+       {
+        "key": "carefulAim",
+        "name": "Careful Aim",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_hunter_zenarchery.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases your Attack Power by 100% of your Intellect."
+       },
+       {
+        "key": "rapidKilling",
+        "name": "Rapid Killing",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_hunter_rapidkilling.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Reduces the cooldown on your Rapid Fire ability by 2 min. In addition, when you kill a non-trivial enemy or it dies while afflicted by your Serpent Sting, you gain Rapid Killing, increasing the damage of your next shot ability within 20 sec by 20%."
+       },
+       {
+        "key": "trueshotAura",
+        "name": "Trueshot Aura",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_trueshot.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Increases the Ranged Attack Power of party or raid members within 45 yds by 100."
+       },
+       {
+        "key": "mortalShots",
+        "name": "Mortal Shots",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_piercedamage.jpg",
+        "rank": 4,
+        "max_rank": 5,
+        "description": "Increases the critical strike damage bonus on all ranged abilities by 24%."
+       }
+      ]
+     },
+     {
+      "name": "Survival",
+      "points": 0,
+      "nodes": []
+     }
+    ]
+   },
+   "rotation": "hunter/dps/bm",
+   "options": {
+    "classOptions": {
+     "ammo": "ThoriumHeadedArrow",
+     "petAttackSpeed": "OneTwo",
+     "petType": "Cat",
+     "petUptime": 1,
+     "quiverBonus": "Speed15"
+    }
+   },
+   "url": "https://mythicsim.com/wow-forever/tier-list/sims/8f583388-6581-4462-b272-284f20b3a827",
+   "sha256Rapport": "60355d737e2bad734cf9ffba4728d1232cd7675f488f04d5cd4cfe45d51aa761"
+  },
+  {
+   "specialisation": "chasseur-precision",
+   "reference": "marksmanship-hunter-turret",
+   "dps": 993.5710722274321,
+   "pourcentage": 77.11854637133717,
+   "ancienneNote": 3,
+   "noteSimulee": 4,
+   "note": 4,
+   "varianteMesuree": "loup-solitaire-distance",
+   "dateRapport": "2026-11-04T10:50:36.966724Z",
+   "moteur": "a667dce8492bd9fb94269a9f864289cb74006775",
+   "race": "Night Elf",
+   "talents": {
+    "loadout_string": "5-0053252011503051-50320003",
+    "trees": [
+     {
+      "name": "Beast Mastery",
+      "points": 5,
+      "nodes": [
+       {
+        "key": "deadlyAspects",
+        "name": "Deadly Aspects",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_ravenform.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "While Aspect of the Hawk is active, Auto Shot has a 10% chance of increasing ranged attack speed by 30% for 12 sec. While Aspect of the Beast is active, all melee auto attacks have a 10% chance of increasing melee attack speed by 30% for 12 sec."
+       }
+      ]
+     },
+     {
+      "name": "Marksmanship",
+      "points": 33,
+      "nodes": [
+       {
+        "key": "lethalAttacks",
+        "name": "Lethal Attacks",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_searingarrow.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases your critical strike chance with all attacks by 5%."
+       },
+       {
+        "key": "improvedStings",
+        "name": "Improved Stings",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_hunter_quickshot.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases the damage of your Serpent Sting ability by 20%, reduces the cooldown of your Viper Sting ability by 6 sec, and increases the duration of your Scorpid Sting ability by 45 sec."
+       },
+       {
+        "key": "efficiency",
+        "name": "Efficiency",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_wizardmark.jpg",
+        "rank": 2,
+        "max_rank": 5,
+        "description": "Reduces the Mana cost of your Shots, Stings, and melee abilities by 6%."
+       },
+       {
+        "key": "carefulAim",
+        "name": "Careful Aim",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_hunter_zenarchery.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases your Attack Power by 100% of your Intellect."
+       },
+       {
+        "key": "rapidKilling",
+        "name": "Rapid Killing",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_hunter_rapidkilling.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Reduces the cooldown on your Rapid Fire ability by 2 min. In addition, when you kill a non-trivial enemy or it dies while afflicted by your Serpent Sting, you gain Rapid Killing, increasing the damage of your next shot ability within 20 sec by 20%."
+       },
+       {
+        "key": "loneWolf",
+        "name": "Lone Wolf",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_mount_whitedirewolf.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "You deal 20% increased damage with all attacks while you do not have an active pet."
+       },
+       {
+        "key": "trueshotAura",
+        "name": "Trueshot Aura",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_trueshot.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Increases the Ranged Attack Power of party or raid members within 45 yds by 100."
+       },
+       {
+        "key": "mortalShots",
+        "name": "Mortal Shots",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_piercedamage.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases the critical strike damage bonus on all ranged abilities by 30%."
+       },
+       {
+        "key": "barrage",
+        "name": "Barrage",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_upgrademoonglaive.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases the damage done by your Multi-Shot, Aimed Shot, and Volley abilities by 15%."
+       },
+       {
+        "key": "rangedWeaponSpecialization",
+        "name": "Ranged Weapon Specialization",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/inv_weapon_rifle_06.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases the damage you deal with ranged weapons by 5%."
+       },
+       {
+        "key": "sniperShot",
+        "name": "Sniper Shot",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/hunter_pvp_snipershot.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "A long-range shot that deals ranged damage plus 320 and increases the range of your next 3 Shots by 10 yards for 10 sec."
+       }
+      ]
+     },
+     {
+      "name": "Survival",
+      "points": 13,
+      "nodes": [
+       {
+        "key": "improvedTracking",
+        "name": "Improved Tracking",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/inv_misc_head_dragon_black.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "While tracking Beasts, Demons, Dragonkin, Elementals, Giants, Humanoids, or Undead, all damage you deal to the tracked creature type is increased by 5%."
+       },
+       {
+        "key": "entrapment",
+        "name": "Entrapment",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_stranglevines.jpg",
+        "rank": 3,
+        "max_rank": 5,
+        "description": "When your traps are triggered, all affected targets are Entrapped, preventing them from moving for 3 sec."
+       },
+       {
+        "key": "savageStrikes",
+        "name": "Savage Strikes",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_racial_bloodrage.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Increases the critical strike chance of all your melee abilities by 4%."
+       },
+       {
+        "key": "surefooted",
+        "name": "Surefooted",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_kick.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases your hit chance by 3% and reduces the duration of movement impairing effects on you by 30%."
+       }
+      ]
+     }
+    ]
+   },
+   "rotation": "hunter/dps/mm",
+   "options": {
+    "classOptions": {
+     "ammo": "ThoriumHeadedArrow",
+     "petAttackSpeed": "OneTwo",
+     "petType": "PetNone",
+     "petUptime": 1,
+     "quiverBonus": "Speed15"
+    }
+   },
+   "url": "https://mythicsim.com/wow-forever/tier-list/sims/bc14269e-b8d2-4969-a90c-dd3f38c80e7f",
+   "sha256Rapport": "efd03f433b6bc0e26bdb3c181b9e18935ce6c75d35733d9f1be89bf7aabf7816"
+  },
+  {
+   "specialisation": "chasseur-survie",
+   "reference": "survival-hunter",
+   "dps": 1288.368517014365,
+   "pourcentage": 100,
+   "ancienneNote": 5,
+   "noteSimulee": 5,
+   "note": 5,
+   "varianteMesuree": "sans-familier-tissage",
+   "dateRapport": "2026-11-04T10:57:50.793559Z",
+   "moteur": "a667dce8492bd9fb94269a9f864289cb74006775",
+   "race": "Night Elf",
+   "talents": {
+    "loadout_string": "-00531500114-530200230050022151",
+    "trees": [
+     {
+      "name": "Beast Mastery",
+      "points": 0,
+      "nodes": []
+     },
+     {
+      "name": "Marksmanship",
+      "points": 20,
+      "nodes": [
+       {
+        "key": "lethalAttacks",
+        "name": "Lethal Attacks",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_searingarrow.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases your critical strike chance with all attacks by 5%."
+       },
+       {
+        "key": "improvedStings",
+        "name": "Improved Stings",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_hunter_quickshot.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases the damage of your Serpent Sting ability by 20%, reduces the cooldown of your Viper Sting ability by 6 sec, and increases the duration of your Scorpid Sting ability by 45 sec."
+       },
+       {
+        "key": "efficiency",
+        "name": "Efficiency",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_wizardmark.jpg",
+        "rank": 1,
+        "max_rank": 5,
+        "description": "Reduces the Mana cost of your Shots, Stings, and melee abilities by 3%."
+       },
+       {
+        "key": "carefulAim",
+        "name": "Careful Aim",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_hunter_zenarchery.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases your Attack Power by 100% of your Intellect."
+       },
+       {
+        "key": "loneWolf",
+        "name": "Lone Wolf",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_mount_whitedirewolf.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "You deal 20% increased damage with all attacks while you do not have an active pet."
+       },
+       {
+        "key": "trueshotAura",
+        "name": "Trueshot Aura",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_trueshot.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Increases the Ranged Attack Power of party or raid members within 45 yds by 100."
+       },
+       {
+        "key": "mortalShots",
+        "name": "Mortal Shots",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_piercedamage.jpg",
+        "rank": 4,
+        "max_rank": 5,
+        "description": "Increases the critical strike damage bonus on all ranged abilities by 24%."
+       }
+      ]
+     },
+     {
+      "name": "Survival",
+      "points": 31,
+      "nodes": [
+       {
+        "key": "improvedTracking",
+        "name": "Improved Tracking",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/inv_misc_head_dragon_black.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "While tracking Beasts, Demons, Dragonkin, Elementals, Giants, Humanoids, or Undead, all damage you deal to the tracked creature type is increased by 5%."
+       },
+       {
+        "key": "deflection",
+        "name": "Deflection",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_parry.jpg",
+        "rank": 3,
+        "max_rank": 5,
+        "description": "Increases your Parry chance by 3%."
+       },
+       {
+        "key": "savageStrikes",
+        "name": "Savage Strikes",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_racial_bloodrage.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Increases the critical strike chance of all your melee abilities by 4%."
+       },
+       {
+        "key": "cleverTraps",
+        "name": "Clever Traps",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_timestop.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Increases the duration of Freezing and Frost trap effects by 30% and the damage of Immolation and Explosive trap effects by 30%."
+       },
+       {
+        "key": "surefooted",
+        "name": "Surefooted",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_kick.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases your hit chance by 3% and reduces the duration of movement impairing effects on you by 30%."
+       },
+       {
+        "key": "predatorsEdge",
+        "name": "Predator's Edge",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_dualwield.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases your melee critical strike damage by 30% and your Off Hand weapon damage by 50%."
+       },
+       {
+        "key": "exposePrey",
+        "name": "Expose Prey",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_hunter_swiftstrike.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Grants your melee and ranged attacks against enemies afflicted by Hunter's Mark a 10% chance to allow an activation of Mongoose Bite. Lasts 10 sec."
+       },
+       {
+        "key": "survivalistsDiscipline",
+        "name": "Survivalist's Discipline",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_hunter_mastertactitian.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Reduces the cooldown of your Trap and Deterrence abilities by 40%."
+       },
+       {
+        "key": "striderKick",
+        "name": "Strider Kick",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_hunter_pet_tallstrider.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "A powerful kick that deals 100% melee weapon damage and increases movement speed by 30% for 3 sec."
+       },
+       {
+        "key": "lightningReflexes",
+        "name": "Lightning Reflexes",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_invisibilty.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases your Agility by 15%."
+       },
+       {
+        "key": "laceratingStrikes",
+        "name": "Lacerating Strikes",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_gouge.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Your Mongoose Bite also causes the target to Bleed for damage equal to 40% of the damage done by Mongoose Bite over 21 sec."
+       }
+      ]
+     }
+    ]
+   },
+   "rotation": "hunter/dps/survival_light_weave",
+   "options": {
+    "classOptions": {
+     "ammo": "ThoriumHeadedArrow",
+     "petAttackSpeed": "OneTwo",
+     "petType": "PetNone",
+     "petUptime": 1,
+     "quiverBonus": "Speed15"
+    }
+   },
+   "url": "https://mythicsim.com/wow-forever/tier-list/sims/a28d857c-31cf-486d-adce-6f90628298db",
+   "sha256Rapport": "438f260e7d4a0f78d22b9516b992812bc0842ad6f57ad9761f157f1ebea395dc"
+  },
+  {
+   "specialisation": "voleur-assassinat",
+   "reference": "assassination-rogue",
+   "dps": 921.3662837757081,
+   "pourcentage": 71.51418802990163,
+   "ancienneNote": 3,
+   "noteSimulee": 3,
+   "note": 3,
+   "varianteMesuree": "reference",
+   "dateRapport": "2026-11-04T11:42:49.627416Z",
+   "moteur": "a667dce8492bd9fb94269a9f864289cb74006775",
+   "race": "Gnome",
+   "talents": {
+    "loadout_string": "00530311251051031-30230302020122",
+    "trees": [
+     {
+      "name": "Assassination",
+      "points": 31,
+      "nodes": [
+       {
+        "key": "malice",
+        "name": "Malice",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_racial_bloodrage.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases your critical strike chance with all attacks and Poisons by 5%."
+       },
+       {
+        "key": "ruthlessness",
+        "name": "Ruthlessness",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_druid_disembowel.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Gives your finishing moves a 60% chance to add a Combo Point to your target."
+       },
+       {
+        "key": "improvedSliceAndDice",
+        "name": "Improved Slice and Dice",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_rogue_slicedice.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases the duration of your Slice and Dice ability by 45%."
+       },
+       {
+        "key": "vigor",
+        "name": "Vigor",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_earthbindtotem.jpg",
+        "rank": 1,
+        "max_rank": 2,
+        "description": "Increases your maximum Energy by 5."
+       },
+       {
+        "key": "bloodSplatter",
+        "name": "Blood Splatter",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_rogue_rupture.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Increases the duration of your Rupture ability by 6 sec and your Garrote ability by 9 sec."
+       },
+       {
+        "key": "lethality",
+        "name": "Lethality",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_criticalstrike.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Increases the critical strike damage bonus of your Sinister Strike, Gouge, Backstab, Mutilate, Ghostly Strike, and Hemorrhage abilities by 20%."
+       },
+       {
+        "key": "vilePoisons",
+        "name": "Vile Poisons",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_rogue_feigndeath.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases the damage dealt by your poisons by 20% and gives your poisons an additional 40% chance to resist dispel effects."
+       },
+       {
+        "key": "coldBlood",
+        "name": "Cold Blood",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_ice_lament.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "When activated, increases the critical strike chance of your next Sinister Strike, Backstab, Ambush, Eviscerate, or Mutilate by 100%."
+       },
+       {
+        "key": "relentlessStrikes",
+        "name": "Relentless Strikes",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_warrior_decisivestrike.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Your finishing moves have a 20% chance per Combo Point to restore 25 Energy."
+       },
+       {
+        "key": "venom",
+        "name": "Venom",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/inv_sword_31.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Causes your Shank ability to increase your Poison damage by 30% and your chance to apply Poisons by 20% for 6 sec."
+       },
+       {
+        "key": "sealFate",
+        "name": "Seal Fate",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_chilltouch.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Your critical strikes from abilities that add Combo Points have a 100% chance to add an additional Combo Point."
+       },
+       {
+        "key": "mutilate",
+        "name": "Mutilate",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_rogue_deadlybrew.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Instantly attacks with both weapons for 90% weapon damage plus an additional 40 with each weapon. Damage increased by 20% against Poisoned targets. Awards 2 Combo Points."
+       }
+      ]
+     },
+     {
+      "name": "Combat",
+      "points": 20,
+      "nodes": [
+       {
+        "key": "improvedEviscerate",
+        "name": "Coup de Grace",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_rogue_eviscerate.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases the damage done by your Eviscerate ability by 20%, and the damage and storage rate of your Death Mark ability by 20%."
+       },
+       {
+        "key": "lightningReflexes",
+        "name": "Lightning Reflexes",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_invisibilty.jpg",
+        "rank": 2,
+        "max_rank": 5,
+        "description": "Increases your Dodge chance by 2%."
+       },
+       {
+        "key": "puncturingWounds",
+        "name": "Puncturing Wounds",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_backstab.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases the critical strike chance of your Backstab by 30% and your Mutilate by 15%, and gives Backstab a 45% chance to add an additional Combo Point."
+       },
+       {
+        "key": "precision",
+        "name": "Precision",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_marksmanship.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Improves your chance to hit by 3%."
+       },
+       {
+        "key": "endurance",
+        "name": "Endurance",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowward.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Reduces the cooldown of your Sprint and Evasion abilities by 60%."
+       },
+       {
+        "key": "composure",
+        "name": "Composure",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_rogue_fleetfooted.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Increases the Energy cost reduction of your Poised ability by 10."
+       },
+       {
+        "key": "flawlessExecution",
+        "name": "Flawless Execution",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/inv_sword_35.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Reduces the Energy cost of your Eviscerate ability by 15."
+       },
+       {
+        "key": "weaponExpertise",
+        "name": "Weapon Expertise",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstrength.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Reduces the chance for your attacks to be Dodged or Parried by 2%."
+       },
+       {
+        "key": "aggression",
+        "name": "Aggression",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_racial_avatar.jpg",
+        "rank": 2,
+        "max_rank": 3,
+        "description": "Increases the damage of your Sinister Strike and Eviscerate abilities by 10%."
+       }
+      ]
+     },
+     {
+      "name": "Subtlety",
+      "points": 0,
+      "nodes": []
+     }
+    ]
+   },
+   "rotation": "rogue/dps/forever_mutilate",
+   "options": {
+    "classOptions": {}
+   },
+   "url": "https://mythicsim.com/wow-forever/tier-list/sims/de06c232-0218-4024-a8ba-95953ed24d44",
+   "sha256Rapport": "dccfc3b6b949a87777e66842508e0e0a698ad3e49d218249dd7f26780adbc236"
+  },
+  {
+   "specialisation": "voleur-combat",
+   "reference": "combat-rogue",
+   "dps": 878.411685357032,
+   "pourcentage": 68.18015759905735,
+   "ancienneNote": 3,
+   "noteSimulee": 3,
+   "note": 3,
+   "varianteMesuree": "reference",
+   "dateRapport": "2026-11-04T12:11:56.229295Z",
+   "moteur": "a667dce8492bd9fb94269a9f864289cb74006775",
+   "race": "Gnome",
+   "talents": {
+    "loadout_string": "005302002-3023030202012321551-004",
+    "trees": [
+     {
+      "name": "Assassination",
+      "points": 12,
+      "nodes": [
+       {
+        "key": "malice",
+        "name": "Malice",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_racial_bloodrage.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases your critical strike chance with all attacks and Poisons by 5%."
+       },
+       {
+        "key": "ruthlessness",
+        "name": "Ruthlessness",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_druid_disembowel.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Gives your finishing moves a 60% chance to add a Combo Point to your target."
+       },
+       {
+        "key": "improvedSliceAndDice",
+        "name": "Improved Slice and Dice",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_rogue_slicedice.jpg",
+        "rank": 2,
+        "max_rank": 3,
+        "description": "Increases the duration of your Slice and Dice ability by 30%."
+       },
+       {
+        "key": "lethality",
+        "name": "Lethality",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_criticalstrike.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Increases the critical strike damage bonus of your Sinister Strike, Gouge, Backstab, Mutilate, Ghostly Strike, and Hemorrhage abilities by 20%."
+       }
+      ]
+     },
+     {
+      "name": "Combat",
+      "points": 35,
+      "nodes": [
+       {
+        "key": "improvedEviscerate",
+        "name": "Coup de Grace",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_rogue_eviscerate.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases the damage done by your Eviscerate ability by 20%, and the damage and storage rate of your Death Mark ability by 20%."
+       },
+       {
+        "key": "lightningReflexes",
+        "name": "Lightning Reflexes",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_invisibilty.jpg",
+        "rank": 2,
+        "max_rank": 5,
+        "description": "Increases your Dodge chance by 2%."
+       },
+       {
+        "key": "puncturingWounds",
+        "name": "Puncturing Wounds",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_backstab.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases the critical strike chance of your Backstab by 30% and your Mutilate by 15%, and gives Backstab a 45% chance to add an additional Combo Point."
+       },
+       {
+        "key": "precision",
+        "name": "Precision",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_marksmanship.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Improves your chance to hit by 3%."
+       },
+       {
+        "key": "endurance",
+        "name": "Endurance",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowward.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Reduces the cooldown of your Sprint and Evasion abilities by 60%."
+       },
+       {
+        "key": "composure",
+        "name": "Composure",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_rogue_fleetfooted.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Increases the Energy cost reduction of your Poised ability by 10."
+       },
+       {
+        "key": "flawlessExecution",
+        "name": "Flawless Execution",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/inv_sword_35.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Reduces the Energy cost of your Eviscerate ability by 15."
+       },
+       {
+        "key": "weaponExpertise",
+        "name": "Weapon Expertise",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstrength.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Reduces the chance for your attacks to be Dodged or Parried by 2%."
+       },
+       {
+        "key": "aggression",
+        "name": "Aggression",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_racial_avatar.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases the damage of your Sinister Strike and Eviscerate abilities by 15%."
+       },
+       {
+        "key": "dualWieldSpecialization",
+        "name": "Dual Wield Specialization",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_dualwield.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Increases the damage done by your off-hand weapon by 50%."
+       },
+       {
+        "key": "bladeFlurry",
+        "name": "Blade Flurry",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_warrior_punishingblow.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Increases your melee attack speed by 20% and your melee attacks strike an additional nearby opponent. Lasts 15 sec."
+       },
+       {
+        "key": "hackAndSlash",
+        "name": "Hack and Slash",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/inv_sword_27.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Gives your melee weapon attacks a benefit depending on the weapon. |CFFFFFFFFAxe/Sword: Your successful melee attacks have a 5% chance to trigger an extra attack on the target. |CFFFFFFFFDagger/Fist: Increases your critical strike chance by 5%. |CFFFFFFFFMace: Your attacks ignore 15% of your target's armor."
+       },
+       {
+        "key": "flashOfSteel",
+        "name": "Flash of Steel",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_rogue_restlessblades.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases the Energy generated by your Shank ability by 15 and reduces its cooldown by 2.0 sec."
+       },
+       {
+        "key": "adrenalineRush",
+        "name": "Adrenaline Rush",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowworddominate.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Increases your Energy regeneration rate by 100% for 15 sec."
+       }
+      ]
+     },
+     {
+      "name": "Subtlety",
+      "points": 4,
+      "nodes": [
+       {
+        "key": "opportunity",
+        "name": "Opportunity",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_warrior_warcry.jpg",
+        "rank": 4,
+        "max_rank": 5,
+        "description": "Increases the damage dealt by your Backstab, Garrote, Ambush, and Mutilate abilities by 16%."
+       }
+      ]
+     }
+    ]
+   },
+   "rotation": "rogue/dps/combat_backstab",
+   "options": {
+    "classOptions": {}
+   },
+   "url": "https://mythicsim.com/wow-forever/tier-list/sims/0523e69c-a7ce-4c0d-b258-053a5cbf3f3c",
+   "sha256Rapport": "8379853f3bce9f8d2640876932f41cad2ac48971adea9d6a568671e1c74f70d5"
+  },
+  {
+   "specialisation": "voleur-finesse",
+   "reference": "subtlety-rogue",
+   "dps": 927.6727985262027,
+   "pourcentage": 72.00368421575295,
+   "ancienneNote": 3,
+   "noteSimulee": 4,
+   "note": 4,
+   "varianteMesuree": "reference",
+   "dateRapport": "2026-11-04T12:16:44.956320Z",
+   "moteur": "a667dce8492bd9fb94269a9f864289cb74006775",
+   "race": "Night Elf",
+   "talents": {
+    "loadout_string": "00530301-320003-005203131321021151",
+    "trees": [
+     {
+      "name": "Assassination",
+      "points": 12,
+      "nodes": [
+       {
+        "key": "malice",
+        "name": "Malice",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_racial_bloodrage.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases your critical strike chance with all attacks and Poisons by 5%."
+       },
+       {
+        "key": "ruthlessness",
+        "name": "Ruthlessness",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_druid_disembowel.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Gives your finishing moves a 60% chance to add a Combo Point to your target."
+       },
+       {
+        "key": "improvedSliceAndDice",
+        "name": "Improved Slice and Dice",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_rogue_slicedice.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases the duration of your Slice and Dice ability by 45%."
+       },
+       {
+        "key": "bloodSplatter",
+        "name": "Blood Splatter",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_rogue_rupture.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Increases the duration of your Rupture ability by 6 sec and your Garrote ability by 9 sec."
+       }
+      ]
+     },
+     {
+      "name": "Combat",
+      "points": 8,
+      "nodes": [
+       {
+        "key": "improvedEviscerate",
+        "name": "Coup de Grace",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_rogue_eviscerate.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases the damage done by your Eviscerate ability by 20%, and the damage and storage rate of your Death Mark ability by 20%."
+       },
+       {
+        "key": "improvedSinisterStrike",
+        "name": "Efficient Strikes",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_ritualofsacrifice.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Reduces the Energy cost of your Sinister Strike and Hemorrhage abilities by 5."
+       },
+       {
+        "key": "precision",
+        "name": "Precision",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_marksmanship.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Improves your chance to hit by 3%."
+       }
+      ]
+     },
+     {
+      "name": "Subtlety",
+      "points": 31,
+      "nodes": [
+       {
+        "key": "opportunity",
+        "name": "Opportunity",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_warrior_warcry.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases the damage dealt by your Backstab, Garrote, Ambush, and Mutilate abilities by 20%."
+       },
+       {
+        "key": "dirtyDeeds",
+        "name": "Dirty Deeds",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_summonsuccubus.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Reduces the Energy cost of your Cheap Shot and Garrote abilities by 20, and your Garrote ability no longer requires you to be behind your target."
+       },
+       {
+        "key": "improvedAmbush",
+        "name": "Improved Ambush",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_rogue_ambush.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases the critical strike chance of your Ambush ability by 45%."
+       },
+       {
+        "key": "dirtyTricks",
+        "name": "Dirty Tricks",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_sap.jpg",
+        "rank": 1,
+        "max_rank": 2,
+        "description": "Reduces the Energy cost of your Sap and Blind abilities by 25%."
+       },
+       {
+        "key": "initiative",
+        "name": "Initiative",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_fumble.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Gives you a 100% chance to add an additional combo point to your target when using your Ambush, Garrote, or Cheap Shot ability."
+       },
+       {
+        "key": "premeditation",
+        "name": "Premeditation",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_possession.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Adds 2 Combo Points to your target. You must add to or use those combo points within 20 sec or the combo points are lost."
+       },
+       {
+        "key": "serratedBlades",
+        "name": "Serrated Blades",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/inv_sword_17.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Causes your attacks to ignore 9% of your target's Armor and increases the damage dealt by your Rupture ability by 30%."
+       },
+       {
+        "key": "elusiveness",
+        "name": "Elusiveness",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_magic_lesserinvisibilty.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Reduces the cooldown of your Vanish and Blind abilities by 90 sec."
+       },
+       {
+        "key": "ghostlyStrike",
+        "name": "Ghostly Strike",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_curse.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "A strike that deals 125% (180% if a Dagger is equipped in your Main Hand) weapon damage, increases your chance to dodge by 15% for 7 sec, and causes your next Ambush or Garrote cast within 7 sec to not require Stealth. Awards 1 combo point."
+       },
+       {
+        "key": "heightenedSenses",
+        "name": "Heightened Senses",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_ambush.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Increases your Stealth detection as if you were 3 levels higher and reduces your chance to be hit by spells and ranged attacks by 4%."
+       },
+       {
+        "key": "preparation",
+        "name": "Preparation",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_antishadow.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "When activated, this ability immediately finishes the cooldown on your other Rogue abilities."
+       },
+       {
+        "key": "hemorrhage",
+        "name": "Hemorrhage",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_lifedrain.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "An instant strike that deals 100% weapon damage (145% if a Dagger is equipped) and causes the target to take 15% increased Rupture and Garrote damage from the Rogue. Lasts 15 sec. Awards 1 Combo Point."
+       },
+       {
+        "key": "bootKnife",
+        "name": "Boot Knife",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/inv_sword_32.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Grants your Shank ability a 100% chance to add 2 Combo Points to the target."
+       },
+       {
+        "key": "deathMark",
+        "name": "Death Mark",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_creature_cursed_02.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Finishing move that marks the target, storing a portion of the damage dealt by your attacks per Combo Point: 12% a point, and Garrote and Rupture damage at twice the rate. After 6 sec, the stored damage is dealt, up to 63 plus 102 and 4% of your Attack Power a point, increased by your critical strike chance."
+       }
+      ]
+     }
+    ]
+   },
+   "rotation": "rogue/dps/forever_hemorrhage",
+   "options": {
+    "classOptions": {}
+   },
+   "url": "https://mythicsim.com/wow-forever/tier-list/sims/19ee401f-d011-40f9-b7f4-e5d227b61aba",
+   "sha256Rapport": "98415f64bed2a83c20a7c8a150b3614be9b0aaa6c3e5fb1bc8559c281e765dde"
+  },
+  {
+   "specialisation": "pretre-ombre",
+   "reference": "shadow-priest",
+   "dps": 833.8265945257309,
+   "pourcentage": 64.71957235170736,
+   "ancienneNote": 3,
+   "noteSimulee": 3,
+   "note": 3,
+   "varianteMesuree": "reference",
+   "dateRapport": "2026-11-04T01:17:22.395648Z",
+   "moteur": "a667dce8492bd9fb94269a9f864289cb74006775",
+   "race": "Night Elf",
+   "talents": {
+    "loadout_string": "00530500103--50042201241302251",
+    "trees": [
+     {
+      "name": "Discipline",
+      "points": 17,
+      "nodes": [
+       {
+        "key": "twinDisciplines",
+        "name": "Twin Disciplines",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_sealofvengeance.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases the damage and healing of your instant cast spells by 5%."
+       },
+       {
+        "key": "silentResolve",
+        "name": "Silent Resolve",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_manaregentotem.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Reduces the threat generated by your Holy and Shadow spells by 30% and reduces the duration of Stun, Fear, and Silence effects on you by 15%."
+       },
+       {
+        "key": "mentalStrength",
+        "name": "Mental Strength",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_enchantarmor.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases your total Intellect by 15%."
+       },
+       {
+        "key": "innerFocus",
+        "name": "Inner Focus",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_windwalkon.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "When activated, reduces the Mana cost of your next spell by 100% and increases its critical effect chance by 25% if it is a non-periodic spell and capable of a critical effect."
+       },
+       {
+        "key": "meditation",
+        "name": "Meditation",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_sleep.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Allows 50% of your Mana regeneration to continue while casting."
+       }
+      ]
+     },
+     {
+      "name": "Holy",
+      "points": 0,
+      "nodes": []
+     },
+     {
+      "name": "Shadow",
+      "points": 34,
+      "nodes": [
+       {
+        "key": "shadowFocus",
+        "name": "Shadow Focus",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_burningspirit.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Improves your chance to hit with Shadow spells by 5%."
+       },
+       {
+        "key": "improvedMindBlast",
+        "name": "Improved Mind Blast",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_unholyfrenzy.jpg",
+        "rank": 4,
+        "max_rank": 5,
+        "description": "Reduces the cooldown of your Mind Blast spell by 2 sec."
+       },
+       {
+        "key": "improvedShadowWordPain",
+        "name": "Improved Shadow Word: Pain",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowwordpain.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Increases the duration of your Shadow Word: Pain spell by 6 sec."
+       },
+       {
+        "key": "shadowReach",
+        "name": "Shadow Reach",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_chilltouch.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Increases the range of your offensive Shadow spells by 20%."
+       },
+       {
+        "key": "mindFlay",
+        "name": "Mind Flay",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_siphonmana.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Assault the target's mind with Shadow energy, causing 104 Shadow damage over 3 sec and slowing their movement speed by 50%."
+       },
+       {
+        "key": "improvedMindFlay",
+        "name": "Improved Mind Flay",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_soulleech_2.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Each instance of damage of Mind Flay deals 20% more damage than its previous instance of damage."
+       },
+       {
+        "key": "darkInspiration",
+        "name": "Dark Inspiration",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_warlock_demonsoul.jpg",
+        "rank": 4,
+        "max_rank": 5,
+        "description": "Your Mind Blast and fully channeled Mind Flay causes Dark Inspiration, increasing yours and your party's Spirit by 12% for 10 sec."
+       },
+       {
+        "key": "vampiricEmbrace",
+        "name": "Vampiric Embrace",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_unsummonbuilding.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Afflicts your target with Shadow energy that causes all party members to be healed for 20% of any Shadow spell damage you deal for 30 sec."
+       },
+       {
+        "key": "shadowWeaving",
+        "name": "Shadow Weaving",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_blackplague.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Your Shadow damage spells have a 100% chance to increase the Shadow damage you deal by 2% for 15 sec, stacking up to 5 times."
+       },
+       {
+        "key": "devouringContagion",
+        "name": "Devouring Contagion",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_devouringplague.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Reduces the mana cost of your Devouring Plague by 50%. Targets that die while Devouring Plague is active spreads it, jumping to a nearby enemy within 10 yards for the remaining duration."
+       },
+       {
+        "key": "earlyDemise",
+        "name": "Early Demise",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_demonicfortitude.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Increases Shadow Word: Death's critical strike chance on targets at or below 20% health by 30%."
+       },
+       {
+        "key": "darkness",
+        "name": "Darkness",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_twilight.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases your Shadow damage done by 10%."
+       },
+       {
+        "key": "shadowform",
+        "name": "Shadowform",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowform.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Assume Shadowform, increasing your Shadow damage by 10%, reducing the Mana cost of all Shadow spells by 50%, increasing the critical strike damage bonus of your Shadow spells by 100%, and reducing Physical damage taken by you by 15%. However, you may not cast healing spells while in this form."
+       }
+      ]
+     }
+    ]
+   },
+   "rotation": "priest/dps/shadow",
+   "options": {
+    "classOptions": {}
+   },
+   "url": "https://mythicsim.com/wow-forever/tier-list/sims/7b6388ae-7e84-4570-b36e-7c5a45120dda",
+   "sha256Rapport": "7a88d7b191a694652cd916144abf3a8f2275db34a0b661d718ca92477e805dde"
+  },
+  {
+   "specialisation": "chaman-elementaire",
+   "reference": "elemental-shaman",
+   "dps": 823.2969312292034,
+   "pourcentage": 63.902285747954515,
+   "ancienneNote": 2,
+   "noteSimulee": 3,
+   "note": 3,
+   "varianteMesuree": "reference",
+   "dateRapport": "2026-11-04T10:44:54.887523Z",
+   "moteur": "a667dce8492bd9fb94269a9f864289cb74006775",
+   "race": "Skyborne (Windshaper)",
+   "talents": {
+    "loadout_string": "5501331020011351-05500001-05301",
+    "trees": [
+     {
+      "name": "Elemental",
+      "points": 31,
+      "nodes": [
+       {
+        "key": "convection",
+        "name": "Convection",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_wispsplode.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Reduces the mana cost of your Shock, Lightning Bolt, and Chain Lightning spells by 10%."
+       },
+       {
+        "key": "concussion",
+        "name": "Concussion",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_earthshock.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases the damage done by your Lightning Bolt, Chain Lightning, and Earth Shock spells by 5%."
+       },
+       {
+        "key": "reverberation",
+        "name": "Reverberation",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_frostward.jpg",
+        "rank": 1,
+        "max_rank": 5,
+        "description": "Reduces the cooldown of your Shock spells by 0.2 sec."
+       },
+       {
+        "key": "elementalAlacrity",
+        "name": "Elemental Alacrity",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_lightning_lightningbolt01.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Reduces the cast time of your Lightning Bolt and Chain Lightning spells by 0.50 sec."
+       },
+       {
+        "key": "callOfFlame",
+        "name": "Call of Flame",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_immolation.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases the damage done by your Fire Totems and by your Flame Shock and Fire Nova spells by 15%, as well as increases the duration of your Flame Shock spell by 9 sec."
+       },
+       {
+        "key": "elementalFocus",
+        "name": "Elemental Focus",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_manaburn.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Gives you a 10% chance to enter a Clearcasting state after casting any Fire, Frost, or Nature damage spell. The Clearcasting state reduces the mana cost of your next damage spell by 100%."
+       },
+       {
+        "key": "trialByFire",
+        "name": "Trial by Fire",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_sealoffire.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Increases the damage done by your Fire Nova spell by 20% and reduces its cooldown by 4 sec, and increases the duration of your Magma Totem by 20 sec."
+       },
+       {
+        "key": "elementalReach",
+        "name": "Elemental Reach",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_stormreach.jpg",
+        "rank": 1,
+        "max_rank": 2,
+        "description": "Increases the range of your Lightning Bolt, Chain Lightning, and Fire Nova spells by 3 yards."
+       },
+       {
+        "key": "lavaBurst",
+        "name": "Call of Thunder",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_callstorm.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Increases the critical strike chance of your Lightning Bolt and Chain Lightning spells by 5%."
+       },
+       {
+        "key": "lightningOverload",
+        "name": "Lightning Overload",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightningoverload.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Gives your Lightning Bolt and Chain Lightning spells a 30% chance to cast a second, similar spell on the same target at no additional cost that causes half damage and no threat."
+       },
+       {
+        "key": "elementalFury",
+        "name": "Elemental Fury",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_volcano.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases the critical strike damage bonus of your Searing and Magma Totems and your Fire, Frost, and Nature spells by 100%."
+       },
+       {
+        "key": "elementalMastery",
+        "name": "Lightning Mastery",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_wispheal.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Gain mastery over Lightning, reducing the cast time of Lightning Bolt by 0.5 sec, and removing the cooldown from Chain Lightning. Lasts 15 sec. 3 min cooldown."
+       }
+      ]
+     },
+     {
+      "name": "Enhancement",
+      "points": 11,
+      "nodes": [
+       {
+        "key": "thunderingStrikes",
+        "name": "Thundering Strikes",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_thunderbolt.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Improves your chance to get a critical strike with all spells and attacks by 5%."
+       },
+       {
+        "key": "ancestralKnowledge",
+        "name": "Ancestral Knowledge",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_grimward.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases your Intellect by 10%."
+       },
+       {
+        "key": "shamanisticFocus",
+        "name": "Shamanistic Focus",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_elementalabsorption.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Reduces the mana cost of your Shock and Lightning Shield spells by 45%."
+       }
+      ]
+     },
+     {
+      "name": "Restoration",
+      "points": 9,
+      "nodes": [
+       {
+        "key": "tidalFocus",
+        "name": "Tidal Focus",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_manarecharge.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Reduces the Mana cost of your healing spells by 5% and improves your chance to hit by 5%."
+       },
+       {
+        "key": "mindfulness",
+        "name": "Mindfulness",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_sleep.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Allows 50% of your Mana regeneration to continue while casting."
+       },
+       {
+        "key": "totemicFocus",
+        "name": "Totemic Focus",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_moonglow.jpg",
+        "rank": 1,
+        "max_rank": 5,
+        "description": "Reduces the Mana cost of your totems and any spells that summon or move them by 5%."
+       }
+      ]
+     }
+    ]
+   },
+   "rotation": "shaman/elemental/forever",
+   "options": {
+    "classOptions": {}
+   },
+   "url": "https://mythicsim.com/wow-forever/tier-list/sims/bd74838a-9ccc-46c3-9161-fc452336d868",
+   "sha256Rapport": "ddaed498164c2d3df3a0b2281b79add9d40cae7b15493113aa1a58697201e1e1"
+  },
+  {
+   "specialisation": "chaman-amelioration",
+   "reference": "enhancement-shaman",
+   "dps": 1066.308561193679,
+   "pourcentage": 82.76425161837372,
+   "ancienneNote": 3,
+   "noteSimulee": 4,
+   "note": 4,
+   "varianteMesuree": "reference",
+   "dateRapport": "2026-11-04T11:37:31.988133Z",
+   "moteur": "a667dce8492bd9fb94269a9f864289cb74006775",
+   "race": "Skyborne (Windshaper)",
+   "talents": {
+    "loadout_string": "453003102-053030310051002251-02",
+    "trees": [
+     {
+      "name": "Elemental",
+      "points": 18,
+      "nodes": [
+       {
+        "key": "convection",
+        "name": "Convection",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_wispsplode.jpg",
+        "rank": 4,
+        "max_rank": 5,
+        "description": "Reduces the mana cost of your Shock, Lightning Bolt, and Chain Lightning spells by 8%."
+       },
+       {
+        "key": "concussion",
+        "name": "Concussion",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_earthshock.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases the damage done by your Lightning Bolt, Chain Lightning, and Earth Shock spells by 5%."
+       },
+       {
+        "key": "elementalDevastation",
+        "name": "Elemental Devastation",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_elementaldevastation.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Your Critical Strikes with direct damage spells increase your chance to get a Critical Strike with melee attacks by 9% for 10 sec."
+       },
+       {
+        "key": "callOfFlame",
+        "name": "Call of Flame",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_immolation.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases the damage done by your Fire Totems and by your Flame Shock and Fire Nova spells by 15%, as well as increases the duration of your Flame Shock spell by 9 sec."
+       },
+       {
+        "key": "elementalFocus",
+        "name": "Elemental Focus",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_manaburn.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Gives you a 10% chance to enter a Clearcasting state after casting any Fire, Frost, or Nature damage spell. The Clearcasting state reduces the mana cost of your next damage spell by 100%."
+       },
+       {
+        "key": "trialByFire",
+        "name": "Trial by Fire",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_sealoffire.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Increases the damage done by your Fire Nova spell by 20% and reduces its cooldown by 4 sec, and increases the duration of your Magma Totem by 20 sec."
+       }
+      ]
+     },
+     {
+      "name": "Enhancement",
+      "points": 31,
+      "nodes": [
+       {
+        "key": "thunderingStrikes",
+        "name": "Thundering Strikes",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_thunderbolt.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Improves your chance to get a critical strike with all spells and attacks by 5%."
+       },
+       {
+        "key": "ancestralKnowledge",
+        "name": "Ancestral Knowledge",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_grimward.jpg",
+        "rank": 3,
+        "max_rank": 5,
+        "description": "Increases your Intellect by 6%."
+       },
+       {
+        "key": "mentalDexterity",
+        "name": "Mental Dexterity",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_mentalquickness.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases your Attack Power by an amount equal to 150% of your Intellect."
+       },
+       {
+        "key": "elementalWeapons",
+        "name": "Elemental Weapons",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_flametounge.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases the melee attack power bonus of your Rockbiter Weapon by 20%, your Windfury Weapon effect by 40% and increases the damage caused by your Flametongue Weapon and Frostbrand Weapon by 15%."
+       },
+       {
+        "key": "shamanisticFocus",
+        "name": "Shamanistic Focus",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_elementalabsorption.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Reduces the mana cost of your Shock and Lightning Shield spells by 45%."
+       },
+       {
+        "key": "flurry",
+        "name": "Flurry",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_ghoulfrenzy.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases your attack speed by 30% for your next 3 swings after dealing a melee critical strike."
+       },
+       {
+        "key": "stormstrike",
+        "name": "Stormstrike",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_shaman_stormstrike.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "6 sec cooldown. Instantly strike for 150% weapon damage and increase the damage you deal to the target with your next Lightning Bolt, Chain Lightning, or Earth Shock spell by 20% for 12 sec."
+       },
+       {
+        "key": "mentalQuickness",
+        "name": "Mental Quickness",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_sleep.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Increases your spell damage and healing by up to 30% of your Intellect."
+       },
+       {
+        "key": "improvedStormstrike",
+        "name": "Improved Stormstrike",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shaman_improvedstormstrike.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "When you Stormstrike, you have a 100% chance to gain 50% mana regeneration while casting spells for 15 sec, and Stormstrike's cooldown has a 100% chance to reset each time you Dodge or Parry."
+       },
+       {
+        "key": "maelstromWeapon",
+        "name": "Maelstrom Weapon",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shaman_maelstromweapon.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "When you deal damage with a melee attack, you have a chance to reduce the cast time and Mana cost of your next Lightning Bolt spell by 20%. Stacks up to 5 times. Lasts 30 sec."
+       },
+       {
+        "key": "rageOfTheFarseer",
+        "name": "Rage of the Farseer",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_bloodlust.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Increases your attack speed by 30% for 25 sec."
+       }
+      ]
+     },
+     {
+      "name": "Restoration",
+      "points": 2,
+      "nodes": [
+       {
+        "key": "tidalFocus",
+        "name": "Tidal Focus",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_manarecharge.jpg",
+        "rank": 2,
+        "max_rank": 5,
+        "description": "Reduces the Mana cost of your healing spells by 2% and improves your chance to hit by 2%."
+       }
+      ]
+     }
+    ]
+   },
+   "rotation": "shaman/enhancement/forever",
+   "options": {
+    "classOptions": {
+     "imbueMh": "FlametongueWeapon",
+     "imbueMhSwap": "RockbiterWeapon"
+    },
+    "imbueOh": "NoImbue",
+    "syncType": "Auto"
+   },
+   "url": "https://mythicsim.com/wow-forever/tier-list/sims/7a5626f2-9fa0-4411-b48d-e54d7bc54b1a",
+   "sha256Rapport": "47fb4a1912c9f05f035b57c2c9ddbe1d5a4a48292c6a1f1f63857fdde1e2cd99"
+  },
+  {
+   "specialisation": "mage-arcane",
+   "reference": "arcane-mage",
+   "dps": 959.4941549167407,
+   "pourcentage": 74.47357974411314,
+   "ancienneNote": 3,
+   "noteSimulee": 4,
+   "note": 4,
+   "varianteMesuree": "reference",
+   "dateRapport": "2026-11-04T10:52:08.328632Z",
+   "moteur": "a667dce8492bd9fb94269a9f864289cb74006775",
+   "race": "Gnome",
+   "talents": {
+    "loadout_string": "050205203100311531-525000012001-003",
+    "trees": [
+     {
+      "name": "Arcane",
+      "points": 32,
+      "nodes": [
+       {
+        "key": "improvedChanneling",
+        "name": "Improved Channeling",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_starfall.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Gives your Arcane Missiles spell a 100% chance and your Arcane Blast and Arcane Wrath spells a 70% chance to not lose casting time when you take damage."
+       },
+       {
+        "key": "arcaneSubtlety",
+        "name": "Arcane Subtlety",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_dispelmagic.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Reduces your target's resistance to all your spells by 15 and reduces the threat caused by your Arcane spells by 30%."
+       },
+       {
+        "key": "arcaneConcentration",
+        "name": "Arcane Concentration",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_manaburn.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Gives you a 10% chance of entering a Clearcasting state after any damage spell hits a target. The Clearcasting state reduces the mana cost of your next damage spell by 100%."
+       },
+       {
+        "key": "missileBarrage",
+        "name": "Missile Barrage",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_mage_missilebarrage.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Gives your Arcane Blast spell a 40% chance, and your Arcane Wrath, Fireball, Frostbolt, Frost Blast, and Frostfire Bolt spells a 20% chance to reduce the channeled duration of your next Arcane Missiles spell by 50%, reduce the Mana cost by 100%, and missiles fire every 0.5 sec."
+       },
+       {
+        "key": "arcaneImpact",
+        "name": "Arcane Impact",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_wispsplode.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases the critical strike chance of your Arcane spells by 6%."
+       },
+       {
+        "key": "arcaneBlast",
+        "name": "Arcane Blast",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_arcane_blast.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Blasts the target with energy, dealing 218 to 254 Arcane damage. Each time you cast Arcane Blast, you gain 12% of your Intellect as Spell Damage and the mana cost of Arcane Blast is increased by 100%. Effect stacks up to 4 times and lasts 18 sec from time of initial application."
+       },
+       {
+        "key": "arcaneMeditation",
+        "name": "Arcane Meditation",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_siphonmana.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Allows 50% of your Mana regeneration to continue while casting."
+       },
+       {
+        "key": "arcaneWrath",
+        "name": "Arcane Wrath",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_mage_netherwindpresence.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Launches a projectile of pure Arcane energy at the enemy target, causing 406 to 496 Arcane damage. This spell gains additional Spell Damage equal to 5% of your maximum Mana. 395 Mana, 3.5 sec cast, 6 sec cooldown."
+       },
+       {
+        "key": "presenceOfMind",
+        "name": "Presence of Mind",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_enchantarmor.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "When activated, your next Mage spell with a casting time less than 10 sec becomes an instant cast spell."
+       },
+       {
+        "key": "arcaneMind",
+        "name": "Arcane Mind",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_charm.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases your Intellect by 10% and increases the critical strike damage bonus of your Arcane spells by 100%."
+       },
+       {
+        "key": "arcaneInstability",
+        "name": "Arcane Instability",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_teleport.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases the damage done by your spells by 3% and your critical strike chance by 3%."
+       },
+       {
+        "key": "arcanePower",
+        "name": "Arcane Power",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightning.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "For the next 15 sec, your spells deal 30% more damage while costing 30% more mana to cast."
+       }
+      ]
+     },
+     {
+      "name": "Fire",
+      "points": 16,
+      "nodes": [
+       {
+        "key": "incineration",
+        "name": "Incineration",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_flameshock.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases the critical strike chance of your Fire Blast, Ice Lance, Arcane Blast, and Scorch spells by 10%."
+       },
+       {
+        "key": "improvedFireball",
+        "name": "Accelerant",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_flamebolt.jpg",
+        "rank": 2,
+        "max_rank": 5,
+        "description": "Reduces the casting time of your Fireball, Frostfire Bolt, and Arcane Wrath spells by 0.2 sec."
+       },
+       {
+        "key": "ignite",
+        "name": "Ignite",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_incinerate.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Your critical strikes from Fire damage spells cause the target to burn for an additional 40% of your spell's damage over 4 sec."
+       },
+       {
+        "key": "pyroblast",
+        "name": "Pyroblast",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_fireball02.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Hurls an immense fiery boulder that causes 155 to 185 Fire damage and an additional 76 Fire damage over 12 sec."
+       },
+       {
+        "key": "improvedFireBlast",
+        "name": "Improved Fire Blast",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_lavaspawn.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Reduces the cooldown of your Fire Blast spell by 2 sec and increases its range by 15 yards."
+       },
+       {
+        "key": "heatingUp",
+        "name": "Heating Up",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_firebolt.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Non-periodic critical strikes with Fireball, Frostfire Bolt, Fire Blast, and Scorch reduce the cast time of your next Pyroblast cast within 20 sec by 25%, stacking up to 3 times. Fire Blast grants an additional stack every time it deals damage."
+       }
+      ]
+     },
+     {
+      "name": "Frost",
+      "points": 3,
+      "nodes": [
+       {
+        "key": "elementalPrecision",
+        "name": "Precision",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_ice_magicdamage.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Improves your chance to hit with all spells by 6%."
+       }
+      ]
+     }
+    ]
+   },
+   "rotation": "mage/dps/arcane",
+   "options": {
+    "classOptions": {
+     "defaultMageArmor": "MageArmorMageArmor"
+    }
+   },
+   "url": "https://mythicsim.com/wow-forever/tier-list/sims/16a66fcb-b262-4329-a6bd-827f7c990e86",
+   "sha256Rapport": "8fc0b60df06703ce1dfc0c2541ace656d6370abae2a634a4eaea4d0d681a39a5"
+  },
+  {
+   "specialisation": "mage-feu",
+   "reference": "fire-mage",
+   "dps": 939.2799657265708,
+   "pourcentage": 72.90460402612416,
+   "ancienneNote": 4,
+   "noteSimulee": 4,
+   "note": 4,
+   "varianteMesuree": "reference",
+   "dateRapport": "2026-11-04T10:54:22.491082Z",
+   "moteur": "a667dce8492bd9fb94269a9f864289cb74006775",
+   "race": "Gnome",
+   "talents": {
+    "loadout_string": "0502052001001-55500001230133031-003",
+    "trees": [
+     {
+      "name": "Arcane",
+      "points": 16,
+      "nodes": [
+       {
+        "key": "improvedChanneling",
+        "name": "Improved Channeling",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_starfall.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Gives your Arcane Missiles spell a 100% chance and your Arcane Blast and Arcane Wrath spells a 70% chance to not lose casting time when you take damage."
+       },
+       {
+        "key": "arcaneSubtlety",
+        "name": "Arcane Subtlety",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_dispelmagic.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Reduces your target's resistance to all your spells by 15 and reduces the threat caused by your Arcane spells by 30%."
+       },
+       {
+        "key": "arcaneConcentration",
+        "name": "Arcane Concentration",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_manaburn.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Gives you a 10% chance of entering a Clearcasting state after any damage spell hits a target. The Clearcasting state reduces the mana cost of your next damage spell by 100%."
+       },
+       {
+        "key": "missileBarrage",
+        "name": "Missile Barrage",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_mage_missilebarrage.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Gives your Arcane Blast spell a 40% chance, and your Arcane Wrath, Fireball, Frostbolt, Frost Blast, and Frostfire Bolt spells a 20% chance to reduce the channeled duration of your next Arcane Missiles spell by 50%, reduce the Mana cost by 100%, and missiles fire every 0.5 sec."
+       },
+       {
+        "key": "arcaneBlast",
+        "name": "Arcane Blast",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_arcane_blast.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Blasts the target with energy, dealing 218 to 254 Arcane damage. Each time you cast Arcane Blast, you gain 12% of your Intellect as Spell Damage and the mana cost of Arcane Blast is increased by 100%. Effect stacks up to 4 times and lasts 18 sec from time of initial application."
+       },
+       {
+        "key": "arcaneMeditation",
+        "name": "Arcane Meditation",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_siphonmana.jpg",
+        "rank": 1,
+        "max_rank": 3,
+        "description": "Allows 17% of your Mana regeneration to continue while casting."
+       }
+      ]
+     },
+     {
+      "name": "Fire",
+      "points": 32,
+      "nodes": [
+       {
+        "key": "incineration",
+        "name": "Incineration",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_flameshock.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases the critical strike chance of your Fire Blast, Ice Lance, Arcane Blast, and Scorch spells by 10%."
+       },
+       {
+        "key": "improvedFireball",
+        "name": "Accelerant",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_flamebolt.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Reduces the casting time of your Fireball, Frostfire Bolt, and Arcane Wrath spells by 0.5 sec."
+       },
+       {
+        "key": "ignite",
+        "name": "Ignite",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_incinerate.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Your critical strikes from Fire damage spells cause the target to burn for an additional 40% of your spell's damage over 4 sec."
+       },
+       {
+        "key": "pyroblast",
+        "name": "Pyroblast",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_fireball02.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Hurls an immense fiery boulder that causes 155 to 185 Fire damage and an additional 76 Fire damage over 12 sec."
+       },
+       {
+        "key": "improvedFireBlast",
+        "name": "Improved Fire Blast",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_lavaspawn.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Reduces the cooldown of your Fire Blast spell by 2 sec and increases its range by 15 yards."
+       },
+       {
+        "key": "improvedScorch",
+        "name": "Improved Scorch",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_soulburn.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Your Scorch spell has a 100% chance to cause your target to be vulnerable to Fire damage. This vulnerability increases all Fire damage you deal to your target by 3% and lasts 30 sec, stacking up to 5 times."
+       },
+       {
+        "key": "heatingUp",
+        "name": "Heating Up",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_firebolt.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Non-periodic critical strikes with Fireball, Frostfire Bolt, Fire Blast, and Scorch reduce the cast time of your next Pyroblast cast within 20 sec by 25%, stacking up to 3 times. Fire Blast grants an additional stack every time it deals damage."
+       },
+       {
+        "key": "masterOfElements",
+        "name": "Master of Elements",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_masterofelements.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Your Fire and Frost critical strikes will refund 30% of their base mana cost."
+       },
+       {
+        "key": "criticalMass",
+        "name": "Critical Mass",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_wispheal.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases the critical strike chance of your Fire spells by 6%."
+       },
+       {
+        "key": "firePower",
+        "name": "Fire Power",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_immolation.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases the damage done by your Fire spells by 3% per your Fire effects on the target, up to a maximum increase of 12%. Effects which mix multiple schools of magic do not qualify."
+       },
+       {
+        "key": "combustion",
+        "name": "Combustion",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_sealoffire.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "When activated, this spell causes each of your Fire damage spell hits to increase your critical strike chance with Fire damage spells by 10%. This effect lasts until you have caused 3 non-periodic critical strikes with Fire spells."
+       }
+      ]
+     },
+     {
+      "name": "Frost",
+      "points": 3,
+      "nodes": [
+       {
+        "key": "elementalPrecision",
+        "name": "Precision",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_ice_magicdamage.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Improves your chance to hit with all spells by 6%."
+       }
+      ]
+     }
+    ]
+   },
+   "rotation": "mage/dps/fire",
+   "options": {
+    "classOptions": {
+     "defaultMageArmor": "MageArmorMageArmor"
+    }
+   },
+   "url": "https://mythicsim.com/wow-forever/tier-list/sims/d5b1af62-739c-4fd5-a638-7b027c95e2b4",
+   "sha256Rapport": "7cda32f554d3a6d78e82287760dbe3fde7a45583dacc789365010f597e2571fb"
+  },
+  {
+   "specialisation": "mage-givre",
+   "reference": "frost-mage",
+   "dps": 740.8017070642902,
+   "pourcentage": 57.499209060231216,
+   "ancienneNote": 3,
+   "noteSimulee": 3,
+   "note": 3,
+   "varianteMesuree": "reference",
+   "dateRapport": "2026-11-04T10:54:08.618327Z",
+   "moteur": "a667dce8492bd9fb94269a9f864289cb74006775",
+   "race": "Skyborne (High Order)",
+   "talents": {
+    "loadout_string": "0502052-5-053502030101301251",
+    "trees": [
+     {
+      "name": "Arcane",
+      "points": 14,
+      "nodes": [
+       {
+        "key": "improvedChanneling",
+        "name": "Improved Channeling",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_starfall.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Gives your Arcane Missiles spell a 100% chance and your Arcane Blast and Arcane Wrath spells a 70% chance to not lose casting time when you take damage."
+       },
+       {
+        "key": "arcaneSubtlety",
+        "name": "Arcane Subtlety",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_dispelmagic.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Reduces your target's resistance to all your spells by 15 and reduces the threat caused by your Arcane spells by 30%."
+       },
+       {
+        "key": "arcaneConcentration",
+        "name": "Arcane Concentration",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_manaburn.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Gives you a 10% chance of entering a Clearcasting state after any damage spell hits a target. The Clearcasting state reduces the mana cost of your next damage spell by 100%."
+       },
+       {
+        "key": "missileBarrage",
+        "name": "Missile Barrage",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_mage_missilebarrage.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Gives your Arcane Blast spell a 40% chance, and your Arcane Wrath, Fireball, Frostbolt, Frost Blast, and Frostfire Bolt spells a 20% chance to reduce the channeled duration of your next Arcane Missiles spell by 50%, reduce the Mana cost by 100%, and missiles fire every 0.5 sec."
+       }
+      ]
+     },
+     {
+      "name": "Fire",
+      "points": 5,
+      "nodes": [
+       {
+        "key": "incineration",
+        "name": "Incineration",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_flameshock.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases the critical strike chance of your Fire Blast, Ice Lance, Arcane Blast, and Scorch spells by 10%."
+       }
+      ]
+     },
+     {
+      "name": "Frost",
+      "points": 32,
+      "nodes": [
+       {
+        "key": "improvedFrostbolt",
+        "name": "Improved Frostbolt",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_frostbolt02.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Reduces the casting time of your Frostbolt and Frost Blast spells by 0.5 sec."
+       },
+       {
+        "key": "elementalPrecision",
+        "name": "Precision",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_ice_magicdamage.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Improves your chance to hit with all spells by 6%."
+       },
+       {
+        "key": "iceShards",
+        "name": "Ice Shards",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_iceshard.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases the critical strike damage bonus of your Frost spells by 100%."
+       },
+       {
+        "key": "improvedFrostNova",
+        "name": "Improved Frost Nova",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_freezingbreath.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Reduces the cooldown of your Frost Nova spell by 4 sec."
+       },
+       {
+        "key": "frostChanneling",
+        "name": "Frost Channeling",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_stun.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Reduces the mana cost of your Frost spells by 15% and reduces the threat caused by your Frost spells by 30%."
+       },
+       {
+        "key": "iceLance",
+        "name": "Ice Lance",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_frostblast.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Deals 28 to 33 Frost damage to an enemy target. Deals 300% increased damage to Frozen targets."
+       },
+       {
+        "key": "iceBlock",
+        "name": "Ice Block",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_frost.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "You become encased in a block of ice, protecting you from all physical attacks and spells for 10 sec, but during that time you cannot attack, move, or cast spells."
+       },
+       {
+        "key": "shatter",
+        "name": "Shatter",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_frostshock.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases the critical strike chance of all your spells against Frozen targets by 50%."
+       },
+       {
+        "key": "coldSnap",
+        "name": "Cold Snap",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_wizardmark.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Finishes the remaining cooldown on all your other Frost spells."
+       },
+       {
+        "key": "fingersOfFrost",
+        "name": "Fingers of Frost",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_mage_wintersgrasp.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Gives your Chill effects a 15% chance to grant you the Fingers of Frost effect, which treats your next 2 spell cast as if the target were frozen. Lasts 15 sec."
+       },
+       {
+        "key": "wintersChill",
+        "name": "Winter's Chill",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_chillingblast.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Gives your Frostbolt, Frost Blast, and Fingers of Frost empowered Ice Lance spells a 100% chance to apply Winter's Chill, increasing the target's damage taken from your next Cone of Cold by 20% and it gains an additional 7% of your spell damage, stacking up to 5 times."
+       },
+       {
+        "key": "iceBarrier",
+        "name": "Ice Barrier",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_ice_lament.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Shield yourself, absorbing 431 damage and increasing your Frost damage by 15% for 1 min. While shielded, your Frost damage is increased by an additional 5% and you do not lose casting time when you take damage."
+       }
+      ]
+     }
+    ]
+   },
+   "rotation": "mage/dps/frost",
+   "options": {
+    "classOptions": {
+     "defaultMageArmor": "MageArmorMageArmor"
+    }
+   },
+   "url": "https://mythicsim.com/wow-forever/tier-list/sims/41274456-55c9-4c84-ade4-2868f52cbbf7",
+   "sha256Rapport": "26c9e8d784d174e23fb32611757d1a0eee76e9a24a188926b844956d493a668b"
+  },
+  {
+   "specialisation": "demoniste-affliction",
+   "reference": "affliction-warlock",
+   "dps": 933.5773301619134,
+   "pourcentage": 72.46197945952325,
+   "ancienneNote": 3,
+   "noteSimulee": 4,
+   "note": 3,
+   "varianteMesuree": "sans-familier-sacrifice",
+   "dateRapport": "2026-11-04T12:46:45.849355Z",
+   "moteur": "a667dce8492bd9fb94269a9f864289cb74006775",
+   "race": "Troll",
+   "talents": {
+    "loadout_string": "25500020135201351-0050203001-05",
+    "trees": [
+     {
+      "name": "Affliction",
+      "points": 35,
+      "nodes": [
+       {
+        "key": "improvedLifeTap",
+        "name": "Improved Life Tap",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_burningspirit.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Increases the amount of Mana awarded by your Life Tap spell by 20%."
+       },
+       {
+        "key": "suppression",
+        "name": "Suppression",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_unsummonbuilding.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Improves your chance to hit by 5% and reduces all threat you generate by 20%."
+       },
+       {
+        "key": "improvedCorruption",
+        "name": "Improved Corruption",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_abominationexplosion.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Reduces the casting time of your Corruption spell by 2 sec and increases the damage it deals by 10%."
+       },
+       {
+        "key": "improvedBaneOfAgony",
+        "name": "Improved Bane of Agony",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_curseofsargeras.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Increases the damage done by your Bane of Agony by 10%."
+       },
+       {
+        "key": "amplifyCurse",
+        "name": "Amplify Curse",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_contagion.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Increases the effect of your next Curse of Weakness or Bane of Agony by 50%, or your next Curse of Exhaustion by 20%. Lasts 30 sec."
+       },
+       {
+        "key": "pandemic",
+        "name": "Pandemic",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_unstableaffliction_2.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases the critical strike damage bonus of your Corruption, Bane of Agony, Bane of Doom, Drain Soul, Drain Life, Siphon Life, and Wrack spells by 100%."
+       },
+       {
+        "key": "malevolence",
+        "name": "Malevolence",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_focusedpower.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases the critical effect chance of your Shadow spells by 5%."
+       },
+       {
+        "key": "nightfall",
+        "name": "Nightfall",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_twilight.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Gives your Corruption, Drain Soul, Drain Life, and Wrack spells a 4% chance to cause you to enter a Shadow Trance after damaging the opponent. The Shadow Trance reduces the casting time of your next Shadow Bolt spell by 100%."
+       },
+       {
+        "key": "siphonLife",
+        "name": "Siphon Life",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_requiem.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Transfers 15 health from the target to the caster every 3 sec. Lasts 30 sec."
+       },
+       {
+        "key": "soulSiphon",
+        "name": "Soul Siphon",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_lifedrain02.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases the damage done or health drained by your Drain Life, Drain Soul, and Wrack spells by 12% per each of your other Affliction effects active on the target, up to a maximum increase of 36%."
+       },
+       {
+        "key": "shadowMastery",
+        "name": "Shadow Mastery",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadetruesight.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases the damage dealt or life drained by your Shadow spells by 5%."
+       },
+       {
+        "key": "wrack",
+        "name": "Wrack",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_deathknight_hemorrhagicfever.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Tears the target apart from within, inflicting 36 Shadow damage every 1 sec and increasing the damage they take from your other Shadow damage over time effects by 10% for 6 sec."
+       }
+      ]
+     },
+     {
+      "name": "Demonology",
+      "points": 11,
+      "nodes": [
+       {
+        "key": "demonicEmbrace",
+        "name": "Demonic Embrace",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_metamorphosis.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases your total Stamina by 15%."
+       },
+       {
+        "key": "demonicAegis",
+        "name": "Demonic Aegis",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_ragingscream.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Increases the effectiveness of your Demon Skin and Demon Armor spells by 30%."
+       },
+       {
+        "key": "felVitality",
+        "name": "Fel Vitality",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_demonictactics.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases the maximum health and Mana of your Imp, Voidwalker, Succubus, Incubus, and Felhunter by 15%, and increases your maximum Mana by 15%."
+       },
+       {
+        "key": "demonicSacrifice",
+        "name": "Demonic Sacrifice",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_psychicscream.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "When activated, sacrifices your summoned Demon to enhance the opposing aspect of your power, granting you an effect that lasts 2 hrs. The effect is canceled if any Demon is summoned. Imp: Increases your Shadow damage by 15%. Voidwalker: Restores 2% of your total Mana every 4 sec. Succubus/Incubus: Increases your Fire damage by 15%. Felhunter: Restores 3% of your total Health every 4 sec."
+       }
+      ]
+     },
+     {
+      "name": "Destruction",
+      "points": 5,
+      "nodes": [
+       {
+        "key": "improvedShadowBolt",
+        "name": "Improved Shadow Bolt",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowbolt.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Your Shadow Bolt critical strikes increase Shadow damage taken by the target from your attacks by 20% for 12 sec."
+       }
+      ]
+     }
+    ]
+   },
+   "rotation": "warlock/dps/affliction",
+   "options": {
+    "classOptions": {
+     "armor": "DemonArmor",
+     "sacrificeSummon": true,
+     "summon": "Imp",
+     "weaponStone": "Spellstone"
+    }
+   },
+   "url": "https://mythicsim.com/wow-forever/tier-list/sims/9dd34cb3-e738-410e-a829-bdd2bcf067bf",
+   "sha256Rapport": "c227f0d0df1921cca4ca1f5f3a246cc685197dda2654d417bbf2a3f666915f89"
+  },
+  {
+   "specialisation": "demoniste-demonologie",
+   "reference": "demonology-warlock",
+   "dps": 980.1068588649536,
+   "pourcentage": 76.07348719885132,
+   "ancienneNote": 4,
+   "noteSimulee": 4,
+   "note": 4,
+   "varianteMesuree": "reference",
+   "dateRapport": "2026-11-04T01:27:41.210927Z",
+   "moteur": "a667dce8492bd9fb94269a9f864289cb74006775",
+   "race": "Undead",
+   "talents": {
+    "loadout_string": "011-0025003231020301351-0550005003",
+    "trees": [
+     {
+      "name": "Affliction",
+      "points": 2,
+      "nodes": [
+       {
+        "key": "suppression",
+        "name": "Suppression",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_unsummonbuilding.jpg",
+        "rank": 1,
+        "max_rank": 5,
+        "description": "Improves your chance to hit by 1% and reduces all threat you generate by 4%."
+       },
+       {
+        "key": "improvedCorruption",
+        "name": "Improved Corruption",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_abominationexplosion.jpg",
+        "rank": 1,
+        "max_rank": 5,
+        "description": "Reduces the casting time of your Corruption spell by 0.4 sec and increases the damage it deals by 2%."
+       }
+      ]
+     },
+     {
+      "name": "Demonology",
+      "points": 31,
+      "nodes": [
+       {
+        "key": "demonicEmbrace",
+        "name": "Demonic Embrace",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_metamorphosis.jpg",
+        "rank": 2,
+        "max_rank": 5,
+        "description": "Increases your total Stamina by 6%."
+       },
+       {
+        "key": "unholyPower",
+        "name": "Unholy Power",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowworddominate.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases all damage done by your Imp, Voidwalker, Succubus, Incubus, and Felhunter pets by 10%."
+       },
+       {
+        "key": "felVitality",
+        "name": "Fel Vitality",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_demonictactics.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases the maximum health and Mana of your Imp, Voidwalker, Succubus, Incubus, and Felhunter by 15%, and increases your maximum Mana by 15%."
+       },
+       {
+        "key": "demonicEnergies",
+        "name": "Demonic Energies",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_felmending.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "You heal your pet for 15% of all spell damage you deal. When you gain Mana from Life Tap, your summoned demon gains 100% of the Mana you gain."
+       },
+       {
+        "key": "improvedSayaad",
+        "name": "Improved Sayaad",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_warlock_randomizesuccubusincubus.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases the effect of your Succubus' and Incubus' Lash of Pain and Soothing Kiss spells by 30%, and increases the duration of your Succubus' and Incubus' Seduction and Lesser Invisibility spells by 30%."
+       },
+       {
+        "key": "demonicSacrifice",
+        "name": "Demonic Sacrifice",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_psychicscream.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "When activated, sacrifices your summoned Demon to enhance the opposing aspect of your power, granting you an effect that lasts 2 hrs. The effect is canceled if any Demon is summoned. Imp: Increases your Shadow damage by 15%. Voidwalker: Restores 2% of your total Mana every 4 sec. Succubus/Incubus: Increases your Fire damage by 15%. Felhunter: Restores 3% of your total Health every 4 sec."
+       },
+       {
+        "key": "decimation",
+        "name": "Decimation",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_fireball02.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Reduces the cooldown of your Soul Fire spell by 90%. When you cast Shadow Bolt or Searing Pain on an enemy below 35% health, they deal 6% increased damage, and for the next 10 sec your Soul Fire spell has its cast time reduced by 40% and costs no Soul Shards."
+       },
+       {
+        "key": "demonicBrand",
+        "name": "Demonic Brand",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_demonhunter_chaoticimprint_fire.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Your Searing Pain generates 50% less threat and brands the target for 10 sec. Your pet's next 6 attacks against the target deal 65 to 68 Fire or Shadow damage based on the pet. If Shadow damage is dealt, it has high threat."
+       },
+       {
+        "key": "soulLink",
+        "name": "Soul Link",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_gathershadows.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "When active, 30% of all damage taken by the caster is taken by your Imp, Voidwalker, Succubus, Incubus, or Felhunter Demon instead. In addition, both the Demon and the master will inflict 3% more damage. Lasts as long as the Demon is active."
+       },
+       {
+        "key": "demonicKnowledge",
+        "name": "Demonic Knowledge",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_improvedvampiricembrace.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases your spell damage and your Demon pet's spell damage by up to 100% of your level while you have a summoned Demon pet active."
+       },
+       {
+        "key": "masterDemonologist",
+        "name": "Master Demonologist",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowpact.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Grants both the Warlock and the summoned demon an effect as long as that demon is active. Imp - Increases Fire damage done by 10%. Voidwalker - Reduces Physical damage taken by 10%. Succubus/Incubus - Increases Shadow damage done by 10%. Felhunter - Reduces Magic damage taken by 10%."
+       },
+       {
+        "key": "demonicPact",
+        "name": "Demonic Pact",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/inv_ability_soulharvesterwarlock_demonicsoul.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Your Demonic Sacrifice effect is no longer cancelled by summoning a different Demon pet. Resummoning the sacrificed pet will still cancel the effect."
+       }
+      ]
+     },
+     {
+      "name": "Destruction",
+      "points": 18,
+      "nodes": [
+       {
+        "key": "improvedShadowBolt",
+        "name": "Improved Shadow Bolt",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowbolt.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Your Shadow Bolt critical strikes increase Shadow damage taken by the target from your attacks by 20% for 12 sec."
+       },
+       {
+        "key": "bane",
+        "name": "Bane",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_deathpact.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Reduces the casting time of your Shadow Bolt, Immolate, and Incinerate spells by 0.5 sec and your Soul Fire spell by 2 sec."
+       },
+       {
+        "key": "ruin",
+        "name": "Ruin",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowwordpain.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases the critical strike damage bonus of your Destruction spells by 100%."
+       },
+       {
+        "key": "agonizingFlames",
+        "name": "Agonizing Flames",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_soulburn.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases the critical strike chance of your Searing Pain spell by 10% and the damage done by all your Destruction spells by 10%."
+       }
+      ]
+     }
+    ]
+   },
+   "rotation": "warlock/dps/demonic_pact",
+   "options": {
+    "classOptions": {
+     "armor": "DemonArmor",
+     "pactSacrifice": "Imp",
+     "summon": "Succubus",
+     "weaponStone": "Spellstone"
+    }
+   },
+   "url": "https://mythicsim.com/wow-forever/tier-list/sims/c67386da-5b1c-420c-9e7e-93cda94d07dd",
+   "sha256Rapport": "39aea96040069d3104752088a9a81f8d1d6e8eb0f38f08232945bc6b6e8d7342"
+  },
+  {
+   "specialisation": "demoniste-destruction",
+   "reference": "destruction-warlock",
+   "dps": 928.7640753170376,
+   "pourcentage": 72.08838644003299,
+   "ancienneNote": 3,
+   "noteSimulee": 4,
+   "note": 4,
+   "varianteMesuree": "reference",
+   "dateRapport": "2026-11-04T10:52:16.791693Z",
+   "moteur": "a667dce8492bd9fb94269a9f864289cb74006775",
+   "race": "Human",
+   "talents": {
+    "loadout_string": "25400000135--055030510310035",
+    "trees": [
+     {
+      "name": "Affliction",
+      "points": 20,
+      "nodes": [
+       {
+        "key": "improvedLifeTap",
+        "name": "Improved Life Tap",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_burningspirit.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Increases the amount of Mana awarded by your Life Tap spell by 20%."
+       },
+       {
+        "key": "suppression",
+        "name": "Suppression",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_unsummonbuilding.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Improves your chance to hit by 5% and reduces all threat you generate by 20%."
+       },
+       {
+        "key": "improvedCorruption",
+        "name": "Improved Corruption",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_abominationexplosion.jpg",
+        "rank": 4,
+        "max_rank": 5,
+        "description": "Reduces the casting time of your Corruption spell by 1.6 sec and increases the damage it deals by 8%."
+       },
+       {
+        "key": "amplifyCurse",
+        "name": "Amplify Curse",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_contagion.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Increases the effect of your next Curse of Weakness or Bane of Agony by 50%, or your next Curse of Exhaustion by 20%. Lasts 30 sec."
+       },
+       {
+        "key": "pandemic",
+        "name": "Pandemic",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_unstableaffliction_2.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases the critical strike damage bonus of your Corruption, Bane of Agony, Bane of Doom, Drain Soul, Drain Life, Siphon Life, and Wrack spells by 100%."
+       },
+       {
+        "key": "malevolence",
+        "name": "Malevolence",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_focusedpower.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases the critical effect chance of your Shadow spells by 5%."
+       }
+      ]
+     },
+     {
+      "name": "Demonology",
+      "points": 0,
+      "nodes": []
+     },
+     {
+      "name": "Destruction",
+      "points": 31,
+      "nodes": [
+       {
+        "key": "improvedShadowBolt",
+        "name": "Improved Shadow Bolt",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowbolt.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Your Shadow Bolt critical strikes increase Shadow damage taken by the target from your attacks by 20% for 12 sec."
+       },
+       {
+        "key": "bane",
+        "name": "Bane",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_deathpact.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Reduces the casting time of your Shadow Bolt, Immolate, and Incinerate spells by 0.5 sec and your Soul Fire spell by 2 sec."
+       },
+       {
+        "key": "cataclysm",
+        "name": "Cataclysm",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_windsofwoe.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Reduces the Mana cost of your Destruction spells by 10%."
+       },
+       {
+        "key": "ruin",
+        "name": "Ruin",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowwordpain.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases the critical strike damage bonus of your Destruction spells by 100%."
+       },
+       {
+        "key": "shadowburn",
+        "name": "Shadowburn",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_scourgebuild.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Instantly blasts the target for 102 to 111 Shadow damage. If a non-trivial target dies within 8 sec of being hit with Shadowburn, the caster gains a Soul Shard."
+       },
+       {
+        "key": "agonizingFlames",
+        "name": "Agonizing Flames",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_soulburn.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases the critical strike chance of your Searing Pain spell by 10% and the damage done by all your Destruction spells by 10%."
+       },
+       {
+        "key": "conflagrate",
+        "name": "Conflagrate",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_fireball.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Ignites a target that is already afflicted by your Immolate spell, dealing 109 to 132 Fire damage and consuming your Immolate effect."
+       },
+       {
+        "key": "fireAndBrimstone",
+        "name": "Fire and Brimstone",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_meteorstorm.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases the critical strike chance of your Conflagrate spell by 25%."
+       },
+       {
+        "key": "shadowAndFlame",
+        "name": "Shadow and Flame",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_playingwithfire.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Hitting an enemy with Conflagrate increases all Shadow damage you deal by 20% for 20 sec. and hitting an enemy with Shadowburn increases all Fire damage you deal by 20% for 20 sec. In addition, Conflagrate has a 100% chance not to consume Immolate, and Shadowburn has a 100% chance to instantly refund a Soul Shard."
+       }
+      ]
+     }
+    ]
+   },
+   "rotation": "warlock/dps/destruction_conflag",
+   "options": {
+    "classOptions": {
+     "armor": "DemonArmor",
+     "sacrificeSummon": false,
+     "summon": "Succubus",
+     "weaponStone": "Spellstone"
+    }
+   },
+   "url": "https://mythicsim.com/wow-forever/tier-list/sims/1e4092da-697f-4006-b20f-fdc49f609179",
+   "sha256Rapport": "9cea723113aa41421588d71c557b38784dbd8b9555936b386d0fd9a851c2eed4"
+  },
+  {
+   "specialisation": "druide-equilibre",
+   "reference": "balance-druid",
+   "dps": 821.8410194861078,
+   "pourcentage": 63.78928145423974,
+   "ancienneNote": 3,
+   "noteSimulee": 3,
+   "note": 3,
+   "varianteMesuree": "reference",
+   "dateRapport": "2026-11-04T10:45:56.508700Z",
+   "moteur": "a667dce8492bd9fb94269a9f864289cb74006775",
+   "race": "Skyborne (High Order)",
+   "talents": {
+    "loadout_string": "5532220115501351--055",
+    "trees": [
+     {
+      "name": "Balance",
+      "points": 41,
+      "nodes": [
+       {
+        "key": "improvedWrath",
+        "name": "Improved Wrath",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_abolishmagic.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Reduces the cast time of your Wrath spell by 0.5 sec and its Mana cost by 50%."
+       },
+       {
+        "key": "genesis",
+        "name": "Genesis",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcane03.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases the periodic damage and healing done by your spells and abilities by 10%."
+       },
+       {
+        "key": "moonglow",
+        "name": "Moonglow",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_sentinal.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Reduces the Mana cost of your damaging spells by 25%."
+       },
+       {
+        "key": "improvedMoonfire",
+        "name": "Improved Moonfire",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_starfall.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Increases the damage and critical strike chance of your Moonfire spell by 10%."
+       },
+       {
+        "key": "naturesMajesty",
+        "name": "Nature's Majesty",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/inv_staff_01.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Increases your critical strike chance with spells and melee attacks by 4%."
+       },
+       {
+        "key": "naturesReach",
+        "name": "Nature's Reach",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Increases the range of your offensive Balance spells by 20% and improves your chance to hit by 4%."
+       },
+       {
+        "key": "naturesSplendor",
+        "name": "Nature's Splendor",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_natureresistancetotem.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Increases the duration of your Moonfire and Rejuvenation spells by 3 sec, your Regrowth spell by 6 sec, and your Insect Swarm spell by 2 sec."
+       },
+       {
+        "key": "insectSwarm",
+        "name": "Insect Swarm",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_insectswarm.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "The enemy target is swarmed by insects, decreasing their chance to hit by 2% and causing 55 Nature damage over 12 sec."
+       },
+       {
+        "key": "vengeance",
+        "name": "Vengeance",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_purge.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases the critical strike damage bonus of your Arcane and Nature spells by 100%."
+       },
+       {
+        "key": "improvedStarfire",
+        "name": "Improved Starfire",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_arcane_starfire.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Reduces the cast time of Starfire by 0.5 sec and Starfire has a 15% chance to stun its target for 3 sec."
+       },
+       {
+        "key": "naturesGrace",
+        "name": "Nature's Grace",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturesblessing.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "All non-periodic spell criticals grace you with a blessing of nature, increasing your spellcasting speed and reducing your global cooldown by 10% for 3 sec."
+       },
+       {
+        "key": "eclipse",
+        "name": "Eclipse",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_druid_eclipse.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Your Wrath spell reduces the cast time of your next 2 Starfire spells by 0.51 sec. Stores up to 4 charges. Lasts 15 sec."
+       },
+       {
+        "key": "moonfury",
+        "name": "Moonfury",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_moonglow.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases the damage done by your Arcane and Nature spells by 10%."
+       },
+       {
+        "key": "moonkinForm",
+        "name": "Moonkin Form",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_forceofnature.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Shapeshift into Moonkin Form, increasing Omen of Clarity's chance to trigger by 100%, Armor contribution from items by 360%, and all party or raid members within 45 yards have their critical strike chance increased by 3%. Also protects the caster from Polymorph effects and prevents the use of healing spells. The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects."
+       }
+      ]
+     },
+     {
+      "name": "Feral Combat",
+      "points": 0,
+      "nodes": []
+     },
+     {
+      "name": "Restoration",
+      "points": 10,
+      "nodes": [
+       {
+        "key": "heartOfTheWild",
+        "name": "Heart of the Wild",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofagility.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases your Intellect by 10%. In addition, while in Bear Form or Dire Bear Form your Stamina is increased by 20% and while in Cat Form your Strength is increased by 10%."
+       },
+       {
+        "key": "naturalist",
+        "name": "Naturalist",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingtouch.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Reduces the cast time of your Healing Touch and Wild Growth spells by 0.5 sec and increases all damage you deal by 10%."
+       }
+      ]
+     }
+    ]
+   },
+   "rotation": "druid/balance/launch",
+   "options": {
+    "classOptions": {}
+   },
+   "url": "https://mythicsim.com/wow-forever/tier-list/sims/cfcae130-275d-4cc9-8870-6e3a87fb2cce",
+   "sha256Rapport": "0ff6cf32c3abc243ecfafeff3a516bc5def2652c92a445c06fd2f3ff84b921a4"
+  },
+  {
+   "specialisation": "druide-farouche-chat",
+   "reference": "feral-druid",
+   "dps": 985.0836991564238,
+   "pourcentage": 76.45977731893308,
+   "ancienneNote": 3,
+   "noteSimulee": 4,
+   "note": 4,
+   "varianteMesuree": "reference",
+   "dateRapport": "2026-11-04T00:56:41.591881Z",
+   "moteur": "a667dce8492bd9fb94269a9f864289cb74006775",
+   "race": "Night Elf",
+   "talents": {
+    "loadout_string": "050022-55000032023012125001-055",
+    "trees": [
+     {
+      "name": "Balance",
+      "points": 9,
+      "nodes": [
+       {
+        "key": "genesis",
+        "name": "Genesis",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcane03.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases the periodic damage and healing done by your spells and abilities by 10%."
+       },
+       {
+        "key": "naturesMajesty",
+        "name": "Nature's Majesty",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/inv_staff_01.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Increases your critical strike chance with spells and melee attacks by 4%."
+       },
+       {
+        "key": "naturesReach",
+        "name": "Nature's Reach",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Increases the range of your offensive Balance spells by 20% and improves your chance to hit by 4%."
+       }
+      ]
+     },
+     {
+      "name": "Feral Combat",
+      "points": 32,
+      "nodes": [
+       {
+        "key": "ferocity",
+        "name": "Ferocity",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_hunter_pet_hyena.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Reduces the cost of your Maul, Primal Bite, Swipe, Claw, and Rake abilities by 5 Rage or Energy."
+       },
+       {
+        "key": "furor",
+        "name": "Furor",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstamina.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Gives you a 100% chance to gain 10 Rage when shapeshifting into Bear Form or Dire Bear Form. Shapeshifting into Cat Form restores 100% of the Energy you had when last in Cat Form, plus 10 Energy per second spent outside Bear Form or Dire Bear Form, up to 100 Energy."
+       },
+       {
+        "key": "shreddingAttacks",
+        "name": "Shredding Attacks",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_vampiricaura.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Reduces the Energy cost of your Shred ability by 18 and reduces the Rage cost of your Lacerate ability by 3."
+       },
+       {
+        "key": "savageFury",
+        "name": "Savage Fury",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_druid_ravage.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Increases the damage caused by your Claw, Rake, Shred, Maul, and Swipe abilities by 10%."
+       },
+       {
+        "key": "sharpenedClaws",
+        "name": "Sharpened Claws",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/inv_misc_monsterclaw_04.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Increases your critical strike chance while in Bear Form, Dire Bear Form, or Cat Form by 6%."
+       },
+       {
+        "key": "predatoryStrikes",
+        "name": "Predatory Strikes",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_hunter_pet_cat.jpg",
+        "rank": 3,
+        "max_rank": 3,
+        "description": "Increases your melee Attack Power in Cat Form, Bear Form, and Dire Bear Form by 150% of your level."
+       },
+       {
+        "key": "predatoryDiscipline",
+        "name": "Predatory Discipline",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_druid_savagery.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Your Ferocious Bite ability no longer converts extra Energy into damage, but still deals extra damage based on your excess Energy."
+       },
+       {
+        "key": "bloodFrenzy",
+        "name": "Blood Frenzy",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_ghoulfrenzy.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Gives you a 100% chance to gain an additional 5 Rage any time you get a critical strike while in Bear Form or Dire Bear Form. In addition, your non-periodic critical strikes from Cat Form abilities that generate Combo Points have a 100% chance to add an additional Combo Point."
+       },
+       {
+        "key": "leaderOfThePack",
+        "name": "Leader of the Pack",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_unyeildingstamina.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "While in Cat Form, Bear Form, or Dire Bear Form, the Leader of the Pack increases the critical strike chance of all party or raid members within 45 yards by 3%."
+       },
+       {
+        "key": "naturalInstinct",
+        "name": "Natural Instinct",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_druid_predatoryinstincts.jpg",
+        "rank": 2,
+        "max_rank": 2,
+        "description": "Increases the critical strike damage bonus of your melee abilities by 20% and increases your spell healing by 25% of your Intellect."
+       },
+       {
+        "key": "rendAndTear",
+        "name": "Rend and Tear",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_druid_primalagression.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases damage done by your melee abilities on Bleeding targets by 15%."
+       },
+       {
+        "key": "shiftingPower",
+        "name": "Shifting Power",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_druid_displacement.jpg",
+        "rank": 1,
+        "max_rank": 1,
+        "description": "Cat Form only. 8 sec cooldown. Instantly convert 55% of your base Mana into 40 Energy. Shifting Power's cost is reduced by effects that reduce the cost of Shapeshifting."
+       }
+      ]
+     },
+     {
+      "name": "Restoration",
+      "points": 10,
+      "nodes": [
+       {
+        "key": "heartOfTheWild",
+        "name": "Heart of the Wild",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofagility.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Increases your Intellect by 10%. In addition, while in Bear Form or Dire Bear Form your Stamina is increased by 20% and while in Cat Form your Strength is increased by 10%."
+       },
+       {
+        "key": "naturalist",
+        "name": "Naturalist",
+        "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingtouch.jpg",
+        "rank": 5,
+        "max_rank": 5,
+        "description": "Reduces the cast time of your Healing Touch and Wild Growth spells by 0.5 sec and increases all damage you deal by 10%."
+       }
+      ]
+     }
+    ]
+   },
+   "rotation": "druid/feralcat/default",
+   "options": {
+    "classOptions": {}
+   },
+   "url": "https://mythicsim.com/wow-forever/tier-list/sims/ead7ca8b-9a38-46ef-8675-f46e6b518904",
+   "sha256Rapport": "c43396815331ef71110680bd60a422e91561b9ff876d522f3de80d5dcbb57e28"
+  }
+ ],
+ "changementsAttendus": {
+  "specChanges": [
+   [
+    "paladin-vindicte",
+    "activity.raid",
+    3,
+    4
+   ],
+   [
+    "chasseur-precision",
+    "activity.raid",
+    3,
+    4
+   ],
+   [
+    "voleur-finesse",
+    "activity.raid",
+    3,
+    4
+   ],
+   [
+    "chaman-elementaire",
+    "activity.raid",
+    2,
+    3
+   ],
+   [
+    "chaman-amelioration",
+    "activity.raid",
+    3,
+    4
+   ],
+   [
+    "mage-arcane",
+    "activity.raid",
+    3,
+    4
+   ],
+   [
+    "demoniste-destruction",
+    "activity.raid",
+    3,
+    4
+   ],
+   [
+    "druide-farouche-chat",
+    "activity.raid",
+    3,
+    4
+   ],
+   [
+    "paladin-protection",
+    "activity.solo",
+    5,
+    4
+   ],
+   [
+    "mage-givre",
+    "activity.solo",
+    3,
+    4
+   ],
+   [
+    "voleur-assassinat",
+    "style.ctrl",
+    5,
+    4
+   ],
+   [
+    "chaman-elementaire",
+    "style.burst",
+    5,
+    4
+   ],
+   [
+    "demoniste-destruction",
+    "style.support",
+    2,
+    3
+   ],
+   [
+    "guerrier-fureur",
+    "load.pve",
+    3,
+    4
+   ],
+   [
+    "paladin-sacre",
+    "load.pve",
+    2,
+    3
+   ],
+   [
+    "voleur-assassinat",
+    "load.pve",
+    2,
+    3
+   ],
+   [
+    "voleur-combat",
+    "load.pve",
+    2,
+    3
+   ],
+   [
+    "chaman-amelioration",
+    "load.pve",
+    3,
+    4
+   ],
+   [
+    "paladin-sacre",
+    "load.pvp",
+    2,
+    3
+   ],
+   [
+    "paladin-protection",
+    "load.pvp",
+    2,
+    3
+   ],
+   [
+    "paladin-vindicte",
+    "load.pvp",
+    3,
+    4
+   ],
+   [
+    "guerrier-armes",
+    "complexity.pve.4",
+    1,
+    2
+   ],
+   [
+    "guerrier-fureur",
+    "complexity.pve.4",
+    0,
+    2
+   ],
+   [
+    "paladin-sacre",
+    "complexity.pve.0",
+    0,
+    1
+   ],
+   [
+    "paladin-sacre",
+    "complexity.pvp.1",
+    1,
+    2
+   ],
+   [
+    "paladin-protection",
+    "complexity.pvp.1",
+    1,
+    2
+   ],
+   [
+    "paladin-vindicte",
+    "complexity.pvp.1",
+    1,
+    2
+   ],
+   [
+    "voleur-assassinat",
+    "complexity.pve.3",
+    0,
+    1
+   ],
+   [
+    "voleur-combat",
+    "complexity.pve.0",
+    0,
+    2
+   ],
+   [
+    "voleur-combat",
+    "complexity.pve.3",
+    0,
+    1
+   ],
+   [
+    "chaman-amelioration",
+    "complexity.pve.0",
+    1,
+    2
+   ],
+   [
+    "chaman-restauration",
+    "complexity.pve.1",
+    1,
+    2
+   ],
+   [
+    "mage-arcane",
+    "complexity.pve.0",
+    1,
+    2
+   ],
+   [
+    "demoniste-destruction",
+    "complexity.pve.1",
+    1,
+    2
+   ],
+   [
+    "druide-equilibre",
+    "complexity.pve.0",
+    0,
+    1
+   ],
+   [
+    "guerrier-armes",
+    "style.burst",
+    5,
+    4
+   ]
+  ],
+  "matrixChanges": [
+   [
+    "guerrier",
+    "r.burst",
+    5,
+    4
+   ],
+   [
+    "paladin",
+    "r.dps",
+    3,
+    4
+   ],
+   [
+    "paladin",
+    "r.solo",
+    5,
+    4
+   ],
+   [
+    "voleur",
+    "r.dps",
+    3,
+    4
+   ],
+   [
+    "chaman",
+    "r.dps",
+    3,
+    4
+   ],
+   [
+    "mage",
+    "r.solo",
+    3,
+    4
+   ],
+   [
+    "druide",
+    "r.dps",
+    3,
+    4
+   ]
+  ],
+  "petlessChanges": [
+   [
+    "demoniste-affliction",
+    "raid",
+    null,
+    [
+     3,
+     4
+    ]
+   ]
+  ],
+  "petlessComplexityChanges": [
+   [
+    "demoniste-destruction",
+    "complexity.pve.1",
+    1,
+    2
+   ],
+   [
+    "demoniste-destruction",
+    "load.pve",
+    2,
+    3
+   ]
+  ]
+ },
+ "revue": {
+  "configurations": 28,
+  "notesSpecialisees": 336,
+  "variantesSansFamilier": 4,
+  "profilsSoin": 5,
+  "methode": "Chaque critère est relu dans les neuf fichiers de classe. Une conservation garde sa justification et sa confiance. Les rapports de lot motivent les changements de gameplay et les réserves sans exiger un HPS/PvP chiffré inexistant."
+ }
+}

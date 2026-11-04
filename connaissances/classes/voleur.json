@@ -1,8 +1,8 @@
 {
  "classe": "voleur",
  "libelle": "Voleur",
- "date": "2026-10-31",
- "moteur": "1.6.0-exploratoire",
+ "date": "2026-11-04",
+ "moteur": "1.7.0-exploratoire",
  "faits": [
   {
    "id": "v-role",
@@ -85,9 +85,10 @@
   {
    "id": "v-assa",
    "categorie": "burst",
-   "texte": "Assassinat : « Mutilate », « Venom » (+30 % de dégâts des poisons), « Cold Blood ».",
+   "texte": "Assassinat : Mutilate, Sang froid et Venom. Depuis les changements du 2 novembre intégrés au hotfix du 3, Venom est un passif : Shank donne pendant 6 s +30 % aux dégâts des poisons et +20 % à leur chance d’application. Il ne dépense plus de points de combo.",
    "sources": [
-    "bz-dd-voleur-demoniste"
+    "bz-dev-20261102",
+    "wft-patch-20261104"
    ],
    "specs": [
     "voleur-assassinat"
@@ -96,10 +97,11 @@
   {
    "id": "v-combat",
    "categorie": "burst",
-   "texte": "Combat : « Adrenaline Rush », « Flawless Execution », « Hack and Slash » ; « Slice and Dice » est son plus gros bonus.",
+   "texte": "Combat : Poussée d’adrénaline, Déluge de lames, Hack and Slash et Débiter. Flash of Steel renforce l’énergie générée par Shank et réduit sa recharge. Le nouveau preset de référence utilise Attaque sournoise avec des dagues, Puncturing Wounds et un accès au dos de la cible.",
    "sources": [
-    "bz-dd-voleur-demoniste",
-    "wt-voleur"
+    "bz-dev-20261102",
+    "wft-patch-20261104",
+    "mythicsim-20261104"
    ],
    "specs": [
     "voleur-combat"
@@ -108,9 +110,10 @@
   {
    "id": "v-finesse",
    "categorie": "burst",
-   "texte": "Finesse : « Premeditation », « Quietus », « Thousand Cuts », « Cutthroat » (Ambush sans Discrétion).",
+   "texte": "Finesse : Préméditation, Préparation, Ghostly Strike, Boot Knife et Death Mark. Ghostly Strike donne 7 s pour un Garrot ou une Embuscade sans Discrétion ; Boot Knife permet à Shank de générer des points de combo. Death Mark restitue après 6 s les dégâts stockés, à double vitesse pour Garrot et Rupture. Quietus, Cutthroat et Thousand Cuts sont retirés.",
    "sources": [
-    "bz-dd-voleur-demoniste"
+    "bz-dev-20261102",
+    "wft-patch-20261104"
    ],
    "specs": [
     "voleur-finesse"
@@ -119,9 +122,10 @@
   {
    "id": "v-finesse-controle",
    "categorie": "controle",
-   "texte": "Finesse : « Dirty Tricks » rend « Sap » et « Blind » moins chers et « Sap » compatible avec la Discrétion ; « Camouflage », « Master of Deception ».",
+   "texte": "Finesse : Dirty Tricks réduit le coût d’Assommer et Cécité, Camouflage facilite l’approche. Quick Getaway permet un Assommer supplémentaire et donne un bref gain de vitesse après son utilisation. Assommer de base ne brise déjà plus la Discrétion.",
    "sources": [
-    "bz-dd-voleur-demoniste"
+    "bz-dev-20261102",
+    "wft-patch-20261104"
    ],
    "specs": [
     "voleur-finesse"
@@ -130,17 +134,19 @@
   {
    "id": "v-ressource",
    "categorie": "ressource",
-   "texte": "Énergie, points de combo, ouvertures depuis la Discrétion ; début difficile, montée en puissance rapide, forte dépendance à l’équipement.",
+   "texte": "Énergie et points de combo. Poised, appris au niveau 18, réduit de 10 le coût de la prochaine technique avec l’énergie pleine hors combat. Shank coûte 5 d’énergie, frappe de la main gauche, rend 15 d’énergie au niveau 24 puis 25 au niveau 44, et possède 10 s de recharge avant talents. Cela améliore les ouvertures et la ressource sans fournir de soin.",
    "sources": [
-    "wt-voleur"
+    "bz-dev-20261102",
+    "wft-patch-20261104"
    ]
   },
   {
    "id": "v-sim",
    "categorie": "performance",
-   "texte": "Relevé MythicSim du 31 octobre 2026 : Assassinat 702 DPS (56,0 % de Survie 1253) ; Combat 730 DPS (58,3 % de Survie 1253) ; Finesse 713 DPS (56,9 % de Survie 1253). Personnages de niveau 60, boss 63, deux minutes, équipement de référence avec sa paire de bijoux, talents et race de chaque preset. Simulation expérimentale ; différences de preset, de moteur et de rotation, pas une mesure de patch isolée ni de PvP.",
+   "texte": "Snapshot MythicSim du 4 novembre 2026, moteur a667dce, 10 000 itérations, niveau 60, cible unique, deux minutes avec variation, équipement et talents de référence : assassination-rogue 921.366 DPS (71.514 %), combat-rogue 878.412 DPS (68.180 %), subtlety-rogue 927.673 DPS (72.004 %). Base de comparaison Survie 1288.369 DPS. Les valeurs non arrondies déterminent le barème. Les autres critères et variantes demandent leur propre contexte.",
    "sources": [
-    "mythicsim-20261031"
+    "mythicsim-20261104",
+    "mythicsim-log-20261104"
    ]
   },
   {
@@ -193,34 +199,45 @@
   {
    "id": "v-rotation",
    "categorie": "complexite",
-   "texte": "Rotation simulée (liste de priorités wowsims, 22 octobre 2026) : une seule liste pour les trois spécialisations, 18 sorts et 123 conditions.",
+   "texte": "APL réelles MythicSim du 4 novembre : Assassinat 31/20/0, 8 lignes normalisées dont 7 techniques explicites ; Combat 12/35/4, 9 lignes dont 8 techniques ; Finesse 12/8/31, 13 lignes dont 12 techniques. Les recharges automatiques, répétitions et branches ne sont pas autant de boutons. Le rapport réel Combat utilise Backstab, alors que certaines descriptions de la page de classement mentionnent encore Sinister Strike.",
    "sources": [
-    "wowsims-forever"
+    "mythicsim-20261104",
+    "mythicsim-log-20261104"
    ]
   },
   {
    "id": "v-guides",
    "categorie": "complexite",
-   "texte": "Guides wowtbc.gg de la bêta, écrits pour le niveau 30. Assassinat : Mutilate pour les points de combo, Slice and Dice et Venom à maintenir, Eviscerate s’il ne les retarde pas. Combat : Slice and Dice maintenu, Blade Flurry et Adrenaline Rush, Eviscerate s’il ne retarde pas Slice and Dice, Sinister Strike. Finesse : « the most complex of the three specs ».",
+   "texte": "Les guides de bêta niveau 30 décrivent un état antérieur à la refonte. Pour la référence du 4 novembre, Assassinat et Combat utilisent Disparition puis Garrot quand celui-ci manque. Combat aligne Déluge de lames avec Poussée d’adrénaline en monocible. Finesse épuise Ghostly Strike et son ouverture gratuite avant Disparition, maintient ses saignements et ne remplace pas Death Mark avant sa restitution.",
    "sources": [
-    "wowtbc-guides"
+    "mythicsim-20261104",
+    "mythicsim-log-20261104"
    ]
   },
   {
    "id": "v-sorts-client",
    "categorie": "complexite",
-   "texte": "Sorts et talents présents dans les données du client lues par wowsims : « Hemorrhage », « Ghostly Strike », « Preparation », « Seal Fate », « Initiative », « Thousand Cuts », « Cutthroat », « Dirty Tricks ». « Mutilate » exige deux dagues mais pas d’être dans le dos de la cible, contrairement à Backstab et Ambush.",
+   "texte": "Le grimoire actuel confirme Shank et Poised. Attaque sournoise, Garrot et Embuscade exigent le dos de la cible ; Mutilate exige deux dagues mais pas le dos. Les nouveaux poisons Occult, Atrophic, Numbing et Sebacious, ainsi que Redirect, portent une réserve d’héritage Season of Discovery et ne sont pas comptés comme outils acquis pour les notes.",
    "sources": [
-    "wowsims-forever"
+    "wft-patch-20261104"
    ]
   },
   {
    "id": "v-revue-31-oct",
    "categorie": "complexite",
-   "texte": "Revue du 31 octobre : aucun changement de classe Voleur postérieur au 15 octobre n’a été identifié dans les relevés de patch consultés. Cela ne garantit ni l’absence de tout correctif serveur, ni la stabilité de sa performance relative après les modifications des autres classes.",
+   "texte": "Historique : au 31 octobre, aucun changement Voleur postérieur au 15 octobre n’avait été identifié dans les index consultés. Les notes officielles publiées ensuite et les hotfixes du 3 novembre complètent ce relevé.",
    "sources": [
-    "fc-hotfix-20261030",
-    "wft-patch-20261031"
+    "bz-dev-20261102",
+    "wft-patch-20261104"
+   ]
+  },
+  {
+   "id": "v-lancement-4-nov",
+   "categorie": "performance",
+   "texte": "Revue du 4 novembre : la refonte des trois arbres annoncée par Blizzard est intégrée aux hotfixes du 3 novembre. Les résultats de duel et de leveling de la bêta restent des indices historiques. Les effets de kit sont actualisés, les évaluations PvP et solo conservent une confiance limitée après ce changement.",
+   "sources": [
+    "bz-dev-20261102",
+    "wft-patch-20261104"
    ]
   }
  ],
@@ -237,10 +254,9 @@
    "notes": {
     "raid": {
      "valeur": 3,
-     "raison": "Simulation MythicSim du 31 octobre 2026, niveau 60, cible unique sur deux minutes : 702 DPS, soit 56,0 % de la référence Survie à 1253 DPS. Note relative 3/5 selon le barème existant ; résultat expérimental du build et de son équipement, pas une mesure en jeu.",
+     "raison": "Snapshot MythicSim du 4 novembre 2026, niveau 60, cible unique sur deux minutes : 921.366 DPS, soit 71.514 % de la référence Survie à 1288.369 DPS. Note 3/5 calculée sur les valeurs non arrondies du barème existant. Le pourcentage affiché arrondi à 72 % ne franchit pas le seuil réel de 72 %. Le résultat dépend du build, de la rotation et de l’équipement simulés.",
      "appuis": [
-      "v-sim",
-      "v-intention"
+      "v-sim"
      ],
      "confiance": "moyenne"
     },
@@ -250,7 +266,8 @@
      "appuis": [
       "v-controle",
       "v-defense",
-      "v-zone"
+      "v-zone",
+      "v-lancement-4-nov"
      ],
      "confiance": "faible"
     },
@@ -263,24 +280,28 @@
       "v-mobilite",
       "v-pvp-kami",
       "v-tournoi",
-      "v-pvp-duel"
+      "v-pvp-duel",
+      "v-lancement-4-nov"
      ],
      "confiance": "faible"
     },
     "solo": {
      "valeur": 3,
-     "raison": "Classé B dans la liste de leveling de la bêta, sans soin personnel ; les développeurs reconnaissent un leveling « pénible ».",
+     "raison": "Poised facilite l’ouverture et Shank rend de l’énergie, mais aucun soin personnel n’est ajouté. Note de solo conservée à titre éditorial, avec les contrôles et le camouflage pour choisir les combats ; les classements de leveling de la bêta ne mesurent pas le nouveau niveau 60.",
      "appuis": [
-      "v-leveling",
-      "v-defense"
+      "v-ressource",
+      "v-defense",
+      "v-controle",
+      "v-lancement-4-nov"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "burst": {
      "valeur": 5,
-     "raison": "« Mutilate », « Venom » (+30 % de dégâts des poisons) et « Cold Blood ».",
+     "raison": "Sang froid et Mutilate, avec la fenêtre de poisons déclenchée par Shank/Venom. Le repère de burst reste une appréciation du kit, sans comparaison mesurée du PvP niveau 60.",
      "appuis": [
-      "v-assa"
+      "v-assa",
+      "v-ressource"
      ],
      "confiance": "moyenne"
     },
@@ -293,14 +314,14 @@
      "confiance": "haute"
     },
     "ctrl": {
-     "valeur": 5,
-     "raison": "« Sap », « Gouge », « Blind », « Kidney Shot », « Cheap Shot », « Kick » et « Crippling Poison » : la panoplie de contrôle la plus complète.",
+     "valeur": 4,
+     "raison": "Assommer, Suriner, Cécité, Aiguillon perfide, Coup bas, Coup de pied et poisons ralentissants forment la panoplie commune de Combat et Assassinat. Les talents offensifs propres à Assassinat ne justifient pas de lui attribuer un point de contrôle supplémentaire. Les facilités de contrôle de Finesse sont évaluées séparément.",
      "appuis": [
       "v-controle",
       "v-kick",
       "v-poisons"
      ],
-     "confiance": "haute"
+     "confiance": "moyenne"
     },
     "surv": {
      "valeur": 2,
@@ -328,8 +349,8 @@
      "confiance": "haute"
     },
     "charge_pve": {
-     "valeur": 2,
-     "raison": "4 points sur 10 sur la grille de complexité : la gestion de la ressource pèse beaucoup ; la rotation et les effets à entretenir, un peu.",
+     "valeur": 3,
+     "raison": "5 points sur 10 sur la grille de complexité revue le 4 novembre : la gestion de la ressource pèse beaucoup ; la rotation, les effets à entretenir et le placement pèsent un peu.",
      "appuis": [
       "v-rotation",
       "v-guides",
@@ -341,39 +362,40 @@
     },
     "charge_pvp": {
      "valeur": 4,
-     "raison": "7 points sur 10 sur la grille de complexité : les contrôles et l’ouverture pèsent beaucoup ; la défense, le placement et le pilotage, un peu.",
+     "raison": "7 points sur 10 sur la grille de complexité revue le 4 novembre : les contrôles et l’ouverture pèsent beaucoup ; la défense, le placement et le pilotage pèsent un peu.",
      "appuis": [
       "v-controle",
       "v-kick",
       "v-defense",
       "v-mobilite",
       "v-pvp-duel",
-      "v-assa"
+      "v-assa",
+      "v-lancement-4-nov"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     }
    },
    "complexite": {
     "pve": {
-     "note": 2,
-     "total": 4,
+     "note": 3,
+     "total": 5,
      "confiance": "moyenne",
      "composantes": {
       "rotation": {
        "points": 1,
-       "raison": "Mutilate pour les points de combo ; Slice and Dice, Venom, puis Eviscerate s’il ne retarde rien."
+       "raison": "Mutilate, Shank selon l’énergie disponible, Débiter, Sang froid et Éviscération, avec Disparition pour un nouveau Garrot. Sept techniques explicites dans la référence normalisée."
       },
       "entretien": {
        "points": 1,
-       "raison": "Slice and Dice et Venom à maintenir, Eviscerate seulement s’il ne les retarde pas (wowtbc.gg) ; poisons posés avant."
+       "raison": "Débiter et Garrot à suivre ; Venom est déclenché passivement par Shank et ne constitue plus un coup de grâce à entretenir."
       },
       "ressource": {
        "points": 2,
        "raison": "Énergie et points de combo ; « Seal Fate » relance les points."
       },
       "placement": {
-       "points": 0,
-       "raison": "Mutilate ne demande pas d’être dans le dos de la cible, contrairement à Backstab (données du simulateur)."
+       "points": 1,
+       "raison": "Mutilate reste utilisable de face, mais la référence réutilise Garrot après Disparition pendant le combat et Garrot exige le dos."
       },
       "pilotage": {
        "points": 0,
@@ -391,7 +413,7 @@
     "pvp": {
      "note": 4,
      "total": 7,
-     "confiance": "moyenne",
+     "confiance": "faible",
      "composantes": {
       "controles": {
        "points": 2,
@@ -420,7 +442,8 @@
       "v-defense",
       "v-mobilite",
       "v-pvp-duel",
-      "v-assa"
+      "v-assa",
+      "v-lancement-4-nov"
      ]
     }
    }
@@ -437,10 +460,9 @@
    "notes": {
     "raid": {
      "valeur": 3,
-     "raison": "Simulation MythicSim du 31 octobre 2026, niveau 60, cible unique sur deux minutes : 730 DPS, soit 58,3 % de la référence Survie à 1253 DPS. Note relative 3/5 selon le barème existant ; résultat expérimental du build et de son équipement, pas une mesure en jeu.",
+     "raison": "Snapshot MythicSim du 4 novembre 2026, niveau 60, cible unique sur deux minutes : 878.412 DPS, soit 68.180 % de la référence Survie à 1288.369 DPS. Note 3/5 calculée sur les valeurs non arrondies du barème existant. La référence évaluée est le build Attaque sournoise 12/35/4, avec dagues. Le résultat dépend du build, de la rotation et de l’équipement simulés.",
      "appuis": [
-      "v-sim",
-      "v-intention"
+      "v-sim"
      ],
      "confiance": "moyenne"
     },
@@ -450,7 +472,8 @@
      "appuis": [
       "v-controle",
       "v-zone",
-      "v-pvp-kami"
+      "v-pvp-kami",
+      "v-lancement-4-nov"
      ],
      "confiance": "faible"
     },
@@ -462,18 +485,21 @@
       "v-combat",
       "v-pvp-kami",
       "v-tournoi",
-      "v-pvp-duel"
+      "v-pvp-duel",
+      "v-lancement-4-nov"
      ],
      "confiance": "faible"
     },
     "solo": {
      "valeur": 3,
-     "raison": "Classé B dans la liste de leveling de la bêta, sans soin personnel ; les développeurs reconnaissent un leveling « pénible ».",
+     "raison": "Poised facilite l’ouverture et Shank rend de l’énergie, mais aucun soin personnel n’est ajouté. Note de solo conservée à titre éditorial, avec les contrôles et le camouflage pour choisir les combats ; les classements de leveling de la bêta ne mesurent pas le nouveau niveau 60.",
      "appuis": [
-      "v-leveling",
-      "v-defense"
+      "v-ressource",
+      "v-defense",
+      "v-controle",
+      "v-lancement-4-nov"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "burst": {
      "valeur": 4,
@@ -527,8 +553,8 @@
      "confiance": "haute"
     },
     "charge_pve": {
-     "valeur": 2,
-     "raison": "3 points sur 10 sur la grille de complexité : la gestion de la ressource pèse beaucoup ; les effets à entretenir, un peu.",
+     "valeur": 3,
+     "raison": "6 points sur 10 sur la grille de complexité revue le 4 novembre : la rotation et la gestion de la ressource pèsent beaucoup ; les effets à entretenir et le placement pèsent un peu.",
      "appuis": [
       "v-rotation",
       "v-guides",
@@ -539,39 +565,40 @@
     },
     "charge_pvp": {
      "valeur": 4,
-     "raison": "7 points sur 10 sur la grille de complexité : les contrôles et l’ouverture pèsent beaucoup ; la défense, le placement et le pilotage, un peu.",
+     "raison": "7 points sur 10 sur la grille de complexité revue le 4 novembre : les contrôles et l’ouverture pèsent beaucoup ; la défense, le placement et le pilotage pèsent un peu.",
      "appuis": [
       "v-controle",
       "v-kick",
       "v-defense",
       "v-mobilite",
       "v-pvp-kami",
-      "v-combat"
+      "v-combat",
+      "v-lancement-4-nov"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     }
    },
    "complexite": {
     "pve": {
-     "note": 2,
-     "total": 3,
+     "note": 3,
+     "total": 6,
      "confiance": "moyenne",
      "composantes": {
       "rotation": {
-       "points": 0,
-       "raison": "Sinister Strike pour les points, Slice and Dice, Eviscerate s’il ne retarde pas Slice and Dice ; « Blade Flurry » et « Adrenaline Rush » à la recharge."
+       "points": 2,
+       "raison": "Référence Attaque sournoise : Shank sous le plafond d’énergie, Débiter et Éviscération, Poussée d’adrénaline et Déluge à aligner, Disparition/Garrot hors Déluge. Les fenêtres et les ressources interagissent ; huit techniques explicites dans l’APL normalisée."
       },
       "entretien": {
        "points": 1,
-       "raison": "Slice and Dice, son plus gros bonus."
+       "raison": "Débiter et Garrot à suivre."
       },
       "ressource": {
        "points": 2,
        "raison": "Énergie et points de combo."
       },
       "placement": {
-       "points": 0,
-       "raison": "Sinister Strike se porte de face comme de dos."
+       "points": 1,
+       "raison": "La référence Combat du 4 novembre emploie Attaque sournoise avec une dague et doit rester dans le dos. Le jeu à Attaque pernicieuse est une autre rotation."
       },
       "pilotage": {
        "points": 0,
@@ -588,7 +615,7 @@
     "pvp": {
      "note": 4,
      "total": 7,
-     "confiance": "moyenne",
+     "confiance": "faible",
      "composantes": {
       "controles": {
        "points": 2,
@@ -617,7 +644,8 @@
       "v-defense",
       "v-mobilite",
       "v-pvp-kami",
-      "v-combat"
+      "v-combat",
+      "v-lancement-4-nov"
      ]
     }
    }
@@ -633,12 +661,12 @@
    },
    "notes": {
     "raid": {
-     "valeur": 3,
-     "raison": "Simulation MythicSim du 31 octobre 2026, niveau 60, cible unique sur deux minutes : 713 DPS, soit 56,9 % de la référence Survie à 1253 DPS. Note relative 3/5 selon le barème existant ; résultat expérimental du build et de son équipement, pas une mesure en jeu.",
+     "valeur": 4,
+     "raison": "Snapshot MythicSim du 4 novembre 2026, niveau 60, cible unique sur deux minutes : 927.673 DPS, soit 72.004 % de la référence Survie à 1288.369 DPS. Note 4/5 calculée sur les valeurs non arrondies du barème existant. Frontière très fragile : la référence dépasse le seuil de 72 % de moins de 0,05 DPS, très en deçà de l’incertitude de simulation. Une variation minime peut ramener la note à 3/5. Le résultat dépend du build, de la rotation et de l’équipement simulés.",
      "appuis": [
       "v-sim"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "bg": {
      "valeur": 4,
@@ -647,7 +675,8 @@
       "v-finesse-controle",
       "v-finesse",
       "v-pvp-kami",
-      "v-finesse-pvp"
+      "v-finesse-pvp",
+      "v-lancement-4-nov"
      ],
      "confiance": "faible"
     },
@@ -660,24 +689,28 @@
       "v-finesse-controle",
       "v-tournoi",
       "v-finesse-pvp",
-      "v-pvp-duel"
+      "v-pvp-duel",
+      "v-lancement-4-nov"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "solo": {
      "valeur": 3,
-     "raison": "Classé B dans la liste de leveling de la bêta, sans soin personnel ; les développeurs reconnaissent un leveling « pénible ».",
+     "raison": "Poised facilite l’ouverture et Shank rend de l’énergie, mais aucun soin personnel n’est ajouté. Note de solo conservée à titre éditorial, avec les contrôles et le camouflage pour choisir les combats ; les classements de leveling de la bêta ne mesurent pas le nouveau niveau 60.",
      "appuis": [
-      "v-leveling",
-      "v-defense"
+      "v-ressource",
+      "v-defense",
+      "v-controle",
+      "v-lancement-4-nov"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     },
     "burst": {
      "valeur": 5,
-     "raison": "« Premeditation », « Quietus », « Thousand Cuts » et « Cutthroat » (Ambush sans Discrétion).",
+     "raison": "Préméditation, ouvertures Ghostly Strike puis Embuscade ou Garrot, points générés par Shank/Boot Knife et restitution différée de Death Mark. Le talent ne doit pas être remplacé avant la fin du stockage.",
      "appuis": [
-      "v-finesse"
+      "v-finesse",
+      "v-ressource"
      ],
      "confiance": "moyenne"
     },
@@ -727,7 +760,7 @@
     },
     "charge_pve": {
      "valeur": 4,
-     "raison": "7 points sur 10 sur la grille de complexité : la rotation, les effets à entretenir et la gestion de la ressource pèsent beaucoup ; le placement, un peu.",
+     "raison": "7 points sur 10 sur la grille de complexité revue le 4 novembre : la rotation, les effets à entretenir et la gestion de la ressource pèsent beaucoup ; le placement pèse un peu.",
      "appuis": [
       "v-rotation",
       "v-guides",
@@ -739,7 +772,7 @@
     },
     "charge_pvp": {
      "valeur": 5,
-     "raison": "9 points sur 10 sur la grille de complexité : les contrôles, la défense, le placement et l’ouverture pèsent beaucoup ; le pilotage, un peu.",
+     "raison": "9 points sur 10 sur la grille de complexité revue le 4 novembre : les contrôles, la défense, le placement et l’ouverture pèsent beaucoup ; le pilotage pèse un peu.",
      "appuis": [
       "v-controle",
       "v-finesse-controle",
@@ -748,9 +781,10 @@
       "v-pvp-kami",
       "v-kick",
       "v-sorts-client",
-      "v-finesse"
+      "v-finesse",
+      "v-lancement-4-nov"
      ],
-     "confiance": "moyenne"
+     "confiance": "faible"
     }
    },
    "complexite": {
@@ -761,15 +795,15 @@
      "composantes": {
       "rotation": {
        "points": 2,
-       "raison": "Backstab, Hemorrhage, Ambush grâce à « Cutthroat », Garrote après « Vanish » (relancé par « Preparation »), « Premeditation », Eviscerate sans retarder le reste."
+       "raison": "Préméditation, Shank, Ghostly Strike puis Garrot ou Embuscade, Death Mark à cinq points sans écraser une marque active, Rupture et Débiter ; Disparition et Préparation après la fenêtre gratuite. Douze techniques explicites dans la référence normalisée."
       },
       "entretien": {
        "points": 2,
-       "raison": "Slice and Dice, Rupture et Hemorrhage : wowtbc.gg la juge « the most complex of the three specs »."
+       "raison": "Garrot, Rupture, Débiter, affaiblissement d’Hémorragie et fenêtre de Death Mark."
       },
       "ressource": {
        "points": 2,
-       "raison": "Énergie et points de combo, « Thousand Cuts »."
+       "raison": "Énergie, points de combo et génération par Shank avec Boot Knife ; arbitrer les coups de grâce et la fenêtre de Death Mark."
       },
       "placement": {
        "points": 1,
@@ -791,7 +825,7 @@
     "pvp": {
      "note": 5,
      "total": 9,
-     "confiance": "moyenne",
+     "confiance": "faible",
      "composantes": {
       "controles": {
        "points": 2,
@@ -822,7 +856,8 @@
       "v-pvp-kami",
       "v-kick",
       "v-sorts-client",
-      "v-finesse"
+      "v-finesse",
+      "v-lancement-4-nov"
      ]
     }
    }

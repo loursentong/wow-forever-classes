@@ -1,8 +1,8 @@
 {
  "classe": "mage",
  "libelle": "Mage",
- "date": "2026-10-31",
- "moteur": "1.6.0-exploratoire",
+ "date": "2026-11-04",
+ "moteur": "1.7.0-exploratoire",
  "faits": [
   {
    "id": "m-role",
@@ -37,13 +37,16 @@
   {
    "id": "m-ralentissements",
    "categorie": "ralentissement",
-   "texte": "Cone of Cold, Frostfire Bolt et Frostbolt ralentissent ; Improved Blizzard et les talents Givre renforcent le contrôle de zone. Les immobilisations de talent comme Frostbite partagent désormais une même famille de rendements décroissants avec celles des autres classes concernées.",
+   "texte": "Cone of Cold, Frostfire Bolt et Frostbolt ralentissent ; Improved Blizzard et les talents Givre renforcent le contrôle de zone. Les racines à déclenchement, dont Frostbite, partagent des rendements décroissants avec celles des classes concernées, comme l’annonce Blizzard le 2 novembre.",
    "sources": [
     "bz-dd-mage-chaman",
     "wt-mage",
     "wft-patch-20261031",
     "fc-hotfix-20261030",
-    "wft-mage-talents-20261031"
+    "wft-mage-talents-20261031",
+    "bz-dev-20261102",
+    "wft-patch-20261104",
+    "fc-patch-20261104"
    ]
   },
   {
@@ -63,13 +66,16 @@
   {
    "id": "m-givre-burst",
    "categorie": "burst",
-   "texte": "Ice Lance inflige de nouveau 300 % de dégâts supplémentaires sur une cible gelée, mais possède désormais une recharge de 8 s à tous les rangs. Fingers of Frost rend un sort éligible à la condition de gel ; il ne supprime pas cette recharge.",
+   "texte": "Ice Lance inflige 300 % de dégâts supplémentaires contre une cible gelée, mais sa recharge de 8 s est partagée avec Fire Blast. Fingers of Frost donne la condition de gel au sort éligible sans supprimer cette recharge.",
    "sources": [
     "bz-dd-mage-chaman",
     "wt-mage",
     "wft-mage-20261031",
     "wft-patch-20261031",
-    "fc-hotfix-20261030"
+    "fc-hotfix-20261030",
+    "bz-dev-20261102",
+    "wft-patch-20261104",
+    "fc-patch-20261104"
    ],
    "specs": [
     "mage-givre"
@@ -129,13 +135,18 @@
   {
    "id": "m-arcane",
    "categorie": "burst",
-   "texte": "Arcane Blast accumule jusqu’à quatre effets : chacun ajoute 12 % d’Intelligence en dégâts des sorts et augmente de 100 % le coût de mana ; l’effet dure 18 s dans les données du 30 octobre. Arcane Power, Missile Barrage et Presence of Mind complètent le kit. Le compromis puissance/mana change sans fournir à lui seul un DPS comparatif.",
+   "texte": "Arcane Blast ajoute par cumul 12 % d’Intelligence en dégâts des sorts et 100 % de coût de mana, jusqu’à quatre cumuls pendant 18 s. Missile Barrage est consommé au début d’Arcane Missiles ; Clearcasting n’est pas consommé si Barrage est actif. Le preset raid du 4 novembre est un hybride 32/16/3 Arcane/Feu/Givre, qui utilise aussi Pyroblast et Fire Blast.",
    "sources": [
     "bz-dd-mage-chaman",
     "wt-mage",
     "wft-mage-20261031",
     "wft-patch-20261031",
-    "fc-hotfix-20261030"
+    "fc-hotfix-20261030",
+    "bz-dev-20261102",
+    "wft-patch-20261104",
+    "fc-patch-20261104",
+    "mythicsim-20261104",
+    "mythicsim-log-20261104"
    ],
    "specs": [
     "mage-arcane"
@@ -144,13 +155,16 @@
   {
    "id": "m-feu",
    "categorie": "burst",
-   "texte": "Heating Up accélère Pyroblast ; Combustion augmente la chance de critique jusqu’à trois critiques de Feu non périodiques. Improved Fire Blast a remplacé Wake of Fire : son ancien bonus à consommer après des morts n’est plus compté. Impact peut encore étourdir.",
+   "texte": "Heating Up accélère Pyroblast ; Combustion se termine après trois critiques de Feu non périodiques. Improved Fire Blast remplace Wake of Fire. Critical Mass compte trois points pour 6 % de critique, Incineration cinq pour 10 % sur ses sorts concernés, et Accelerant bénéficie aussi à Arcane Wrath. Impact reste un étourdissement possible.",
    "sources": [
     "bz-dd-mage-chaman",
     "wt-mage",
     "wft-mage-talents-20261031",
     "wft-patch-20261031",
-    "fc-hotfix-20261030"
+    "fc-hotfix-20261030",
+    "bz-dev-20261102",
+    "wft-patch-20261104",
+    "fc-patch-20261104"
    ],
    "specs": [
     "mage-feu"
@@ -159,9 +173,11 @@
   {
    "id": "m-sim",
    "categorie": "performance",
-   "texte": "Relevé MythicSim du 31 octobre 2026 : Arcane 872 DPS (69,6 % de Survie 1253) ; Feu 932 DPS (74,4 % de Survie 1253) ; Givre 795 DPS (63,5 % de Survie 1253). Personnages de niveau 60, boss 63, deux minutes, équipement de référence avec sa paire de bijoux, talents et race de chaque preset. Simulation expérimentale ; différences de preset, de moteur et de rotation, pas une mesure de patch isolée ni de PvP.",
+   "texte": "Snapshot MythicSim du 4 novembre 2026, moteur a667dce, Survie à 1288,37 DPS : Arcane 959,49 DPS (74,47 %, hybride 32/16/3), Feu 939,28 (72,90 %, 16/32/3), Givre 740,80 (57,50 %, 14/5/32). Niveau 60, boss 63 unique, 120 s avec variation de 15 s, 10 000 itérations. Chaque preset garde ses talents, race, équipement et bijoux, avec buffs et consommables de raid.",
    "sources": [
-    "mythicsim-20261031"
+    "mythicsim-20261031",
+    "mythicsim-20261104",
+    "mythicsim-log-20261104"
    ]
   },
   {
@@ -184,14 +200,16 @@
   {
    "id": "m-leveling",
    "categorie": "solo",
-   "texte": "Leveling pratique (nourriture, téléportation, contrôle) ; classé A dans la liste de la bêta (Mobalytics), Givre conseillé, S dans celle fondée sur Vanilla ; mais farm de zone volontairement réduit dans Forever.",
+   "texte": "Nourriture, eau, téléportations et contrôle facilitent la progression des trois écoles. Le guide Method de Celz du 3 novembre préfère Givre pour sa sécurité et ses quêtes difficiles en solo. Le tissu, la dépendance au mana et les restrictions de Blizzard limitent le rythme ; les anciens classements de bêta restent des repères datés.",
    "sources": [
     "wt-mage",
     "mobalytics-leveling",
     "bz-podcast-2",
     "mobalytics-leveling-beta",
     "iv-choisir",
-    "kami-podcast-2"
+    "kami-podcast-2",
+    "method-mage-leveling-20261104",
+    "bz-dev-20261102"
    ]
   },
   {
@@ -221,10 +239,12 @@
   {
    "id": "m-givre-leveling",
    "categorie": "solo",
-   "texte": "Givre est la spécialisation conseillée pour le leveling du Mage (Mobalytics, bêta), réputée forte en leveling (Icy Veins).",
+   "texte": "Le guide Method du 3 novembre distingue la sécurité du leveling Givre : ralentir, geler, garder ses distances et affronter des ennemis de quête difficiles. Ice Barrier et Ice Block complètent ce confort au fil des niveaux. Le mana et les limites du farm avec Blizzard empêchent de traiter cette sécurité comme une vitesse d’XP garantie.",
    "sources": [
     "mobalytics-leveling-beta",
-    "iv-choisir"
+    "iv-choisir",
+    "method-mage-leveling-20261104",
+    "wft-patch-20261104"
    ],
    "specs": [
     "mage-givre"
@@ -233,11 +253,13 @@
   {
    "id": "m-rotation",
    "categorie": "complexite",
-   "texte": "Inventaire historique des priorités wowsims relevées le 22 octobre : Arcane, 6 à 7 sorts et 10 à 17 conditions ; Feu, 5 à 7 sorts et 6 à 8 conditions. Aucun inventaire Givre propre n’avait été relevé. Les changements du 30 octobre exigent de relire ces listes plutôt que de les présenter comme des rotations actuelles.",
+   "texte": "Inventaire historique wowsims du 22 octobre : Arcane, 6 à 7 sorts et 10 à 17 conditions ; Feu, 5 à 7 sorts et 6 à 8 conditions. La snapshot du 4 novembre fournit les APL actuels. Son Arcane hybride 32/16/3 combine Pyroblast, Heating Up et les cumuls d’Arcane Blast avec Missile Barrage et le mana ; le nombre brut de lignes de l’APL n’est pas assimilé à la difficulté d’un joueur.",
    "sources": [
     "wowsims-forever",
     "wft-patch-20261031",
-    "fc-hotfix-20261030"
+    "fc-hotfix-20261030",
+    "mythicsim-20261104",
+    "mythicsim-log-20261104"
    ]
   },
   {
@@ -274,12 +296,15 @@
   {
    "id": "m-precision-hotfix",
    "categorie": "complexite",
-   "texte": "Precision remplace Elemental Precision et couvre les trois écoles ; Arcane Focus a quitté l’arbre. Frost Blast n’est plus enseigné dans les données récentes, même si des infobulles résiduelles le citent encore. Ces changements ne sont pas interprétés comme un nouveau niveau de dégâts mesuré.",
+   "texte": "Precision couvre les trois écoles et Arcane Focus a quitté l’arbre. Frost Blast est supprimé. Les sorts de bas rang retrouvent leur chance de déclencher les talents concernés, sauf Blizzard : un rang appris plus de douze niveaux auparavant garde une pénalité pour Arcane Concentration, Frostbite et Fingers of Frost.",
    "sources": [
     "wft-mage-talents-20261031",
     "wft-mage-20261031",
     "wft-patch-20261031",
-    "fc-hotfix-20261030"
+    "fc-hotfix-20261030",
+    "bz-dev-20261102",
+    "wft-patch-20261104",
+    "fc-patch-20261104"
    ]
   }
  ],
@@ -295,8 +320,8 @@
    },
    "notes": {
     "raid": {
-     "valeur": 3,
-     "raison": "Simulation MythicSim du 31 octobre 2026, niveau 60, cible unique sur deux minutes : 872 DPS, soit 69,6 % de la référence Survie à 1253 DPS. Note relative 3/5 selon le barème existant ; résultat expérimental du build et de son équipement, pas une mesure en jeu.",
+     "valeur": 4,
+     "raison": "Simulation MythicSim du 4 novembre 2026, moteur a667dce : 959,49 DPS, 74,47 % de Survie à 1288,37. Build 32/16/3 hybride Arcane/Feu avec Pyroblast et Fire Blast, niveau 60, boss unique sur 120 s avec variation de 15 s, 10 000 itérations. Note 4 selon les seuils 86/72/55 appliqués au ratio non arrondi.",
      "appuis": [
       "m-sim",
       "m-arcane"
@@ -389,7 +414,7 @@
     },
     "charge_pve": {
      "valeur": 3,
-     "raison": "5 points sur 10 sur la grille de complexité : la gestion de la ressource pèse beaucoup ; la rotation, les effets à entretenir et le placement, un peu.",
+     "raison": "6 points sur 10 : les interactions des procs, cumuls et fenêtres de l’hybride Arcane/Feu et la gestion du mana pèsent beaucoup ; l’entretien et les incantations, un peu. La note de difficulté reste à 3 selon la grille commune.",
      "appuis": [
       "m-rotation",
       "m-guides",
@@ -416,16 +441,16 @@
    "complexite": {
     "pve": {
      "note": 3,
-     "total": 5,
+     "total": 6,
      "confiance": "moyenne",
      "composantes": {
       "rotation": {
-       "points": 1,
-       "raison": "Arcane Blast et ses cumuls, Arcane Missiles sous Missile Barrage, procs d’Arcane Concentration, Presence of Mind et Arcane Power ; l’ordre optimal après le hotfix reste à mesurer."
+       "points": 2,
+       "raison": "Le preset raid 32/16/3 combine Arcane Blast, Arcane Missiles sous Missile Barrage, Arcane Wrath et les outils Feu dont Pyroblast et Fire Blast ; procs, cumuls et fenêtres de mana guident les priorités."
       },
       "entretien": {
        "points": 1,
-       "raison": "Cumuls d’Arcane Blast à exploiter dans leur durée actuelle de 18 s."
+       "raison": "Suivre les cumuls d’Arcane Blast pendant leurs 18 s et les cumuls de Heating Up utilisés par l’hybride Arcane/Feu."
       },
       "ressource": {
        "points": 2,
@@ -447,7 +472,7 @@
       "m-sorts-client",
       "m-precision-hotfix"
      ],
-     "approfondissement": "Icy Veins lui prête « a nice layer of complexity, which the other two Mage specs lack »."
+     "approfondissement": "Le repère raid du 4 novembre utilise un hybride 32/16/3 Arcane/Feu : Pyroblast contribue à environ 20,4 % des dégâts. Son APL combine Heating Up, les cumuls d’Arcane Blast, Missile Barrage et les fenêtres de mana ; la rotation à deux points décrit ce build effectivement simulé."
     },
     "pvp": {
      "note": 3,
@@ -498,7 +523,7 @@
    "notes": {
     "raid": {
      "valeur": 4,
-     "raison": "Simulation MythicSim du 31 octobre 2026, niveau 60, cible unique sur deux minutes : 932 DPS, soit 74,4 % de la référence Survie à 1253 DPS. Note relative 4/5 selon le barème existant ; résultat expérimental du build et de son équipement, pas une mesure en jeu.",
+     "raison": "Simulation MythicSim du 4 novembre 2026, moteur a667dce : 939,28 DPS, 72,90 % de Survie à 1288,37. Build 16/32/3, niveau 60, boss unique sur 120 s avec variation de 15 s, 10 000 itérations. Note 4 selon les seuils 86/72/55 appliqués au ratio non arrondi.",
      "appuis": [
       "m-sim",
       "m-feu"
@@ -699,7 +724,7 @@
    "notes": {
     "raid": {
      "valeur": 3,
-     "raison": "Simulation MythicSim du 31 octobre 2026, niveau 60, cible unique sur deux minutes : 795 DPS, soit 63,4 % de la référence Survie à 1253 DPS. Note relative 3/5 selon le barème existant ; résultat expérimental du build et de son équipement, pas une mesure en jeu.",
+     "raison": "Simulation MythicSim du 4 novembre 2026, moteur a667dce : 740,80 DPS, 57,50 % de Survie à 1288,37. Build 14/5/32, niveau 60, boss unique sur 120 s avec variation de 15 s, 10 000 itérations. Note 3 selon les seuils 86/72/55 appliqués au ratio non arrondi.",
      "appuis": [
       "m-sim"
      ],
@@ -707,7 +732,7 @@
     },
     "bg": {
      "valeur": 5,
-     "raison": "Contrôles, ralentissements de zone et Ice Block restent ses atouts. Le Javelot est limité par sa recharge de 8 s et les immobilisations de talent ont des rendements décroissants partagés ; pas de comparaison actuelle de champs de bataille.",
+     "raison": "Contrôles, ralentissements de zone et Ice Block restent ses atouts. Le Javelot est limité par sa recharge de 8 s partagée avec Fire Blast et les immobilisations de talent ont des rendements décroissants partagés ; pas de comparaison actuelle de champs de bataille.",
      "appuis": [
       "m-givre-controle",
       "m-ralentissements",
@@ -718,7 +743,7 @@
     },
     "world": {
      "valeur": 5,
-     "raison": "Gel, contrôle, Ice Block et Ice Lance contre cible gelée restent ses atouts ; le Javelot a désormais une recharge de 8 s. Le tournoi niveau 30 et l’ancien classement en duel ne mesurent pas le hotfix du 30 octobre.",
+     "raison": "Gel, contrôle, Ice Block et Ice Lance contre cible gelée restent ses atouts ; le Javelot a désormais une recharge de 8 s partagée avec Fire Blast. Le tournoi niveau 30 et l’ancien classement en duel ne mesurent pas le hotfix du 30 octobre.",
      "appuis": [
       "m-givre-controle",
       "m-givre-burst",
@@ -729,18 +754,18 @@
      "confiance": "faible"
     },
     "solo": {
-     "valeur": 3,
-     "raison": "Spécialisation conseillée pour le leveling (Mobalytics, bêta) dans une classe classée A, réputée forte en leveling (Icy Veins) ; Blizzard a toutefois réduit le farm de zone.",
+     "valeur": 4,
+     "raison": "Ralentissements, gels, kiting, nourriture et eau rendent les quêtes solo plus sûres ; Barrière et Bloc de glace renforcent ce confort. Le guide Method actuel préfère Givre aux autres écoles pour cette sécurité. La dépendance au mana et les restrictions de Blizzard restent des limites.",
      "appuis": [
       "m-leveling",
       "m-zone",
       "m-givre-leveling"
      ],
-     "confiance": "faible"
+     "confiance": "moyenne"
     },
     "burst": {
      "valeur": 4,
-     "raison": "Ice Lance donne +300 % contre une cible gelée ou rendue éligible par Fingers of Frost, avec 8 s de recharge à tous les rangs ; le nouveau gain global n’est pas mesuré.",
+     "raison": "Ice Lance donne +300 % contre une cible gelée ou rendue éligible par Fingers of Frost, avec 8 s de recharge partagée avec Fire Blast ; le nouveau gain global n’est pas mesuré.",
      "appuis": [
       "m-givre-burst"
      ],
@@ -875,7 +900,7 @@
       },
       "ouverture": {
        "points": 1,
-       "raison": "Préparer gel ou Fingers of Frost pour Ice Lance en tenant compte de ses 8 s de recharge."
+       "raison": "Préparer gel ou Fingers of Frost pour Ice Lance, en arbitrant sa recharge de 8 s partagée avec Fire Blast."
       },
       "pilotage": {
        "points": 0,
